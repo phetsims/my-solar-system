@@ -1,11 +1,11 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
- * @author Jonathan Olson
+ * @author Sola Olateju.
  */
 
 import Screen from '../../../joist/js/Screen.js';
-import MySolarSystemColors from '../common/MySolarSystemColors.js';
+import MySolarSystemColorProfile from '../common/MySolarSystemColorProfile.js';
 import mySolarSystem from '../mySolarSystem.js';
 import MySolarSystemModel from './model/MySolarSystemModel.js';
 import MySolarSystemScreenView from './view/MySolarSystemScreenView.js';
@@ -19,7 +19,7 @@ class MySolarSystemScreen extends Screen {
 
     const options = {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
-      backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
+      backgroundColorProperty: MySolarSystemColorProfile.screenBackgroundColorProperty,
       tandem: tandem
     };
 
