@@ -10,6 +10,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import BodyNode from './BodyNode.js';
 
 class MySolarSystemScreenView extends ScreenView {
 
@@ -24,6 +25,9 @@ class MySolarSystemScreenView extends ScreenView {
     super( {
       tandem: tandem
     } );
+
+    // @public {BodyNode}
+    this.bodyNode = new BodyNode( model.body );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {

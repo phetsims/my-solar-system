@@ -6,6 +6,7 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
+import Body from './Body.js';
 
 class MySolarSystemModel {
 
@@ -15,6 +16,9 @@ class MySolarSystemModel {
   constructor( tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
     //TODO
+
+    // @public {Body}
+    this.body = new Body();
   }
 
   /**
