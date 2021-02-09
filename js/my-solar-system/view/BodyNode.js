@@ -8,6 +8,7 @@
 
 import Node from '../../../../scenery/js/nodes/Node.js';
 import mySolarSystem from '../../mySolarSystem.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
 
 class BodyNode extends Node {
   /**
@@ -15,6 +16,17 @@ class BodyNode extends Node {
    */
   constructor( body ) {
     super();
+
+    const circleMain = new Circle(50, {
+      fill: 'orange'
+    });
+  
+    body.positionProperty.link ( position => {
+      this.translation = position;
+    });
+    
+
+    this.addChild( circleMain );
   }
 }
 

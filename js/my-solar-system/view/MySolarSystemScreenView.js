@@ -28,6 +28,7 @@ class MySolarSystemScreenView extends ScreenView {
 
     // @public {BodyNode}
     this.bodyNode = new BodyNode( model.body );
+    this.bodyNode1 = new BodyNode( model.body);
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -40,7 +41,10 @@ class MySolarSystemScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+    this.addChild( this.bodyNode);
+    this.addChild( this.bodyNode1);
   }
+  
 
   /**
    * Resets the view.
