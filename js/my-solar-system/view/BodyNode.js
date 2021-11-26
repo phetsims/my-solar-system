@@ -6,7 +6,7 @@
  * @author PUT YOUR NAME HERE
  */
 
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 
 class BodyNode extends Node {
