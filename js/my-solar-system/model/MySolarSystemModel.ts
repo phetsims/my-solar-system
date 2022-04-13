@@ -6,18 +6,15 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import Body from './Body.js';
+import Body from '../../common/model/Body.js';
 
 class MySolarSystemModel {
+  body: Body;
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
     //TODO
 
-    // @public {Body}
     this.body = new Body();
   }
 
@@ -29,12 +26,8 @@ class MySolarSystemModel {
     //TODO
   }
 
-  /**
-   * Steps the model.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  step( dt ) {
+
+  step( dt: number ) {
     //TODO
   }
 }

@@ -11,7 +11,7 @@ import mySolarSystem from '../mySolarSystem.js';
 
 const MySolarSystemColors = {
 
-  SCREEN_VIEW_BACKGROUND: new Property( 'white' )
+  SCREEN_VIEW_BACKGROUND: new Property( 'black' )
 
   //TODO
 };

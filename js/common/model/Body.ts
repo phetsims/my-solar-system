@@ -3,14 +3,13 @@
 /**
  * PLACE DOCUMENTATION HERE ABOUT THE GENERAL TYPE
  *
- * @author PUT YOUR NAME HERE
+ * @author Agustín Vallejo
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
 
 class Body {
   constructor() {
-
   }
 }
 

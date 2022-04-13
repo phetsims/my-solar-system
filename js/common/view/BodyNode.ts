@@ -3,18 +3,19 @@
 /**
  * PLACE DOCUMENTATION HERE ABOUT THE GENERAL TYPE
  *
- * @author PUT YOUR NAME HERE
+ * @author Agustín Vallejo
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
+import { Circle, Node } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
+import Body from '../model/Body.js';
 
 class BodyNode extends Node {
-  /**
-   * @param {Body} body
-   */
-  constructor( body ) {
+  
+  constructor( body: Body ) {
     super();
+
+    this.addChild(new Circle(50., {fill:'red'}));
   }
 }
 

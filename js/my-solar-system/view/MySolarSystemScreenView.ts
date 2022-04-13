@@ -10,15 +10,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import BodyNode from './BodyNode.js';
+import BodyNode from '../../common/view/BodyNode.js';
 
 class MySolarSystemScreenView extends ScreenView {
+  bodyNode: BodyNode;
 
-  /**
-   * @param {MySolarSystemModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model, tandem ) {
+  constructor( model: MySolarSystemModel, tandem: Tandem ) {
     assert && assert( model instanceof MySolarSystemModel, 'invalid model' );
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
 
@@ -26,7 +23,6 @@ class MySolarSystemScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    // @public {BodyNode}
     this.bodyNode = new BodyNode( model.body );
 
     const resetAllButton = new ResetAllButton( {
@@ -50,12 +46,7 @@ class MySolarSystemScreenView extends ScreenView {
     //TODO
   }
 
-  /**
-   * Steps the view.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  step( dt ) {
+  step( dt: number ) {
     //TODO
   }
 }
