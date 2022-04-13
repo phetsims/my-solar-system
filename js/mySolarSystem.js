@@ -3,7 +3,7 @@
 /**
  * Creates the namespace for this simulation.
  *
- * @author Jonathan Olson
+ * @author Agustín Vallejo
  */
 
 import Namespace from '../../phet-core/js/Namespace.js';
