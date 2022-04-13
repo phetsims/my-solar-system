@@ -5,17 +5,15 @@
  */
 
 import Screen from '../../../joist/js/Screen.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../common/MySolarSystemColors.js';
 import mySolarSystem from '../mySolarSystem.js';
 import MySolarSystemModel from './model/MySolarSystemModel.js';
 import MySolarSystemScreenView from './view/MySolarSystemScreenView.js';
 
-class MySolarSystemScreen extends Screen {
+class MySolarSystemScreen extends Screen<MySolarSystemModel, MySolarSystemScreenView> {
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
