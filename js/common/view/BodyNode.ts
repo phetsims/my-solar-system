@@ -15,7 +15,7 @@ class BodyNode extends Node {
   constructor( body: Body ) {
     super();
 
-    this.addChild(new Circle(50., {fill:'red'}));
+    this.addChild( new Circle( 50, { fill: 'red' } ) );
   }
 }
 
