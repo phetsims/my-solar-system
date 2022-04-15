@@ -8,6 +8,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 
 class MySolarSystemModel {
   bodies: Array<Body>;
@@ -22,9 +23,9 @@ class MySolarSystemModel {
     for ( let i = 0; i < this.Nbodies; i++ ) {
       // Populate the bodies array with random spheres
       this.bodies.push( new Body(
-        10 + 30 * Math.random(), // Assign a random initial Mass to the bodies
-        new Vector2( 500 * Math.random(), 500 * Math.random() ), // Create the bodies in random positions for now
-        new Vector2( 10 * ( 0.5 - Math.random() ), 10 * ( 0.5 - Math.random() ) ) // Assign them random velocities
+        10 + 30 * dotRandom.nextDouble(), // Assign a random initial Mass to the bodies
+        new Vector2( 500 * dotRandom.nextDouble(), 500 * dotRandom.nextDouble() ), // Create the bodies in random positions for now
+        new Vector2( 10 * ( 0.5 - dotRandom.nextDouble() ), 10 * ( 0.5 - dotRandom.nextDouble() ) ) // Assign them random velocities
       ) );
     }
   }
