@@ -13,7 +13,6 @@ import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import BodyNode from '../../common/view/BodyNode.js';
 
 class MySolarSystemScreenView extends ScreenView {
-  bodyNode: BodyNode;
 
   constructor( model: MySolarSystemModel, tandem: Tandem ) {
     assert && assert( model instanceof MySolarSystemModel, 'invalid model' );
@@ -23,7 +22,10 @@ class MySolarSystemScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    this.bodyNode = new BodyNode( model.body );
+    model.bodies.forEach(body => {
+      this.addChild(new BodyNode(body));
+    })
+    model.step(0.1); // J: I suppose this is the problem? Maybe shouldn't be calling step() in here
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
