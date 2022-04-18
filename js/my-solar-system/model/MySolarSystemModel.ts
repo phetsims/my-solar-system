@@ -10,6 +10,8 @@ import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
+const scratchVector = new Vector2( 0, 0 );
+
 class MySolarSystemModel {
   bodies: Array<Body>;
   Nbodies: number;
@@ -61,8 +63,8 @@ class MySolarSystemModel {
         const mass1: number = body1.massProperty.value;
         const mass2: number = body2.massProperty.value;
         const force: Vector2 = this.getForce( body1, body2 );
-        body1.accelerationProperty.value = body1.accelerationProperty.value.plus( force.times( 1 / mass1 ) );
-        body2.accelerationProperty.value = body2.accelerationProperty.value.plus( force.times( -1 / mass2 ) );
+        body1.accelerationProperty.value = body1.accelerationProperty.value.plus( scratchVector.set( force ).multiply( 1 / mass1 ) );
+        body2.accelerationProperty.value = body2.accelerationProperty.value.plus( scratchVector.set( force ).multiply( -1 / mass2 ) );
       }
     }
   }
