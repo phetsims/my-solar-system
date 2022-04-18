@@ -19,7 +19,7 @@ class MySolarSystemModel {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
     this.G = 1000;
     this.bodies = [];
-    this.Nbodies = 5;
+    this.Nbodies = 50;
     for ( let i = 0; i < this.Nbodies; i++ ) {
       // Populate the bodies array with random spheres
       this.bodies.push( new Body(
@@ -40,8 +40,15 @@ class MySolarSystemModel {
 
 
   step( dt: number ) {
+    this.resetAccelerations();
     this.applyForces();
     this.verlet( dt );
+  }
+
+  resetAccelerations() {
+    for ( let i = 0; i < this.Nbodies; i++ ) {
+      this.bodies[ i ].accelerationProperty.value = Vector2.ZERO;
+    }
   }
 
   applyForces() {
@@ -49,35 +56,40 @@ class MySolarSystemModel {
     for ( let i = 0; i < this.Nbodies; i++ ) {
       for ( let j = i + 1; j < this.Nbodies; j++ ) {
         // J: Is it okay to variables for body1 and body2??
-        const body1: Body = this.bodies[ i ];
-        const body2: Body = this.bodies[ j ];
+        const body1 = this.bodies[ i ];
+        const body2 = this.bodies[ j ];
         const mass1: number = body1.massProperty.value;
         const mass2: number = body2.massProperty.value;
-        body1.accelerationProperty.value = this.getForce( body1, body2 ).times( 1 / mass1 );
-        body2.accelerationProperty.value = body1.accelerationProperty.value.times( mass1 / mass2 );
+        const force: Vector2 = this.getForce( body1, body2 );
+        body1.accelerationProperty.value = body1.accelerationProperty.value.plus( force.times( 1 / mass1 ) );
+        body2.accelerationProperty.value = body2.accelerationProperty.value.plus( force.times( -1 / mass2 ) );
       }
     }
   }
 
+  /**
+   * Calculate the force on body1 because of body2
+   */
   getForce( body1: Body, body2: Body ) {
-    const pos1: Vector2 = body1.positionProperty.value;
-    const pos2: Vector2 = body2.positionProperty.value;
-    const direction: Vector2 = pos1.minus( pos2 );
-    const dist: number = direction.magnitude;
-    const accMag: number = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( dist, -3 ) );
-    const acceleration: Vector2 = direction.times( accMag );
-    return acceleration;
+    const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
+    const distance: number = direction.magnitude;
+    const forceMagnitude: number = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
+    const force: Vector2 = direction.times( forceMagnitude );
+    return force;
   }
 
+  /**
+   * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
+        x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
+        v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
+   */
   verlet( dt: number ) {
     this.bodies.forEach( body => {
-      const pos: Vector2 = body.positionProperty.value;
-      const vel: Vector2 = body.velocityProperty.value;
-      const acc: Vector2 = body.accelerationProperty.value;
-      const accPrev: Vector2 = body.previousAcceleration;
-      // J: Is this the proper way of handling vector operations??
-      body.positionProperty.value.add( pos ).add( vel.times( dt ) ).add( acc.times( 0.5 * dt * dt ) );
-      body.velocityProperty.value.add( vel ).add( ( acc.plus( accPrev ) ).times( 0.5 * dt ) );
+      const velocity: Vector2 = body.velocityProperty.value;
+      const acceleration: Vector2 = body.accelerationProperty.value;
+      const previousAcceleration: Vector2 = body.previousAcceleration;
+      body.positionProperty.value = body.positionProperty.value.plus( velocity.times( dt ) ).plus( acceleration.times( 0.5 * dt * dt ) );
+      body.velocityProperty.value = body.velocityProperty.value.plus( acceleration.plus( previousAcceleration ).times( 0.5 * dt ) );
       body.previousAcceleration = body.accelerationProperty.value;
     } );
 

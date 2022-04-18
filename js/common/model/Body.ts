@@ -17,6 +17,7 @@ class Body {
   velocityProperty: Vector2Property;
   accelerationProperty: Vector2Property;
   previousAcceleration: Vector2; // Previous acceleration for velocity Verlet algorithm
+  previousPosition: Vector2; // Previous position for velocity Verlet algorithm
   // Not a property because it is only used for the Verlet in the Model
 
   constructor( mass: number, position: Vector2, velocity: Vector2 ) {
@@ -25,6 +26,7 @@ class Body {
     this.velocityProperty = new Vector2Property( velocity );
     this.accelerationProperty = new Vector2Property( new Vector2( 0, 0 ) );
     this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
+    this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
   }
 }
 

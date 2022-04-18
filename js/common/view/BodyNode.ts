@@ -15,7 +15,7 @@ class BodyNode extends Node {
   constructor( body: Body ) {
     super();
 
-    this.addChild( new Circle( body.massProperty.value, { fill: 'white' } ) ); // Create white circles with R=mass
+    this.addChild( new Circle( body.massProperty.value / 5, { fill: 'white' } ) ); // Create white circles with R=mass
 
     body.positionProperty.link( position => {
       this.translation = position;

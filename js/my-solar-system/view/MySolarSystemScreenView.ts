@@ -25,7 +25,6 @@ class MySolarSystemScreenView extends ScreenView {
     model.bodies.forEach( body => {
       this.addChild( new BodyNode( body ) );
     } );
-    model.step( 0.1 ); // J: I suppose this is the problem? Maybe shouldn't be calling step() in here
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
