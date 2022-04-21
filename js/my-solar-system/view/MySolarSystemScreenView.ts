@@ -47,7 +47,7 @@ class MySolarSystemScreenView extends ScreenView {
     //TODO
   }
 
-  step( dt: number ) {
+  override step( dt: number ) {
     //TODO
   }
 }
