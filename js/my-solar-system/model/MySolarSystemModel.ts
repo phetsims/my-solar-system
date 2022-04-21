@@ -34,7 +34,6 @@ class MySolarSystemModel {
 
   /**
    * Resets the model.
-   * @public
    */
   reset() {
     //TODO

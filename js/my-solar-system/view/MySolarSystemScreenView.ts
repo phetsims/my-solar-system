@@ -41,7 +41,6 @@ class MySolarSystemScreenView extends ScreenView {
 
   /**
    * Resets the view.
-   * @public
    */
   reset() {
     //TODO
