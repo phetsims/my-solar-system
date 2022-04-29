@@ -35,24 +35,24 @@ class MySolarSystemModel {
   /**
    * Resets the model.
    */
-  reset() {
+  reset(): void {
     //TODO
   }
 
 
-  step( dt: number ) {
+  step( dt: number ): void {
     this.resetAccelerations();
     this.applyForces();
     this.verlet( dt );
   }
 
-  resetAccelerations() {
+  resetAccelerations(): void {
     for ( let i = 0; i < this.Nbodies; i++ ) {
       this.bodies[ i ].accelerationProperty.value = Vector2.ZERO;
     }
   }
 
-  applyForces() {
+  applyForces(): void {
     // Iterate between all the bodies to add the accelerations
     for ( let i = 0; i < this.Nbodies; i++ ) {
       for ( let j = i + 1; j < this.Nbodies; j++ ) {
@@ -71,7 +71,7 @@ class MySolarSystemModel {
   /**
    * Calculate the force on body1 because of body2
    */
-  getForce( body1: Body, body2: Body ) {
+  getForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance: number = direction.magnitude;
     const forceMagnitude: number = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
@@ -84,7 +84,7 @@ class MySolarSystemModel {
         x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
         v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
    */
-  verlet( dt: number ) {
+  verlet( dt: number ): void {
     this.bodies.forEach( body => {
       const velocity: Vector2 = body.velocityProperty.value;
       const acceleration: Vector2 = body.accelerationProperty.value;
