@@ -9,19 +9,59 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+
+const timeFormatter = new Map<TimeSpeed, number>( [
+  [ TimeSpeed.FAST, 7 / 4 ],
+  [ TimeSpeed.NORMAL, 1 ],
+  [ TimeSpeed.SLOW, 1 / 4 ]
+] );
 
 const scratchVector = new Vector2( 0, 0 );
 
 class MySolarSystemModel {
-  bodies: Array<Body>;
-  Nbodies: number;
   G: number;
+  Nbodies: number;
+  bodies: ObservableArray<Body>;
+  isPlayingProperty: BooleanProperty;
+  timeSpeedProperty: EnumerationProperty<TimeSpeed>;
+
+  pathVisibleProperty: BooleanProperty;
+  gridVisibleProperty: BooleanProperty;
+  centerOfMassVisibleProperty: BooleanProperty;
+  gravityVisibleProperty: BooleanProperty;
+  velocityVisibleProperty: BooleanProperty;
+
 
   constructor( tandem: Tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
     this.G = 1000;
-    this.bodies = [];
+    this.bodies = createObservableArray();
     this.Nbodies = 50;
+
+    this.repopulateBodies();
+
+    this.isPlayingProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'isPlayingProperty' ),
+      phetioDocumentation: `This value is true if the play/pause button on this screen is in play mode. (It remains true even if the user switches screens. Use in combination with '${phet.joist.sim.screenProperty.tandem.phetioID}'.)`
+    } );
+
+    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
+      tandem: tandem.createTandem( 'timeSpeedProperty' )
+    } );
+
+    this.pathVisibleProperty = new BooleanProperty( false );
+    this.gridVisibleProperty = new BooleanProperty( false );
+    this.centerOfMassVisibleProperty = new BooleanProperty( false );
+    this.gravityVisibleProperty = new BooleanProperty( false );
+    this.velocityVisibleProperty = new BooleanProperty( false );
+  }
+
+  repopulateBodies(): void {
+    this.bodies.clear();
     for ( let i = 0; i < this.Nbodies; i++ ) {
       // Populate the bodies array with random spheres
       this.bodies.push( new Body(
@@ -32,6 +72,14 @@ class MySolarSystemModel {
     }
   }
 
+  restart(): void {
+    this.repopulateBodies();
+  }
+
+  stepForward(): void {
+    this.run( 1 / 30 );
+  }
+
   /**
    * Resets the model.
    */
@@ -39,11 +87,16 @@ class MySolarSystemModel {
     //TODO
   }
 
-
   step( dt: number ): void {
+    if ( this.isPlayingProperty.value ) {
+      this.run( dt );
+    }
+  }
+
+  run( dt: number ): void {
     this.resetAccelerations();
     this.applyForces();
-    this.verlet( dt );
+    this.verlet( dt * timeFormatter.get( this.timeSpeedProperty.value )! );
   }
 
   resetAccelerations(): void {

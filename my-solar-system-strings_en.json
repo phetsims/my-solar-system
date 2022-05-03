@@ -1,5 +1,23 @@
 {
   "my-solar-system.title": {
     "value": "My Solar System"
+  },
+  "gravityForce": {
+    "value": "Gravity Force"
+  },
+  "grid": {
+    "value": "Grid"
+  },
+  "mass": {
+    "value": "Center of Mass"
+  },
+  "measuringTape": {
+    "value": "Measuring Tape"
+  },
+  "path": {
+    "value": "Path"
+  },
+  "velocity": {
+    "value": "Velocity"
   }
 }

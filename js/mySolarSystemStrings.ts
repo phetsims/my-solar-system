@@ -10,7 +10,13 @@ import mySolarSystem from './mySolarSystem.js';
 type StringsType = {
   'my-solar-system': {
     'title': string
-  }
+  },
+  'gravityForce': string,
+  'grid': string,
+  'mass': string,
+  'measuringTape': string,
+  'path': string,
+  'velocity': string
 };
 
 const mySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;
