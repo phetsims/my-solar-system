@@ -11,7 +11,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
 
 class BodyNode extends Node {
-  
+
   constructor( body: Body ) {
     super();
 

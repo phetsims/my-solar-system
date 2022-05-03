@@ -134,8 +134,8 @@ class MySolarSystemModel {
 
   /**
    * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
-        x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
-        v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
+   x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
+   v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
    */
   verlet( dt: number ): void {
     this.bodies.forEach( body => {

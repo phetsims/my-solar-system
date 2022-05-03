@@ -32,7 +32,7 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
     restartListener: MySolarSystemListener,
     stepForwardListener: MySolarSystemListener,
     providedOptions: MySolarSystemTimeControlNodeOptions
-    ) {
+  ) {
 
     super( model.isPlayingProperty, {
       timeSpeedProperty: model.timeSpeedProperty,
@@ -68,11 +68,8 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
       tandem: providedOptions.tandem.createTandem( 'restartButton' )
     } );
     this.addChild( restartButton );
-
   }
-
 }
- 
- 
- mySolarSystem.register( 'MySolarSystemTimeControlNode', MySolarSystemTimeControlNode );
- export default MySolarSystemTimeControlNode;
+
+mySolarSystem.register( 'MySolarSystemTimeControlNode', MySolarSystemTimeControlNode );
+export default MySolarSystemTimeControlNode;

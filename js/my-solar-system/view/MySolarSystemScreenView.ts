@@ -29,7 +29,7 @@ class MySolarSystemScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const bodyNodesMap = new Map<Body, BodyNode>( );
+    const bodyNodesMap = new Map<Body, BodyNode>();
 
     const addBodyNode = ( body: Body ) => {
       const bodyNode = new BodyNode( body );
@@ -64,8 +64,8 @@ class MySolarSystemScreenView extends ScreenView {
       () => model.restart(),
       () => model.stepForward(),
       {
-      tandem: tandem.createTandem( 'timeControlNode' )
-    } );
+        tandem: tandem.createTandem( 'timeControlNode' )
+      } );
     this.addChild( timeControlNode );
     timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MARGIN ) );
 
@@ -76,7 +76,7 @@ class MySolarSystemScreenView extends ScreenView {
     // const checkboxPanel = new CheckboxPanel( model );
     const controlPanel = new MySolarSystemControls( model );
     this.addChild( controlPanel );
- }
+  }
 
 
   /**
