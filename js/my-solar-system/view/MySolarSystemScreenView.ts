@@ -61,9 +61,9 @@ class MySolarSystemScreenView extends ScreenView {
 
     // Add play/pause, rewind, and step buttons
     const timeControlNode = new MySolarSystemTimeControlNode( model,
-      () => model.restart(),
-      () => model.stepForward(),
       {
+        restartListener: () => model.restart(),
+        stepForwardListener: () => model.stepForward(),
         tandem: tandem.createTandem( 'timeControlNode' )
       } );
     this.addChild( timeControlNode );

@@ -14,27 +14,27 @@ import MySolarSystemModel from '../../my-solar-system/model/MySolarSystemModel.j
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const PLAY_PAUSE_BUTTON_RADIUS = 34;
 const STEP_BUTTON_RADIUS = 23;
 const PUSH_BUTTON_SPACING = 8;
 
-type SelfOptions = {};
+type SelfOptions = {
+  restartListener: () => void;
+  stepForwardListener: () => void;
+};
 
-type MySolarSystemListener = () => void;
-
-type MySolarSystemTimeControlNodeOptions = SelfOptions & PickRequired<TimeControlNodeOptions, 'tandem'>;
+type MySolarSystemTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions & PickRequired<TimeControlNodeOptions, 'tandem'>;
 
 class MySolarSystemTimeControlNode extends TimeControlNode {
   constructor(
     model: MySolarSystemModel,
-    restartListener: MySolarSystemListener,
-    stepForwardListener: MySolarSystemListener,
     providedOptions: MySolarSystemTimeControlNodeOptions
   ) {
 
-    super( model.isPlayingProperty, {
+    const options = optionize<MySolarSystemTimeControlNodeOptions, SelfOptions, TimeControlNodeOptions>()( {
       timeSpeedProperty: model.timeSpeedProperty,
       timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.NORMAL, TimeSpeed.SLOW ],
       playPauseStepButtonOptions: {
@@ -44,7 +44,7 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
         },
         stepForwardButtonOptions: {
           radius: STEP_BUTTON_RADIUS,
-          listener: stepForwardListener
+          listener: providedOptions.stepForwardListener
         }
       },
       speedRadioButtonGroupOnLeft: false,
@@ -56,14 +56,16 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
         }
       },
       tandem: providedOptions.tandem
-    } );
+    }, providedOptions );
+
+    super( model.isPlayingProperty, options );
 
     const restartButton = new RestartButton( {
       enabled: true,
       radius: STEP_BUTTON_RADIUS,
       xMargin: 9.5,
       yMargin: 9.5,
-      listener: restartListener,
+      listener: options.restartListener,
       center: this.getPlayPauseButtonCenter().minusXY( PLAY_PAUSE_BUTTON_RADIUS + STEP_BUTTON_RADIUS + PUSH_BUTTON_SPACING, 0 ),
       tandem: providedOptions.tandem.createTandem( 'restartButton' )
     } );
