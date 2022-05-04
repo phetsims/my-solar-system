@@ -15,6 +15,9 @@ import Body from '../../common/model/Body.js';
 import MySolarSystemTimeControlNode from '../../common/view/MySolarSystemTimeControlNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemControls from '../../common/view/MySolarSystemControls.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { optionize3 } from '../../../../phet-core/js/optionize.js';
 
 // constants
 const MARGIN = 5;
@@ -29,17 +32,25 @@ class MySolarSystemScreenView extends ScreenView {
       tandem: tandem
     } );
 
+    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+      Vector2.ZERO,
+      this.layoutBounds.center,
+      10
+    );
+
     const bodyNodesMap = new Map<Body, BodyNode>();
 
     const addBodyNode = ( body: Body ) => {
-      const bodyNode = new BodyNode( body );
+      const bodyNode = new BodyNode( body, modelViewTransform );
       bodyNodesMap.set( body, bodyNode );
       this.addChild( bodyNode );
     };
 
     const removeBodyNode = ( body: Body ) => {
       const bodyNode = bodyNodesMap.get( body )!;
+      bodyNodesMap.delete( body );
       this.removeChild( bodyNode );
+      bodyNode.dispose();
     };
 
     model.bodies.forEach( addBodyNode );
@@ -75,7 +86,15 @@ class MySolarSystemScreenView extends ScreenView {
 
     // const checkboxPanel = new CheckboxPanel( model );
     const controlPanel = new MySolarSystemControls( model );
-    this.addChild( controlPanel );
+
+    // add the control panel on top of the canvases
+    this.addChild( new Panel(
+      controlPanel,
+      optionize3<PanelOptions, {}, PanelOptions>()( {}, MySolarSystemConstants.CONTROL_PANEL_OPTIONS, {
+        top: this.layoutBounds.top + MARGIN,
+        right: this.layoutBounds.right - MARGIN
+      } )
+      ) );
   }
 
 

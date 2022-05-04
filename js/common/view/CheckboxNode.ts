@@ -9,8 +9,6 @@
 
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
-import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { colorProfileProperty, HBox, Image, SceneryConstants, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
@@ -23,15 +21,12 @@ import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import MySolarSystemModel from '../../my-solar-system/model/MySolarSystemModel.js';
 
-const gravityForceString = mySolarSystemStrings.gravityForce;
+const pathString = mySolarSystemStrings.path;
 const gridString = mySolarSystemStrings.grid;
 const massString = mySolarSystemStrings.mass;
-const pathString = mySolarSystemStrings.path;
-const velocityString = mySolarSystemStrings.velocity;
 
 // constants
 const FONT = new PhetFont( 18 );
-const ARROW_Y_COORDINATE = -10;
 const CHECKBOX_OPTIONS = {
   scale: 0.8,
   checkboxColor: MySolarSystemColors.foregroundProperty,
@@ -49,51 +44,21 @@ const HBOX_OPTIONS = {
   spacing: SPACING
 };
 
-type CheckboxPanelSelfOptions = {};
+type CheckboxNodeSelfOptions = {};
 
-type CheckboxPanelOptions = CheckboxPanelSelfOptions & VBoxOptions;
+type CheckboxNodeOptions = CheckboxNodeSelfOptions & VBoxOptions;
 
-class CheckboxPanel extends VBox {
+class CheckboxNode extends VBox {
 
-  constructor( model: MySolarSystemModel, providedOptions?: CheckboxPanelOptions ) {
+  constructor( model: MySolarSystemModel, providedOptions?: CheckboxNodeOptions ) {
 
     const children = [];
-    const options = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as Required<CheckboxPanelOptions>;
+    const options = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as Required<CheckboxNodeOptions>;
 
-    const gravityForceTextNode = new Text( gravityForceString, TEXT_OPTIONS );
-    const velocityTextNode = new Text( velocityString, TEXT_OPTIONS );
     const massTextNode = new Text( massString, TEXT_OPTIONS );
     const pathTextNode = new Text( pathString, TEXT_OPTIONS );
     const gridTextNode = new Text( gridString, TEXT_OPTIONS );
     const optionsWithTandem = ( tandemName: string ) => merge( { tandem: options.tandem.createTandem( tandemName ) }, CHECKBOX_OPTIONS );
-
-    // gravity force checkbox
-    children.push( new Checkbox( new HBox( merge( {
-        children: [
-          gravityForceTextNode,
-          new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: '#4380C2' } )
-        ]
-      }, HBOX_OPTIONS ) ),
-      model.gravityVisibleProperty, optionsWithTandem( 'gravityForceCheckbox' ) ) );
-
-    // velocity checkbox
-    children.push( new Checkbox( new HBox( merge( {
-        children: [
-          velocityTextNode,
-          new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
-        ]
-      }, HBOX_OPTIONS ) ),
-      model.velocityVisibleProperty, optionsWithTandem( 'velocityCheckbox' ) ) );
-
-    // mass checkbox
-    if ( model.centerOfMassVisibleProperty ) {
-      children.push( new Checkbox( new HBox( merge( {
-          children: [
-            massTextNode
-          ]
-        }, HBOX_OPTIONS ) ),
-        model.centerOfMassVisibleProperty, optionsWithTandem( 'massCheckbox' ) ) );
-    }
 
     const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
     colorProfileProperty.lazyLink( ( profileName: any ) => {
@@ -122,6 +87,16 @@ class CheckboxPanel extends VBox {
       }, HBOX_OPTIONS ) ),
       model.gridVisibleProperty, optionsWithTandem( 'gridCheckbox' ) ) );
 
+    // mass checkbox
+    if ( model.centerOfMassVisibleProperty ) {
+      children.push( new Checkbox( new HBox( merge( {
+          children: [
+            massTextNode
+          ]
+        }, HBOX_OPTIONS ) ),
+        model.centerOfMassVisibleProperty, optionsWithTandem( 'massCheckbox' ) ) );
+    }
+
     // increase the touch area of the checkboxes
     const touchAreaHeight = 32;
     for ( let i = 0; i < children.length; i++ ) {
@@ -131,7 +106,7 @@ class CheckboxPanel extends VBox {
       checkboxNode.touchArea = Shape.rectangle( -5, bounds.centerY - touchAreaHeight / 2, bounds.width + 10, touchAreaHeight );
     }
 
-    super( optionize<CheckboxPanelOptions, CheckboxPanelSelfOptions, VBoxOptions>()( {
+    super( optionize<CheckboxNodeOptions, CheckboxNodeSelfOptions, VBoxOptions>()( {
       excludeInvisibleChildrenFromBounds: true,
       children: children,
       spacing: SPACING,
@@ -142,5 +117,5 @@ class CheckboxPanel extends VBox {
   }
 }
 
-mySolarSystem.register( 'CheckboxPanel', CheckboxPanel );
-export default CheckboxPanel;
+mySolarSystem.register( 'CheckboxNode', CheckboxNode );
+export default CheckboxNode;

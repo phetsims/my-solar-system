@@ -38,11 +38,7 @@ class MySolarSystemModel {
 
   constructor( tandem: Tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
-    this.G = 1000;
-    this.bodies = createObservableArray();
-    this.Nbodies = 50;
-
-    this.repopulateBodies();
+    this.G = 100; // Gravitational constant
 
     this.isPlayingProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isPlayingProperty' ),
@@ -58,16 +54,23 @@ class MySolarSystemModel {
     this.centerOfMassVisibleProperty = new BooleanProperty( false );
     this.gravityVisibleProperty = new BooleanProperty( false );
     this.velocityVisibleProperty = new BooleanProperty( false );
+
+    this.Nbodies = 2; // Number of random bodies to create (Will be discarded in the future)
+    this.bodies = createObservableArray();
+    this.repopulateBodies();
   }
 
   repopulateBodies(): void {
+    // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
+    const randPosition = 20;
+    const randVelocity = 30;
     for ( let i = 0; i < this.Nbodies; i++ ) {
       // Populate the bodies array with random spheres
       this.bodies.push( new Body(
-        10 + 30 * dotRandom.nextDouble(), // Assign a random initial Mass to the bodies
-        new Vector2( 500 * dotRandom.nextDouble(), 500 * dotRandom.nextDouble() ), // Create the bodies in random positions for now
-        new Vector2( 10 * ( 0.5 - dotRandom.nextDouble() ), 10 * ( 0.5 - dotRandom.nextDouble() ) ) // Assign them random velocities
+        10 + 50 * dotRandom.nextDouble(), // Assign a random initial Mass to the bodies
+        new Vector2( randPosition * ( 0.5 - dotRandom.nextDouble() ), randPosition * ( 0.5 - dotRandom.nextDouble() ) ), // Create the bodies in random positions for now
+        new Vector2( randVelocity * ( 0.5 - dotRandom.nextDouble() ), randVelocity * ( 0.5 - dotRandom.nextDouble() ) ) // Assign them random velocities
       ) );
     }
   }
