@@ -10,7 +10,7 @@
 import { VBox } from '../../../../scenery/js/imports.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import MySolarSystemModel from '../../my-solar-system/model/MySolarSystemModel.js';
+import IntroModel from '../../intro/model/IntroModel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import ArrowsCheckboxNode from './ArrowsCheckboxNode.js';
@@ -27,7 +27,7 @@ type MySolarSystemControlsOptions = {
 
 class MySolarSystemControls extends VBox {
 
-  constructor( model: MySolarSystemModel, providedOptions?: Partial<MySolarSystemControlsOptions> ) {
+  constructor( model: IntroModel, providedOptions?: Partial<MySolarSystemControlsOptions> ) {
     // const options: MySolarSystemControlsOptions = merge( {}, MySolarSystemConstants.CONTROL_PANEL_OPTIONS, providedOptions ) as unknown as MySolarSystemControlsOptions;
 
     // top separator rectangle for the gravity control section

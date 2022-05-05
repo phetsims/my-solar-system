@@ -19,7 +19,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import MySolarSystemModel from '../../my-solar-system/model/MySolarSystemModel.js';
+import IntroModel from '../../intro/model/IntroModel.js';
 
 const velocityString = mySolarSystemStrings.velocity;
 const gravityForceString = mySolarSystemStrings.gravityForce;
@@ -50,7 +50,7 @@ type ArrowsCheckboxNodeOptions = ArrowsCheckboxNodeSelfOptions & VBoxOptions;
 
 class ArrowsCheckboxNode extends VBox {
 
-  constructor( model: MySolarSystemModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
+  constructor( model: IntroModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
 
     const children = [];
     const gravityForceTextNode = new Text( gravityForceString, TEXT_OPTIONS );

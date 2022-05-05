@@ -19,7 +19,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import MySolarSystemModel from '../../my-solar-system/model/MySolarSystemModel.js';
+import IntroModel from '../../intro/model/IntroModel.js';
 
 const pathString = mySolarSystemStrings.path;
 const gridString = mySolarSystemStrings.grid;
@@ -50,7 +50,7 @@ type CheckboxNodeOptions = CheckboxNodeSelfOptions & VBoxOptions;
 
 class CheckboxNode extends VBox {
 
-  constructor( model: MySolarSystemModel, providedOptions?: CheckboxNodeOptions ) {
+  constructor( model: IntroModel, providedOptions?: CheckboxNodeOptions ) {
 
     const children = [];
     const options = merge( { tandem: Tandem.OPTIONAL }, providedOptions ) as Required<CheckboxNodeOptions>;

@@ -4,28 +4,28 @@
  * @author Jonathan Olson
  */
 
-import ScreenView from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import BodyNode from '../../common/view/BodyNode.js';
-import Body from '../../common/model/Body.js';
-import MySolarSystemTimeControlNode from '../../common/view/MySolarSystemTimeControlNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import MySolarSystemControls from '../../common/view/MySolarSystemControls.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { optionize3 } from '../../../../phet-core/js/optionize.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import { AlignBox, FlowBox } from '../../../../scenery/js/imports.js';
+import Panel from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Body from '../../common/model/Body.js';
+import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+import BodyNode from '../../common/view/BodyNode.js';
+import MySolarSystemControls from '../../common/view/MySolarSystemControls.js';
+import MySolarSystemTimeControlNode from '../../common/view/MySolarSystemTimeControlNode.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import IntroModel from '../model/IntroModel.js';
 
 // constants
 const MARGIN = 5;
 
-class MySolarSystemScreenView extends ScreenView {
+class IntroScreenView extends ScreenView {
 
-  constructor( model: MySolarSystemModel, tandem: Tandem ) {
-    assert && assert( model instanceof MySolarSystemModel, 'invalid model' );
+  constructor( model: IntroModel, tandem: Tandem ) {
+    assert && assert( model instanceof IntroModel, 'invalid model' );
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
 
     super( {
@@ -35,7 +35,7 @@ class MySolarSystemScreenView extends ScreenView {
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       this.layoutBounds.center,
-      10
+      1
     );
 
     const bodyNodesMap = new Map<Body, BodyNode>();
@@ -67,8 +67,6 @@ class MySolarSystemScreenView extends ScreenView {
       bottom: this.layoutBounds.maxY - MySolarSystemConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.addChild( resetAllButton );
-
 
     // Add play/pause, rewind, and step buttons
     const timeControlNode = new MySolarSystemTimeControlNode( model,
@@ -77,24 +75,30 @@ class MySolarSystemScreenView extends ScreenView {
         stepForwardListener: () => model.stepForward(),
         tandem: tandem.createTandem( 'timeControlNode' )
       } );
-    this.addChild( timeControlNode );
     timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MARGIN ) );
 
+    this.addChild( new AlignBox( new FlowBox( {
+      children: [
+        timeControlNode,
+        resetAllButton
+      ],
+      orientation: 'horizontal',
+      spacing: 20
+    } ),
+    {
+      alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'bottom'
+    } ) );
     // spacing to put the SpeedRadioButtonGroup at the edge of the layout bounds - current spacing
     // plus distance from the left of the TimeControlNode to left edge of layout bounds
     // timeControlNode.setButtonGroupXSpacing( timeControlNode.getButtonGroupXSpacing() + timeControlNode.left - this.layoutBounds.left - MARGIN );
 
-    // const checkboxPanel = new CheckboxPanel( model );
     const controlPanel = new MySolarSystemControls( model );
 
     // add the control panel on top of the canvases
-    this.addChild( new Panel(
-      controlPanel,
-      optionize3<PanelOptions, {}, PanelOptions>()( {}, MySolarSystemConstants.CONTROL_PANEL_OPTIONS, {
-        top: this.layoutBounds.top + MARGIN,
-        right: this.layoutBounds.right - MARGIN
-      } )
-      ) );
+    this.addChild( new AlignBox( new Panel( controlPanel, MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+      {
+ alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
+} ) );
   }
 
 
@@ -110,5 +114,5 @@ class MySolarSystemScreenView extends ScreenView {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemScreenView', MySolarSystemScreenView );
-export default MySolarSystemScreenView;
+mySolarSystem.register( 'IntroScreenView', IntroScreenView );
+export default IntroScreenView;

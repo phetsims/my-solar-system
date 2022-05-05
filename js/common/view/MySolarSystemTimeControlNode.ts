@@ -10,7 +10,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phet/js/TimeControlNode.js';
 import RestartButton from '../../../../scenery-phet/js/buttons/RestartButton.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import MySolarSystemModel from '../../my-solar-system/model/MySolarSystemModel.js';
+import IntroModel from '../../intro/model/IntroModel.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
@@ -30,7 +30,7 @@ type MySolarSystemTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions 
 
 class MySolarSystemTimeControlNode extends TimeControlNode {
   constructor(
-    model: MySolarSystemModel,
+    model: IntroModel,
     providedOptions: MySolarSystemTimeControlNodeOptions
   ) {
 

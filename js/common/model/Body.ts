@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * PLACE DOCUMENTATION HERE ABOUT THE GENERAL TYPE
+ * Model for a gravitational interacting Body
  *
  * @author Agustín Vallejo
  */

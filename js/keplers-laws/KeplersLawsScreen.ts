@@ -8,26 +8,27 @@ import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../common/MySolarSystemColors.js';
 import mySolarSystem from '../mySolarSystem.js';
-import MySolarSystemModel from './model/MySolarSystemModel.js';
-import MySolarSystemScreenView from './view/MySolarSystemScreenView.js';
+import KeplersLawsModel from './model/KeplersLawsModel.js';
+import KeplersLawsScreenView from './view/KeplersLawsScreenView.js';
 
-class MySolarSystemScreen extends Screen<MySolarSystemModel, MySolarSystemScreenView> {
+class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> {
 
   constructor( tandem: Tandem ) {
 
     const options = {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
-      tandem: tandem
+      tandem: tandem,
+      name: 'Kepler\'s Laws'
     };
 
     super(
-      () => new MySolarSystemModel( tandem.createTandem( 'model' ) ),
-      model => new MySolarSystemScreenView( model, tandem.createTandem( 'view' ) ),
+      () => new KeplersLawsModel( { tandem: tandem.createTandem( 'model' ) } ),
+      model => new KeplersLawsScreenView( model, { tandem: tandem.createTandem( 'view' ) } ),
       options
     );
   }
 }
 
-mySolarSystem.register( 'MySolarSystemScreen', MySolarSystemScreen );
-export default MySolarSystemScreen;
+mySolarSystem.register( 'KeplersLawsScreen', KeplersLawsScreen );
+export default KeplersLawsScreen;

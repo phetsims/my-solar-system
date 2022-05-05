@@ -22,7 +22,7 @@ const timeFormatter = new Map<TimeSpeed, number>( [
 
 const scratchVector = new Vector2( 0, 0 );
 
-class MySolarSystemModel {
+class IntroModel {
   G: number;
   Nbodies: number;
   bodies: ObservableArray<Body>;
@@ -38,7 +38,7 @@ class MySolarSystemModel {
 
   constructor( tandem: Tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
-    this.G = 100; // Gravitational constant
+    this.G = 10000; // Gravitational constant
 
     this.isPlayingProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isPlayingProperty' ),
@@ -60,7 +60,7 @@ class MySolarSystemModel {
     this.repopulateBodies();
   }
 
-  repopulateBodies(): void {
+  repopulateBodies2(): void {
     // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
     const randPosition = 20;
@@ -73,6 +73,13 @@ class MySolarSystemModel {
         new Vector2( randVelocity * ( 0.5 - dotRandom.nextDouble() ), randVelocity * ( 0.5 - dotRandom.nextDouble() ) ) // Assign them random velocities
       ) );
     }
+  }
+
+  repopulateBodies(): void {
+    // Clear out the bodies array and create N new random bodies
+    this.bodies.clear();
+    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ) ) );
+    this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
   restart(): void {
@@ -153,5 +160,5 @@ class MySolarSystemModel {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemModel', MySolarSystemModel );
-export default MySolarSystemModel;
+mySolarSystem.register( 'IntroModel', IntroModel );
+export default IntroModel;
