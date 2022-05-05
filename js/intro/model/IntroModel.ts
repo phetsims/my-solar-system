@@ -8,11 +8,11 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Engine from '../../common/model/Engine.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -20,12 +20,9 @@ const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.SLOW, 1 / 4 ]
 ] );
 
-const scratchVector = new Vector2( 0, 0 );
-
 class IntroModel {
-  G: number;
-  Nbodies: number;
   bodies: ObservableArray<Body>;
+  engine: Engine;
   isPlayingProperty: BooleanProperty;
   timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
@@ -38,7 +35,6 @@ class IntroModel {
 
   constructor( tandem: Tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
-    this.G = 10000; // Gravitational constant
 
     this.isPlayingProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isPlayingProperty' ),
@@ -55,30 +51,16 @@ class IntroModel {
     this.gravityVisibleProperty = new BooleanProperty( false );
     this.velocityVisibleProperty = new BooleanProperty( false );
 
-    this.Nbodies = 2; // Number of random bodies to create (Will be discarded in the future)
     this.bodies = createObservableArray();
     this.repopulateBodies();
-  }
 
-  repopulateBodies2(): void {
-    // Clear out the bodies array and create N new random bodies
-    this.bodies.clear();
-    const randPosition = 20;
-    const randVelocity = 30;
-    for ( let i = 0; i < this.Nbodies; i++ ) {
-      // Populate the bodies array with random spheres
-      this.bodies.push( new Body(
-        10 + 50 * dotRandom.nextDouble(), // Assign a random initial Mass to the bodies
-        new Vector2( randPosition * ( 0.5 - dotRandom.nextDouble() ), randPosition * ( 0.5 - dotRandom.nextDouble() ) ), // Create the bodies in random positions for now
-        new Vector2( randVelocity * ( 0.5 - dotRandom.nextDouble() ), randVelocity * ( 0.5 - dotRandom.nextDouble() ) ) // Assign them random velocities
-      ) );
-    }
+    this.engine = new Engine( this.bodies );
   }
 
   repopulateBodies(): void {
     // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
-    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ) ) );
+    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
@@ -87,76 +69,17 @@ class IntroModel {
   }
 
   stepForward(): void {
-    this.run( 1 / 30 );
+    this.engine.run( 1 / 30 );
   }
 
-  /**
-   * Resets the model.
-   */
   reset(): void {
-    //TODO
+    this.restart();
   }
 
   step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
-      this.run( dt );
+      this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! );
     }
-  }
-
-  run( dt: number ): void {
-    this.resetAccelerations();
-    this.applyForces();
-    this.verlet( dt * timeFormatter.get( this.timeSpeedProperty.value )! );
-  }
-
-  resetAccelerations(): void {
-    for ( let i = 0; i < this.Nbodies; i++ ) {
-      this.bodies[ i ].accelerationProperty.value = Vector2.ZERO;
-    }
-  }
-
-  applyForces(): void {
-    // Iterate between all the bodies to add the accelerations
-    for ( let i = 0; i < this.Nbodies; i++ ) {
-      for ( let j = i + 1; j < this.Nbodies; j++ ) {
-        // J: Is it okay to variables for body1 and body2??
-        const body1 = this.bodies[ i ];
-        const body2 = this.bodies[ j ];
-        const mass1: number = body1.massProperty.value;
-        const mass2: number = body2.massProperty.value;
-        const force: Vector2 = this.getForce( body1, body2 );
-        body1.accelerationProperty.value = body1.accelerationProperty.value.plus( scratchVector.set( force ).multiply( 1 / mass1 ) );
-        body2.accelerationProperty.value = body2.accelerationProperty.value.plus( scratchVector.set( force ).multiply( -1 / mass2 ) );
-      }
-    }
-  }
-
-  /**
-   * Calculate the force on body1 because of body2
-   */
-  getForce( body1: Body, body2: Body ): Vector2 {
-    const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
-    const distance: number = direction.magnitude;
-    const forceMagnitude: number = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
-    const force: Vector2 = direction.times( forceMagnitude );
-    return force;
-  }
-
-  /**
-   * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
-   x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
-   v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
-   */
-  verlet( dt: number ): void {
-    this.bodies.forEach( body => {
-      const velocity: Vector2 = body.velocityProperty.value;
-      const acceleration: Vector2 = body.accelerationProperty.value;
-      const previousAcceleration: Vector2 = body.previousAcceleration;
-      body.positionProperty.value = body.positionProperty.value.plus( velocity.times( dt ) ).plus( acceleration.times( 0.5 * dt * dt ) );
-      body.velocityProperty.value = body.velocityProperty.value.plus( acceleration.plus( previousAcceleration ).times( 0.5 * dt ) );
-      body.previousAcceleration = body.accelerationProperty.value;
-    } );
-
   }
 }
 

@@ -31,7 +31,14 @@ const MySolarSystemColors = {
   controlPanelFillProperty: new ProfileColorProperty( mySolarSystem, 'control panel fill', {
     default: 'black',
     projector: new Color( 222, 234, 255 )
+  } ),
+  gridIconStrokeColorProperty: new ProfileColorProperty( mySolarSystem, 'grid icon stroke', {
+    default: 'gray',
+    projector: 'black'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'gridIconStrokeColorProperty' )
   } )
+
 };
 
 mySolarSystem.register( 'MySolarSystemColors', MySolarSystemColors );

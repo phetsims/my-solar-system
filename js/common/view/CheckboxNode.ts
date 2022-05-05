@@ -20,6 +20,10 @@ import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import IntroModel from '../../intro/model/IntroModel.js';
+import MySolarSystemGridNode from './MySolarSystemGridNode.js';
+import Property from '../../../../axon/js/Property.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 const pathString = mySolarSystemStrings.path;
 const gridString = mySolarSystemStrings.grid;
@@ -78,11 +82,11 @@ class CheckboxNode extends VBox {
     // grid checkbox
     children.push( new Checkbox( new HBox( merge( {
         children: [
-          gridTextNode
-          // new mySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, new Vector2( 0, 0 ), 1, {
-          //     stroke: MySolarSystemColors.gridIconStrokeColorProperty,
-          //     lineWidth: 1.5
-          // } )
+          gridTextNode,
+          new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, new Vector2( 0, 0 ), 1, {
+              stroke: MySolarSystemColors.gridIconStrokeColorProperty,
+              lineWidth: 1.5
+          } )
         ]
       }, HBOX_OPTIONS ) ),
       model.gridVisibleProperty, optionsWithTandem( 'gridCheckbox' ) ) );

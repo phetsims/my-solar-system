@@ -4,6 +4,7 @@
  * @author Jonathan Olson
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -12,9 +13,11 @@ import { AlignBox, FlowBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Body from '../../common/model/Body.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import MySolarSystemControls from '../../common/view/MySolarSystemControls.js';
+import MySolarSystemGridNode from '../../common/view/MySolarSystemGridNode.js';
 import MySolarSystemTimeControlNode from '../../common/view/MySolarSystemTimeControlNode.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import IntroModel from '../model/IntroModel.js';
@@ -31,6 +34,15 @@ class IntroScreenView extends ScreenView {
     super( {
       tandem: tandem
     } );
+
+    // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
+    // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
+    const gridNode = new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 50, this.layoutBounds.center, 28, {
+      stroke: MySolarSystemColors.gridIconStrokeColorProperty,
+      lineWidth: 1.5
+    } );
+    model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
+    this.addChild( gridNode );
 
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
