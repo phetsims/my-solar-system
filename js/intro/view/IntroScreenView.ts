@@ -28,6 +28,8 @@ const MARGIN = 5;
 class IntroScreenView extends ScreenView {
 
   constructor( model: IntroModel, tandem: Tandem ) {
+    //REVIEW: Since this is TypeScript, we should remove these type-based checks (since they would be a TypeScript error
+    //REVIEW: if violated).
     assert && assert( model instanceof IntroModel, 'invalid model' );
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
 
@@ -109,8 +111,8 @@ class IntroScreenView extends ScreenView {
     // add the control panel on top of the canvases
     this.addChild( new AlignBox( new Panel( controlPanel, MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
       {
- alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
-} ) );
+     alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
+    } ) );
   }
 
 

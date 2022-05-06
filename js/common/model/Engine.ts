@@ -15,9 +15,10 @@ const scratchVector = new Vector2( 0, 0 );
 
 class Engine {
   G: number;
-  bodies: ObservableArray<Body>;
+  bodies: ObservableArray<Body>; //REVIEW: Should presumably be marked read-only
 
   constructor( bodies: ObservableArray<Body> ) {
+    //REVIEW: Generally documentation for a field should go up near its declaration.
     this.G = 10000; // Gravitational constant
     this.bodies = bodies;
   }
@@ -49,9 +50,10 @@ class Engine {
     }
   }
 
+  //REVIEW: Generally for comments like this, we'll align the asterisks on the left
   /**
-  * Calculate the force on body1 because of body2
-  */
+   * Calculate the force on body1 because of body2
+   */
   getForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance: number = direction.magnitude;
@@ -60,11 +62,12 @@ class Engine {
     return force;
   }
 
+  //REVIEW: And see how this comment is formatted
   /**
-  * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
-  x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
-  v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
-  */
+   * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
+   * x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
+   * v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
+   */
   verlet( dt: number ): void {
     this.bodies.forEach( body => {
       const velocity: Vector2 = body.velocityProperty.value;
