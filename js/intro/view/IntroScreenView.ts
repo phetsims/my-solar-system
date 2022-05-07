@@ -28,11 +28,6 @@ const MARGIN = 5;
 class IntroScreenView extends ScreenView {
 
   constructor( model: IntroModel, tandem: Tandem ) {
-    //REVIEW: Since this is TypeScript, we should remove these type-based checks (since they would be a TypeScript error
-    //REVIEW: if violated).
-    assert && assert( model instanceof IntroModel, 'invalid model' );
-    assert && assert( tandem instanceof Tandem, 'invalid tandem' );
-
     super( {
       tandem: tandem
     } );

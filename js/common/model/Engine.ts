@@ -14,12 +14,14 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 const scratchVector = new Vector2( 0, 0 );
 
 class Engine {
-  G: number;
-  bodies: ObservableArray<Body>; //REVIEW: Should presumably be marked read-only
+  // Gravitational constant
+  G;
+
+  // Array of gravitational interacting bodies
+  readonly bodies: ObservableArray<Body>;
 
   constructor( bodies: ObservableArray<Body> ) {
-    //REVIEW: Generally documentation for a field should go up near its declaration.
-    this.G = 10000; // Gravitational constant
+    this.G = 10000;
     this.bodies = bodies;
   }
 
@@ -41,8 +43,8 @@ class Engine {
       for ( let j = i + 1; j < this.bodies.length; j++ ) {
         const body1 = this.bodies[ i ];
         const body2 = this.bodies[ j ];
-        const mass1: number = body1.massProperty.value;
-        const mass2: number = body2.massProperty.value;
+        const mass1 = body1.massProperty.value;
+        const mass2 = body2.massProperty.value;
         const force: Vector2 = this.getForce( body1, body2 );
         body1.accelerationProperty.value = body1.accelerationProperty.value.plus( scratchVector.set( force ).multiply( 1 / mass1 ) );
         body2.accelerationProperty.value = body2.accelerationProperty.value.plus( scratchVector.set( force ).multiply( -1 / mass2 ) );
@@ -56,8 +58,8 @@ class Engine {
    */
   getForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
-    const distance: number = direction.magnitude;
-    const forceMagnitude: number = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
+    const distance = direction.magnitude;
+    const forceMagnitude = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
     const force: Vector2 = direction.times( forceMagnitude );
     return force;
   }

@@ -21,8 +21,8 @@ class BodyNode extends Node {
     super();
     this.body = body;
 
-    //REVIEW: Comment should be moved to here (on its own line) so it doesn't go past the 120 characters significantly.
-    this.addChild( new ShadedSphereNode( body.massProperty.value / 2, { mainColor: 'yellow' } ) ); // Create white circles with R=mass
+    // Create white circles with R=mass
+    this.addChild( new ShadedSphereNode( body.massProperty.value / 2, { mainColor: 'yellow' } ) );
 
     this.positionListener = position => {
       this.translation = modelViewTransform.modelToViewPosition( position );
