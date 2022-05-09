@@ -90,7 +90,7 @@ class VisibilityCheckboxes extends FlowBox {
       children: children,
       spacing: SPACING,
       orientation: 'vertical',
-      align: 'stretch'
+      stretch: true
     }, providedOptions ) );
   }
 }
