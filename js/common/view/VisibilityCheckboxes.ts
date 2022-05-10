@@ -44,8 +44,6 @@ type SelfOptions = {};
 
 type VisibilityCheckboxesOptions = SelfOptions & VBoxOptions;
 
-//REVIEW: The naming "VisibilityCheckboxes" makes it sound like it's a single Checkbox. I'd recommend a more informative name
-//REVIEW: (and one that provides more information than just "checkboxes").
 class VisibilityCheckboxes extends FlowBox {
 
   constructor( model: IntroModel, providedOptions?: VisibilityCheckboxesOptions ) {
@@ -90,7 +88,7 @@ class VisibilityCheckboxes extends FlowBox {
       children: children,
       spacing: SPACING,
       orientation: 'vertical',
-      align: 'stretch'
+      align: 'left'
     }, providedOptions ) );
   }
 }

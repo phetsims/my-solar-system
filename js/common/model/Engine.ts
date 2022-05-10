@@ -52,7 +52,6 @@ class Engine {
     }
   }
 
-  //REVIEW: Generally for comments like this, we'll align the asterisks on the left
   /**
    * Calculate the force on body1 because of body2
    */
@@ -64,7 +63,6 @@ class Engine {
     return force;
   }
 
-  //REVIEW: And see how this comment is formatted
   /**
    * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
    * x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2

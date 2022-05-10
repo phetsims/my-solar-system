@@ -11,14 +11,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
 
 class Body {
-  //REVIEW: Fields which are not reassigned should be marked `readonly` according to our TypeScript conventions.
-  //REVIEW: That includes every field currently in this file.
-
   // Unitless body quantities.
-  massProperty: Property<number>;
-  positionProperty: Property<Vector2>;
-  velocityProperty: Property<Vector2>;
-  accelerationProperty: Property<Vector2>;
+  readonly massProperty: Property<number>;
+  readonly positionProperty: Property<Vector2>;
+  readonly velocityProperty: Property<Vector2>;
+  readonly accelerationProperty: Property<Vector2>;
 
   // Previous values for velocity Verlet algorithm
   previousAcceleration: Vector2;
