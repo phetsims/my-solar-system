@@ -25,10 +25,11 @@ const velocityString = mySolarSystemStrings.velocity;
 const gravityForceString = mySolarSystemStrings.gravityForce;
 
 // constants
-const FONT = new PhetFont( 18 );
+const FONT = new PhetFont( 14 );
 const ARROW_Y_COORDINATE = -10;
+//REVIEW: Presumably factor out checkbox options and the font for them
 const CHECKBOX_OPTIONS = {
-  scale: 0.8,
+  boxWidth: 14,
   checkboxColor: MySolarSystemColors.foregroundProperty,
   checkboxColorBackground: MySolarSystemColors.backgroundProperty
 };
