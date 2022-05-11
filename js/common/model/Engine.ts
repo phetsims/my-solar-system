@@ -40,12 +40,12 @@ class Engine {
   }
 
   getCenterOfMassPosition(): Vector2 {
-    const CenterOfMassPosition = new Vector2( 0, 0 );
+    const centerOfMassPosition = new Vector2( 0, 0 );
     this.bodies.forEach( body => {
       assert && assert( this.totalMass !== 0, 'Total mass should not go to 0' );
-      CenterOfMassPosition.add( body.positionProperty.value.times( body.massProperty.value / this.totalMass ) );
+      centerOfMassPosition.add( body.positionProperty.value.times( body.massProperty.value / this.totalMass ) );
     } );
-    return CenterOfMassPosition;
+    return centerOfMassPosition;
   }
 
   restart(): void {

@@ -19,7 +19,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
-      name: 'Intro'
+      name: 'Lab'
     };
 
     super(

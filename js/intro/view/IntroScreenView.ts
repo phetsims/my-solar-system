@@ -70,13 +70,13 @@ class IntroScreenView extends ScreenView {
     const velocityVectorFactory = ( body: Body ) => {
       return new VectorNode(
         body, new Property( modelViewTransform ), model.velocityVisibleProperty, body.velocityProperty,
-        1, PhetColorScheme.VELOCITY
+        1, { fill: PhetColorScheme.VELOCITY }
         );
     };
     const forceVectorFactory = ( body: Body ) => {
       return new VectorNode(
         body, new Property( modelViewTransform ), model.gravityVisibleProperty, body.forceProperty,
-        0.05, PhetColorScheme.GRAVITATIONAL_FORCE
+        0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
         );
     };
 

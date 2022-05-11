@@ -24,7 +24,8 @@ class CenterOfMassNode extends Node {
 
     this.addChild( new XNode( {
       fill: 'red',
-      stroke: 'white'
+      stroke: 'white',
+      center: Vector2.ZERO
     } ) );
 
     this.positionListener = position => {
