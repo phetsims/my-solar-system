@@ -16,6 +16,7 @@ class Body {
   readonly positionProperty: Property<Vector2>;
   readonly velocityProperty: Property<Vector2>;
   readonly accelerationProperty: Property<Vector2>;
+  readonly forceProperty: Property<Vector2>;
 
   // Previous values for velocity Verlet algorithm
   previousAcceleration: Vector2;
@@ -26,6 +27,7 @@ class Body {
     this.positionProperty = new Property<Vector2>( position );
     this.velocityProperty = new Property<Vector2>( velocity );
     this.accelerationProperty = new Property<Vector2>( Vector2.ZERO );
+    this.forceProperty = new Property<Vector2>( Vector2.ZERO );
     this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
     this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
   }

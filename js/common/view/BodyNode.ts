@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * PLACE DOCUMENTATION HERE ABOUT THE GENERAL TYPE
+ * Visible Body Node that draws a sphere with size dependent on the Body's mass.
  *
  * @author Agustín Vallejo
  */

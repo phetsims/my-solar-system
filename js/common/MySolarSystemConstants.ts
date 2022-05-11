@@ -28,7 +28,6 @@ const MySolarSystemConstants = {
     scale: 1.05,
     fill: MySolarSystemColors.controlPanelFillProperty
   }
-  //TODO
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );

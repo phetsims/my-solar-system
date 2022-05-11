@@ -61,7 +61,7 @@ class ArrowsCheckboxNode extends VBox {
     children.push( new Checkbox( new HBox( merge( {
         children: [
           gravityForceTextNode,
-          new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: '#4380C2' } )
+          new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
         ]
       }, HBOX_OPTIONS ) ),
       model.gravityVisibleProperty, optionsWithTandem( 'gravityForceCheckbox' ) ) );
