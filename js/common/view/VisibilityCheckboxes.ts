@@ -27,9 +27,9 @@ const gridString = mySolarSystemStrings.grid;
 const massString = mySolarSystemStrings.mass;
 
 // constants
-const FONT = new PhetFont( 18 );
+const FONT = new PhetFont( 14 );
 const CHECKBOX_OPTIONS = {
-  scale: 0.8,
+  boxWidth: 14,
   checkboxColor: MySolarSystemColors.foregroundProperty,
   checkboxColorBackground: MySolarSystemColors.backgroundProperty
 };

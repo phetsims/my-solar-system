@@ -36,6 +36,7 @@ class MySolarSystemControls extends FlowBox {
       ],
       spacing: 4,
       align: 'left',
+      stretch: true,
       orientation: 'vertical'
     } );
   }
