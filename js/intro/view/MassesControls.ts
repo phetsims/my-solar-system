@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 /**
  * Set up for the panel that holds the mass sliders.
  * They will control the mass of the two bodies in the simulation.
