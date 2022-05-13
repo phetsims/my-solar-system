@@ -12,7 +12,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { AlignBox, FlowBox, Node } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Body from '../../common/model/Body.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
@@ -27,6 +27,8 @@ import VectorNode from '../../common/view/VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import NodeTracker from '../../common/view/NodeTracker.js';
 import CenterOfMassNode from '../../common/view/CenterOfMassNode.js';
+import MassesControls from './MassesControls.js';
+import { optionize3 } from '../../../../phet-core/js/optionize.js';
 
 // constants
 const MARGIN = 5;
@@ -99,7 +101,7 @@ class IntroScreenView extends ScreenView {
       trackers.forEach( tracker => { tracker.remove( body );} );
     } );
 
-    const centerOfMassNode = new CenterOfMassNode( model.centerOfMassPositionProperty, modelViewTransform );
+    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, modelViewTransform );
     this.ComponentsLayerNode.addChild( centerOfMassNode );
 
     // UI ----------------------------------------------------------------------------------
@@ -134,16 +136,24 @@ class IntroScreenView extends ScreenView {
     {
       alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'bottom'
     } ) );
-    // spacing to put the SpeedRadioButtonGroup at the edge of the layout bounds - current spacing
-    // plus distance from the left of the TimeControlNode to left edge of layout bounds
-    // timeControlNode.setButtonGroupXSpacing( timeControlNode.getButtonGroupXSpacing() + timeControlNode.left - this.layoutBounds.left - MARGIN );
 
-    const controlPanel = new MySolarSystemControls( model );
-
-    // add the control panel on top of the canvases
-    this.UILayerNode.addChild( new AlignBox( new Panel( controlPanel, MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+    // Add the control panel on top of the canvases
+    // Visibility checkboxes for sim elements
+    this.UILayerNode.addChild( new AlignBox( new Panel( new MySolarSystemControls( model ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
       {
      alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
+    } ) );
+
+    // Slider that controls the bodies mass
+    this.UILayerNode.addChild( new AlignBox( new Panel(
+      new MassesControls( model ),
+      optionize3<PanelOptions, {}, PanelOptions>()(
+        {},
+        MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
+        { fill: 'white' }
+        ) ),
+      {
+     alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
     } ) );
   }
 

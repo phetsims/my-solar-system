@@ -6,19 +6,20 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import CenterOfMass from '../model/CenterOfMass.js';
 
 
 class CenterOfMassNode extends Node {
-  readonly centerOfMass: Property<Vector2>;
+  readonly centerOfMass: CenterOfMass;
   readonly positionListener: ( position:Vector2 ) => void
+  readonly visibilityListener: ( visible:boolean ) => void
 
 
-  constructor( centerOfMass: Property<Vector2>, modelViewTransform: ModelViewTransform2 ) {
+  constructor( centerOfMass: CenterOfMass, modelViewTransform: ModelViewTransform2 ) {
     super();
     this.centerOfMass = centerOfMass;
 
@@ -31,7 +32,12 @@ class CenterOfMassNode extends Node {
     this.positionListener = position => {
       this.translation = modelViewTransform.modelToViewPosition( position );
     };
-    this.centerOfMass.link( this.positionListener );
+    this.centerOfMass.positionProperty.link( this.positionListener );
+
+    this.visibilityListener = visible => {
+      this.visible = visible;
+    };
+    this.centerOfMass.visibleProperty.link( this.visibilityListener );
   }
 }
 

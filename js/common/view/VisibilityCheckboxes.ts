@@ -21,6 +21,7 @@ import MySolarSystemGridNode from './MySolarSystemGridNode.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import XNode from '../../../../scenery-phet/js/XNode.js';
 
 const pathString = mySolarSystemStrings.path;
 const gridString = mySolarSystemStrings.grid;
@@ -71,9 +72,15 @@ class VisibilityCheckboxes extends FlowBox {
       new Checkbox( new FlowBox( {
         spacing: 10,
         children: [
-          new Text( massString, TEXT_OPTIONS )
+          new Text( massString, TEXT_OPTIONS ),
+          new XNode( {
+            fill: 'red',
+            stroke: 'white',
+            center: Vector2.ZERO,
+            scale: 0.5
+          } )
         ]
-      } ), model.centerOfMassVisibleProperty, CHECKBOX_OPTIONS )
+      } ), model.centerOfMass.visibleProperty, CHECKBOX_OPTIONS )
     ];
 
     // increase the touch area of the checkboxes

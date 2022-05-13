@@ -14,24 +14,39 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Vector2 from '../../../../dot/js/Vector2.js';
 
 class BodyNode extends Node {
-  body: Body
-  positionListener: ( position:Vector2 ) => void
+  body: Body;
+  initialMass: number;
+  sphereNode: ShadedSphereNode;
+  positionListener: ( position:Vector2 ) => void;
+  massListener: ( mass:number ) => void;
 
   constructor( body: Body, modelViewTransform: ModelViewTransform2 ) {
     super();
     this.body = body;
-
-    // Create white circles with R=mass
-    this.addChild( new ShadedSphereNode( body.massProperty.value / 2, { mainColor: 'yellow' } ) );
+    this.initialMass = 200; //body.massProperty.value;
+    this.sphereNode = new ShadedSphereNode( 1, { mainColor: 'yellow' } );
+    this.sphereNode.setScaleMagnitude( this.massToScale( body.massProperty.value ) );
+    this.addChild( this.sphereNode );
 
     this.positionListener = position => {
       this.translation = modelViewTransform.modelToViewPosition( position );
     };
     this.body.positionProperty.link( this.positionListener );
+
+    this.massListener = mass => {
+      this.sphereNode.setScaleMagnitude( this.massToScale( mass ) );
+    };
+
+    this.body.massProperty.link( this.massListener );
+  }
+
+  massToScale( mass: number ): number {
+    return 200 * mass / this.initialMass + 5;
   }
 
   override dispose(): void {
     this.body.positionProperty.unlink( this.positionListener );
+    this.body.massProperty.unlink( this.massListener );
 
     super.dispose();
   }

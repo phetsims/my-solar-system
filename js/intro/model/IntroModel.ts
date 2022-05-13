@@ -17,6 +17,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Engine from '../../common/model/Engine.js';
+import CenterOfMass from '../../common/model/CenterOfMass.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -27,13 +28,13 @@ const timeFormatter = new Map<TimeSpeed, number>( [
 class IntroModel {
   bodies: ObservableArray<Body>;
   engine: Engine;
+  centerOfMass: CenterOfMass;
+
   isPlayingProperty: Property<boolean>;
   timeSpeedProperty: EnumerationProperty<TimeSpeed>;
-  centerOfMassPositionProperty: Property<Vector2>;
 
   pathVisibleProperty: Property<boolean>;
   gridVisibleProperty: Property<boolean>;
-  centerOfMassVisibleProperty: Property<boolean>;
   gravityVisibleProperty: Property<boolean>;
   velocityVisibleProperty: Property<boolean>;
 
@@ -52,7 +53,6 @@ class IntroModel {
 
     this.pathVisibleProperty = new Property<boolean>( false );
     this.gridVisibleProperty = new Property<boolean>( false );
-    this.centerOfMassVisibleProperty = new Property<boolean>( false );
     this.gravityVisibleProperty = new Property<boolean>( false );
     this.velocityVisibleProperty = new Property<boolean>( false );
 
@@ -61,7 +61,9 @@ class IntroModel {
 
     this.engine = new Engine( this.bodies );
     this.engine.restart();
-    this.centerOfMassPositionProperty = new Property( this.engine.getCenterOfMassPosition() );
+
+    this.centerOfMass = new CenterOfMass();
+    this.centerOfMass.positionProperty.value = this.engine.getCenterOfMassPosition();
   }
 
   repopulateBodies(): void {
@@ -75,7 +77,7 @@ class IntroModel {
     this.repopulateBodies();
     this.engine.update( this.bodies );
     this.engine.restart();
-    this.centerOfMassPositionProperty.value = this.engine.getCenterOfMassPosition();
+    this.centerOfMass.positionProperty.value = this.engine.getCenterOfMassPosition();
   }
 
   stepForward(): void {
@@ -89,7 +91,7 @@ class IntroModel {
   step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
       this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! );
-      this.centerOfMassPositionProperty.value = this.engine.getCenterOfMassPosition();
+      this.centerOfMass.positionProperty.value = this.engine.getCenterOfMassPosition();
     }
   }
 }

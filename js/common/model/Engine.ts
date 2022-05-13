@@ -93,6 +93,7 @@ class Engine {
   getForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance = direction.magnitude;
+    assert && assert( distance > 0, 'Negative distances not allowed!!' );
     const forceMagnitude = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
     const force: Vector2 = direction.times( forceMagnitude );
     return force;
