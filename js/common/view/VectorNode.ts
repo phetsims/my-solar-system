@@ -12,11 +12,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 class VectorNode extends ArrowNode {
-  private readonly multilink: Multilink<any[]>;
+  private readonly multilink: UnknownMultilink;
 
   constructor(
     body: Body,
@@ -25,7 +25,7 @@ class VectorNode extends ArrowNode {
     vectorProperty: Property<Vector2>,
     scale: number,
     providedOptions?: ArrowNodeOptions
-     ) {
+  ) {
 
     super( 0, 0, 0, 0, optionize<ArrowNodeOptions, {}, ArrowNodeOptions>()( {
       headHeight: 15,
@@ -39,18 +39,18 @@ class VectorNode extends ArrowNode {
     }, providedOptions ) );
 
     this.multilink = new Multilink( [ visibleProperty, vectorProperty, body.positionProperty, transformProperty ],
-      ( visible: boolean, vector: Vector2, bodyPosition: Vector2, transform: ModelViewTransform2 ) => {
+      ( visible, vector, bodyPosition, transform ) => {
 
-      this.visible = visible;
+        this.visible = visible;
 
-      if ( visible ) {
-        const tail = transform.modelToViewPosition( bodyPosition );
-        const force = transform.modelToViewDelta( vector.times( scale ) );
-        const tip = force.plus( tail );
+        if ( visible ) {
+          const tail = transform.modelToViewPosition( bodyPosition );
+          const force = transform.modelToViewDelta( vector.times( scale ) );
+          const tip = force.plus( tail );
 
-        this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
-      }
-    } );
+          this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
+        }
+      } );
   }
 
   override dispose(): void {
