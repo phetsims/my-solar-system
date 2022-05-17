@@ -29,6 +29,10 @@ import NodeTracker from '../../common/view/NodeTracker.js';
 import CenterOfMassNode from '../../common/view/CenterOfMassNode.js';
 import MassesControls from './MassesControls.js';
 import { optionize3 } from '../../../../phet-core/js/optionize.js';
+import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 
 // constants
 const MARGIN = 5;
@@ -105,6 +109,38 @@ class IntroScreenView extends ScreenView {
     this.ComponentsLayerNode.addChild( centerOfMassNode );
 
     // UI ----------------------------------------------------------------------------------
+    this.addChild( new AlignBox( new MagnifyingGlassZoomButtonGroup(
+      model.zoomLevelProperty,
+      {
+        spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 }
+      } ),
+      {
+        alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'top'
+      }
+      ) );
+
+    // Add play/pause, rewind, and step buttons
+    const timeControlNode = new MySolarSystemTimeControlNode( model,
+      {
+        restartListener: () => model.restart(),
+        stepForwardListener: () => model.stepForward(),
+        tandem: tandem.createTandem( 'timeControlNode' )
+      } );
+    timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MARGIN ) );
+
+    const clockNode = new FlowBox( {
+      children: [
+        new NumberDisplay( model.timeProperty, model.timeRange ),
+        new TextPushButton( 'Clear', {
+          font: new PhetFont( 16 ),
+          listener: () => { model.timeProperty.value = 0; },
+          maxWidth: 200
+        } )
+      ],
+      orientation: 'vertical',
+      spacing: 8
+    } );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -116,18 +152,10 @@ class IntroScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    // Add play/pause, rewind, and step buttons
-    const timeControlNode = new MySolarSystemTimeControlNode( model,
-      {
-        restartListener: () => model.restart(),
-        stepForwardListener: () => model.stepForward(),
-        tandem: tandem.createTandem( 'timeControlNode' )
-      } );
-    timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MARGIN ) );
-
     this.UILayerNode.addChild( new AlignBox( new FlowBox( {
       children: [
         timeControlNode,
+        clockNode,
         resetAllButton
       ],
       orientation: 'horizontal',

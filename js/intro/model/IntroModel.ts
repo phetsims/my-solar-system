@@ -18,6 +18,8 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Engine from '../../common/model/Engine.js';
 import CenterOfMass from '../../common/model/CenterOfMass.js';
+import Range from '../../../../dot/js/Range.js';
+import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -30,6 +32,8 @@ class IntroModel {
   engine: Engine;
   centerOfMass: CenterOfMass;
 
+  timeRange: Range;
+  timeProperty: Property<number>;
   isPlayingProperty: Property<boolean>;
   timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
@@ -38,10 +42,13 @@ class IntroModel {
   gravityVisibleProperty: Property<boolean>;
   velocityVisibleProperty: Property<boolean>;
 
+  zoomLevelProperty: RangedProperty;
+
 
   constructor( tandem: Tandem ) {
     assert && assert( tandem instanceof Tandem, 'invalid tandem' );
-
+    this.timeRange = new Range( 0, 1000 );
+    this.timeProperty = new Property<number>( 0 );
     this.isPlayingProperty = new Property<boolean>( false, {
       tandem: tandem.createTandem( 'isPlayingProperty' ),
       phetioDocumentation: `This value is true if the play/pause button on this screen is in play mode. (It remains true even if the user switches screens. Use in combination with '${phet.joist.sim.screenProperty.tandem.phetioID}'.)`
@@ -64,6 +71,10 @@ class IntroModel {
 
     this.centerOfMass = new CenterOfMass();
     this.centerOfMass.positionProperty.value = this.engine.getCenterOfMassPosition();
+
+    this.zoomLevelProperty = new NumberProperty( 1, {
+      range: new Range( 0.5, 2 )
+    } ).asRanged();
   }
 
   repopulateBodies(): void {
@@ -78,19 +89,22 @@ class IntroModel {
     this.engine.update( this.bodies );
     this.engine.restart();
     this.centerOfMass.positionProperty.value = this.engine.getCenterOfMassPosition();
+    this.timeProperty.value = 0;
   }
 
   stepForward(): void {
     this.engine.run( 1 / 30 );
+    this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! / 10;
   }
-
+  
   reset(): void {
     this.restart();
   }
-
+  
   step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
       this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! );
+      this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! / 10;
       this.centerOfMass.positionProperty.value = this.engine.getCenterOfMassPosition();
     }
   }
