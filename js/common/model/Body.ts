@@ -31,6 +31,16 @@ class Body {
     this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
     this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
   }
+
+  reset(): void {
+    this.massProperty.reset();
+    this.positionProperty.reset();
+    this.velocityProperty.reset();
+    this.accelerationProperty.reset();
+    this.forceProperty.reset();
+    this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
+    this.previousPosition = this.positionProperty.value;
+  }
 }
 
 mySolarSystem.register( 'Body', Body );

@@ -19,33 +19,15 @@ class Engine {
 
   // Array of gravitational interacting bodies
   bodies: ObservableArray<Body>;
-  totalMass: number;
 
   constructor( bodies: ObservableArray<Body> ) {
     this.G = 10000;
     this.bodies = bodies;
-    this.totalMass = 0;
-    this.bodies.forEach( body => {
-      this.totalMass += body.massProperty.value;
-    } );
   }
 
   update( bodies: ObservableArray<Body> ): void {
     // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
-    this.totalMass = 0;
-    this.bodies.forEach( body => {
-      this.totalMass += body.massProperty.value;
-    } );
-  }
-
-  getCenterOfMassPosition(): Vector2 {
-    const centerOfMassPosition = new Vector2( 0, 0 );
-    this.bodies.forEach( body => {
-      assert && assert( this.totalMass !== 0, 'Total mass should not go to 0' );
-      centerOfMassPosition.add( body.positionProperty.value.times( body.massProperty.value / this.totalMass ) );
-    } );
-    return centerOfMassPosition;
   }
 
   restart(): void {
@@ -101,15 +83,15 @@ class Engine {
 
   /**
    * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
-   * x(t+dt) = x(t) + v(t)dt + 0.5a(t)*dt^2
-   * v(t+dt) = v(t) + 0.5*dt*(a(t+dt) + a(t))
+   * x(t+dt) = x(t) + v(t)*dt + a(t)*0.5*dt*dt
+   * v(t+dt) = v(t) + (a(t+dt) + a(t))*0.5*dt
    */
   verlet( dt: number ): void {
     this.bodies.forEach( body => {
       const velocity: Vector2 = body.velocityProperty.value;
       const acceleration: Vector2 = body.accelerationProperty.value;
       const previousAcceleration: Vector2 = body.previousAcceleration;
-      body.positionProperty.value = body.positionProperty.value.plus( velocity.times( dt ) ).plus( acceleration.times( 0.5 * dt * dt ) );
+      body.positionProperty.value = body.positionProperty.value.plus( velocity.times( dt ) ).plus( previousAcceleration.times( 0.5 * dt * dt ) );
       body.velocityProperty.value = body.velocityProperty.value.plus( acceleration.plus( previousAcceleration ).times( 0.5 * dt ) );
       body.previousAcceleration = body.accelerationProperty.value;
     } );

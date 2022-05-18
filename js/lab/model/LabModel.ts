@@ -10,20 +10,20 @@
  import Body from '../../common/model/Body.js';
  import Vector2 from '../../../../dot/js/Vector2.js';
  import Engine from '../../common/model/Engine.js';
- import MySolarSystemModel, { MySolarSystemModelOptions } from '../../common/model/MySolarSystemModel.js';
+ import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
  import optionize from '../../../../phet-core/js/optionize.js';
  
- type LabModelOptions = Omit<MySolarSystemModelOptions, 'engineFactory'>;
+ type LabModelOptions = Omit<CommonModelOptions, 'engineFactory'>;
  
- class LabModel extends MySolarSystemModel {
+ class LabModel extends CommonModel {
    constructor( providedOptions: LabModelOptions ) {
-     const options = optionize<LabModelOptions, {}, MySolarSystemModelOptions>()( {
+     const options = optionize<LabModelOptions, {}, CommonModelOptions>()( {
        engineFactory: bodies => new Engine( bodies )
      }, providedOptions );
      super( options );
    }
  
-   repopulateBodies(): void {
+   createBodies(): void {
      // Clear out the bodies array and create N new random bodies
      this.bodies.clear();
      this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );

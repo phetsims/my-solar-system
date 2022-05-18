@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import { FlowBox, Text } from '../../../../scenery/js/imports.js';
-import IntroModel from '../model/IntroModel.js';
+import IntroModel from '../../intro/model/IntroModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
