@@ -13,12 +13,13 @@
  import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
  import optionize from '../../../../phet-core/js/optionize.js';
  
- type LabModelOptions = Omit<CommonModelOptions, 'engineFactory'>;
+ type LabModelOptions = Omit<CommonModelOptions, 'engineFactory' | 'isLab'>;
  
  class LabModel extends CommonModel {
    constructor( providedOptions: LabModelOptions ) {
      const options = optionize<LabModelOptions, {}, CommonModelOptions>()( {
-       engineFactory: bodies => new Engine( bodies )
+       engineFactory: bodies => new Engine( bodies ),
+       isLab: true
      }, providedOptions );
      super( options );
    }

@@ -15,12 +15,13 @@ import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-type IntroModelOptions = Omit<CommonModelOptions, 'engineFactory'>;
+type IntroModelOptions = Omit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class IntroModel extends CommonModel {
   constructor( providedOptions: IntroModelOptions ) {
     const options = optionize<IntroModelOptions, {}, CommonModelOptions>()( {
-      engineFactory: bodies => new Engine( bodies )
+      engineFactory: bodies => new Engine( bodies ),
+      isLab: false
     }, providedOptions );
     super( options );
   }

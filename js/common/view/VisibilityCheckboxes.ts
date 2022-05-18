@@ -8,7 +8,6 @@
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { FlowBox, Image, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import pathIcon_png from '../../../images/pathIcon_png.js';
@@ -22,20 +21,20 @@ import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
+import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
 const pathString = mySolarSystemStrings.path;
 const gridString = mySolarSystemStrings.grid;
 const massString = mySolarSystemStrings.mass;
 
 // constants
-const FONT = new PhetFont( 14 );
 const CHECKBOX_OPTIONS = {
   boxWidth: 14,
   checkboxColor: MySolarSystemColors.foregroundProperty,
   checkboxColorBackground: MySolarSystemColors.backgroundProperty
 };
 const TEXT_OPTIONS = {
-  font: FONT,
+  font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
 };
 

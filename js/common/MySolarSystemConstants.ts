@@ -6,6 +6,7 @@
  * @author Jonathan Olson
  */
 
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import mySolarSystem from '../mySolarSystem.js';
 import MySolarSystemColors from './MySolarSystemColors.js';
 
@@ -27,7 +28,8 @@ const MySolarSystemConstants = {
     xMargin: PANEL_X_MARGIN,
     scale: 1.05,
     fill: MySolarSystemColors.controlPanelFillProperty
-  }
+  },
+  PANEL_FONT: new PhetFont( 14 )
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );

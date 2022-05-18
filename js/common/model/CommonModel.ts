@@ -19,6 +19,7 @@ import Engine from './Engine.js';
 import CenterOfMass from './CenterOfMass.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
+import LabModes from './LabModes.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -28,6 +29,7 @@ const timeFormatter = new Map<TimeSpeed, number>( [
 
 type SelfOptions = {
 engineFactory: ( bodies: ObservableArray<Body> ) => Engine;
+isLab: boolean;
 tandem: Tandem;
 }
 
@@ -51,6 +53,9 @@ abstract class CommonModel {
 
   zoomLevelProperty: RangedProperty;
 
+  isLab: boolean;
+  labModeProperty: EnumerationProperty<LabModes>;
+
 
   constructor( providedOptions: CommonModelOptions ) {
     this.bodies = createObservableArray();
@@ -73,13 +78,16 @@ abstract class CommonModel {
     } );
 
     this.pathVisibleProperty = new Property<boolean>( false );
-    this.gridVisibleProperty = new Property<boolean>( true );
+    this.gridVisibleProperty = new Property<boolean>( false );
     this.gravityVisibleProperty = new Property<boolean>( false );
     this.velocityVisibleProperty = new Property<boolean>( false );
 
     this.zoomLevelProperty = new NumberProperty( 1, {
       range: new Range( 0.5, 2 )
     } ).asRanged();
+
+    this.isLab = providedOptions.isLab;
+    this.labModeProperty = new EnumerationProperty( LabModes.TWO_BODY_MODE );
   }
 
   abstract createBodies(): void

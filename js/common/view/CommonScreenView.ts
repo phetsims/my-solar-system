@@ -47,12 +47,14 @@ class CommonScreenView extends ScreenView {
   bodiesLayerNode: Node;
   ComponentsLayerNode: Node;
   UILayerNode: Node;
+  topLayer: Node;
 
   constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( {
       tandem: providedOptions.tandem
     } );
 
+    this.topLayer = new Node();
     this.bodiesLayerNode = new Node();
     this.ComponentsLayerNode = new Node();
     this.UILayerNode = new Node();
@@ -60,6 +62,7 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.bodiesLayerNode );
     this.addChild( this.ComponentsLayerNode );
     this.addChild( this.UILayerNode );
+    this.addChild( this.topLayer );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
@@ -173,7 +176,8 @@ class CommonScreenView extends ScreenView {
 
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
-    this.UILayerNode.addChild( new AlignBox( new Panel( new MySolarSystemControls( model ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+    this.UILayerNode.addChild( new AlignBox( new Panel(
+      new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
       {
      alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );
