@@ -6,6 +6,7 @@
  * @author Agustín Vallejo
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -17,6 +18,9 @@ class Body {
   readonly velocityProperty: Property<Vector2>;
   readonly accelerationProperty: Property<Vector2>;
   readonly forceProperty: Property<Vector2>;
+  readonly userModifiedPositionEmitter: Emitter;
+  readonly userModifiedVelocityEmitter: Emitter;
+
 
   // Previous values for velocity Verlet algorithm
   previousAcceleration: Vector2;
@@ -30,6 +34,9 @@ class Body {
     this.forceProperty = new Property<Vector2>( Vector2.ZERO );
     this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
     this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
+
+    this.userModifiedPositionEmitter = new Emitter();
+    this.userModifiedVelocityEmitter = new Emitter();
   }
 
   reset(): void {

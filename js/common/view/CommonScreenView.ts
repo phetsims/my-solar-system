@@ -33,6 +33,7 @@ import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import CommonModel from '../model/CommonModel.js';
+import DraggableVectorNode from './DraggableVectorNode.js';
 
 // constants
 const MARGIN = 5;
@@ -84,9 +85,9 @@ class CommonScreenView extends ScreenView {
       return new BodyNode( body, modelViewTransform );
     };
     const velocityVectorFactory = ( body: Body ) => {
-      return new VectorNode(
+      return new DraggableVectorNode(
         body, new Property( modelViewTransform ), model.velocityVisibleProperty, body.velocityProperty,
-        1, { fill: PhetColorScheme.VELOCITY }
+        1, 'V', { fill: PhetColorScheme.VELOCITY }
         );
     };
     const forceVectorFactory = ( body: Body ) => {

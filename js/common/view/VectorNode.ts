@@ -16,7 +16,7 @@ import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 class VectorNode extends ArrowNode {
-  private readonly multilink: UnknownMultilink;
+  multilink: UnknownMultilink;
 
   constructor(
     body: Body,
@@ -32,7 +32,7 @@ class VectorNode extends ArrowNode {
       headWidth: 15,
       tailWidth: 5,
       stroke: '#404040',
-      pickable: false,
+      // pickable: false,
       boundsMethod: 'none',
       isHeadDynamic: true,
       scaleTailToo: true
