@@ -28,21 +28,21 @@ class Engine {
   update( bodies: ObservableArray<Body> ): void {
     // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
-  }
-
-  restart(): void {
-    this.resetAccelerations();
-    this.applyForces();
+    this.updateForces();
   }
 
   reset(): void {
-    this.restart();
+    this.updateForces();
   }
 
   run( dt: number ): void {
+    this.updateForces();
+    this.verlet( dt );
+  }
+
+  updateForces(): void {
     this.resetAccelerations();
     this.applyForces();
-    this.verlet( dt );
   }
 
   resetAccelerations(): void {

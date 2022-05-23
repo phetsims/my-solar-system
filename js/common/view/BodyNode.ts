@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
@@ -24,7 +24,7 @@ class BodyNode extends Node {
     super();
     this.body = body;
     this.initialMass = 200; //body.massProperty.value;
-    this.sphereNode = new ShadedSphereNode( 1, { mainColor: 'yellow' } );
+    this.sphereNode = new ShadedSphereNode( 1, { mainColor: 'yellow', cursor: 'pointer' } );
     this.sphereNode.setScaleMagnitude( this.massToScale( body.massProperty.value ) );
     this.addChild( this.sphereNode );
 
@@ -32,6 +32,18 @@ class BodyNode extends Node {
       this.translation = modelViewTransform.modelToViewPosition( position );
     };
     this.body.positionProperty.link( this.positionListener );
+
+    let PointerDistanceFromCenter: Vector2 | null = null;
+
+    const dragListener = new DragListener( {
+      start: ( event: PressListenerEvent ) => {
+        PointerDistanceFromCenter = modelViewTransform.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
+      },
+      drag: ( event: PressListenerEvent ) => {
+        body.positionProperty.value = modelViewTransform.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
+      }
+    } );
+    this.sphereNode.addInputListener( dragListener );
 
     this.massListener = mass => {
       this.sphereNode.setScaleMagnitude( this.massToScale( mass ) );

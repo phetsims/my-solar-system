@@ -62,7 +62,7 @@ abstract class CommonModel {
     this.createBodies();
     this.centerOfMass = new CenterOfMass( this.bodies );
     this.engine = providedOptions.engineFactory( this.bodies );
-    this.engine.restart();
+    this.engine.reset();
 
     // Time settings
     // timeScale controls the velocity of time
@@ -93,10 +93,9 @@ abstract class CommonModel {
   abstract createBodies(): void
 
   restart(): void {
+    this.isPlayingProperty.value = false;
     this.bodies.forEach( body => body.reset() );
-    this.engine.update( this.bodies );
-    this.engine.restart();
-    this.centerOfMass.updateCenterOfMassPosition();
+    this.update();
     this.timeProperty.value = 0;
   }
 
@@ -104,12 +103,18 @@ abstract class CommonModel {
     this.engine.run( 1 / 60 );
     this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
   }
+
+  update(): void {
+    this.engine.update( this.bodies );
+    this.centerOfMass.updateCenterOfMassPosition();
+  }
   
   reset(): void {
     this.restart();
   }
   
   step( dt: number ): void {
+    this.update();
     if ( this.isPlayingProperty.value ) {
       this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
       this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
