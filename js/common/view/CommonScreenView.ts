@@ -40,6 +40,10 @@ const MARGIN = 5;
 
 type SelfOptions = {
   tandem: Tandem;
+  controlsOptions?: {
+    orbitalInformation?: FlowBox;
+    visibilityInformation?: FlowBox;
+  };
 };
 
 export type CommonScreenViewOptions = SelfOptions;
@@ -120,7 +124,8 @@ class CommonScreenView extends ScreenView {
     this.ComponentsLayerNode.addChild( centerOfMassNode );
 
     // UI ----------------------------------------------------------------------------------
-    this.addChild( new AlignBox( new MagnifyingGlassZoomButtonGroup(
+    // Zoom Buttons
+    this.UILayerNode.addChild( new AlignBox( new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
       {
         spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 }
@@ -130,7 +135,6 @@ class CommonScreenView extends ScreenView {
       }
       ) );
 
-    // Add play/pause, rewind, and step buttons
     const timeControlNode = new MySolarSystemTimeControlNode( model,
       {
         restartListener: () => model.restart(),

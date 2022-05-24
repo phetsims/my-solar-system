@@ -19,5 +19,17 @@
   },
   "velocity": {
     "value": "Velocity"
+  },
+  "orbital": {
+    "value": "Orbital Information"
+  },
+  "axis": {
+    "value": "Axis"
+  },
+  "apoapsis": {
+    "value": "Apoapsis"
+  },
+  "periapsis": {
+    "value": "Periapsis"
   }
 }

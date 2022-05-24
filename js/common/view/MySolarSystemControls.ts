@@ -7,7 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { FlowBox, Node, Text, VDivider } from '../../../../scenery/js/imports.js';
+import { FlowBox, FlowBoxOptions, Node, Text, VDivider } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -16,22 +16,33 @@ import mySolarSystem from '../../mySolarSystem.js';
 import LabModes from '../model/LabModes.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import ArrowsCheckboxNode from './ArrowsCheckboxNode.js';
-import VisibilityCheckboxes from './VisibilityCheckboxes.js';
+import OrbitalInformation from './OrbitalInformation.js';
+import VisibilityInformation from './VisibilityInformation.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
 };
 
-type MySolarSystemControlsOptions = {
+const VDIVIDER_OPTIONS = {
+  lineWidth: 2,
+  stroke: MySolarSystemConstants.CONTROL_PANEL_STROKE,
+  layoutOptions: {
+    yMargin: 5
+  }
+};
+
+type SelfOptions = {
   tandem: Tandem;
 };
+
+type MySolarSystemControlsOptions = SelfOptions & FlowBoxOptions;
 
 class MySolarSystemControls extends FlowBox {
 
   constructor(
     model: IntroModel,
     topLayer: Node,
-    providedOptions?: Partial<MySolarSystemControlsOptions>
+    providedOptions?: MySolarSystemControlsOptions
     ) {
     super( {
       children: [
@@ -40,15 +51,11 @@ class MySolarSystemControls extends FlowBox {
           new ComboBoxItem( new Text( 'Three Bodies', TEXT_OPTIONS ), LabModes.THREE_BODY_MODE ),
           new ComboBoxItem( new Text( 'Four Bodies', TEXT_OPTIONS ), LabModes.FOUR_BODY_MODE )
         ], model.labModeProperty, topLayer ) ] : [] ),
-        new VisibilityCheckboxes( model ),
-        new VDivider( {
-          lineWidth: 2,
-          stroke: MySolarSystemConstants.CONTROL_PANEL_STROKE,
-          layoutOptions: {
-            yMargin: 5
-          }
-        } ),
-        new ArrowsCheckboxNode( model )
+        new OrbitalInformation( model ),
+        new VDivider( VDIVIDER_OPTIONS ),
+        new ArrowsCheckboxNode( model ),
+        new VDivider( VDIVIDER_OPTIONS ),
+        new VisibilityInformation( model )
       ],
       spacing: 4,
       align: 'left',

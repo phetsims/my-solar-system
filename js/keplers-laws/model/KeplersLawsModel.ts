@@ -7,34 +7,38 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Body from '../../common/model/Body.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Engine from '../../common/model/Engine.js';
+import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to KeplersLawsModel here
-};
+type KeplersLawsModelOptions = Omit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
-type KeplersLawsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+class KeplersLawsModel extends CommonModel {
+  apoapsisVisibleProperty: Property<boolean>;
+  periapsisVisibleProperty: Property<boolean>;
+  axisVisibleProperty: Property<boolean>;
 
-class KeplersLawsModel {
 
   constructor( providedOptions: KeplersLawsModelOptions ) {
-    //TODO
+    const options = optionize<KeplersLawsModelOptions, {}, CommonModelOptions>()( {
+      engineFactory: bodies => new Engine( bodies ),
+      isLab: false
+    }, providedOptions );
+    super( options );
+
+    this.apoapsisVisibleProperty = new Property<boolean>( false );
+    this.periapsisVisibleProperty = new Property<boolean>( false );
+    this.axisVisibleProperty = new Property<boolean>( false );
   }
 
-  /**
-   * Resets the model.
-   */
-  public reset(): void {
-    //TODO
-  }
-
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    //TODO
+  createBodies(): void {
+    // Clear out the bodies array and create N new random bodies
+    this.bodies.clear();
+    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
+    this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 }
 

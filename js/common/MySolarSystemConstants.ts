@@ -29,7 +29,8 @@ const MySolarSystemConstants = {
     scale: 1.05,
     fill: MySolarSystemColors.controlPanelFillProperty
   },
-  PANEL_FONT: new PhetFont( 14 )
+  PANEL_FONT: new PhetFont( 14 ),
+  TITLE_FONT: new PhetFont( { size: 14, style: 'oblique' } )
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );
