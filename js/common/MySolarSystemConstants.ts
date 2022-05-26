@@ -29,8 +29,23 @@ const MySolarSystemConstants = {
     scale: 1.05,
     fill: MySolarSystemColors.controlPanelFillProperty
   },
-  PANEL_FONT: new PhetFont( 14 ),
-  TITLE_FONT: new PhetFont( { size: 14, style: 'oblique' } )
+  CHECKBOX_OPTIONS: {
+    boxWidth: 14,
+    checkboxColor: MySolarSystemColors.foregroundProperty,
+    checkboxColorBackground: MySolarSystemColors.backgroundProperty
+  },
+  VDIVIDER_OPTIONS: {
+    lineWidth: 2,
+    stroke: CONTROL_PANEL_STROKE,
+    layoutOptions: {
+      yMargin: 5
+    }
+  },
+  PANEL_FONT: new PhetFont( 16 ),
+  TITLE_FONT: new PhetFont( { size: 20, weight: 'bold' } ),
+  GRID: {
+    spacing: 100
+  }
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );

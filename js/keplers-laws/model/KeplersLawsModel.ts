@@ -21,6 +21,11 @@ class KeplersLawsModel extends CommonModel {
   periapsisVisibleProperty: Property<boolean>;
   axisVisibleProperty: Property<boolean>;
 
+  areasVisibleProperty: Property<boolean>;
+  dotsVisibleProperty: Property<boolean>;
+  sweepAreaVisibleProperty: Property<boolean>;
+  areaGraphVisibleProperty: Property<boolean>;
+  periodDivisionProperty: Property<number>;
 
   constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, {}, CommonModelOptions>()( {
@@ -32,6 +37,12 @@ class KeplersLawsModel extends CommonModel {
     this.apoapsisVisibleProperty = new Property<boolean>( false );
     this.periapsisVisibleProperty = new Property<boolean>( false );
     this.axisVisibleProperty = new Property<boolean>( false );
+
+    this.areasVisibleProperty = new Property<boolean>( false );
+    this.dotsVisibleProperty = new Property<boolean>( false );
+    this.sweepAreaVisibleProperty = new Property<boolean>( false );
+    this.areaGraphVisibleProperty = new Property<boolean>( false );
+    this.periodDivisionProperty = new Property<number>( 4 );
   }
 
   createBodies(): void {

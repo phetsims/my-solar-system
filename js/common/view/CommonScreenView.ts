@@ -71,12 +71,16 @@ class CommonScreenView extends ScreenView {
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
-    const gridNode = new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 50, this.layoutBounds.center, 28, {
+    const gridNode = new MySolarSystemGridNode(
+      new Property( ModelViewTransform2.createIdentity() ),
+      MySolarSystemConstants.GRID.spacing,
+      this.layoutBounds.center,
+      28, {
       stroke: MySolarSystemColors.gridIconStrokeColorProperty,
-      lineWidth: 1.5
-    } );
-    model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
-    this.UILayerNode.addChild( gridNode );
+      lineWidth: 1
+      } );
+     model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
+     this.UILayerNode.addChild( gridNode );
 
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,

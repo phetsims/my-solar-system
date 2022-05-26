@@ -24,11 +24,6 @@ const pathString = mySolarSystemStrings.path;
 const massString = mySolarSystemStrings.mass;
 
 // constants
-const CHECKBOX_OPTIONS = {
-  boxWidth: 14,
-  checkboxColor: MySolarSystemColors.foregroundProperty,
-  checkboxColorBackground: MySolarSystemColors.backgroundProperty
-};
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
@@ -53,7 +48,7 @@ class OrbitalInformation extends FlowBox {
           new Text( pathString, TEXT_OPTIONS ),
           pathIconImageNode
         ]
-      } ), model.pathVisibleProperty, CHECKBOX_OPTIONS ),
+      } ), model.pathVisibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
       new Checkbox( new FlowBox( {
         spacing: 10,
         children: [
@@ -65,7 +60,7 @@ class OrbitalInformation extends FlowBox {
             scale: 0.5
           } )
         ]
-      } ), model.centerOfMass.visibleProperty, CHECKBOX_OPTIONS )
+      } ), model.centerOfMass.visibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS )
     ];
 
     // increase the touch area of the checkboxes

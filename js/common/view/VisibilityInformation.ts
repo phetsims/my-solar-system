@@ -20,8 +20,10 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
+// import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 
 const gridString = mySolarSystemStrings.grid;
+const measuringTapeString = 'Measuring Tape';
 
 // constants
 const CHECKBOX_OPTIONS = {
@@ -54,7 +56,13 @@ class VisibilityInformation extends FlowBox {
             lineWidth: 1.5
       } )
         ]
-      } ), model.gridVisibleProperty, CHECKBOX_OPTIONS )
+      } ), model.gridVisibleProperty, CHECKBOX_OPTIONS ),
+      new Checkbox( new FlowBox( {
+        spacing: 10,
+        children: [
+          new Text( measuringTapeString, TEXT_OPTIONS )
+        ]
+      } ), model.measuringTapeVisibleProperty, CHECKBOX_OPTIONS )
     ];
 
     // increase the touch area of the checkboxes

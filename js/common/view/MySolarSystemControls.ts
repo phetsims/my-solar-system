@@ -23,13 +23,21 @@ const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
 };
 
-const VDIVIDER_OPTIONS = {
-  lineWidth: 2,
-  stroke: MySolarSystemConstants.CONTROL_PANEL_STROKE,
-  layoutOptions: {
-    yMargin: 5
-  }
-};
+/**
+ * The possible pre-sets for the lab are:
+    Sun and planet
+    Sun, planet, moon
+    Ellipses
+    Hyperbolic
+    Sun, planet, comet
+    Slingshot
+    Double Slingshot
+    Binary star, planet 
+    Trojan asteroid 
+    Four-star ballet
+    Double double
+    Custom
+ */
 
 type SelfOptions = {
   tandem: Tandem;
@@ -37,7 +45,7 @@ type SelfOptions = {
 
 type MySolarSystemControlsOptions = SelfOptions & FlowBoxOptions;
 
-class MySolarSystemControls extends FlowBox {
+export default class MySolarSystemControls extends FlowBox {
 
   constructor(
     model: IntroModel,
@@ -47,14 +55,22 @@ class MySolarSystemControls extends FlowBox {
     super( {
       children: [
         ...( model.isLab ? [ new ComboBox( [
-          new ComboBoxItem( new Text( 'Two Bodies', TEXT_OPTIONS ), LabModes.TWO_BODY_MODE ),
-          new ComboBoxItem( new Text( 'Three Bodies', TEXT_OPTIONS ), LabModes.THREE_BODY_MODE ),
-          new ComboBoxItem( new Text( 'Four Bodies', TEXT_OPTIONS ), LabModes.FOUR_BODY_MODE )
+          new ComboBoxItem( new Text( 'Sun and Planet', TEXT_OPTIONS ), LabModes.SUN_PLANET ),
+          new ComboBoxItem( new Text( 'Sun, Planet and Moon', TEXT_OPTIONS ), LabModes.SUN_PLANET_MOON ),
+          new ComboBoxItem( new Text( 'Sun, Planet and Comet', TEXT_OPTIONS ), LabModes.SUN_PLANET_COMET ),
+          new ComboBoxItem( new Text( 'Ellipses', TEXT_OPTIONS ), LabModes.ELLIPSES ),
+          new ComboBoxItem( new Text( 'Hyperbolic', TEXT_OPTIONS ), LabModes.HYPERBOLIC ),
+          new ComboBoxItem( new Text( 'Slingshot', TEXT_OPTIONS ), LabModes.SLINGSHOT ),
+          new ComboBoxItem( new Text( 'Double Slingshot', TEXT_OPTIONS ), LabModes.DOUBLE_SLINGSHOT ),
+          new ComboBoxItem( new Text( 'Binary Star, Planet', TEXT_OPTIONS ), LabModes.BINARY_STAR_PLANET ),
+          new ComboBoxItem( new Text( 'Four Star Ballet', TEXT_OPTIONS ), LabModes.FOUR_STAR_BALLET ),
+          new ComboBoxItem( new Text( 'Double Double', TEXT_OPTIONS ), LabModes.DOUBLE_DOUBLE ),
+          new ComboBoxItem( new Text( 'Custom', TEXT_OPTIONS ), LabModes.CUSTOM )
         ], model.labModeProperty, topLayer ) ] : [] ),
         new OrbitalInformation( model ),
-        new VDivider( VDIVIDER_OPTIONS ),
+        new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new ArrowsCheckboxNode( model ),
-        new VDivider( VDIVIDER_OPTIONS ),
+        new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new VisibilityInformation( model )
       ],
       spacing: 4,
@@ -67,4 +83,3 @@ class MySolarSystemControls extends FlowBox {
 }
 
 mySolarSystem.register( 'MySolarSystemControls', MySolarSystemControls );
-export default MySolarSystemControls;

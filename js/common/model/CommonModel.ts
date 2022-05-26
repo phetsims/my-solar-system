@@ -47,9 +47,10 @@ abstract class CommonModel {
   timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
   pathVisibleProperty: Property<boolean>;
-  gridVisibleProperty: Property<boolean>;
   gravityVisibleProperty: Property<boolean>;
   velocityVisibleProperty: Property<boolean>;
+  gridVisibleProperty: Property<boolean>;
+  measuringTapeVisibleProperty: Property<boolean>;
 
   zoomLevelProperty: RangedProperty;
 
@@ -78,16 +79,17 @@ abstract class CommonModel {
     } );
 
     this.pathVisibleProperty = new Property<boolean>( false );
-    this.gridVisibleProperty = new Property<boolean>( false );
     this.gravityVisibleProperty = new Property<boolean>( false );
     this.velocityVisibleProperty = new Property<boolean>( false );
+    this.gridVisibleProperty = new Property<boolean>( false );
+    this.measuringTapeVisibleProperty = new Property<boolean>( false );
 
     this.zoomLevelProperty = new NumberProperty( 1, {
       range: new Range( 0.5, 2 )
     } ).asRanged();
 
     this.isLab = providedOptions.isLab;
-    this.labModeProperty = new EnumerationProperty( LabModes.TWO_BODY_MODE );
+    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET );
   }
 
   abstract createBodies(): void

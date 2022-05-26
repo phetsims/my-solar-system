@@ -77,7 +77,7 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
             scale: 0.5
           } )
         ]
-      } ), model.apoapsisVisibleProperty, CHECKBOX_OPTIONS )
+      } ), model.periapsisVisibleProperty, CHECKBOX_OPTIONS )
      ];
  
      // increase the touch area of the checkboxes
