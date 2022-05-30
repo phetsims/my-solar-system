@@ -13,6 +13,11 @@ import Body from './Body.js';
 
 const scratchVector = new Vector2( 0, 0 );
 
+// constants for Forrest Ruth Integration Scheme (FRIS)
+const XI = 0.1786178958448091;
+const LAMBDA = -0.2123418310626054;
+const CHI = -0.06626458266981849;
+
 class Engine {
   // Gravitational constant
   G;
@@ -37,7 +42,8 @@ class Engine {
 
   run( dt: number ): void {
     this.updateForces();
-    this.verlet( dt );
+    // this.verlet( dt );
+    this.FRIS( dt );
   }
 
   updateForces(): void {
@@ -95,6 +101,80 @@ class Engine {
       body.velocityProperty.value = body.velocityProperty.value.plus( acceleration.plus( previousAcceleration ).times( 0.5 * dt ) );
       body.previousAcceleration = body.accelerationProperty.value;
     } );
+
+  }
+
+  updatePositions( dt: number ): void {
+    this.bodies.forEach( body => {
+      body.positionProperty.value = body.positionProperty.value.plus( body.velocityProperty.value.times( dt ) );
+    } );
+  }
+
+  updateVelocities( dt: number ): void {
+    this.bodies.forEach( body => {
+      body.velocityProperty.value = body.velocityProperty.value.plus( body.accelerationProperty.value.times( dt ) );
+    } );
+  }
+  
+  FRIS( dt: number ): void {
+    // Forrest Ruth Integration Scheme (FRIS)
+    
+    //-------------
+    // Step One
+    //--------------
+
+    // update Positions
+    this.updatePositions( XI * dt ); // net time: XI dt
+
+    // update Velocities
+    this.updateVelocities( ( 1 - 2 * LAMBDA ) * dt / 2 ); // net time: (1 - 2 * LAMBDA) * dt / 2
+
+    //-------------
+    // Step Two
+    //--------------
+
+    // update Positions
+    this.updatePositions( CHI * dt ); // net time: (XI+CHI) dt
+
+    // update Velocities
+    this.updateVelocities( LAMBDA * dt ); // net time: dt / 2
+
+    //-------------
+    // Step Three
+    //--------------
+
+    // update Positions
+    this.updatePositions( ( 1 - 2 * ( CHI + XI ) ) * dt ); // net time: (1-(XI+CHI)) dt
+
+    // update Velocities
+    this.updateVelocities( LAMBDA * dt ); // net time: (1/2 + LAMBDA) dt
+
+    //-------------
+    // Step Four
+    //--------------
+
+    // update Positions
+    this.updatePositions( CHI * dt ); // net time: (1-(XI)) dt
+
+    // update Velocities
+    // no update in velocities // net time: (1/2 + LAMBDA) dt
+
+    //-------------
+    // Step Five: last step, these are the final positions and velocities i.e. r(t+dt) and v(t+dt)
+    //--------------
+
+    // IMPORTANT: we need to update the velocities first
+
+    // update Velocities
+    this.updateVelocities( ( 1 - 2 * LAMBDA ) * dt / 2 ); // net time:  dt;
+
+    // update Positions
+    this.updatePositions( XI * dt ); // net time:  dt
+
+    //-------------
+    // Update the new acceleration
+    //-------------
+    // this.updateAccelerations();
 
   }
 }
