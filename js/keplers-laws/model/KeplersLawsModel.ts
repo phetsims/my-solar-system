@@ -7,6 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
+import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Engine from '../../common/model/Engine.js';
@@ -14,7 +15,7 @@ import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.
 import optionize from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 
-type KeplersLawsModelOptions = Omit<CommonModelOptions, 'engineFactory' | 'isLab'>;
+type KeplersLawsModelOptions = OmitStrict<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel {
   apoapsisVisibleProperty: Property<boolean>;
