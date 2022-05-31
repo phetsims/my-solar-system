@@ -20,7 +20,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
-// import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 
 const gridString = mySolarSystemStrings.grid;
 const measuringTapeString = 'Measuring Tape';
@@ -46,6 +46,8 @@ class VisibilityInformation extends FlowBox {
 
   constructor( model: CommonModel, providedOptions?: VisibilityInformationOptions ) {
 
+    const measuringTapeIcon = MeasuringTapeNode.createIcon( { scale: 0.3 } );
+
     const children = [
       new Checkbox( new FlowBox( {
         spacing: 10,
@@ -60,7 +62,8 @@ class VisibilityInformation extends FlowBox {
       new Checkbox( new FlowBox( {
         spacing: 10,
         children: [
-          new Text( measuringTapeString, TEXT_OPTIONS )
+          new Text( measuringTapeString, TEXT_OPTIONS ),
+          measuringTapeIcon
         ]
       } ), model.measuringTapeVisibleProperty, CHECKBOX_OPTIONS )
     ];
