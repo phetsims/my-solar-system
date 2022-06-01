@@ -12,9 +12,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import OmitStrict from '../../../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
-type LabModelOptions = OmitStrict<CommonModelOptions, 'engineFactory' | 'isLab'>;
+type LabModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
  
  class LabModel extends CommonModel {
    constructor( providedOptions: LabModelOptions ) {
