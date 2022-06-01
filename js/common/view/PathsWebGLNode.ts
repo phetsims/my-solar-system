@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { ShaderProgram, WebGLNode } from '../../../../scenery/js/imports.js';
+import { ShaderProgram, WebGLNode, WebGLNodeOptions } from '../../../../scenery/js/imports.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import CommonModel from '../model/CommonModel.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -19,13 +19,14 @@ const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();
 const scratchProjectionMatrix = new Matrix3();
 
+type PathsWebGLNodeOptions = WebGLNodeOptions;
 
 export default class PathsWebGLNode extends WebGLNode {
   model: CommonModel;
   modelViewTransform: ModelViewTransform2;
 
-  constructor( model: CommonModel, modelViewTransform: ModelViewTransform2 ) {
-    super( PathsPainter );
+  constructor( model: CommonModel, modelViewTransform: ModelViewTransform2, providedOptions?: PathsWebGLNodeOptions ) {
+    super( PathsPainter, providedOptions );
     this.model = model;
     this.modelViewTransform = modelViewTransform;
 
@@ -65,7 +66,8 @@ class PathsPainter {
       // Returns the color from the vertex shader
       'void main( void ) {',
       '  vec2 modelPosition = (uMatrixInverse * vec3( vPosition, 1.0 )).xy;',
-      '  gl_FragColor = vec4( vec3( smoothstep( 50.0, 10.0, distance(modelPosition, uBody1Position) ) ), 0.5 );',
+      '  float dist = smoothstep( 50.0, 10.0, distance(modelPosition, uBody1Position) ); ',
+      '  gl_FragColor = vec4( vec3( dist ), 0.5 );',
       '}'
     ].join( '\n' );
 

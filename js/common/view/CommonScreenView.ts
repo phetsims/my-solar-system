@@ -34,7 +34,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import CommonModel from '../model/CommonModel.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
-// import PathsWebGLNode from './PathWebGLNode.js';
+import PathsWebGLNode from './PathsWebGLNode.js';
 
 // constants
 const MARGIN = 5;
@@ -204,7 +204,7 @@ class CommonScreenView extends ScreenView {
      alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
     } ) );
 
-    // this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransform ) );
+    this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransform, { visible: false } ) );
   }
 }
 
