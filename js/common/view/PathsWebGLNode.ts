@@ -12,6 +12,8 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import CommonModel from '../model/CommonModel.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
+import PathsPainter_shader from '../../../shaders/PathsPainter_shader.js';
+import PathsPainter_vert from '../../../shaders/PathsPainter_vert.js';
 
 type painterReturn = 0 | 1;
 
@@ -47,29 +49,10 @@ class PathsPainter {
 
 
     // Simple example for custom shader
-    const vertexShaderSource = [
-      'attribute vec3 aPosition;', // vertex attribute
-      'varying vec2 vPosition;',
-      'void main() {',
-      '  vPosition = aPosition.xy;',
-      '  gl_Position = vec4( aPosition, 1 );',
-      '}'
-    ].join( '\n' );
+    const vertexShaderSource = PathsPainter_vert;
 
     // Simple demo for custom shader
-    const fragmentShaderSource = [
-      'precision mediump float;',
-      'varying vec2 vPosition;',
-      'uniform vec2 uBody1Position;',
-      'uniform mat3 uMatrixInverse;',
-
-      // Returns the color from the vertex shader
-      'void main( void ) {',
-      '  vec2 modelPosition = (uMatrixInverse * vec3( vPosition, 1.0 )).xy;',
-      '  float dist = smoothstep( 50.0, 10.0, distance(modelPosition, uBody1Position) ); ',
-      '  gl_FragColor = vec4( vec3( dist ), 0.5 );',
-      '}'
-    ].join( '\n' );
+    const fragmentShaderSource = PathsPainter_shader;
 
     this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
       attributes: [ 'aPosition' ],
