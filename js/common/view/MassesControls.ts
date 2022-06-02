@@ -12,10 +12,10 @@ import IntroModel from '../../intro/model/IntroModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
+import MySolarSystemSlider from './MySolarSystemSlider.js';
+
 
 type MassesControlsOptions = {
   tandem: Tandem;
@@ -27,10 +27,8 @@ export default class MassesControls extends FlowBox {
 
     const massRange = new RangeWithValue( 1, 300, 100 );
 
-    const numberControl1 = new HSlider( model.bodies[ 0 ].massProperty, massRange,
-      { trackSize: new Dimension2( 200, 5 ), thumbFill: 'yellow', thumbCenterLineStroke: 'black' } );
-    const numberControl2 = new HSlider( model.bodies[ 1 ].massProperty, massRange,
-      { trackSize: new Dimension2( 200, 5 ), thumbFill: 'fuchsia', thumbCenterLineStroke: 'black' } );
+    const numberControl1 = new MySolarSystemSlider( model.bodies[ 0 ].massProperty, massRange, { thumbFill: 'yellow' } );
+    const numberControl2 = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
   
     super( {
       children: [
