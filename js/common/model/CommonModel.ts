@@ -116,9 +116,12 @@ abstract class CommonModel {
   }
   
   step( dt: number ): void {
+    const Ntimes = 100;
     this.update();
     if ( this.isPlayingProperty.value ) {
-      this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
+      for ( let i = 0; i < Ntimes; i++ ) {
+        this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale / Ntimes );
+      }
       this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
       this.centerOfMass.updateCenterOfMassPosition();
     }

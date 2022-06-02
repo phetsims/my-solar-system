@@ -6,28 +6,30 @@
  * @author Agustín Vallejo
  */
 
-import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
+import { DragListener, PressListenerEvent } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
-import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
+import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-class BodyNode extends Node {
+type BodyNodeOptions = ShadedSphereNodeOptions;
+
+export default class BodyNode extends ShadedSphereNode {
   body: Body;
   initialMass: number;
-  sphereNode: ShadedSphereNode;
   positionListener: ( position:Vector2 ) => void;
   massListener: ( mass:number ) => void;
 
-  constructor( body: Body, modelViewTransform: ModelViewTransform2 ) {
-    super();
+  constructor( body: Body, modelViewTransform: ModelViewTransform2, providedOptions?: BodyNodeOptions ) {
+    const options = optionize<BodyNodeOptions, {}, ShadedSphereNodeOptions>()( {
+      cursor: 'pointer'
+    }, providedOptions );
+    super( 1, options );
     this.body = body;
     this.initialMass = 200; //body.massProperty.value;
-    this.sphereNode = new ShadedSphereNode( 1, { mainColor: 'yellow', cursor: 'pointer' } );
-    this.sphereNode.setScaleMagnitude( this.massToScale( body.massProperty.value ) );
-    this.addChild( this.sphereNode );
-
+    this.setScaleMagnitude( this.massToScale( body.massProperty.value ) );
     this.positionListener = position => {
       this.translation = modelViewTransform.modelToViewPosition( position );
     };
@@ -43,17 +45,17 @@ class BodyNode extends Node {
         body.positionProperty.value = modelViewTransform.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
       }
     } );
-    this.sphereNode.addInputListener( dragListener );
+    this.addInputListener( dragListener );
 
     this.massListener = mass => {
-      this.sphereNode.setScaleMagnitude( this.massToScale( mass ) );
+      this.setScaleMagnitude( this.massToScale( mass ) );
     };
 
     this.body.massProperty.link( this.massListener );
   }
 
   massToScale( mass: number ): number {
-    return 200 * mass / this.initialMass + 5;
+    return 20 * mass / this.initialMass + 5;
   }
 
   override dispose(): void {
@@ -65,4 +67,3 @@ class BodyNode extends Node {
 }
 
 mySolarSystem.register( 'BodyNode', BodyNode );
-export default BodyNode;

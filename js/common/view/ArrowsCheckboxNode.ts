@@ -11,7 +11,6 @@ import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -20,12 +19,12 @@ import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import IntroModel from '../../intro/model/IntroModel.js';
+import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
 const velocityString = mySolarSystemStrings.velocity;
 const gravityForceString = mySolarSystemStrings.gravityForce;
 
 // constants
-const FONT = new PhetFont( 14 );
 const ARROW_Y_COORDINATE = -10;
 //REVIEW: Presumably factor out checkbox options and the font for them
 const CHECKBOX_OPTIONS = {
@@ -34,7 +33,7 @@ const CHECKBOX_OPTIONS = {
   checkboxColorBackground: MySolarSystemColors.backgroundProperty
 };
 const TEXT_OPTIONS = {
-  font: FONT,
+  font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
 };
 

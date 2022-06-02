@@ -55,6 +55,8 @@ class CommonScreenView extends ScreenView {
   UILayerNode: Node;
   topLayer: Node;
 
+  massesControls: MassesControls;
+
   constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( {
       tandem: providedOptions.tandem
@@ -69,6 +71,9 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.ComponentsLayerNode );
     this.addChild( this.UILayerNode );
     this.addChild( this.topLayer );
+
+    // Add the node for the Masses Sliders
+    this.massesControls = new MassesControls( model );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
@@ -91,7 +96,7 @@ class CommonScreenView extends ScreenView {
 
     // Setting the Factory functions that will create the necessary Nodes
     const bodyNodeFactory = ( body: Body ) => {
-      return new BodyNode( body, modelViewTransform );
+      return new BodyNode( body, modelViewTransform, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } );
     };
     const velocityVectorFactory = ( body: Body ) => {
       return new DraggableVectorNode(
@@ -109,7 +114,7 @@ class CommonScreenView extends ScreenView {
     // The NodeTrackers handle the creation and disposal of Model-View pairs
     const trackers: NodeTracker<any, Node>[] = [
       new NodeTracker<Body, BodyNode>( this.bodiesLayerNode, bodyNodeFactory ),
-      new NodeTracker<Body, VectorNode>( this.ComponentsLayerNode, velocityVectorFactory ),
+      new NodeTracker<Body, DraggableVectorNode>( this.ComponentsLayerNode, velocityVectorFactory ),
       new NodeTracker<Body, VectorNode>( this.ComponentsLayerNode, forceVectorFactory )
     ];
 
@@ -120,9 +125,11 @@ class CommonScreenView extends ScreenView {
     // Set up listeners for object creation and disposal
     model.bodies.elementAddedEmitter.addListener( body => {
       trackers.forEach( tracker => { tracker.add( body );} );
+      this.update();
     } );
     model.bodies.elementRemovedEmitter.addListener( body => {
       trackers.forEach( tracker => { tracker.remove( body );} );
+      this.update();
     } );
 
     const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, modelViewTransform );
@@ -194,7 +201,7 @@ class CommonScreenView extends ScreenView {
 
     // Slider that controls the bodies mass
     this.UILayerNode.addChild( new AlignBox( new Panel(
-      new MassesControls( model ),
+      this.massesControls,
       optionize3<PanelOptions, {}, PanelOptions>()(
         {},
         MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
@@ -205,6 +212,10 @@ class CommonScreenView extends ScreenView {
     } ) );
 
     this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransform, { visible: false } ) );
+  }
+
+  update(): void {
+    this.massesControls.update();
   }
 }
 

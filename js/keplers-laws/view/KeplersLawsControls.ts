@@ -7,7 +7,8 @@
  * @author Agustín Vallejo
  */
 
-import { FlowBox, FlowBoxOptions, Node, Text, VDivider } from '../../../../scenery/js/imports.js';
+import { FlowBox, Node, Text, VDivider } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
@@ -37,16 +38,16 @@ type SelfOptions = {
   tandem: Tandem;
 };
 
-type KeplersLawsControlsOptions = SelfOptions & FlowBoxOptions;
+type KeplersLawsControlsOptions = SelfOptions & PanelOptions;
 
-class KeplersLawsControls extends FlowBox {
+class KeplersLawsControls extends Panel {
 
   constructor(
     model: KeplersLawsModel,
     topLayer: Node,
     providedOptions?: KeplersLawsControlsOptions
     ) {
-    super( {
+    super( new FlowBox( {
       children: [
         new Text( orbitalInformationString, TEXT_OPTIONS ),
         new KeplersLawsOrbitalInformation( model ),
@@ -59,7 +60,7 @@ class KeplersLawsControls extends FlowBox {
       align: 'left',
       stretch: true,
       orientation: 'vertical'
-    } );
+    } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
 
 }

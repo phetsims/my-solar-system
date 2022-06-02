@@ -68,7 +68,7 @@ class Engine {
         const mass2 = body2.massProperty.value;
         const force: Vector2 = this.getForce( body1, body2 );
         body1.forceProperty.value = body1.forceProperty.value.plus( scratchVector.set( force ) );
-        body2.forceProperty.value = body2.forceProperty.value.plus( scratchVector.set( force ) ).multiply( -1 );
+        body2.forceProperty.value = body2.forceProperty.value.minus( scratchVector.set( force ) );
         body1.accelerationProperty.value = body1.forceProperty.value.times( 1 / mass1 );
         body2.accelerationProperty.value = body2.forceProperty.value.times( 1 / mass2 );
       }

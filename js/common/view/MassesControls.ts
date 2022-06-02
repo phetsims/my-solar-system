@@ -7,14 +7,15 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { FlowBox, Text } from '../../../../scenery/js/imports.js';
-import IntroModel from '../../intro/model/IntroModel.js';
+import { FlowBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import MySolarSystemSlider from './MySolarSystemSlider.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
+import CommonModel from '../model/CommonModel.js';
 
 
 type MassesControlsOptions = {
@@ -22,43 +23,42 @@ type MassesControlsOptions = {
 };
 
 export default class MassesControls extends FlowBox {
+  model: CommonModel;
+  massRange: RangeWithValue;
+  tempChildren: Node[];
 
-  constructor( model: IntroModel, providedOptions?: Partial<MassesControlsOptions> ) {
-
-    const massRange = new RangeWithValue( 1, 300, 100 );
-
-    const numberControl1 = new MySolarSystemSlider( model.bodies[ 0 ].massProperty, massRange, { thumbFill: 'yellow' } );
-    const numberControl2 = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
-  
+  constructor( model: CommonModel, providedOptions?: Partial<MassesControlsOptions> ) {
     super( {
-      children: [
-        new Text( 'Mass', { font: new PhetFont( 20 ) } ),
-        new FlowBox( {
-          children: [
-            new ShadedSphereNode( 15, { mainColor: 'yellow' } ),
-            new NumberDisplay( model.bodies[ 0 ].massProperty, massRange ),
-            numberControl1
-          ],
-          orientation: 'horizontal',
-          margin: 5
-        } ),
-        new FlowBox( {
-          children: [
-            new ShadedSphereNode( 15, { mainColor: 'fuchsia' } ),
-            new NumberDisplay( model.bodies[ 1 ].massProperty, massRange ),
-            numberControl2
-          ],
-          orientation: 'horizontal',
-          margin: 5
-        } )
-      ],
       spacing: 4,
       align: 'left',
       stretch: true,
       orientation: 'vertical'
     } );
+    this.model = model;
+    this.massRange = new RangeWithValue( 1, 300, 100 );
+    this.tempChildren = [];
+    this.update();
   }
 
+  update(): void {
+    // Whenever the number of bodies change, repopulate the sliders
+    this.tempChildren = [ new Text( 'Mass', { font: new PhetFont( 20 ) } ) ];
+    for ( let i = 0; i < this.model.bodies.length; i++ ) {
+      const color = MySolarSystemColors.bodiesPalette[ i ];
+      this.tempChildren.push(
+        new FlowBox( {
+          children: [
+            new ShadedSphereNode( 15, { mainColor: color } ),
+            new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange ),
+            new MySolarSystemSlider( this.model.bodies[ i ].massProperty, this.massRange, { thumbFill: color } )
+          ],
+          orientation: 'horizontal',
+          margin: 5
+        } )
+      );
+    }
+    this.children = this.tempChildren;
+  }
 }
 
 mySolarSystem.register( 'MassesControls', MassesControls );

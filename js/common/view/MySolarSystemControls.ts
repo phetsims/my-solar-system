@@ -27,13 +27,13 @@ const TEXT_OPTIONS = {
  * The possible pre-sets for the lab are:
     Sun and planet
     Sun, planet, moon
+    Sun, planet, comet
+    Trojan asteroid 
     Ellipses
     Hyperbolic
-    Sun, planet, comet
     Slingshot
     Double Slingshot
     Binary star, planet 
-    Trojan asteroid 
     Four-star ballet
     Double double
     Custom
@@ -58,6 +58,7 @@ export default class MySolarSystemControls extends FlowBox {
           new ComboBoxItem( new Text( 'Sun and Planet', TEXT_OPTIONS ), LabModes.SUN_PLANET ),
           new ComboBoxItem( new Text( 'Sun, Planet and Moon', TEXT_OPTIONS ), LabModes.SUN_PLANET_MOON ),
           new ComboBoxItem( new Text( 'Sun, Planet and Comet', TEXT_OPTIONS ), LabModes.SUN_PLANET_COMET ),
+          new ComboBoxItem( new Text( 'Trojan Asteroids', TEXT_OPTIONS ), LabModes.TROJAN_ASTEROIDS ),
           new ComboBoxItem( new Text( 'Ellipses', TEXT_OPTIONS ), LabModes.ELLIPSES ),
           new ComboBoxItem( new Text( 'Hyperbolic', TEXT_OPTIONS ), LabModes.HYPERBOLIC ),
           new ComboBoxItem( new Text( 'Slingshot', TEXT_OPTIONS ), LabModes.SLINGSHOT ),

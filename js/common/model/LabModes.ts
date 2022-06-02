@@ -14,13 +14,13 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
  * The possible pre-sets for the lab are:
     Sun and planet
     Sun, planet, moon
+    Sun, planet, comet
+    Trojan asteroid 
     Ellipses
     Hyperbolic
-    Sun, planet, comet
     Slingshot
     Double Slingshot
     Binary star, planet 
-    Trojan asteroid 
     Four-star ballet
     Double double
     Custom
@@ -30,6 +30,7 @@ export default class LabModes extends EnumerationValue {
   static SUN_PLANET = new LabModes();
   static SUN_PLANET_MOON = new LabModes();
   static SUN_PLANET_COMET = new LabModes();
+  static TROJAN_ASTEROIDS = new LabModes();
   static ELLIPSES = new LabModes();
   static HYPERBOLIC = new LabModes();
   static SLINGSHOT = new LabModes();

@@ -37,7 +37,13 @@ const MySolarSystemColors = {
     projector: 'black'
   }, {
     tandem: Tandem.COLORS.createTandem( 'gridIconStrokeColorProperty' )
-  } )
+  } ),
+  bodiesPalette: [
+    'yellow',
+    'magenta',
+    'cyan',
+    'green'
+  ]
 
 };
 

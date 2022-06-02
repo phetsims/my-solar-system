@@ -44,7 +44,7 @@ const MySolarSystemConstants = {
   PANEL_FONT: new PhetFont( 16 ),
   TITLE_FONT: new PhetFont( { size: 20, weight: 'bold' } ),
   GRID: {
-    spacing: 100
+    spacing: 75
   }
 };
 
