@@ -17,7 +17,10 @@
       "phet",
       "adapted-from-phet"
     ],
-    "supportsOutputJS": true
+    "supportsOutputJS": true,
+    "simFeatures": {
+      "supportsSound": true
+    }
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
