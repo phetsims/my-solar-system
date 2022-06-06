@@ -25,11 +25,11 @@ const TEXT_OPTIONS = {
 export default class KeplersLawsSliders extends Panel {
   constructor( model: KeplersLawsModel ) {
     
-    const massRange = new RangeWithValue( 1, 300, 100 );
-    const separationRange = new RangeWithValue( 1, 300, 100 );
+    const massRange = new RangeWithValue( 1, 300, 10 );
+    const separationRange = new RangeWithValue( 50, 200, 150 );
     
-    const massControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'yellow' } );
-    const separationControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, separationRange, { thumbFill: 'fuchsia' } );
+    const massControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
+    const separationControl = new MySolarSystemSlider( model.separationProperty, separationRange, { thumbFill: 'fuchsia' } );
 
     const options = optionize3<PanelOptions, {}, PanelOptions>()(
        {},

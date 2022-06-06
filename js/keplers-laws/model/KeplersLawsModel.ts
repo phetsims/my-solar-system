@@ -28,6 +28,8 @@ class KeplersLawsModel extends CommonModel {
   areaGraphVisibleProperty: Property<boolean>;
   periodDivisionProperty: Property<number>;
 
+  separationProperty: Property<number>;
+
   constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, {}, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
@@ -44,6 +46,13 @@ class KeplersLawsModel extends CommonModel {
     this.sweepAreaVisibleProperty = new Property<boolean>( false );
     this.areaGraphVisibleProperty = new Property<boolean>( false );
     this.periodDivisionProperty = new Property<number>( 4 );
+
+    this.separationProperty = new Property<number>( 150 );
+    this.separationProperty.link( separation => {
+      this.softReset();
+      this.bodies[ 1 ].positionProperty.value = new Vector2( separation, 0 );
+      // this.bodies[ 1 ].positionProperty.initialValue.x = separation;
+    } );
   }
 
   createBodies(): void {
@@ -51,6 +60,16 @@ class KeplersLawsModel extends CommonModel {
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
+  }
+
+  softReset(): void {
+    // Calls reset only on the super to avoid reentries on separationProperty
+    super.reset();
+  }
+
+  override reset(): void {
+    super.reset();
+    this.separationProperty.reset();
   }
 }
 

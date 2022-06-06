@@ -27,6 +27,7 @@ import KeplersLawsControls from './KeplersLawsControls.js';
 import AreasAccordionBox from './AreasAccordionBox.js';
 import KeplersLawsSliders from './KeplersLawsSliders.js';
 import LawButton from './LawButton.js';
+import BodyNode from '../../common/view/BodyNode.js';
 
 // constants
 const MARGIN = 5;
@@ -79,11 +80,17 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
   this.UILayerNode.addChild( gridNode );
 
-//  const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-//    Vector2.ZERO,
-//    this.layoutBounds.center,
-//    1
-//  );
+  const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+    Vector2.ZERO,
+    new Vector2( this.layoutBounds.center.x, 0.7 * this.layoutBounds.center.y ),
+    1
+  );
+
+  model.bodies.forEach( body => {
+    this.bodiesLayerNode.addChild(
+      new BodyNode( body, modelViewTransform, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } )
+      );
+  } );
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons
