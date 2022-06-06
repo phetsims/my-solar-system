@@ -116,7 +116,7 @@ abstract class CommonModel {
   }
   
   step( dt: number ): void {
-    const Ntimes = 100;
+    const Ntimes = 400 / this.bodies.length;
     this.update();
     if ( this.isPlayingProperty.value ) {
       for ( let i = 0; i < Ntimes; i++ ) {

@@ -6,6 +6,7 @@
  * @author Agustín Vallejo
  */
 
+import mySolarSystem from '../../mySolarSystem.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -13,7 +14,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { AlignBox, FlowBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -26,10 +26,14 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
 import AreasAccordionBox from './AreasAccordionBox.js';
 import KeplersLawsSliders from './KeplersLawsSliders.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import LawButton from './LawButton.js';
 
 // constants
 const MARGIN = 5;
+
+const TEXT_OPTIONS = {
+  font: MySolarSystemConstants.PANEL_FONT
+};
 
 type SelfOptions = {
 tandem: Tandem;
@@ -150,8 +154,8 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   // Slider that controls the small's body mass and its separation to the star
   this.UILayerNode.addChild( new AlignBox( new FlowBox( {
     children: [
-      new RectangularPushButton( { content: new Text( '1st and 2nd Laws' ), minHeight: 100 } ),
-      new RectangularPushButton( { content: new Text( '3rd Law' ), minHeight: 100 } ),
+      new LawButton( new Text( '1st & 2nd Laws', TEXT_OPTIONS ) ),
+      new LawButton( new Text( '3rd Law', TEXT_OPTIONS ) ),
       new KeplersLawsSliders( model )
     ],
     orientation: 'horizontal',

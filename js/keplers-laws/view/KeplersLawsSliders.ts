@@ -18,7 +18,7 @@ import MySolarSystemSlider from '../../common/view/MySolarSystemSlider.js';
 
 // constants
 const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.TITLE_FONT,
+  font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.backgroundProperty
 };
 
@@ -44,7 +44,7 @@ export default class KeplersLawsSliders extends Panel {
         new Text( 'Initial Separation', TEXT_OPTIONS ),
         separationControl
       ],
-      spacing: 0,
+      yMargin: 5,
       margin: 10,
       orientation: 'vertical',
       align: 'left'
