@@ -25,10 +25,10 @@ const TEXT_OPTIONS = {
 export default class KeplersLawsSliders extends Panel {
   constructor( model: KeplersLawsModel ) {
     
-    const massRange = new RangeWithValue( 1, 300, 10 );
+    // const massRange = new RangeWithValue( 1, 300, 10 );
     const separationRange = new RangeWithValue( 50, 200, 150 );
     
-    const massControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
+    // const massControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
     const separationControl = new MySolarSystemSlider( model.separationProperty, separationRange, { thumbFill: 'fuchsia' } );
 
     const options = optionize3<PanelOptions, {}, PanelOptions>()(
@@ -39,8 +39,8 @@ export default class KeplersLawsSliders extends Panel {
     
     super( new FlowBox( {
       children: [
-        new Text( 'Mass', TEXT_OPTIONS ),
-        massControl,
+        // new Text( 'Mass', TEXT_OPTIONS ),
+        // massControl,
         new Text( 'Initial Separation', TEXT_OPTIONS ),
         separationControl
       ],

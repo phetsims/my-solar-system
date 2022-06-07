@@ -44,9 +44,7 @@ const HBOX_OPTIONS = {
   spacing: SPACING
 };
 
-type ArrowsCheckboxNodeSelfOptions = {};
-
-type ArrowsCheckboxNodeOptions = ArrowsCheckboxNodeSelfOptions & VBoxOptions;
+type ArrowsCheckboxNodeOptions = VBoxOptions;
 
 class ArrowsCheckboxNode extends VBox {
 
@@ -84,7 +82,7 @@ class ArrowsCheckboxNode extends VBox {
       checkboxNode.touchArea = Shape.rectangle( -5, bounds.centerY - touchAreaHeight / 2, bounds.width + 10, touchAreaHeight );
     }
 
-    super( optionize<ArrowsCheckboxNodeOptions, ArrowsCheckboxNodeSelfOptions, VBoxOptions>()( {
+    super( optionize<ArrowsCheckboxNodeOptions, {}, VBoxOptions>()( {
       excludeInvisibleChildrenFromBounds: true,
       children: children,
       spacing: SPACING,

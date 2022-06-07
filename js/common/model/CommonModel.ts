@@ -51,6 +51,8 @@ abstract class CommonModel {
   velocityVisibleProperty: Property<boolean>;
   gridVisibleProperty: Property<boolean>;
   measuringTapeVisibleProperty: Property<boolean>;
+  valuesVisibleProperty: Property<boolean>;
+  moreDataProperty: Property<boolean>;
 
   zoomLevelProperty: RangedProperty;
 
@@ -83,6 +85,8 @@ abstract class CommonModel {
     this.velocityVisibleProperty = new Property<boolean>( false );
     this.gridVisibleProperty = new Property<boolean>( false );
     this.measuringTapeVisibleProperty = new Property<boolean>( false );
+    this.valuesVisibleProperty = new Property<boolean>( false );
+    this.moreDataProperty = new Property<boolean>( false );
 
     this.zoomLevelProperty = new NumberProperty( 1, {
       range: new Range( 0.5, 2 )
@@ -124,6 +128,9 @@ abstract class CommonModel {
       }
       this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
       this.centerOfMass.updateCenterOfMassPosition();
+    }
+    if ( this.pathVisibleProperty ) {
+      this.bodies.forEach( body => body.addPathPoint );
     }
   }
 }

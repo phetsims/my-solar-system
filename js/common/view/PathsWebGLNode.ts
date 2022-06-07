@@ -56,7 +56,7 @@ class PathsPainter {
 
     this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
       attributes: [ 'aPosition' ],
-      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uBody1Position', 'uMatrixInverse' ]
+      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uBody1Positions', 'uMatrixInverse' ]
     } );
     
     this.vertexBuffer = gl.createBuffer()!;
@@ -88,8 +88,8 @@ class PathsPainter {
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );
 
-    const bodyPosition = this.node.model.bodies[ 1 ].positionProperty.value;
-    gl.uniform2f( this.shaderProgram.uniformLocations.uBody1Position, bodyPosition.x, bodyPosition.y );
+    // const bodyPositionPath = this.node.model.bodies[ 1 ].path;
+    // gl.uniform2fv( this.shaderProgram.uniformLocations.uBody1Positions, bodyPositionPath.getArrayCopy() );
 
     // actually draw it
     gl.drawArrays( gl.TRIANGLE_STRIP, 0, 4 );

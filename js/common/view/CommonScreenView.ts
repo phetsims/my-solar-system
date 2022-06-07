@@ -12,7 +12,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { AlignBox, FlowBox, Node } from '../../../../scenery/js/imports.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Body from '../model/Body.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
@@ -26,8 +26,6 @@ import VectorNode from './VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import NodeTracker from './NodeTracker.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
-import MassesControls from './MassesControls.js';
-import { optionize3 } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -35,9 +33,7 @@ import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/Magnifyi
 import CommonModel from '../model/CommonModel.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
 import PathsWebGLNode from './PathsWebGLNode.js';
-
-// constants
-const MARGIN = 5;
+import MassesControlPanel from './MassesControlPanel.js';
 
 type SelfOptions = {
   tandem: Tandem;
@@ -55,7 +51,7 @@ class CommonScreenView extends ScreenView {
   UILayerNode: Node;
   topLayer: Node;
 
-  massesControls: MassesControls;
+  massesControlPanel: MassesControlPanel;
 
   constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( {
@@ -73,7 +69,7 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.topLayer );
 
     // Add the node for the Masses Sliders
-    this.massesControls = new MassesControls( model );
+    this.massesControlPanel = new MassesControlPanel( model, { fill: 'white' } );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
@@ -90,7 +86,7 @@ class CommonScreenView extends ScreenView {
 
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
-      this.layoutBounds.center,
+      new Vector2( this.layoutBounds.center.x, 0.9 * this.layoutBounds.center.y ),
       1
     );
 
@@ -143,7 +139,7 @@ class CommonScreenView extends ScreenView {
         spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 }
       } ),
       {
-        alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'top'
+        alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'top'
       }
       ) );
 
@@ -153,7 +149,7 @@ class CommonScreenView extends ScreenView {
         stepForwardListener: () => model.stepForward(),
         tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
       } );
-    timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MARGIN ) );
+    timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MySolarSystemConstants.MARGIN ) );
 
     const clockNode = new FlowBox( {
       children: [
@@ -188,7 +184,7 @@ class CommonScreenView extends ScreenView {
       spacing: 20
     } ),
     {
-      alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'bottom'
+      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'bottom'
     } ) );
 
     // Add the control panel on top of the canvases
@@ -196,26 +192,14 @@ class CommonScreenView extends ScreenView {
     this.UILayerNode.addChild( new AlignBox( new Panel(
       new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
       {
-     alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
-    } ) );
-
-    // Slider that controls the bodies mass
-    this.UILayerNode.addChild( new AlignBox( new Panel(
-      this.massesControls,
-      optionize3<PanelOptions, {}, PanelOptions>()(
-        {},
-        MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
-        { fill: 'white' }
-        ) ),
-      {
-     alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
+     alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );
 
     this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransform, { visible: false } ) );
   }
 
   update(): void {
-    this.massesControls.update();
+    this.massesControlPanel.update();
   }
 }
 

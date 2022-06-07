@@ -24,6 +24,7 @@ import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js'
 
 const gridString = mySolarSystemStrings.grid;
 const measuringTapeString = 'Measuring Tape';
+const valuesString = 'Values';
 
 // constants
 const CHECKBOX_OPTIONS = {
@@ -65,7 +66,13 @@ class VisibilityInformation extends FlowBox {
           new Text( measuringTapeString, TEXT_OPTIONS ),
           measuringTapeIcon
         ]
-      } ), model.measuringTapeVisibleProperty, CHECKBOX_OPTIONS )
+      } ), model.measuringTapeVisibleProperty, CHECKBOX_OPTIONS ),
+      new Checkbox( new FlowBox( {
+        spacing: 10,
+        children: [
+          new Text( valuesString, TEXT_OPTIONS )
+        ]
+      } ), model.valuesVisibleProperty, CHECKBOX_OPTIONS )
     ];
 
     // increase the touch area of the checkboxes

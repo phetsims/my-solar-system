@@ -82,7 +82,7 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
 
   const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
     Vector2.ZERO,
-    new Vector2( this.layoutBounds.center.x, 0.7 * this.layoutBounds.center.y ),
+    new Vector2( this.layoutBounds.center.x, 0.9 * this.layoutBounds.center.y ),
     1
   );
 
