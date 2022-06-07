@@ -12,15 +12,11 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Property from '../../../../axon/js/Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { DragListener, PressListenerEvent } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Path, PressListenerEvent, Text } from '../../../../scenery/js/imports.js';
 import VectorNode from './VectorNode.js';
 import Body from '../model/Body.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class DraggableVectorNode extends VectorNode {
 
@@ -42,10 +38,6 @@ export default class DraggableVectorNode extends VectorNode {
       providedOptions
       );
 
-    const tail = transformProperty.value.modelToViewPosition( body.positionProperty.value );
-    const force = transformProperty.value.modelToViewDelta( vectorProperty.value.times( scale ) );
-    const tip = force.plus( tail );
-
     // a circle with text (a character) in the center, to help indicate what it represents
     // ("v" for velocity in this sim)
     const ellipse = Shape.ellipse( 0, 0, 18, 18, 0 );
@@ -61,28 +53,13 @@ export default class DraggableVectorNode extends VectorNode {
       fill: Color.gray,
       maxWidth: 25
     } );
-    text.center = tip;
-    grabArea.center = tip;
+    this.tipProperty.link( tip => {
+      text.center = tip;
+      grabArea.center = tip;
+    } );
 
     this.addChild( grabArea );
     this.addChild( text );
-
-    // Center the grab area on the tip when any of its dependencies change
-    this.multilink = new Multilink( [ visibleProperty, vectorProperty, body.positionProperty, transformProperty ],
-      ( visible, vector, bodyPosition, transform ) => {
-
-        this.visible = visible;
-
-        if ( visible ) {
-          const tail = transform.modelToViewPosition( bodyPosition );
-          const force = transform.modelToViewDelta( vector.times( scale ) );
-          const tip = force.plus( tail );
-
-          this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
-          grabArea.center = tip;
-          text.center = tip;
-        }
-      } );
 
     // The velocity vector is rooted on the object, so we manage all of its drags by deltas.
     let previousPoint: Vector2 | null = null;

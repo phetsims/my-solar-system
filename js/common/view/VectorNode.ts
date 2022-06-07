@@ -9,14 +9,15 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
+import Property, { AbstractProperty } from '../../../../axon/js/Property.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class VectorNode extends ArrowNode {
-  multilink: UnknownMultilink;
+  protected tipProperty: AbstractProperty<Vector2>;
+  protected tailProperty: AbstractProperty<Vector2>;
 
   constructor(
     body: Body,
@@ -35,26 +36,31 @@ class VectorNode extends ArrowNode {
       // pickable: false,
       boundsMethod: 'none',
       isHeadDynamic: true,
-      scaleTailToo: true
+      scaleTailToo: true,
+      visibleProperty: visibleProperty
     }, providedOptions ) );
 
-    this.multilink = new Multilink( [ visibleProperty, vectorProperty, body.positionProperty, transformProperty ],
-      ( visible, vector, bodyPosition, transform ) => {
+    this.tailProperty = new DerivedProperty( [ body.positionProperty, transformProperty ],
+      ( bodyPosition, transform ) => {
+        return transform.modelToViewPosition( bodyPosition );
+      } );
 
-        this.visible = visible;
+    this.tipProperty = new DerivedProperty( [ visibleProperty, this.tailProperty, vectorProperty, transformProperty ],
+      ( visible, tail, vector, transform ) => {
+        const force = transform.modelToViewDelta( vector.times( scale ) );
+        const tip = force.plus( tail );
 
         if ( visible ) {
-          const tail = transform.modelToViewPosition( bodyPosition );
-          const force = transform.modelToViewDelta( vector.times( scale ) );
-          const tip = force.plus( tail );
-
           this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
         }
+
+        return tip;
       } );
   }
 
   override dispose(): void {
-    this.multilink.dispose();
+    this.tailProperty.dispose();
+    this.tipProperty.dispose();
 
     super.dispose();
   }
