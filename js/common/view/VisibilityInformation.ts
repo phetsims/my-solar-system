@@ -7,9 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { Shape } from '../../../../kite/js/imports.js';
-import { FlowBox, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
+import { HBox, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
@@ -21,17 +19,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
 const gridString = mySolarSystemStrings.grid;
 const measuringTapeString = 'Measuring Tape';
 const valuesString = 'Values';
 
 // constants
-const CHECKBOX_OPTIONS = {
-  boxWidth: 14,
-  checkboxColor: MySolarSystemColors.foregroundProperty,
-  checkboxColorBackground: MySolarSystemColors.backgroundProperty
-};
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
@@ -43,14 +37,14 @@ type SelfOptions = {};
 
 type VisibilityInformationOptions = SelfOptions & VBoxOptions;
 
-class VisibilityInformation extends FlowBox {
+class VisibilityInformation extends VBox {
 
   constructor( model: CommonModel, providedOptions?: VisibilityInformationOptions ) {
 
     const measuringTapeIcon = MeasuringTapeNode.createIcon( { scale: 0.3 } );
 
     const children = [
-      new Checkbox( new FlowBox( {
+      new MySolarSystemCheckbox( new HBox( {
         spacing: 10,
         children: [
           new Text( gridString, TEXT_OPTIONS ),
@@ -59,34 +53,25 @@ class VisibilityInformation extends FlowBox {
             lineWidth: 1.5
       } )
         ]
-      } ), model.gridVisibleProperty, CHECKBOX_OPTIONS ),
-      new Checkbox( new FlowBox( {
+      } ), model.gridVisibleProperty ),
+      new MySolarSystemCheckbox( new HBox( {
         spacing: 10,
         children: [
           new Text( measuringTapeString, TEXT_OPTIONS ),
           measuringTapeIcon
         ]
-      } ), model.measuringTapeVisibleProperty, CHECKBOX_OPTIONS ),
-      new Checkbox( new FlowBox( {
+      } ), model.measuringTapeVisibleProperty ),
+      new MySolarSystemCheckbox( new HBox( {
         spacing: 10,
         children: [
           new Text( valuesString, TEXT_OPTIONS )
         ]
-      } ), model.valuesVisibleProperty, CHECKBOX_OPTIONS )
+      } ), model.valuesVisibleProperty )
     ];
 
-    // increase the touch area of the checkboxes
-    const touchAreaHeight = 32;
-    children.forEach( child => {
-      const VisibilityInformation = child;
-      const bounds = VisibilityInformation.parentToLocalBounds( VisibilityInformation.bounds );
-      VisibilityInformation.touchArea = Shape.rectangle( -5, bounds.centerY - touchAreaHeight / 2, bounds.width + 10, touchAreaHeight );
-    } );
-
-    super( optionize<VisibilityInformationOptions, SelfOptions, FlowBox>()( {
+    super( optionize<VisibilityInformationOptions, SelfOptions, VBox>()( {
       children: children,
       spacing: SPACING,
-      orientation: 'vertical',
       align: 'left',
       stretch: true
     }, providedOptions ) );

@@ -7,7 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { FlowBox, FlowBoxOptions, Node, Text, VDivider } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox, VBoxOptions, VDivider } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -43,9 +43,9 @@ type SelfOptions = {
   tandem: Tandem;
 };
 
-type MySolarSystemControlsOptions = SelfOptions & FlowBoxOptions;
+type MySolarSystemControlsOptions = SelfOptions & VBoxOptions;
 
-export default class MySolarSystemControls extends FlowBox {
+export default class MySolarSystemControls extends VBox {
 
   constructor(
     model: IntroModel,
@@ -76,8 +76,7 @@ export default class MySolarSystemControls extends FlowBox {
       ],
       spacing: 4,
       align: 'left',
-      stretch: true,
-      orientation: 'vertical'
+      stretch: true
     } );
   }
 

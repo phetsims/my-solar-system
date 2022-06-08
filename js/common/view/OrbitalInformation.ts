@@ -7,9 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { Shape } from '../../../../kite/js/imports.js';
-import { FlowBox, Image, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
+import { HBox, Image, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
@@ -19,6 +17,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
+import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
 const pathString = mySolarSystemStrings.path;
 const massString = mySolarSystemStrings.mass;
@@ -35,21 +34,21 @@ type SelfOptions = {};
 
 type OrbitalInformationOptions = SelfOptions & VBoxOptions;
 
-class OrbitalInformation extends FlowBox {
+class OrbitalInformation extends VBox {
 
   constructor( model: CommonModel, providedOptions?: OrbitalInformationOptions ) {
 
     const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
 
     const children = [
-      new Checkbox( new FlowBox( {
+      new MySolarSystemCheckbox( new HBox( {
         spacing: 10,
         children: [
           new Text( pathString, TEXT_OPTIONS ),
           pathIconImageNode
         ]
       } ), model.pathVisibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
-      new Checkbox( new FlowBox( {
+      new MySolarSystemCheckbox( new HBox( {
         spacing: 10,
         children: [
           new Text( massString, TEXT_OPTIONS ),
@@ -63,18 +62,9 @@ class OrbitalInformation extends FlowBox {
       } ), model.centerOfMass.visibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS )
     ];
 
-    // increase the touch area of the checkboxes
-    const touchAreaHeight = 32;
-    children.forEach( child => {
-      const OrbitalInformation = child;
-      const bounds = OrbitalInformation.parentToLocalBounds( OrbitalInformation.bounds );
-      OrbitalInformation.touchArea = Shape.rectangle( -5, bounds.centerY - touchAreaHeight / 2, bounds.width + 10, touchAreaHeight );
-    } );
-
-    super( optionize<OrbitalInformationOptions, SelfOptions, FlowBox>()( {
+    super( optionize<OrbitalInformationOptions, SelfOptions, VBox>()( {
       children: children,
       spacing: SPACING,
-      orientation: 'vertical',
       align: 'left',
       stretch: true
     }, providedOptions ) );

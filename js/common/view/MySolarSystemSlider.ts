@@ -14,7 +14,7 @@ import Range from '../../../../dot/js/Range.js';
 
 type SelfOptions = {};
 
-type MySolarSystemSliderOptions = SelfOptions & HSliderOptions;
+export type MySolarSystemSliderOptions = SelfOptions & HSliderOptions;
 
 export default class MySolarSystemSlider extends HSlider {
   constructor( valueProperty: IProperty<number>, range: Range, providedOptions?: MySolarSystemSliderOptions ) {
