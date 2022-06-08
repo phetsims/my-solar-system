@@ -46,14 +46,14 @@ type SelfOptions = {
 export type CommonScreenViewOptions = SelfOptions;
 
 class CommonScreenView extends ScreenView {
-  bodiesLayerNode: Node;
-  ComponentsLayerNode: Node;
-  UILayerNode: Node;
-  topLayer: Node;
+  private readonly bodiesLayerNode: Node;
+  private readonly ComponentsLayerNode: Node;
+  private readonly UILayerNode: Node;
+  private readonly topLayer: Node;
 
-  massesControlPanel: MassesControlPanel;
+  private readonly massesControlPanel: MassesControlPanel;
 
-  constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
+  public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( {
       tandem: providedOptions.tandem
     } );

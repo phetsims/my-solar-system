@@ -20,10 +20,10 @@ const CHI = -0.06626458266981849;
 
 class Engine {
   // Gravitational constant
-  G;
+  private readonly G: number;
 
   // Array of gravitational interacting bodies
-  bodies: ObservableArray<Body>;
+  private bodies: ObservableArray<Body>;
 
   constructor( bodies: ObservableArray<Body> ) {
     this.G = 10000;

@@ -27,20 +27,20 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
  */
 
 export default class LabModes extends EnumerationValue {
-  static SUN_PLANET = new LabModes();
-  static SUN_PLANET_MOON = new LabModes();
-  static SUN_PLANET_COMET = new LabModes();
-  static TROJAN_ASTEROIDS = new LabModes();
-  static ELLIPSES = new LabModes();
-  static HYPERBOLIC = new LabModes();
-  static SLINGSHOT = new LabModes();
-  static DOUBLE_SLINGSHOT = new LabModes();
-  static BINARY_STAR_PLANET = new LabModes();
-  static FOUR_STAR_BALLET = new LabModes();
-  static DOUBLE_DOUBLE = new LabModes();
-  static CUSTOM = new LabModes();
+  public static SUN_PLANET = new LabModes();
+  public static SUN_PLANET_MOON = new LabModes();
+  public static SUN_PLANET_COMET = new LabModes();
+  public static TROJAN_ASTEROIDS = new LabModes();
+  public static ELLIPSES = new LabModes();
+  public static HYPERBOLIC = new LabModes();
+  public static SLINGSHOT = new LabModes();
+  public static DOUBLE_SLINGSHOT = new LabModes();
+  public static BINARY_STAR_PLANET = new LabModes();
+  public static FOUR_STAR_BALLET = new LabModes();
+  public static DOUBLE_DOUBLE = new LabModes();
+  public static CUSTOM = new LabModes();
 
-  static enumeration = new Enumeration( LabModes );
+  public static enumeration = new Enumeration( LabModes );
 }
 
 mySolarSystem.register( 'LabModes', LabModes );

@@ -17,10 +17,10 @@ import optionize from '../../../../phet-core/js/optionize.js';
 type BodyNodeOptions = ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
-  body: Body;
-  initialMass: number;
-  positionListener: ( position:Vector2 ) => void;
-  massListener: ( mass:number ) => void;
+  public body: Body;
+  public initialMass: number;
+  public positionListener: ( position:Vector2 ) => void;
+  public massListener: ( mass:number ) => void;
 
   constructor( body: Body, modelViewTransform: ModelViewTransform2, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, {}, ShadedSphereNodeOptions>()( {

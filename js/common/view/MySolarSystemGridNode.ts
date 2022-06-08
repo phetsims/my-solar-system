@@ -12,15 +12,18 @@
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Path, PathOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-class MySolarSystemGridNode extends Node {
+type SelfOptions = {};
+
+export type MySolarSystemGridNodeOptions = SelfOptions & PathOptions;
+
+class MySolarSystemGridNode extends Path {
 
   /**
    * @param transformProperty
@@ -29,15 +32,14 @@ class MySolarSystemGridNode extends Node {
    * @param numGridLines - number grid lines on each side of the center
    * @param [providedOptions]
    */
-  constructor( transformProperty: Property<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: object ) {
-
-    providedOptions = merge( {
+  constructor( transformProperty: Property<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: MySolarSystemGridNodeOptions ) {
+    
+    const options = optionize<MySolarSystemGridNodeOptions, SelfOptions, PathOptions>()( {
       lineWidth: 1,
       stroke: 'gray'
     }, providedOptions );
 
-    const path = new Path( null, providedOptions );
-    super( { children: [ path ] } );
+    super( null, options );
 
     transformProperty.link( () => {
       const shape = new Shape();
@@ -54,7 +56,7 @@ class MySolarSystemGridNode extends Node {
         shape.moveTo( x, y1 ).lineTo( x, y2 ); // vertical lines
       }
 
-      path.shape = transformProperty.get().modelToViewShape( shape );
+      this.shape = transformProperty.get().modelToViewShape( shape );
     } );
   }
 }

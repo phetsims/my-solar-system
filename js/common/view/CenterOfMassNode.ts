@@ -14,9 +14,9 @@ import CenterOfMass from '../model/CenterOfMass.js';
 
 
 class CenterOfMassNode extends Node {
-  readonly centerOfMass: CenterOfMass;
-  readonly positionListener: ( position:Vector2 ) => void
-  readonly visibilityListener: ( visible:boolean ) => void
+  private readonly centerOfMass: CenterOfMass;
+  private readonly positionListener: ( position:Vector2 ) => void
+  private readonly visibilityListener: ( visible:boolean ) => void
 
 
   constructor( centerOfMass: CenterOfMass, modelViewTransform: ModelViewTransform2 ) {

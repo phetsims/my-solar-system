@@ -28,7 +28,7 @@ type MassesSlidersOptions = {
 type MassesControlPanelOptions = PanelOptions;
 
 export default class MassesControlPanel extends Panel {
-  sliders: MassesSliders;
+  private sliders: MassesSliders;
 
   constructor( model: CommonModel, providedOptions?: MassesControlPanelOptions ) {
     const sliders = new MassesSliders( model );

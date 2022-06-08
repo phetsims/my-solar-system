@@ -28,36 +28,36 @@ const timeFormatter = new Map<TimeSpeed, number>( [
 ] );
 
 type SelfOptions = {
-engineFactory: ( bodies: ObservableArray<Body> ) => Engine;
-isLab: boolean;
-tandem: Tandem;
+  engineFactory: ( bodies: ObservableArray<Body> ) => Engine;
+  isLab: boolean;
+  tandem: Tandem;
 }
 
 export type CommonModelOptions = SelfOptions;
 
 abstract class CommonModel {
-  bodies: ObservableArray<Body>;
-  centerOfMass: CenterOfMass;
-  engine: Engine;
+  public readonly bodies: ObservableArray<Body>;
+  public readonly centerOfMass: CenterOfMass;
+  private readonly engine: Engine;
 
-  timeScale: number;
-  timeRange: Range;
-  timeProperty: Property<number>;
-  isPlayingProperty: Property<boolean>;
-  timeSpeedProperty: EnumerationProperty<TimeSpeed>;
+  public readonly timeScale: number;
+  public readonly timeRange: Range;
+  public readonly timeProperty: Property<number>;
+  public readonly isPlayingProperty: Property<boolean>;
+  public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
-  pathVisibleProperty: Property<boolean>;
-  gravityVisibleProperty: Property<boolean>;
-  velocityVisibleProperty: Property<boolean>;
-  gridVisibleProperty: Property<boolean>;
-  measuringTapeVisibleProperty: Property<boolean>;
-  valuesVisibleProperty: Property<boolean>;
-  moreDataProperty: Property<boolean>;
+  public readonly pathVisibleProperty: Property<boolean>;
+  public readonly gravityVisibleProperty: Property<boolean>;
+  public readonly velocityVisibleProperty: Property<boolean>;
+  public readonly gridVisibleProperty: Property<boolean>;
+  public readonly measuringTapeVisibleProperty: Property<boolean>;
+  public readonly valuesVisibleProperty: Property<boolean>;
+  public readonly moreDataProperty: Property<boolean>;
 
-  zoomLevelProperty: RangedProperty;
+  public readonly zoomLevelProperty: RangedProperty;
 
-  isLab: boolean;
-  labModeProperty: EnumerationProperty<LabModes>;
+  public readonly isLab: boolean;
+  public readonly labModeProperty: EnumerationProperty<LabModes>;
 
 
   constructor( providedOptions: CommonModelOptions ) {
@@ -69,7 +69,7 @@ abstract class CommonModel {
 
     // Time settings
     // timeScale controls the velocity of time
-    this.timeScale = 0.5;
+    this.timeScale = 0.2;
     this.timeRange = new Range( 0, 1000 );
     this.timeProperty = new Property<number>( 0 );
     this.isPlayingProperty = new Property<boolean>( false, {
@@ -80,6 +80,7 @@ abstract class CommonModel {
       tandem: providedOptions.tandem.createTandem( 'timeSpeedProperty' )
     } );
 
+    // Visibility properties for checkboxes
     this.pathVisibleProperty = new Property<boolean>( false );
     this.gravityVisibleProperty = new Property<boolean>( false );
     this.velocityVisibleProperty = new Property<boolean>( false );
@@ -96,6 +97,9 @@ abstract class CommonModel {
     this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET );
   }
 
+  /**
+   * Abstract method for body creation, every screen model will decide how to implement
+   */
   abstract createBodies(): void
 
   restart(): void {
@@ -110,6 +114,9 @@ abstract class CommonModel {
     this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
   }
 
+  /**
+   * Updating for when the bodies are changed
+   */
   update(): void {
     this.engine.update( this.bodies );
     this.centerOfMass.updateCenterOfMassPosition();

@@ -14,27 +14,28 @@ import mySolarSystem from '../../mySolarSystem.js';
 
 class Body {
   // Unitless body quantities.
-  readonly massProperty: Property<number>;
-  readonly positionProperty: Property<Vector2>;
-  readonly velocityProperty: Property<Vector2>;
-  readonly accelerationProperty: Property<Vector2>;
-  readonly forceProperty: Property<Vector2>;
+  public readonly massProperty: Property<number>;
+  public readonly positionProperty: Property<Vector2>;
+  public readonly velocityProperty: Property<Vector2>;
+  public readonly accelerationProperty: Property<Vector2>;
+  public readonly forceProperty: Property<Vector2>;
 
   // Emitters for various events
-  readonly userModifiedPositionEmitter: Emitter;
-  readonly userModifiedVelocityEmitter: Emitter;
+  public readonly userModifiedPositionEmitter: Emitter;
+  public readonly userModifiedVelocityEmitter: Emitter;
 
   // Array of points for drawing the path
-  readonly path: ObservableArray<Vector2>;
-  pathDistance: number;
-  pathLengthLimit: number;
-  pathDistanceLimit: number;
+  public readonly path: ObservableArray<Vector2>;
+  public pathDistance: number;
+  public pathLengthLimit: number;
+  public pathDistanceLimit: number;
 
   // Previous values for velocity Verlet algorithm
-  previousAcceleration: Vector2;
-  previousPosition: Vector2;
+  public previousAcceleration: Vector2;
+  public previousPosition: Vector2;
 
   constructor( mass: number, position: Vector2, velocity: Vector2 ) {
+    // Physical properties of the body
     this.massProperty = new Property<number>( mass );
     this.positionProperty = new Property<Vector2>( position );
     this.velocityProperty = new Property<Vector2>( velocity );
@@ -43,9 +44,11 @@ class Body {
     this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
     this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
 
+    // Emitters for dragging the body and velocity vector
     this.userModifiedPositionEmitter = new Emitter();
     this.userModifiedVelocityEmitter = new Emitter();
 
+    // Data for rendering the path as a WebGL object
     this.path = createObservableArray();
     this.pathDistance = 0;
     this.pathLengthLimit = 50;
