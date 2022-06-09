@@ -67,7 +67,7 @@ class LabScreenView extends CommonScreenView {
     model.moreDataProperty.link( moreData => {
       this.gridbox.children = [
         new MySolarSystemCheckbox( new Text( 'More data', TEXT_OPTIONS ), model.moreDataProperty, checkboxOptions ),
-        moreData ? this.massesControlPanel : this.fullDataPanel
+        !moreData ? this.massesControlPanel : this.fullDataPanel
         // bodyNumberSpinner
       ];
     } );

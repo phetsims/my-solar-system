@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { GridBox, GridBoxOptions, HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { GridBox, GridBoxOptions, Node, Text } from '../../../../scenery/js/imports.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
@@ -18,6 +18,7 @@ import { optionize3 } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import LabModel from '../model/LabModel.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type FullDataPanelOptions = PanelOptions;
 
@@ -62,52 +63,34 @@ class DataBox extends GridBox {
     // Whenever the number of bodies change, repopulate the dataBox
     this.tempChildren = [
       new Text( 'Mass', { font: new PhetFont( 20 ), layoutOptions: { x: 1, y: 0 } } ),
-      new Text( 'Position', { font: new PhetFont( 20 ), layoutOptions: { x: 2, y: 0 } } ),
-      new Text( 'Velocity', { font: new PhetFont( 20 ), layoutOptions: { x: 3, y: 0 } } ),
-      new HBox( { children: [
-          new Text( 'x', { font: new PhetFont( 20 ) } ),
-          new Text( 'y', { font: new PhetFont( 20 ) } )
-        ],
-        layoutOptions: { x: 2, y: 1, stretch: true } } ),
-      new HBox( { children: [
-          new Text( 'Vx', { font: new PhetFont( 20 ) } ),
-          new Text( 'Vy', { font: new PhetFont( 20 ) } )
-        ],
-        layoutOptions: { x: 3, y: 1, stretch: true } } )
+      new Text( 'Position', { font: new PhetFont( 20 ), layoutOptions: { x: 2, y: 0, width: 2 } } ),
+      new Text( 'Velocity', { font: new PhetFont( 20 ), layoutOptions: { x: 4, y: 0, width: 2 } } ),
+      new Text( 'x', { font: new PhetFont( 20 ), layoutOptions: { x: 2, y: 1 } } ),
+      new Text( 'y', { font: new PhetFont( 20 ), layoutOptions: { x: 3, y: 1 } } ),
+      new Text( 'Vx', { font: new PhetFont( 20 ), layoutOptions: { x: 4, y: 1 } } ),
+      new Text( 'Vy', { font: new PhetFont( 20 ), layoutOptions: { x: 5, y: 1 } } )
     ];
 
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
-      this.tempChildren.push(
-        new HBox( {
-          spacing: 10,
-          children: [
-            new ShadedSphereNode( 15, { mainColor: color } ),
-            new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange )
-          ],
-          layoutOptions: { x: 1, y: i + 2 } // Start on the third row
-        } )
-      );
-      this.tempChildren.push(
-        new HBox( {
-          spacing: 10,
-          children: [
-            new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange ),
-            new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange )
-          ],
-          layoutOptions: { x: 2, y: i + 2 }
-        } )
-      );
-      this.tempChildren.push(
-        new HBox( {
-          spacing: 10,
-          children: [
-            new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange ),
-            new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange )
-          ],
-          layoutOptions: { x: 3, y: i + 2 }
-        } )
-      );
+      this.tempChildren.push( ...[
+            new ShadedSphereNode( 15, { mainColor: color, layoutOptions: { x: 0, y: i + 2 } } ),
+            new NumberDisplay(
+              this.model.bodies[ i ].massProperty,
+              this.massRange, { layoutOptions: { x: 1, y: i + 2 } } ),
+            new NumberDisplay(
+              new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.x ),
+              this.massRange, { layoutOptions: { x: 2, y: i + 2 } } ),
+            new NumberDisplay(
+              new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.y ),
+              this.massRange, { layoutOptions: { x: 3, y: i + 2 } } ),
+            new NumberDisplay(
+              new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.x ),
+              this.massRange, { layoutOptions: { x: 4, y: i + 2 } } ),
+            new NumberDisplay(
+              new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.y ),
+              this.massRange, { layoutOptions: { x: 5, y: i + 2 } } )
+          ] );
     }
     this.children = this.tempChildren;
   }
