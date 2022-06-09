@@ -11,7 +11,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import CenterOfMass from '../model/CenterOfMass.js';
-import { AbstractProperty } from '../../../../axon/js/AbstractProperty.js';
+import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
 
 
 class CenterOfMassNode extends Node {
@@ -20,7 +20,7 @@ class CenterOfMassNode extends Node {
   private readonly visibilityListener: ( visible:boolean ) => void
 
 
-  constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: AbstractProperty<ModelViewTransform2> ) {
+  constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super();
     this.centerOfMass = centerOfMass;
 

@@ -9,19 +9,19 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Property, { AbstractProperty } from '../../../../axon/js/Property.js';
+import Property, { ReadOnlyProperty } from '../../../../axon/js/Property.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class VectorNode extends ArrowNode {
-  protected tipProperty: AbstractProperty<Vector2>;
-  protected tailProperty: AbstractProperty<Vector2>;
+  protected tipProperty: ReadOnlyProperty<Vector2>;
+  protected tailProperty: ReadOnlyProperty<Vector2>;
 
   constructor(
     body: Body,
-    transformProperty: AbstractProperty<ModelViewTransform2>,
+    transformProperty: ReadOnlyProperty<ModelViewTransform2>,
     visibleProperty: Property<boolean>,
     vectorProperty: Property<Vector2>,
     scale: number,

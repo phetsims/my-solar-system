@@ -7,17 +7,17 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
-import IProperty from '../../../../axon/js/IProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {};
 
 export type MySolarSystemSliderOptions = SelfOptions & HSliderOptions;
 
 export default class MySolarSystemSlider extends HSlider {
-  constructor( valueProperty: IProperty<number>, range: Range, providedOptions?: MySolarSystemSliderOptions ) {
+  constructor( valueProperty: Property<number>, range: Range, providedOptions?: MySolarSystemSliderOptions ) {
     const options = optionize<MySolarSystemSliderOptions, SelfOptions, HSliderOptions>()( {
       trackSize: new Dimension2( 200, 2 ),
       thumbCenterLineStroke: 'black',
