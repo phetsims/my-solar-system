@@ -28,6 +28,7 @@ import AreasAccordionBox from './AreasAccordionBox.js';
 import KeplersLawsSliders from './KeplersLawsSliders.js';
 import LawButton from './LawButton.js';
 import BodyNode from '../../common/view/BodyNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const MARGIN = 5;
@@ -80,15 +81,16 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
   this.UILayerNode.addChild( gridNode );
 
-  const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-    Vector2.ZERO,
-    new Vector2( this.layoutBounds.center.x, 0.9 * this.layoutBounds.center.y ),
-    1
-  );
+  const modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
+    return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+      Vector2.ZERO,
+      new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing ),
+      zoom );
+    } );
 
   model.bodies.forEach( body => {
     this.bodiesLayerNode.addChild(
-      new BodyNode( body, modelViewTransform, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } )
+      new BodyNode( body, modelViewTransformProperty, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } )
       );
   } );
 

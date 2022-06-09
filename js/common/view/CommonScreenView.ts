@@ -33,7 +33,7 @@ import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/Magnifyi
 import CommonModel from '../model/CommonModel.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
 import PathsWebGLNode from './PathsWebGLNode.js';
-import MassesControlPanel from './MassesControlPanel.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   tandem: Tandem;
@@ -51,8 +51,6 @@ class CommonScreenView extends ScreenView {
   protected readonly UILayerNode: Node;
   protected readonly topLayer: Node;
 
-  protected readonly massesControlPanel: MassesControlPanel;
-
   public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( {
       tandem: providedOptions.tandem
@@ -68,9 +66,6 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.UILayerNode );
     this.addChild( this.topLayer );
 
-    // Add the node for the Masses Sliders
-    this.massesControlPanel = new MassesControlPanel( model, { fill: 'white' } );
-
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
     const gridNode = new MySolarSystemGridNode(
@@ -84,25 +79,27 @@ class CommonScreenView extends ScreenView {
      model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
      this.UILayerNode.addChild( gridNode );
 
-    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      new Vector2( this.layoutBounds.center.x, 0.9 * this.layoutBounds.center.y ),
-      1
-    );
+    const modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
+      return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+        Vector2.ZERO,
+        new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing ),
+        zoom );
+      } );
 
+    // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
     const bodyNodeFactory = ( body: Body ) => {
-      return new BodyNode( body, modelViewTransform, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } );
+      return new BodyNode( body, modelViewTransformProperty, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } );
     };
     const velocityVectorFactory = ( body: Body ) => {
       return new DraggableVectorNode(
-        body, new Property( modelViewTransform ), model.velocityVisibleProperty, body.velocityProperty,
+        body, modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
         1, 'V', { fill: PhetColorScheme.VELOCITY }
         );
     };
     const forceVectorFactory = ( body: Body ) => {
       return new VectorNode(
-        body, new Property( modelViewTransform ), model.gravityVisibleProperty, body.forceProperty,
+        body, modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty,
         0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
         );
     };
@@ -114,6 +111,7 @@ class CommonScreenView extends ScreenView {
       new NodeTracker<Body, VectorNode>( this.ComponentsLayerNode, forceVectorFactory )
     ];
 
+    // Create bodyNodes and arrows for every body
     model.bodies.forEach( body => {
       trackers.forEach( tracker => { tracker.add( body );} );
     } );
@@ -128,10 +126,10 @@ class CommonScreenView extends ScreenView {
       this.update();
     } );
 
-    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, modelViewTransform );
+    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, modelViewTransformProperty );
     this.ComponentsLayerNode.addChild( centerOfMassNode );
 
-    // UI ----------------------------------------------------------------------------------
+    // UI Elements ===================================================================================================
     // Zoom Buttons
     this.UILayerNode.addChild( new AlignBox( new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
@@ -195,11 +193,10 @@ class CommonScreenView extends ScreenView {
      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );
 
-    this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransform, { visible: false } ) );
+    this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransformProperty, { visible: false } ) );
   }
 
   update(): void {
-    this.massesControlPanel.update();
   }
 }
 

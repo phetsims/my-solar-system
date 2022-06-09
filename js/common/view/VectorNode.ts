@@ -21,7 +21,7 @@ class VectorNode extends ArrowNode {
 
   constructor(
     body: Body,
-    transformProperty: Property<ModelViewTransform2>,
+    transformProperty: AbstractProperty<ModelViewTransform2>,
     visibleProperty: Property<boolean>,
     vectorProperty: Property<Vector2>,
     scale: number,

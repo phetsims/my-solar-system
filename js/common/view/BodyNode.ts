@@ -13,55 +13,52 @@ import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-p
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import { AbstractProperty } from '../../../../axon/js/AbstractProperty.js';
+import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 
 type BodyNodeOptions = ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
   public body: Body;
   public initialMass: number;
-  public positionListener: ( position:Vector2 ) => void;
-  public massListener: ( mass:number ) => void;
+  private somethingMultilink: UnknownMultilink;
 
-  constructor( body: Body, modelViewTransform: ModelViewTransform2, providedOptions?: BodyNodeOptions ) {
+  constructor( body: Body, modelViewTransformProperty: AbstractProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, {}, ShadedSphereNodeOptions>()( {
       cursor: 'pointer'
     }, providedOptions );
+
     super( 1, options );
+
     this.body = body;
     this.initialMass = 200; //body.massProperty.value;
-    this.setScaleMagnitude( this.massToScale( body.massProperty.value ) );
-    this.positionListener = position => {
-      this.translation = modelViewTransform.modelToViewPosition( position );
-    };
-    this.body.positionProperty.link( this.positionListener );
+    
+    this.somethingMultilink = Multilink.multilink(
+      [ body.positionProperty, body.massProperty, modelViewTransformProperty ],
+      ( position, mass, modelViewTransform ) => {
+        this.translation = modelViewTransform.modelToViewPosition( position );
+        this.setScaleMagnitude( this.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
+    } );
 
     let PointerDistanceFromCenter: Vector2 | null = null;
 
     const dragListener = new DragListener( {
       start: ( event: PressListenerEvent ) => {
-        PointerDistanceFromCenter = modelViewTransform.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
+        PointerDistanceFromCenter = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
       },
       drag: ( event: PressListenerEvent ) => {
-        body.positionProperty.value = modelViewTransform.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
+        body.positionProperty.value = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
       }
     } );
     this.addInputListener( dragListener );
-
-    this.massListener = mass => {
-      this.setScaleMagnitude( this.massToScale( mass ) );
-    };
-
-    this.body.massProperty.link( this.massListener );
   }
 
-  massToScale( mass: number ): number {
-    return 20 * mass / this.initialMass + 5;
+  private massToScale( mass: number, scale: number ): number {
+    return scale * 20 * mass / this.initialMass + 5;
   }
 
   override dispose(): void {
-    this.body.positionProperty.unlink( this.positionListener );
-    this.body.massProperty.unlink( this.massListener );
-
+    this.somethingMultilink.dispose();
     super.dispose();
   }
 }

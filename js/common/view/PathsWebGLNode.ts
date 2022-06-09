@@ -14,6 +14,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import PathsPainter_shader from '../../../shaders/PathsPainter_shader.js';
 import PathsPainter_vert from '../../../shaders/PathsPainter_vert.js';
+import { AbstractProperty } from '../../../../axon/js/AbstractProperty.js';
 
 type painterReturn = 0 | 1;
 
@@ -25,12 +26,12 @@ type PathsWebGLNodeOptions = WebGLNodeOptions;
 
 export default class PathsWebGLNode extends WebGLNode {
   model: CommonModel;
-  modelViewTransform: ModelViewTransform2;
+  modelViewTransformProperty: AbstractProperty<ModelViewTransform2>;
 
-  constructor( model: CommonModel, modelViewTransform: ModelViewTransform2, providedOptions?: PathsWebGLNodeOptions ) {
+  constructor( model: CommonModel, modelViewTransformProperty: AbstractProperty<ModelViewTransform2>, providedOptions?: PathsWebGLNodeOptions ) {
     super( PathsPainter, providedOptions );
     this.model = model;
-    this.modelViewTransform = modelViewTransform;
+    this.modelViewTransformProperty = modelViewTransformProperty;
 
     stepTimer.addListener( () => this.invalidatePaint() );
   }
@@ -81,7 +82,7 @@ class PathsPainter {
 
     const matrixInverse = scratchInverseMatrix;
     const projectionMatrixInverse = scratchProjectionMatrix.set( projectionMatrix ).invert();
-    matrixInverse.set( this.node.modelViewTransform.getInverse() ).multiplyMatrix( modelViewMatrix.inverted().multiplyMatrix( projectionMatrixInverse ) );
+    matrixInverse.set( this.node.modelViewTransformProperty.value.getInverse() ).multiplyMatrix( modelViewMatrix.inverted().multiplyMatrix( projectionMatrixInverse ) );
     gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uMatrixInverse, false, matrixInverse.copyToArray( scratchFloatArray ) );
 
 

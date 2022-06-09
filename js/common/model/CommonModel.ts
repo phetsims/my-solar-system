@@ -20,6 +20,9 @@ import CenterOfMass from './CenterOfMass.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
 import LabModes from './LabModes.js';
+import { AbstractProperty } from '../../../../axon/js/AbstractProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -55,6 +58,7 @@ abstract class CommonModel {
   public readonly moreDataProperty: Property<boolean>;
 
   public readonly zoomLevelProperty: RangedProperty;
+  public readonly zoomProperty: AbstractProperty<number>;
 
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
@@ -89,9 +93,12 @@ abstract class CommonModel {
     this.valuesVisibleProperty = new Property<boolean>( false );
     this.moreDataProperty = new Property<boolean>( false );
 
-    this.zoomLevelProperty = new NumberProperty( 1, {
-      range: new Range( 0.5, 2 )
+    this.zoomLevelProperty = new NumberProperty( 4, {
+      range: new Range( 0, 7 )
     } ).asRanged();
+    this.zoomProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
+      return Utils.linear( 0, 7, 0.5, 1.5, zoomLevel );
+    });
 
     this.isLab = providedOptions.isLab;
     this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET );
