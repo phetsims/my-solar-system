@@ -98,7 +98,7 @@ abstract class CommonModel {
     } ).asRanged();
     this.zoomProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
       return Utils.linear( 0, 7, 0.5, 1.5, zoomLevel );
-    });
+    } );
 
     this.isLab = providedOptions.isLab;
     this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET );

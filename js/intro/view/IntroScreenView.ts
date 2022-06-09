@@ -13,16 +13,22 @@ import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/Com
 import optionize from '../../../../phet-core/js/optionize.js';
 import { AlignBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+import MassesControlPanel from '../../common/view/MassesControlPanel.js';
 
 
 type IntroScreenViewOptions = CommonScreenView;
 
 class IntroScreenView extends CommonScreenView {
+  private massesControlPanel: MassesControlPanel;
+  
   constructor( model: IntroModel, tandem: Tandem ) {
     const options = optionize<IntroScreenViewOptions, {}, CommonScreenViewOptions>()( {
       tandem: tandem
     } );
     super( model, options );
+
+    // Add the node for the Masses Sliders
+    this.massesControlPanel = new MassesControlPanel( model, { fill: 'white' } );
 
     // Slider that controls the bodies mass
     this.UILayerNode.addChild( new AlignBox( this.massesControlPanel,

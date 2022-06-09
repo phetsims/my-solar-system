@@ -8,11 +8,13 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import LabModel from '../model/LabModel.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
+import MySolarSystemCheckbox, { MySolarSystemCheckboxOptions } from '../../common/view/MySolarSystemCheckbox.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
-import { AlignBox, FlowBox, Text } from '../../../../scenery/js/imports.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
+import { AlignBox, GridBox, Text } from '../../../../scenery/js/imports.js';
+import MassesControlPanel from '../../common/view/MassesControlPanel.js';
+import FullDataPanel from './FullDataPanel.js';
 
 // Consts
 const TEXT_OPTIONS = {
@@ -27,6 +29,9 @@ type SelfOptions = {
 type LabScreenViewOptions = SelfOptions & CommonScreenViewOptions;
 
 class LabScreenView extends CommonScreenView {
+  private gridbox: GridBox;
+  private massesControlPanel: MassesControlPanel;
+  private fullDataPanel: FullDataPanel;
 
   constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
@@ -36,22 +41,41 @@ class LabScreenView extends CommonScreenView {
 
     super( model, options );
 
-    // Slider that controls the bodies mass
-    this.UILayerNode.addChild( new AlignBox( new FlowBox( {
+    const checkboxOptions = combineOptions<MySolarSystemCheckboxOptions>(
+      { layoutOptions: { x: 1, y: 0 } },
+      MySolarSystemConstants.CHECKBOX_OPTIONS );
+
+    // Add the node for the Masses Sliders & Full Data Panel
+    this.massesControlPanel = new MassesControlPanel( model, { fill: 'white', layoutOptions: { x: 1, y: 1 } } );
+    this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { x: 1, y: 1 } } );
+
+    this.gridbox = new GridBox( {
       children: [
-        new Checkbox( new Text( 'More data', TEXT_OPTIONS ), model.moreDataProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new MySolarSystemCheckbox( new Text( 'More data', TEXT_OPTIONS ), model.moreDataProperty, checkboxOptions ),
         this.massesControlPanel
         // bodyNumberSpinner
       ],
-      orientation: 'vertical'
-    } ),
+      xAlign: 'left'
+    } );
+
+    // Slider that controls the bodies mass
+    this.UILayerNode.addChild( new AlignBox( this.gridbox,
       {
      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'bottom'
     } ) );
 
     model.moreDataProperty.link( moreData => {
-      
+      this.gridbox.children = [
+        new MySolarSystemCheckbox( new Text( 'More data', TEXT_OPTIONS ), model.moreDataProperty, checkboxOptions ),
+        moreData ? this.massesControlPanel : this.fullDataPanel
+        // bodyNumberSpinner
+      ];
     } );
+  }
+
+  override update(): void {
+    this.massesControlPanel.update();
+    this.fullDataPanel.update();
   }
 }
 
