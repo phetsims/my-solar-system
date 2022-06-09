@@ -20,7 +20,7 @@ import CenterOfMass from './CenterOfMass.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
 import LabModes from './LabModes.js';
-import { AbstractProperty } from '../../../../axon/js/AbstractProperty.js';
+import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 
@@ -58,7 +58,7 @@ abstract class CommonModel {
   public readonly moreDataProperty: Property<boolean>;
 
   public readonly zoomLevelProperty: RangedProperty;
-  public readonly zoomProperty: AbstractProperty<number>;
+  public readonly zoomProperty: ReadOnlyProperty<number>;
 
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;

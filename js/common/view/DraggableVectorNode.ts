@@ -9,7 +9,7 @@
 
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Property, { AbstractProperty } from '../../../../axon/js/Property.js';
+import Property, { ReadOnlyProperty } from '../../../../axon/js/Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, DragListener, Path, PressListenerEvent, Text } from '../../../../scenery/js/imports.js';
@@ -22,7 +22,7 @@ export default class DraggableVectorNode extends VectorNode {
 
   constructor(
     body: Body,
-    transformProperty: AbstractProperty<ModelViewTransform2>,
+    transformProperty: ReadOnlyProperty<ModelViewTransform2>,
     visibleProperty: Property<boolean>,
     vectorProperty: Property<Vector2>,
     scale: number,
