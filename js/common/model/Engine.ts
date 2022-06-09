@@ -41,30 +41,125 @@ class Engine {
   }
 
   run( dt: number ): void {
-    this.updateForces();
-    // this.verlet( dt );
-    this.FRIS( dt );
+    const iterationCount = 400 / this.bodies.length;
+    const N = this.bodies.length;
+    dt /= iterationCount;
+
+    const masses = this.bodies.map( body => body.massProperty.value );
+    const positions = this.bodies.map( body => body.positionProperty.value.copy() );
+    const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
+    const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
+    const forces = this.bodies.map( body => body.forceProperty.value.copy() );
+    const previousAccelerations = this.bodies.map( body => body.previousAcceleration );
+
+    for ( let k = 0; k < iterationCount; k++ ) {
+      // Zeroing out forces
+      for ( let i = 0; i < N; i++ ) {
+        forces[ i ].setXY( 0, 0 );
+      }
+
+      // Iterate between all the bodies to add the forces
+      for ( let i = 0; i < N; i++ ) {
+        const mass1 = masses[ i ];
+        for ( let j = i + 1; j < this.bodies.length; j++ ) {
+          const mass2 = masses[ j ];
+
+          const direction = scratchVector.set( positions[ j ] ).subtract( positions[ i ] );
+          const distance = direction.magnitude;
+          assert && assert( distance > 0, 'Negative distances not allowed!!' );
+          const forceMagnitude = this.G * mass1 * mass2 * ( Math.pow( distance, -3 ) );
+          const force = direction.multiplyScalar( forceMagnitude );
+
+          forces[ i ].add( force );
+          forces[ j ].subtract( force );
+        }
+      }
+
+      // Compute accelerations
+      for ( let i = 0; i < N; i++ ) {
+        accelerations[ i ].set( forces[ i ] ).multiplyScalar( 1 / masses[ i ] );
+      }
+
+      // Forrest Ruth Integration Scheme (FRIS)
+
+      for ( let i = 0; i < N; i++ ) {
+
+        //-------------
+        // Step One
+        //--------------
+
+         // net time: XI dt
+        positions[ i ].add( scratchVector.set( velocities[ i ] ).multiplyScalar( XI * dt ) );
+
+        // net time: (1 - 2 * LAMBDA) * dt / 2
+        velocities[ i ].add( scratchVector.set( accelerations[ i ] ).multiplyScalar( ( 1 - 2 * LAMBDA ) * dt / 2 ) );
+
+        //-------------
+        // Step Two
+        //--------------
+
+        // net time: (XI+CHI) dt
+        positions[ i ].add( scratchVector.set( velocities[ i ] ).multiplyScalar( CHI * dt ) );
+
+        // net time: dt / 2
+        velocities[ i ].add( scratchVector.set( accelerations[ i ] ).multiplyScalar( LAMBDA * dt ) );
+
+        //-------------
+        // Step Three
+        //--------------
+
+        // net time: (1-(XI+CHI)) dt
+        positions[ i ].add( scratchVector.set( velocities[ i ] ).multiplyScalar( ( 1 - 2 * ( CHI + XI ) ) * dt ) );
+
+        // net time: (1/2 + LAMBDA) dt
+        velocities[ i ].add( scratchVector.set( accelerations[ i ] ).multiplyScalar( LAMBDA * dt ) );
+
+        //-------------
+        // Step Four
+        //--------------
+
+        // net time: (1-(XI)) dt
+        positions[ i ].add( scratchVector.set( velocities[ i ] ).multiplyScalar( CHI * dt ) );
+
+        // no update in velocities // net time: (1/2 + LAMBDA) dt
+
+        //-------------
+        // Step Five: last step, these are the final positions and velocities i.e. r(t+dt) and v(t+dt)
+        //--------------
+
+        // IMPORTANT: we need to update the velocities first
+
+        // net time:  dt;
+        velocities[ i ].add( scratchVector.set( accelerations[ i ] ).multiplyScalar( ( 1 - 2 * LAMBDA ) * dt / 2 ) );
+
+        // net time:  dt
+        positions[ i ].add( scratchVector.set( velocities[ i ] ).multiplyScalar( XI * dt ) );
+      }
+    }
+
+    for ( let i = 0; i < this.bodies.length; i++ ) {
+      const body = this.bodies[ i ];
+      body.positionProperty.value = positions[ i ];
+      body.velocityProperty.value = velocities[ i ];
+      body.accelerationProperty.value = accelerations[ i ];
+      body.forceProperty.value = forces[ i ];
+      body.previousAcceleration = previousAccelerations[ i ];
+    }
   }
 
   updateForces(): void {
-    this.resetAccelerations();
-    this.applyForces();
-  }
-
-  resetAccelerations(): void {
-    this.bodies.forEach( body => {
+    for ( let i = 0; i < this.bodies.length; i++ ) {
+      const body = this.bodies[ i ];
       body.accelerationProperty.value = Vector2.ZERO;
       body.forceProperty.value = Vector2.ZERO;
-    } );
-  }
+    }
 
-  applyForces(): void {
     // Iterate between all the bodies to add the accelerations
     for ( let i = 0; i < this.bodies.length; i++ ) {
+      const body1 = this.bodies[ i ];
+      const mass1 = body1.massProperty.value;
       for ( let j = i + 1; j < this.bodies.length; j++ ) {
-        const body1 = this.bodies[ i ];
         const body2 = this.bodies[ j ];
-        const mass1 = body1.massProperty.value;
         const mass2 = body2.massProperty.value;
         const force: Vector2 = this.getForce( body1, body2 );
         body1.forceProperty.value = body1.forceProperty.value.plus( scratchVector.set( force ) );
@@ -170,12 +265,6 @@ class Engine {
 
     // update Positions
     this.updatePositions( XI * dt ); // net time:  dt
-
-    //-------------
-    // Update the new acceleration
-    //-------------
-    // this.updateAccelerations();
-
   }
 }
 
