@@ -62,34 +62,34 @@ class DataBox extends GridBox {
   update(): void {
     // Whenever the number of bodies change, repopulate the dataBox
     this.tempChildren = [
-      new Text( 'Mass', { font: new PhetFont( 20 ), layoutOptions: { x: 1, y: 0 } } ),
-      new Text( 'Position', { font: new PhetFont( 20 ), layoutOptions: { x: 2, y: 0, width: 2 } } ),
-      new Text( 'Velocity', { font: new PhetFont( 20 ), layoutOptions: { x: 4, y: 0, width: 2 } } ),
-      new Text( 'x', { font: new PhetFont( 20 ), layoutOptions: { x: 2, y: 1 } } ),
-      new Text( 'y', { font: new PhetFont( 20 ), layoutOptions: { x: 3, y: 1 } } ),
-      new Text( 'Vx', { font: new PhetFont( 20 ), layoutOptions: { x: 4, y: 1 } } ),
-      new Text( 'Vy', { font: new PhetFont( 20 ), layoutOptions: { x: 5, y: 1 } } )
+      new Text( 'Mass', { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
+      new Text( 'Position', { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 0, width: 2 } } ),
+      new Text( 'Velocity', { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 0, width: 2 } } ),
+      new Text( 'x', { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 1 } } ),
+      new Text( 'y', { font: new PhetFont( 20 ), layoutOptions: { column: 3, row: 1 } } ),
+      new Text( 'Vx', { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 1 } } ),
+      new Text( 'Vy', { font: new PhetFont( 20 ), layoutOptions: { column: 5, row: 1 } } )
     ];
 
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
       this.tempChildren.push( ...[
-            new ShadedSphereNode( 15, { mainColor: color, layoutOptions: { x: 0, y: i + 2 } } ),
+            new ShadedSphereNode( 15, { mainColor: color, layoutOptions: { column: 0, row: i + 2 } } ),
             new NumberDisplay(
               this.model.bodies[ i ].massProperty,
-              this.massRange, { layoutOptions: { x: 1, y: i + 2 } } ),
+              this.massRange, { layoutOptions: { column: 1, row: i + 2 } } ),
             new NumberDisplay(
               new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.x ),
-              this.massRange, { layoutOptions: { x: 2, y: i + 2 } } ),
+              this.massRange, { layoutOptions: { column: 2, row: i + 2 } } ),
             new NumberDisplay(
               new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.y ),
-              this.massRange, { layoutOptions: { x: 3, y: i + 2 } } ),
+              this.massRange, { layoutOptions: { column: 3, row: i + 2 } } ),
             new NumberDisplay(
               new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.x ),
-              this.massRange, { layoutOptions: { x: 4, y: i + 2 } } ),
+              this.massRange, { layoutOptions: { column: 4, row: i + 2 } } ),
             new NumberDisplay(
               new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.y ),
-              this.massRange, { layoutOptions: { x: 5, y: i + 2 } } )
+              this.massRange, { layoutOptions: { column: 5, row: i + 2 } } )
           ] );
     }
     this.children = this.tempChildren;
