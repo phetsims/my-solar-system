@@ -10,7 +10,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { FlowBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import MySolarSystemSlider from './MySolarSystemSlider.js';
@@ -53,7 +52,8 @@ class MassesSliders extends FlowBox {
 
   constructor( model: CommonModel, providedOptions?: Partial<MassesSlidersOptions> ) {
     super( {
-      spacing: 4,
+      spacing: 5,
+      margin: 5,
       align: 'left',
       stretch: true,
       orientation: 'vertical'
@@ -66,7 +66,7 @@ class MassesSliders extends FlowBox {
 
   update(): void {
     // Whenever the number of bodies change, repopulate the sliders
-    this.tempChildren = [ new Text( 'Mass', { font: new PhetFont( 20 ) } ) ];
+    this.tempChildren = [ new Text( 'Mass', { font: MySolarSystemConstants.TITLE_FONT } ) ];
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
       this.tempChildren.push(
