@@ -8,11 +8,12 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type MySolarSystemSliderOptions = SelfOptions & HSliderOptions;
 

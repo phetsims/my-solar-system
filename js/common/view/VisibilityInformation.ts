@@ -12,6 +12,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import MySolarSystemGridNode from './MySolarSystemGridNode.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -33,7 +34,7 @@ const TEXT_OPTIONS = {
 
 const SPACING = 10;
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 type VisibilityInformationOptions = SelfOptions & VBoxOptions;
 

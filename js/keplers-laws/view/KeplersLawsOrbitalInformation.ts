@@ -13,6 +13,7 @@
  import mySolarSystem from '../../mySolarSystem.js';
  import mySolarSystemStrings from '../../mySolarSystemStrings.js';
  import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
  import Vector2 from '../../../../dot/js/Vector2.js';
  import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
@@ -36,7 +37,7 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
  
  const SPACING = 10;
  
- type SelfOptions = {};
+ type SelfOptions = EmptyObjectType;
  
  type KeplersLawsOrbitalInformationOptions = SelfOptions & VBoxOptions;
  

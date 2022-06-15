@@ -42,12 +42,12 @@ class LabScreenView extends CommonScreenView {
     super( model, options );
 
     const checkboxOptions = combineOptions<MySolarSystemCheckboxOptions>(
-      { layoutOptions: { column: 1, row: 0 } },
+      { layoutOptions: { x: 1, y: 0 } },
       MySolarSystemConstants.CHECKBOX_OPTIONS );
 
     // Add the node for the Masses Sliders & Full Data Panel
-    this.massesControlPanel = new MassesControlPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
-    this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
+    this.massesControlPanel = new MassesControlPanel( model, { fill: 'white', layoutOptions: { x: 1, y: 1 } } );
+    this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { x: 1, y: 1 } } );
 
     this.gridbox = new GridBox( {
       children: [

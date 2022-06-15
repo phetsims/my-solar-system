@@ -13,6 +13,7 @@ import Property, { ReadOnlyProperty } from '../../../../axon/js/Property.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class VectorNode extends ArrowNode {
@@ -28,7 +29,7 @@ class VectorNode extends ArrowNode {
     providedOptions?: ArrowNodeOptions
   ) {
 
-    super( 0, 0, 0, 0, optionize<ArrowNodeOptions, {}, ArrowNodeOptions>()( {
+    super( 0, 0, 0, 0, optionize<ArrowNodeOptions, EmptyObjectType, ArrowNodeOptions>()( {
       headHeight: 15,
       headWidth: 15,
       tailWidth: 5,

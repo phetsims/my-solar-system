@@ -12,6 +12,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabModes from '../../common/model/LabModes.js';
 
@@ -22,7 +23,7 @@ class LabModel extends CommonModel {
   availableBodies: Body[];
 
   constructor( providedOptions: LabModelOptions ) {
-    const options = optionize<LabModelOptions, {}, CommonModelOptions>()( {
+    const options = optionize<LabModelOptions, EmptyObjectType, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
       isLab: true
     }, providedOptions );

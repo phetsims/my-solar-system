@@ -15,12 +15,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 type IntroModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class IntroModel extends CommonModel {
   constructor( providedOptions: IntroModelOptions ) {
-    const options = optionize<IntroModelOptions, {}, CommonModelOptions>()( {
+    const options = optionize<IntroModelOptions, EmptyObjectType, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
       isLab: false
     }, providedOptions );

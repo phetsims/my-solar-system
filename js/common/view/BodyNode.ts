@@ -13,6 +13,7 @@ import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-p
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 
@@ -24,7 +25,7 @@ export default class BodyNode extends ShadedSphereNode {
   private somethingMultilink: UnknownMultilink;
 
   constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
-    const options = optionize<BodyNodeOptions, {}, ShadedSphereNodeOptions>()( {
+    const options = optionize<BodyNodeOptions, EmptyObjectType, ShadedSphereNodeOptions>()( {
       cursor: 'pointer'
     }, providedOptions );
 

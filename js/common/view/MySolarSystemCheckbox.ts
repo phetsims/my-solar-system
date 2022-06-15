@@ -10,6 +10,7 @@ import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 
@@ -19,7 +20,7 @@ export default class MySolarSystemCheckbox extends Checkbox {
 
   constructor( content: Node, property: Property<boolean>, providedOptions?: MySolarSystemCheckboxOptions ) {
 
-    const options = optionize<MySolarSystemCheckboxOptions, {}, CheckboxOptions>()( {
+    const options = optionize<MySolarSystemCheckboxOptions, EmptyObjectType, CheckboxOptions>()( {
       boxWidth: 14,
       checkboxColor: MySolarSystemColors.foregroundProperty,
       checkboxColorBackground: MySolarSystemColors.backgroundProperty,

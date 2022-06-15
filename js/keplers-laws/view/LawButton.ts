@@ -8,6 +8,7 @@
  */
 
  import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -16,7 +17,7 @@ type LawButtonOptions = RectangularPushButtonOptions;
 
 export default class LawButton extends RectangularPushButton {
   constructor( content: Node, providedOptions?: LawButtonOptions ) {
-    const options = optionize<LawButtonOptions, {}, RectangularPushButtonOptions>()( {
+    const options = optionize<LawButtonOptions, EmptyObjectType, RectangularPushButtonOptions>()( {
       content: content,
       minHeight: 100,
       baseColor: 'white'
