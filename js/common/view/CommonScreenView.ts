@@ -200,6 +200,7 @@ class CommonScreenView extends ScreenView {
   }
 
   update(): void {
+    // See subclass for implementation
   }
 }
 
