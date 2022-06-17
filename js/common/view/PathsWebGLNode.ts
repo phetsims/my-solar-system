@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { ShaderProgram, WebGLNode, WebGLNodeOptions } from '../../../../scenery/js/imports.js';
+import { Color, ShaderProgram, WebGLNode, WebGLNodeOptions } from '../../../../scenery/js/imports.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import CommonModel from '../model/CommonModel.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -15,12 +15,14 @@ import stepTimer from '../../../../axon/js/stepTimer.js';
 import PathsPainter_shader from '../../../shaders/PathsPainter_shader.js';
 import PathsPainter_vert from '../../../shaders/PathsPainter_vert.js';
 import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 type painterReturn = 0 | 1;
 
 const DATA_TEXTURE_WIDTH = 32;
 const DATA_TEXTURE_HEIGHT = 32;
 const DATA_TEXTURE_SIZE = DATA_TEXTURE_WIDTH * DATA_TEXTURE_HEIGHT;
+const MAX_PATH_LENGTH = ( DATA_TEXTURE_SIZE - 16 ) / 4;
 
 const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();
@@ -65,7 +67,17 @@ class PathsPainter {
 
     this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
       attributes: [ 'aPosition' ],
-      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uMatrixInverse', 'uData', 'uTextureSize', 'uPathLength' ]
+      uniforms: [
+        'uModelViewMatrix',
+        'uProjectionMatrix',
+        'uMatrixInverse',
+        'uData',
+        'uTextureSize',
+        'uPathLength',
+        'uMaxPathLength',
+        'uColors',
+        'uNumberofActiveBodies'
+      ]
     } );
     
     this.vertexBuffer = gl.createBuffer()!;
@@ -83,6 +95,15 @@ class PathsPainter {
     gl.bindTexture( gl.TEXTURE_2D, this.dataTexture );
 
     this.dataArray = new Float32Array( DATA_TEXTURE_SIZE * 4 );
+
+    let colorIndex = 0;
+    MySolarSystemColors.bodiesPalette.forEach( colorName => {
+      const color = new Color( colorName );
+      this.dataArray[ 4 * colorIndex ] = color.getRed() / 255;
+      this.dataArray[ 4 * colorIndex + 1 ] = color.getGreen() / 255;
+      this.dataArray[ 4 * colorIndex + 2 ] = color.getBlue() / 255;
+      colorIndex += 1;
+    } );
     this.updateDataTexture();
     //
     // set the filtering so we don't need mips and it's not filtered
@@ -115,10 +136,15 @@ class PathsPainter {
     this.shaderProgram.use();
 
     let nPoints = 0;
-    this.node.model.bodies[ 1 ].path.forEach( point => {
-      this.dataArray[ 4 * nPoints ] = point.x;
-      this.dataArray[ ( 4 * nPoints ) + 1 ] = point.y;
-      nPoints += 1;
+    let bodyIndex = 0;
+    this.node.model.bodies.forEach( body => {
+      nPoints = 0;
+      body.path.forEach( point => {
+        this.dataArray[ 4 * ( 4 + bodyIndex * MAX_PATH_LENGTH + nPoints ) ] = point.x;
+        this.dataArray[ 4 * ( 4 + bodyIndex * MAX_PATH_LENGTH + nPoints ) + 1 ] = point.y;
+        nPoints += 1;
+      } );
+      bodyIndex += 1;
     } );
 
     this.updateDataTexture();
@@ -136,6 +162,8 @@ class PathsPainter {
     gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uMatrixInverse, false, matrixInverse.copyToArray( scratchFloatArray ) );
     gl.uniform2f( this.shaderProgram.uniformLocations.uTextureSize, DATA_TEXTURE_WIDTH, DATA_TEXTURE_HEIGHT );
     gl.uniform1i( this.shaderProgram.uniformLocations.uPathLength, nPoints );
+    gl.uniform1i( this.shaderProgram.uniformLocations.uMaxPathLength, MAX_PATH_LENGTH );
+    gl.uniform1i( this.shaderProgram.uniformLocations.uNumberofActiveBodies, this.node.model.bodies.length );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );

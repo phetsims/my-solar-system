@@ -50,17 +50,20 @@ class CommonScreenView extends ScreenView {
   protected readonly ComponentsLayerNode: Node;
   protected readonly UILayerNode: Node;
   protected readonly topLayer: Node;
+  protected readonly bottomLayer: Node;
 
   public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( {
       tandem: providedOptions.tandem
     } );
 
+    this.bottomLayer = new Node();
     this.topLayer = new Node();
     this.bodiesLayerNode = new Node();
     this.ComponentsLayerNode = new Node();
     this.UILayerNode = new Node();
 
+    this.addChild( this.bottomLayer );
     this.addChild( this.bodiesLayerNode );
     this.addChild( this.ComponentsLayerNode );
     this.addChild( this.UILayerNode );
@@ -193,7 +196,7 @@ class CommonScreenView extends ScreenView {
      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );
 
-    this.UILayerNode.addChild( new PathsWebGLNode( model, modelViewTransformProperty, { visible: true } ) );
+    this.bottomLayer.addChild( new PathsWebGLNode( model, modelViewTransformProperty, { visible: true } ) );
   }
 
   update(): void {
