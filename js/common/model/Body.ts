@@ -50,9 +50,12 @@ class Body {
 
     // Data for rendering the path as a WebGL object
     this.path = createObservableArray();
+    // Adding first point twice for the WebGL Path
+    this.addPathPoint();
+    this.addPathPoint();
     this.pathDistance = 0;
-    this.pathLengthLimit = 50;
-    this.pathDistanceLimit = 50;
+    this.pathLengthLimit = 1000;
+    this.pathDistanceLimit = 1000;
   }
 
   reset(): void {

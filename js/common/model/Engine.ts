@@ -144,6 +144,7 @@ class Engine {
       body.accelerationProperty.value = accelerations[ i ];
       body.forceProperty.value = forces[ i ];
       body.previousAcceleration = previousAccelerations[ i ];
+      body.addPathPoint();
     }
   }
 

@@ -65,7 +65,7 @@ class PathsPainter {
 
     this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
       attributes: [ 'aPosition' ],
-      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uMatrixInverse', 'uData', 'uTextureSize' ]
+      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uMatrixInverse', 'uData', 'uTextureSize', 'uPathLength' ]
     } );
     
     this.vertexBuffer = gl.createBuffer()!;
@@ -114,16 +114,12 @@ class PathsPainter {
 
     this.shaderProgram.use();
 
-    const position0 = this.node.model.bodies[ 0 ].positionProperty.value;
-    const position1 = this.node.model.bodies[ 1 ].positionProperty.value;
-    this.dataArray[ 0 ] = position0.x;
-    this.dataArray[ 1 ] = position0.y;
-    // z here
-    // alpha here
-    this.dataArray[ 4 ] = position1.x;
-    this.dataArray[ 5 ] = position1.y;
-    // z here
-    // alpha here
+    let nPoints = 0;
+    this.node.model.bodies[ 1 ].path.forEach( point => {
+      this.dataArray[ 4 * nPoints ] = point.x;
+      this.dataArray[ ( 4 * nPoints ) + 1 ] = point.y;
+      nPoints += 1;
+    } );
 
     this.updateDataTexture();
 
@@ -139,6 +135,7 @@ class PathsPainter {
     matrixInverse.set( this.node.modelViewTransformProperty.value.getInverse() ).multiplyMatrix( modelViewMatrix.inverted().multiplyMatrix( projectionMatrixInverse ) );
     gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uMatrixInverse, false, matrixInverse.copyToArray( scratchFloatArray ) );
     gl.uniform2f( this.shaderProgram.uniformLocations.uTextureSize, DATA_TEXTURE_WIDTH, DATA_TEXTURE_HEIGHT );
+    gl.uniform1i( this.shaderProgram.uniformLocations.uPathLength, nPoints );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );
