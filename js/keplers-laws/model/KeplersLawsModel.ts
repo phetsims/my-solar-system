@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * The model in charge of the Kepler's Laws Screen components.
  *
  * @author Agustín Vallejo
  */

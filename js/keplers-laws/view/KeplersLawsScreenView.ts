@@ -29,6 +29,7 @@ import KeplersLawsSliders from './KeplersLawsSliders.js';
 import LawButton from './LawButton.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EllipticalOrbitNode from './EllipticalOrbitNode.js';
 
 // constants
 const MARGIN = 5;
@@ -52,6 +53,7 @@ bodiesLayerNode: Node;
 ComponentsLayerNode: Node;
 UILayerNode: Node;
 topLayer: Node;
+bottomLayer: Node;
 
 constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
   super( {
@@ -59,10 +61,12 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   } );
 
   this.topLayer = new Node();
+  this.bottomLayer = new Node();
   this.bodiesLayerNode = new Node();
   this.ComponentsLayerNode = new Node();
   this.UILayerNode = new Node();
 
+  this.addChild( this.bottomLayer );
   this.addChild( this.bodiesLayerNode );
   this.addChild( this.ComponentsLayerNode );
   this.addChild( this.UILayerNode );
@@ -93,6 +97,8 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
       new BodyNode( body, modelViewTransformProperty, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } )
       );
   } );
+
+  this.bottomLayer.addChild( new EllipticalOrbitNode( model.bodies[ 1 ], modelViewTransformProperty ) );
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons
