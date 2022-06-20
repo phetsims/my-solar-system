@@ -22,7 +22,7 @@ type painterReturn = 0 | 1;
 const DATA_TEXTURE_WIDTH = 32;
 const DATA_TEXTURE_HEIGHT = 32;
 const DATA_TEXTURE_SIZE = DATA_TEXTURE_WIDTH * DATA_TEXTURE_HEIGHT;
-const MAX_PATH_LENGTH = ( DATA_TEXTURE_SIZE - 16 ) / 4;
+export const MAX_PATH_LENGTH = ( DATA_TEXTURE_SIZE - 16 ) / 4;
 
 const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();

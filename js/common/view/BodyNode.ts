@@ -46,6 +46,7 @@ export default class BodyNode extends ShadedSphereNode {
     const dragListener = new DragListener( {
       start: ( event: PressListenerEvent ) => {
         PointerDistanceFromCenter = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
+        body.clearPath();
       },
       drag: ( event: PressListenerEvent ) => {
         body.positionProperty.value = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );

@@ -11,6 +11,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
+import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
 
 class Body {
   // Unitless body quantities.
@@ -29,6 +30,8 @@ class Body {
   public pathDistance: number;
   public pathLengthLimit: number;
   public pathDistanceLimit: number;
+  public stepCounter: number;
+  public wholeStepSize: number;
 
   // Previous values for velocity Verlet algorithm
   public previousAcceleration: Vector2;
@@ -54,8 +57,10 @@ class Body {
     this.addPathPoint();
     this.addPathPoint();
     this.pathDistance = 0;
-    this.pathLengthLimit = 1000;
+    this.pathLengthLimit = MAX_PATH_LENGTH; // TODO: Is importing constants like this ok???
     this.pathDistanceLimit = 1000;
+    this.stepCounter = 0; // Counting steps to only add points on multiples of wholeStepSize
+    this.wholeStepSize = 10;
   }
 
   reset(): void {
@@ -86,7 +91,6 @@ class Body {
     }
 
     // remove points from the path as the path gets too long
-    // if the path grows more than ~6000 points, start removing points
     while ( this.pathDistance > this.pathDistanceLimit || this.path.length > this.pathLengthLimit ) {
       const loss = this.path[ 1 ].minus( this.path[ 0 ] );
       const lossMagnitude = loss.magnitude;

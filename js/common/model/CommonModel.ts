@@ -144,6 +144,12 @@ abstract class CommonModel {
       this.bodies.forEach( body => body.addPathPoint );
     }
   }
+
+  clearPaths(): void {
+    this.bodies.forEach( body => {
+      body.clearPath();
+    } );
+  }
 }
 
 mySolarSystem.register( 'CommonModel', CommonModel );

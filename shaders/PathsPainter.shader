@@ -6,11 +6,8 @@ uniform vec2 uTextureSize;
 uniform int uPathLength;
 uniform int uMaxPathLength;
 
-// Signed distance to a line segment
-float sdSegment( in vec2 p, in vec2 a, in vec2 b ) {
-  vec2 pa = p-a, ba = b-a;
-  float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
-  return length( pa - ba*h );
+vec2 globalToModel( in vec2 modelPoint ) {
+  return ( uMatrixInverse * vec3( modelPoint, 1.0 ) ).xy;
 }
 
 // Given an index into our "vec3 data array", returns the vec3
@@ -19,8 +16,11 @@ vec4 fetch( in int index ) {
   return texture2D( uData, ( coordinates + 0.5 ) / uTextureSize );
 }
 
-vec2 globalToModel( in vec2 modelPoint ) {
-  return ( uMatrixInverse * vec3( modelPoint, 1.0 ) ).xy;
+// Signed distance to a line segment
+float sdSegment( in vec2 p, in vec2 a, in vec2 b ) {
+  vec2 pa = p-a, ba = b-a;
+  float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+  return length( pa - ba*h );
 }
 
 // Given a distance to the line, return a vec4 color.
@@ -28,7 +28,7 @@ vec4 distToValue( in float dist, in int closestIndex, in vec3 planetColor ) {
   // divider = 0 when beggining. closestIndex == 0
   // divider = 1 when ending. closestIndex == PathLength
   float divider = float( closestIndex ) / float( uPathLength + 1 );
-  float value = smoothstep( 4.0 * divider, divider , dist );
+  float value = smoothstep( 2.0 * divider, divider , dist );
   // return vec4( vec3( value ), 0.9 );
   return vec4( divider * planetColor, value * divider );
 }
@@ -56,11 +56,15 @@ vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
 
 // Returns the color from the vertex shader
 void main( void ) {
-  vec2 modelPosition = globalToModel( vPosition );
-  vec4 stroke = vec4( 0.0 );
-  // for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
-  //   stroke = getStroke( modelPosition, bodyIndex, fetch( bodyIndex ).xyz );
-  // }
-  stroke = getStroke( modelPosition, 1, fetch( 1 ).xyz );
-  gl_FragColor = stroke;
+  if ( length( gl_FragColor ) == 0.0 ){
+    vec2 modelPosition = globalToModel( vPosition );
+    vec4 stroke = vec4( 0.0 );
+    for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
+      vec4 newStroke = getStroke( modelPosition, bodyIndex, fetch( bodyIndex ).xyz );
+      if ( length( newStroke ) > length( stroke ) ){ // If new stroke is stronger than previous
+        stroke = newStroke;
+      }
+    }
+    gl_FragColor = stroke;
+  }
 }

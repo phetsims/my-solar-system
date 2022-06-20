@@ -196,7 +196,12 @@ class CommonScreenView extends ScreenView {
      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );
 
-    this.bottomLayer.addChild( new PathsWebGLNode( model, modelViewTransformProperty, { visible: true } ) );
+    const pathsWebGLNode = new PathsWebGLNode( model, modelViewTransformProperty, { visible: false } );
+    model.pathVisibleProperty.link( visible => {
+      pathsWebGLNode.visible = visible;
+      model.clearPaths();
+    } );
+    this.bottomLayer.addChild( pathsWebGLNode );
   }
 
   update(): void {
