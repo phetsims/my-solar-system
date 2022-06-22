@@ -21,6 +21,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 export default class EllipticalOrbit {
   private readonly mu: number;
@@ -33,11 +34,20 @@ export default class EllipticalOrbit {
   public W: number;
 
   constructor( body: Body ) {
-    this.mu = 1e6;
+    this.mu = 2e6;
     this.body = body;
+    this.a = 0;
+    this.e = 0;
+    this.w = 0;
+    this.M0 = 0;
+    this.W = 0;
 
+    this.update();
+  }
+
+  update(): void {
     const [ a, e, w, M0, W ] = this.calculate_ellipse(
-      body.positionProperty.value, body.velocityProperty.value
+      this.body.positionProperty.value, this.body.velocityProperty.value
       );
     this.a = a;
     this.e = e;
@@ -70,7 +80,7 @@ export default class EllipticalOrbit {
   calculate_angles( r: Vector2, v: Vector2, a: number, e: number ): number[] {
     const r_mag = r.magnitude;
     // nu comes from the polar ellipse equation
-    let nu = Math.acos( ( 1 / e ) * ( a * ( 1 - e * e ) / r_mag - 1 ) );
+    let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / r_mag - 1 ), -1, 1 ) );
   
     const alpha = r.angle;
     const beta = v.angle;
@@ -84,7 +94,7 @@ export default class EllipticalOrbit {
       W *= -1;
     }
   
-    let E0 = Math.acos( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ) );
+    let E0 = Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
     if ( Math.cos( E0 - nu ) < 0 ) {
       E0 *= -1;
     }

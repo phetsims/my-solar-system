@@ -14,7 +14,7 @@
 import { Shape } from '../../../../kite/js/imports.js';
 import { Path, PathOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import Property from '../../../../axon/js/Property.js';
+import { ReadOnlyProperty } from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -33,7 +33,7 @@ class MySolarSystemGridNode extends Path {
    * @param numGridLines - number grid lines on each side of the center
    * @param [providedOptions]
    */
-  constructor( transformProperty: Property<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: MySolarSystemGridNodeOptions ) {
+  constructor( transformProperty: ReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: MySolarSystemGridNodeOptions ) {
     
     const options = optionize<MySolarSystemGridNodeOptions, SelfOptions, PathOptions>()( {
       lineWidth: 1,

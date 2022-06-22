@@ -21,25 +21,29 @@ export default class EllipticalOrbitNode extends Path {
 
   constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super( new Shape(), {
-      lineWidth: 3,
+      lineWidth: 1,
       stroke: 'white'
     } );
 
     this.orbit = new EllipticalOrbit( body );
-    this.translation = modelViewTransformProperty.value.modelToViewPosition( Vector2.ZERO );
-    const radiusX = body.positionProperty.value.x;
-    const radiusY = body.positionProperty.value.x;
-    const rotation = 0;
-    this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, rotation );
 
     this.shapeMultilink = Multilink.multilink(
       [ body.positionProperty, body.velocityProperty, modelViewTransformProperty ],
       ( position, velocity, modelViewTransform ) => {
-        this.translation = modelViewTransform.modelToViewPosition( Vector2.ZERO );
-        const radiusX = position.x;
-        const radiusY = position.x;
-        const rotation = 0;
-        this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, rotation );
+        this.orbit.update();
+
+        const scale = modelViewTransform.modelToViewDeltaX( 1 );
+        const a = this.orbit.a;
+        const e = this.orbit.e;
+        const c = e * a;
+        const center = new Vector2( -c, 0 );
+        const radiusX = scale * a;
+        const radiusY = scale * Math.sqrt( a * a - c * c );
+
+        this.translation = modelViewTransform.modelToViewPosition( center );
+        this.rotation = 0;
+        this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
+        this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
     } );
   }
 }

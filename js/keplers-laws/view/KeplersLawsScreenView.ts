@@ -7,7 +7,6 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -30,6 +29,8 @@ import LawButton from './LawButton.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
 
 // constants
 const MARGIN = 5;
@@ -72,19 +73,6 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   this.addChild( this.UILayerNode );
   this.addChild( this.topLayer );
 
-  // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
-  // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
-  const gridNode = new MySolarSystemGridNode(
-  new Property( ModelViewTransform2.createIdentity() ),
-  MySolarSystemConstants.GRID.spacing,
-  this.layoutBounds.center,
-  28, {
-  stroke: MySolarSystemColors.gridIconStrokeColorProperty,
-  lineWidth: 1
-  } );
-  model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
-  this.UILayerNode.addChild( gridNode );
-
   const modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
     return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
@@ -92,13 +80,45 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
       zoom );
     } );
 
-  model.bodies.forEach( body => {
-    this.bodiesLayerNode.addChild(
-      new BodyNode( body, modelViewTransformProperty, { mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayerNode.getChildrenCount() ] } )
-      );
-  } );
+  // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
+  // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
+  const gridNode = new MySolarSystemGridNode(
+    modelViewTransformProperty,
+    MySolarSystemConstants.GRID.spacing,
+    Vector2.ZERO,
+    28, {
+    stroke: MySolarSystemColors.gridIconStrokeColorProperty,
+    lineWidth: 1
+    } );
+  model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
+  this.UILayerNode.addChild( gridNode );
 
-  this.bottomLayer.addChild( new EllipticalOrbitNode( model.bodies[ 1 ], modelViewTransformProperty ) );
+  const sun = model.bodies[ 0 ];
+  const planet = model.bodies[ 1 ];
+
+  this.bodiesLayerNode.addChild(
+      new BodyNode(
+        sun,
+        modelViewTransformProperty,
+        {
+          mainColor: MySolarSystemColors.bodiesPalette[ 0 ],
+          draggable: false
+        }
+        )
+      );
+  this.bodiesLayerNode.addChild(
+      new BodyNode(
+        planet,
+        modelViewTransformProperty,
+        { mainColor: MySolarSystemColors.bodiesPalette[ 1 ] }
+        )
+      );
+  this.ComponentsLayerNode.addChild( new DraggableVectorNode(
+    planet, modelViewTransformProperty, model.velocityVisibleProperty, planet.velocityProperty,
+    1, 'V', { fill: PhetColorScheme.VELOCITY }
+    ) );
+
+  this.bottomLayer.addChild( new EllipticalOrbitNode( planet, modelViewTransformProperty ) );
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons

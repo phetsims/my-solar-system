@@ -13,20 +13,24 @@ import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-p
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 
-type BodyNodeOptions = ShadedSphereNodeOptions;
+type SelfOptions = {
+  draggable?: boolean;
+}
+type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
   public body: Body;
   public initialMass: number;
   private somethingMultilink: UnknownMultilink;
+  public draggable: boolean;
 
   constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
-    const options = optionize<BodyNodeOptions, EmptyObjectType, ShadedSphereNodeOptions>()( {
-      cursor: 'pointer'
+    const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
+      cursor: 'pointer',
+      draggable: true
     }, providedOptions );
 
     super( 1, options );
@@ -37,22 +41,25 @@ export default class BodyNode extends ShadedSphereNode {
     this.somethingMultilink = Multilink.multilink(
       [ body.positionProperty, body.massProperty, modelViewTransformProperty ],
       ( position, mass, modelViewTransform ) => {
-        this.translation = modelViewTransform.modelToViewPosition( position );
         this.setScaleMagnitude( this.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
+        this.translation = modelViewTransform.modelToViewPosition( position );
     } );
 
     let PointerDistanceFromCenter: Vector2 | null = null;
 
-    const dragListener = new DragListener( {
-      start: ( event: PressListenerEvent ) => {
-        PointerDistanceFromCenter = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
-        body.clearPath();
-      },
-      drag: ( event: PressListenerEvent ) => {
-        body.positionProperty.value = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
-      }
-    } );
-    this.addInputListener( dragListener );
+    this.draggable = options.draggable;
+    if ( this.draggable ) {
+      const dragListener = new DragListener( {
+        start: ( event: PressListenerEvent ) => {
+          PointerDistanceFromCenter = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
+          body.clearPath();
+        },
+        drag: ( event: PressListenerEvent ) => {
+          body.positionProperty.value = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
+        }
+      } );
+      this.addInputListener( dragListener );
+    }
   }
 
   private massToScale( mass: number, scale: number ): number {

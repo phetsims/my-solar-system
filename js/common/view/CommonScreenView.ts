@@ -6,7 +6,6 @@
  * @author Agustín Vallejo
  */
 
-import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -69,25 +68,25 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.UILayerNode );
     this.addChild( this.topLayer );
 
-    // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
-    // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
-    const gridNode = new MySolarSystemGridNode(
-      new Property( ModelViewTransform2.createIdentity() ),
-      MySolarSystemConstants.GRID.spacing,
-      this.layoutBounds.center,
-      28, {
-      stroke: MySolarSystemColors.gridIconStrokeColorProperty,
-      lineWidth: 1
-      } );
-     model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
-     this.UILayerNode.addChild( gridNode );
-
     const modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
       return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
         Vector2.ZERO,
         new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing ),
         zoom );
       } );
+
+    // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
+    // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
+    const gridNode = new MySolarSystemGridNode(
+      modelViewTransformProperty,
+      MySolarSystemConstants.GRID.spacing,
+      Vector2.ZERO,
+      28, {
+      stroke: MySolarSystemColors.gridIconStrokeColorProperty,
+      lineWidth: 1
+      } );
+     model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
+     this.UILayerNode.addChild( gridNode );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
