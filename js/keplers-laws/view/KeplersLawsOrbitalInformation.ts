@@ -48,14 +48,14 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
     //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
  
      const children = [
-       new Checkbox( new FlowBox( {
+       new Checkbox( model.pathVisibleProperty, new FlowBox( {
          spacing: 10,
          children: [
            new Text( axisString, TEXT_OPTIONS )
-          //  axisIconImageNode
+           //  axisIconImageNode
          ]
-       } ), model.pathVisibleProperty, CHECKBOX_OPTIONS ),
-       new Checkbox( new FlowBox( {
+       } ), CHECKBOX_OPTIONS ),
+       new Checkbox( model.apoapsisVisibleProperty, new FlowBox( {
          spacing: 10,
          children: [
            new Text( apoapsisString, TEXT_OPTIONS ),
@@ -66,19 +66,19 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
              scale: 0.5
            } )
          ]
-       } ), model.apoapsisVisibleProperty, CHECKBOX_OPTIONS ),
-       new Checkbox( new FlowBox( {
-        spacing: 10,
-        children: [
-          new Text( periapsisString, TEXT_OPTIONS ),
-          new XNode( {
-            fill: 'gold',
-            stroke: 'white',
-            center: Vector2.ZERO,
-            scale: 0.5
-          } )
-        ]
-      } ), model.periapsisVisibleProperty, CHECKBOX_OPTIONS )
+       } ), CHECKBOX_OPTIONS ),
+       new Checkbox( model.periapsisVisibleProperty, new FlowBox( {
+         spacing: 10,
+         children: [
+           new Text( periapsisString, TEXT_OPTIONS ),
+           new XNode( {
+             fill: 'gold',
+             stroke: 'white',
+             center: Vector2.ZERO,
+             scale: 0.5
+           } )
+         ]
+       } ), CHECKBOX_OPTIONS )
      ];
  
      // increase the touch area of the checkboxes

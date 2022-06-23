@@ -46,12 +46,9 @@ class AreasControls extends FlowBox {
   constructor( model: KeplersLawsModel ) {
     super( {
       children: [
-        new Checkbox( new Text( dotsString, TEXT_OPTIONS ),
-        model.dotsVisibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( new Text( sweepArea, TEXT_OPTIONS ),
-        model.sweepAreaVisibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( new Text( areaGraphString, TEXT_OPTIONS ),
-        model.areaGraphVisibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.dotsVisibleProperty, new Text( dotsString, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.sweepAreaVisibleProperty, new Text( sweepArea, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.areaGraphVisibleProperty, new Text( areaGraphString, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new FlowBox( {
           children: [

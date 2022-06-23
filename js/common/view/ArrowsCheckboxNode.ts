@@ -50,22 +50,20 @@ class ArrowsCheckboxNode extends VBox {
     const velocityTextNode = new Text( velocityString, TEXT_OPTIONS );
 
     // gravity force checkbox
-    children.push( new MySolarSystemCheckbox( new HBox( combineOptions<HBoxOptions>( {
-        children: [
-          gravityForceTextNode,
-          new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
-        ]
-      }, HBOX_OPTIONS ) ),
-      model.gravityVisibleProperty ) );
+    children.push( new MySolarSystemCheckbox( model.gravityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
+      children: [
+        gravityForceTextNode,
+        new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
+      ]
+    }, HBOX_OPTIONS ) ) ) );
 
     // velocity checkbox
-    children.push( new MySolarSystemCheckbox( new HBox( combineOptions<HBoxOptions>( {
-        children: [
-          velocityTextNode,
-          new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
-        ]
-      }, HBOX_OPTIONS ) ),
-      model.velocityVisibleProperty ) );
+    children.push( new MySolarSystemCheckbox( model.velocityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
+      children: [
+        velocityTextNode,
+        new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
+      ]
+    }, HBOX_OPTIONS ) ) ) );
 
     super( optionize<ArrowsCheckboxNodeOptions, SelfOptions, VBoxOptions>()( {
       excludeInvisibleChildrenFromBounds: true,

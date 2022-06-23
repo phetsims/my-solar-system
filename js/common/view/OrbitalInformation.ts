@@ -42,14 +42,14 @@ class OrbitalInformation extends VBox {
     const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
 
     const children = [
-      new MySolarSystemCheckbox( new HBox( {
+      new MySolarSystemCheckbox( model.pathVisibleProperty, new HBox( {
         spacing: 10,
         children: [
           new Text( pathString, TEXT_OPTIONS ),
           pathIconImageNode
         ]
-      } ), model.pathVisibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS ),
-      new MySolarSystemCheckbox( new HBox( {
+      } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+      new MySolarSystemCheckbox( model.centerOfMass.visibleProperty, new HBox( {
         spacing: 10,
         children: [
           new Text( massString, TEXT_OPTIONS ),
@@ -60,7 +60,7 @@ class OrbitalInformation extends VBox {
             scale: 0.5
           } )
         ]
-      } ), model.centerOfMass.visibleProperty, MySolarSystemConstants.CHECKBOX_OPTIONS )
+      } ), MySolarSystemConstants.CHECKBOX_OPTIONS )
     ];
 
     super( optionize<OrbitalInformationOptions, SelfOptions, VBox>()( {

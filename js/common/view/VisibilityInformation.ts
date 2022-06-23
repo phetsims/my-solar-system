@@ -45,29 +45,29 @@ class VisibilityInformation extends VBox {
     const measuringTapeIcon = MeasuringTapeNode.createIcon( { scale: 0.3 } );
 
     const children = [
-      new MySolarSystemCheckbox( new HBox( {
+      new MySolarSystemCheckbox( model.gridVisibleProperty, new HBox( {
         spacing: 10,
         children: [
           new Text( gridString, TEXT_OPTIONS ),
           new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, new Vector2( 0, 0 ), 1, {
             stroke: MySolarSystemColors.gridIconStrokeColorProperty,
             lineWidth: 1.5
-      } )
+          } )
         ]
-      } ), model.gridVisibleProperty ),
-      new MySolarSystemCheckbox( new HBox( {
+      } ) ),
+      new MySolarSystemCheckbox( model.measuringTapeVisibleProperty, new HBox( {
         spacing: 10,
         children: [
           new Text( measuringTapeString, TEXT_OPTIONS ),
           measuringTapeIcon
         ]
-      } ), model.measuringTapeVisibleProperty ),
-      new MySolarSystemCheckbox( new HBox( {
+      } ) ),
+      new MySolarSystemCheckbox( model.valuesVisibleProperty, new HBox( {
         spacing: 10,
         children: [
           new Text( valuesString, TEXT_OPTIONS )
         ]
-      } ), model.valuesVisibleProperty )
+      } ) )
     ];
 
     super( optionize<VisibilityInformationOptions, SelfOptions, VBox>()( {
