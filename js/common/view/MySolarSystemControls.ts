@@ -54,7 +54,7 @@ export default class MySolarSystemControls extends VBox {
     ) {
     super( {
       children: [
-        ...( model.isLab ? [ new ComboBox( [
+        ...( model.isLab ? [ new ComboBox( model.labModeProperty, [
           new ComboBoxItem( new Text( 'Sun and Planet', TEXT_OPTIONS ), LabModes.SUN_PLANET ),
           new ComboBoxItem( new Text( 'Sun, Planet and Moon', TEXT_OPTIONS ), LabModes.SUN_PLANET_MOON ),
           new ComboBoxItem( new Text( 'Sun, Planet and Comet', TEXT_OPTIONS ), LabModes.SUN_PLANET_COMET ),
@@ -67,7 +67,7 @@ export default class MySolarSystemControls extends VBox {
           new ComboBoxItem( new Text( 'Four Star Ballet', TEXT_OPTIONS ), LabModes.FOUR_STAR_BALLET ),
           new ComboBoxItem( new Text( 'Double Double', TEXT_OPTIONS ), LabModes.DOUBLE_DOUBLE ),
           new ComboBoxItem( new Text( 'Custom', TEXT_OPTIONS ), LabModes.CUSTOM )
-        ], model.labModeProperty, topLayer ) ] : [] ),
+        ], topLayer ) ] : [] ),
         new OrbitalInformation( model ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new ArrowsCheckboxNode( model ),
