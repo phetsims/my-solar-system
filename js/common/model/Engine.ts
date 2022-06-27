@@ -25,22 +25,22 @@ class Engine {
   // Array of gravitational interacting bodies
   private bodies: ObservableArray<Body>;
 
-  constructor( bodies: ObservableArray<Body> ) {
+  public constructor( bodies: ObservableArray<Body> ) {
     this.G = 10000;
     this.bodies = bodies;
   }
 
-  update( bodies: ObservableArray<Body> ): void {
+  public update( bodies: ObservableArray<Body> ): void {
     // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
     this.updateForces();
   }
 
-  reset(): void {
+  public reset(): void {
     this.updateForces();
   }
 
-  run( dt: number ): void {
+  public run( dt: number ): void {
     const iterationCount = 400 / this.bodies.length;
     const N = this.bodies.length;
     dt /= iterationCount;
@@ -152,7 +152,7 @@ class Engine {
     }
   }
 
-  updateForces(): void {
+  private updateForces(): void {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
       body.accelerationProperty.value = Vector2.ZERO;
@@ -178,7 +178,7 @@ class Engine {
   /**
    * Calculate the force on body1 because of body2
    */
-  getForce( body1: Body, body2: Body ): Vector2 {
+  private getForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance = direction.magnitude;
     assert && assert( distance > 0, 'Negative distances not allowed!!' );
@@ -192,7 +192,7 @@ class Engine {
    * x(t+dt) = x(t) + v(t)*dt + a(t)*0.5*dt*dt
    * v(t+dt) = v(t) + (a(t+dt) + a(t))*0.5*dt
    */
-  verlet( dt: number ): void {
+  private verlet( dt: number ): void {
     this.bodies.forEach( body => {
       const velocity: Vector2 = body.velocityProperty.value;
       const acceleration: Vector2 = body.accelerationProperty.value;
@@ -204,19 +204,19 @@ class Engine {
 
   }
 
-  updatePositions( dt: number ): void {
+  private updatePositions( dt: number ): void {
     this.bodies.forEach( body => {
       body.positionProperty.value = body.positionProperty.value.plus( body.velocityProperty.value.times( dt ) );
     } );
   }
 
-  updateVelocities( dt: number ): void {
+  private updateVelocities( dt: number ): void {
     this.bodies.forEach( body => {
       body.velocityProperty.value = body.velocityProperty.value.plus( body.accelerationProperty.value.times( dt ) );
     } );
   }
   
-  FRIS( dt: number ): void {
+  private FRIS( dt: number ): void {
     // Forrest Ruth Integration Scheme (FRIS)
     
     //-------------

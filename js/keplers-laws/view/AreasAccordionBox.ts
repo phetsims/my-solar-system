@@ -7,12 +7,13 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import { FlowBox, Text, VDivider } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -29,16 +30,20 @@ const sweepArea = 'Swept Area';
 const areaGraphString = 'Area Graph';
 const periodDivisionString = 'Period Divisions';
 
+type AreasAccordionBoxOptions = AccordionBoxOptions;
+
 export default class AreasAccordionBox extends AccordionBox {
-  constructor( model: KeplersLawsModel ) {
-    super( new AreasControls( model ), {
+  constructor( model: KeplersLawsModel, providedOptions?: AreasAccordionBoxOptions ) {
+    const options = combineOptions<AreasAccordionBoxOptions>( {
       titleNode: new Text( 'Area', TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
       buttonXMargin: 5,
       buttonYMargin: 5,
       fill: MySolarSystemColors.backgroundProperty,
       stroke: MySolarSystemColors.gridIconStrokeColorProperty
-    } );
+    }, providedOptions );
+
+    super( new AreasControls( model ), options );
   }
 }
 

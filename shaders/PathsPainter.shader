@@ -39,7 +39,7 @@ vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
   int closestIndex = uPathLength;
 
   for ( int vertexIndex = 0 ; vertexIndex < 1000 ; vertexIndex++ ) {
-    if ( ( vertexIndex == uPathLength - 1 ) || ( vertexIndex == uMaxPathLength - 1 ) ) {
+    if ( ( vertexIndex > uPathLength - 2 ) || ( vertexIndex > uMaxPathLength - 2 ) ) {
       return distToValue( dist, closestIndex, planetColor );
     }
     vec2 position0 = fetch( 4 + bodyIndex * uMaxPathLength + vertexIndex ).xy;

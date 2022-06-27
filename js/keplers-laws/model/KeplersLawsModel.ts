@@ -19,17 +19,19 @@ import Property from '../../../../axon/js/Property.js';
 type KeplersLawsModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel {
-  apoapsisVisibleProperty: Property<boolean>;
-  periapsisVisibleProperty: Property<boolean>;
-  axisVisibleProperty: Property<boolean>;
+  public apoapsisVisibleProperty: Property<boolean>;
+  public periapsisVisibleProperty: Property<boolean>;
+  public axisVisibleProperty: Property<boolean>;
+ 
+  public areasVisibleProperty: Property<boolean>;
+  public dotsVisibleProperty: Property<boolean>;
+  public sweepAreaVisibleProperty: Property<boolean>;
+  public areaGraphVisibleProperty: Property<boolean>;
+  public periodDivisionProperty: Property<number>;
+  public secondLawSelectedProperty: Property<boolean>;
+  public thirdLawSelectedProperty: Property<boolean>;
 
-  areasVisibleProperty: Property<boolean>;
-  dotsVisibleProperty: Property<boolean>;
-  sweepAreaVisibleProperty: Property<boolean>;
-  areaGraphVisibleProperty: Property<boolean>;
-  periodDivisionProperty: Property<number>;
-
-  separationProperty: Property<number>;
+  public separationProperty: Property<number>;
 
   constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptyObjectType, CommonModelOptions>()( {
@@ -47,6 +49,13 @@ class KeplersLawsModel extends CommonModel {
     this.sweepAreaVisibleProperty = new Property<boolean>( false );
     this.areaGraphVisibleProperty = new Property<boolean>( false );
     this.periodDivisionProperty = new Property<number>( 4 );
+    this.secondLawSelectedProperty = new Property<boolean>( true );
+    this.thirdLawSelectedProperty = new Property<boolean>( false );
+
+    // TODO Turn thirdLawSelectedProperty into a DerivedProperty, the type errors scared me
+    this.secondLawSelectedProperty.link( value => {
+      this.thirdLawSelectedProperty.value = !value;
+    } );
 
     this.separationProperty = new Property<number>( 150 );
     this.separationProperty.link( separation => {

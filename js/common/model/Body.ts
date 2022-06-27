@@ -37,7 +37,7 @@ class Body {
   public previousAcceleration: Vector2;
   public previousPosition: Vector2;
 
-  constructor( mass: number, position: Vector2, velocity: Vector2 ) {
+  public constructor( mass: number, position: Vector2, velocity: Vector2 ) {
     // Physical properties of the body
     this.massProperty = new Property<number>( mass );
     this.positionProperty = new Property<Vector2>( position );
@@ -63,7 +63,7 @@ class Body {
     this.wholeStepSize = 10;
   }
 
-  reset(): void {
+  public reset(): void {
     this.massProperty.reset();
     this.positionProperty.reset();
     this.velocityProperty.reset();
@@ -78,7 +78,7 @@ class Body {
    * Add a point to the collection of points that follow the trajectory of a moving body.
    * This also removes points when the path gets too long.
    */
-   addPathPoint(): void {
+   public addPathPoint(): void {
     const pathPoint = this.positionProperty.get();
     this.path.push( pathPoint );
 
@@ -104,7 +104,7 @@ class Body {
     /**
      * Clear the whole path of points tracking the body's trajectory.
      */
-    clearPath(): void {
+    public clearPath(): void {
     this.path.clear();
     this.pathDistance = 0;
     }

@@ -11,7 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { AlignBox, FlowBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { AlignBox, FlowBox, Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
@@ -25,19 +25,15 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
 import AreasAccordionBox from './AreasAccordionBox.js';
 import KeplersLawsSliders from './KeplersLawsSliders.js';
-import LawButton from './LawButton.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
+import LawsButtons from './LawsButtons.js';
 
 // constants
 const MARGIN = 5;
-
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT
-};
 
 type SelfOptions = {
 tandem: Tandem;
@@ -50,13 +46,13 @@ controlsOptions?: {
 export type KeplersLawsScreenViewOptions = SelfOptions;
 
 class KeplersLawsScreenView extends ScreenView {
-bodiesLayerNode: Node;
-ComponentsLayerNode: Node;
-UILayerNode: Node;
-topLayer: Node;
-bottomLayer: Node;
+private readonly bodiesLayerNode: Node;
+private readonly ComponentsLayerNode: Node;
+private readonly UILayerNode: Node;
+private readonly topLayer: Node;
+private readonly bottomLayer: Node;
 
-constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
+public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
   super( {
     tandem: providedOptions.tandem
   } );
@@ -124,7 +120,7 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   // Zoom Buttons
   this.UILayerNode.addChild( new AlignBox( new FlowBox( {
     children: [
-    new AreasAccordionBox( model ),
+    new AreasAccordionBox( model, { visibleProperty: model.secondLawSelectedProperty } ),
     new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
     ],
@@ -189,8 +185,7 @@ constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOpti
   // Slider that controls the small's body mass and its separation to the star
   this.UILayerNode.addChild( new AlignBox( new FlowBox( {
     children: [
-      new LawButton( new Text( '1st & 2nd Laws', TEXT_OPTIONS ) ),
-      new LawButton( new Text( '3rd Law', TEXT_OPTIONS ) ),
+      new LawsButtons( model ),
       new KeplersLawsSliders( model )
     ],
     orientation: 'horizontal',

@@ -64,7 +64,7 @@ abstract class CommonModel {
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
 
-  constructor( providedOptions: CommonModelOptions ) {
+  public constructor( providedOptions: CommonModelOptions ) {
     this.bodies = createObservableArray();
     this.createBodies();
     this.centerOfMass = new CenterOfMass( this.bodies );
@@ -107,16 +107,16 @@ abstract class CommonModel {
   /**
    * Abstract method for body creation, every screen model will decide how to implement
    */
-  abstract createBodies(): void
+  public abstract createBodies(): void
 
-  restart(): void {
+  public restart(): void {
     this.isPlayingProperty.value = false;
     this.bodies.forEach( body => body.reset() );
     this.update();
     this.timeProperty.value = 0;
   }
 
-  stepForward(): void {
+  public stepForward(): void {
     this.engine.run( 1 / 60 );
     this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
   }
@@ -124,16 +124,16 @@ abstract class CommonModel {
   /**
    * Updating for when the bodies are changed
    */
-  update(): void {
+  public update(): void {
     this.engine.update( this.bodies );
     this.centerOfMass.updateCenterOfMassPosition();
   }
   
-  reset(): void {
+  public reset(): void {
     this.restart();
   }
   
-  step( dt: number ): void {
+  public step( dt: number ): void {
     this.update();
     if ( this.isPlayingProperty.value ) {
       this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
@@ -145,7 +145,7 @@ abstract class CommonModel {
     }
   }
 
-  clearPaths(): void {
+  public clearPaths(): void {
     this.bodies.forEach( body => {
       body.clearPath();
     } );

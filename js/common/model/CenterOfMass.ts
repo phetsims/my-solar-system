@@ -18,7 +18,7 @@ export default class CenterOfMass {
   private readonly bodies: ObservableArray<Body>;
   private totalMass: number;
 
-  constructor( bodies: ObservableArray<Body> ) {
+  public constructor( bodies: ObservableArray<Body> ) {
     this.bodies = bodies;
     this.totalMass = 0;
     this.positionProperty = new Property<Vector2>( Vector2.ZERO );
@@ -29,7 +29,7 @@ export default class CenterOfMass {
   /**
    * Calculates the total mass and the position of the Center of Mass.
    */
-  updateCenterOfMassPosition(): void {
+  public updateCenterOfMassPosition(): void {
     const centerOfMassPosition = new Vector2( 0, 0 );
     this.totalMass = 0;
     this.bodies.forEach( body => {this.totalMass += body.massProperty.value;} );
