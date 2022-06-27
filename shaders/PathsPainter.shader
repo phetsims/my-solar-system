@@ -7,6 +7,9 @@ uniform int uPathLength;
 uniform int uMaxPathLength;
 uniform mat4 uColorMatrix;
 
+// NOTE: This is best hardcoded as a constant (we could replace in JS if needed)
+const int maxPathLength = 32 * 32 / 4;
+
 vec2 globalToModel( in vec2 modelPoint ) {
   return ( uMatrixInverse * vec3( modelPoint, 1.0 ) ).xy;
 }
@@ -24,47 +27,40 @@ float sdSegment( in vec2 p, in vec2 a, in vec2 b ) {
   return length( pa - ba*h );
 }
 
-// Given a distance to the line, return a vec4 color.
-vec4 distToValue( in float dist, in int closestIndex, in vec3 planetColor ) {
-  // divider = 0 when beggining. closestIndex == 0
-  // divider = 1 when ending. closestIndex == PathLength
-  float divider = float( closestIndex ) / float( uPathLength + 1 );
-  float value = smoothstep( 2.0 * divider, divider, dist );
-  // return vec4( vec3( value ), 0.9 );
-  return vec4( divider * planetColor, value * divider );
-}
-
 // For one body, calculate the path stroke in a specific modelPosition
 vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
-  float dist = 1000.0;
-  int closestIndex = uPathLength;
 
-  for ( int vertexIndex = 0 ; vertexIndex < 1000 ; vertexIndex++ ) {
-    if ( ( vertexIndex > uPathLength - 2 ) || ( vertexIndex > uMaxPathLength - 2 ) ) {
-      return distToValue( dist, closestIndex, planetColor );
-    }
-    vec2 position0 = fetch( bodyIndex * uMaxPathLength + vertexIndex ).xy;
-    vec2 position1 = fetch( bodyIndex * uMaxPathLength + vertexIndex + 1 ).xy;
+  float radius = 3.0;
+  float minDistance = 100000.0;
 
-    float newDistance = sdSegment( modelPosition, position0, position1 );
-    if ( newDistance < dist ) {
-      dist = newDistance;
-      closestIndex = vertexIndex;
+  vec2 lastPosition = vec2( 0.0 );
+
+  float inversePathLength = 1.0 / float( uPathLength + 1 );
+
+  for ( int vertexIndex = 0; vertexIndex < maxPathLength; vertexIndex++ ) {
+    if ( vertexIndex >= uPathLength ) {
+      break;
     }
+    vec2 position = fetch( bodyIndex * uMaxPathLength + vertexIndex ).xy;
+
+    if ( vertexIndex > 0 ) {
+      float dist = sdSegment( modelPosition, lastPosition, position );
+
+      minDistance = min( minDistance, dist + ( 1.0 - float( vertexIndex ) * inversePathLength ) * radius );
+    }
+
+    lastPosition = position;
   }
-  return distToValue( dist, closestIndex, planetColor );
+  return vec4( planetColor * smoothstep( radius, radius - 2.0, minDistance ), 0.0 );
 }
 
 // Returns the color from the vertex shader
 void main( void ) {
   vec2 modelPosition = globalToModel( vPosition );
-  vec4 stroke = vec4( 0.0 );
+  vec4 stroke = vec4( 0.0, 0.0, 0.0, 1.0 );
 
   for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
-    vec4 newStroke = getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
-    if ( newStroke.a > stroke.a ) { // If new stroke is stronger than previous
-      stroke += newStroke;
-    }
+    stroke += getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
   }
   gl_FragColor = stroke;
 }

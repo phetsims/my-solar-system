@@ -19,10 +19,16 @@ import MySolarSystemColors from '../MySolarSystemColors.js';
 
 type painterReturn = 0 | 1;
 
+const NUM_BODIES = 4;
+const ELEMENTS_PER_VECTOR = 4;
 const DATA_TEXTURE_WIDTH = 32;
 const DATA_TEXTURE_HEIGHT = 32;
+
+// Number of vectors in our data texture
 const DATA_TEXTURE_SIZE = DATA_TEXTURE_WIDTH * DATA_TEXTURE_HEIGHT;
-export const MAX_PATH_LENGTH = DATA_TEXTURE_SIZE / 16;
+
+// Number of vectors allocated per body in our data texture
+export const MAX_PATH_LENGTH = DATA_TEXTURE_SIZE / NUM_BODIES;
 
 const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();
@@ -98,7 +104,7 @@ class PathsPainter {
     assert && assert( this.dataTexture !== null );
     gl.bindTexture( gl.TEXTURE_2D, this.dataTexture );
 
-    this.dataArray = new Float32Array( DATA_TEXTURE_SIZE * 4 );
+    this.dataArray = new Float32Array( DATA_TEXTURE_SIZE * ELEMENTS_PER_VECTOR );
 
     this.colorsFloatArray = new Float32Array( 16 );
     MySolarSystemColors.bodiesPalette.forEach( ( colorName, colorIndex ) => {
@@ -147,12 +153,13 @@ class PathsPainter {
     for ( let bodyIndex = 0; bodyIndex < numBodies; bodyIndex++ ) {
       const body = this.node.model.bodies.get( bodyIndex )!;
       for ( let pointIndex = 0; pointIndex < numPoints; pointIndex++ ) {
-        const point = body.path.get( pointIndex )!;
+        const point = body.path.get( pointIndex );
+        if ( point ) {
+          const index = ELEMENTS_PER_VECTOR * ( bodyIndex * MAX_PATH_LENGTH + pointIndex );
 
-        const index = 4 * ( bodyIndex * MAX_PATH_LENGTH + pointIndex );
-
-        this.dataArray[ index ] = point.x;
-        this.dataArray[ index + 1 ] = point.y;
+          this.dataArray[ index ] = point.x;
+          this.dataArray[ index + 1 ] = point.y;
+        }
       }
     }
 
