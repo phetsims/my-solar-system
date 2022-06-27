@@ -22,7 +22,7 @@ type painterReturn = 0 | 1;
 const DATA_TEXTURE_WIDTH = 32;
 const DATA_TEXTURE_HEIGHT = 32;
 const DATA_TEXTURE_SIZE = DATA_TEXTURE_WIDTH * DATA_TEXTURE_HEIGHT;
-export const MAX_PATH_LENGTH = ( DATA_TEXTURE_SIZE - 16 ) / 4;
+export const MAX_PATH_LENGTH = DATA_TEXTURE_SIZE / 16;
 
 const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();
@@ -52,6 +52,9 @@ class PathsPainter {
   private readonly dataTexture: WebGLTexture;
   private readonly dataArray: Float32Array;
 
+  // A 16-length array that contains all 4 body colors (doesn't change once it's initialized)
+  private readonly colorsFloatArray: Float32Array;
+
   constructor( gl: WebGLRenderingContext, node: PathsWebGLNode ) {
     this.gl = gl;
     this.node = node;
@@ -76,7 +79,8 @@ class PathsPainter {
         'uPathLength',
         'uMaxPathLength',
         'uColors',
-        'uNumberofActiveBodies'
+        'uNumberofActiveBodies',
+        'uColorMatrix'
       ]
     } );
     
@@ -96,15 +100,16 @@ class PathsPainter {
 
     this.dataArray = new Float32Array( DATA_TEXTURE_SIZE * 4 );
 
-    let colorIndex = 0;
-    MySolarSystemColors.bodiesPalette.forEach( colorName => {
+    this.colorsFloatArray = new Float32Array( 16 );
+    MySolarSystemColors.bodiesPalette.forEach( ( colorName, colorIndex ) => {
       const color = new Color( colorName );
-      this.dataArray[ 4 * colorIndex ] = color.getRed() / 255;
-      this.dataArray[ 4 * colorIndex + 1 ] = color.getGreen() / 255;
-      this.dataArray[ 4 * colorIndex + 2 ] = color.getBlue() / 255;
-      colorIndex += 1;
+      this.colorsFloatArray[ 4 * colorIndex ] = color.getRed() / 255;
+      this.colorsFloatArray[ 4 * colorIndex + 1 ] = color.getGreen() / 255;
+      this.colorsFloatArray[ 4 * colorIndex + 2 ] = color.getBlue() / 255;
     } );
+
     this.updateDataTexture();
+
     //
     // set the filtering so we don't need mips and it's not filtered
     gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
@@ -135,17 +140,21 @@ class PathsPainter {
 
     this.shaderProgram.use();
 
-    let nPoints = 0;
-    let bodyIndex = 0;
-    this.node.model.bodies.forEach( body => {
-      nPoints = 0;
-      body.path.forEach( point => {
-        this.dataArray[ 4 * ( 4 + bodyIndex * MAX_PATH_LENGTH + nPoints ) ] = point.x;
-        this.dataArray[ 4 * ( 4 + bodyIndex * MAX_PATH_LENGTH + nPoints ) + 1 ] = point.y;
-        nPoints += 1;
-      } );
-      bodyIndex += 1;
-    } );
+    // TODO: add assertions to make sure these are equal
+    const numPoints = this.node.model.bodies.get( 0 )!.path.length;
+
+    const numBodies = this.node.model.bodies.length;
+    for ( let bodyIndex = 0; bodyIndex < numBodies; bodyIndex++ ) {
+      const body = this.node.model.bodies.get( bodyIndex )!;
+      for ( let pointIndex = 0; pointIndex < numPoints; pointIndex++ ) {
+        const point = body.path.get( pointIndex )!;
+
+        const index = 4 * ( bodyIndex * MAX_PATH_LENGTH + pointIndex );
+
+        this.dataArray[ index ] = point.x;
+        this.dataArray[ index + 1 ] = point.y;
+      }
+    }
 
     this.updateDataTexture();
 
@@ -156,12 +165,14 @@ class PathsPainter {
     gl.bindTexture( gl.TEXTURE_2D, this.dataTexture );
     gl.uniform1i( this.shaderProgram.uniformLocations.uData, 0 );
 
+    gl.uniformMatrix4fv( this.shaderProgram.uniformLocations.uColorMatrix, false, this.colorsFloatArray );
+
     const matrixInverse = scratchInverseMatrix;
     const projectionMatrixInverse = scratchProjectionMatrix.set( projectionMatrix ).invert();
     matrixInverse.set( this.node.modelViewTransformProperty.value.getInverse() ).multiplyMatrix( modelViewMatrix.inverted().multiplyMatrix( projectionMatrixInverse ) );
     gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uMatrixInverse, false, matrixInverse.copyToArray( scratchFloatArray ) );
     gl.uniform2f( this.shaderProgram.uniformLocations.uTextureSize, DATA_TEXTURE_WIDTH, DATA_TEXTURE_HEIGHT );
-    gl.uniform1i( this.shaderProgram.uniformLocations.uPathLength, nPoints );
+    gl.uniform1i( this.shaderProgram.uniformLocations.uPathLength, numPoints );
     gl.uniform1i( this.shaderProgram.uniformLocations.uMaxPathLength, MAX_PATH_LENGTH );
     gl.uniform1i( this.shaderProgram.uniformLocations.uNumberofActiveBodies, this.node.model.bodies.length );
 

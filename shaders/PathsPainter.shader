@@ -5,6 +5,7 @@ uniform sampler2D uData;
 uniform vec2 uTextureSize;
 uniform int uPathLength;
 uniform int uMaxPathLength;
+uniform mat4 uColorMatrix;
 
 vec2 globalToModel( in vec2 modelPoint ) {
   return ( uMatrixInverse * vec3( modelPoint, 1.0 ) ).xy;
@@ -28,7 +29,7 @@ vec4 distToValue( in float dist, in int closestIndex, in vec3 planetColor ) {
   // divider = 0 when beggining. closestIndex == 0
   // divider = 1 when ending. closestIndex == PathLength
   float divider = float( closestIndex ) / float( uPathLength + 1 );
-  float value = smoothstep( 2.0 * divider, divider , dist );
+  float value = smoothstep( 2.0 * divider, divider, dist );
   // return vec4( vec3( value ), 0.9 );
   return vec4( divider * planetColor, value * divider );
 }
@@ -42,8 +43,8 @@ vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
     if ( ( vertexIndex > uPathLength - 2 ) || ( vertexIndex > uMaxPathLength - 2 ) ) {
       return distToValue( dist, closestIndex, planetColor );
     }
-    vec2 position0 = fetch( 4 + bodyIndex * uMaxPathLength + vertexIndex ).xy;
-    vec2 position1 = fetch( 4 + bodyIndex * uMaxPathLength + vertexIndex + 1 ).xy;
+    vec2 position0 = fetch( bodyIndex * uMaxPathLength + vertexIndex ).xy;
+    vec2 position1 = fetch( bodyIndex * uMaxPathLength + vertexIndex + 1 ).xy;
 
     float newDistance = sdSegment( modelPosition, position0, position1 );
     if ( newDistance < dist ) {
@@ -56,15 +57,14 @@ vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
 
 // Returns the color from the vertex shader
 void main( void ) {
-  if ( length( gl_FragColor ) == 0.0 ){
-    vec2 modelPosition = globalToModel( vPosition );
-    vec4 stroke = vec4( 0.0 );
-    for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
-      vec4 newStroke = getStroke( modelPosition, bodyIndex, fetch( bodyIndex ).xyz );
-      if ( length( newStroke ) > length( stroke ) ){ // If new stroke is stronger than previous
-        stroke = newStroke;
-      }
+  vec2 modelPosition = globalToModel( vPosition );
+  vec4 stroke = vec4( 0.0 );
+
+  for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
+    vec4 newStroke = getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
+    if ( newStroke.a > stroke.a ) { // If new stroke is stronger than previous
+      stroke += newStroke;
     }
-    gl_FragColor = stroke;
   }
+  gl_FragColor = stroke;
 }
