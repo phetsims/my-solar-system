@@ -9,7 +9,6 @@
 
 import { Node, Text, VBox, VBoxOptions, VDivider } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IntroModel from '../../intro/model/IntroModel.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -55,18 +54,18 @@ export default class MySolarSystemControls extends VBox {
     super( {
       children: [
         ...( model.isLab ? [ new ComboBox( model.labModeProperty, [
-          new ComboBoxItem( new Text( 'Sun and Planet', TEXT_OPTIONS ), LabModes.SUN_PLANET ),
-          new ComboBoxItem( new Text( 'Sun, Planet and Moon', TEXT_OPTIONS ), LabModes.SUN_PLANET_MOON ),
-          new ComboBoxItem( new Text( 'Sun, Planet and Comet', TEXT_OPTIONS ), LabModes.SUN_PLANET_COMET ),
-          new ComboBoxItem( new Text( 'Trojan Asteroids', TEXT_OPTIONS ), LabModes.TROJAN_ASTEROIDS ),
-          new ComboBoxItem( new Text( 'Ellipses', TEXT_OPTIONS ), LabModes.ELLIPSES ),
-          new ComboBoxItem( new Text( 'Hyperbolic', TEXT_OPTIONS ), LabModes.HYPERBOLIC ),
-          new ComboBoxItem( new Text( 'Slingshot', TEXT_OPTIONS ), LabModes.SLINGSHOT ),
-          new ComboBoxItem( new Text( 'Double Slingshot', TEXT_OPTIONS ), LabModes.DOUBLE_SLINGSHOT ),
-          new ComboBoxItem( new Text( 'Binary Star, Planet', TEXT_OPTIONS ), LabModes.BINARY_STAR_PLANET ),
-          new ComboBoxItem( new Text( 'Four Star Ballet', TEXT_OPTIONS ), LabModes.FOUR_STAR_BALLET ),
-          new ComboBoxItem( new Text( 'Double Double', TEXT_OPTIONS ), LabModes.DOUBLE_DOUBLE ),
-          new ComboBoxItem( new Text( 'Custom', TEXT_OPTIONS ), LabModes.CUSTOM )
+          { value: LabModes.SUN_PLANET, node: new Text( 'Sun and Planet', TEXT_OPTIONS ) },
+          { value: LabModes.SUN_PLANET_MOON, node: new Text( 'Sun, Planet and Moon', TEXT_OPTIONS ) },
+          { value: LabModes.SUN_PLANET_COMET, node: new Text( 'Sun, Planet and Comet', TEXT_OPTIONS ) },
+          { value: LabModes.TROJAN_ASTEROIDS, node: new Text( 'Trojan Asteroids', TEXT_OPTIONS ) },
+          { value: LabModes.ELLIPSES, node: new Text( 'Ellipses', TEXT_OPTIONS ) },
+          { value: LabModes.HYPERBOLIC, node: new Text( 'Hyperbolic', TEXT_OPTIONS ) },
+          { value: LabModes.SLINGSHOT, node: new Text( 'Slingshot', TEXT_OPTIONS ) },
+          { value: LabModes.DOUBLE_SLINGSHOT, node: new Text( 'Double Slingshot', TEXT_OPTIONS ) },
+          { value: LabModes.BINARY_STAR_PLANET, node: new Text( 'Binary Star, Planet', TEXT_OPTIONS ) },
+          { value: LabModes.FOUR_STAR_BALLET, node: new Text( 'Four Star Ballet', TEXT_OPTIONS ) },
+          { value: LabModes.DOUBLE_DOUBLE, node: new Text( 'Double Double', TEXT_OPTIONS ) },
+          { value: LabModes.CUSTOM, node: new Text( 'Custom', TEXT_OPTIONS ) }
         ], topLayer ) ] : [] ),
         new OrbitalInformation( model ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
