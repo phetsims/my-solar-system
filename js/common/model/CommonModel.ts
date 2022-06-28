@@ -102,6 +102,9 @@ abstract class CommonModel {
 
     this.isLab = providedOptions.isLab;
     this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET );
+    this.labModeProperty.link( mode => {
+      this.clearPaths();
+    } );
   }
 
   /**

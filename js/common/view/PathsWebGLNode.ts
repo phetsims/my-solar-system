@@ -85,7 +85,7 @@ class PathsPainter {
         'uPathLength',
         'uMaxPathLength',
         'uColors',
-        'uNumberofActiveBodies',
+        'uActiveBodies',
         'uColorMatrix'
       ]
     } );
@@ -181,7 +181,7 @@ class PathsPainter {
     gl.uniform2f( this.shaderProgram.uniformLocations.uTextureSize, DATA_TEXTURE_WIDTH, DATA_TEXTURE_HEIGHT );
     gl.uniform1i( this.shaderProgram.uniformLocations.uPathLength, numPoints );
     gl.uniform1i( this.shaderProgram.uniformLocations.uMaxPathLength, MAX_PATH_LENGTH );
-    gl.uniform1i( this.shaderProgram.uniformLocations.uNumberofActiveBodies, this.node.model.bodies.length );
+    gl.uniform1i( this.shaderProgram.uniformLocations.uActiveBodies, this.node.model.bodies.length );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );

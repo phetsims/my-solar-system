@@ -15,10 +15,14 @@ import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import Property from '../../../../axon/js/Property.js';
+import LawMode from './LawMode.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 type KeplersLawsModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel {
+  public readonly selectedLawProperty: EnumerationProperty<LawMode>;
+
   public apoapsisVisibleProperty: Property<boolean>;
   public periapsisVisibleProperty: Property<boolean>;
   public axisVisibleProperty: Property<boolean>;
@@ -28,8 +32,6 @@ class KeplersLawsModel extends CommonModel {
   public sweepAreaVisibleProperty: Property<boolean>;
   public areaGraphVisibleProperty: Property<boolean>;
   public periodDivisionProperty: Property<number>;
-  public secondLawSelectedProperty: Property<boolean>;
-  public thirdLawSelectedProperty: Property<boolean>;
 
   public separationProperty: Property<number>;
 
@@ -40,6 +42,8 @@ class KeplersLawsModel extends CommonModel {
     }, providedOptions );
     super( options );
 
+    this.selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
+
     this.apoapsisVisibleProperty = new Property<boolean>( false );
     this.periapsisVisibleProperty = new Property<boolean>( false );
     this.axisVisibleProperty = new Property<boolean>( false );
@@ -49,13 +53,6 @@ class KeplersLawsModel extends CommonModel {
     this.sweepAreaVisibleProperty = new Property<boolean>( false );
     this.areaGraphVisibleProperty = new Property<boolean>( false );
     this.periodDivisionProperty = new Property<number>( 4 );
-    this.secondLawSelectedProperty = new Property<boolean>( true );
-    this.thirdLawSelectedProperty = new Property<boolean>( false );
-
-    // TODO Turn thirdLawSelectedProperty into a DerivedProperty, the type errors scared me
-    this.secondLawSelectedProperty.link( value => {
-      this.thirdLawSelectedProperty.value = !value;
-    } );
 
     this.separationProperty = new Property<number>( 150 );
     this.separationProperty.link( separation => {

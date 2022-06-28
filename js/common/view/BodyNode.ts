@@ -63,7 +63,7 @@ export default class BodyNode extends ShadedSphereNode {
   }
 
   private massToScale( mass: number, scale: number ): number {
-    return scale * 30 * mass / this.initialMass + 20;
+    return scale * ( 30 * mass / this.initialMass + 20 );
   }
 
   override dispose(): void {

@@ -21,8 +21,8 @@ export default class EllipticalOrbitNode extends Path {
 
   constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super( new Shape(), {
-      lineWidth: 1,
-      stroke: 'white'
+      lineWidth: 3,
+      stroke: 'fuchsia'
     } );
 
     this.orbit = new EllipticalOrbit( body );
@@ -31,6 +31,7 @@ export default class EllipticalOrbitNode extends Path {
       [ body.positionProperty, body.velocityProperty, modelViewTransformProperty ],
       ( position, velocity, modelViewTransform ) => {
         this.orbit.update();
+        this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
 
         const scale = modelViewTransform.modelToViewDeltaX( 1 );
         const a = this.orbit.a;

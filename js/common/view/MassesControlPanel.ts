@@ -53,8 +53,8 @@ class MassesSliders extends FlowBox {
 
   constructor( model: CommonModel, providedOptions?: Partial<MassesSlidersOptions> ) {
     super( {
-      spacing: 5,
-      margin: 5,
+      // spacing: 5,
+      // margin: 5,
       align: 'left',
       stretch: true,
       orientation: 'vertical'
@@ -78,7 +78,8 @@ class MassesSliders extends FlowBox {
             new MySolarSystemSlider( this.model.bodies[ i ].massProperty, this.massRange, { thumbFill: color } )
           ],
           orientation: 'horizontal',
-          margin: 5
+          xMargin: 5,
+          yMargin: 3
         } )
       );
     }

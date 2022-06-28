@@ -7,14 +7,15 @@
  * @author Agustín Vallejo
  */
 
-import Property from '../../../../axon/js/Property.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
-import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
+import LawMode from '../model/LawMode.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
@@ -23,13 +24,9 @@ const TEXT_OPTIONS = {
 type LawButtonOptions = RectangularPushButtonOptions;
 
 class LawButton extends RectangularPushButton {
-  public constructor( property: Property<boolean>, content: Node, providedOptions?: LawButtonOptions ) {
+  public constructor( content: Node, providedOptions?: LawButtonOptions ) {
     const options = optionize<LawButtonOptions, EmptyObjectType, RectangularPushButtonOptions>()( {
       content: content,
-      listener: () => { property.value = !property.value; },
-      stroke: property.value ? 'skyblue' : 'black',
-      lineWidth: property.value ? 5 : 1,
-      enabledProperty: property,
       minHeight: 100,
       baseColor: 'white'
     }, providedOptions );
@@ -39,20 +36,25 @@ class LawButton extends RectangularPushButton {
   }
 }
 
-export default class LawsButtons extends HBox {
-  public constructor( model: KeplersLawsModel ) {
-
-    const LawsButton12 = new LawButton( model.secondLawSelectedProperty, new Text( '1st & 2nd Laws', TEXT_OPTIONS ) );
-    const LawsButton3 = new LawButton( model.thirdLawSelectedProperty, new Text( '3rd Law', TEXT_OPTIONS ) );
+type LawsButtonsOptions = RectangularRadioButtonGroupOptions;
+export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
+  public constructor( model: KeplersLawsModel, providedOptions?: LawsButtonsOptions ) {
+    const options = combineOptions<LawsButtonsOptions>( {
+      orientation: 'horizontal'
+    }, providedOptions );
     
-    super( {
-      xMargin: 5,
-      children: [
-        LawsButton12,
-        LawsButton3
-      ]
-    } );
-
+    super( model.selectedLawProperty, [
+      {
+        value: LawMode.SECOND_LAW,
+        node: new LawButton( new Text( '2nd Law', TEXT_OPTIONS ) ),
+        tandemName: 'secondLawButton'
+      },
+      {
+        value: LawMode.THIRD_LAW,
+        node: new LawButton( new Text( '3rd Law', TEXT_OPTIONS ) ),
+        tandemName: 'thirdLawButton'
+      }
+    ], options );
   }
 }
 

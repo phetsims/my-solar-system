@@ -120,7 +120,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
   // Zoom Buttons
   this.UILayerNode.addChild( new AlignBox( new FlowBox( {
     children: [
-    new AreasAccordionBox( model, { visibleProperty: model.secondLawSelectedProperty } ),
+    new AreasAccordionBox( model ),
     new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
     ],

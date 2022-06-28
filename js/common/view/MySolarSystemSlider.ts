@@ -21,6 +21,7 @@ export default class MySolarSystemSlider extends HSlider {
   constructor( valueProperty: Property<number>, range: Range, providedOptions?: MySolarSystemSliderOptions ) {
     const options = optionize<MySolarSystemSliderOptions, SelfOptions, HSliderOptions>()( {
       trackSize: new Dimension2( 200, 2 ),
+      thumbSize: new Dimension2( 15, 25 ),
       thumbCenterLineStroke: 'black',
       trackFillEnabled: 'black'
     }, providedOptions );

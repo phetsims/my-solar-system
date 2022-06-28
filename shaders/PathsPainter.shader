@@ -5,6 +5,7 @@ uniform sampler2D uData;
 uniform vec2 uTextureSize;
 uniform int uPathLength;
 uniform int uMaxPathLength;
+uniform int uActiveBodies;
 uniform mat4 uColorMatrix;
 
 // NOTE: This is best hardcoded as a constant (we could replace in JS if needed)
@@ -60,7 +61,9 @@ void main( void ) {
   vec4 stroke = vec4( 0.0, 0.0, 0.0, 1.0 );
 
   for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
-    stroke += getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
+    if ( bodyIndex < uActiveBodies ){
+      stroke += getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
+    }
   }
   gl_FragColor = stroke;
 }

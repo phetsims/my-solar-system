@@ -6,8 +6,8 @@
  * Variable definitions:
  * r: position vector
  * v: velocity vector
- * alpha: heading of r
- * beta: heading of v
+ * rAngle: heading of r
+ * vAngle: heading of v
  * a: semimajor axis
  * e: excentricity
  * nu: true anomaly
@@ -33,6 +33,8 @@ export default class EllipticalOrbit {
   public M0: number;
   public W: number;
 
+  public allowedOrbit: boolean;
+
   constructor( body: Body ) {
     this.mu = 2e6;
     this.body = body;
@@ -42,51 +44,70 @@ export default class EllipticalOrbit {
     this.M0 = 0;
     this.W = 0;
 
+    this.allowedOrbit = false;
+
     this.update();
   }
 
   update(): void {
-    const [ a, e, w, M0, W ] = this.calculate_ellipse(
-      this.body.positionProperty.value, this.body.velocityProperty.value
-      );
-    this.a = a;
-    this.e = e;
-    this.w = w;
-    this.M0 = M0;
-    this.W = W;
+    const r = this.body.positionProperty.value;
+    const v = this.body.velocityProperty.value;
+    
+    this.allowedOrbit = false;
+    if ( !this.escapeVelocityExceeded( r, v ) ) {
+      const [ a, e, w, M0, W ] = this.calculateEllipse( r, v );
+      this.a = a;
+      this.e = e;
+      this.w = w;
+      this.M0 = M0;
+      this.W = W;
+      if ( !this.collidedWithSun( a, e ) ) {
+        this.allowedOrbit = true;
+      }
+    }
   }
 
+  escapeVelocityExceeded( r: Vector2, v: Vector2 ): boolean {
+    const rMagnitude = r.magnitude;
+    const vMagnitude = v.magnitude;
+
+    return vMagnitude > ( 0.99 * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
+  }
+
+  collidedWithSun( a: number, e: number ): boolean {
+    return a * ( 1 - e ) < 25;
+  }
 
   calculate_a( r: Vector2, v: Vector2 ): number {
-    const r_mag = r.magnitude;
-    const v_mag = v.magnitude;
+    const rMagnitude = r.magnitude;
+    const vMagnitude = v.magnitude;
     
-    const a = r_mag * this.mu / ( 2 * this.mu - r_mag * v_mag * v_mag );
+    const a = rMagnitude * this.mu / ( 2 * this.mu - rMagnitude * vMagnitude * vMagnitude );
     return a;
   }
   
   calculate_e( r: Vector2, v: Vector2, a: number ): number {
-    const r_mag = r.magnitude;
-    const v_mag = v.magnitude;
-    const alpha = r.angle;
-    const beta = v.angle;
+    const rMagnitude = r.magnitude;
+    const vMagnitude = v.magnitude;
+    const rAngle = r.angle;
+    const vAngle = v.angle;
     
     const e = Math.pow(
-      1 - Math.pow( r_mag * v_mag * Math.sin( beta - alpha ), 2 )
+      1 - Math.pow( rMagnitude * vMagnitude * Math.sin( vAngle - rAngle ), 2 )
       / ( a * this.mu ), 0.5 );
     return e;
   }
   
-  calculate_angles( r: Vector2, v: Vector2, a: number, e: number ): number[] {
-    const r_mag = r.magnitude;
+  calculateAngles( r: Vector2, v: Vector2, a: number, e: number ): number[] {
+    const rMagnitude = r.magnitude;
     // nu comes from the polar ellipse equation
-    let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / r_mag - 1 ), -1, 1 ) );
+    let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
   
-    const alpha = r.angle;
-    const beta = v.angle;
+    const rAngle = r.angle;
+    const vAngle = v.angle;
     
     let W = -500 * Math.pow( a, -3 / 2 );
-    if ( Math.cos( alpha - beta ) > 0 ) {
+    if ( Math.cos( rAngle - vAngle ) > 0 ) {
       nu *= -1;
     }
     if ( r.crossScalar( v ) > 0 ) {
@@ -105,10 +126,10 @@ export default class EllipticalOrbit {
     return [ w, M0, W ];
   }
   
-  calculate_ellipse( r: Vector2, v: Vector2 ): number[] {
+  calculateEllipse( r: Vector2, v: Vector2 ): number[] {
     const a = this.calculate_a( r, v );
     const e = this.calculate_e( r, v, a );
-    const [ w, M0, W ] = this.calculate_angles( r, v, a, e );
+    const [ w, M0, W ] = this.calculateAngles( r, v, a, e );
     return [ a, e, w, M0, W ];
   }
 }
