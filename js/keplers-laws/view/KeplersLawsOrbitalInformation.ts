@@ -8,7 +8,7 @@
  */
 
  import { Shape } from '../../../../kite/js/imports.js';
- import { FlowBox, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
+ import { FlowBox, HBox, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
  import Checkbox from '../../../../sun/js/Checkbox.js';
  import mySolarSystem from '../../mySolarSystem.js';
  import mySolarSystemStrings from '../../mySolarSystemStrings.js';
@@ -19,21 +19,29 @@ import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
+import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
  
- const axisString = mySolarSystemStrings.axis;
- const apoapsisString = mySolarSystemStrings.apoapsis;
- const periapsisString = mySolarSystemStrings.periapsis;
- 
- // constants
- const CHECKBOX_OPTIONS = {
-   boxWidth: 14,
-   checkboxColor: MySolarSystemColors.foregroundProperty,
-   checkboxColorBackground: MySolarSystemColors.backgroundProperty
- };
- const TEXT_OPTIONS = {
-   font: MySolarSystemConstants.PANEL_FONT,
-   fill: MySolarSystemColors.foregroundProperty
- };
+const orbitalInformationString = mySolarSystemStrings.orbital;
+const axisString = mySolarSystemStrings.axis;
+const apoapsisString = mySolarSystemStrings.apoapsis;
+const periapsisString = mySolarSystemStrings.periapsis;
+
+
+// constants
+const CHECKBOX_OPTIONS = {
+  boxWidth: 14,
+  checkboxColor: MySolarSystemColors.foregroundProperty,
+  checkboxColorBackground: MySolarSystemColors.backgroundProperty
+};
+const TEXT_OPTIONS = {
+  font: MySolarSystemConstants.PANEL_FONT,
+  fill: MySolarSystemColors.foregroundProperty
+};
+
+const TITLE_OPTIONS = {
+  font: MySolarSystemConstants.TITLE_FONT,
+  fill: MySolarSystemColors.foregroundProperty
+};
  
  const SPACING = 10;
  
@@ -48,6 +56,13 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
     //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
  
      const children = [
+        new HBox( {
+          spacing: 10,
+          children: [
+            new Text( orbitalInformationString, TITLE_OPTIONS ),
+            new InfoButton( { scale: 0.5 } )
+          ]
+        } ),
        new Checkbox( model.pathVisibleProperty, new FlowBox( {
          spacing: 10,
          children: [

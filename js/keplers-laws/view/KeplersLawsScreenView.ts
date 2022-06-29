@@ -31,6 +31,7 @@ import EllipticalOrbitNode from './EllipticalOrbitNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
 import LawsButtons from './LawsButtons.js';
+import LawMode from '../model/LawMode.js';
 
 // constants
 const MARGIN = 5;
@@ -114,13 +115,17 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     1, 'V', { fill: PhetColorScheme.VELOCITY }
     ) );
 
-  this.bottomLayer.addChild( new EllipticalOrbitNode( planet, modelViewTransformProperty ) );
+  this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty ) );
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons
   this.UILayerNode.addChild( new AlignBox( new FlowBox( {
     children: [
-    new AreasAccordionBox( model ),
+    new AreasAccordionBox( model, {
+      visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
+        return selectedLaw === LawMode.SECOND_LAW;
+      } )
+    } ),
     new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
     ],
@@ -177,7 +182,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
 
   // Add the control panel on top of the canvases
   // Visibility checkboxes for sim elements
-  this.UILayerNode.addChild( new AlignBox( new KeplersLawsControls( model, this.topLayer ),
+  this.UILayerNode.addChild( new AlignBox( new KeplersLawsControls( model ),
     {
       alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );

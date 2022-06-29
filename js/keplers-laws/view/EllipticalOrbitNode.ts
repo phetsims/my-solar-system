@@ -9,23 +9,47 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import { Path } from '../../../../scenery/js/imports.js';
-import Body from '../../common/model/Body.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import KeplersLawsModel from '../model/KeplersLawsModel.js';
+import XNode from '../../../../scenery-phet/js/XNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 export default class EllipticalOrbitNode extends Path {
   private orbit: EllipticalOrbit;
   private shapeMultilink: UnknownMultilink;
 
-  constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
+  constructor( model: KeplersLawsModel, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super( new Shape(), {
       lineWidth: 3,
       stroke: 'fuchsia'
     } );
 
+    const body = model.bodies[ 1 ];
     this.orbit = new EllipticalOrbit( body );
+    const periapsis = new XNode( {
+      fill: 'gold',
+      stroke: 'white',
+      center: Vector2.ZERO,
+      visibleProperty: new DerivedProperty(
+        [ model.periapsisVisibleProperty ], visible => {
+        return visible && ( this.orbit.e > 0 );
+      } )
+    } );
+    const apoapsis = new XNode( {
+      fill: 'cyan',
+      stroke: 'white',
+      center: Vector2.ZERO,
+      visibleProperty: new DerivedProperty(
+        [ model.apoapsisVisibleProperty ], visible => {
+        return visible && ( this.orbit.e > 0 );
+      } )
+    } );
+
+    this.addChild( periapsis );
+    this.addChild( apoapsis );
 
     this.shapeMultilink = Multilink.multilink(
       [ body.positionProperty, body.velocityProperty, modelViewTransformProperty ],
@@ -45,6 +69,9 @@ export default class EllipticalOrbitNode extends Path {
         this.rotation = 0;
         this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
         this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
+
+        periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
+        apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
     } );
   }
 }
