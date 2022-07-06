@@ -1,9 +1,9 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * Provides a specific class for handling the buttons that 
+ * Provides a specific class for handling the buttons that
  * coordinate the specific Kepler's Law being seen in the screen.
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -24,13 +24,15 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
   public constructor( model: KeplersLawsModel, providedOptions?: LawsButtonsOptions ) {
     const options = combineOptions<LawsButtonsOptions>( {
       orientation: 'horizontal',
-      baseColor: 'white',
-      buttonContentYMargin: 30,
-      buttonContentXMargin: 10,
-      selectedStroke: '#60a9dd',
-      selectedLineWidth: 4
+      radioButtonOptions: {
+        baseColor: 'white',
+        xMargin: 10,
+        yMargin: 30,
+        selectedStroke: '#60a9dd',
+        selectedLineWidth: 4
+      }
     }, providedOptions );
-    
+
     super( model.selectedLawProperty, [
       {
         value: LawMode.SECOND_LAW,
