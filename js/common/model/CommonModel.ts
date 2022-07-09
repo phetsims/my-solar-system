@@ -4,7 +4,7 @@
  * Main model for My Solar System.
  * In charge of keeping track of the position and states of the bodies,
  * their center of mass, and the time.
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -20,7 +20,7 @@ import CenterOfMass from './CenterOfMass.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
 import LabModes from './LabModes.js';
-import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 
@@ -131,11 +131,11 @@ abstract class CommonModel {
     this.engine.update( this.bodies );
     this.centerOfMass.updateCenterOfMassPosition();
   }
-  
+
   public reset(): void {
     this.restart();
   }
-  
+
   public step( dt: number ): void {
     this.update();
     if ( this.isPlayingProperty.value ) {

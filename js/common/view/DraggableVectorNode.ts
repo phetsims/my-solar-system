@@ -9,7 +9,8 @@
 
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Property, { ReadOnlyProperty } from '../../../../axon/js/Property.js';
+import Property from '../../../../axon/js/Property.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, DragListener, Path, PressListenerEvent, Text } from '../../../../scenery/js/imports.js';

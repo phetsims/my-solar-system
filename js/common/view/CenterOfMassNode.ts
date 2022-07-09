@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 /**
  * Control the Center of Mass mark.
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -11,14 +11,12 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import CenterOfMass from '../model/CenterOfMass.js';
-import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
-
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 class CenterOfMassNode extends Node {
   private readonly centerOfMass: CenterOfMass;
-  private readonly positionListener: ( position:Vector2 ) => void
-  private readonly visibilityListener: ( visible:boolean ) => void
-
+  private readonly positionListener: ( position: Vector2 ) => void;
+  private readonly visibilityListener: ( visible: boolean ) => void;
 
   constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super();

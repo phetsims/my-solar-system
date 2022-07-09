@@ -10,7 +10,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';

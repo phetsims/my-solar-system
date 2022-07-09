@@ -13,7 +13,7 @@ import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-p
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
@@ -37,13 +37,13 @@ export default class BodyNode extends ShadedSphereNode {
 
     this.body = body;
     this.initialMass = 200; //body.massProperty.value;
-    
+
     this.somethingMultilink = Multilink.multilink(
       [ body.positionProperty, body.massProperty, modelViewTransformProperty ],
       ( position, mass, modelViewTransform ) => {
         this.setScaleMagnitude( this.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
         this.translation = modelViewTransform.modelToViewPosition( position );
-    } );
+      } );
 
     let PointerDistanceFromCenter: Vector2 | null = null;
 

@@ -14,7 +14,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import PathsPainter_shader from '../../../shaders/PathsPainter_shader.js';
 import PathsPainter_vert from '../../../shaders/PathsPainter_vert.js';
-import { ReadOnlyProperty } from '../../../../axon/js/ReadOnlyProperty.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 
 type painterReturn = 0 | 1;
