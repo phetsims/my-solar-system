@@ -18,7 +18,7 @@ import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   draggable?: boolean;
-}
+};
 type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {

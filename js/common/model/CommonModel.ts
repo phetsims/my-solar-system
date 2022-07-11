@@ -34,7 +34,7 @@ type SelfOptions = {
   engineFactory: ( bodies: ObservableArray<Body> ) => Engine;
   isLab: boolean;
   tandem: Tandem;
-}
+};
 
 export type CommonModelOptions = SelfOptions;
 
@@ -110,7 +110,7 @@ abstract class CommonModel {
   /**
    * Abstract method for body creation, every screen model will decide how to implement
    */
-  public abstract createBodies(): void
+  public abstract createBodies(): void;
 
   public restart(): void {
     this.isPlayingProperty.value = false;
