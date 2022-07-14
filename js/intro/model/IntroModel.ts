@@ -20,7 +20,7 @@ import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 type IntroModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class IntroModel extends CommonModel {
-  constructor( providedOptions: IntroModelOptions ) {
+  public constructor( providedOptions: IntroModelOptions ) {
     const options = optionize<IntroModelOptions, EmptyObjectType, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
       isLab: false
@@ -28,7 +28,7 @@ class IntroModel extends CommonModel {
     super( options );
   }
 
-  override createBodies(): void {
+  public override createBodies(): void {
     // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );

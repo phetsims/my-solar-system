@@ -37,7 +37,7 @@ type OrbitalInformationOptions = SelfOptions & VBoxOptions;
 
 class OrbitalInformation extends VBox {
 
-  constructor( model: CommonModel, providedOptions?: OrbitalInformationOptions ) {
+  public constructor( model: CommonModel, providedOptions?: OrbitalInformationOptions ) {
 
     const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
 

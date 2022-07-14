@@ -203,7 +203,7 @@ class CommonScreenView extends ScreenView {
     this.bottomLayer.addChild( pathsWebGLNode );
   }
 
-  update(): void {
+  public update(): void {
     // See subclass for implementation
   }
 }

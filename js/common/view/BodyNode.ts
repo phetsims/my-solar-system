@@ -22,12 +22,12 @@ type SelfOptions = {
 type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
-  public body: Body;
-  public initialMass: number;
-  private somethingMultilink: UnknownMultilink;
-  public draggable: boolean;
+  public readonly body: Body;
+  public readonly initialMass: number;
+  private readonly somethingMultilink: UnknownMultilink;
+  public readonly draggable: boolean;
 
-  constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
+  public constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
       cursor: 'pointer',
       draggable: true
@@ -66,7 +66,7 @@ export default class BodyNode extends ShadedSphereNode {
     return scale * ( 30 * mass / this.initialMass + 20 );
   }
 
-  override dispose(): void {
+  public override dispose(): void {
     this.somethingMultilink.dispose();
     super.dispose();
   }

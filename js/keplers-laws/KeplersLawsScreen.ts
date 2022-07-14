@@ -13,7 +13,7 @@ import KeplersLawsScreenView from './view/KeplersLawsScreenView.js';
 
 class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon

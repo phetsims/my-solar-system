@@ -33,17 +33,17 @@ type KeplersLawsControlsOptions = SelfOptions & PanelOptions;
 
 class KeplersLawsControls extends Panel {
 
-  constructor(
+  public constructor(
     model: KeplersLawsModel,
     providedOptions?: KeplersLawsControlsOptions
-    ) {
-      super( new VBox( {
-        children: [
-          new KeplersLawsOrbitalInformation( model ),
-          new VDivider( VDIVIDER_OPTIONS ),
-          new ArrowsCheckboxNode( model ),
-          new VDivider( VDIVIDER_OPTIONS ),
-          new VisibilityInformation( model )
+  ) {
+    super( new VBox( {
+      children: [
+        new KeplersLawsOrbitalInformation( model ),
+        new VDivider( VDIVIDER_OPTIONS ),
+        new ArrowsCheckboxNode( model ),
+        new VDivider( VDIVIDER_OPTIONS ),
+        new VisibilityInformation( model )
         ],
         spacing: 4,
         align: 'left',

@@ -33,7 +33,7 @@ class MySolarSystemGridNode extends Path {
    * @param numGridLines - number grid lines on each side of the center
    * @param [providedOptions]
    */
-  constructor( transformProperty: ReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: MySolarSystemGridNodeOptions ) {
+  public constructor( transformProperty: ReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: MySolarSystemGridNodeOptions ) {
 
     const options = optionize<MySolarSystemGridNodeOptions, SelfOptions, PathOptions>()( {
       lineWidth: 1,

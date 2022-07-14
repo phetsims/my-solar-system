@@ -21,7 +21,7 @@ class VectorNode extends ArrowNode {
   protected tipProperty: ReadOnlyProperty<Vector2>;
   protected tailProperty: ReadOnlyProperty<Vector2>;
 
-  constructor(
+  public constructor(
     body: Body,
     transformProperty: ReadOnlyProperty<ModelViewTransform2>,
     visibleProperty: Property<boolean>,
@@ -60,7 +60,7 @@ class VectorNode extends ArrowNode {
       } );
   }
 
-  override dispose(): void {
+  public override dispose(): void {
     this.tailProperty.dispose();
     this.tipProperty.dispose();
 

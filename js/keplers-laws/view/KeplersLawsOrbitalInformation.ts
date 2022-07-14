@@ -51,17 +51,17 @@ const TITLE_OPTIONS = {
  
  class KeplersLawsOrbitalInformation extends FlowBox {
  
-   constructor( model: KeplersLawsModel, providedOptions?: KeplersLawsOrbitalInformationOptions ) {
- 
-    //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
- 
+   public constructor( model: KeplersLawsModel, providedOptions?: KeplersLawsOrbitalInformationOptions ) {
+
+     //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
+
      const children = [
-        new HBox( {
-          spacing: 10,
-          children: [
-            new Text( orbitalInformationString, TITLE_OPTIONS ),
-            new InfoButton( { scale: 0.5 } )
-          ]
+       new HBox( {
+         spacing: 10,
+         children: [
+           new Text( orbitalInformationString, TITLE_OPTIONS ),
+           new InfoButton( { scale: 0.5 } )
+         ]
         } ),
        new Checkbox( model.pathVisibleProperty, new FlowBox( {
          spacing: 10,

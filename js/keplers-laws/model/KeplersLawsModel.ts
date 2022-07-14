@@ -35,7 +35,7 @@ class KeplersLawsModel extends CommonModel {
 
   public separationProperty: Property<number>;
 
-  constructor( providedOptions: KeplersLawsModelOptions ) {
+  public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptyObjectType, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
       isLab: false
@@ -62,19 +62,19 @@ class KeplersLawsModel extends CommonModel {
     } );
   }
 
-  createBodies(): void {
+  public createBodies(): void {
     // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
-  softReset(): void {
+  public softReset(): void {
     // Calls reset only on the super to avoid reentries on separationProperty
     super.reset();
   }
 
-  override reset(): void {
+  public override reset(): void {
     super.reset();
     this.separationProperty.reset();
   }

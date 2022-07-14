@@ -40,7 +40,7 @@ type VisibilityInformationOptions = SelfOptions & VBoxOptions;
 
 class VisibilityInformation extends VBox {
 
-  constructor( model: CommonModel, providedOptions?: VisibilityInformationOptions ) {
+  public constructor( model: CommonModel, providedOptions?: VisibilityInformationOptions ) {
 
     const measuringTapeIcon = MeasuringTapeNode.createIcon( { scale: 0.3 } );
 

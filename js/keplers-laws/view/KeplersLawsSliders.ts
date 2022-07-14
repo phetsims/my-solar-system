@@ -24,17 +24,17 @@ const TEXT_OPTIONS = {
 };
 
 export default class KeplersLawsSliders extends Panel {
-  constructor( model: KeplersLawsModel ) {
-    
+  public constructor( model: KeplersLawsModel ) {
+
     // const massRange = new RangeWithValue( 1, 300, 10 );
     const separationRange = new RangeWithValue( 75, 200, 150 );
-    
+
     // const massControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
     const separationControl = new MySolarSystemSlider( model.separationProperty, separationRange, { thumbFill: 'fuchsia' } );
 
     const options = optionize3<PanelOptions, EmptyObjectType, PanelOptions>()(
-       {},
-       MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
+      {},
+      MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
        { fill: 'white' }
        );
     

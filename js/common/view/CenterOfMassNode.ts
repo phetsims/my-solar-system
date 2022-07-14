@@ -18,7 +18,7 @@ class CenterOfMassNode extends Node {
   private readonly positionListener: ( position: Vector2 ) => void;
   private readonly visibilityListener: ( visible: boolean ) => void;
 
-  constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
+  public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super();
     this.centerOfMass = centerOfMass;
 

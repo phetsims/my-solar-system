@@ -43,7 +43,7 @@ type ArrowsCheckboxNodeOptions = SelfOptions & VBoxOptions;
 
 class ArrowsCheckboxNode extends VBox {
 
-  constructor( model: IntroModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
+  public constructor( model: IntroModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
 
     const children = [];
     const gravityForceTextNode = new Text( gravityForceString, TEXT_OPTIONS );

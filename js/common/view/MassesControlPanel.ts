@@ -30,28 +30,28 @@ type MassesControlPanelOptions = PanelOptions;
 export default class MassesControlPanel extends Panel {
   private sliders: MassesSliders;
 
-  constructor( model: CommonModel, providedOptions?: MassesControlPanelOptions ) {
+  public constructor( model: CommonModel, providedOptions?: MassesControlPanelOptions ) {
     const sliders = new MassesSliders( model );
     const options = optionize3<MassesControlPanelOptions, EmptyObjectType, PanelOptions>()(
       {},
       MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
       providedOptions
-      );
+    );
     super( sliders, options );
     this.sliders = sliders;
   }
 
-  update(): void {
+  public update(): void {
     this.sliders.update();
   }
 }
 
 class MassesSliders extends FlowBox {
-  model: CommonModel;
-  massRange: RangeWithValue;
-  tempChildren: Node[];
+  private readonly model: CommonModel;
+  private readonly massRange: RangeWithValue;
+  private tempChildren: Node[];
 
-  constructor( model: CommonModel, providedOptions?: Partial<MassesSlidersOptions> ) {
+  public constructor( model: CommonModel, providedOptions?: Partial<MassesSlidersOptions> ) {
     super( {
       // spacing: 5,
       // margin: 5,
@@ -65,7 +65,7 @@ class MassesSliders extends FlowBox {
     this.update();
   }
 
-  update(): void {
+  public update(): void {
     // Whenever the number of bodies change, repopulate the sliders
     this.tempChildren = [ new Text( 'Mass', { font: MySolarSystemConstants.TITLE_FONT } ) ];
     for ( let i = 0; i < this.model.bodies.length; i++ ) {

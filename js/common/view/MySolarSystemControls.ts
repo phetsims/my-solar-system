@@ -46,11 +46,11 @@ type MySolarSystemControlsOptions = SelfOptions & VBoxOptions;
 
 export default class MySolarSystemControls extends VBox {
 
-  constructor(
+  public constructor(
     model: IntroModel,
     topLayer: Node,
     providedOptions?: MySolarSystemControlsOptions
-    ) {
+  ) {
     super( {
       children: [
         ...( model.isLab ? [ new ComboBox( model.labModeProperty, [

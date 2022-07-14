@@ -10,10 +10,10 @@
  import mySolarSystem from '../../mySolarSystem.js';
  
  export default class LawMode extends EnumerationValue {
-   static SECOND_LAW = new LawMode();
-   static THIRD_LAW = new LawMode();
- 
-   static enumeration = new Enumeration( LawMode, {
+   public static SECOND_LAW = new LawMode();
+   public static THIRD_LAW = new LawMode();
+
+   public static enumeration = new Enumeration( LawMode, {
      phetioDocumentation: 'Whether the second or third law are selected'
    } );
  }

@@ -22,7 +22,7 @@ type IntroScreenViewOptions = CommonScreenView;
 class IntroScreenView extends CommonScreenView {
   private massesControlPanel: MassesControlPanel;
   
-  constructor( model: IntroModel, tandem: Tandem ) {
+  public constructor( model: IntroModel, tandem: Tandem ) {
     const options = optionize<IntroScreenViewOptions, EmptyObjectType, CommonScreenViewOptions>()( {
       tandem: tandem
     } );

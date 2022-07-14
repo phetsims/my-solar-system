@@ -21,7 +21,7 @@ export default class EllipticalOrbitNode extends Path {
   private orbit: EllipticalOrbit;
   private shapeMultilink: UnknownMultilink;
 
-  constructor( model: KeplersLawsModel, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
+  public constructor( model: KeplersLawsModel, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super( new Shape(), {
       lineWidth: 3,
       stroke: 'fuchsia'

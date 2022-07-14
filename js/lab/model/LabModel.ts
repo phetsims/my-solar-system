@@ -19,16 +19,16 @@ import LabModes from '../../common/model/LabModes.js';
 type LabModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class LabModel extends CommonModel {
-  modeMap: Map<LabModes, Body[]>;
-  availableBodies: Body[];
+  private readonly modeMap: Map<LabModes, Body[]>;
+  private readonly availableBodies: Body[];
 
-  constructor( providedOptions: LabModelOptions ) {
+  public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptyObjectType, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
       isLab: true
     }, providedOptions );
     super( options );
-    
+
     this.modeMap = new Map<LabModes, Body[]>();
     this.setModesToMap();
 
@@ -41,18 +41,18 @@ class LabModel extends CommonModel {
     } );
   }
 
-  createBodies(): void {
+  public createBodies(): void {
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
-  override reset(): void {
+  public override reset(): void {
     this.availableBodies.forEach( body => body.reset() );
     this.restart();
   }
 
-  setModesToMap(): void {
+  public setModesToMap(): void {
     this.modeMap.set( LabModes.SUN_PLANET, [
       new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ),
       new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) )

@@ -21,7 +21,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class DraggableVectorNode extends VectorNode {
 
-  constructor(
+  public constructor(
     body: Body,
     transformProperty: ReadOnlyProperty<ModelViewTransform2>,
     visibleProperty: Property<boolean>,

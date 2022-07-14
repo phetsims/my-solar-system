@@ -13,7 +13,7 @@ import IntroScreenView from './view/IntroScreenView.js';
 
 class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon

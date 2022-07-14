@@ -29,7 +29,7 @@ type SelfOptions = {
 type MySolarSystemTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions & PickRequired<TimeControlNodeOptions, 'tandem'>;
 
 class MySolarSystemTimeControlNode extends TimeControlNode {
-  constructor(
+  public constructor(
     model: IntroModel,
     providedOptions: MySolarSystemTimeControlNodeOptions
   ) {

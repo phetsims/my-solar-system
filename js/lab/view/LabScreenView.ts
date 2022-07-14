@@ -33,7 +33,7 @@ class LabScreenView extends CommonScreenView {
   private massesControlPanel: MassesControlPanel;
   private fullDataPanel: FullDataPanel;
 
-  constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
+  public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
     const options = optionize<LabScreenViewOptions, SelfOptions, CommonScreenViewOptions>()( {
       tandem: providedOptions.tandem
@@ -73,7 +73,7 @@ class LabScreenView extends CommonScreenView {
     } );
   }
 
-  override update(): void {
+  public override update(): void {
     this.massesControlPanel.update();
     this.fullDataPanel.update();
   }

@@ -13,7 +13,7 @@ import LabScreenView from './view/LabScreenView.js';
 
 class LabScreen extends Screen<LabModel, LabScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon

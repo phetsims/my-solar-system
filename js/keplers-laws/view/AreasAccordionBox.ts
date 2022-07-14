@@ -33,7 +33,7 @@ const periodDivisionString = 'Period Divisions';
 type AreasAccordionBoxOptions = AccordionBoxOptions;
 
 export default class AreasAccordionBox extends AccordionBox {
-  constructor( model: KeplersLawsModel, providedOptions?: AreasAccordionBoxOptions ) {
+  public constructor( model: KeplersLawsModel, providedOptions?: AreasAccordionBoxOptions ) {
     const options = combineOptions<AreasAccordionBoxOptions>( {
       titleNode: new Text( 'Area', TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
@@ -48,7 +48,7 @@ export default class AreasAccordionBox extends AccordionBox {
 }
 
 class AreasControls extends FlowBox {
-  constructor( model: KeplersLawsModel ) {
+  public constructor( model: KeplersLawsModel ) {
     super( {
       children: [
         new Checkbox( model.dotsVisibleProperty, new Text( dotsString, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),

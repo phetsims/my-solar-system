@@ -37,10 +37,10 @@ const scratchProjectionMatrix = new Matrix3();
 type PathsWebGLNodeOptions = WebGLNodeOptions;
 
 export default class PathsWebGLNode extends WebGLNode {
-  model: CommonModel;
-  modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
+  public readonly model: CommonModel;
+  public readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
 
-  constructor( model: CommonModel, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: PathsWebGLNodeOptions ) {
+  public constructor( model: CommonModel, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: PathsWebGLNodeOptions ) {
     super( PathsPainter, providedOptions );
     this.model = model;
     this.modelViewTransformProperty = modelViewTransformProperty;
@@ -51,17 +51,17 @@ export default class PathsWebGLNode extends WebGLNode {
 }
 
 class PathsPainter {
-  gl: WebGLRenderingContext;
-  node: PathsWebGLNode;
-  vertexBuffer: WebGLBuffer;
-  shaderProgram: ShaderProgram;
+  private readonly gl: WebGLRenderingContext;
+  private readonly node: PathsWebGLNode;
+  private readonly vertexBuffer: WebGLBuffer;
+  private readonly shaderProgram: ShaderProgram;
   private readonly dataTexture: WebGLTexture;
   private readonly dataArray: Float32Array;
 
   // A 16-length array that contains all 4 body colors (doesn't change once it's initialized)
   private readonly colorsFloatArray: Float32Array;
 
-  constructor( gl: WebGLRenderingContext, node: PathsWebGLNode ) {
+  public constructor( gl: WebGLRenderingContext, node: PathsWebGLNode ) {
     this.gl = gl;
     this.node = node;
 
@@ -141,7 +141,7 @@ class PathsPainter {
     );
   }
 
-  paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): painterReturn {
+  public paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): painterReturn {
     const gl = this.gl;
 
     this.shaderProgram.use();
@@ -194,7 +194,7 @@ class PathsPainter {
     return WebGLNode.PAINTED_SOMETHING;
   }
 
-  dispose(): void {
+  public dispose(): void {
     this.shaderProgram.dispose();
     this.gl.deleteBuffer( this.vertexBuffer );
     this.gl.deleteTexture( this.dataTexture );

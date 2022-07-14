@@ -18,7 +18,7 @@ export type MySolarSystemCheckboxOptions = CheckboxOptions;
 
 export default class MySolarSystemCheckbox extends Checkbox {
 
-  constructor( property: Property<boolean>, content: Node, providedOptions?: MySolarSystemCheckboxOptions ) {
+  public constructor( property: Property<boolean>, content: Node, providedOptions?: MySolarSystemCheckboxOptions ) {
 
     const options = optionize<MySolarSystemCheckboxOptions, EmptyObjectType, CheckboxOptions>()( {
       boxWidth: 14,

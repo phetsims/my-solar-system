@@ -24,20 +24,20 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 type FullDataPanelOptions = PanelOptions;
 
 export default class FullDataPanel extends Panel {
-  private dataBox: DataBox;
+  private readonly dataBox: DataBox;
 
-  constructor( model: LabModel, providedOptions?: FullDataPanelOptions ) {
+  public constructor( model: LabModel, providedOptions?: FullDataPanelOptions ) {
     const dataBox = new DataBox( model );
     const options = optionize3<FullDataPanelOptions, EmptyObjectType, PanelOptions>()(
       {},
       MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
       providedOptions
-      );
+    );
     super( dataBox, options );
     this.dataBox = dataBox;
   }
 
-  update(): void {
+  public update(): void {
     this.dataBox.update();
   }
 }
@@ -45,11 +45,11 @@ export default class FullDataPanel extends Panel {
 type DataBoxOptions = GridBoxOptions;
 
 class DataBox extends GridBox {
-  model: CommonModel;
-  massRange: RangeWithValue;
-  tempChildren: Node[];
+  private readonly model: CommonModel;
+  private readonly massRange: RangeWithValue;
+  private tempChildren: Node[];
 
-  constructor( model: CommonModel, providedOptions?: Partial<DataBoxOptions> ) {
+  public constructor( model: CommonModel, providedOptions?: Partial<DataBoxOptions> ) {
     super( {
       ySpacing: 5,
       xMargin: 10
@@ -60,7 +60,7 @@ class DataBox extends GridBox {
     this.update();
   }
 
-  update(): void {
+  public update(): void {
     // Whenever the number of bodies change, repopulate the dataBox
     this.tempChildren = [
       new Text( 'Mass', { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
