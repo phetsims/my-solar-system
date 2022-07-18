@@ -107,7 +107,7 @@ class CommonScreenView extends ScreenView {
     };
 
     // The NodeTrackers handle the creation and disposal of Model-View pairs
-    const trackers: NodeTracker<any, Node>[] = [
+    const trackers: NodeTracker<Body, Node>[] = [
       new NodeTracker<Body, BodyNode>( this.bodiesLayerNode, bodyNodeFactory ),
       new NodeTracker<Body, DraggableVectorNode>( this.ComponentsLayerNode, velocityVectorFactory ),
       new NodeTracker<Body, VectorNode>( this.ComponentsLayerNode, forceVectorFactory )
