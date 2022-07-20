@@ -15,7 +15,7 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import CommonModel from '../../common/model/CommonModel.js';
 import { optionize3 } from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import LabModel from '../model/LabModel.js';
@@ -28,7 +28,7 @@ export default class FullDataPanel extends Panel {
 
   public constructor( model: LabModel, providedOptions?: FullDataPanelOptions ) {
     const dataBox = new DataBox( model );
-    const options = optionize3<FullDataPanelOptions, EmptyObjectType, PanelOptions>()(
+    const options = optionize3<FullDataPanelOptions, EmptySelfOptions, PanelOptions>()(
       {},
       MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
       providedOptions

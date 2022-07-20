@@ -11,7 +11,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import IntroModel from '../model/IntroModel.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { AlignBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MassesControlPanel from '../../common/view/MassesControlPanel.js';
@@ -23,7 +23,7 @@ class IntroScreenView extends CommonScreenView {
   private massesControlPanel: MassesControlPanel;
   
   public constructor( model: IntroModel, tandem: Tandem ) {
-    const options = optionize<IntroScreenViewOptions, EmptyObjectType, CommonScreenViewOptions>()( {
+    const options = optionize<IntroScreenViewOptions, EmptySelfOptions, CommonScreenViewOptions>()( {
       tandem: tandem
     } );
     super( model, options );

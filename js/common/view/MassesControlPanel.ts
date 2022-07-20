@@ -16,7 +16,7 @@ import MySolarSystemSlider from './MySolarSystemSlider.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import CommonModel from '../model/CommonModel.js';
 import { optionize3 } from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
@@ -32,7 +32,7 @@ export default class MassesControlPanel extends Panel {
 
   public constructor( model: CommonModel, providedOptions?: MassesControlPanelOptions ) {
     const sliders = new MassesSliders( model );
-    const options = optionize3<MassesControlPanelOptions, EmptyObjectType, PanelOptions>()(
+    const options = optionize3<MassesControlPanelOptions, EmptySelfOptions, PanelOptions>()(
       {},
       MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
       providedOptions

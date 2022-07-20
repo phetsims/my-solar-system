@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -36,7 +36,7 @@ class KeplersLawsModel extends CommonModel {
   public separationProperty: Property<number>;
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
-    const options = optionize<KeplersLawsModelOptions, EmptyObjectType, CommonModelOptions>()( {
+    const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, CommonModelOptions>()( {
       engineFactory: bodies => new Engine( bodies ),
       isLab: false
     }, providedOptions );

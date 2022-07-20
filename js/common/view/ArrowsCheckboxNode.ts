@@ -15,7 +15,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import IntroModel from '../../intro/model/IntroModel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
@@ -37,7 +37,7 @@ const HBOX_OPTIONS = {
   spacing: SPACING
 };
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 type ArrowsCheckboxNodeOptions = SelfOptions & VBoxOptions;
 

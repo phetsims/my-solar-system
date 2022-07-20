@@ -14,7 +14,7 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { optionize3 } from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemSlider from '../../common/view/MySolarSystemSlider.js';
 
 // constants
@@ -32,7 +32,7 @@ export default class KeplersLawsSliders extends Panel {
     // const massControl = new MySolarSystemSlider( model.bodies[ 1 ].massProperty, massRange, { thumbFill: 'fuchsia' } );
     const separationControl = new MySolarSystemSlider( model.separationProperty, separationRange, { thumbFill: 'fuchsia' } );
 
-    const options = optionize3<PanelOptions, EmptyObjectType, PanelOptions>()(
+    const options = optionize3<PanelOptions, EmptySelfOptions, PanelOptions>()(
       {},
       MySolarSystemConstants.CONTROL_PANEL_OPTIONS,
        { fill: 'white' }

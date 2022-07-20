@@ -13,7 +13,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -31,7 +31,7 @@ const TEXT_OPTIONS = {
 
 const SPACING = 10;
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 type OrbitalInformationOptions = SelfOptions & VBoxOptions;
 
