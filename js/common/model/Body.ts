@@ -8,6 +8,7 @@
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import IEmitter from '../../../../axon/js/IEmitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -22,8 +23,8 @@ class Body {
   public readonly forceProperty: Property<Vector2>;
 
   // Emitters for various events
-  public readonly userModifiedPositionEmitter: Emitter;
-  public readonly userModifiedVelocityEmitter: Emitter;
+  public readonly userModifiedPositionEmitter: IEmitter;
+  public readonly userModifiedVelocityEmitter: IEmitter;
 
   // Array of points for drawing the path
   public readonly path: ObservableArray<Vector2>;
@@ -78,7 +79,7 @@ class Body {
    * Add a point to the collection of points that follow the trajectory of a moving body.
    * This also removes points when the path gets too long.
    */
-   public addPathPoint(): void {
+  public addPathPoint(): void {
     const pathPoint = this.positionProperty.get();
     this.path.push( pathPoint );
 
@@ -101,13 +102,13 @@ class Body {
     }
   }
 
-    /**
-     * Clear the whole path of points tracking the body's trajectory.
-     */
-    public clearPath(): void {
+  /**
+   * Clear the whole path of points tracking the body's trajectory.
+   */
+  public clearPath(): void {
     this.path.clear();
     this.pathDistance = 0;
-    }
+  }
 }
 
 mySolarSystem.register( 'Body', Body );
