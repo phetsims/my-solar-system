@@ -13,8 +13,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { optionize3 } from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemSlider from '../../common/view/MySolarSystemSlider.js';
 
 // constants

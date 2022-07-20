@@ -9,8 +9,7 @@
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 

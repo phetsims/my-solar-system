@@ -15,8 +15,7 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import MySolarSystemSlider from './MySolarSystemSlider.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import CommonModel from '../model/CommonModel.js';
-import { optionize3 } from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 

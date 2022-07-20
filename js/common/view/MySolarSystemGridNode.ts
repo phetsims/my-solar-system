@@ -17,8 +17,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 

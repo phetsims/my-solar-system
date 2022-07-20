@@ -7,20 +7,19 @@
  * @author Agustín Vallejo
  */
 
- import { Shape } from '../../../../kite/js/imports.js';
- import { FlowBox, HBox, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
- import Checkbox from '../../../../sun/js/Checkbox.js';
- import mySolarSystem from '../../mySolarSystem.js';
- import mySolarSystemStrings from '../../mySolarSystemStrings.js';
- import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
- import Vector2 from '../../../../dot/js/Vector2.js';
- import XNode from '../../../../scenery-phet/js/XNode.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import { FlowBox, HBox, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
- 
+
 const orbitalInformationString = mySolarSystemStrings.orbital;
 const axisString = mySolarSystemStrings.axis;
 const apoapsisString = mySolarSystemStrings.apoapsis;

@@ -5,11 +5,11 @@
  * @author Agustín Vallejo
  */
 
- import Enumeration from '../../../../phet-core/js/Enumeration.js';
- import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
- import mySolarSystem from '../../mySolarSystem.js';
- 
- export default class LawMode extends EnumerationValue {
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import mySolarSystem from '../../mySolarSystem.js';
+
+export default class LawMode extends EnumerationValue {
    public static SECOND_LAW = new LawMode();
    public static THIRD_LAW = new LawMode();
 

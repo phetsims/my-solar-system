@@ -14,8 +14,7 @@ import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type IntroModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
