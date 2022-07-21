@@ -28,8 +28,10 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
         baseColor: 'white',
         xMargin: 10,
         yMargin: 30,
-        selectedStroke: '#60a9dd',
-        selectedLineWidth: 4
+        buttonAppearanceStrategyOptions: {
+          selectedStroke: '#60a9dd',
+          selectedLineWidth: 4
+        }
       }
     }, providedOptions );
 
