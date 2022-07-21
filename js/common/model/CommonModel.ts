@@ -112,6 +112,21 @@ abstract class CommonModel {
    */
   public abstract createBodies(): void;
 
+  public reset(): void {
+    this.restart();
+    this.timeSpeedProperty.reset();
+    this.zoomLevelProperty.reset();
+    this.pathVisibleProperty.reset();
+    this.gravityVisibleProperty.reset();
+    this.velocityVisibleProperty.reset();
+    this.gridVisibleProperty.reset();
+    this.measuringTapeVisibleProperty.reset();
+    this.valuesVisibleProperty.reset();
+    this.moreDataProperty.reset();
+    this.labModeProperty.reset();
+  }
+
+  // Restart is for when the time controls are brought back to 0
   public restart(): void {
     this.isPlayingProperty.value = false;
     this.bodies.forEach( body => body.reset() );
@@ -130,10 +145,6 @@ abstract class CommonModel {
   public update(): void {
     this.engine.update( this.bodies );
     this.centerOfMass.updateCenterOfMassPosition();
-  }
-
-  public reset(): void {
-    this.restart();
   }
 
   public step( dt: number ): void {

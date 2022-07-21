@@ -75,6 +75,15 @@ class KeplersLawsModel extends CommonModel {
 
   public override reset(): void {
     super.reset();
+    this.selectedLawProperty.reset();
+    this.apoapsisVisibleProperty.reset();
+    this.periapsisVisibleProperty.reset();
+    this.axisVisibleProperty.reset();
+    this.areasVisibleProperty.reset();
+    this.dotsVisibleProperty.reset();
+    this.sweepAreaVisibleProperty.reset();
+    this.areaGraphVisibleProperty.reset();
+    this.periodDivisionProperty.reset();
     this.separationProperty.reset();
   }
 }

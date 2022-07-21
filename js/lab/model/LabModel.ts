@@ -46,11 +46,6 @@ class LabModel extends CommonModel {
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
-  public override reset(): void {
-    this.availableBodies.forEach( body => body.reset() );
-    this.restart();
-  }
-
   public setModesToMap(): void {
     this.modeMap.set( LabModes.SUN_PLANET, [
       new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ),
