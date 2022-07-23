@@ -112,7 +112,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
       );
   this.ComponentsLayerNode.addChild( new DraggableVectorNode(
     planet, modelViewTransformProperty, model.velocityVisibleProperty, planet.velocityProperty,
-    1, 'V', { fill: PhetColorScheme.VELOCITY }
+    1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
     ) );
 
   this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty ) );

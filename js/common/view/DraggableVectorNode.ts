@@ -14,10 +14,17 @@ import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, DragListener, Path, PressListenerEvent, Text } from '../../../../scenery/js/imports.js';
-import VectorNode from './VectorNode.js';
+import VectorNode, { VectorNodeOptions } from './VectorNode.js';
 import Body from '../model/Body.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = {
+  zeroAllowed?: boolean;
+};
+
+export type DraggableVectorNodeOptions = SelfOptions & VectorNodeOptions;
 
 export default class DraggableVectorNode extends VectorNode {
 
@@ -28,7 +35,11 @@ export default class DraggableVectorNode extends VectorNode {
     vectorProperty: Property<Vector2>,
     scale: number,
     labelText: string,
-    providedOptions?: object ) {
+    providedOptions?: DraggableVectorNodeOptions ) {
+
+    const options = optionize<DraggableVectorNodeOptions, SelfOptions, VectorNodeOptions>()( {
+      zeroAllowed: true
+    }, providedOptions );
 
     super(
       body,
@@ -36,7 +47,7 @@ export default class DraggableVectorNode extends VectorNode {
       visibleProperty,
       vectorProperty,
       scale,
-      providedOptions
+      options
       );
 
     // a circle with text (a character) in the center, to help indicate what it represents
@@ -81,10 +92,16 @@ export default class DraggableVectorNode extends VectorNode {
           const proposedVelocity = previousValue!.plus( delta );
           const viewVector = transformProperty.value.modelToViewDelta( proposedVelocity.times( scale ) );
           if ( viewVector.magnitude < 10 ) {
-            proposedVelocity.setXY( 0, 0 );
+            if ( options.zeroAllowed ) {
+              proposedVelocity.setXY( 0, 0 );
+              body.velocityProperty.value = proposedVelocity;
+              body.userModifiedVelocityEmitter.emit();
+            }
           }
-          body.velocityProperty.value = proposedVelocity;
-          body.userModifiedVelocityEmitter.emit();
+          else {
+            body.velocityProperty.value = proposedVelocity;
+            body.userModifiedVelocityEmitter.emit();
+          }
         }
       },
       end: _.noop

@@ -16,7 +16,9 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-class VectorNode extends ArrowNode {
+export type VectorNodeOptions = ArrowNodeOptions;
+
+export default class VectorNode extends ArrowNode {
   protected tipProperty: ReadOnlyProperty<Vector2>;
   protected tailProperty: ReadOnlyProperty<Vector2>;
 
@@ -26,10 +28,10 @@ class VectorNode extends ArrowNode {
     visibleProperty: Property<boolean>,
     vectorProperty: Property<Vector2>,
     scale: number,
-    providedOptions?: ArrowNodeOptions
+    providedOptions?: VectorNodeOptions
   ) {
 
-    super( 0, 0, 0, 0, optionize<ArrowNodeOptions, EmptySelfOptions, ArrowNodeOptions>()( {
+    super( 0, 0, 0, 0, optionize<VectorNodeOptions, EmptySelfOptions, ArrowNodeOptions>()( {
       headHeight: 15,
       headWidth: 15,
       tailWidth: 5,
@@ -68,4 +70,3 @@ class VectorNode extends ArrowNode {
 }
 
 mySolarSystem.register( 'VectorNode', VectorNode );
-export default VectorNode;

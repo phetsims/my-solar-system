@@ -34,9 +34,11 @@ export class EmptyEngine extends Engine {
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
   }
-  public run( dt: number ): void {}
-  public update( bodies: ObservableArray<Body> ): void {}
-  public reset(): void {}
+  
+  // TODO: temporarily added 1+1 to avoid errors due to empty functions. @ts-ignore didn't work
+  public run( dt: number ): void { 1 + 1; }
+  public update( bodies: ObservableArray<Body> ): void { 1 + 1; }
+  public reset(): void { 1 + 1; }
 }
 
 export class NumericalEngine extends Engine {

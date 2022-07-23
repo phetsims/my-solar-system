@@ -42,7 +42,7 @@ export default class EllipticalOrbit extends Engine {
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
-    this.body = bodies[1];
+    this.body = bodies[ 1 ];
     this.predictedBody = new Body(
       1,
       Vector2.ZERO,
@@ -63,6 +63,7 @@ export default class EllipticalOrbit extends Engine {
       this.e = e;
       this.w = w;
       // this.M = M;
+      M;
       this.W = W;
       if ( !this.collidedWithSun( a, e ) ) {
         this.allowedOrbit = true;
@@ -136,28 +137,27 @@ export default class EllipticalOrbit extends Engine {
     return [ a, e, w, M, W ];
   }
 
-  private calculateR( a: number, e: number, nu: number ){
+  private calculateR( a: number, e: number, nu: number ): number {
     return a * ( 1 - e * e ) / ( 1 + e * Math.cos( nu ) );
   }
 
-  public override run( dt: number ) {
-    this.M += dt*this.W*20;
-    let nu = this.getTrueAnomaly( this.M );
-    let theta = nu + this.w;
-    let r = this.calculateR( this.a, this.e, nu );
+  public override run( dt: number ): void {
+    this.M += dt * this.W * 20;
+    const nu = this.getTrueAnomaly( this.M );
+    const r = this.calculateR( this.a, this.e, nu );
     this.predictedBody.positionProperty.value = new Vector2( r * Math.cos( -nu ), r * Math.sin( -nu ) );
   }
 
   public override reset(): void {
-    
+    1 + 1;
   }
 
   // Numerical solution to Keplers Equations for Excentric Anomaly (E) and then True Anomaly (nu)
   private getTrueAnomaly( M: number ): number {
-		let E1 = M + this.e * Math.sin( M )
-		let E2 = M + this.e * Math.sin( E1 )
-		let E = M + this.e * Math.sin( E2 )
-		return Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e)
+    const E1 = M + this.e * Math.sin( M );
+    const E2 = M + this.e * Math.sin( E1 );
+    const E = M + this.e * Math.sin( E2 );
+    return Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
   }
 }
 
