@@ -41,7 +41,7 @@ export type CommonModelOptions = SelfOptions;
 abstract class CommonModel {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
-  private readonly engine: Engine;
+  public engine: Engine;
 
   public readonly timeScale: number;
   public readonly timeRange: Range;

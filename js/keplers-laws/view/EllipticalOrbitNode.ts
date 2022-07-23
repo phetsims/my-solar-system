@@ -28,7 +28,8 @@ export default class EllipticalOrbitNode extends Path {
     } );
 
     const body = model.bodies[ 1 ];
-    this.orbit = new EllipticalOrbit( body );
+    this.orbit = model.orbit;
+    const predictedBody = this.orbit.predictedBody;
     const periapsis = new XNode( {
       fill: 'gold',
       stroke: 'white',
@@ -47,14 +48,22 @@ export default class EllipticalOrbitNode extends Path {
         return visible && ( this.orbit.e > 0 );
       } )
     } );
+    const predicted = new XNode( {
+      fill: 'white',
+      stroke: 'white',
+      center: Vector2.ZERO
+    } );
 
     this.addChild( periapsis );
     this.addChild( apoapsis );
+    this.addChild( predicted );
 
     this.shapeMultilink = Multilink.multilink(
-      [ body.positionProperty, body.velocityProperty, modelViewTransformProperty ],
-      ( position, velocity, modelViewTransform ) => {
+      [ body.positionProperty, body.velocityProperty, predictedBody.positionProperty, modelViewTransformProperty ],
+      ( position, velocity, predictedPosition, modelViewTransform ) => {
         this.orbit.update();
+
+        // Non allowed orbits will show up as dashed lines
         this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
 
         const scale = modelViewTransform.modelToViewDeltaX( 1 );
@@ -65,13 +74,15 @@ export default class EllipticalOrbitNode extends Path {
         const radiusX = scale * a;
         const radiusY = scale * Math.sqrt( a * a - c * c );
 
+        // The ellipse is translated and rotated so its children can use local coordinates
         this.translation = modelViewTransform.modelToViewPosition( center );
         this.rotation = 0;
         this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
         this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
-
+        
         periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
         apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
+        predicted.center = predictedPosition.minus( center ).times( scale );
     } );
   }
 }

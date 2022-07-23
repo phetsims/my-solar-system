@@ -24,7 +24,7 @@ type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
   public readonly initialMass: number;
-  private readonly somethingMultilink: UnknownMultilink;
+  private readonly positionMultilink: UnknownMultilink;
   public readonly draggable: boolean;
 
   public constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
@@ -38,7 +38,7 @@ export default class BodyNode extends ShadedSphereNode {
     this.body = body;
     this.initialMass = 200; //body.massProperty.value;
 
-    this.somethingMultilink = Multilink.multilink(
+    this.positionMultilink = Multilink.multilink(
       [ body.positionProperty, body.massProperty, modelViewTransformProperty ],
       ( position, mass, modelViewTransform ) => {
         this.setScaleMagnitude( this.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
@@ -67,7 +67,7 @@ export default class BodyNode extends ShadedSphereNode {
   }
 
   public override dispose(): void {
-    this.somethingMultilink.dispose();
+    this.positionMultilink.dispose();
     super.dispose();
   }
 }

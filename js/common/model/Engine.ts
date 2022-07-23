@@ -18,29 +18,46 @@ const XI = 0.1786178958448091;
 const LAMBDA = -0.2123418310626054;
 const CHI = -0.06626458266981849;
 
-class Engine {
-  // Gravitational constant
-  private readonly G: number;
-
+export default abstract class Engine {
   // Array of gravitational interacting bodies
-  private bodies: ObservableArray<Body>;
+  protected bodies: ObservableArray<Body>;
 
-  public constructor( bodies: ObservableArray<Body> ) {
-    this.G = 10000;
+  protected constructor( bodies: ObservableArray<Body> ) {
     this.bodies = bodies;
   }
+  public abstract run( dt: number ): void;
+  public abstract update( bodies: ObservableArray<Body> ): void;
+  public abstract reset(): void;
+}
 
-  public update( bodies: ObservableArray<Body> ): void {
+export class EmptyEngine extends Engine {
+  public constructor( bodies: ObservableArray<Body> ) {
+    super( bodies );
+  }
+  public run( dt: number ): void {}
+  public update( bodies: ObservableArray<Body> ): void {}
+  public reset(): void {}
+}
+
+export class NumericalEngine extends Engine {
+  // Gravitational constant
+  private readonly G = 10000;
+
+  public constructor( bodies: ObservableArray<Body> ) {
+    super( bodies );
+  }
+
+  public override update( bodies: ObservableArray<Body> ): void {
     // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
     this.updateForces();
   }
 
-  public reset(): void {
+  public override reset(): void {
     this.updateForces();
   }
 
-  public run( dt: number ): void {
+  public override run( dt: number ): void {
     const iterationCount = 400 / this.bodies.length;
     const N = this.bodies.length;
     dt /= iterationCount;
@@ -274,4 +291,3 @@ class Engine {
 }
 
 mySolarSystem.register( 'Engine', Engine );
-export default Engine;

@@ -12,7 +12,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Engine from '../../common/model/Engine.js';
+import { NumericalEngine } from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
@@ -21,7 +21,7 @@ type IntroModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab
 class IntroModel extends CommonModel {
   public constructor( providedOptions: IntroModelOptions ) {
     const options = optionize<IntroModelOptions, EmptySelfOptions, CommonModelOptions>()( {
-      engineFactory: bodies => new Engine( bodies ),
+      engineFactory: bodies => new NumericalEngine( bodies ),
       isLab: false
     }, providedOptions );
     super( options );

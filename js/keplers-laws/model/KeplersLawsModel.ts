@@ -10,50 +10,43 @@ import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Engine from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EllipticalOrbit from './EllipticalOrbit.js';
+import { EmptyEngine } from '../../common/model/Engine.js';
 
 type KeplersLawsModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel {
-  public readonly selectedLawProperty: EnumerationProperty<LawMode>;
+  public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
+  public readonly orbit: EllipticalOrbit;
 
-  public apoapsisVisibleProperty: Property<boolean>;
-  public periapsisVisibleProperty: Property<boolean>;
-  public axisVisibleProperty: Property<boolean>;
+  public apoapsisVisibleProperty = new Property<boolean>( false );
+  public periapsisVisibleProperty = new Property<boolean>( false );
+  public axisVisibleProperty = new Property<boolean>( false );
  
-  public areasVisibleProperty: Property<boolean>;
-  public dotsVisibleProperty: Property<boolean>;
-  public sweepAreaVisibleProperty: Property<boolean>;
-  public areaGraphVisibleProperty: Property<boolean>;
-  public periodDivisionProperty: Property<number>;
-
-  public separationProperty: Property<number>;
+  public areasVisibleProperty = new Property<boolean>( false );
+  public dotsVisibleProperty = new Property<boolean>( false );
+  public sweepAreaVisibleProperty = new Property<boolean>( false );
+  public areaGraphVisibleProperty = new Property<boolean>( false );
+  public periodDivisionProperty = new Property<number>( 4 );
+  
+  public separationProperty = new Property<number>( 150 );
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, CommonModelOptions>()( {
-      engineFactory: bodies => new Engine( bodies ),
+      engineFactory: bodies => new EmptyEngine( bodies ),
       isLab: false
     }, providedOptions );
     super( options );
+    
+    // TODO: How is the memory handled in this case?
+    this.orbit = new EllipticalOrbit( this.bodies );
+    this.engine = this.orbit; // Is this a copy or a reference? Hopefully a reference
 
-    this.selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
-
-    this.apoapsisVisibleProperty = new Property<boolean>( false );
-    this.periapsisVisibleProperty = new Property<boolean>( false );
-    this.axisVisibleProperty = new Property<boolean>( false );
-
-    this.areasVisibleProperty = new Property<boolean>( false );
-    this.dotsVisibleProperty = new Property<boolean>( false );
-    this.sweepAreaVisibleProperty = new Property<boolean>( false );
-    this.areaGraphVisibleProperty = new Property<boolean>( false );
-    this.periodDivisionProperty = new Property<number>( 4 );
-
-    this.separationProperty = new Property<number>( 150 );
     this.separationProperty.link( separation => {
       this.softReset();
       this.bodies[ 1 ].positionProperty.value = new Vector2( separation, 0 );
@@ -61,7 +54,7 @@ class KeplersLawsModel extends CommonModel {
     } );
   }
 
-  public createBodies(): void {
+  public override createBodies(): void {
     // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
