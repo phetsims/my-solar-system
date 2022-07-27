@@ -19,6 +19,7 @@ import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
+import LawMode from '../model/LawMode.js';
 
 const orbitalInformationString = mySolarSystemStrings.orbital;
 const axisString = mySolarSystemStrings.axis;
@@ -54,15 +55,8 @@ const TITLE_OPTIONS = {
 
      //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
 
-     const children = [
-       new HBox( {
-         spacing: 10,
-         children: [
-           new Text( orbitalInformationString, TITLE_OPTIONS ),
-           new InfoButton( { scale: 0.5 } )
-         ]
-        } ),
-       new Checkbox( model.pathVisibleProperty, new FlowBox( {
+     const secondLawChildren = [
+       new Checkbox( model.axisVisibleProperty, new FlowBox( {
          spacing: 10,
          children: [
            new Text( axisString, TEXT_OPTIONS )
@@ -94,6 +88,36 @@ const TITLE_OPTIONS = {
          ]
        } ), CHECKBOX_OPTIONS )
      ];
+
+     const thirdLawChildren = [
+       new Checkbox( model.semimajorAxisVisibleProperty, new FlowBox( {
+         spacing: 10,
+         children: [
+           new Text( 'Semimajor Axis (a)', TEXT_OPTIONS )
+           //  axisIconImageNode
+         ]
+       } ), CHECKBOX_OPTIONS ),
+       new Checkbox( model.periodVisibleProperty, new FlowBox( {
+         spacing: 10,
+         children: [
+           new Text( 'Period (T)', TEXT_OPTIONS )
+           //  axisIconImageNode
+         ]
+       } ), CHECKBOX_OPTIONS )
+     ];
+
+     const orbitalInformationNode = new HBox( {
+           spacing: 10,
+           children: [
+             new Text( orbitalInformationString, TITLE_OPTIONS ),
+             new InfoButton( { scale: 0.5 } )
+           ]
+         } );
+
+     const children = [
+       orbitalInformationNode,
+       ...( model.selectedLawProperty.value === LawMode.SECOND_LAW ? secondLawChildren : thirdLawChildren )
+     ];
  
      // increase the touch area of the checkboxes
      const touchAreaHeight = 32;
@@ -110,6 +134,13 @@ const TITLE_OPTIONS = {
        align: 'left',
        stretch: true
      }, providedOptions ) );
+
+     model.selectedLawProperty.link( law => {
+       this.children = [
+         orbitalInformationNode,
+         ...( law === LawMode.SECOND_LAW ? secondLawChildren : thirdLawChildren )
+       ];
+     } );
    }
  }
  

@@ -21,14 +21,17 @@ export default class EllipticalOrbitNode extends Path {
   private orbit: EllipticalOrbit;
   private shapeMultilink: UnknownMultilink;
 
-  public constructor( model: KeplersLawsModel, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
+  public constructor(
+    model: KeplersLawsModel,
+    modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>,
+    orbit: EllipticalOrbit ) {
     super( new Shape(), {
       lineWidth: 3,
       stroke: 'fuchsia'
     } );
 
     const body = model.bodies[ 1 ];
-    this.orbit = model.orbit;
+    this.orbit = orbit;
     const predictedBody = this.orbit.predictedBody;
     const periapsis = new XNode( {
       fill: 'gold',

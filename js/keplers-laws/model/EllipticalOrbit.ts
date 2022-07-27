@@ -86,8 +86,7 @@ export default class EllipticalOrbit extends Engine {
     const rMagnitude = r.magnitude;
     const vMagnitude = v.magnitude;
 
-    const a = rMagnitude * this.mu / ( 2 * this.mu - rMagnitude * vMagnitude * vMagnitude );
-    return a;
+    return rMagnitude * this.mu / ( 2 * this.mu - rMagnitude * vMagnitude * vMagnitude );
   }
 
   private calculate_e( r: Vector2, v: Vector2, a: number ): number {
@@ -96,10 +95,9 @@ export default class EllipticalOrbit extends Engine {
     const rAngle = r.angle;
     const vAngle = v.angle;
 
-    const e = Math.pow(
+    return Math.pow(
       1 - Math.pow( rMagnitude * vMagnitude * Math.sin( vAngle - rAngle ), 2 )
       / ( a * this.mu ), 0.5 );
-    return e;
   }
 
   private calculateAngles( r: Vector2, v: Vector2, a: number, e: number ): number[] {
@@ -149,7 +147,7 @@ export default class EllipticalOrbit extends Engine {
   }
 
   public override reset(): void {
-    1 + 1;
+    // This will be filled in in the future
   }
 
   // Numerical solution to Keplers Equations for Excentric Anomaly (E) and then True Anomaly (nu)

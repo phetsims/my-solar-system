@@ -16,18 +16,19 @@ import Property from '../../../../axon/js/Property.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbit from './EllipticalOrbit.js';
-import { EmptyEngine } from '../../common/model/Engine.js';
 
 type KeplersLawsModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
-  public readonly orbit: EllipticalOrbit;
 
+  public axisVisibleProperty = new Property<boolean>( false );
   public apoapsisVisibleProperty = new Property<boolean>( false );
   public periapsisVisibleProperty = new Property<boolean>( false );
-  public axisVisibleProperty = new Property<boolean>( false );
- 
+
+  public semimajorAxisVisibleProperty = new Property<boolean>( false );
+  public periodVisibleProperty = new Property<boolean>( false );
+
   public areasVisibleProperty = new Property<boolean>( false );
   public dotsVisibleProperty = new Property<boolean>( false );
   public sweepAreaVisibleProperty = new Property<boolean>( false );
@@ -38,19 +39,19 @@ class KeplersLawsModel extends CommonModel {
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, CommonModelOptions>()( {
-      engineFactory: bodies => new EmptyEngine( bodies ),
+      engineFactory: bodies => new EllipticalOrbit( bodies ),
       isLab: false
     }, providedOptions );
     super( options );
-    
-    // TODO: How is the memory handled in this case?
-    this.orbit = new EllipticalOrbit( this.bodies );
-    this.engine = this.orbit; // Is this a copy or a reference? Hopefully a reference
 
     this.separationProperty.link( separation => {
       this.softReset();
       this.bodies[ 1 ].positionProperty.value = new Vector2( separation, 0 );
       // this.bodies[ 1 ].positionProperty.initialValue.x = separation;
+    } );
+
+    this.selectedLawProperty.link( law => {
+      this.visibilityReset();
     } );
   }
 
@@ -66,9 +67,8 @@ class KeplersLawsModel extends CommonModel {
     super.reset();
   }
 
-  public override reset(): void {
-    super.reset();
-    this.selectedLawProperty.reset();
+  public visibilityReset(): void {
+    // Calls reset only on the visibilityProperties to avoid reentries on selectedLawProperty
     this.apoapsisVisibleProperty.reset();
     this.periapsisVisibleProperty.reset();
     this.axisVisibleProperty.reset();
@@ -76,8 +76,17 @@ class KeplersLawsModel extends CommonModel {
     this.dotsVisibleProperty.reset();
     this.sweepAreaVisibleProperty.reset();
     this.areaGraphVisibleProperty.reset();
-    this.periodDivisionProperty.reset();
+    this.semimajorAxisVisibleProperty.reset();
+    this.periodVisibleProperty.reset();
+  }
+
+  public override reset(): void {
+    super.reset();
+    this.selectedLawProperty.reset();
     this.separationProperty.reset();
+    this.periodDivisionProperty.reset();
+
+    this.visibilityReset();
   }
 }
 

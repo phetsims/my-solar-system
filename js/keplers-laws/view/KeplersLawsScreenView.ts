@@ -24,7 +24,6 @@ import MySolarSystemTimeControlNode from '../../common/view/MySolarSystemTimeCon
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
 import AreasAccordionBox from './AreasAccordionBox.js';
-import KeplersLawsSliders from './KeplersLawsSliders.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
@@ -32,6 +31,7 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
 import LawsButtons from './LawsButtons.js';
 import LawMode from '../model/LawMode.js';
+import EllipticalOrbit from '../model/EllipticalOrbit.js';
 
 // constants
 const MARGIN = 5;
@@ -115,7 +115,9 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
     ) );
 
-  this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty ) );
+  if ( model.engine instanceof EllipticalOrbit ) {
+    this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty, model.engine ) );
+  }
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons
@@ -169,6 +171,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
 
   this.UILayerNode.addChild( new AlignBox( new FlowBox( {
     children: [
+      new LawsButtons( model ),
       timeControlNode,
       clockNode,
       resetAllButton
@@ -177,7 +180,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     spacing: 20
   } ),
   {
-    alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'bottom'
+    alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'center', yAlign: 'bottom'
   } ) );
 
   // Add the control panel on top of the canvases
@@ -185,20 +188,6 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
   this.UILayerNode.addChild( new AlignBox( new KeplersLawsControls( model ),
     {
       alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
-    } ) );
-
-  // Slider that controls the small's body mass and its separation to the star
-  this.UILayerNode.addChild( new AlignBox( new FlowBox( {
-    children: [
-      new LawsButtons( model ),
-      new KeplersLawsSliders( model )
-    ],
-    orientation: 'horizontal',
-    align: 'bottom',
-    spacing: 20
-  } ),
-    {
-      alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
     } ) );
 }
 }

@@ -12,9 +12,9 @@ import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { NumericalEngine } from '../../common/model/Engine.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import NumericalEngine from '../../common/model/NumericalEngine.js';
 
 type IntroModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
