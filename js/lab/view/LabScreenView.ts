@@ -12,9 +12,10 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import MySolarSystemCheckbox, { MySolarSystemCheckboxOptions } from '../../common/view/MySolarSystemCheckbox.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
-import { AlignBox, GridBox, Text } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import MassesControlPanel from '../../common/view/MassesControlPanel.js';
 import FullDataPanel from './FullDataPanel.js';
+import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
 
 // Consts
 const TEXT_OPTIONS = {
@@ -32,6 +33,7 @@ class LabScreenView extends CommonScreenView {
   private gridbox: GridBox;
   private massesControlPanel: MassesControlPanel;
   private fullDataPanel: FullDataPanel;
+  private numberSpinner: VBox;
 
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
@@ -45,18 +47,45 @@ class LabScreenView extends CommonScreenView {
       { layoutOptions: { column: 1, row: 0 } },
       MySolarSystemConstants.CHECKBOX_OPTIONS );
 
+    const spinnerOptions: NumberSpinnerOptions = {
+      deltaValue: 1,
+      touchAreaXDilation: 20,
+      touchAreaYDilation: 10,
+      mouseAreaXDilation: 10,
+      mouseAreaYDilation: 5,
+      numberDisplayOptions: {
+        decimalPlaces: 0,
+        align: 'center',
+        xMargin: 10,
+        yMargin: 3,
+        minBackgroundWidth: 100,
+        textOptions: {
+          font: new Font( { size: 28 } )
+        }
+      }
+    };
+
+
     // Add the node for the Masses Sliders & Full Data Panel
     this.massesControlPanel = new MassesControlPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
     this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
-
-    this.gridbox = new GridBox( {
+    this.numberSpinner = new VBox( {
       children: [
-        new MySolarSystemCheckbox( model.moreDataProperty, new Text( 'More data', TEXT_OPTIONS ), checkboxOptions ),
-        this.massesControlPanel
-        // bodyNumberSpinner
+        new Text( 'Bodies', TEXT_OPTIONS ),
+        new NumberSpinner( model.numberOfActiveBodies, model.rangeOfActiveBodies,
+            combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
+              arrowsPosition: 'bothRight',
+              numberDisplayOptions: {
+                yMargin: 10,
+                align: 'right',
+                scale: 0.8
+              }
+            } ) )
       ],
-      xAlign: 'left'
+      layoutOptions: { column: 0, row: 1, margin: 10 }
     } );
+
+    this.gridbox = new GridBox( { xAlign: 'left' } );
 
     // Slider that controls the bodies mass
     this.UILayerNode.addChild( new AlignBox( this.gridbox,
@@ -66,6 +95,7 @@ class LabScreenView extends CommonScreenView {
 
     model.moreDataProperty.link( moreData => {
       this.gridbox.children = [
+        this.numberSpinner,
         new MySolarSystemCheckbox( model.moreDataProperty, new Text( 'More data', TEXT_OPTIONS ), checkboxOptions ),
         !moreData ? this.massesControlPanel : this.fullDataPanel
         // bodyNumberSpinner

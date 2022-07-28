@@ -14,12 +14,18 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabModes from '../../common/model/LabModes.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import IProperty from '../../../../axon/js/IProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 type LabModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class LabModel extends CommonModel {
   private readonly modeMap: Map<LabModes, Body[]>;
   private readonly availableBodies: Body[];
+  public numberOfActiveBodies: NumberProperty;
+  public rangeOfActiveBodies: IProperty<Range>;
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, CommonModelOptions>()( {
@@ -27,6 +33,9 @@ class LabModel extends CommonModel {
       isLab: true
     }, providedOptions );
     super( options );
+
+    this.numberOfActiveBodies = new NumberProperty( this.bodies.length );
+    this.rangeOfActiveBodies = new Property<Range>( new Range( 0, 4 ) );
 
     this.modeMap = new Map<LabModes, Body[]>();
     this.setModesToMap();
@@ -37,6 +46,7 @@ class LabModel extends CommonModel {
       this.isPlayingProperty.value = false;
       this.bodies.clear();
       this.bodies.push( ...this.modeMap.get( mode )! );
+      this.numberOfActiveBodies.reset();
     } );
   }
 
