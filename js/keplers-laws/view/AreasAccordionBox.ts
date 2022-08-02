@@ -18,6 +18,7 @@ import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -68,7 +69,9 @@ class AreasControls extends FlowBox {
       thumbTouchAreaXDilation: 30,
       thumbTouchAreaYDilation: 15,
       thumbMouseAreaXDilation: 10,
-      thumbMouseAreaYDilation: 5
+      thumbMouseAreaYDilation: 5,
+
+      constrainValue: value => Utils.roundSymmetric( value )
     } );
 
     divisionSlider.addMajorTick( divisionsRange.min, new Text( divisionsRange.min, TEXT_OPTIONS ) );
