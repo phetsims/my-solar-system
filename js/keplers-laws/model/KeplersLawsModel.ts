@@ -16,26 +16,30 @@ import Property from '../../../../axon/js/Property.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbit from './EllipticalOrbit.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type KeplersLawsModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
 
+  // Second Law properties
   public axisVisibleProperty = new Property<boolean>( false );
   public apoapsisVisibleProperty = new Property<boolean>( false );
   public periapsisVisibleProperty = new Property<boolean>( false );
-
-  public semimajorAxisVisibleProperty = new Property<boolean>( false );
-  public periodVisibleProperty = new Property<boolean>( false );
 
   public areasVisibleProperty = new Property<boolean>( false );
   public dotsVisibleProperty = new Property<boolean>( false );
   public sweepAreaVisibleProperty = new Property<boolean>( false );
   public areaGraphVisibleProperty = new Property<boolean>( false );
   public periodDivisionProperty = new Property<number>( 4 );
-  
-  public separationProperty = new Property<number>( 150 );
+
+  // Third law properties
+  public semimajorAxisVisibleProperty = new Property<boolean>( false );
+  public periodVisibleProperty = new Property<boolean>( false );
+
+  public selectedAxisPowerProperty = new NumberProperty( 1 );
+  public selectedPeriodPowerProperty = new NumberProperty( 1 );
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, CommonModelOptions>()( {
@@ -43,12 +47,6 @@ class KeplersLawsModel extends CommonModel {
       isLab: false
     }, providedOptions );
     super( options );
-
-    this.separationProperty.link( separation => {
-      this.softReset();
-      this.bodies[ 1 ].positionProperty.value = new Vector2( separation, 0 );
-      // this.bodies[ 1 ].positionProperty.initialValue.x = separation;
-    } );
 
     this.selectedLawProperty.link( law => {
       this.visibilityReset();
@@ -83,8 +81,9 @@ class KeplersLawsModel extends CommonModel {
   public override reset(): void {
     super.reset();
     this.selectedLawProperty.reset();
-    this.separationProperty.reset();
     this.periodDivisionProperty.reset();
+    this.selectedAxisPowerProperty.reset();
+    this.selectedPeriodPowerProperty.reset();
 
     this.visibilityReset();
   }

@@ -32,6 +32,7 @@ import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
 import LawsButtons from './LawsButtons.js';
 import LawMode from '../model/LawMode.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
+import ThirdLawAccordionBox from './ThirdLawAccordionBox.js';
 
 // constants
 const MARGIN = 5;
@@ -128,6 +129,11 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
         return selectedLaw === LawMode.SECOND_LAW;
       } )
     } ),
+    new ThirdLawAccordionBox( model, {
+        visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
+          return selectedLaw === LawMode.THIRD_LAW;
+        } )
+      } ),
     new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
     ],
