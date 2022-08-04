@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * Model that controls the logic for the Lab Screen.
  *
  * @author Agustín Vallejo
  */
@@ -46,7 +46,7 @@ class LabModel extends CommonModel {
       this.isPlayingProperty.value = false;
       this.bodies.clear();
       this.bodies.push( ...this.modeMap.get( mode )! );
-      this.numberOfActiveBodies.reset();
+      this.numberOfActiveBodies.value = this.bodies.length;
     } );
   }
 
