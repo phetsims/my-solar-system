@@ -147,11 +147,13 @@ class PathsPainter {
     this.shaderProgram.use();
 
     // TODO: add assertions to make sure these are equal
-    const numPoints = this.node.model.bodies.get( 0 )!.path.length;
+    const numPointsAll = [ 0, 0, 0, 0 ];
 
     const numBodies = this.node.model.bodies.length;
     for ( let bodyIndex = 0; bodyIndex < numBodies; bodyIndex++ ) {
       const body = this.node.model.bodies.get( bodyIndex )!;
+      const numPoints = body.path.length;
+      numPointsAll[ bodyIndex ] = numPoints;
       for ( let pointIndex = 0; pointIndex < numPoints; pointIndex++ ) {
         const point = body.path.get( pointIndex );
         if ( point ) {
@@ -179,7 +181,7 @@ class PathsPainter {
     matrixInverse.set( this.node.modelViewTransformProperty.value.getInverse() ).multiplyMatrix( modelViewMatrix.inverted().multiplyMatrix( projectionMatrixInverse ) );
     gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uMatrixInverse, false, matrixInverse.copyToArray( scratchFloatArray ) );
     gl.uniform2f( this.shaderProgram.uniformLocations.uTextureSize, DATA_TEXTURE_WIDTH, DATA_TEXTURE_HEIGHT );
-    gl.uniform1i( this.shaderProgram.uniformLocations.uPathLength, numPoints );
+    gl.uniform4iv( this.shaderProgram.uniformLocations.uPathLength, numPointsAll );
     gl.uniform1i( this.shaderProgram.uniformLocations.uMaxPathLength, MAX_PATH_LENGTH );
     gl.uniform1i( this.shaderProgram.uniformLocations.uActiveBodies, this.node.model.bodies.length );
 

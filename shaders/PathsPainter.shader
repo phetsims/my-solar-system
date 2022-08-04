@@ -3,7 +3,7 @@ varying vec2 vPosition;
 uniform mat3 uMatrixInverse;
 uniform sampler2D uData;
 uniform vec2 uTextureSize;
-uniform int uPathLength;
+uniform ivec4 uPathLength;
 uniform int uMaxPathLength;
 uniform int uActiveBodies;
 uniform mat4 uColorMatrix;
@@ -36,10 +36,16 @@ vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
 
   vec2 lastPosition = vec2( 0.0 );
 
-  float inversePathLength = 1.0 / float( uPathLength + 1 );
+
+  int bodyPathLength =  ( bodyIndex == 0 ) ? uPathLength.x :
+                        ( bodyIndex == 1 ) ? uPathLength.y :
+                        ( bodyIndex == 2 ) ? uPathLength.z :
+                        ( bodyIndex == 3 ) ? uPathLength.w : 0;
+
+  float inversePathLength = 1.0 / float( bodyPathLength + 1 );
 
   for ( int vertexIndex = 0; vertexIndex < maxPathLength; vertexIndex++ ) {
-    if ( vertexIndex >= uPathLength ) {
+    if ( vertexIndex >= bodyPathLength ) {
       break;
     }
     vec2 position = fetch( bodyIndex * uMaxPathLength + vertexIndex ).xy;

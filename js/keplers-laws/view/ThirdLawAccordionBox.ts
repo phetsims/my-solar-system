@@ -123,12 +123,14 @@ class KeplerLawsGraph extends Node {
                     // Y axis
                     new ArrowNode( 0, 0, 0, -axisLength, {
                         fill: 'white',
-                        stroke: 'white'
+                        stroke: 'white',
+                        tailWidth: 1
                     } ),
                     // X axis
                     new ArrowNode( 0, 0, axisLength, 0, {
                         fill: 'white',
-                        stroke: 'white'
+                        stroke: 'white',
+                        tailWidth: 1
                     } ),
                     xAxis,
                     yAxis,
