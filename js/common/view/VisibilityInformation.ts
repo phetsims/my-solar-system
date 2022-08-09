@@ -21,10 +21,6 @@ import CommonModel from '../model/CommonModel.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
-const gridString = mySolarSystemStrings.grid;
-const measuringTapeString = 'Measuring Tape';
-const valuesString = 'Values';
-
 // constants
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -47,7 +43,7 @@ class VisibilityInformation extends VBox {
       new MySolarSystemCheckbox( model.gridVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( gridString, TEXT_OPTIONS ),
+          new Text( mySolarSystemStrings.grid, TEXT_OPTIONS ),
           new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, new Vector2( 0, 0 ), 1, {
             stroke: MySolarSystemColors.gridIconStrokeColorProperty,
             lineWidth: 1.5
@@ -57,14 +53,14 @@ class VisibilityInformation extends VBox {
       new MySolarSystemCheckbox( model.measuringTapeVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( measuringTapeString, TEXT_OPTIONS ),
+          new Text( mySolarSystemStrings.measuringTape, TEXT_OPTIONS ),
           measuringTapeIcon
         ]
       } ) ),
       new MySolarSystemCheckbox( model.valuesVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( valuesString, TEXT_OPTIONS )
+          new Text( mySolarSystemStrings.values, TEXT_OPTIONS )
         ]
       } ) )
     ];

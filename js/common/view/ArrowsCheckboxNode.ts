@@ -19,9 +19,6 @@ import IntroModel from '../../intro/model/IntroModel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
-const velocityString = mySolarSystemStrings.velocity;
-const gravityForceString = mySolarSystemStrings.gravityForce;
-
 // constants
 const ARROW_Y_COORDINATE = -10;
 const TEXT_OPTIONS = {
@@ -45,8 +42,8 @@ class ArrowsCheckboxNode extends VBox {
   public constructor( model: IntroModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
 
     const children = [];
-    const gravityForceTextNode = new Text( gravityForceString, TEXT_OPTIONS );
-    const velocityTextNode = new Text( velocityString, TEXT_OPTIONS );
+    const gravityForceTextNode = new Text( mySolarSystemStrings.gravityForce, TEXT_OPTIONS );
+    const velocityTextNode = new Text( mySolarSystemStrings.velocity, TEXT_OPTIONS );
 
     // gravity force checkbox
     children.push( new MySolarSystemCheckbox( model.gravityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {

@@ -34,5 +34,62 @@
   },
   "clear": {
     "value": "Clear"
+  },
+  "values": {
+    "value": "Values"
+  },
+  "area.title": {
+    "value": "Area"
+  },
+  "area.dots": {
+    "value": "Dots"
+  },
+  "area.sweptArea": {
+    "value": "Swept Area"
+  },
+  "area.areaGraph": {
+    "value": "Area Graph"
+  },
+  "area.periodDivision": {
+    "value": "Period Division"
+  },
+  "dataPanel.X": {
+    "value": "X"
+  },
+  "dataPanel.Y": {
+      "value": "Y"
+  },
+  "dataPanel.Vx": {
+      "value": "Vx"
+  },
+  "dataPanel.Vy": {
+      "value": "Vy"
+  },
+  "mass": {
+    "value": "Mass"
+  },
+  "dataPanel.Mass": {
+      "value": "Mass"
+  },
+  "dataPanel.Velocity": {
+      "value": "Velocity"
+  },
+  "dataPanel.Position": {
+      "value": "Position"
+  },
+  "dataPanel.bodies": {
+      "value": "Bodies"
+  },
+  "dataPanel.moreData": {
+      "value": "More Data"
+  },
+  "graph.title": {
+    "value": "Graph (a vs T)"
+  },
+  "graph.a": {
+    "value": "Semimajor Axis (a)"
+  },
+  "graph.t": {
+      "value": "Period (T)"
   }
 }

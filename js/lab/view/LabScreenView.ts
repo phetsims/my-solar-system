@@ -16,6 +16,7 @@ import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/impo
 import MassesControlPanel from '../../common/view/MassesControlPanel.js';
 import FullDataPanel from './FullDataPanel.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
 // Consts
 const TEXT_OPTIONS = {
@@ -71,7 +72,7 @@ class LabScreenView extends CommonScreenView {
     this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
     this.numberSpinner = new VBox( {
       children: [
-        new Text( 'Bodies', TEXT_OPTIONS ),
+        new Text( mySolarSystemStrings.dataPanel.bodies, TEXT_OPTIONS ),
         new NumberSpinner( model.numberOfActiveBodies, model.rangeOfActiveBodies,
             combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
               arrowsPosition: 'bothRight',
@@ -96,7 +97,7 @@ class LabScreenView extends CommonScreenView {
     model.moreDataProperty.link( moreData => {
       this.gridbox.children = [
         this.numberSpinner,
-        new MySolarSystemCheckbox( model.moreDataProperty, new Text( 'More data', TEXT_OPTIONS ), checkboxOptions ),
+        new MySolarSystemCheckbox( model.moreDataProperty, new Text( mySolarSystemStrings.dataPanel.moreData, TEXT_OPTIONS ), checkboxOptions ),
         !moreData ? this.massesControlPanel : this.fullDataPanel
         // bodyNumberSpinner
       ];

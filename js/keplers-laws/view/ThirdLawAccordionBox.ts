@@ -17,6 +17,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -33,7 +34,7 @@ type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
 export default class ThirdLawAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel, providedOptions?: ThirdLawAccordionBoxOptions ) {
     const options = combineOptions<ThirdLawAccordionBoxOptions>( {
-      titleNode: new Text( 'Graph (a vs T)', TITLE_OPTIONS ),
+      titleNode: new Text( mySolarSystemStrings.graph.title, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
       buttonXMargin: 5,
       buttonYMargin: 5,

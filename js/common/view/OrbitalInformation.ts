@@ -19,9 +19,6 @@ import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
-const pathString = mySolarSystemStrings.path;
-const massString = mySolarSystemStrings.mass;
-
 // constants
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -44,14 +41,14 @@ class OrbitalInformation extends VBox {
       new MySolarSystemCheckbox( model.pathVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( pathString, TEXT_OPTIONS ),
+          new Text( mySolarSystemStrings.path, TEXT_OPTIONS ),
           pathIconImageNode
         ]
       } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
       new MySolarSystemCheckbox( model.centerOfMass.visibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( massString, TEXT_OPTIONS ),
+          new Text( mySolarSystemStrings.mass, TEXT_OPTIONS ),
           new XNode( {
             fill: 'red',
             stroke: 'white',

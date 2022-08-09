@@ -22,6 +22,30 @@ type StringsType = {
   'apoapsis': string;
   'periapsis': string;
   'clear': string;
+  'values': string;
+  'area': {
+    'title': string;
+    'dots': string;
+    'sweptArea': string;
+    'areaGraph': string;
+    'periodDivision': string;
+  };
+  'dataPanel': {
+    'X': string;
+    'Y': string;
+    'Vx': string;
+    'Vy': string;
+    'Mass': string;
+    'Velocity': string;
+    'Position': string;
+    'bodies': string;
+    'moreData': string;
+  };
+  'graph': {
+    'title': string;
+    'a': string;
+    't': string;
+  }
 };
 
 const mySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;

@@ -18,7 +18,7 @@ import CommonModel from '../model/CommonModel.js';
 import { EmptySelfOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
-
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
 type MassesSlidersOptions = {
   tandem: Tandem;
@@ -66,7 +66,7 @@ class MassesSliders extends FlowBox {
 
   public update(): void {
     // Whenever the number of bodies change, repopulate the sliders
-    this.tempChildren = [ new Text( 'Mass', { font: MySolarSystemConstants.TITLE_FONT } ) ];
+    this.tempChildren = [ new Text( mySolarSystemStrings.mass, { font: MySolarSystemConstants.TITLE_FONT } ) ];
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
       this.tempChildren.push(

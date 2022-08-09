@@ -12,6 +12,7 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import { FlowBox, HBox, Text, VDivider } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
@@ -30,17 +31,12 @@ const TITLE_OPTIONS = {
   fill: MySolarSystemColors.foregroundProperty
 };
 
-const dotsString = 'Dots';
-const sweepArea = 'Swept Area';
-const areaGraphString = 'Area Graph';
-const periodDivisionString = 'Period Divisions';
-
 type AreasAccordionBoxOptions = AccordionBoxOptions;
 
 export default class AreasAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel, providedOptions?: AreasAccordionBoxOptions ) {
     const options = combineOptions<AreasAccordionBoxOptions>( {
-      titleNode: new Text( 'Area', TITLE_OPTIONS ),
+      titleNode: new Text( mySolarSystemStrings.area.title, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
       buttonXMargin: 5,
       buttonYMargin: 5,
@@ -84,13 +80,13 @@ class AreasControls extends FlowBox {
 
     super( {
       children: [
-        new Checkbox( model.dotsVisibleProperty, new Text( dotsString, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.sweepAreaVisibleProperty, new Text( sweepArea, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.areaGraphVisibleProperty, new Text( areaGraphString, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.dotsVisibleProperty, new Text( mySolarSystemStrings.area.dots, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.sweepAreaVisibleProperty, new Text( mySolarSystemStrings.area.sweptArea, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.areaGraphVisibleProperty, new Text( mySolarSystemStrings.area.areaGraph, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new HBox( {
           children: [
-            new Text( periodDivisionString, TEXT_OPTIONS ),
+            new Text( mySolarSystemStrings.area.periodDivision, TEXT_OPTIONS ),
             new NumberDisplay( model.periodDivisionProperty, divisionsRange,
                 {
                   maxWidth: 40

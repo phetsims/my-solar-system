@@ -19,6 +19,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import LabModel from '../model/LabModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
 type FullDataPanelOptions = PanelOptions;
 
@@ -62,13 +63,13 @@ class DataBox extends GridBox {
   public update(): void {
     // Whenever the number of bodies change, repopulate the dataBox
     this.tempChildren = [
-      new Text( 'Mass', { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
-      new Text( 'Position', { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 0, width: 2 } } ),
-      new Text( 'Velocity', { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 0, width: 2 } } ),
-      new Text( 'x', { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 1 } } ),
-      new Text( 'y', { font: new PhetFont( 20 ), layoutOptions: { column: 3, row: 1 } } ),
-      new Text( 'Vx', { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 1 } } ),
-      new Text( 'Vy', { font: new PhetFont( 20 ), layoutOptions: { column: 5, row: 1 } } )
+      new Text( mySolarSystemStrings.dataPanel.Mass, { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
+      new Text( mySolarSystemStrings.dataPanel.Position, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 0, width: 2 } } ),
+      new Text( mySolarSystemStrings.dataPanel.Velocity, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 0, width: 2 } } ),
+      new Text( mySolarSystemStrings.dataPanel.X, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 1 } } ),
+      new Text( mySolarSystemStrings.dataPanel.Y, { font: new PhetFont( 20 ), layoutOptions: { column: 3, row: 1 } } ),
+      new Text( mySolarSystemStrings.dataPanel.Vx, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 1 } } ),
+      new Text( mySolarSystemStrings.dataPanel.Vy, { font: new PhetFont( 20 ), layoutOptions: { column: 5, row: 1 } } )
     ];
 
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
