@@ -33,6 +33,7 @@ import CommonModel from '../model/CommonModel.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
 import PathsWebGLNode from './PathsWebGLNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
 type SelfOptions = {
   tandem: Tandem;
@@ -154,7 +155,7 @@ class CommonScreenView extends ScreenView {
     const clockNode = new FlowBox( {
       children: [
         new NumberDisplay( model.timeProperty, model.timeRange ),
-        new TextPushButton( 'Clear', {
+        new TextPushButton( mySolarSystemStrings.clear, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
           maxWidth: 200

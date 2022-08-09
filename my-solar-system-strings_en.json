@@ -31,5 +31,8 @@
   },
   "periapsis": {
     "value": "Periapsis"
+  },
+  "clear": {
+    "value": "Clear"
   }
 }

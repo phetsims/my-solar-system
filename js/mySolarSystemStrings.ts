@@ -21,6 +21,7 @@ type StringsType = {
   'axis': string;
   'apoapsis': string;
   'periapsis': string;
+  'clear': string;
 };
 
 const mySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;
