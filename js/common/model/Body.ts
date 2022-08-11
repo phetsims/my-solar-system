@@ -57,6 +57,7 @@ class Body {
     // Adding first point twice for the WebGL Path
     this.addPathPoint();
     this.addPathPoint();
+    //REVIEW: consider moving simple initialization to declarations
     this.pathDistance = 0;
     this.pathLengthLimit = MAX_PATH_LENGTH; // TODO: Is importing constants like this ok???
     this.pathDistanceLimit = 1000;

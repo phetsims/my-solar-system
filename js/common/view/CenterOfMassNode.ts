@@ -2,6 +2,8 @@
 /**
  * Control the Center of Mass mark.
  *
+ * Persistent for the life of the simulation.
+ *
  * @author Agustín Vallejo
  */
 
@@ -14,29 +16,21 @@ import CenterOfMass from '../model/CenterOfMass.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 class CenterOfMassNode extends Node {
-  private readonly centerOfMass: CenterOfMass;
-  private readonly positionListener: ( position: Vector2 ) => void;
-  private readonly visibilityListener: ( visible: boolean ) => void;
-
   public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
-    super();
-    this.centerOfMass = centerOfMass;
+    super( {
+      children: [
+        new XNode( {
+          fill: 'red',
+          stroke: 'white',
+          center: Vector2.ZERO
+        } )
+      ],
+      visibleProperty: centerOfMass.visibleProperty
+    } );
 
-    this.addChild( new XNode( {
-      fill: 'red',
-      stroke: 'white',
-      center: Vector2.ZERO
-    } ) );
-
-    this.positionListener = position => {
+    centerOfMass.positionProperty.link( position => {
       this.translation = modelViewTransformProperty.value.modelToViewPosition( position );
-    };
-    this.centerOfMass.positionProperty.link( this.positionListener );
-
-    this.visibilityListener = visible => {
-      this.visible = visible;
-    };
-    this.centerOfMass.visibleProperty.link( this.visibilityListener );
+    } );
   }
 }
 

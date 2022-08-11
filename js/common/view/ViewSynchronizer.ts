@@ -9,7 +9,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 
-export default class NodeTracker<Model, View extends Node> {
+export default class ViewSynchronizer<Model, View extends Node> {
   private readonly map: Map<Model, View>;
   private readonly container: Node;
   private readonly factory: ( x: Model ) => View;
@@ -34,4 +34,4 @@ export default class NodeTracker<Model, View extends Node> {
   }
 }
 
-mySolarSystem.register( 'NodeTracker', NodeTracker );
+mySolarSystem.register( 'ViewSynchronizer', ViewSynchronizer );

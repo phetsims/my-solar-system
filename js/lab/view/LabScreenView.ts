@@ -89,7 +89,7 @@ class LabScreenView extends CommonScreenView {
     this.gridbox = new GridBox( { xAlign: 'left' } );
 
     // Slider that controls the bodies mass
-    this.UILayerNode.addChild( new AlignBox( this.gridbox,
+    this.interfaceLayer.addChild( new AlignBox( this.gridbox,
       {
      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'bottom'
     } ) );

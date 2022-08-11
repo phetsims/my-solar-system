@@ -9,12 +9,12 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { FlowBox, HBox, Text, VDivider } from '../../../../scenery/js/imports.js';
+import { HBox, Text, VBox, VDivider } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
@@ -31,7 +31,9 @@ const TITLE_OPTIONS = {
   fill: MySolarSystemColors.foregroundProperty
 };
 
-type AreasAccordionBoxOptions = AccordionBoxOptions;
+type SelfOptions = EmptySelfOptions;
+
+export type AreasAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
 
 export default class AreasAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel, providedOptions?: AreasAccordionBoxOptions ) {
@@ -48,7 +50,7 @@ export default class AreasAccordionBox extends AccordionBox {
   }
 }
 
-class AreasControls extends FlowBox {
+class AreasControls extends VBox {
   public constructor( model: KeplersLawsModel ) {
     const divisionsRange = new RangeWithValue( 2, 10, 4 );
     const divisionSlider = new HSlider( model.periodDivisionProperty, divisionsRange, {
@@ -98,8 +100,7 @@ class AreasControls extends FlowBox {
       ],
       spacing: 10,
       align: 'left',
-      stretch: true,
-      orientation: 'vertical'
+      stretch: true
     } );
   }
 }

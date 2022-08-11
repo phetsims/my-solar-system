@@ -6,12 +6,11 @@
  * @author Agustín Vallejo
  */
 
-import { DragListener, PressListenerEvent } from '../../../../scenery/js/imports.js';
+import { DragListener } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
@@ -19,7 +18,7 @@ import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 type SelfOptions = {
   draggable?: boolean;
 };
-type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
+export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
@@ -45,25 +44,23 @@ export default class BodyNode extends ShadedSphereNode {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
-    let PointerDistanceFromCenter: Vector2 | null = null;
-
     this.draggable = options.draggable;
     if ( this.draggable ) {
       const dragListener = new DragListener( {
-        start: ( event: PressListenerEvent ) => {
-          PointerDistanceFromCenter = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( this.body.positionProperty.value );
-        },
-        drag: ( event: PressListenerEvent ) => {
-          body.positionProperty.value = modelViewTransformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).minus( PointerDistanceFromCenter! );
+        positionProperty: body.positionProperty,
+        start: () => {
           body.clearPath();
         }
+      } );
+      modelViewTransformProperty.link( transform => {
+        dragListener.transform = transform;
       } );
       this.addInputListener( dragListener );
     }
   }
 
   private massToScale( mass: number, scale: number ): number {
-    return scale * ( 30 * mass / this.initialMass + 20 );
+    return scale * ( 30 * mass / 200 + 20 );
   }
 
   public override dispose(): void {

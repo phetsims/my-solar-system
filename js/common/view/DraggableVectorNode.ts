@@ -50,6 +50,8 @@ export default class DraggableVectorNode extends VectorNode {
       options
       );
 
+    //REVIEW: Do we need to deduplicate things with gravity-and-orbits version?
+
     // a circle with text (a character) in the center, to help indicate what it represents
     // ("v" for velocity in this sim)
     const ellipse = Shape.ellipse( 0, 0, 18, 18, 0 );
@@ -79,6 +81,8 @@ export default class DraggableVectorNode extends VectorNode {
 
     // Add the drag handler
     const dragListener = new DragListener( {
+      //REVIEW: See if dragListener can be improved (with positionProperty)
+      //REVIEW: NOTE that the transform for the DragListener needs to include the scale
       start: ( event: PressListenerEvent ) => {
         previousPoint = transformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).timesScalar( 1 / scale );
         previousValue = body.velocityProperty.get();

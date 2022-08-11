@@ -8,7 +8,7 @@
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
-import { FlowBox, HBox, Text, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, HBoxOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
@@ -43,21 +43,21 @@ const TITLE_OPTIONS = {
  
  type KeplersLawsOrbitalInformationOptions = SelfOptions & VBoxOptions;
  
- class KeplersLawsOrbitalInformation extends FlowBox {
+ class KeplersLawsOrbitalInformation extends VBox {
  
    public constructor( model: KeplersLawsModel, providedOptions?: KeplersLawsOrbitalInformationOptions ) {
 
      //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
 
      const secondLawChildren = [
-       new Checkbox( model.axisVisibleProperty, new FlowBox( {
+       new Checkbox( model.axisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
            new Text( mySolarSystemStrings.axis, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS ),
-       new Checkbox( model.apoapsisVisibleProperty, new FlowBox( {
+       new Checkbox( model.apoapsisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
            new Text( mySolarSystemStrings.apoapsis, TEXT_OPTIONS ),
@@ -69,7 +69,7 @@ const TITLE_OPTIONS = {
            } )
          ]
        } ), CHECKBOX_OPTIONS ),
-       new Checkbox( model.periapsisVisibleProperty, new FlowBox( {
+       new Checkbox( model.periapsisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
            new Text( mySolarSystemStrings.periapsis, TEXT_OPTIONS ),
@@ -84,14 +84,14 @@ const TITLE_OPTIONS = {
      ];
 
      const thirdLawChildren = [
-       new Checkbox( model.semimajorAxisVisibleProperty, new FlowBox( {
+       new Checkbox( model.semimajorAxisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
            new Text( mySolarSystemStrings.graph.a, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS ),
-       new Checkbox( model.periodVisibleProperty, new FlowBox( {
+       new Checkbox( model.periodVisibleProperty, new HBox( {
          spacing: 10,
          children: [
            new Text( mySolarSystemStrings.graph.t, TEXT_OPTIONS )
@@ -121,10 +121,9 @@ const TITLE_OPTIONS = {
        KeplersLawsOrbitalInformation.touchArea = Shape.rectangle( -5, bounds.centerY - touchAreaHeight / 2, bounds.width + 10, touchAreaHeight );
      } );
  
-     super( optionize<KeplersLawsOrbitalInformationOptions, SelfOptions, FlowBox>()( {
+     super( optionize<KeplersLawsOrbitalInformationOptions, SelfOptions, HBoxOptions>()( {
        children: children,
        spacing: SPACING,
-       orientation: 'vertical',
        align: 'left',
        stretch: true
      }, providedOptions ) );

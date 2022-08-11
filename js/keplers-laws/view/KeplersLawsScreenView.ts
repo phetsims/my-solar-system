@@ -8,11 +8,10 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import ScreenView from '../../../../joist/js/ScreenView.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { AlignBox, FlowBox, Node } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -33,42 +32,29 @@ import LawsButtons from './LawsButtons.js';
 import LawMode from '../model/LawMode.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import ThirdLawAccordionBox from './ThirdLawAccordionBox.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // constants
 const MARGIN = 5;
 
-type SelfOptions = {
-tandem: Tandem;
-controlsOptions?: {
-  orbitalInformation?: FlowBox;
-  visibilityInformation?: FlowBox;
-  };
-};
+type SelfOptions = EmptySelfOptions;
 
-export type KeplersLawsScreenViewOptions = SelfOptions;
+export type KeplersLawsScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 class KeplersLawsScreenView extends ScreenView {
-private readonly bodiesLayerNode: Node;
-private readonly ComponentsLayerNode: Node;
-private readonly UILayerNode: Node;
-private readonly topLayer: Node;
-private readonly bottomLayer: Node;
+private readonly bodiesLayer = new Node();
+private readonly componentsLayer = new Node();
+private readonly interfaceLayer = new Node();
+private readonly topLayer = new Node();
+private readonly bottomLayer = new Node();
 
 public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
-  super( {
-    tandem: providedOptions.tandem
-  } );
-
-  this.topLayer = new Node();
-  this.bottomLayer = new Node();
-  this.bodiesLayerNode = new Node();
-  this.ComponentsLayerNode = new Node();
-  this.UILayerNode = new Node();
+  super( providedOptions );
 
   this.addChild( this.bottomLayer );
-  this.addChild( this.bodiesLayerNode );
-  this.addChild( this.ComponentsLayerNode );
-  this.addChild( this.UILayerNode );
+  this.addChild( this.bodiesLayer );
+  this.addChild( this.componentsLayer );
+  this.addChild( this.interfaceLayer );
   this.addChild( this.topLayer );
 
   const modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
@@ -89,29 +75,27 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     lineWidth: 1
     } );
   model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
-  this.UILayerNode.addChild( gridNode );
+  this.interfaceLayer.addChild( gridNode );
 
   const sun = model.bodies[ 0 ];
   const planet = model.bodies[ 1 ];
 
-  this.bodiesLayerNode.addChild(
-      new BodyNode(
-        sun,
-        modelViewTransformProperty,
-        {
-          mainColor: MySolarSystemColors.bodiesPalette[ 0 ],
-          draggable: false
-        }
-        )
-      );
-  this.bodiesLayerNode.addChild(
-      new BodyNode(
-        planet,
-        modelViewTransformProperty,
-        { mainColor: MySolarSystemColors.bodiesPalette[ 1 ] }
-        )
-      );
-  this.ComponentsLayerNode.addChild( new DraggableVectorNode(
+  this.bodiesLayer.addChild( new BodyNode(
+    sun,
+    modelViewTransformProperty,
+    {
+      mainColor: MySolarSystemColors.bodiesPalette[ 0 ],
+      draggable: false
+    }
+  ) );
+  this.bodiesLayer.addChild( new BodyNode(
+    planet,
+    modelViewTransformProperty,
+    {
+      mainColor: MySolarSystemColors.bodiesPalette[ 1 ]
+    }
+  ) );
+  this.componentsLayer.addChild( new DraggableVectorNode(
     planet, modelViewTransformProperty, model.velocityVisibleProperty, planet.velocityProperty,
     1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
     ) );
@@ -122,7 +106,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons
-  this.UILayerNode.addChild( new AlignBox( new FlowBox( {
+  this.interfaceLayer.addChild( new AlignBox( new HBox( {
     children: [
     new AreasAccordionBox( model, {
       visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
@@ -137,7 +121,6 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
     ],
-    orientation: 'horizontal',
     spacing: 10,
     align: 'top'
   } ),
@@ -152,7 +135,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     } );
   timeControlNode.setPlayPauseButtonCenter( new Vector2( this.layoutBounds.centerX - 117, this.layoutBounds.bottom - timeControlNode.height / 2 - MARGIN ) );
 
-  const clockNode = new FlowBox( {
+  const clockNode = new VBox( {
     children: [
       new NumberDisplay( model.timeProperty, model.timeRange ),
       new TextPushButton( 'Clear', {
@@ -161,7 +144,6 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
         maxWidth: 200
       } )
     ],
-    orientation: 'vertical',
     spacing: 8
   } );
 
@@ -175,14 +157,13 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     tandem: providedOptions.tandem.createTandem( 'resetAllButton' )
   } );
 
-  this.UILayerNode.addChild( new AlignBox( new FlowBox( {
+  this.interfaceLayer.addChild( new AlignBox( new HBox( {
     children: [
       new LawsButtons( model ),
       timeControlNode,
       clockNode,
       resetAllButton
     ],
-    orientation: 'horizontal',
     spacing: 20
   } ),
   {
@@ -191,7 +172,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
 
   // Add the control panel on top of the canvases
   // Visibility checkboxes for sim elements
-  this.UILayerNode.addChild( new AlignBox( new KeplersLawsControls( model ),
+  this.interfaceLayer.addChild( new AlignBox( new KeplersLawsControls( model ),
     {
       alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );

@@ -7,8 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { FlowBox, Node, Text } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
@@ -20,11 +19,9 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
-type MassesSlidersOptions = {
-  tandem: Tandem;
-};
+type SelfOptions = EmptySelfOptions;
 
-type MassesControlPanelOptions = PanelOptions;
+export type MassesControlPanelOptions = SelfOptions & PanelOptions;
 
 export default class MassesControlPanel extends Panel {
   private sliders: MassesSliders;
@@ -45,18 +42,17 @@ export default class MassesControlPanel extends Panel {
   }
 }
 
-class MassesSliders extends FlowBox {
+class MassesSliders extends VBox {
   private readonly model: CommonModel;
   private readonly massRange: RangeWithValue;
   private tempChildren: Node[];
 
-  public constructor( model: CommonModel, providedOptions?: Partial<MassesSlidersOptions> ) {
+  public constructor( model: CommonModel ) {
     super( {
       // spacing: 5,
       // margin: 5,
       align: 'left',
-      stretch: true,
-      orientation: 'vertical'
+      stretch: true
     } );
     this.model = model;
     this.massRange = new RangeWithValue( 1, 300, 100 );
@@ -70,13 +66,12 @@ class MassesSliders extends FlowBox {
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
       this.tempChildren.push(
-        new FlowBox( {
+        new HBox( {
           children: [
             new ShadedSphereNode( 15, { mainColor: color } ),
             new NumberDisplay( this.model.bodies[ i ].massProperty, this.massRange ),
             new MySolarSystemSlider( this.model.bodies[ i ].massProperty, this.massRange, { thumbFill: color } )
           ],
-          orientation: 'horizontal',
           xMargin: 5,
           yMargin: 3
         } )

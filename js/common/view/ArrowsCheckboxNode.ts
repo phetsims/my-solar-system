@@ -18,6 +18,7 @@ import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-co
 import IntroModel from '../../intro/model/IntroModel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const ARROW_Y_COORDINATE = -10;
@@ -35,38 +36,35 @@ const HBOX_OPTIONS = {
 
 type SelfOptions = EmptySelfOptions;
 
-type ArrowsCheckboxNodeOptions = SelfOptions & VBoxOptions;
+export type ArrowsCheckboxNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
 
 class ArrowsCheckboxNode extends VBox {
 
   public constructor( model: IntroModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
 
-    const children = [];
-    const gravityForceTextNode = new Text( mySolarSystemStrings.gravityForce, TEXT_OPTIONS );
-    const velocityTextNode = new Text( mySolarSystemStrings.velocity, TEXT_OPTIONS );
-
-    // gravity force checkbox
-    children.push( new MySolarSystemCheckbox( model.gravityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
-      children: [
-        gravityForceTextNode,
-        new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
-      ]
-    }, HBOX_OPTIONS ) ) ) );
-
-    // velocity checkbox
-    children.push( new MySolarSystemCheckbox( model.velocityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
-      children: [
-        velocityTextNode,
-        new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
-      ]
-    }, HBOX_OPTIONS ) ) ) );
-
     super( optionize<ArrowsCheckboxNodeOptions, SelfOptions, VBoxOptions>()( {
       excludeInvisibleChildrenFromBounds: true,
-      children: children,
+      children: [
+        // gravity force checkbox
+        new MySolarSystemCheckbox( model.gravityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
+          children: [
+            new Text( mySolarSystemStrings.gravityForce, TEXT_OPTIONS ),
+            new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
+          ]
+        }, HBOX_OPTIONS ) ) ),
+        // velocity checkbox
+        new MySolarSystemCheckbox( model.velocityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
+          children: [
+            new Text( mySolarSystemStrings.velocity, TEXT_OPTIONS ),
+            new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
+          ]
+        }, HBOX_OPTIONS ) ) )
+      ],
       spacing: SPACING,
       align: 'left',
       stretch: true,
+
+      //REVIEW: positioning code shouldn't go in the type, but in the usage
       bottom: -12,
       tandem: Tandem.REQUIRED
     }, providedOptions ) );
