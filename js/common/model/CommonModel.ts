@@ -78,7 +78,7 @@ abstract class CommonModel {
     this.timeProperty = new Property<number>( 0 );
     this.isPlayingProperty = new Property<boolean>( false, {
       tandem: providedOptions.tandem.createTandem( 'isPlayingProperty' ),
-      phetioDocumentation: `This value is true if the play/pause button on this screen is in play mode. (It remains true even if the user switches screens. Use in combination with '${phet.joist.sim.screenProperty.tandem.phetioID}'.)`
+      phetioDocumentation: `This value is true if the play/pause button on this screen is in play mode. (It remains true even if the user switches screens. Use in combination with '${phet.joist.sim.selectedScreenProperty.tandem.phetioID}'.)`
     } );
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
       tandem: providedOptions.tandem.createTandem( 'timeSpeedProperty' )
