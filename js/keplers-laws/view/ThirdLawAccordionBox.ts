@@ -9,8 +9,10 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { Circle, GridBox, Node, RichText, RichTextOptions, Text } from '../../../../scenery/js/imports.js';
+import { Circle, GridBox, Node, Path, RichText, RichTextOptions, Text } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -19,7 +21,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import Utils from '../../../../dot/js/Utils.js';
-// import Multilink from '../../../../axon/js/Multilink.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -110,6 +112,24 @@ class KeplerLawsGraph extends Node {
 
     const axisLength = 120;
 
+    const semimajorAxisToViewPoint = ( semimajorAxis: number ) => {
+      const period = semimajorAxisToPeriod( semimajorAxis );
+      const periodPower = model.selectedAxisPowerProperty.value;
+      const axisPower = model.selectedPeriodPowerProperty.value;
+
+      return new Vector2(
+        axisLength * Math.pow( Utils.linear(
+          0, maxPeriod,
+          0, 1,
+          period
+        ), periodPower ),
+        -axisLength * Math.pow( Utils.linear(
+          0, maxSemimajorAxis,
+          0, 1,
+          semimajorAxis ), axisPower )
+      );
+    };
+
     let yAxis = new RichText( '' );
     const maxSemimajorAxis = 4000;
 
@@ -120,24 +140,16 @@ class KeplerLawsGraph extends Node {
       fill: 'red'
     } );
 
-    // const linePath = new Path( null, {
-    //   stroke: 'white'
-    // } );
+    const linePath = new Path( null, {
+      stroke: 'white'
+    } );
 
     const orbitUpdated = () => {
+      dataPoint.translation = semimajorAxisToViewPoint( orbit.a );
+      dataPoint.visible = orbit.a < maxSemimajorAxis;
+
       const periodPower = model.selectedAxisPowerProperty.value;
       const axisPower = model.selectedPeriodPowerProperty.value;
-
-      dataPoint.x = axisLength * Math.pow( Utils.linear(
-        0, maxPeriod,
-        0, 1,
-        semimajorAxisToPeriod( orbit.a )
-      ), periodPower );
-      dataPoint.y = -axisLength * Math.pow( Utils.linear(
-        0, maxSemimajorAxis,
-        0, 1,
-        orbit.a ), axisPower );
-      dataPoint.visible = orbit.a < maxSemimajorAxis;
 
       const periodText = periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>';
       const axisText = axisPower === 1 ? 'a' : 'a<sup>' + axisPower + '</sup>';
@@ -166,12 +178,23 @@ class KeplerLawsGraph extends Node {
         } ),
         xAxis,
         yAxis,
+        linePath,
         dataPoint
       ];
     };
 
-    model.selectedAxisPowerProperty.link( orbitUpdated );
-    model.selectedPeriodPowerProperty.link( orbitUpdated );
+    Multilink.multilink( [ model.selectedAxisPowerProperty, model.selectedPeriodPowerProperty ], () => {
+      orbitUpdated();
+
+      const shape = new Shape().moveTo( 0, 0 );
+      for ( let axis = 0; axis <= maxSemimajorAxis; axis += maxSemimajorAxis / 100 ) {
+        shape.lineToPoint( semimajorAxisToViewPoint( axis ) );
+      }
+      shape.makeImmutable();
+
+      linePath.shape = shape;
+    } );
+
     orbit.changedEmitter.addListener( orbitUpdated );
   }
 }
