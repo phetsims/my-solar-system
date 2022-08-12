@@ -30,18 +30,18 @@ const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.SLOW, 1 / 4 ]
 ] );
 
-type SelfOptions = {
-  engineFactory: ( bodies: ObservableArray<Body> ) => Engine;
+type SelfOptions<EngineType extends Engine> = {
+  engineFactory: ( bodies: ObservableArray<Body> ) => EngineType;
   isLab: boolean;
   tandem: Tandem;
 };
 
-export type CommonModelOptions = SelfOptions;
+export type CommonModelOptions<EngineType extends Engine> = SelfOptions<EngineType>;
 
-abstract class CommonModel {
+abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
-  public engine: Engine;
+  public engine: EngineType;
 
   public readonly timeScale: number;
   public readonly timeRange: Range;
@@ -64,7 +64,7 @@ abstract class CommonModel {
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
 
-  public constructor( providedOptions: CommonModelOptions ) {
+  public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     this.bodies = createObservableArray();
     this.createBodies();
     this.centerOfMass = new CenterOfMass( this.bodies );

@@ -15,10 +15,10 @@ import mySolarSystem from '../../mySolarSystem.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import IntroModel from '../../intro/model/IntroModel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import CommonModel from '../model/CommonModel.js';
 
 // constants
 const ARROW_Y_COORDINATE = -10;
@@ -40,7 +40,7 @@ export type ArrowsCheckboxNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'c
 
 class ArrowsCheckboxNode extends VBox {
 
-  public constructor( model: IntroModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
+  public constructor( model: CommonModel, providedOptions?: ArrowsCheckboxNodeOptions ) {
 
     super( optionize<ArrowsCheckboxNodeOptions, SelfOptions, VBoxOptions>()( {
       excludeInvisibleChildrenFromBounds: true,

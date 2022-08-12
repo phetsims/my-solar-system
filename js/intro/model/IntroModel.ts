@@ -16,11 +16,13 @@ import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 
-type IntroModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
+type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
-class IntroModel extends CommonModel {
+type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
+
+class IntroModel extends CommonModel<NumericalEngine> {
   public constructor( providedOptions: IntroModelOptions ) {
-    const options = optionize<IntroModelOptions, EmptySelfOptions, CommonModelOptions>()( {
+    const options = optionize<IntroModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
       engineFactory: bodies => new NumericalEngine( bodies ),
       isLab: false
     }, providedOptions );

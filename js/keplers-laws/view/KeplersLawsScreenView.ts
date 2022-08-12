@@ -30,7 +30,6 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
 import LawsButtons from './LawsButtons.js';
 import LawMode from '../model/LawMode.js';
-import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import ThirdLawAccordionBox from './ThirdLawAccordionBox.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
@@ -100,9 +99,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
     ) );
 
-  if ( model.engine instanceof EllipticalOrbit ) {
-    this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty, model.engine ) );
-  }
+  this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty, model.engine ) );
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons

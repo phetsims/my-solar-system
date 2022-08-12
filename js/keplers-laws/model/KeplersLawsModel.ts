@@ -18,9 +18,11 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbit from './EllipticalOrbit.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
-type KeplersLawsModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
+type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
-class KeplersLawsModel extends CommonModel {
+type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
+
+class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
 
   // Second Law properties
@@ -42,7 +44,7 @@ class KeplersLawsModel extends CommonModel {
   public selectedPeriodPowerProperty = new NumberProperty( 1 );
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
-    const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, CommonModelOptions>()( {
+    const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
       engineFactory: bodies => new EllipticalOrbit( bodies ),
       isLab: false
     }, providedOptions );

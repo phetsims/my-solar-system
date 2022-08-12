@@ -10,13 +10,13 @@
 import { Node, Text, VBox, VBoxOptions, VDivider } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import IntroModel from '../../intro/model/IntroModel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import LabModes from '../model/LabModes.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import ArrowsCheckboxNode from './ArrowsCheckboxNode.js';
 import OrbitalInformation from './OrbitalInformation.js';
 import VisibilityInformation from './VisibilityInformation.js';
+import CommonModel from '../model/CommonModel.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
@@ -47,7 +47,7 @@ type MySolarSystemControlsOptions = SelfOptions & VBoxOptions;
 export default class MySolarSystemControls extends VBox {
 
   public constructor(
-    model: IntroModel,
+    model: CommonModel,
     topLayer: Node,
     providedOptions?: MySolarSystemControlsOptions
   ) {

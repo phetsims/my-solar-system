@@ -19,16 +19,18 @@ import Range from '../../../../dot/js/Range.js';
 import IProperty from '../../../../axon/js/IProperty.js';
 import Property from '../../../../axon/js/Property.js';
 
-type LabModelOptions = StrictOmit<CommonModelOptions, 'engineFactory' | 'isLab'>;
+type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
-class LabModel extends CommonModel {
+type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
+
+class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, Body[]>;
   private readonly availableBodies: Body[];
   public numberOfActiveBodies: NumberProperty;
   public rangeOfActiveBodies: IProperty<Range>;
 
   public constructor( providedOptions: LabModelOptions ) {
-    const options = optionize<LabModelOptions, EmptySelfOptions, CommonModelOptions>()( {
+    const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
       engineFactory: bodies => new NumericalEngine( bodies ),
       isLab: true
     }, providedOptions );
