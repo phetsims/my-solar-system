@@ -52,26 +52,6 @@ export default class ThirdLawAccordionBox extends AccordionBox {
     super( new GridBox( {
       children: [
         new RectangularRadioButtonGroup(
-          model.selectedAxisPowerProperty,
-          [
-            {
-              value: 1,
-              node: new RichText( 'a', TEXT_OPTIONS )
-            },
-            {
-              value: 2,
-              node: new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
-            },
-            {
-              value: 3,
-              node: new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
-            }
-          ],
-          {
-            layoutOptions: { column: 0, row: 0 }
-          }
-        ),
-        new RectangularRadioButtonGroup(
           model.selectedPeriodPowerProperty,
           [
             {
@@ -85,6 +65,26 @@ export default class ThirdLawAccordionBox extends AccordionBox {
             {
               value: 3,
               node: new RichText( 'T<sup>3</sup>', TEXT_OPTIONS )
+            }
+          ],
+          {
+            layoutOptions: { column: 0, row: 0 }
+          }
+        ),
+        new RectangularRadioButtonGroup(
+          model.selectedAxisPowerProperty,
+          [
+            {
+              value: 1,
+              node: new RichText( 'a', TEXT_OPTIONS )
+            },
+            {
+              value: 2,
+              node: new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
+            },
+            {
+              value: 3,
+              node: new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
             }
           ],
           {
@@ -114,26 +114,38 @@ class KeplerLawsGraph extends Node {
 
     const semimajorAxisToViewPoint = ( semimajorAxis: number ) => {
       const period = semimajorAxisToPeriod( semimajorAxis );
-      const periodPower = model.selectedAxisPowerProperty.value;
-      const axisPower = model.selectedPeriodPowerProperty.value;
+      const periodPower = model.selectedPeriodPowerProperty.value;
+      const axisPower = model.selectedAxisPowerProperty.value;
 
       return new Vector2(
         axisLength * Math.pow( Utils.linear(
+          0, maxSemimajorAxis,
+          0, 1,
+          semimajorAxis ), axisPower ),
+        -axisLength * Math.pow( Utils.linear(
           0, maxPeriod,
           0, 1,
           period
-        ), periodPower ),
-        -axisLength * Math.pow( Utils.linear(
-          0, maxSemimajorAxis,
-          0, 1,
-          semimajorAxis ), axisPower )
+        ), periodPower )
       );
     };
 
-    let yAxis = new RichText( '' );
-    const maxSemimajorAxis = 4000;
+    let xAxisLabel = new RichText( '' );
+    let yAxisLabel = new RichText( '' );
 
-    let xAxis = new RichText( '' );
+
+    const xAxis = new ArrowNode( 0, 0, axisLength, 0, {
+      fill: 'white',
+      stroke: 'white',
+      tailWidth: 1
+    } );
+    const yAxis = new ArrowNode( 0, 0, 0, -axisLength, {
+        fill: 'white',
+        stroke: 'white',
+        tailWidth: 1
+      } );
+
+    const maxSemimajorAxis = 500;
     const maxPeriod = semimajorAxisToPeriod( maxSemimajorAxis );
 
     const dataPoint = new Circle( 5, {
@@ -148,36 +160,26 @@ class KeplerLawsGraph extends Node {
       dataPoint.translation = semimajorAxisToViewPoint( orbit.a );
       dataPoint.visible = orbit.a < maxSemimajorAxis;
 
-      const periodPower = model.selectedAxisPowerProperty.value;
-      const axisPower = model.selectedPeriodPowerProperty.value;
+      const periodPower = model.selectedPeriodPowerProperty.value;
+      const axisPower = model.selectedAxisPowerProperty.value;
 
-      const periodText = periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>';
       const axisText = axisPower === 1 ? 'a' : 'a<sup>' + axisPower + '</sup>';
-      xAxis = new RichText(
-        periodText,
+      const periodText = periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>';
+      xAxisLabel = new RichText(
+        axisText,
         combineOptions<RichTextOptions>( {
           x: axisLength * 0.4, y: 30
         }, TITLE_OPTIONS ) );
-      yAxis = new RichText(
-        axisText,
+      yAxisLabel = new RichText(
+        periodText,
         combineOptions<RichTextOptions>( {
           x: -30, y: -axisLength * 0.4
         }, TITLE_OPTIONS ) );
       this.children = [
-        // Y axis
-        new ArrowNode( 0, 0, 0, -axisLength, {
-          fill: 'white',
-          stroke: 'white',
-          tailWidth: 1
-        } ),
-        // X axis
-        new ArrowNode( 0, 0, axisLength, 0, {
-          fill: 'white',
-          stroke: 'white',
-          tailWidth: 1
-        } ),
         xAxis,
         yAxis,
+        xAxisLabel,
+        yAxisLabel,
         linePath,
         dataPoint
       ];
