@@ -25,11 +25,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Engine from '../../common/model/Engine.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
   public readonly body: Body;
   public readonly predictedBody: Body;
+  public readonly changedEmitter: Emitter = new Emitter();
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
@@ -37,6 +39,7 @@ export default class EllipticalOrbit extends Engine {
   public w = 0; // argument of periapsis
   public M = 0; // mean anomaly
   public W = 0; // angular velocity
+  public T = 0; // period
 
   public allowedOrbit: boolean;
 
@@ -65,10 +68,13 @@ export default class EllipticalOrbit extends Engine {
       // this.M = M;
       M;
       this.W = W;
+      this.T = Math.pow( a, 3 / 2 );
       if ( !this.collidedWithSun( a, e ) ) {
         this.allowedOrbit = true;
       }
     }
+
+    this.changedEmitter.emit();
   }
 
   private escapeVelocityExceeded( r: Vector2, v: Vector2 ): boolean {

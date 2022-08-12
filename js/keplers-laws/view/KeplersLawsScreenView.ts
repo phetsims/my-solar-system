@@ -99,7 +99,7 @@ public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenV
     1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
     ) );
 
-  this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty, model.engine ) );
+  this.bottomLayer.addChild( new EllipticalOrbitNode( model, modelViewTransformProperty ) );
 
   // UI ----------------------------------------------------------------------------------
   // Zoom Buttons
