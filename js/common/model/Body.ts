@@ -8,7 +8,7 @@
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import IEmitter from '../../../../axon/js/IEmitter.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -23,8 +23,8 @@ class Body {
   public readonly forceProperty: Property<Vector2>;
 
   // Emitters for various events
-  public readonly userModifiedPositionEmitter: IEmitter;
-  public readonly userModifiedVelocityEmitter: IEmitter;
+  public readonly userModifiedPositionEmitter: TEmitter;
+  public readonly userModifiedVelocityEmitter: TEmitter;
 
   // Array of points for drawing the path
   public readonly path: ObservableArray<Vector2>;
