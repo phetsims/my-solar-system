@@ -31,7 +31,7 @@ export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
   public readonly body: Body;
   public readonly predictedBody: Body;
-  public readonly changedEmitter: Emitter = new Emitter();
+  public readonly changedEmitter = new Emitter();
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
