@@ -8,7 +8,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import { Path, Node, Circle } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
@@ -57,23 +57,52 @@ export default class EllipticalOrbitNode extends Path {
       center: Vector2.ZERO
     } );
 
+    const orbitDivisions: Circle[] = [];
+    for ( let i = 0; i < model.maxDivisionValue; i++ ) {
+      orbitDivisions.push( new Circle( 5, {
+        fill: 'black',
+        stroke: 'fuchsia',
+        lineWidth: 3,
+        center: Vector2.ZERO,
+        visible: false
+      } ) );
+    }
+    const orbitDivisionsNode = new Node();
+    orbitDivisions.forEach( node => { orbitDivisionsNode.addChild( node ); } );
+
     this.addChild( periapsis );
     this.addChild( apoapsis );
     this.addChild( predicted );
+    this.addChild( orbitDivisionsNode );
 
     this.shapeMultilink = Multilink.multilink(
-      [ body.positionProperty, body.velocityProperty, predictedBody.positionProperty, modelViewTransformProperty ],
-      ( position, velocity, predictedPosition, modelViewTransform ) => {
+      [
+        body.positionProperty,
+        body.velocityProperty,
+        predictedBody.positionProperty,
+        modelViewTransformProperty,
+        model.periodDivisionProperty,
+        model.dotsVisibleProperty
+      ],
+      (
+        position,
+        velocity,
+        predictedPosition,
+        modelViewTransform,
+        divisions,
+        dotsVisible
+      ) => {
         this.orbit.update();
 
         // Non allowed orbits will show up as dashed lines
         this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
 
-        const scale = modelViewTransform.modelToViewDeltaX( 1 );
         const a = this.orbit.a;
         const e = this.orbit.e;
         const c = e * a;
         const center = new Vector2( -c, 0 );
+        const scale = modelViewTransform.modelToViewDeltaX( 1 );
+
         const radiusX = scale * a;
         const radiusY = scale * Math.sqrt( a * a - c * c );
 
@@ -86,6 +115,16 @@ export default class EllipticalOrbitNode extends Path {
         periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
         apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
         predicted.center = predictedPosition.minus( center ).times( scale );
+
+        for ( let i = 0; i < model.maxDivisionValue; i++ ) {
+          if ( ( i < divisions ) && ( dotsVisible ) ) {
+            orbitDivisions[ i ].center = this.orbit.divisionPoints[ i ].minus( center ).times( scale );
+            orbitDivisions[ i ].visible = true;
+          }
+          else {
+            orbitDivisions[ i ].visible = false;
+          }
+        }
     } );
   }
 }

@@ -32,6 +32,8 @@ export default class EllipticalOrbit extends Engine {
   public readonly body: Body;
   public readonly predictedBody: Body;
   public readonly changedEmitter = new Emitter();
+  public periodDivisions = 4;
+  public divisionPoints: Vector2[] = [];
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
@@ -69,12 +71,25 @@ export default class EllipticalOrbit extends Engine {
       M;
       this.W = W;
       this.T = Math.pow( a, 3 / 2 );
+
+      this.calculateDivisionPoints();
+
       if ( !this.collidedWithSun( a, e ) ) {
         this.allowedOrbit = true;
       }
     }
 
     this.changedEmitter.emit();
+  }
+
+  private calculateDivisionPoints(): void {
+    this.divisionPoints = [];
+    for ( let i = 0; i < this.periodDivisions; i++ ) {
+      const M = i * 2 * Math.PI / this.periodDivisions;
+      const nu = this.getTrueAnomaly( M );
+      const r = this.calculateR( this.a, this.e, nu );
+      this.divisionPoints.push( new Vector2( r * Math.cos( nu ), r * Math.sin( nu ) ) );
+    }
   }
 
   private escapeVelocityExceeded( r: Vector2, v: Vector2 ): boolean {

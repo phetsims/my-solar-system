@@ -35,6 +35,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public sweepAreaVisibleProperty = new Property<boolean>( false );
   public areaGraphVisibleProperty = new Property<boolean>( false );
   public periodDivisionProperty = new Property<number>( 4 );
+  public maxDivisionValue = 10;
 
   // Third law properties
   public semimajorAxisVisibleProperty = new Property<boolean>( false );
@@ -53,6 +54,11 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.selectedLawProperty.link( law => {
       this.visibilityReset();
     } );
+
+    this.periodDivisionProperty.link( divisions => {
+        this.engine.periodDivisions = divisions;
+      }
+    );
   }
 
   public override createBodies(): void {

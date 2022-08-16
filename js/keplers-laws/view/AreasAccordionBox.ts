@@ -52,7 +52,7 @@ export default class AreasAccordionBox extends AccordionBox {
 
 class AreasControls extends VBox {
   public constructor( model: KeplersLawsModel ) {
-    const divisionsRange = new RangeWithValue( 2, 10, 4 );
+    const divisionsRange = new RangeWithValue( 2, model.maxDivisionValue, 4 );
     const divisionSlider = new HSlider( model.periodDivisionProperty, divisionsRange, {
       trackSize: new Dimension2( 150, 2 ),
       thumbSize: new Dimension2( 15, 25 ),
