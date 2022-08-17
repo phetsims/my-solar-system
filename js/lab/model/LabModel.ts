@@ -16,7 +16,7 @@ import LabModes from '../../common/model/LabModes.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Property from '../../../../axon/js/Property.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
@@ -27,7 +27,7 @@ class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, Body[]>;
   private readonly availableBodies: Body[];
   public numberOfActiveBodies: NumberProperty;
-  public rangeOfActiveBodies: IProperty<Range>;
+  public rangeOfActiveBodies: TProperty<Range>;
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
