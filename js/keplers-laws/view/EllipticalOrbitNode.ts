@@ -25,6 +25,7 @@ export default class EllipticalOrbitNode extends Path {
     model: KeplersLawsModel,
     modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>
     ) {
+
     super( new Shape(), {
       lineWidth: 3,
       stroke: 'fuchsia'
@@ -33,6 +34,8 @@ export default class EllipticalOrbitNode extends Path {
     const body = model.bodies[ 1 ];
     this.orbit = model.engine;
     const predictedBody = this.orbit.predictedBody;
+
+    // Drawing of Periapsis and Apoapsis
     const periapsis = new XNode( {
       fill: 'gold',
       stroke: 'white',
@@ -51,11 +54,14 @@ export default class EllipticalOrbitNode extends Path {
         return visible && ( this.orbit.e > 0 );
       } )
     } );
+
+    // Position of the provisional predicted body
     const predicted = new XNode( {
       fill: 'white',
       stroke: 'white',
       center: Vector2.ZERO
     } );
+
 
     const orbitDivisions: Circle[] = [];
     for ( let i = 0; i < model.maxDivisionValue; i++ ) {

@@ -22,6 +22,8 @@ import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import LawMode from '../model/LawMode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -36,18 +38,18 @@ const TITLE_OPTIONS = {
 type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
 
 export default class ThirdLawAccordionBox extends AccordionBox {
-  public constructor(
-    model: KeplersLawsModel,
-    providedOptions?: ThirdLawAccordionBoxOptions
-  ) {
+  public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<ThirdLawAccordionBoxOptions>( {
       titleNode: new Text( mySolarSystemStrings.graph.title, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
+      visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
+        return selectedLaw === LawMode.THIRD_LAW;
+      } ),
       buttonXMargin: 5,
       buttonYMargin: 5,
       fill: MySolarSystemColors.backgroundProperty,
       stroke: MySolarSystemColors.gridIconStrokeColorProperty
-    }, providedOptions );
+    }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
     super( new GridBox( {
       children: [

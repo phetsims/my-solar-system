@@ -43,11 +43,16 @@ export default class EllipticalOrbit extends Engine {
   public W = 0; // angular velocity
   public T = 0; // period
 
+  // Variable that determines if the orbit is elliptical or not, if false, it is parabolic
   public allowedOrbit: boolean;
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
+
+    // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.body = bodies[ 1 ];
+
+    // Temporal body to calculate the predicted position of the body
     this.predictedBody = new Body(
       1,
       Vector2.ZERO,
@@ -57,6 +62,10 @@ export default class EllipticalOrbit extends Engine {
     this.update();
   }
 
+  /**
+   * Based on the current position and velocity of the body
+   * Updates the orbital elements of the body using Orbital Mechanics Analytic Equations
+   */
   public override update(): void {
     const r = this.body.positionProperty.value;
     const v = this.body.velocityProperty.value;
@@ -70,6 +79,8 @@ export default class EllipticalOrbit extends Engine {
       // this.M = M;
       M;
       this.W = W;
+
+      // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
 
       this.calculateDivisionPoints();
@@ -82,6 +93,11 @@ export default class EllipticalOrbit extends Engine {
     this.changedEmitter.emit();
   }
 
+  /**
+   * Based on the number of divisions provided by the model,
+   * divides the orbit in isochrone sections.
+   *
+   */
   private calculateDivisionPoints(): void {
     this.divisionPoints = [];
     for ( let i = 0; i < this.periodDivisions; i++ ) {
@@ -100,6 +116,7 @@ export default class EllipticalOrbit extends Engine {
   }
 
   private collidedWithSun( a: number, e: number ): boolean {
+    // TODO: Should the actual radius of the sun be used? Probably
     return a * ( 1 - e ) < 25;
   }
 

@@ -20,6 +20,8 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
+import LawMode from '../model/LawMode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -36,15 +38,16 @@ type SelfOptions = EmptySelfOptions;
 export type AreasAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
 
 export default class AreasAccordionBox extends AccordionBox {
-  public constructor( model: KeplersLawsModel, providedOptions?: AreasAccordionBoxOptions ) {
+  public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<AreasAccordionBoxOptions>( {
       titleNode: new Text( mySolarSystemStrings.area.title, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
+      visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
+        return selectedLaw === LawMode.SECOND_LAW;
+      } ),
       buttonXMargin: 5,
-      buttonYMargin: 5,
-      fill: MySolarSystemColors.backgroundProperty,
-      stroke: MySolarSystemColors.gridIconStrokeColorProperty
-    }, providedOptions );
+      buttonYMargin: 5
+    }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
     super( new AreasControls( model ), options );
   }
