@@ -26,6 +26,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Engine from '../../common/model/Engine.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
@@ -34,6 +35,7 @@ export default class EllipticalOrbit extends Engine {
   public readonly changedEmitter = new Emitter();
   public periodDivisions = 4;
   public divisionPoints: Vector2[] = [];
+  private updateAllowed = true;
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
@@ -60,6 +62,27 @@ export default class EllipticalOrbit extends Engine {
     );
     this.allowedOrbit = false;
     this.update();
+
+    // Multilink to update the orbit based on the bodies position and velocity
+    Multilink.multilink(
+      [ this.body.positionProperty, this.body.velocityProperty ],
+      ( position, velocity ) => {
+        if ( this.updateAllowed ) {
+          this.update();
+        }
+    } );
+  }
+
+  public override run( dt: number ): void {
+
+    // Prevent the orbit from updating if the body is orbiting
+    this.updateAllowed = false;
+    this.M += dt * this.W * 20;
+    const nu = this.getTrueAnomaly( this.M );
+    const r = this.calculateR( this.a, this.e, nu );
+    this.predictedBody.positionProperty.value = new Vector2( r * Math.cos( -nu ), r * Math.sin( -nu ) );
+    // this.predictedBody.velocityProperty.value = new Vector2( -this.a * Math.sin( nu ) / r, this.a * ( e + Math.cos( nu ) ) / r );
+    this.updateAllowed = true;
   }
 
   /**
@@ -175,13 +198,6 @@ export default class EllipticalOrbit extends Engine {
 
   private calculateR( a: number, e: number, nu: number ): number {
     return a * ( 1 - e * e ) / ( 1 + e * Math.cos( nu ) );
-  }
-
-  public override run( dt: number ): void {
-    this.M += dt * this.W * 20;
-    const nu = this.getTrueAnomaly( this.M );
-    const r = this.calculateR( this.a, this.e, nu );
-    this.predictedBody.positionProperty.value = new Vector2( r * Math.cos( -nu ), r * Math.sin( -nu ) );
   }
 
   public override reset(): void {

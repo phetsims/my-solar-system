@@ -31,7 +31,6 @@ export default class EllipticalOrbitNode extends Path {
       stroke: 'fuchsia'
     } );
 
-    const body = model.bodies[ 1 ];
     this.orbit = model.engine;
     const predictedBody = this.orbit.predictedBody;
 
@@ -83,23 +82,17 @@ export default class EllipticalOrbitNode extends Path {
 
     this.shapeMultilink = Multilink.multilink(
       [
-        body.positionProperty,
-        body.velocityProperty,
         predictedBody.positionProperty,
         modelViewTransformProperty,
         model.periodDivisionProperty,
         model.dotsVisibleProperty
       ],
       (
-        position,
-        velocity,
         predictedPosition,
         modelViewTransform,
         divisions,
         dotsVisible
       ) => {
-        this.orbit.update();
-
         // Non allowed orbits will show up as dashed lines
         this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
 
