@@ -14,8 +14,6 @@ import KeplersLawsScreen from './keplers-laws/KeplersLawsScreen.js';
 import LabScreen from './lab/LabScreen.js';
 import mySolarSystemStrings from './mySolarSystemStrings.js';
 
-const mySolarSystemTitleString = mySolarSystemStrings[ 'my-solar-system' ].title;
-
 const simOptions: SimOptions = {
 
   //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
@@ -34,7 +32,7 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-  const sim = new Sim( mySolarSystemTitleString, [
+  const sim = new Sim( mySolarSystemStrings[ 'my-solar-system' ].titleProperty, [
     new IntroScreen( Tandem.ROOT.createTandem( 'introScreen' ) ),
     new KeplersLawsScreen( Tandem.ROOT.createTandem( 'keplersLawsScreen' ) ),
     new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) )
