@@ -148,7 +148,7 @@ class CommonScreenView extends ScreenView {
         new TextPushButton( mySolarSystemStrings.clearProperty, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
-          maxWidth: 200
+          maxWidth: 130
         } )
       ],
       spacing: 8
