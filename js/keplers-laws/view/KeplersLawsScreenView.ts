@@ -107,6 +107,7 @@ class KeplersLawsScreenView extends ScreenView {
         children: [
           new VBox( {
             margin: 5,
+            stretch: true,
             children: [
               new AreasAccordionBox( model ),
               new AreasGraphPanel( model )

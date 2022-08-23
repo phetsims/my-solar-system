@@ -16,6 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 export default class EllipticalOrbitNode extends Path {
   private orbit: EllipticalOrbit;
@@ -63,6 +64,7 @@ export default class EllipticalOrbitNode extends Path {
 
 
     const orbitDivisions: Circle[] = [];
+    const areaPaths: Path[] = [];
     for ( let i = 0; i < model.maxDivisionValue; i++ ) {
       orbitDivisions.push( new Circle( 5, {
         fill: 'black',
@@ -71,14 +73,107 @@ export default class EllipticalOrbitNode extends Path {
         center: Vector2.ZERO,
         visible: false
       } ) );
+      areaPaths.push( new Path( null, {
+        fill: 'fuchsia',
+        opacity: 0.7 * ( i / 10 ) + 0.3
+      } ) );
     }
-    const orbitDivisionsNode = new Node();
+    const orbitDivisionsNode = new Node( {
+      visibleProperty: model.dotsVisibleProperty
+    } );
+    const areaPathsNode = new Node( {
+      visibleProperty: model.sweepAreaVisibleProperty
+    } );
     orbitDivisions.forEach( node => { orbitDivisionsNode.addChild( node ); } );
+    areaPaths.forEach( node => { areaPathsNode.addChild( node ); } );
 
+    this.addChild( areaPathsNode );
     this.addChild( periapsis );
     this.addChild( apoapsis );
     this.addChild( predicted );
     this.addChild( orbitDivisionsNode );
+
+    const updatedOrbit = () => {
+      // Non allowed orbits will show up as dashed lines
+      this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
+
+      const a = this.orbit.a;
+      const e = this.orbit.e;
+      const c = e * a;
+      const center = new Vector2( -c, 0 );
+      const scale = modelViewTransformProperty.value.modelToViewDeltaX( 1 );
+
+      const radiusX = scale * a;
+      const radiusY = scale * Math.sqrt( a * a - c * c );
+
+      // The ellipse is translated and rotated so its children can use local coordinates
+      this.translation = modelViewTransformProperty.value.modelToViewPosition( center );
+      this.rotation = 0;
+      this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
+      this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
+
+      periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
+      apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
+      predicted.center = predictedBody.positionProperty.value.minus( center ).times( scale );
+
+      let startAngle = 0;
+      let endAngle = 0;
+      let startIndex = 0;
+      let endIndex = 0;
+      let bodyAngle = Math.atan2( predicted.center.y / radiusY, predicted.center.x / radiusX );
+
+      console.log( 'start' );
+      for ( let i = 0; i < model.maxDivisionValue; i++ ) {
+        if ( ( i < model.periodDivisionProperty.value ) ) {
+          if ( this.orbit.retrograde ) {
+            endIndex = i;
+            startIndex = i + 1 < model.periodDivisionProperty.value ? i + 1 : 0;
+          }
+          else {
+            startIndex = i;
+            endIndex = i - 1 < 0 ? model.periodDivisionProperty.value - 1 : i - 1;
+          }
+
+          // Set the center of the orbit's divisions, seen in the sim as dots
+          orbitDivisions[ i ].center = this.orbit.divisionPoints[ i ].minus( center ).times( scale );
+          orbitDivisions[ i ].visible = true;
+
+          startAngle = Math.atan2( orbitDivisions[ startIndex ].y / radiusY, orbitDivisions[ startIndex ].x / radiusX );
+          endAngle = Math.atan2( orbitDivisions[ endIndex ].y / radiusY, orbitDivisions[ endIndex ].x / radiusX );
+
+          if ( this.orbit.retrograde ) {
+            startAngle = Utils.moduloBetweenDown( startAngle, endAngle, Math.PI * 2 + endAngle );
+            bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, Math.PI * 2 + endAngle );
+
+            if ( ( endAngle < bodyAngle ) && ( bodyAngle < startAngle ) ) {
+              startAngle = bodyAngle;
+            }
+          }
+          else {
+            startAngle = Utils.moduloBetweenDown( startAngle, endAngle, Math.PI * 2 + endAngle );
+            bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, Math.PI * 2 + endAngle );
+
+            if ( ( endAngle < bodyAngle ) && ( bodyAngle < startAngle ) ) {
+              endAngle = bodyAngle;
+            }
+          }
+
+          areaPaths[ i ].visible = true;
+
+          // areaPaths[ i ].opacity = 0.8 * Math.abs( endAngle - bodyAngle ) / ( Math.PI * 2 );
+
+          areaPaths[ i ].shape = new Shape().moveTo( c, 0 ).ellipticalArc(
+            0, 0, radiusX, radiusY, 0, startAngle, endAngle, true
+          ).close();
+        }
+        else {
+          orbitDivisions[ i ].visible = false;
+          areaPaths[ i ].visible = false;
+        }
+      }
+    };
+
+    this.orbit.changedEmitter.addListener( updatedOrbit );
 
     this.shapeMultilink = Multilink.multilink(
       [
@@ -92,39 +187,7 @@ export default class EllipticalOrbitNode extends Path {
         modelViewTransform,
         divisions,
         dotsVisible
-      ) => {
-        // Non allowed orbits will show up as dashed lines
-        this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
-
-        const a = this.orbit.a;
-        const e = this.orbit.e;
-        const c = e * a;
-        const center = new Vector2( -c, 0 );
-        const scale = modelViewTransform.modelToViewDeltaX( 1 );
-
-        const radiusX = scale * a;
-        const radiusY = scale * Math.sqrt( a * a - c * c );
-
-        // The ellipse is translated and rotated so its children can use local coordinates
-        this.translation = modelViewTransform.modelToViewPosition( center );
-        this.rotation = 0;
-        this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
-        this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
-        
-        periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
-        apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
-        predicted.center = predictedPosition.minus( center ).times( scale );
-
-        for ( let i = 0; i < model.maxDivisionValue; i++ ) {
-          if ( ( i < divisions ) && ( dotsVisible ) ) {
-            orbitDivisions[ i ].center = this.orbit.divisionPoints[ i ].minus( center ).times( scale );
-            orbitDivisions[ i ].visible = true;
-          }
-          else {
-            orbitDivisions[ i ].visible = false;
-          }
-        }
-    } );
+      ) => updatedOrbit );
   }
 }
 

@@ -36,6 +36,7 @@ export default class EllipticalOrbit extends Engine {
   public periodDivisions = 4;
   public divisionPoints: Vector2[] = [];
   private updateAllowed = true;
+  public retrograde = false;
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
@@ -174,8 +175,12 @@ export default class EllipticalOrbit extends Engine {
       nu *= -1;
     }
     if ( r.crossScalar( v ) > 0 ) {
+      this.retrograde = false;
       nu *= -1;
       W *= -1;
+    }
+    else {
+      this.retrograde = true;
     }
   
     let E0 = Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
