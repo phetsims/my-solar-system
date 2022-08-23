@@ -15,6 +15,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
 const TITLE_OPTIONS = {
   font: MySolarSystemConstants.TITLE_FONT,
@@ -32,7 +33,7 @@ export default class AreasGraphPanel extends Panel {
     const xAxisLength = 120;
     const yAxisLength = 180;
 
-    const title = new Text( 'Swept Area', TITLE_OPTIONS );
+    const title = new Text( mySolarSystemStrings.areaGraph.titleProperty, TITLE_OPTIONS );
 
     const xAxis = new ArrowNode( 0, 0, xAxisLength, 0, {
       fill: 'white',

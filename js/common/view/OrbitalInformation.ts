@@ -41,14 +41,14 @@ class OrbitalInformation extends VBox {
       new MySolarSystemCheckbox( model.pathVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.path, TEXT_OPTIONS ),
+          new Text( mySolarSystemStrings.pathProperty, TEXT_OPTIONS ),
           pathIconImageNode
         ]
       } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
       new MySolarSystemCheckbox( model.centerOfMass.visibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.mass, TEXT_OPTIONS ),
+          new Text( mySolarSystemStrings.massProperty, TEXT_OPTIONS ),
           new XNode( {
             fill: 'red',
             stroke: 'white',

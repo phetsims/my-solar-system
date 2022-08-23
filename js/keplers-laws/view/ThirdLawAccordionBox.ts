@@ -40,7 +40,7 @@ type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
 export default class ThirdLawAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<ThirdLawAccordionBoxOptions>( {
-      titleNode: new Text( mySolarSystemStrings.graph.title, TITLE_OPTIONS ),
+      titleNode: new Text( mySolarSystemStrings.graph.titleProperty, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
       visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
         return selectedLaw === LawMode.THIRD_LAW;

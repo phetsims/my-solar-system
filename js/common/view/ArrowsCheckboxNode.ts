@@ -48,14 +48,14 @@ class ArrowsCheckboxNode extends VBox {
         // gravity force checkbox
         new MySolarSystemCheckbox( model.gravityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
           children: [
-            new Text( mySolarSystemStrings.gravityForce, TEXT_OPTIONS ),
+            new Text( mySolarSystemStrings.gravityForceProperty, TEXT_OPTIONS ),
             new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
           ]
         }, HBOX_OPTIONS ) ) ),
         // velocity checkbox
         new MySolarSystemCheckbox( model.velocityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
           children: [
-            new Text( mySolarSystemStrings.velocity, TEXT_OPTIONS ),
+            new Text( mySolarSystemStrings.velocityProperty, TEXT_OPTIONS ),
             new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
           ]
         }, HBOX_OPTIONS ) ) )

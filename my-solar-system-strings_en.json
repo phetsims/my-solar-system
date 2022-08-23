@@ -83,6 +83,9 @@
   "dataPanel.moreData": {
       "value": "More Data"
   },
+  "areaGraph.title": {
+    "value": "Swept Area"
+  },
   "graph.title": {
     "value": "Graph (a vs T)"
   },
@@ -91,5 +94,41 @@
   },
   "graph.t": {
       "value": "Period (T)"
+  },
+  "mode.sunAndPlanet": {
+      "value": "Sun and Planet"
+  },
+  "mode.sunPlanetAndMoon": {
+      "value": "Sun, Planet and Moon"
+  },
+  "mode.sunPlanetAndComet": {
+      "value": "Sun, Planet and Comet"
+  },
+  "mode.trojanAsteroids": {
+      "value": "Trojan Asteroids"
+  },
+  "mode.ellipses": {
+      "value": "Ellipses"
+  },
+  "mode.hyperbolic": {
+      "value": "Hyperbolic"
+  },
+  "mode.slingshot": {
+      "value": "Slingshot"
+  },
+  "mode.doubleSlingshot": {
+      "value": "Double Slingshot"
+  },
+  "mode.binaryStarPlanet": {
+      "value": "Binary Star, Planet"
+  },
+  "mode.fourStarBallet": {
+      "value": "Four Star Ballet"
+  },
+  "mode.doubleDouble": {
+      "value": "Double Double"
+  },
+  "mode.custom": {
+      "value": "Custom"
   }
 }
