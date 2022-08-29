@@ -63,13 +63,13 @@ class DataBox extends GridBox {
   public update(): void {
     // Whenever the number of bodies change, repopulate the dataBox
     this.tempChildren = [
-      new Text( mySolarSystemStrings.dataPanel.MassProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
-      new Text( mySolarSystemStrings.dataPanel.PositionProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 0, width: 2 } } ),
-      new Text( mySolarSystemStrings.dataPanel.VelocityProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 0, width: 2 } } ),
-      new Text( mySolarSystemStrings.dataPanel.XProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 1 } } ),
-      new Text( mySolarSystemStrings.dataPanel.YProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 3, row: 1 } } ),
-      new Text( mySolarSystemStrings.dataPanel.VxProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 1 } } ),
-      new Text( mySolarSystemStrings.dataPanel.VyProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 5, row: 1 } } )
+      new Text( mySolarSystemStrings.dataPanel.MassStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
+      new Text( mySolarSystemStrings.dataPanel.PositionStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 0, width: 2 } } ),
+      new Text( mySolarSystemStrings.dataPanel.VelocityStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 0, width: 2 } } ),
+      new Text( mySolarSystemStrings.dataPanel.XStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 1 } } ),
+      new Text( mySolarSystemStrings.dataPanel.YStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 3, row: 1 } } ),
+      new Text( mySolarSystemStrings.dataPanel.VxStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 1 } } ),
+      new Text( mySolarSystemStrings.dataPanel.VyStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 5, row: 1 } } )
     ];
 
     for ( let i = 0; i < this.model.bodies.length; i++ ) {

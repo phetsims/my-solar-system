@@ -53,14 +53,14 @@ const TITLE_OPTIONS = {
        new Checkbox( model.axisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.axisProperty, TEXT_OPTIONS )
+           new Text( mySolarSystemStrings.axisStringProperty, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS ),
        new Checkbox( model.apoapsisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.apoapsisProperty, TEXT_OPTIONS ),
+           new Text( mySolarSystemStrings.apoapsisStringProperty, TEXT_OPTIONS ),
            new XNode( {
              fill: 'cyan',
              stroke: 'white',
@@ -72,7 +72,7 @@ const TITLE_OPTIONS = {
        new Checkbox( model.periapsisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.periapsisProperty, TEXT_OPTIONS ),
+           new Text( mySolarSystemStrings.periapsisStringProperty, TEXT_OPTIONS ),
            new XNode( {
              fill: 'gold',
              stroke: 'white',
@@ -87,14 +87,14 @@ const TITLE_OPTIONS = {
        new Checkbox( model.semimajorAxisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.graph.aProperty, TEXT_OPTIONS )
+           new Text( mySolarSystemStrings.graph.aStringProperty, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS ),
        new Checkbox( model.periodVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.graph.tProperty, TEXT_OPTIONS )
+           new Text( mySolarSystemStrings.graph.tStringProperty, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS )
@@ -103,7 +103,7 @@ const TITLE_OPTIONS = {
      const orbitalInformationNode = new HBox( {
            spacing: 10,
            children: [
-             new Text( mySolarSystemStrings.orbitalProperty, TITLE_OPTIONS ),
+             new Text( mySolarSystemStrings.orbitalStringProperty, TITLE_OPTIONS ),
              new InfoButton( { scale: 0.5 } )
            ]
          } );

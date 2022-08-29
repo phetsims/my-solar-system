@@ -62,7 +62,7 @@ class MassesSliders extends VBox {
 
   public update(): void {
     // Whenever the number of bodies change, repopulate the sliders
-    this.tempChildren = [ new Text( mySolarSystemStrings.massProperty, { font: MySolarSystemConstants.TITLE_FONT } ) ];
+    this.tempChildren = [ new Text( mySolarSystemStrings.massStringProperty, { font: MySolarSystemConstants.TITLE_FONT } ) ];
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
       this.tempChildren.push(

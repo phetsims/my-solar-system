@@ -72,7 +72,7 @@ class LabScreenView extends CommonScreenView {
     this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
     this.numberSpinner = new VBox( {
       children: [
-        new Text( mySolarSystemStrings.dataPanel.bodiesProperty, TEXT_OPTIONS ),
+        new Text( mySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
         new NumberSpinner( model.numberOfActiveBodies, model.rangeOfActiveBodies,
             combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
               arrowsPosition: 'bothRight',
@@ -97,7 +97,7 @@ class LabScreenView extends CommonScreenView {
     model.moreDataProperty.link( moreData => {
       this.gridbox.children = [
         this.numberSpinner,
-        new MySolarSystemCheckbox( model.moreDataProperty, new Text( mySolarSystemStrings.dataPanel.moreDataProperty, TEXT_OPTIONS ), checkboxOptions ),
+        new MySolarSystemCheckbox( model.moreDataProperty, new Text( mySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
         !moreData ? this.massesControlPanel : this.fullDataPanel
         // bodyNumberSpinner
       ];

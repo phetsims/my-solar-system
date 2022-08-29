@@ -33,7 +33,7 @@ export default class AreasGraphPanel extends Panel {
     const xAxisLength = 120;
     const yAxisLength = 180;
 
-    const title = new Text( mySolarSystemStrings.areaGraph.titleProperty, TITLE_OPTIONS );
+    const title = new Text( mySolarSystemStrings.areaGraph.titleStringProperty, TITLE_OPTIONS );
 
     const xAxis = new ArrowNode( 0, 0, xAxisLength, 0, {
       fill: 'white',

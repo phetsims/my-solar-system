@@ -145,7 +145,7 @@ class CommonScreenView extends ScreenView {
     const clockNode = new VBox( {
       children: [
         new NumberDisplay( model.timeProperty, model.timeRange ),
-        new TextPushButton( mySolarSystemStrings.clearProperty, {
+        new TextPushButton( mySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
           maxWidth: 200
