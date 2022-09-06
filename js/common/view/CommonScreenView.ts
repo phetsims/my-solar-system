@@ -11,12 +11,10 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
 import Body from '../model/Body.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import BodyNode from './BodyNode.js';
-import MySolarSystemControls from './MySolarSystemControls.js';
 import MySolarSystemGridNode from './MySolarSystemGridNode.js';
 import MySolarSystemTimeControlNode from './MySolarSystemTimeControlNode.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -27,13 +25,15 @@ import CenterOfMassNode from './CenterOfMassNode.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import CommonModel from '../model/CommonModel.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
-import PathsWebGLNode from './PathsWebGLNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import Property from '../../../../axon/js/Property.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -46,6 +46,8 @@ class CommonScreenView extends ScreenView {
   protected readonly topLayer = new Node();
   protected readonly bottomLayer = new Node();
 
+  protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
+
   public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( providedOptions );
 
@@ -55,7 +57,7 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.interfaceLayer );
     this.addChild( this.topLayer );
 
-    const modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
+    this.modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
       return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
         Vector2.ZERO,
         new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing ),
@@ -65,7 +67,7 @@ class CommonScreenView extends ScreenView {
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
     const gridNode = new MySolarSystemGridNode(
-      modelViewTransformProperty,
+      this.modelViewTransformProperty,
       MySolarSystemConstants.GRID.spacing,
       Vector2.ZERO,
       28,
@@ -80,21 +82,21 @@ class CommonScreenView extends ScreenView {
     // Setting the Factory functions that will create the necessary Nodes
 
     const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
-      return new BodyNode( body, modelViewTransformProperty, {
+      return new BodyNode( body, this.modelViewTransformProperty, {
         mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayer.getChildrenCount() ]
       } );
     } );
 
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
       return new DraggableVectorNode(
-        body, modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
+        body, this.modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
         1, 'V', { fill: PhetColorScheme.VELOCITY }
         );
     } );
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
       return new VectorNode(
-        body, modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty,
+        body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty,
         0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
         );
     } );
@@ -117,19 +119,10 @@ class CommonScreenView extends ScreenView {
       this.update();
     } );
 
-    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, modelViewTransformProperty );
+    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.modelViewTransformProperty );
     this.componentsLayer.addChild( centerOfMassNode );
 
     // UI Elements ===================================================================================================
-    // Zoom Buttons
-    this.interfaceLayer.addChild( new AlignBox( new MagnifyingGlassZoomButtonGroup(
-      model.zoomLevelProperty,
-      {
-        spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 }
-      } ),
-      {
-        alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'top'
-      } ) );
 
     const timeControlNode = new MySolarSystemTimeControlNode( model,
       {
@@ -154,11 +147,29 @@ class CommonScreenView extends ScreenView {
       spacing: 8
     } );
 
+
+    const measuringTapeUnitsProperty = new Property( { name: '', multiplier: 1.0 } );
+
+    // Add the MeasuringTapeNode
+    const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
+      visibleProperty: model.measuringTapeVisibleProperty,
+      textColor: 'black',
+      textBackgroundColor: 'rgba( 255, 255, 255, 0.5 )', // translucent red
+      textBackgroundXMargin: 10,
+      textBackgroundYMargin: 3,
+      textBackgroundCornerRadius: 5,
+      dragBounds: this.layoutBounds,
+      basePositionProperty: new Vector2Property( new Vector2( this.layoutBounds.centerX, this.layoutBounds.centerY ) ),
+      tipPositionProperty: new Vector2Property( new Vector2( this.layoutBounds.centerX + 100, this.layoutBounds.centerY ) )
+    } );
+    this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
+    this.topLayer.addChild( measuringTapeNode );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
-        
+        measuringTapeNode.reset();
       },
       right: this.layoutBounds.maxX - MySolarSystemConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - MySolarSystemConstants.SCREEN_VIEW_Y_MARGIN,
@@ -176,22 +187,6 @@ class CommonScreenView extends ScreenView {
     {
       alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'bottom'
     } ) );
-
-    // Add the control panel on top of the canvases
-    // Visibility checkboxes for sim elements
-    this.interfaceLayer.addChild( new AlignBox( new Panel(
-      new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
-      {
-     alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
-    } ) );
-
-    //REVIEW: use visibleProperty
-    const pathsWebGLNode = new PathsWebGLNode( model, modelViewTransformProperty, { visible: false } );
-    model.pathVisibleProperty.link( visible => {
-      pathsWebGLNode.visible = visible;
-      model.clearPaths();
-    } );
-    this.bottomLayer.addChild( pathsWebGLNode );
   }
 
   public update(): void {

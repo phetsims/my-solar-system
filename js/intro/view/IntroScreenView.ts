@@ -9,12 +9,12 @@
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import IntroModel from '../model/IntroModel.js';
-import CommonScreenView from '../../common/view/CommonScreenView.js';
 import { AlignBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MassesControlPanel from '../../common/view/MassesControlPanel.js';
+import IntroLabScreenView from '../../common/view/IntroLabScreenView.js';
 
-class IntroScreenView extends CommonScreenView {
+class IntroScreenView extends IntroLabScreenView {
   private massesControlPanel: MassesControlPanel;
   
   public constructor( model: IntroModel, tandem: Tandem ) {

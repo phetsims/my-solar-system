@@ -9,7 +9,6 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import LabModel from '../model/LabModel.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import MySolarSystemCheckbox, { MySolarSystemCheckboxOptions } from '../../common/view/MySolarSystemCheckbox.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/imports.js';
@@ -17,6 +16,7 @@ import MassesControlPanel from '../../common/view/MassesControlPanel.js';
 import FullDataPanel from './FullDataPanel.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import IntroLabScreenView, { IntroLabScreenViewOptions } from '../../common/view/IntroLabScreenView.js';
 
 // Consts
 const TEXT_OPTIONS = {
@@ -28,9 +28,9 @@ type SelfOptions = {
  //TODO add options that are specific to LabScreenView here
 };
 
-type LabScreenViewOptions = SelfOptions & CommonScreenViewOptions;
+type LabScreenViewOptions = SelfOptions & IntroLabScreenViewOptions;
 
-class LabScreenView extends CommonScreenView {
+class LabScreenView extends IntroLabScreenView {
   private gridbox: GridBox;
   private massesControlPanel: MassesControlPanel;
   private fullDataPanel: FullDataPanel;
@@ -38,7 +38,7 @@ class LabScreenView extends CommonScreenView {
 
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
-    const options = optionize<LabScreenViewOptions, SelfOptions, CommonScreenViewOptions>()( {
+    const options = optionize<LabScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
       tandem: providedOptions.tandem
     }, providedOptions );
 

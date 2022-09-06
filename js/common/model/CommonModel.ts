@@ -63,7 +63,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
-
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     this.bodies = createObservableArray();
     this.createBodies();
