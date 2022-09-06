@@ -21,6 +21,7 @@ import ThirdLawAccordionBox from './ThirdLawAccordionBox.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import AreasGraphPanel from './AreasGraphPanel.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
+import LawsButtons from './LawsButtons.js';
 
 // constants
 const MARGIN = 5;
@@ -88,6 +89,16 @@ class KeplersLawsScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( new AlignBox( new KeplersLawsControls( model ),
       {
         alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
+      } ) );
+
+    this.interfaceLayer.addChild( new AlignBox( new HBox( {
+        children: [
+          new LawsButtons( model )
+        ],
+        spacing: 20
+      } ),
+      {
+        alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
       } ) );
   }
 }
