@@ -13,8 +13,8 @@ import { HBox, Text, VBox, VDivider } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
-import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
@@ -72,6 +72,8 @@ class AreasControls extends VBox {
       thumbMouseAreaXDilation: 10,
       thumbMouseAreaYDilation: 5,
 
+      visibleProperty: model.dotsVisibleProperty,
+
       constrainValue: value => Utils.roundSymmetric( value )
     } );
 
@@ -87,7 +89,10 @@ class AreasControls extends VBox {
       children: [
         new Checkbox( model.dotsVisibleProperty, new Text( mySolarSystemStrings.area.dotsStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new Checkbox( model.sweepAreaVisibleProperty, new Text( mySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.areaGraphVisibleProperty, new Text( mySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.areaGraphVisibleProperty, new Text( mySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
+          optionize<CheckboxOptions, EmptySelfOptions, CheckboxOptions>()(
+            { enabledProperty: model.areasVisibleProperty },
+            MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new HBox( {
           children: [
@@ -97,7 +102,8 @@ class AreasControls extends VBox {
                   maxWidth: 40
                 } )
           ],
-          margin: 4
+          margin: 4,
+          visibleProperty: model.dotsVisibleProperty
         } ),
         divisionSlider
       ],
