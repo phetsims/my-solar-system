@@ -14,7 +14,7 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
@@ -90,8 +90,8 @@ class AreasControls extends VBox {
         new Checkbox( model.dotsVisibleProperty, new Text( mySolarSystemStrings.area.dotsStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new Checkbox( model.sweepAreaVisibleProperty, new Text( mySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new Checkbox( model.areaGraphVisibleProperty, new Text( mySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
-          optionize<CheckboxOptions, EmptySelfOptions, CheckboxOptions>()(
-            { enabledProperty: model.areasVisibleProperty },
+          combineOptions<CheckboxOptions>(
+            { enabledProperty: model.sweepAreaVisibleProperty },
             MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new HBox( {
