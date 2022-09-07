@@ -1,4 +1,5 @@
 // Copyright 2022, University of Colorado Boulder
+
 /**
  * Universal slider for MySolarSystem
  * 

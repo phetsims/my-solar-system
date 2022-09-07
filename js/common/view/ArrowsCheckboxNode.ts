@@ -22,6 +22,8 @@ import CommonModel from '../model/CommonModel.js';
 
 // constants
 const ARROW_Y_COORDINATE = -10;
+
+//REVIEW: Factor-out-able options?
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty

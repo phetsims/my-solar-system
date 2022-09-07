@@ -9,6 +9,9 @@
  *
  * Modified for My Solar System:
  * @author Agustín Vallejo
+ *
+ * REVIEW: This looks incredibly similar to GravityAndOrbitsGridNode. Perhaps we could refactor THIS type out into
+ * REVIEW: scenery-phet, and have GAO use it? This one looks like an enhanced version with better typing.
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
@@ -23,6 +26,8 @@ type SelfOptions = EmptySelfOptions;
 
 export type MySolarSystemGridNodeOptions = SelfOptions & PathOptions;
 
+//REVIEW: I've seen a lot of places where you export default at the class declaration. I think we should be consistent,
+//REVIEW: so I'd prefer we export default in this location as well.
 class MySolarSystemGridNode extends Path {
 
   /**
@@ -35,6 +40,7 @@ class MySolarSystemGridNode extends Path {
   public constructor( transformProperty: ReadOnlyProperty<ModelViewTransform2>, spacing: number, center: Vector2, numGridLines: number, providedOptions?: MySolarSystemGridNodeOptions ) {
 
     const options = optionize<MySolarSystemGridNodeOptions, SelfOptions, PathOptions>()( {
+      //REVIEW: lineWidth: 1 is the default, presumably doesn't need to be specified here
       lineWidth: 1,
       stroke: 'gray'
     }, providedOptions );
@@ -56,6 +62,9 @@ class MySolarSystemGridNode extends Path {
         shape.moveTo( x, y1 ).lineTo( x, y2 ); // vertical lines
       }
 
+      //REVIEW: #1: prefer property.value to property.get()
+      //REVIEW: #2: try to avoid .value/.get() for a Property when inside a link for it. Just add a parameter to this
+      //REVIEW: arrow function ('transform') and use that instead.
       this.shape = transformProperty.get().modelToViewShape( shape );
     } );
   }

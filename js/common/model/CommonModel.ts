@@ -74,6 +74,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // timeScale controls the velocity of time
     this.timeScale = 0.2;
     this.timeRange = new Range( 0, 1000 );
+    //REVIEW: Could remove these two type parameters, because they will be inferred (because of what you are assigning
+    //REVIEW them to).
     this.timeProperty = new Property<number>( 0 );
     this.isPlayingProperty = new Property<boolean>( false, {
       tandem: providedOptions.tandem.createTandem( 'isPlayingProperty' ),
@@ -84,6 +86,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
 
     // Visibility properties for checkboxes
+    //REVIEW: We'll want to add tandems to these (perhaps we can collaborate on adding phet-io tandems?)
     this.pathVisibleProperty = new Property<boolean>( false );
     this.gravityVisibleProperty = new Property<boolean>( false );
     this.velocityVisibleProperty = new Property<boolean>( false );
@@ -129,11 +132,17 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public restart(): void {
     this.isPlayingProperty.value = false;
     this.bodies.forEach( body => body.reset() );
+    //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
     this.update();
     this.timeProperty.value = 0;
   }
 
   public stepForward(): void {
+    //REVIEW: This is buggy! See below in the normal step(), how the engine is run by dt * the amount the timeProperty
+    //REVIEW: is stepped forward by! The clock will advance differently for the same amount of "animation" if you're
+    //REVIEW: pressing the step button vs. playing normally (365 units playing in the intro screen for a quarter
+    //REVIEW: rotation, vs 37 units for pressing the step button many times).
+    //REVIEW: Check both situations to see what is correct, this one may need updating!
     this.engine.run( 1 / 60 );
     this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
   }
@@ -154,6 +163,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.centerOfMass.updateCenterOfMassPosition();
     }
     if ( this.pathVisibleProperty ) {
+      //REVIEW: addPathPoint isn't.... being called? This looks buggy?
       this.bodies.forEach( body => body.addPathPoint );
     }
   }

@@ -42,6 +42,9 @@ export default class NumericalEngine extends Engine {
     const N = this.bodies.length;
     dt /= iterationCount;
 
+    //REVIEW: If performance is a problem or concern, we could avoid the array creation AND arrow functions
+    //REVIEW: (which can significantly slow down inner-loop code). If we're doing a LOT of iterations, and this is
+    //REVIEW: outside of the inner-loop code, then it seems fine.
     const masses = this.bodies.map( body => body.massProperty.value );
     const positions = this.bodies.map( body => body.positionProperty.value.copy() );
     const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
@@ -187,6 +190,7 @@ export default class NumericalEngine extends Engine {
    * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
    * x(t+dt) = x(t) + v(t)*dt + a(t)*0.5*dt*dt
    * v(t+dt) = v(t) + (a(t+dt) + a(t))*0.5*dt
+   * REVIEW: is this used? Looks like an old version
    */
   private verlet( dt: number ): void {
     this.bodies.forEach( body => {
@@ -200,18 +204,21 @@ export default class NumericalEngine extends Engine {
 
   }
 
+  //REVIEW: is this used? Looks like an old version
   private updatePositions( dt: number ): void {
     this.bodies.forEach( body => {
       body.positionProperty.value = body.positionProperty.value.plus( body.velocityProperty.value.times( dt ) );
     } );
   }
 
+  //REVIEW: is this used? Looks like an old version
   private updateVelocities( dt: number ): void {
     this.bodies.forEach( body => {
       body.velocityProperty.value = body.velocityProperty.value.plus( body.accelerationProperty.value.times( dt ) );
     } );
   }
-  
+
+  //REVIEW: is this used? Looks like an old version
   private FRIS( dt: number ): void {
     // Forrest Ruth Integration Scheme (FRIS)
     

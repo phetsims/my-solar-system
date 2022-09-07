@@ -16,6 +16,7 @@ import CenterOfMass from '../model/CenterOfMass.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 class CenterOfMassNode extends Node {
+  //REVIEW: Generally prefer TReadOnlyProperty instead of ReadOnlyProperty where possible for interfaces
   public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
     super( {
       children: [

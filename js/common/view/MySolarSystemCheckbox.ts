@@ -19,6 +19,7 @@ export default class MySolarSystemCheckbox extends Checkbox {
 
   public constructor( property: Property<boolean>, content: Node, providedOptions?: MySolarSystemCheckboxOptions ) {
 
+    //REVIEW: in cases like this, I like to inline options (I'm fine either way, just want to point that out)
     const options = optionize<MySolarSystemCheckboxOptions, EmptySelfOptions, CheckboxOptions>()( {
       boxWidth: 14,
       checkboxColor: MySolarSystemColors.foregroundProperty,

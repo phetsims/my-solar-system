@@ -38,8 +38,11 @@ class Body {
   public previousAcceleration: Vector2;
   public previousPosition: Vector2;
 
+  //REVIEW: Usually I recommend naming initial values something like `initialPosition` or `initialVelocity` since they
+  //REVIEW: will be updated later
   public constructor( mass: number, position: Vector2, velocity: Vector2 ) {
     // Physical properties of the body
+    //REVIEW: Lots of these type parameters can be inferred, I'd generally recommend not providing them
     this.massProperty = new Property<number>( mass );
     this.positionProperty = new Property<Vector2>( position );
     this.velocityProperty = new Property<Vector2>( velocity );

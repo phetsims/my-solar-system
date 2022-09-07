@@ -20,6 +20,7 @@ import CommonModel from '../model/CommonModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
 // constants
+//REVIEW: This is shared between VisibilityInformation and OrbitalInformation, can we factor it out? Thoughts?
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
@@ -29,8 +30,13 @@ const SPACING = 10;
 
 type SelfOptions = EmptySelfOptions;
 
+//REVIEW: Export
 type OrbitalInformationOptions = SelfOptions & VBoxOptions;
 
+//REVIEW: Similarly to VisibilityInformation, I'd recommend a rename to make this sound more like a view (rather than
+//REVIEW: a model).
+//REVIEW: I've seen a lot of places where you export default at the class declaration. I think we should be consistent,
+//REVIEW: so I'd prefer we export default in this location as well.
 class OrbitalInformation extends VBox {
 
   public constructor( model: CommonModel, providedOptions?: OrbitalInformationOptions ) {
@@ -52,6 +58,7 @@ class OrbitalInformation extends VBox {
           new XNode( {
             fill: 'red',
             stroke: 'white',
+            //REVIEW: Why is this being positioned, when the HBox will reposition it? This shoudl be removable.
             center: Vector2.ZERO,
             scale: 0.5
           } )
@@ -59,6 +66,7 @@ class OrbitalInformation extends VBox {
       } ), MySolarSystemConstants.CHECKBOX_OPTIONS )
     ];
 
+    //REVIEW: VBoxOptions presumably instead of VBox.
     super( optionize<OrbitalInformationOptions, SelfOptions, VBox>()( {
       children: children,
       spacing: SPACING,

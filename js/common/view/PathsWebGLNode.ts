@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { Color, ShaderProgram, WebGLNode, WebGLNodeOptions } from '../../../../scenery/js/imports.js';
+import { Color, ShaderProgram, WebGLNode, WebGLNodeOptions, WebGLNodePainter, WebGLNodePainterResult } from '../../../../scenery/js/imports.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import CommonModel from '../model/CommonModel.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -16,8 +16,6 @@ import PathsPainter_shader from '../../../shaders/PathsPainter_shader.js';
 import PathsPainter_vert from '../../../shaders/PathsPainter_vert.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
-
-type painterReturn = 0 | 1;
 
 const NUM_BODIES = 4;
 const ELEMENTS_PER_VECTOR = 4;
@@ -34,6 +32,7 @@ const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();
 const scratchProjectionMatrix = new Matrix3();
 
+//REVIEW: Export
 type PathsWebGLNodeOptions = WebGLNodeOptions;
 
 export default class PathsWebGLNode extends WebGLNode {
@@ -50,7 +49,8 @@ export default class PathsWebGLNode extends WebGLNode {
 
 }
 
-class PathsPainter {
+//REVIEW: I exported the WebGLNodePainter type, so it can be "implemented" here, sound good?
+class PathsPainter implements WebGLNodePainter {
   private readonly gl: WebGLRenderingContext;
   private readonly node: PathsWebGLNode;
   private readonly vertexBuffer: WebGLBuffer;
@@ -141,7 +141,9 @@ class PathsPainter {
     );
   }
 
-  public paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): painterReturn {
+  //REVIEW: I added the type WebGLNodePainterResult, so that it's not needed as a type declared in this file, sound
+  //REVIEW: good?
+  public paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): WebGLNodePainterResult {
     const gl = this.gl;
 
     this.shaderProgram.use();

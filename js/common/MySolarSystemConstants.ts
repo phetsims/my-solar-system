@@ -27,7 +27,7 @@ const MySolarSystemConstants = {
     lineWidth: 2,
     cornerRadius: 5,
     xMargin: PANEL_X_MARGIN,
-    scale: 1.05,
+    scale: 1.05, //REVIEW: Why is this scale here? I'd prefer to avoid this type of small scale factor
     fill: MySolarSystemColors.controlPanelFillProperty
   },
   CHECKBOX_OPTIONS: {

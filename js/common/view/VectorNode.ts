@@ -19,13 +19,17 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 export type VectorNodeOptions = ArrowNodeOptions;
 
 export default class VectorNode extends ArrowNode {
+  //REVIEW: I think readonly works here?
   protected tipProperty: ReadOnlyProperty<Vector2>;
   protected tailProperty: ReadOnlyProperty<Vector2>;
 
   public constructor(
     body: Body,
+    //REVIEW: This should be TReadOnlyProperty<ModelViewTransform2>, as the general type (rather than the full Property) is sufficient
     transformProperty: ReadOnlyProperty<ModelViewTransform2>,
+    //REVIEW: This should be TReadOnlyProperty<boolean>, so that the interface is flexible (we're only using the read-only part)
     visibleProperty: Property<boolean>,
+    //REVIEW: This should be TReadOnlyProperty<Vector2>, so that the interface is flexible (we're only using the read-only part)
     vectorProperty: Property<Vector2>,
     scale: number,
     providedOptions?: VectorNodeOptions
@@ -36,6 +40,8 @@ export default class VectorNode extends ArrowNode {
       headWidth: 15,
       tailWidth: 5,
       stroke: '#404040',
+      //REVIEW: I generally recommend not having commented-out code lying around without a purpose or to-do item or
+      //REVIEW: something else. Is this helpful for you or someone else in the future to see?
       // pickable: false,
       boundsMethod: 'none',
       isHeadDynamic: true,
