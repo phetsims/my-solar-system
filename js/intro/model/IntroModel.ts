@@ -18,6 +18,7 @@ import NumericalEngine from '../../common/model/NumericalEngine.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
+//REVIEW: export!
 type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
 class IntroModel extends CommonModel<NumericalEngine> {
@@ -30,6 +31,7 @@ class IntroModel extends CommonModel<NumericalEngine> {
   }
 
   public override createBodies(): void {
+    //REVIEW: is this comment up-to-date? Doesn't seem random to me
     // Clear out the bodies array and create N new random bodies
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ) ) );

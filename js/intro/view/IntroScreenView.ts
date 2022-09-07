@@ -16,7 +16,9 @@ import IntroLabScreenView from '../../common/view/IntroLabScreenView.js';
 
 class IntroScreenView extends IntroLabScreenView {
   private massesControlPanel: MassesControlPanel;
-  
+
+  //REVIEW: Can we provide options to the IntroLabScreenView constructor, and just include the tandem there? So we don't
+  //REVIEW: have to combine the tandem and options here?
   public constructor( model: IntroModel, tandem: Tandem ) {
     super( model, {
       tandem: tandem

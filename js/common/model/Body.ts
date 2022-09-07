@@ -23,14 +23,19 @@ class Body {
   public readonly forceProperty: Property<Vector2>;
 
   // Emitters for various events
+  //REVIEW: This first emitter isn't emitted or listened to! Can it be removed?
   public readonly userModifiedPositionEmitter: TEmitter;
+  //REVIEW: This second emitter isn't listened to! Can it be removed?
   public readonly userModifiedVelocityEmitter: TEmitter;
 
   // Array of points for drawing the path
+  //REVIEW: Naming this something like pathPoints would be more clear (hard to tell the type from the name, especially
+  //REVIEW: when seeing `this.path = createObservableArray();` below)
   public readonly path: ObservableArray<Vector2>;
+
   public pathDistance: number;
   public pathLengthLimit: number;
-  public pathDistanceLimit: number;
+  public pathDistanceLimit: number; // REVIEW: pathDistanceLimit seems like a constant (never changes). If so, it should be a constant.
   public stepCounter: number;
   public wholeStepSize: number;
 
@@ -84,12 +89,17 @@ class Body {
    * This also removes points when the path gets too long.
    */
   public addPathPoint(): void {
+    //REVIEW: prefer this.positionProperty.value;
+    //REVIEW: Also, presumably it would be good to no-op this if the position is the same as the last path point?
+    //REVIEW: How is that being handled? Could potentially cause bugginess in the path shader.
     const pathPoint = this.positionProperty.get();
     this.path.push( pathPoint );
 
     // add the length to the tracked path length
     if ( this.path.length > 2 ) {
+      //REVIEW: the first parameter to minus is just... pathPoint, is that easier to specify?
       const difference = this.path[ this.path.length - 1 ].minus( this.path[ this.path.length - 2 ] );
+      //REVIEW: why a local variable here?
       const addedMagnitude = difference.magnitude;
 
       this.pathDistance += addedMagnitude;
@@ -98,6 +108,7 @@ class Body {
     // remove points from the path as the path gets too long
     while ( this.pathDistance > this.pathDistanceLimit || this.path.length > this.pathLengthLimit ) {
       const loss = this.path[ 1 ].minus( this.path[ 0 ] );
+      //REVIEW: Why a local variable here?
       const lossMagnitude = loss.magnitude;
 
       this.path.shift();

@@ -1,6 +1,7 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
+ * REVIEW: Would recommend replacing the author here
  * @author Sola Olateju
  */
 

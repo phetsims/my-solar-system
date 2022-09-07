@@ -65,6 +65,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     this.bodies = createObservableArray();
+
+    //REVIEW: createBodies is only... called once in the constructor? AND it's done in the supertype (common model)
+    //REVIEW: so it doesn't require any of the subtypes to access class properties?
+    //REVIEW: Can we just switch to passing in the bodies in the constructor (as an array) and remove this method?
+    //REVIEW: Then we can also get rid of the "clear" each createBodies has.
     this.createBodies();
     this.centerOfMass = new CenterOfMass( this.bodies );
     this.engine = providedOptions.engineFactory( this.bodies );
