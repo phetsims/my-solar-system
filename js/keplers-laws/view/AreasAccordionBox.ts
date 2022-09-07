@@ -2,7 +2,7 @@
 
 /**
  * Kepler's second law panel control: Swept area
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -12,8 +12,8 @@ import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import { HBox, Text, VBox, VDivider } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
@@ -40,7 +40,7 @@ export type AreasAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
 export default class AreasAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<AreasAccordionBoxOptions>( {
-      titleNode: new Text( mySolarSystemStrings.area.titleStringProperty, TITLE_OPTIONS ),
+      titleNode: new Text( MySolarSystemStrings.area.titleStringProperty, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
       visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
         return selectedLaw === LawMode.SECOND_LAW;
@@ -87,21 +87,21 @@ class AreasControls extends VBox {
 
     super( {
       children: [
-        new Checkbox( model.dotsVisibleProperty, new Text( mySolarSystemStrings.area.dotsStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.sweepAreaVisibleProperty, new Text( mySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.areaGraphVisibleProperty, new Text( mySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
+        new Checkbox( model.dotsVisibleProperty, new Text( MySolarSystemStrings.area.dotsStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.sweepAreaVisibleProperty, new Text( MySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.areaGraphVisibleProperty, new Text( MySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
           combineOptions<CheckboxOptions>(
             { enabledProperty: model.sweepAreaVisibleProperty },
             MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new HBox( {
           children: [
-            new Text( mySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ),
+            new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ),
             new NumberDisplay( model.periodDivisionProperty, divisionsRange,
               //REVIEW: indentation a bit weird here!
-                {
-                  maxWidth: 40
-                } )
+              {
+                maxWidth: 40
+              } )
           ],
           margin: 4,
           visibleProperty: model.dotsVisibleProperty

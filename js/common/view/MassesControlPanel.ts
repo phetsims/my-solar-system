@@ -17,7 +17,7 @@ import CommonModel from '../model/CommonModel.js';
 import { EmptySelfOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -73,7 +73,7 @@ class MassesSliders extends VBox {
     // Whenever the number of bodies change, repopulate the sliders
     //REVIEW: Actually, we can probably get rid of tempChildren fully (it's probably not a huge performance hit to just
     //REVIEW: clear children (node.removeAllChildren()), and then add all the new children.
-    this.tempChildren = [ new Text( mySolarSystemStrings.massStringProperty, { font: MySolarSystemConstants.TITLE_FONT } ) ];
+    this.tempChildren = [ new Text( MySolarSystemStrings.massStringProperty, { font: MySolarSystemConstants.TITLE_FONT } ) ];
 
     //REVIEW: Unless performance is a concern, I'd prefer the pattern this.model.bodies.forEach( ( body, index ) => { ... } ),
     //REVIEW: where you get the index from the forEach.

@@ -16,7 +16,7 @@ import ArrowsCheckboxNode from './ArrowsCheckboxNode.js';
 import OrbitalInformation from './OrbitalInformation.js';
 import VisibilityInformation from './VisibilityInformation.js';
 import CommonModel from '../model/CommonModel.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 //REVIEW: Perhaps note these are text options for within the combo box.
 const TEXT_OPTIONS = {
@@ -57,18 +57,18 @@ export default class MySolarSystemControls extends VBox {
     super( {
       children: [
         ...( model.isLab ? [ new ComboBox( model.labModeProperty, [
-          { value: LabModes.SUN_PLANET, node: new Text( mySolarSystemStrings.mode.sunAndPlanetStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.SUN_PLANET_MOON, node: new Text( mySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.SUN_PLANET_COMET, node: new Text( mySolarSystemStrings.mode.sunPlanetAndCometStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.TROJAN_ASTEROIDS, node: new Text( mySolarSystemStrings.mode.trojanAsteroidsStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.ELLIPSES, node: new Text( mySolarSystemStrings.mode.ellipsesStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.HYPERBOLIC, node: new Text( mySolarSystemStrings.mode.hyperbolicStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.SLINGSHOT, node: new Text( mySolarSystemStrings.mode.slingshotStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.DOUBLE_SLINGSHOT, node: new Text( mySolarSystemStrings.mode.doubleSlingshotStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.BINARY_STAR_PLANET, node: new Text( mySolarSystemStrings.mode.binaryStarPlanetStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.FOUR_STAR_BALLET, node: new Text( mySolarSystemStrings.mode.fourStarBalletStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.DOUBLE_DOUBLE, node: new Text( mySolarSystemStrings.mode.doubleDoubleStringProperty, TEXT_OPTIONS ) },
-          { value: LabModes.CUSTOM, node: new Text( mySolarSystemStrings.mode.customStringProperty, TEXT_OPTIONS ) }
+          { value: LabModes.SUN_PLANET, node: new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.SUN_PLANET_MOON, node: new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.SUN_PLANET_COMET, node: new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.TROJAN_ASTEROIDS, node: new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.ELLIPSES, node: new Text( MySolarSystemStrings.mode.ellipsesStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.HYPERBOLIC, node: new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.SLINGSHOT, node: new Text( MySolarSystemStrings.mode.slingshotStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.DOUBLE_SLINGSHOT, node: new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.BINARY_STAR_PLANET, node: new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.FOUR_STAR_BALLET, node: new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.DOUBLE_DOUBLE, node: new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, TEXT_OPTIONS ) },
+          { value: LabModes.CUSTOM, node: new Text( MySolarSystemStrings.mode.customStringProperty, TEXT_OPTIONS ) }
         ], topLayer ) ] : [] ),
         new OrbitalInformation( model ),
         new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),

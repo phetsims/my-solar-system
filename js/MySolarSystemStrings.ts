@@ -109,8 +109,8 @@ type StringsType = {
   }
 };
 
-const mySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;
+const MySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;
 
-mySolarSystem.register( 'mySolarSystemStrings', mySolarSystemStrings );
+mySolarSystem.register( 'MySolarSystemStrings', MySolarSystemStrings );
 
-export default mySolarSystemStrings;
+export default MySolarSystemStrings;

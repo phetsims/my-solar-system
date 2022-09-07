@@ -12,7 +12,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import IntroScreen from './intro/IntroScreen.js';
 import KeplersLawsScreen from './keplers-laws/KeplersLawsScreen.js';
 import LabScreen from './lab/LabScreen.js';
-import mySolarSystemStrings from './mySolarSystemStrings.js';
+import MySolarSystemStrings from './MySolarSystemStrings.js';
 
 //REVIEW: Try `"supportsDynamicLocale": true` in package.json, similar to natural-selection to see if we can avoid
 //REVIEW: direct string value accesses (and instead only rely on the Properties). This is probably a good habit to get
@@ -36,7 +36,7 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-  const sim = new Sim( mySolarSystemStrings[ 'my-solar-system' ].titleStringProperty, [
+  const sim = new Sim( MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty, [
     new IntroScreen( Tandem.ROOT.createTandem( 'introScreen' ) ),
     new KeplersLawsScreen( Tandem.ROOT.createTandem( 'keplersLawsScreen' ) ),
     new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) )

@@ -11,7 +11,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import { HBox, HBoxOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
@@ -56,14 +56,14 @@ const TITLE_OPTIONS = {
        new Checkbox( model.axisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.axisStringProperty, TEXT_OPTIONS )
+           new Text( MySolarSystemStrings.axisStringProperty, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS ),
        new Checkbox( model.apoapsisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.apoapsisStringProperty, TEXT_OPTIONS ),
+           new Text( MySolarSystemStrings.apoapsisStringProperty, TEXT_OPTIONS ),
            new XNode( {
              fill: 'cyan',
              stroke: 'white',
@@ -75,7 +75,7 @@ const TITLE_OPTIONS = {
        new Checkbox( model.periapsisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.periapsisStringProperty, TEXT_OPTIONS ),
+           new Text( MySolarSystemStrings.periapsisStringProperty, TEXT_OPTIONS ),
            new XNode( {
              fill: 'gold',
              stroke: 'white',
@@ -92,14 +92,14 @@ const TITLE_OPTIONS = {
        new Checkbox( model.semimajorAxisVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.graph.aStringProperty, TEXT_OPTIONS )
+           new Text( MySolarSystemStrings.graph.aStringProperty, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS ),
        new Checkbox( model.periodVisibleProperty, new HBox( {
          spacing: 10,
          children: [
-           new Text( mySolarSystemStrings.graph.tStringProperty, TEXT_OPTIONS )
+           new Text( MySolarSystemStrings.graph.tStringProperty, TEXT_OPTIONS )
            //  axisIconImageNode
          ]
        } ), CHECKBOX_OPTIONS )
@@ -108,7 +108,7 @@ const TITLE_OPTIONS = {
      const orbitalInformationNode = new HBox( {
            spacing: 10,
            children: [
-             new Text( mySolarSystemStrings.orbitalStringProperty, TITLE_OPTIONS ),
+             new Text( MySolarSystemStrings.orbitalStringProperty, TITLE_OPTIONS ),
              new InfoButton( { scale: 0.5 } )
            ]
          } );

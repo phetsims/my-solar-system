@@ -10,7 +10,7 @@
 import { HBox, Image, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -47,14 +47,14 @@ class OrbitalInformation extends VBox {
       new MySolarSystemCheckbox( model.pathVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.pathStringProperty, TEXT_OPTIONS ),
+          new Text( MySolarSystemStrings.pathStringProperty, TEXT_OPTIONS ),
           pathIconImageNode
         ]
       } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
       new MySolarSystemCheckbox( model.centerOfMass.visibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.massStringProperty, TEXT_OPTIONS ),
+          new Text( MySolarSystemStrings.massStringProperty, TEXT_OPTIONS ),
           new XNode( {
             fill: 'red',
             stroke: 'white',

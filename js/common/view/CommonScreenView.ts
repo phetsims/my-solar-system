@@ -28,7 +28,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import CommonModel from '../model/CommonModel.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import Property from '../../../../axon/js/Property.js';
@@ -144,7 +144,7 @@ class CommonScreenView extends ScreenView {
     const clockNode = new VBox( {
       children: [
         new NumberDisplay( model.timeProperty, model.timeRange ),
-        new TextPushButton( mySolarSystemStrings.clearStringProperty, {
+        new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 130

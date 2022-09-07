@@ -11,7 +11,7 @@
 
 import { HBox, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemGridNode from './MySolarSystemGridNode.js';
@@ -52,7 +52,7 @@ class VisibilityInformation extends VBox {
       new MySolarSystemCheckbox( model.gridVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.gridStringProperty, TEXT_OPTIONS ),
+          new Text( MySolarSystemStrings.gridStringProperty, TEXT_OPTIONS ),
           //REVIEW: Usually prefer Vector2.ZERO to new Vector2( 0, 0 ) - it's a bit easier, and doesn't create a new vector
           new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, new Vector2( 0, 0 ), 1, {
             stroke: MySolarSystemColors.gridIconStrokeColorProperty,
@@ -63,7 +63,7 @@ class VisibilityInformation extends VBox {
       new MySolarSystemCheckbox( model.measuringTapeVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.measuringTapeStringProperty, TEXT_OPTIONS ),
+          new Text( MySolarSystemStrings.measuringTapeStringProperty, TEXT_OPTIONS ),
           measuringTapeIcon
         ]
       } ) ),
@@ -71,7 +71,7 @@ class VisibilityInformation extends VBox {
       new MySolarSystemCheckbox( model.valuesVisibleProperty, new HBox( {
         spacing: 10,
         children: [
-          new Text( mySolarSystemStrings.valuesStringProperty, TEXT_OPTIONS )
+          new Text( MySolarSystemStrings.valuesStringProperty, TEXT_OPTIONS )
         ]
       } ) )
     ];

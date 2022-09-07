@@ -18,7 +18,7 @@ import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -43,7 +43,7 @@ type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
 export default class ThirdLawAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<ThirdLawAccordionBoxOptions>( {
-      titleNode: new Text( mySolarSystemStrings.graph.titleStringProperty, TITLE_OPTIONS ),
+      titleNode: new Text( MySolarSystemStrings.graph.titleStringProperty, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
       visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
         return selectedLaw === LawMode.THIRD_LAW;

@@ -12,7 +12,7 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { HBox, HBoxOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import mySolarSystemStrings from '../../mySolarSystemStrings.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -50,14 +50,14 @@ class ArrowsCheckboxNode extends VBox {
         // gravity force checkbox
         new MySolarSystemCheckbox( model.gravityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
           children: [
-            new Text( mySolarSystemStrings.gravityForceStringProperty, TEXT_OPTIONS ),
+            new Text( MySolarSystemStrings.gravityForceStringProperty, TEXT_OPTIONS ),
             new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
           ]
         }, HBOX_OPTIONS ) ) ),
         // velocity checkbox
         new MySolarSystemCheckbox( model.velocityVisibleProperty, new HBox( combineOptions<HBoxOptions>( {
           children: [
-            new Text( mySolarSystemStrings.velocityStringProperty, TEXT_OPTIONS ),
+            new Text( MySolarSystemStrings.velocityStringProperty, TEXT_OPTIONS ),
             new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
           ]
         }, HBOX_OPTIONS ) ) )
