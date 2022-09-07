@@ -73,8 +73,13 @@ class CommonScreenView extends ScreenView {
       28,
       {
         stroke: MySolarSystemColors.gridIconStrokeColorProperty,
+        //REVIEW: lineWidth: 1 is the default, it can generally be ignored (and it's also specified in the type)
         lineWidth: 1
+        //REVIEW: indentation is wonky after this line, we shouldn't have the extra spaces
      } );
+
+    //REVIEW: pass this in as { visibleProperty: model.gridVisibleProperty }, so this extra linkAttribute isn't needed
+    //REVIEW: Then we don't need a local variable for gridNode either
      model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
      this.interfaceLayer.addChild( gridNode );
 
@@ -90,6 +95,7 @@ class CommonScreenView extends ScreenView {
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
       return new DraggableVectorNode(
         body, this.modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
+        //REVIEW: translatable label! Also factor this out with the kepler's law version
         1, 'V', { fill: PhetColorScheme.VELOCITY }
         );
     } );
@@ -158,6 +164,7 @@ class CommonScreenView extends ScreenView {
       textBackgroundXMargin: 10,
       textBackgroundYMargin: 3,
       textBackgroundCornerRadius: 5,
+      //REVIEW: commented-out code, can this be deleted?
       // dragBounds: this.layoutBounds,
       basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
       tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) )
@@ -174,6 +181,7 @@ class CommonScreenView extends ScreenView {
         model.reset();
         measuringTapeNode.reset();
       },
+      //REVIEW: AlignBox it?
       right: this.layoutBounds.maxX - MySolarSystemConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - MySolarSystemConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: providedOptions.tandem.createTandem( 'resetAllButton' )
@@ -192,6 +200,7 @@ class CommonScreenView extends ScreenView {
     } ) );
   }
 
+  //REVIEW: Perhaps making CommonScreenView an abstract class (and making this method abstract) would be appropriate
   public update(): void {
     // See subclass for implementation
   }

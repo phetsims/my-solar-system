@@ -25,16 +25,19 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import LawMode from '../model/LawMode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
+//REVIEW: Try factoring this out from the places it's seen (it's a few)
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
 };
 
+//REVIEW: Try factoring this out from the places it's seen (it's a few)
 const TITLE_OPTIONS = {
   font: MySolarSystemConstants.TITLE_FONT,
   fill: MySolarSystemColors.foregroundProperty
 };
 
+//REVIEW: export!
 type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
 
 export default class ThirdLawAccordionBox extends AccordionBox {
@@ -58,10 +61,13 @@ export default class ThirdLawAccordionBox extends AccordionBox {
           [
             {
               value: 1,
+              //REVIEW: We should probably make these terms translatable
               node: new RichText( 'T', TEXT_OPTIONS )
             },
             {
               value: 2,
+              //REVIEW: And this should probably include string composition (e.g. combining the translated string for
+              //REVIEW: T with the superscript somehow?)
               node: new RichText( 'T<sup>2</sup>', TEXT_OPTIONS )
             },
             {
@@ -78,6 +84,7 @@ export default class ThirdLawAccordionBox extends AccordionBox {
           [
             {
               value: 1,
+              //REVIEW: We should probably make these terms translatable
               node: new RichText( 'a', TEXT_OPTIONS )
             },
             {
@@ -104,6 +111,8 @@ export default class ThirdLawAccordionBox extends AccordionBox {
 class KeplerLawsGraph extends Node {
   public constructor( model: KeplersLawsModel, orbit: EllipticalOrbit ) {
     super( {
+      //REVIEW: Can we allow options to be passed in, so that we can specify the layoutOptions where this is used,
+      //REVIEW: instead of here?
       layoutOptions: { column: 1, row: 0 },
       excludeInvisibleChildrenFromBounds: true
     } );
@@ -167,6 +176,8 @@ class KeplerLawsGraph extends Node {
 
       const axisText = axisPower === 1 ? 'a' : 'a<sup>' + axisPower + '</sup>';
       const periodText = periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>';
+
+      //REVIEW: Why creating new RichText, instead of reusing the existing ones? Reusing would be more efficient.
       xAxisLabel = new RichText(
         axisText,
         combineOptions<RichTextOptions>( {

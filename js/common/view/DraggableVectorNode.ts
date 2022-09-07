@@ -30,10 +30,15 @@ export default class DraggableVectorNode extends VectorNode {
 
   public constructor(
     body: Body,
+    //REVIEW: This should be TReadOnlyProperty<ModelViewTransform2>, as the general type (rather than the full Property) is sufficient
     transformProperty: ReadOnlyProperty<ModelViewTransform2>,
+    //REVIEW: This should be TReadOnlyProperty<boolean>, so that the interface is flexible (we're only using the read-only part)
     visibleProperty: Property<boolean>,
+    //REVIEW: This should be TReadOnlyProperty<Vector2>, so that the interface is flexible (we're only using the read-only part)
     vectorProperty: Property<Vector2>,
     scale: number,
+    //REVIEW: Hmm, this looks like it should be translatable (we've done similar things for other simulations, including
+    //REVIEW: GAO. TReadOnlyProperty<string> it?
     labelText: string,
     providedOptions?: DraggableVectorNodeOptions ) {
 
@@ -109,6 +114,7 @@ export default class DraggableVectorNode extends VectorNode {
         }
       },
       end: _.noop
+      //REVIEW: Prefer not to have commented-out code lying around. If it's not needed, delete it.
       // tandem: tandem.createTandem( 'dragListener' )
     } );
     grabArea.addInputListener( dragListener );
@@ -117,6 +123,7 @@ export default class DraggableVectorNode extends VectorNode {
     grabArea.moveToBack();
     text.moveToBack();
 
+    //REVIEW: Prefer not to have commented-out code lying around. If it's not needed, delete it.
     // // For PhET-iO, when the node does not support input, don't show the drag circle
     // this.inputEnabledProperty.link( ( inputEnabled: boolean ) => {
     //   grabArea.visible = inputEnabled;

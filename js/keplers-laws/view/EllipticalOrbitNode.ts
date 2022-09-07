@@ -19,14 +19,17 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 
 export default class EllipticalOrbitNode extends Path {
+  //REVIEW: readonly?
   private orbit: EllipticalOrbit;
   private shapeMultilink: UnknownMultilink;
 
   public constructor(
     model: KeplersLawsModel,
+    //REVIEW: Prefer TReadOnlyProperty
     modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>
     ) {
 
+    //REVIEW: Can pass in `null` here, since we're setting the shape later (instead of creating an empty shape).
     super( new Shape(), {
       lineWidth: 3,
       stroke: 'fuchsia'
@@ -122,6 +125,7 @@ export default class EllipticalOrbitNode extends Path {
       let endIndex = 0;
       let bodyAngle = Math.atan2( predicted.center.y / radiusY, predicted.center.x / radiusX );
 
+      //REVIEW: console.log still helpful?
       console.log( 'start' );
       for ( let i = 0; i < model.maxDivisionValue; i++ ) {
         if ( ( i < model.periodDivisionProperty.value ) ) {
@@ -160,6 +164,7 @@ export default class EllipticalOrbitNode extends Path {
 
           areaPaths[ i ].visible = true;
 
+          //REVIEW: commented-out code?
           // areaPaths[ i ].opacity = 0.8 * Math.abs( endAngle - bodyAngle ) / ( Math.PI * 2 );
 
           areaPaths[ i ].shape = new Shape().moveTo( c, 0 ).ellipticalArc(
@@ -187,7 +192,7 @@ export default class EllipticalOrbitNode extends Path {
         modelViewTransform,
         divisions,
         dotsVisible
-      ) => updatedOrbit );
+      ) => updatedOrbit ); //REVIEW: this callback... isn't actually calling updatedOrbit, is it? Buggy? do updatedOrbit()
   }
 }
 

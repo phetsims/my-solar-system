@@ -26,6 +26,7 @@ export default class BodyNode extends ShadedSphereNode {
   private readonly positionMultilink: UnknownMultilink;
   public readonly draggable: boolean;
 
+  //REVIEW: Prefer TReadOnlyProperty instead of ReadOnlyProperty
   public constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
       cursor: 'pointer',
@@ -59,6 +60,7 @@ export default class BodyNode extends ShadedSphereNode {
     }
   }
 
+  //REVIEW: Doesn't mention `this`, so generally should prefer making methods like this static
   private massToScale( mass: number, scale: number ): number {
     return scale * ( 30 * mass / 200 + 20 );
   }

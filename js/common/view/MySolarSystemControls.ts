@@ -1,6 +1,5 @@
 // Copyright 2022, University of Colorado Boulder
 
-
 /**
  * Visual representation of space object's property checkbox.
  *
@@ -19,6 +18,7 @@ import VisibilityInformation from './VisibilityInformation.js';
 import CommonModel from '../model/CommonModel.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
+//REVIEW: Perhaps note these are text options for within the combo box.
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
 };
@@ -43,6 +43,7 @@ type SelfOptions = {
   tandem: Tandem;
 };
 
+//REVIEW: export!
 type MySolarSystemControlsOptions = SelfOptions & VBoxOptions;
 
 export default class MySolarSystemControls extends VBox {
@@ -50,6 +51,7 @@ export default class MySolarSystemControls extends VBox {
   public constructor(
     model: CommonModel,
     topLayer: Node,
+    //REVIEW: providedOptions is unused, presumably it should be optionized in the constructor?
     providedOptions?: MySolarSystemControlsOptions
   ) {
     super( {
@@ -79,7 +81,6 @@ export default class MySolarSystemControls extends VBox {
       stretch: true
     } );
   }
-
 }
 
 mySolarSystem.register( 'MySolarSystemControls', MySolarSystemControls );

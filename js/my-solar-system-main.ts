@@ -14,6 +14,10 @@ import KeplersLawsScreen from './keplers-laws/KeplersLawsScreen.js';
 import LabScreen from './lab/LabScreen.js';
 import mySolarSystemStrings from './mySolarSystemStrings.js';
 
+//REVIEW: Try `"supportsDynamicLocale": true` in package.json, similar to natural-selection to see if we can avoid
+//REVIEW: direct string value accesses (and instead only rely on the Properties). This is probably a good habit to get
+//REVIEW: into for new simulations, so that we could simplify the API in the future.
+
 const simOptions: SimOptions = {
 
   //TODO fill in credits, all of these fields are optional, see joist.CreditsNode

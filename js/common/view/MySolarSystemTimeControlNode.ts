@@ -26,8 +26,11 @@ type SelfOptions = {
   stepForwardListener: () => void;
 };
 
+//REVIEW: export type
 type MySolarSystemTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions & PickRequired<TimeControlNodeOptions, 'tandem'>;
 
+//REVIEW: I've seen a lot of places where you export default at the class declaration. I think we should be consistent,
+//REVIEW: so I'd prefer we export default in this location as well.
 class MySolarSystemTimeControlNode extends TimeControlNode {
   public constructor(
     model: CommonModel,
@@ -66,6 +69,11 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
       xMargin: 9.5,
       yMargin: 9.5,
       listener: options.restartListener,
+      //REVIEW: Are we able to do relative layout here instead, e.g. right/centerY, where we don't have to include the
+      //REVIEW: custom radii and make assumptions about TimeControlNode itself?
+      //REVIEW: Perhaps even better, are we able to just be an HBox that contains everything, so that dynamic layout
+      //REVIEW: will happen?
+      //REVIEW: A lot of this looks like it's copied from GAO
       center: this.getPlayPauseButtonCenter().minusXY( PLAY_PAUSE_BUTTON_RADIUS + STEP_BUTTON_RADIUS + PUSH_BUTTON_SPACING, 0 ),
       tandem: providedOptions.tandem.createTandem( 'restartButton' )
     } );

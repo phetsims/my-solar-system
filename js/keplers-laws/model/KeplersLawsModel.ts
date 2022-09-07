@@ -34,7 +34,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public dotsVisibleProperty = new Property<boolean>( false );
   public sweepAreaVisibleProperty = new Property<boolean>( false );
   public areaGraphVisibleProperty = new Property<boolean>( false );
-  public periodDivisionProperty = new Property<number>( 4 );
+  public periodDivisionProperty = new Property<number>( 4 ); //REVIEW: use NumberProperty?
   public maxDivisionValue = 6;
 
   // Third law properties

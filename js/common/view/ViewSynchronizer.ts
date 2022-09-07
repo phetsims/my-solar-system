@@ -9,6 +9,9 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 
+//REVIEW: Can we document this type extensively, so we can move it into common code? I'd like to use this in my code,
+//REVIEW: and we usually have tight standards for documentation of common code.
+//REVIEW: We might also want to add a `dispose()` that effectively removes all the views.
 export default class ViewSynchronizer<Model, View extends Node> {
   private readonly map: Map<Model, View>;
   private readonly container: Node;

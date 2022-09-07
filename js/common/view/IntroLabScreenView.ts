@@ -45,7 +45,7 @@ export default class IntroLabScreenView extends CommonScreenView {
      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
     } ) );
 
-    //REVIEW: use visibleProperty
+    //REVIEW: use visibleProperty (and don't specify visible: false at the start)
     const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visible: false } );
     model.pathVisibleProperty.link( visible => {
       pathsWebGLNode.visible = visible;
@@ -54,6 +54,8 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.bottomLayer.addChild( pathsWebGLNode );
   }
 
+  //REVIEW: This provides no value over the CommonScreenView update() method, and should be removed (so the subtypes
+  //REVIEW: can specify the implementation more directly).
   public override update(): void {
     // See subclass for implementation
   }

@@ -1,6 +1,7 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
+ * REVIEW: Would recommend replacing the author here
  * @author Sola Olateju
  */
 
@@ -19,6 +20,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
+      //REVIEW: make this translatable!
       name: 'Lab'
     };
 

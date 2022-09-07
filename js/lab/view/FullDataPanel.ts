@@ -1,4 +1,5 @@
 // Copyright 2022, University of Colorado Boulder
+
 /**
  * Set up for the panel that holds the mass dataBox.
  * They will control the mass of the N bodies in the simulation.
@@ -21,6 +22,7 @@ import LabModel from '../model/LabModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 
+//REVIEW: export!
 type FullDataPanelOptions = PanelOptions;
 
 export default class FullDataPanel extends Panel {
@@ -45,6 +47,9 @@ export default class FullDataPanel extends Panel {
 type DataBoxOptions = GridBoxOptions;
 
 class DataBox extends GridBox {
+  //REVIEW: See all the notes from MassesControlPanel here! tempChildren and the creation of NumberDisplays that we
+  //REVIEW: should be disposing all applies here.
+
   private readonly model: CommonModel;
   private readonly massRange: RangeWithValue;
   private tempChildren: Node[];
@@ -75,6 +80,7 @@ class DataBox extends GridBox {
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
       this.tempChildren.push( ...[
+        //REVIEW: also, this indentation seems off
             new ShadedSphereNode( 15, { mainColor: color, layoutOptions: { column: 0, row: i + 2 } } ),
             new NumberDisplay(
               this.model.bodies[ i ].massProperty,
