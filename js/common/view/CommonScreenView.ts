@@ -158,14 +158,14 @@ class CommonScreenView extends ScreenView {
       textBackgroundXMargin: 10,
       textBackgroundYMargin: 3,
       textBackgroundCornerRadius: 5,
-      dragBounds: this.layoutBounds,
-      basePositionProperty: new Vector2Property( new Vector2( this.layoutBounds.centerX, this.layoutBounds.centerY ) ),
-      tipPositionProperty: new Vector2Property( new Vector2( this.layoutBounds.centerX + 100, this.layoutBounds.centerY ) )
+      // dragBounds: this.layoutBounds,
+      basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
+      tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) )
     } );
-    this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
-    // this.modelViewTransformProperty.link( modelViewTransform => {
-    //   measuringTapeNode.setScaleMagnitude( modelViewTransform.modelToViewDeltaX( 1 ) );
-    // } );
+    // this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
+    this.modelViewTransformProperty.link( modelViewTransform => {
+      measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
+    } );
     this.topLayer.addChild( measuringTapeNode );
 
     const resetAllButton = new ResetAllButton( {
