@@ -26,6 +26,7 @@ export default class AreasGraphPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
 
     const options = combineOptions<PanelOptions>( {
+      //REVIEW: If helpful, DerivedProperty.and( model.areasVisibleProperty, model.areaGraphVisibleProperty ) could be used here
       visibleProperty: new DerivedProperty( [ model.areasVisibleProperty, model.areaGraphVisibleProperty ],
         ( areasVisible, areasGraphVisible ) => areasVisible && areasGraphVisible )
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
@@ -54,7 +55,7 @@ export default class AreasGraphPanel extends Panel {
             children: [
               xAxis,
               yAxis
-              ]
+            ]
           } )
         ]
       }

@@ -95,6 +95,7 @@ class CommonScreenView extends ScreenView {
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
       return new DraggableVectorNode(
         body, this.modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
+        //REVIEW: translatable label! Also factor this out with the kepler's law version
         1, 'V', { fill: PhetColorScheme.VELOCITY }
         );
     } );

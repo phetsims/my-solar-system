@@ -25,12 +25,15 @@ const TEXT_OPTIONS = {
 };
 
 type SelfOptions = {
+  //REVIEW: This comment is keeping this from being EmptySelfOptions here, replace!
  //TODO add options that are specific to LabScreenView here
 };
 
+//REVIEW: export!
 type LabScreenViewOptions = SelfOptions & IntroLabScreenViewOptions;
 
 class LabScreenView extends IntroLabScreenView {
+  //REVIEW: readonly?
   private gridbox: GridBox;
   private massesControlPanel: MassesControlPanel;
   private fullDataPanel: FullDataPanel;
@@ -38,6 +41,8 @@ class LabScreenView extends IntroLabScreenView {
 
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
+    //REVIEW: What is this optionize doing? The tandem is already in the providedOptions, so this seems to be doing nothing
+    //REVIEW: remove if possible?
     const options = optionize<LabScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
       tandem: providedOptions.tandem
     }, providedOptions );
@@ -74,6 +79,7 @@ class LabScreenView extends IntroLabScreenView {
       children: [
         new Text( mySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
         new NumberSpinner( model.numberOfActiveBodies, model.rangeOfActiveBodies,
+            //REVIEW: identation here
             combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
               arrowsPosition: 'bothRight',
               numberDisplayOptions: {
@@ -99,6 +105,7 @@ class LabScreenView extends IntroLabScreenView {
         this.numberSpinner,
         new MySolarSystemCheckbox( model.moreDataProperty, new Text( mySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
         !moreData ? this.massesControlPanel : this.fullDataPanel
+        //REVIEW: commented-out code?
         // bodyNumberSpinner
       ];
     } );

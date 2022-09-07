@@ -56,6 +56,7 @@ class KeplersLawsScreenView extends CommonScreenView {
     ) );
     this.componentsLayer.addChild( new DraggableVectorNode(
       planet, this.modelViewTransformProperty, model.velocityVisibleProperty, planet.velocityProperty,
+      //REVIEW: translatable label! also factor this out with the other version in the common screen view
       1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
     ) );
 

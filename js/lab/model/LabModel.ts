@@ -26,8 +26,9 @@ type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, Body[]>;
   private readonly availableBodies: Body[];
-  public numberOfActiveBodies: NumberProperty;
-  public rangeOfActiveBodies: TProperty<Range>;
+  //REVIEW: readonly?
+  public numberOfActiveBodies: NumberProperty; //REVIEW: It's a Property, it should have the Property suffix
+  public rangeOfActiveBodies: TProperty<Range>; //REVIEW: It's a Property, it should have the Property suffix
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -36,7 +37,10 @@ class LabModel extends CommonModel<NumericalEngine> {
     }, providedOptions );
     super( options );
 
+    //REVIEW: Actually, this can just be this.bodies.lengthProperty! We already have it on ObservableArray
     this.numberOfActiveBodies = new NumberProperty( this.bodies.length );
+
+    //REVIEW: Does this ever actually change? Perhaps it could be a constant instead?
     this.rangeOfActiveBodies = new Property<Range>( new Range( 0, 4 ) );
 
     this.modeMap = new Map<LabModes, Body[]>();
@@ -58,6 +62,7 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
+  //REVIEW: thoughts on inlining this method?
   public setModesToMap(): void {
     this.modeMap.set( LabModes.SUN_PLANET, [
       new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ),

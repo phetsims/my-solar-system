@@ -40,7 +40,7 @@ export default class EllipticalOrbit extends Engine {
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
-  public e = 0; // excentricity
+  public e = 0; // excentricity REVIEW: eccentricity?
   public w = 0; // argument of periapsis
   public M = 0; // mean anomaly
   public W = 0; // angular velocity
@@ -67,6 +67,7 @@ export default class EllipticalOrbit extends Engine {
     // Multilink to update the orbit based on the bodies position and velocity
     Multilink.multilink(
       [ this.body.positionProperty, this.body.velocityProperty ],
+      //REVIEW: can omit parameters if desired
       ( position, velocity ) => {
         if ( this.updateAllowed ) {
           this.update();
@@ -81,7 +82,9 @@ export default class EllipticalOrbit extends Engine {
     this.M += dt * this.W * 20;
     const nu = this.getTrueAnomaly( this.M );
     const r = this.calculateR( this.a, this.e, nu );
+    //REVIEW: Prefer Vector2.createPolar( r, -nu )
     this.predictedBody.positionProperty.value = new Vector2( r * Math.cos( -nu ), r * Math.sin( -nu ) );
+    //REVIEW: commented-out code?
     // this.predictedBody.velocityProperty.value = new Vector2( -this.a * Math.sin( nu ) / r, this.a * ( e + Math.cos( nu ) ) / r );
     this.updateAllowed = true;
   }
@@ -100,6 +103,7 @@ export default class EllipticalOrbit extends Engine {
       this.a = a;
       this.e = e;
       this.w = w;
+      //REVIEW: commented-out code, and something that does nothing? What is this? Looks... buggy
       // this.M = M;
       M;
       this.W = W;
@@ -128,6 +132,7 @@ export default class EllipticalOrbit extends Engine {
       const M = i * 2 * Math.PI / this.periodDivisions;
       const nu = this.getTrueAnomaly( M );
       const r = this.calculateR( this.a, this.e, nu );
+      //REVIEW: Prefer Vector2.createPolar( r, nu )
       this.divisionPoints.push( new Vector2( r * Math.cos( nu ), r * Math.sin( nu ) ) );
     }
   }
@@ -136,6 +141,7 @@ export default class EllipticalOrbit extends Engine {
     const rMagnitude = r.magnitude;
     const vMagnitude = v.magnitude;
 
+    //REVIEW: significance of 0.99? Is that an epsilon value?
     return vMagnitude > ( 0.99 * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
   }
 
@@ -163,6 +169,8 @@ export default class EllipticalOrbit extends Engine {
   }
 
   private calculateAngles( r: Vector2, v: Vector2, a: number, e: number ): number[] {
+    //REVIEW: Not sure I can follow this easily. Can you add some documentation for this implementation?
+
     const rMagnitude = r.magnitude;
     // nu comes from the polar ellipse equation
     let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
@@ -206,9 +214,11 @@ export default class EllipticalOrbit extends Engine {
   }
 
   public override reset(): void {
+    //REVIEW: What is this doing? Will it be filled in?
     // This will be filled in in the future
   }
 
+  //REVIEW: "Eccentric", "Kepler's"?
   // Numerical solution to Keplers Equations for Excentric Anomaly (E) and then True Anomaly (nu)
   private getTrueAnomaly( M: number ): number {
     const E1 = M + this.e * Math.sin( M );

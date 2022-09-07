@@ -20,6 +20,7 @@ class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> 
       //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
+      //REVIEW: make translatable
       name: 'Kepler\'s Laws'
     };
 

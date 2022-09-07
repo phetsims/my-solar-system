@@ -20,12 +20,14 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
+//REVIEW: export!
 type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
 
   // Second Law properties
+  //REVIEW: Type parameters could be removed in these 10 next Properties, since it will be inferred automatically.
   public axisVisibleProperty = new Property<boolean>( false );
   public apoapsisVisibleProperty = new Property<boolean>( false );
   public periapsisVisibleProperty = new Property<boolean>( false );
@@ -34,7 +36,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public dotsVisibleProperty = new Property<boolean>( false );
   public sweepAreaVisibleProperty = new Property<boolean>( false );
   public areaGraphVisibleProperty = new Property<boolean>( false );
-  public periodDivisionProperty = new Property<number>( 4 );
+  public periodDivisionProperty = new Property<number>( 4 ); //REVIEW: use NumberProperty?
   public maxDivisionValue = 10;
 
   // Third law properties
@@ -55,6 +57,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       this.visibilityReset();
     } );
 
+    //REVIEW: indentation improvements here, ending line should be } );
     this.periodDivisionProperty.link( divisions => {
         this.engine.periodDivisions = divisions;
       }
@@ -68,6 +71,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
+  //REVIEW: is this unused?
   public softReset(): void {
     // Calls reset only on the super to avoid reentries on separationProperty
     super.reset();

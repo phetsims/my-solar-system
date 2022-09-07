@@ -17,6 +17,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsOrbitalInformation from './KeplersLawsOrbitalInformation.js';
 
+//REVIEW: use MySolarSystemConstants.VDIVIDER_OPTIONS? Looks duplicated here
 const VDIVIDER_OPTIONS = {
   lineWidth: 2,
   stroke: MySolarSystemConstants.CONTROL_PANEL_STROKE,
@@ -29,12 +30,14 @@ type SelfOptions = {
   tandem: Tandem;
 };
 
+//REVIEW: export!
 type KeplersLawsControlsOptions = SelfOptions & PanelOptions;
 
 class KeplersLawsControls extends Panel {
 
   public constructor(
     model: KeplersLawsModel,
+    //REVIEW: use providedOptions, optionize it in?
     providedOptions?: KeplersLawsControlsOptions
   ) {
     super( new VBox( {
@@ -50,7 +53,6 @@ class KeplersLawsControls extends Panel {
         stretch: true
       } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
-
 }
 
 mySolarSystem.register( 'KeplersLawsControls', KeplersLawsControls );

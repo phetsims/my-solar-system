@@ -68,6 +68,7 @@ class MassesSliders extends VBox {
   public update(): void {
     //REVIEW: A LOT of notes in here that should be read FULLY before making changes. My recommendations changed while
     //REVIEW: reviewing top-to-bottom, but I think a lot of this is still valuable to know.
+    //REVIEW: ALSO this all applies to FullDataPanel.ts too, so any of the changes here should also be made there.
 
     // Whenever the number of bodies change, repopulate the sliders
     //REVIEW: Actually, we can probably get rid of tempChildren fully (it's probably not a huge performance hit to just

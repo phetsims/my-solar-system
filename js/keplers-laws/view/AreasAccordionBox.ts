@@ -93,6 +93,7 @@ class AreasControls extends VBox {
           children: [
             new Text( mySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ),
             new NumberDisplay( model.periodDivisionProperty, divisionsRange,
+              //REVIEW: indentation a bit weird here!
                 {
                   maxWidth: 40
                 } )
