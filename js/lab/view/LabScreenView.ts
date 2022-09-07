@@ -15,7 +15,7 @@ import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/impo
 import MassesControlPanel from '../../common/view/MassesControlPanel.js';
 import FullDataPanel from './FullDataPanel.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import mySolarSystemStrings from '../../mySolarSystemStrings.js';
 import IntroLabScreenView, { IntroLabScreenViewOptions } from '../../common/view/IntroLabScreenView.js';
 
 // Consts
@@ -78,8 +78,7 @@ class LabScreenView extends IntroLabScreenView {
     this.numberSpinner = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
-        new NumberSpinner( model.numberOfActiveBodies, model.rangeOfActiveBodies,
-            //REVIEW: identation here
+        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty<Range>( new Range( 2, 4 ) ),
             combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
               arrowsPosition: 'bothRight',
               numberDisplayOptions: {
@@ -103,7 +102,7 @@ class LabScreenView extends IntroLabScreenView {
     model.moreDataProperty.link( moreData => {
       this.gridbox.children = [
         this.numberSpinner,
-        new MySolarSystemCheckbox( model.moreDataProperty, new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
+        new MySolarSystemCheckbox( model.moreDataProperty, new Text( mySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
         !moreData ? this.massesControlPanel : this.fullDataPanel
         //REVIEW: commented-out code?
         // bodyNumberSpinner

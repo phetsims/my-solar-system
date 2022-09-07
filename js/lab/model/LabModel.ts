@@ -15,20 +15,22 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabModes from '../../common/model/LabModes.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import Property from '../../../../axon/js/Property.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
 type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
+type BodyInfo = {
+  mass: number;
+  position: Vector2;
+  velocity: Vector2;
+};
+
 class LabModel extends CommonModel<NumericalEngine> {
-  private readonly modeMap: Map<LabModes, Body[]>;
+  private readonly modeMap: Map<LabModes, BodyInfo[]>;
   private readonly availableBodies: Body[];
   //REVIEW: readonly?
-  public numberOfActiveBodies: NumberProperty; //REVIEW: It's a Property, it should have the Property suffix
-  public rangeOfActiveBodies: TProperty<Range>; //REVIEW: It's a Property, it should have the Property suffix
+  public numberOfActiveBodiesProperty: NumberProperty; //REVIEW: It's a Property, it should have the Property suffix
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -38,21 +40,45 @@ class LabModel extends CommonModel<NumericalEngine> {
     super( options );
 
     //REVIEW: Actually, this can just be this.bodies.lengthProperty! We already have it on ObservableArray
-    this.numberOfActiveBodies = new NumberProperty( this.bodies.length );
+    this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
 
-    //REVIEW: Does this ever actually change? Perhaps it could be a constant instead?
-    this.rangeOfActiveBodies = new Property<Range>( new Range( 0, 4 ) );
-
-    this.modeMap = new Map<LabModes, Body[]>();
+    this.modeMap = new Map<LabModes, BodyInfo[]>();
     this.setModesToMap();
 
-    this.availableBodies = _.flatten( Object.values( this.modeMap ) ); // all the bodies
+    this.availableBodies = [
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) )
+    ];
 
     this.labModeProperty.link( mode => {
       this.isPlayingProperty.value = false;
-      this.bodies.clear();
-      this.bodies.push( ...this.modeMap.get( mode )! );
-      this.numberOfActiveBodies.value = this.bodies.length;
+      if ( mode !== LabModes.CUSTOM ) {
+
+        const modeInfo = this.modeMap.get( mode );
+
+        this.bodies.clear();
+        modeInfo!.forEach( ( body, i ) => {
+          this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
+          this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
+          this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
+
+           this.bodies.push( this.availableBodies[ i ] );
+        } );
+
+        this.bodies.forEach( body => body.reset() );
+
+        this.numberOfActiveBodiesProperty.value = this.bodies.length;
+      }
+    } );
+
+    this.numberOfActiveBodiesProperty.link( numberOfActiveBodiesProperty => {
+      if ( numberOfActiveBodiesProperty !== this.bodies.length ) {
+        this.labModeProperty.value = LabModes.CUSTOM;
+        this.bodies.clear();
+        this.bodies.push( ...this.availableBodies.slice( 0, numberOfActiveBodiesProperty ) );
+      }
     } );
   }
 
@@ -61,75 +87,83 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
-
   //REVIEW: thoughts on inlining this method?
   public setModesToMap(): void {
     this.modeMap.set( LabModes.SUN_PLANET, [
-      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ),
-      new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) )
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -6 ) },
+      { mass: 10, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) }
     ] );
     this.modeMap.set( LabModes.SUN_PLANET_MOON, [
-      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ) ),
-      new Body( 10, new Vector2( 160, 0 ), new Vector2( 0, 120 ) ),
-      new Body( 0.000001, new Vector2( 140, 0 ), new Vector2( 0, 53 ) )
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { mass: 10, position: new Vector2( 160, 0 ), velocity: new Vector2( 0, 120 ) },
+      { mass: 0.000001, position: new Vector2( 140, 0 ), velocity: new Vector2( 0, 53 ) }
     ] );
     this.modeMap.set( LabModes.SUN_PLANET_COMET, [
-      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ) ),
-      new Body( 1, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ),
-      new Body( 0.000001, new Vector2( -220, 130 ), new Vector2( -15, -28 ) )
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) },
+      { mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -15, -28 ) }
     ] );
     this.modeMap.set( LabModes.TROJAN_ASTEROIDS, [
-      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ) ),
-      new Body( 5, new Vector2( 150, 0 ), new Vector2( 0, 119 ) ),
-      new Body( 0.000001, new Vector2( 75, -130 ), new Vector2( 103, 60 ) ),
-      new Body( 0.000001, new Vector2( 75, 130 ), new Vector2( -103, 60 ) )
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { mass: 5, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 119 ) },
+      { mass: 0.000001, position: new Vector2( 75, -130 ), velocity: new Vector2( 103, 60 ) },
+      { mass: 0.000001, position: new Vector2( 75, 130 ), velocity: new Vector2( -103, 60 ) }
     ] );
     this.modeMap.set( LabModes.ELLIPSES, [
-      new Body( 250, new Vector2( -200, 0 ), new Vector2( 0, 0 ) ),
-      new Body( 0.000001, new Vector2( -115, 0 ), new Vector2( 0, 151 ) ),
-      new Body( 0.000001, new Vector2( 50, 0 ), new Vector2( 0, 60 ) ),
-      new Body( 0.000001, new Vector2( 220, 0 ), new Vector2( 0, 37 ) )
+      { mass: 250, position: new Vector2( -200, 0 ), velocity: new Vector2( 0, 0 ) },
+      { mass: 0.000001, position: new Vector2( -115, 0 ), velocity: new Vector2( 0, 151 ) },
+      { mass: 0.000001, position: new Vector2( 50, 0 ), velocity: new Vector2( 0, 60 ) },
+      { mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) }
     ] );
     this.modeMap.set( LabModes.HYPERBOLIC, [
-      new Body( 250, new Vector2( -50, -25 ), new Vector2( 0, 0 ) ),
-      new Body( 0.000001, new Vector2( 300, 50 ), new Vector2( -120, 0 ) ),
-      new Body( 0.000001, new Vector2( 300, 120 ), new Vector2( -120, 0 ) ),
-      new Body( 0.000001, new Vector2( 300, 190 ), new Vector2( -120, 0 ) )
+      { mass: 250, position: new Vector2( -50, -25 ), velocity: new Vector2( 0, 0 ) },
+      { mass: 0.000001, position: new Vector2( 300, 50 ), velocity: new Vector2( -120, 0 ) },
+      { mass: 0.000001, position: new Vector2( 300, 120 ), velocity: new Vector2( -120, 0 ) },
+      { mass: 0.000001, position: new Vector2( 300, 190 ), velocity: new Vector2( -120, 0 ) }
     ] );
     this.modeMap.set( LabModes.SLINGSHOT, [
-      new Body( 200, new Vector2( 1, 0 ), new Vector2( 0, -1 ) ),
-      new Body( 10, new Vector2( 131, 55 ), new Vector2( -55, 115 ) ),
-      new Body( 0.000001, new Vector2( -6, -128 ), new Vector2( 83, 0 ) )
+      { mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
+      { mass: 10, position: new Vector2( 131, 55 ), velocity: new Vector2( -55, 115 ) },
+      { mass: 0.000001, position: new Vector2( -6, -128 ), velocity: new Vector2( 83, 0 ) }
     ] );
     this.modeMap.set( LabModes.DOUBLE_SLINGSHOT, [
-      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -1 ) ),
-      new Body( 5, new Vector2( 0, -112 ), new Vector2( 134, 0 ) ),
-      new Body( 4, new Vector2( 186, -5 ), new Vector2( 1, 111 ) ),
-      new Body( 0.000001, new Vector2( 70, 72 ), new Vector2( -47, 63 ) )
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -1 ) },
+      { mass: 5, position: new Vector2( 0, -112 ), velocity: new Vector2( 134, 0 ) },
+      { mass: 5, position: new Vector2( 186, -5 ), velocity: new Vector2( 1, 111 ) },
+      { mass: 0.000001, position: new Vector2( 70, 72 ), velocity: new Vector2( -47, 63 ) }
     ] );
     this.modeMap.set( LabModes.BINARY_STAR_PLANET, [
-      new Body( 150, new Vector2( -100, 0 ), new Vector2( 0, -60 ) ),
-      new Body( 120, new Vector2( 100, 0 ), new Vector2( 0, 50 ) ),
-      new Body( 0.000001, new Vector2( -50, 0 ), new Vector2( 0, 120 ) )
+      { mass: 150, position: new Vector2( -100, 0 ), velocity: new Vector2( 0, -60 ) },
+      { mass: 120, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 50 ) },
+      { mass: 0.000001, position: new Vector2( -50, 0 ), velocity: new Vector2( 0, 120 ) }
     ] );
     this.modeMap.set( LabModes.FOUR_STAR_BALLET, [
-      new Body( 120, new Vector2( -100, 100 ), new Vector2( -50, -50 ) ),
-      new Body( 120, new Vector2( 100, 100 ), new Vector2( -50, 50 ) ),
-      new Body( 120, new Vector2( 100, -100 ), new Vector2( 50, 50 ) ),
-      new Body( 120, new Vector2( -100, -100 ), new Vector2( 50, -50 ) )
+      { mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
+      { mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
+      { mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
+      { mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
     this.modeMap.set( LabModes.DOUBLE_DOUBLE, [
-      new Body( 60, new Vector2( -115, -3 ), new Vector2( 0, -154 ) ),
-      new Body( 70, new Vector2( 102, 0 ), new Vector2( 1, 150 ) ),
-      new Body( 55, new Vector2( -77, -2 ), new Vector2( -1, 42 ) ),
-      new Body( 62, new Vector2( 135, 0 ), new Vector2( -1, -52 ) )
+      { mass: 60, position: new Vector2( -115, -3 ), velocity: new Vector2( 0, -154 ) },
+      { mass: 70, position: new Vector2( 102, 0 ), velocity: new Vector2( 1, 150 ) },
+      { mass: 55, position: new Vector2( -77, -2 ), velocity: new Vector2( -1, 42 ) },
+      { mass: 62, position: new Vector2( 135, 0 ), velocity: new Vector2( -1, -52 ) }
     ] );
     this.modeMap.set( LabModes.CUSTOM, [
-      new Body( 120, new Vector2( -100, 100 ), new Vector2( -50, -50 ) ),
-      new Body( 120, new Vector2( 100, 100 ), new Vector2( -50, 50 ) ),
-      new Body( 120, new Vector2( 100, -100 ), new Vector2( 50, 50 ) ),
-      new Body( 120, new Vector2( -100, -100 ), new Vector2( 50, -50 ) )
+      { mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
+      { mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
+      { mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
+      { mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
+  }
+
+  // Restart is for when the time controls are brought back to 0
+  public override restart(): void {
+    this.isPlayingProperty.value = false;
+    this.bodies.forEach( body => body.reset() );
+    //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
+    this.update();
+    this.timeProperty.value = 0;
   }
 }
 

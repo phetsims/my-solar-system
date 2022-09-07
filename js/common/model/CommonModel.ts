@@ -77,7 +77,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // Time settings
     // timeScale controls the velocity of time
-    this.timeScale = 0.2;
+    this.timeScale = 0.5;
     this.timeRange = new Range( 0, 1000 );
     //REVIEW: Could remove these two type parameters, because they will be inferred (because of what you are assigning
     //REVIEW them to).
@@ -142,14 +142,13 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.timeProperty.value = 0;
   }
 
-  public stepForward(): void {
-    //REVIEW: This is buggy! See below in the normal step(), how the engine is run by dt * the amount the timeProperty
-    //REVIEW: is stepped forward by! The clock will advance differently for the same amount of "animation" if you're
-    //REVIEW: pressing the step button vs. playing normally (365 units playing in the intro screen for a quarter
-    //REVIEW: rotation, vs 37 units for pressing the step button many times).
-    //REVIEW: Check both situations to see what is correct, this one may need updating!
-    this.engine.run( 1 / 60 );
-    this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
+  public stepOnce( dt: number ): void {
+    this.update();
+    this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
+    this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
+    if ( this.pathVisibleProperty ) {
+      this.bodies.forEach( body => body.addPathPoint() );
+    }
   }
 
   /**
@@ -161,15 +160,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public step( dt: number ): void {
-    this.update();
     if ( this.isPlayingProperty.value ) {
-      this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
-      this.timeProperty.value += timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
-      this.centerOfMass.updateCenterOfMassPosition();
-    }
-    if ( this.pathVisibleProperty ) {
-      //REVIEW: addPathPoint isn't.... being called? This looks buggy?
-      this.bodies.forEach( body => body.addPathPoint );
+      this.stepOnce( dt );
     }
   }
 

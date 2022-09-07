@@ -133,7 +133,7 @@ class CommonScreenView extends ScreenView {
     const timeControlNode = new MySolarSystemTimeControlNode( model,
       {
         restartListener: () => model.restart(),
-        stepForwardListener: () => model.stepForward(),
+        stepForwardListener: () => model.stepOnce( 1 / 4 ),
         tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
       } );
     timeControlNode.setPlayPauseButtonCenter( new Vector2(

@@ -79,25 +79,24 @@ class DataBox extends GridBox {
 
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
       const color = MySolarSystemColors.bodiesPalette[ i ];
-      this.tempChildren.push( ...[
-        //REVIEW: also, this indentation seems off
-            new ShadedSphereNode( 15, { mainColor: color, layoutOptions: { column: 0, row: i + 2 } } ),
-            new NumberDisplay(
-              this.model.bodies[ i ].massProperty,
-              this.massRange, { layoutOptions: { column: 1, row: i + 2 } } ),
-            new NumberDisplay(
-              new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.x ),
-              this.massRange, { layoutOptions: { column: 2, row: i + 2 } } ),
-            new NumberDisplay(
-              new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.y ),
-              this.massRange, { layoutOptions: { column: 3, row: i + 2 } } ),
-            new NumberDisplay(
-              new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.x ),
-              this.massRange, { layoutOptions: { column: 4, row: i + 2 } } ),
-            new NumberDisplay(
-              new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.y ),
-              this.massRange, { layoutOptions: { column: 5, row: i + 2 } } )
-          ] );
+      this.tempChildren.push(
+        new ShadedSphereNode( 15, { mainColor: color, layoutOptions: { column: 0, row: i + 2 } } ),
+        new NumberDisplay(
+          this.model.bodies[ i ].massProperty,
+          this.massRange, { layoutOptions: { column: 1, row: i + 2 } } ),
+        new NumberDisplay(
+          new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.x ),
+          this.massRange, { layoutOptions: { column: 2, row: i + 2 } } ),
+        new NumberDisplay(
+          new DerivedProperty( [ this.model.bodies[ i ].positionProperty ], position => position.y ),
+          this.massRange, { layoutOptions: { column: 3, row: i + 2 } } ),
+        new NumberDisplay(
+          new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.x ),
+          this.massRange, { layoutOptions: { column: 4, row: i + 2 } } ),
+        new NumberDisplay(
+          new DerivedProperty( [ this.model.bodies[ i ].velocityProperty ], velocity => velocity.y ),
+          this.massRange, { layoutOptions: { column: 5, row: i + 2 } } )
+        );
     }
     this.children = this.tempChildren;
   }

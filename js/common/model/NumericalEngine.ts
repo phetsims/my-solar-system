@@ -144,11 +144,6 @@ export default class NumericalEngine extends Engine {
       body.accelerationProperty.value = accelerations[ i ];
       body.forceProperty.value = forces[ i ];
       body.previousAcceleration = previousAccelerations[ i ];
-      body.stepCounter += 1;
-      if ( body.stepCounter === body.wholeStepSize ) {
-        body.stepCounter = 0;
-        body.addPathPoint();
-      }
     }
   }
 
