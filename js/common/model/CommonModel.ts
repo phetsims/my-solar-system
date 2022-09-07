@@ -92,7 +92,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.valuesVisibleProperty = new Property<boolean>( false );
     this.moreDataProperty = new Property<boolean>( false );
 
-    this.zoomLevelProperty = new NumberProperty( 4, {
+    this.zoomLevelProperty = new NumberProperty( 3, {
       range: new Range( 0, 7 )
     } ).asRanged();
     this.zoomProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {

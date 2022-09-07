@@ -60,7 +60,7 @@ class CommonScreenView extends ScreenView {
     this.modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
       return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
         Vector2.ZERO,
-        new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing ),
+        new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing * 0.5 ),
         zoom );
       } );
 
@@ -163,6 +163,9 @@ class CommonScreenView extends ScreenView {
       tipPositionProperty: new Vector2Property( new Vector2( this.layoutBounds.centerX + 100, this.layoutBounds.centerY ) )
     } );
     this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
+    // this.modelViewTransformProperty.link( modelViewTransform => {
+    //   measuringTapeNode.setScaleMagnitude( modelViewTransform.modelToViewDeltaX( 1 ) );
+    // } );
     this.topLayer.addChild( measuringTapeNode );
 
     const resetAllButton = new ResetAllButton( {

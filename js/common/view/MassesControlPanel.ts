@@ -55,7 +55,7 @@ class MassesSliders extends VBox {
       stretch: true
     } );
     this.model = model;
-    this.massRange = new RangeWithValue( 1, 300, 100 );
+    this.massRange = new RangeWithValue( 1, 250, 100 );
     this.tempChildren = [];
     this.update();
   }
