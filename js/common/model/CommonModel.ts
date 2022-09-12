@@ -77,7 +77,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // Time settings
     // timeScale controls the velocity of time
-    this.timeScale = 0.5;
+    this.timeScale = 1.0;
     this.timeRange = new Range( 0, 1000 );
     //REVIEW: Could remove these two type parameters, because they will be inferred (because of what you are assigning
     //REVIEW them to).
@@ -131,6 +131,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.valuesVisibleProperty.reset();
     this.moreDataProperty.reset();
     this.labModeProperty.reset();
+    this.centerOfMass.visibleProperty.reset();
   }
 
   // Restart is for when the time controls are brought back to 0
@@ -160,6 +161,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public step( dt: number ): void {
+    this.update();
+
     if ( this.isPlayingProperty.value ) {
       this.stepOnce( dt );
     }
