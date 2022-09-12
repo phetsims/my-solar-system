@@ -130,6 +130,28 @@ class CommonScreenView extends ScreenView {
 
     // UI Elements ===================================================================================================
 
+    const measuringTapeUnitsProperty = new Property( { name: 'AU', multiplier: 0.01 } );
+
+    // Add the MeasuringTapeNode
+    const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
+      visibleProperty: model.measuringTapeVisibleProperty,
+      textColor: 'black',
+      textBackgroundColor: 'rgba( 255, 255, 255, 0.5 )', // translucent red
+      textBackgroundXMargin: 10,
+      textBackgroundYMargin: 3,
+      textBackgroundCornerRadius: 5,
+      //REVIEW: commented-out code, can this be deleted?
+      // dragBounds: this.layoutBounds,
+      basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
+      tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) )
+    } );
+    // this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
+    this.modelViewTransformProperty.link( modelViewTransform => {
+      measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
+    } );
+    this.topLayer.addChild( measuringTapeNode );
+
+
     const timeControlNode = new MySolarSystemTimeControlNode( model,
       {
         restartListener: () => model.restart(),
@@ -153,51 +175,34 @@ class CommonScreenView extends ScreenView {
       spacing: 8
     } );
 
-
-    const measuringTapeUnitsProperty = new Property( { name: 'AU', multiplier: 0.01 } );
-
-    // Add the MeasuringTapeNode
-    const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
-      visibleProperty: model.measuringTapeVisibleProperty,
-      textColor: 'black',
-      textBackgroundColor: 'rgba( 255, 255, 255, 0.5 )', // translucent red
-      textBackgroundXMargin: 10,
-      textBackgroundYMargin: 3,
-      textBackgroundCornerRadius: 5,
-      //REVIEW: commented-out code, can this be deleted?
-      // dragBounds: this.layoutBounds,
-      basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
-      tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) )
-    } );
-    // this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
-    this.modelViewTransformProperty.link( modelViewTransform => {
-      measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
-    } );
-    this.topLayer.addChild( measuringTapeNode );
-
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         measuringTapeNode.reset();
       },
-      //REVIEW: AlignBox it?
-      right: this.layoutBounds.maxX - MySolarSystemConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - MySolarSystemConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: providedOptions.tandem.createTandem( 'resetAllButton' )
     } );
 
-    this.interfaceLayer.addChild( new AlignBox( new HBox( {
-      children: [
-        timeControlNode,
-        clockNode,
-        resetAllButton
-      ],
-      spacing: 20
-    } ),
-    {
-      alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'bottom'
-    } ) );
+    const lowerRightBox = new AlignBox( new HBox( {
+        children: [
+          timeControlNode,
+          clockNode,
+          resetAllButton
+        ],
+        spacing: 20
+      } ),
+      {
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'right',
+        yAlign: 'bottom'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      lowerRightBox.alignBounds = visibleBounds;
+    } );
+
+    this.interfaceLayer.addChild( lowerRightBox );
   }
 
   //REVIEW: Perhaps making CommonScreenView an abstract class (and making this method abstract) would be appropriate

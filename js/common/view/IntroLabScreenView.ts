@@ -27,23 +27,42 @@ export default class IntroLabScreenView extends CommonScreenView {
     super( model, providedOptions );
 
     // UI Elements ===================================================================================================
+
     // Zoom Buttons
-    this.interfaceLayer.addChild( new AlignBox( new MagnifyingGlassZoomButtonGroup(
+    const topLeftZoomBox = new AlignBox(
+      new MagnifyingGlassZoomButtonGroup(
         model.zoomLevelProperty,
         {
           spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 }
         } ),
       {
-        alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'top'
-      } ) );
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'left',
+        yAlign: 'top'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      topLeftZoomBox.alignBounds = visibleBounds;
+    } );
+
+    this.interfaceLayer.addChild( topLeftZoomBox );
 
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
-    this.interfaceLayer.addChild( new AlignBox( new Panel(
-      new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+    const topRightControlBox = new AlignBox(
+      new Panel(
+        new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
       {
-     alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'right', yAlign: 'top'
-    } ) );
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'right',
+        yAlign: 'top'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      topRightControlBox.alignBounds = visibleBounds;
+    } );
+
+    this.interfaceLayer.addChild( topRightControlBox );
 
     //REVIEW: use visibleProperty (and don't specify visible: false at the start)
     const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visible: false } );

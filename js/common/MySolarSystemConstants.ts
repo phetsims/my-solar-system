@@ -16,7 +16,7 @@ const PANEL_X_MARGIN = 5;
 
 const MySolarSystemConstants = {
 
-  MARGIN: 5,
+  MARGIN: 15,
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
 

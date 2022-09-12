@@ -95,19 +95,25 @@ class LabScreenView extends IntroLabScreenView {
 
     this.gridbox = new GridBox( { xAlign: 'left' } );
 
-    // Slider that controls the bodies mass
-    this.interfaceLayer.addChild( new AlignBox( this.gridbox,
+    const lowerLeftBox = new AlignBox( this.gridbox,
       {
-     alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'bottom'
-    } ) );
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'left',
+        yAlign: 'bottom'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      lowerLeftBox.alignBounds = visibleBounds;
+    } );
+
+    // Slider that controls the bodies mass
+    this.interfaceLayer.addChild( lowerLeftBox );
 
     model.moreDataProperty.link( moreData => {
       this.gridbox.children = [
         this.numberSpinner,
         new MySolarSystemCheckbox( model.moreDataProperty, new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
         !moreData ? this.massesControlPanel : this.fullDataPanel
-        //REVIEW: commented-out code?
-        // bodyNumberSpinner
       ];
     } );
   }

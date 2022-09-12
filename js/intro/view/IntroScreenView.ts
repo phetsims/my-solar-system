@@ -27,11 +27,20 @@ class IntroScreenView extends IntroLabScreenView {
     // Add the node for the Masses Sliders
     this.massesControlPanel = new MassesControlPanel( model, { fill: 'white' } );
 
-    // Slider that controls the bodies mass
-    this.interfaceLayer.addChild( new AlignBox( this.massesControlPanel,
+    // Masses Align Box
+    const lowerLeftMassesBox = new AlignBox( this.massesControlPanel,
       {
-     alignBounds: this.layoutBounds, margin: MySolarSystemConstants.MARGIN, xAlign: 'left', yAlign: 'bottom'
-    } ) );
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'left',
+        yAlign: 'bottom'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      lowerLeftMassesBox.alignBounds = visibleBounds;
+    } );
+
+    // Slider that controls the bodies mass
+    this.interfaceLayer.addChild( lowerLeftMassesBox );
   }
 }
 
