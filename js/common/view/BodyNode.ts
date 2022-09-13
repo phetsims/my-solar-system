@@ -12,12 +12,13 @@ import Body from '../model/Body.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   draggable?: boolean;
 };
+
 export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
@@ -27,7 +28,7 @@ export default class BodyNode extends ShadedSphereNode {
   public readonly draggable: boolean;
 
   //REVIEW: Prefer TReadOnlyProperty instead of ReadOnlyProperty
-  public constructor( body: Body, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
+  public constructor( body: Body, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
       cursor: 'pointer',
       draggable: true
@@ -41,7 +42,7 @@ export default class BodyNode extends ShadedSphereNode {
     this.positionMultilink = Multilink.multilink(
       [ body.positionProperty, body.massProperty, modelViewTransformProperty ],
       ( position, mass, modelViewTransform ) => {
-        this.setScaleMagnitude( this.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
+        this.setScaleMagnitude( BodyNode.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
@@ -60,8 +61,7 @@ export default class BodyNode extends ShadedSphereNode {
     }
   }
 
-  //REVIEW: Doesn't mention `this`, so generally should prefer making methods like this static
-  private massToScale( mass: number, scale: number ): number {
+  private static massToScale( mass: number, scale: number ): number {
     return scale * ( 30 * mass / 200 + 20 );
   }
 
