@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Node, Text, VBox, VBoxOptions, VDivider } from '../../../../scenery/js/imports.js';
+import { Node, HSeparator, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -71,9 +71,9 @@ export default class MySolarSystemControls extends VBox {
           { value: LabModes.CUSTOM, node: new Text( MySolarSystemStrings.mode.customStringProperty, TEXT_OPTIONS ) }
         ], topLayer ) ] : [] ),
         new OrbitalInformation( model ),
-        new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
+        new HSeparator( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new ArrowsCheckboxNode( model ),
-        new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
+        new HSeparator( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new VisibilityInformation( model )
       ],
       spacing: 4,
