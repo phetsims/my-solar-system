@@ -8,9 +8,8 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { FireListener, GridBox, GridBoxOptions, Node, Text } from '../../../../scenery/js/imports.js';
+import { FireListener, GridBox, GridBoxOptions, Node, RichText } from '../../../../scenery/js/imports.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
@@ -18,13 +17,13 @@ import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import CommonModel from '../../common/model/CommonModel.js';
 import { combineOptions, EmptySelfOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import LabModel from '../model/LabModel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 
 export type FullDataPanelOptions = PanelOptions;
 
@@ -84,13 +83,13 @@ class DataBox extends GridBox {
 
     // Whenever the number of bodies change, repopulate the dataBox
     this.tempChildren = [
-      new Text( MySolarSystemStrings.dataPanel.MassStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 1, row: 0 } } ),
-      new Text( MySolarSystemStrings.dataPanel.PositionStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 0, width: 2 } } ),
-      new Text( MySolarSystemStrings.dataPanel.VelocityStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 0, width: 2 } } ),
-      new Text( MySolarSystemStrings.dataPanel.XStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 2, row: 1 } } ),
-      new Text( MySolarSystemStrings.dataPanel.YStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 3, row: 1 } } ),
-      new Text( MySolarSystemStrings.dataPanel.VxStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 4, row: 1 } } ),
-      new Text( MySolarSystemStrings.dataPanel.VyStringProperty, { font: new PhetFont( 20 ), layoutOptions: { column: 5, row: 1 } } )
+      new RichText( MySolarSystemStrings.dataPanel.MassStringProperty, { font: MySolarSystemConstants.TITLE_FONT, layoutOptions: { column: 1, row: 0 } } ),
+      new RichText( MySolarSystemStrings.dataPanel.PositionStringProperty, { font: MySolarSystemConstants.TITLE_FONT, layoutOptions: { column: 2, row: 0, width: 2 } } ),
+      new RichText( MySolarSystemStrings.dataPanel.VelocityStringProperty, { font: MySolarSystemConstants.TITLE_FONT, layoutOptions: { column: 4, row: 0, width: 2 } } ),
+      new RichText( MySolarSystemStrings.dataPanel.XStringProperty, { font: MySolarSystemConstants.PANEL_FONT, layoutOptions: { column: 2, row: 1 } } ),
+      new RichText( MySolarSystemStrings.dataPanel.YStringProperty, { font: MySolarSystemConstants.PANEL_FONT, layoutOptions: { column: 3, row: 1 } } ),
+      new RichText( MySolarSystemStrings.dataPanel.VxStringProperty, { font: MySolarSystemConstants.PANEL_FONT, layoutOptions: { column: 4, row: 1 } } ),
+      new RichText( MySolarSystemStrings.dataPanel.VyStringProperty, { font: MySolarSystemConstants.PANEL_FONT, layoutOptions: { column: 5, row: 1 } } )
     ];
 
     for ( let i = 0; i < this.model.bodies.length; i++ ) {
@@ -143,7 +142,10 @@ class InteractiveNumberDisplay extends NumberDisplay {
   ) {
 
     const options = combineOptions<NumberDisplayOptions>( {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      textOptions: {
+        font: MySolarSystemConstants.PANEL_FONT
+      }
     }, providedOptions );
 
     super( property, range, options );

@@ -11,10 +11,10 @@ import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phe
 import RestartButton from '../../../../scenery-phet/js/buttons/RestartButton.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import CommonModel from '../model/CommonModel.js';
+import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
 // constants
 const PLAY_PAUSE_BUTTON_RADIUS = 34;
@@ -53,7 +53,7 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
       speedRadioButtonGroupOnLeft: false,
       speedRadioButtonGroupOptions: {
         labelOptions: {
-          font: new PhetFont( 20 ),
+          font: MySolarSystemConstants.PANEL_FONT,
           fill: MySolarSystemColors.foregroundProperty,
           maxWidth: 200
         }

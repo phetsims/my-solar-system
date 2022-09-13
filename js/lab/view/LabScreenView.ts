@@ -39,7 +39,7 @@ class LabScreenView extends IntroLabScreenView {
   private gridbox: GridBox;
   private massesControlPanel: MassesControlPanel;
   private fullDataPanel: FullDataPanel;
-  private numberSpinner: VBox;
+  private numberSpinnerBox: VBox;
 
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
@@ -66,7 +66,6 @@ class LabScreenView extends IntroLabScreenView {
         align: 'center',
         xMargin: 10,
         yMargin: 3,
-        minBackgroundWidth: 100,
         textOptions: {
           font: new Font( { size: 28 } )
         }
@@ -77,7 +76,7 @@ class LabScreenView extends IntroLabScreenView {
     // Add the node for the Masses Sliders & Full Data Panel
     this.massesControlPanel = new MassesControlPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
     this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
-    this.numberSpinner = new VBox( {
+    this.numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 2, 4 ) ),
@@ -90,12 +89,18 @@ class LabScreenView extends IntroLabScreenView {
               }
             } ) )
       ],
-      layoutOptions: { column: 0, row: 1, margin: 10 }
+      spacing: 10,
+      layoutOptions: {
+        column: 0,
+        row: 1,
+        margin: 10,
+        yAlign: 'bottom'
+      }
     } );
 
     this.gridbox = new GridBox(
       { children: [
-        this.numberSpinner,
+        this.numberSpinnerBox,
         new MySolarSystemCheckbox( model.moreDataProperty, new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
         this.massesControlPanel,
         this.fullDataPanel

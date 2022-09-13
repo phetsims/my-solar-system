@@ -54,34 +54,34 @@
     "value": "Period Division"
   },
   "dataPanel.X": {
-    "value": "X"
+    "value": "x"
   },
   "dataPanel.Y": {
-      "value": "Y"
+    "value": "y"
   },
   "dataPanel.Vx": {
-      "value": "Vx"
+    "value": "V<sub>x</sub>"
   },
   "dataPanel.Vy": {
-      "value": "Vy"
+    "value": "V<sub>y</sub>"
   },
   "mass": {
     "value": "Mass"
   },
   "dataPanel.Mass": {
-      "value": "Mass"
+    "value": "Mass"
   },
   "dataPanel.Velocity": {
-      "value": "Velocity"
+    "value": "Velocity"
   },
   "dataPanel.Position": {
-      "value": "Position"
+    "value": "Position"
   },
   "dataPanel.bodies": {
-      "value": "Bodies"
+    "value": "Bodies"
   },
   "dataPanel.moreData": {
-      "value": "More Data"
+    "value": "More Data"
   },
   "areaGraph.title": {
     "value": "Swept Area"
@@ -93,42 +93,42 @@
     "value": "Semimajor Axis (a)"
   },
   "graph.t": {
-      "value": "Period (T)"
+    "value": "Period (T)"
   },
   "mode.sunAndPlanet": {
-      "value": "Sun and Planet"
+    "value": "Sun and Planet"
   },
   "mode.sunPlanetAndMoon": {
-      "value": "Sun, Planet and Moon"
+    "value": "Sun, Planet and Moon"
   },
   "mode.sunPlanetAndComet": {
-      "value": "Sun, Planet and Comet"
+    "value": "Sun, Planet and Comet"
   },
   "mode.trojanAsteroids": {
-      "value": "Trojan Asteroids"
+    "value": "Trojan Asteroids"
   },
   "mode.ellipses": {
-      "value": "Ellipses"
+    "value": "Ellipses"
   },
   "mode.hyperbolic": {
-      "value": "Hyperbolic"
+    "value": "Hyperbolic"
   },
   "mode.slingshot": {
-      "value": "Slingshot"
+    "value": "Slingshot"
   },
   "mode.doubleSlingshot": {
-      "value": "Double Slingshot"
+    "value": "Double Slingshot"
   },
   "mode.binaryStarPlanet": {
-      "value": "Binary Star, Planet"
+    "value": "Binary Star, Planet"
   },
   "mode.fourStarBallet": {
-      "value": "Four Star Ballet"
+    "value": "Four Star Ballet"
   },
   "mode.doubleDouble": {
-      "value": "Double Double"
+    "value": "Double Double"
   },
   "mode.custom": {
-      "value": "Custom"
+    "value": "Custom"
   }
 }
