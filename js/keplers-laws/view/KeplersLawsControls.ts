@@ -7,7 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { VBox, VDivider } from '../../../../scenery/js/imports.js';
+import { VBox, HSeparator } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
@@ -43,9 +43,9 @@ class KeplersLawsControls extends Panel {
     super( new VBox( {
       children: [
         new KeplersLawsOrbitalInformation( model ),
-        new VDivider( VDIVIDER_OPTIONS ),
+        new HSeparator( VDIVIDER_OPTIONS ),
         new ArrowsCheckboxNode( model ),
-        new VDivider( VDIVIDER_OPTIONS ),
+        new HSeparator( VDIVIDER_OPTIONS ),
         new VisibilityInformation( model )
         ],
         spacing: 4,

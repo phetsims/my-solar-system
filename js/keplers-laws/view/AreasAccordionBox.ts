@@ -9,7 +9,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { HBox, Text, VBox, VDivider } from '../../../../scenery/js/imports.js';
+import { HBox, Text, VBox, HSeparator } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
@@ -93,7 +93,7 @@ class AreasControls extends VBox {
           combineOptions<CheckboxOptions>(
             { enabledProperty: model.sweepAreaVisibleProperty },
             MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
-        new VDivider( MySolarSystemConstants.VDIVIDER_OPTIONS ),
+        new HSeparator( MySolarSystemConstants.VDIVIDER_OPTIONS ),
         new HBox( {
           children: [
             new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ),
