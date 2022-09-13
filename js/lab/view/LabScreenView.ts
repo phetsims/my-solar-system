@@ -93,7 +93,14 @@ class LabScreenView extends IntroLabScreenView {
       layoutOptions: { column: 0, row: 1, margin: 10 }
     } );
 
-    this.gridbox = new GridBox( { xAlign: 'left' } );
+    this.gridbox = new GridBox(
+      { children: [
+        this.numberSpinner,
+        new MySolarSystemCheckbox( model.moreDataProperty, new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
+        this.massesControlPanel,
+        this.fullDataPanel
+      ],
+      xAlign: 'left' } );
 
     const lowerLeftBox = new AlignBox( this.gridbox,
       {
@@ -110,11 +117,8 @@ class LabScreenView extends IntroLabScreenView {
     this.interfaceLayer.addChild( lowerLeftBox );
 
     model.moreDataProperty.link( moreData => {
-      this.gridbox.children = [
-        this.numberSpinner,
-        new MySolarSystemCheckbox( model.moreDataProperty, new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
-        !moreData ? this.massesControlPanel : this.fullDataPanel
-      ];
+      this.massesControlPanel.visible = !moreData;
+      this.fullDataPanel.visible = moreData;
     } );
   }
 
