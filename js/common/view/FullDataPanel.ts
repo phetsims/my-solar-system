@@ -18,6 +18,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
+import TinyProperty from '../../../../axon/js/TinyProperty.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -46,10 +47,12 @@ export default class FullDataPanel extends Panel {
       providedOptions
     );
 
+    const moreDataPreferredWidthProperty = new TinyProperty<number | null>( null );
+
     //----------------------------------------------------------------------------------------
     // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel
     const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS );
-    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER );
+    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, moreDataPreferredWidthProperty );
     const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X );
     const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y );
     const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X );
@@ -103,6 +106,10 @@ export default class FullDataPanel extends Panel {
       ],
       align: 'bottom',
       spacing: options.columnGroupSpacing
+    } );
+
+    moreDataBox.boundsProperty.link( bounds => {
+      moreDataPreferredWidthProperty.value = bounds.width;
     } );
 
     // The content of the entire Panel when "More Data" is not checked.
