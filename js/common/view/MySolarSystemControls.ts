@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Node, HSeparator, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox, VBoxOptions, HSeparator } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
