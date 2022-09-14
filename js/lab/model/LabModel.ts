@@ -28,9 +28,7 @@ type BodyInfo = {
 
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
-  private readonly availableBodies: Body[];
-  //REVIEW: readonly?
-  public numberOfActiveBodiesProperty: NumberProperty; //REVIEW: It's a Property, it should have the Property suffix
+  public numberOfActiveBodiesProperty: NumberProperty;
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -44,13 +42,6 @@ class LabModel extends CommonModel<NumericalEngine> {
 
     this.modeMap = new Map<LabModes, BodyInfo[]>();
     this.setModesToMap();
-
-    this.availableBodies = [
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) )
-    ];
 
     this.labModeProperty.link( mode => {
       this.isPlayingProperty.value = false;
@@ -87,7 +78,7 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
-  //REVIEW: thoughts on inlining this method?
+
   public setModesToMap(): void {
     this.modeMap.set( LabModes.SUN_PLANET, [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -6 ) },

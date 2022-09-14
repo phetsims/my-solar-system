@@ -23,6 +23,7 @@ import LabModes from './LabModes.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -62,6 +63,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
+
+  public readonly availableBodies: Body[];
+
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     this.bodies = createObservableArray();
@@ -112,6 +116,13 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.labModeProperty.link( mode => {
       this.clearPaths();
     } );
+
+    this.availableBodies = [
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) )
+    ];
   }
 
   /**

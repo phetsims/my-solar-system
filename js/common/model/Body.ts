@@ -14,6 +14,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
 
+// const tempVector = new Vector2( 0, 0 );
+
 class Body {
   // Unitless body quantities.
   public readonly massProperty: Property<number>;
@@ -21,6 +23,9 @@ class Body {
   public readonly velocityProperty: Property<Vector2>;
   public readonly accelerationProperty: Property<Vector2>;
   public readonly forceProperty: Property<Vector2>;
+
+  // Collision handling
+  public readonly isCollidedProperty = new Property<boolean>( false );
 
   // Emitters for various events
   //REVIEW: This first emitter isn't emitted or listened to! Can it be removed?
@@ -72,6 +77,20 @@ class Body {
     this.stepCounter = 0; // Counting steps to only add points on multiples of wholeStepSize
     this.wholeStepSize = 10;
   }
+
+  // Check to see if this body collides with another.
+  // public collidesWidth( body: Body ): boolean {
+  //   const position1 = this.positionProperty.get();
+  //   const position2 = body.positionProperty.get();
+  //
+  //   // reuse tempVector to reduce Vector2 allocations
+  //   tempVector.x = position1.x - position2.x;
+  //   tempVector.y = position1.y - position2.y;
+  //
+  //   const distance = tempVector.magnitude;
+  //   const radiiSum = this.diameterProperty.get() / 2 + body.diameterProperty.get() / 2;
+  //   return distance < radiiSum;
+  // }
 
   public reset(): void {
     this.massProperty.reset();

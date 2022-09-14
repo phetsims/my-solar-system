@@ -7,6 +7,7 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import mySolarSystem from '../mySolarSystem.js';
@@ -38,6 +39,8 @@ const MySolarSystemColors = {
   }, {
     tandem: Tandem.COLORS.createTandem( 'gridIconStrokeColorProperty' )
   } ),
+  HIGHLIGHTED_NUMBER_DISPLAY_FILL: PhetColorScheme.BUTTON_YELLOW,
+
   bodiesPalette: [
     'yellow',
     'magenta',

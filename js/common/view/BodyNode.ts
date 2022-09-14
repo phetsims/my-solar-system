@@ -23,7 +23,6 @@ export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
-  public readonly initialMass: number;
   private readonly positionMultilink: UnknownMultilink;
   public readonly draggable: boolean;
 
@@ -37,7 +36,6 @@ export default class BodyNode extends ShadedSphereNode {
     super( 1, options );
 
     this.body = body;
-    this.initialMass = 200; //body.massProperty.value;
 
     this.positionMultilink = Multilink.multilink(
       [ body.positionProperty, body.massProperty, modelViewTransformProperty ],

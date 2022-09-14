@@ -130,5 +130,17 @@
   },
   "mode.custom": {
     "value": "Custom"
+  },
+  "units.AU": {
+    "value": "AU"
+  },
+  "units.kms": {
+      "value": "km/s"
+  },
+  "units.Mjup": {
+      "value": "M<sub>Jup</sub>"
+  },
+  "pattern.labelParenthesesUnits": {
+    "value": "{{label}} ({{units}})"
   }
 }

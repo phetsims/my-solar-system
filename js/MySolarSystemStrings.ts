@@ -106,6 +106,18 @@ type StringsType = {
     'doubleDoubleStringProperty': TReadOnlyProperty<string>;
     'custom': string;
     'customStringProperty': TReadOnlyProperty<string>;
+  };
+  'units': {
+    'AU': string;
+    'AUStringProperty': TReadOnlyProperty<string>;
+    'kms': string;
+    'kmsStringProperty': TReadOnlyProperty<string>;
+    'Mjup': string;
+    'MjupStringProperty': TReadOnlyProperty<string>;
+  };
+  'pattern': {
+    'labelParenthesesUnits': string;
+    'labelParenthesesUnitsStringProperty': TReadOnlyProperty<string>;
   }
 };
 

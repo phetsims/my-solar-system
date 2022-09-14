@@ -13,12 +13,12 @@ import MySolarSystemCheckbox, { MySolarSystemCheckboxOptions } from '../../commo
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import MassesControlPanel from '../../common/view/MassesControlPanel.js';
-import FullDataPanel from './FullDataPanel.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import IntroLabScreenView, { IntroLabScreenViewOptions } from '../../common/view/IntroLabScreenView.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import FullDataPanel from '../../common/view/FullDataPanel.js';
 
 // Consts
 const TEXT_OPTIONS = {
@@ -32,13 +32,13 @@ type SelfOptions = {
 };
 
 //REVIEW: export!
-type LabScreenViewOptions = SelfOptions & IntroLabScreenViewOptions;
+export type LabScreenViewOptions = SelfOptions & IntroLabScreenViewOptions;
 
 class LabScreenView extends IntroLabScreenView {
   //REVIEW: readonly?
   private gridbox: GridBox;
   private massesControlPanel: MassesControlPanel;
-  private fullDataPanel: FullDataPanel;
+  private fullValuesPanel: FullDataPanel;
   private numberSpinnerBox: VBox;
 
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
@@ -75,7 +75,7 @@ class LabScreenView extends IntroLabScreenView {
 
     // Add the node for the Masses Sliders & Full Data Panel
     this.massesControlPanel = new MassesControlPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
-    this.fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
+    this.fullValuesPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
     this.numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
@@ -102,8 +102,7 @@ class LabScreenView extends IntroLabScreenView {
       { children: [
         this.numberSpinnerBox,
         new MySolarSystemCheckbox( model.moreDataProperty, new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ), checkboxOptions ),
-        this.massesControlPanel,
-        this.fullDataPanel
+        this.fullValuesPanel
       ],
       xAlign: 'left' } );
 
@@ -120,16 +119,10 @@ class LabScreenView extends IntroLabScreenView {
 
     // Slider that controls the bodies mass
     this.interfaceLayer.addChild( lowerLeftBox );
-
-    model.moreDataProperty.link( moreData => {
-      this.massesControlPanel.visible = !moreData;
-      this.fullDataPanel.visible = moreData;
-    } );
   }
 
   public override update(): void {
     this.massesControlPanel.update();
-    this.fullDataPanel.update();
   }
 }
 
