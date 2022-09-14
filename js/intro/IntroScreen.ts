@@ -5,6 +5,7 @@
  * @author Sola Olateju
  */
 
+import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../common/MySolarSystemColors.js';
@@ -22,7 +23,7 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
       //REVIEW: Make this translatable!
-      name: 'Intro'
+      name: new Property( 'Intro' )
     };
 
     super(
