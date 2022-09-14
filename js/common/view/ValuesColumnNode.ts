@@ -7,7 +7,7 @@
  */
 
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { AlignGroup, FireListener, isWidthSizable, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, FireListener, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
@@ -24,12 +24,12 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
+const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: CommonModel, columnType: ValuesColumnTypes, preferredWidthProperty?: TReadOnlyProperty<number | null> ) {
+  public constructor( model: CommonModel, columnType: ValuesColumnTypes ) {
     const options: VBoxOptions = {};
 
     const labelString = columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
@@ -54,12 +54,6 @@ export default class ValuesColumnNode extends VBox {
       // Create the corresponding contentNode for each available body.
       const contentNode = ValuesColumnNode.createContentNode( body, columnType, model, color );
 
-      if ( preferredWidthProperty && isWidthSizable( contentNode ) ) {
-        preferredWidthProperty.link( preferredWidth => {
-          contentNode.preferredWidth = preferredWidth;
-        } );
-      }
-
       // Add the content to the container.
       contentContainer.addChild( contentNode );
 
@@ -76,7 +70,7 @@ export default class ValuesColumnNode extends VBox {
     super( options );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, color: string ): Node {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, color: string ): AlignBox {
     // Flag that references the contentNode.
     let contentNode;
 
@@ -133,7 +127,8 @@ export default class ValuesColumnNode extends VBox {
       contentNode = new Node();
     }
 
-    return contentNode;
+    // Wrap the contentNode in a AlignBox to match the height of all ContentNodes.
+    return CONTENT_ALIGN_GROUP.createBox( contentNode );
   }
 }
 
