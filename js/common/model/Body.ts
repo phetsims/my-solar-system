@@ -14,11 +14,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
 
-// const tempVector = new Vector2( 0, 0 );
 
 class Body {
   // Unitless body quantities.
   public readonly massProperty: Property<number>;
+  public readonly radiusProperty: Property<number>;
   public readonly positionProperty: Property<Vector2>;
   public readonly velocityProperty: Property<Vector2>;
   public readonly accelerationProperty: Property<Vector2>;
@@ -54,12 +54,18 @@ class Body {
     // Physical properties of the body
     //REVIEW: Lots of these type parameters can be inferred, I'd generally recommend not providing them
     this.massProperty = new Property<number>( mass );
+    this.radiusProperty = new Property<number>( 1 );
     this.positionProperty = new Property<Vector2>( position );
     this.velocityProperty = new Property<Vector2>( velocity );
     this.accelerationProperty = new Property<Vector2>( Vector2.ZERO );
     this.forceProperty = new Property<Vector2>( Vector2.ZERO );
     this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
     this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
+
+    this.massProperty.link( mass => {
+      // Mass to radius function
+      this.radiusProperty.set( 5 * Math.pow( mass, 1 / 3 ) + 5 );
+    } );
 
     // Emitters for dragging the body and velocity vector
     this.userModifiedPositionEmitter = new Emitter();
@@ -72,25 +78,11 @@ class Body {
     this.addPathPoint();
     //REVIEW: consider moving simple initialization to declarations
     this.pathDistance = 0;
-    this.pathLengthLimit = MAX_PATH_LENGTH; // TODO: Is importing constants like this ok???
+    this.pathLengthLimit = MAX_PATH_LENGTH;
     this.pathDistanceLimit = 1000;
     this.stepCounter = 0; // Counting steps to only add points on multiples of wholeStepSize
     this.wholeStepSize = 10;
   }
-
-  // Check to see if this body collides with another.
-  // public collidesWidth( body: Body ): boolean {
-  //   const position1 = this.positionProperty.get();
-  //   const position2 = body.positionProperty.get();
-  //
-  //   // reuse tempVector to reduce Vector2 allocations
-  //   tempVector.x = position1.x - position2.x;
-  //   tempVector.y = position1.y - position2.y;
-  //
-  //   const distance = tempVector.magnitude;
-  //   const radiiSum = this.diameterProperty.get() / 2 + body.diameterProperty.get() / 2;
-  //   return distance < radiiSum;
-  // }
 
   public reset(): void {
     this.massProperty.reset();

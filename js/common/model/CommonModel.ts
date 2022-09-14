@@ -155,7 +155,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public stepOnce( dt: number ): void {
-    this.update();
     this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
     this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
     if ( this.pathVisibleProperty ) {

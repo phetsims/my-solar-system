@@ -38,9 +38,10 @@ export default class BodyNode extends ShadedSphereNode {
     this.body = body;
 
     this.positionMultilink = Multilink.multilink(
-      [ body.positionProperty, body.massProperty, modelViewTransformProperty ],
-      ( position, mass, modelViewTransform ) => {
-        this.setScaleMagnitude( BodyNode.massToScale( mass, modelViewTransform.modelToViewDeltaX( 1 ) ) );
+      [ body.positionProperty, body.radiusProperty, modelViewTransformProperty ],
+      ( position, radius, modelViewTransform ) => {
+        radius = modelViewTransform.modelToViewDeltaX( radius );
+        this.setRadius( radius );
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 

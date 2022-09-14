@@ -1,7 +1,12 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * Everything that controls the gravitational interactions between bodies.
+ * Logic that controls the gravitational interactions between bodies.
+ *
+ * The engine updates the position of the bodies on the run() function,
+ * inside it uses a Forrest-Ruth algorithm to calculate the position of the bodies.
+ *
+ * There's also a function to use the Verlet algorithm, but it's deprecated.
  * 
  * @author Agustín Vallejo
  */
@@ -30,7 +35,18 @@ export default class NumericalEngine extends Engine {
   public override update( bodies: ObservableArray<Body> ): void {
     // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
+    this.checkCollisions();
     this.updateForces();
+  }
+
+  private checkCollisions(): void {
+    for ( let i = 0; i < this.bodies.length; i++ ) {
+      for ( let j = i + 1; j < this.bodies.length; j++ ) {
+        if ( this.bodies[ i ].positionProperty.value.distance( this.bodies[ j ].positionProperty.value ) < this.bodies[ i ].radiusProperty.value + this.bodies[ j ].radiusProperty.value ) {
+          console.log( 'Collision!' );
+        }
+      }
+    }
   }
 
   public override reset(): void {
@@ -44,7 +60,7 @@ export default class NumericalEngine extends Engine {
 
     //REVIEW: If performance is a problem or concern, we could avoid the array creation AND arrow functions
     //REVIEW: (which can significantly slow down inner-loop code). If we're doing a LOT of iterations, and this is
-    //REVIEW: outside of the inner-loop code, then it seems fine.
+    //REVIEW: outside the inner-loop code, then it seems fine.
     const masses = this.bodies.map( body => body.massProperty.value );
     const positions = this.bodies.map( body => body.positionProperty.value.copy() );
     const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
@@ -58,10 +74,10 @@ export default class NumericalEngine extends Engine {
         forces[ i ].setXY( 0, 0 );
       }
 
-      // Iterate between all the bodies to add the forces
+      // Iterate between all the bodies to add the forces and check collisions
       for ( let i = 0; i < N; i++ ) {
         const mass1 = masses[ i ];
-        for ( let j = i + 1; j < this.bodies.length; j++ ) {
+        for ( let j = i + 1; j < N; j++ ) {
           const mass2 = masses[ j ];
 
           const direction = scratchVector.set( positions[ j ] ).subtract( positions[ i ] );
@@ -196,78 +212,6 @@ export default class NumericalEngine extends Engine {
       body.velocityProperty.value = body.velocityProperty.value.plus( acceleration.plus( previousAcceleration ).times( 0.5 * dt ) );
       body.previousAcceleration = body.accelerationProperty.value;
     } );
-
-  }
-
-  //REVIEW: is this used? Looks like an old version
-  private updatePositions( dt: number ): void {
-    this.bodies.forEach( body => {
-      body.positionProperty.value = body.positionProperty.value.plus( body.velocityProperty.value.times( dt ) );
-    } );
-  }
-
-  //REVIEW: is this used? Looks like an old version
-  private updateVelocities( dt: number ): void {
-    this.bodies.forEach( body => {
-      body.velocityProperty.value = body.velocityProperty.value.plus( body.accelerationProperty.value.times( dt ) );
-    } );
-  }
-
-  //REVIEW: is this used? Looks like an old version
-  private FRIS( dt: number ): void {
-    // Forrest Ruth Integration Scheme (FRIS)
-    
-    //-------------
-    // Step One
-    //--------------
-
-    // update Positions
-    this.updatePositions( XI * dt ); // net time: XI dt
-
-    // update Velocities
-    this.updateVelocities( ( 1 - 2 * LAMBDA ) * dt / 2 ); // net time: (1 - 2 * LAMBDA) * dt / 2
-
-    //-------------
-    // Step Two
-    //--------------
-
-    // update Positions
-    this.updatePositions( CHI * dt ); // net time: (XI+CHI) dt
-
-    // update Velocities
-    this.updateVelocities( LAMBDA * dt ); // net time: dt / 2
-
-    //-------------
-    // Step Three
-    //--------------
-
-    // update Positions
-    this.updatePositions( ( 1 - 2 * ( CHI + XI ) ) * dt ); // net time: (1-(XI+CHI)) dt
-
-    // update Velocities
-    this.updateVelocities( LAMBDA * dt ); // net time: (1/2 + LAMBDA) dt
-
-    //-------------
-    // Step Four
-    //--------------
-
-    // update Positions
-    this.updatePositions( CHI * dt ); // net time: (1-(XI)) dt
-
-    // update Velocities
-    // no update in velocities // net time: (1/2 + LAMBDA) dt
-
-    //-------------
-    // Step Five: last step, these are the final positions and velocities i.e. r(t+dt) and v(t+dt)
-    //--------------
-
-    // IMPORTANT: we need to update the velocities first
-
-    // update Velocities
-    this.updateVelocities( ( 1 - 2 * LAMBDA ) * dt / 2 ); // net time:  dt;
-
-    // update Positions
-    this.updatePositions( XI * dt ); // net time:  dt
   }
 }
 
