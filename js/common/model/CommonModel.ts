@@ -80,10 +80,10 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.bodies = createObservableArray();
 
     this.availableBodies = [
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) )
+      new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ) ),
+      new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ) ),
+      new Body( 1, new Vector2( 100, -100 ), new Vector2( 50, 50 ) ),
+      new Body( 1, new Vector2( -100, -100 ), new Vector2( 50, -50 ) )
     ];
 
     // Define the default mode the bodies will show up in

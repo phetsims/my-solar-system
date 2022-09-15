@@ -31,14 +31,11 @@ const SPACING = 10;
 
 type SelfOptions = EmptySelfOptions;
 
-//REVIEW: Export
-type OrbitalInformationOptions = SelfOptions & VBoxOptions;
+export type OrbitalInformationOptions = SelfOptions & VBoxOptions;
 
 //REVIEW: Similarly to VisibilityInformation, I'd recommend a rename to make this sound more like a view (rather than
 //REVIEW: a model).
-//REVIEW: I've seen a lot of places where you export default at the class declaration. I think we should be consistent,
-//REVIEW: so I'd prefer we export default in this location as well.
-class OrbitalInformation extends VBox {
+export default class OrbitalInformation extends VBox {
 
   public constructor( model: CommonModel, providedOptions?: OrbitalInformationOptions ) {
 
@@ -73,8 +70,7 @@ class OrbitalInformation extends VBox {
       } ), combineOptions<CheckboxOptions>( { visible: model.isLab }, MySolarSystemConstants.CHECKBOX_OPTIONS ) )
     ];
 
-    //REVIEW: VBoxOptions presumably instead of VBox.
-    super( optionize<OrbitalInformationOptions, SelfOptions, VBox>()( {
+    super( optionize<OrbitalInformationOptions, SelfOptions, VBoxOptions>()( {
       children: children,
       spacing: SPACING,
       align: 'left',
@@ -84,4 +80,3 @@ class OrbitalInformation extends VBox {
 }
 
 mySolarSystem.register( 'OrbitalInformation', OrbitalInformation );
-export default OrbitalInformation;
