@@ -48,6 +48,8 @@ export type CommonModelOptions<EngineType extends Engine> = SelfOptions<EngineTy
 abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
+  public readonly systemCenteredProperty: Property<boolean>;
+
   public numberOfActiveBodiesProperty: NumberProperty;
   public engine: EngineType;
 
@@ -86,8 +88,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // Define the default mode the bodies will show up in
     const defaultModeInfo = [
-      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -6 ) },
-      { mass: 10, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) }
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ];
 
     //REVIEW: createBodies is only... called once in the constructor? AND it's done in the supertype (common model)
@@ -125,6 +127,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.measuringTapeVisibleProperty = new Property<boolean>( false );
     this.valuesVisibleProperty = new Property<boolean>( false );
     this.moreDataProperty = new Property<boolean>( false );
+    this.systemCenteredProperty = new Property<boolean>( false );
 
     this.zoomLevelProperty = new NumberProperty( 3, {
       range: new Range( 0, 7 )

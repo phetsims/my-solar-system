@@ -17,8 +17,10 @@ type StringsType = {
   'gravityForceStringProperty': TReadOnlyProperty<string>;
   'grid': string;
   'gridStringProperty': TReadOnlyProperty<string>;
-  'mass': string;
-  'massStringProperty': TReadOnlyProperty<string>;
+  'centerOfMass': string;
+  'centerOfMassStringProperty': TReadOnlyProperty<string>;
+  'systemCentered': string;
+  'systemCenteredStringProperty': TReadOnlyProperty<string>;
   'measuringTape': string;
   'measuringTapeStringProperty': TReadOnlyProperty<string>;
   'path': string;
@@ -69,6 +71,8 @@ type StringsType = {
     'moreData': string;
     'moreDataStringProperty': TReadOnlyProperty<string>;
   };
+  'mass': string;
+  'massStringProperty': TReadOnlyProperty<string>;
   'areaGraph': {
     'title': string;
     'titleStringProperty': TReadOnlyProperty<string>;

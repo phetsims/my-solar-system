@@ -8,8 +8,11 @@
   "grid": {
     "value": "Grid"
   },
-  "mass": {
+  "centerOfMass": {
     "value": "Center of Mass"
+  },
+  "systemCentered": {
+    "value": "System Centered"
   },
   "measuringTape": {
     "value": "Measuring Tape"
