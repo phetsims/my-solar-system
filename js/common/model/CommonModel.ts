@@ -37,11 +37,18 @@ type SelfOptions<EngineType extends Engine> = {
   tandem: Tandem;
 };
 
+export type BodyInfo = {
+  mass: number;
+  position: Vector2;
+  velocity: Vector2;
+};
+
 export type CommonModelOptions<EngineType extends Engine> = SelfOptions<EngineType>;
 
 abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
+  public numberOfActiveBodiesProperty: NumberProperty;
   public engine: EngineType;
 
   public readonly timeScale: number;
@@ -70,14 +77,29 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     this.bodies = createObservableArray();
 
+    this.availableBodies = [
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
+      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) )
+    ];
+
+    // Define the default mode the bodies will show up in
+    const defaultModeInfo = [
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -6 ) },
+      { mass: 10, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) }
+    ];
+
     //REVIEW: createBodies is only... called once in the constructor? AND it's done in the supertype (common model)
     //REVIEW: so it doesn't require any of the subtypes to access class properties?
     //REVIEW: Can we just switch to passing in the bodies in the constructor (as an array) and remove this method?
     //REVIEW: Then we can also get rid of the "clear" each createBodies has.
-    this.createBodies();
+    this.createBodies( defaultModeInfo );
+    this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
     this.centerOfMass = new CenterOfMass( this.bodies );
     this.engine = providedOptions.engineFactory( this.bodies );
     this.engine.reset();
+
 
     // Time settings
     // timeScale controls the velocity of time
@@ -117,18 +139,23 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.clearPaths();
     } );
 
-    this.availableBodies = [
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) ),
-      new Body( 1, new Vector2( 0, 0 ), new Vector2( 0, 100 ) )
-    ];
+    this.pathVisibleProperty.link( visible => {
+      this.clearPaths();
+    } );
   }
 
-  /**
-   * Abstract method for body creation, every screen model will decide how to implement
-   */
-  public abstract createBodies(): void;
+  public createBodies( bodiesInfo: BodyInfo[] ): void {
+    this.bodies.clear();
+    bodiesInfo.forEach( ( body, i ) => {
+      this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
+      this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
+      this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
+
+      this.bodies.push( this.availableBodies[ i ] );
+    } );
+
+    this.bodies.forEach( body => body.reset() );
+  }
 
   public reset(): void {
     this.restart();

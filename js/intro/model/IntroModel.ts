@@ -10,16 +10,13 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Body from '../../common/model/Body.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
-//REVIEW: export!
-type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
+export type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
 class IntroModel extends CommonModel<NumericalEngine> {
   public constructor( providedOptions: IntroModelOptions ) {
@@ -28,14 +25,6 @@ class IntroModel extends CommonModel<NumericalEngine> {
       isLab: false
     }, providedOptions );
     super( options );
-  }
-
-  public override createBodies(): void {
-    //REVIEW: is this comment up-to-date? Doesn't seem random to me
-    // Clear out the bodies array and create N new random bodies
-    this.bodies.clear();
-    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ) ) );
-    this.bodies.push( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ) ) );
   }
 }
 

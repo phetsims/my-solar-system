@@ -62,7 +62,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   }
 
   public override createBodies(): void {
-    // Clear out the bodies array and create N new random bodies
+    // Clear out the bodies array and create 2 new bodies
     this.bodies.clear();
     this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
     this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );

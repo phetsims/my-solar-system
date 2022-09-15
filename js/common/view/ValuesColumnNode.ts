@@ -28,9 +28,23 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
+type SelfOptions = {
+  contentContainerSpacing?: number;
+  labelSpacing?: number;
+};
+
+export type ValuesColumnNodeOptions = SelfOptions & VBoxOptions;
+
+
 export default class ValuesColumnNode extends VBox {
   public constructor( model: CommonModel, columnType: ValuesColumnTypes ) {
-    const options: VBoxOptions = {};
+    const options: ValuesColumnNodeOptions = {
+      // {number} - y-spacing between each of the content Nodes.
+      contentContainerSpacing: 3.5,
+
+      // {number} - y-spacing between the label and first content Node.
+      labelSpacing: 3
+    };
 
     const labelString = columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
                         columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
@@ -41,7 +55,7 @@ export default class ValuesColumnNode extends VBox {
     const labelNode = new RichText( labelString, { font: MySolarSystemConstants.PANEL_FONT } );
 
     // Create the VBox container for the contentNodes of the column.
-    const contentContainer = new VBox();
+    const contentContainer = new VBox( { spacing: options.contentContainerSpacing } );
 
     // Loop through each possible Body and create the corresponding contentNode. These Bodies are NOT necessarily the
     // active bodies, so we are responsible for updating visibility based on whether it is

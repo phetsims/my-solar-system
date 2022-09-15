@@ -46,6 +46,8 @@ class CommonScreenView extends ScreenView {
   protected readonly topLayer = new Node();
   protected readonly bottomLayer = new Node();
 
+  protected readonly timeBox: HBox;
+
   protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
 
   public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
@@ -66,22 +68,15 @@ class CommonScreenView extends ScreenView {
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
-    const gridNode = new MySolarSystemGridNode(
+    this.interfaceLayer.addChild( new MySolarSystemGridNode(
       this.modelViewTransformProperty,
       MySolarSystemConstants.GRID.spacing,
       Vector2.ZERO,
       28,
       {
         stroke: MySolarSystemColors.gridIconStrokeColorProperty,
-        //REVIEW: lineWidth: 1 is the default, it can generally be ignored (and it's also specified in the type)
-        lineWidth: 1
-        //REVIEW: indentation is wonky after this line, we shouldn't have the extra spaces
-     } );
-
-    //REVIEW: pass this in as { visibleProperty: model.gridVisibleProperty }, so this extra linkAttribute isn't needed
-    //REVIEW: Then we don't need a local variable for gridNode either
-     model.gridVisibleProperty.linkAttribute( gridNode, 'visible' );
-     this.interfaceLayer.addChild( gridNode );
+        visibleProperty: model.gridVisibleProperty
+     } ) );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
@@ -175,6 +170,12 @@ class CommonScreenView extends ScreenView {
       spacing: 8
     } );
 
+    this.timeBox = new HBox( {
+      children: [ timeControlNode, clockNode ],
+      layoutOptions: { yAlign: 'bottom', column: 1 },
+      spacing: 10
+      } );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -184,14 +185,7 @@ class CommonScreenView extends ScreenView {
       tandem: providedOptions.tandem.createTandem( 'resetAllButton' )
     } );
 
-    const lowerRightBox = new AlignBox( new HBox( {
-        children: [
-          timeControlNode,
-          clockNode,
-          resetAllButton
-        ],
-        spacing: 20
-      } ),
+    const resetAllButtonBox = new AlignBox( resetAllButton,
       {
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'right',
@@ -199,10 +193,10 @@ class CommonScreenView extends ScreenView {
       } );
 
     this.visibleBoundsProperty.link( visibleBounds => {
-      lowerRightBox.alignBounds = visibleBounds;
+      resetAllButtonBox.alignBounds = visibleBounds;
     } );
 
-    this.interfaceLayer.addChild( lowerRightBox );
+    this.interfaceLayer.addChild( resetAllButtonBox );
   }
 
   //REVIEW: Perhaps making CommonScreenView an abstract class (and making this method abstract) would be appropriate

@@ -7,28 +7,19 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
+import CommonModel, { BodyInfo, CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabModes from '../../common/model/LabModes.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
 type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
-type BodyInfo = {
-  mass: number;
-  position: Vector2;
-  velocity: Vector2;
-};
-
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
-  public numberOfActiveBodiesProperty: NumberProperty;
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -37,30 +28,14 @@ class LabModel extends CommonModel<NumericalEngine> {
     }, providedOptions );
     super( options );
 
-    //REVIEW: Actually, this can just be this.bodies.lengthProperty! We already have it on ObservableArray
-    this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
-
     this.modeMap = new Map<LabModes, BodyInfo[]>();
     this.setModesToMap();
 
     this.labModeProperty.link( mode => {
       this.isPlayingProperty.value = false;
       if ( mode !== LabModes.CUSTOM ) {
-
         const modeInfo = this.modeMap.get( mode );
-
-        this.bodies.clear();
-        modeInfo!.forEach( ( body, i ) => {
-          this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
-          this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
-          this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
-
-           this.bodies.push( this.availableBodies[ i ] );
-        } );
-
-        this.bodies.forEach( body => body.reset() );
-
-        this.numberOfActiveBodiesProperty.value = this.bodies.length;
+        this.createBodies( modeInfo! );
       }
     } );
 
@@ -71,12 +46,6 @@ class LabModel extends CommonModel<NumericalEngine> {
         this.bodies.push( ...this.availableBodies.slice( 0, numberOfActiveBodiesProperty ) );
       }
     } );
-  }
-
-  public createBodies(): void {
-    this.bodies.clear();
-    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
-    this.bodies.push( new Body( 10, new Vector2( 150, 0 ), new Vector2( 0, 120 ) ) );
   }
 
   public setModesToMap(): void {

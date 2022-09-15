@@ -7,20 +7,50 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
 import PathsWebGLNode from './PathsWebGLNode.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView from './CommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
+import MySolarSystemCheckbox, { MySolarSystemCheckboxOptions } from './MySolarSystemCheckbox.js';
+import FullDataPanel from './FullDataPanel.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
+import TinyProperty from '../../../../axon/js/TinyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 type SelfOptions = EmptySelfOptions;
 
 export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
+
+// Consts
+const TEXT_OPTIONS = {
+  font: MySolarSystemConstants.PANEL_FONT,
+  fill: 'white'
+};
+
+const spinnerOptions: NumberSpinnerOptions = {
+  deltaValue: 1,
+  touchAreaXDilation: 20,
+  touchAreaYDilation: 10,
+  mouseAreaXDilation: 10,
+  mouseAreaYDilation: 5,
+  numberDisplayOptions: {
+    decimalPlaces: 0,
+    align: 'center',
+    xMargin: 10,
+    yMargin: 3,
+    textOptions: {
+      font: new Font( { size: 28 } )
+    }
+  }
+};
+
 
 export default class IntroLabScreenView extends CommonScreenView {
   public constructor( model: CommonModel, providedOptions: IntroLabScreenViewOptions ) {
@@ -28,7 +58,7 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     // UI Elements ===================================================================================================
 
-    // Zoom Buttons
+    // Zoom Buttons ---------------------------------------------------------------------------
     const topLeftZoomBox = new AlignBox(
       new MagnifyingGlassZoomButtonGroup(
         model.zoomLevelProperty,
@@ -47,8 +77,7 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     this.interfaceLayer.addChild( topLeftZoomBox );
 
-    // Add the control panel on top of the canvases
-    // Visibility checkboxes for sim elements
+    // Control Panel --------------------------------------------------------------------------------------------
     const topRightControlBox = new AlignBox(
       new Panel(
         new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
@@ -64,12 +93,69 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     this.interfaceLayer.addChild( topRightControlBox );
 
-    //REVIEW: use visibleProperty (and don't specify visible: false at the start)
-    const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visible: false } );
-    model.pathVisibleProperty.link( visible => {
-      pathsWebGLNode.visible = visible;
-      model.clearPaths();
+    // Full Data Panel --------------------------------------------------------------------------------------------
+    const fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
+    const numberSpinnerBox = new VBox( {
+      children: [
+        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
+        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 2, 4 ) ),
+          combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
+            arrowsPosition: 'bothRight',
+            numberDisplayOptions: {
+              yMargin: 10,
+              align: 'right',
+              scale: 0.8
+            }
+          } ) )
+      ],
+      visible: model.isLab,
+      spacing: 10,
+      layoutOptions: {
+        column: 0,
+        row: 1,
+        margin: 10,
+        yAlign: 'bottom'
+      }
     } );
+
+    const moreDataCheckbox = new MySolarSystemCheckbox(
+      model.moreDataProperty,
+      new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ),
+      combineOptions<MySolarSystemCheckboxOptions>(
+          { layoutOptions: { column: 1, row: 0 }, visible: model.isLab },
+          MySolarSystemConstants.CHECKBOX_OPTIONS )
+    );
+
+
+    const dataGridbox = new GridBox( {
+      children: [
+          numberSpinnerBox,
+          moreDataCheckbox,
+          fullDataPanel
+        ],
+      layoutOptions: {
+        column: 0
+      }
+      } );
+
+    const centerBox = new AlignBox( new GridBox( {
+      children: [ dataGridbox, this.timeBox ],
+      spacing: 20
+      } ),
+      {
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'center',
+        yAlign: 'bottom'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      centerBox.alignBounds = visibleBounds;
+    } );
+
+    // Slider that controls the bodies mass
+    this.interfaceLayer.addChild( centerBox );
+
+    const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
     this.bottomLayer.addChild( pathsWebGLNode );
   }
 

@@ -11,13 +11,13 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, AlignGroup, HBox, RichText, VBox } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import LabModel from '../../lab/model/LabModel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
+import CommonModel from '../model/CommonModel.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -35,7 +35,7 @@ type SelfOptions = {
 export type FullDataPanelOptions = PanelOptions & SelfOptions;
 
 export default class FullDataPanel extends Panel {
-  public constructor( model: LabModel, providedOptions?: FullDataPanelOptions ) {
+  public constructor( model: CommonModel, providedOptions?: FullDataPanelOptions ) {
     const options = optionize<FullDataPanelOptions, SelfOptions, PanelOptions>()(
       {
         bodyIconColumnSpacing: 12,   // {number} - x-spacing between the ball-icons and the first column.
@@ -117,8 +117,8 @@ export default class FullDataPanel extends Panel {
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
     // Link is not removed since BallValuesPanels are never disposed.
     model.moreDataProperty.link( moreDataVisible => {
-      moreDataBox.visible = moreDataVisible;
-      lessDataBox.visible = !moreDataVisible;
+      moreDataBox.visible = moreDataVisible && model.isLab;
+      lessDataBox.visible = !moreDataVisible || !model.isLab;
     } );
 
     super( new HBox( {
