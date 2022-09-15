@@ -48,24 +48,25 @@ export type CommonModelOptions<EngineType extends Engine> = SelfOptions<EngineTy
 abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
-  public readonly systemCenteredProperty: Property<boolean>;
+  public readonly systemCenteredProperty;
 
   public numberOfActiveBodiesProperty: NumberProperty;
   public engine: EngineType;
 
-  public readonly timeScale: number;
-  public readonly timeRange: Range;
-  public readonly timeProperty: Property<number>;
-  public readonly isPlayingProperty: Property<boolean>;
+  // Time control parameters
+  public readonly timeScale;
+  public readonly timeRange;
+  public readonly timeProperty;
+  public readonly isPlayingProperty;
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
-  public readonly pathVisibleProperty: Property<boolean>;
-  public readonly gravityVisibleProperty: Property<boolean>;
-  public readonly velocityVisibleProperty: Property<boolean>;
-  public readonly gridVisibleProperty: Property<boolean>;
-  public readonly measuringTapeVisibleProperty: Property<boolean>;
-  public readonly valuesVisibleProperty: Property<boolean>;
-  public readonly moreDataProperty: Property<boolean>;
+  public readonly pathVisibleProperty;
+  public readonly gravityVisibleProperty;
+  public readonly velocityVisibleProperty;
+  public readonly gridVisibleProperty;
+  public readonly measuringTapeVisibleProperty;
+  public readonly valuesVisibleProperty;
+  public readonly moreDataProperty;
 
   public readonly zoomLevelProperty: RangedProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
@@ -108,16 +109,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // timeScale controls the velocity of time
     this.timeScale = 1.0;
     this.timeRange = new Range( 0, 1000 );
-    //REVIEW: Could remove these two type parameters, because they will be inferred (because of what you are assigning
-    //REVIEW them to).
     this.timeProperty = new Property<number>( 0 );
-    this.isPlayingProperty = new Property<boolean>( false, {
-      tandem: providedOptions.tandem.createTandem( 'isPlayingProperty' ),
-      phetioDocumentation: `This value is true if the play/pause button on this screen is in play mode. (It remains true even if the user switches screens. Use in combination with '${phet.joist.sim.selectedScreenProperty.tandem.phetioID}'.)`
-    } );
-    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
-      tandem: providedOptions.tandem.createTandem( 'timeSpeedProperty' )
-    } );
+    this.isPlayingProperty = new Property<boolean>( false );
+    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
 
     // Visibility properties for checkboxes
     //REVIEW: We'll want to add tandems to these (perhaps we can collaborate on adding phet-io tandems?)
@@ -129,6 +123,19 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.valuesVisibleProperty = new Property<boolean>( false );
     this.moreDataProperty = new Property<boolean>( false );
     this.systemCenteredProperty = new Property<boolean>( false );
+
+
+    // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
+    this.systemCenteredProperty.link( systemCentered => {
+      if ( systemCentered ) {
+        // this.isPlayingProperty.value = false; // Pause the sim
+        this.bodies.forEach( body => {
+          body.clearPath();
+          body.positionProperty.set( body.positionProperty.value.minus( this.centerOfMass.positionProperty.value ) );
+          body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
+        } );
+      }
+    } );
 
     this.zoomLevelProperty = new NumberProperty( 3, {
       range: new Range( 0, 7 )
@@ -199,6 +206,12 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public update(): void {
     this.engine.update( this.bodies );
     this.centerOfMass.updateCenterOfMassPosition();
+
+    // If position or velocity of Center of Mass is different than 0, then the system is not centered
+    if ( this.centerOfMass.positionProperty.value.magnitude > 0.01 || this.centerOfMass.velocityProperty.value.magnitude > 0.01 ) {
+      this.systemCenteredProperty.value = false;
+    }
+
     this.numberOfActiveBodiesProperty.value = this.bodies.length;
   }
 

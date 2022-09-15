@@ -122,7 +122,10 @@ export default class IntroLabScreenView extends CommonScreenView {
       model.moreDataProperty,
       new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ),
       combineOptions<MySolarSystemCheckboxOptions>(
-          { layoutOptions: { column: 1, row: 0 }, visible: model.isLab },
+        {
+            layoutOptions: { column: 1, row: 0, xAlign: 'left' },
+            visible: model.isLab
+        },
           MySolarSystemConstants.CHECKBOX_OPTIONS )
     );
 
