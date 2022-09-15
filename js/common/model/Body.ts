@@ -17,12 +17,12 @@ import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
 
 class Body {
   // Unitless body quantities.
-  public readonly massProperty: Property<number>;
-  public readonly radiusProperty: Property<number>;
-  public readonly positionProperty: Property<Vector2>;
-  public readonly velocityProperty: Property<Vector2>;
-  public readonly accelerationProperty: Property<Vector2>;
-  public readonly forceProperty: Property<Vector2>;
+  public readonly massProperty;
+  public readonly radiusProperty;
+  public readonly positionProperty;
+  public readonly velocityProperty;
+  public readonly accelerationProperty;
+  public readonly forceProperty;
 
   // Collision handling
   public readonly isCollidedProperty = new Property<boolean>( false );
@@ -44,10 +44,6 @@ class Body {
   public stepCounter: number;
   public wholeStepSize: number;
 
-  // Previous values for velocity Verlet algorithm
-  public previousAcceleration: Vector2;
-  public previousPosition: Vector2;
-
   //REVIEW: Usually I recommend naming initial values something like `initialPosition` or `initialVelocity` since they
   //REVIEW: will be updated later
   public constructor( mass: number, position: Vector2, velocity: Vector2 ) {
@@ -59,8 +55,6 @@ class Body {
     this.velocityProperty = new Property<Vector2>( velocity );
     this.accelerationProperty = new Property<Vector2>( Vector2.ZERO );
     this.forceProperty = new Property<Vector2>( Vector2.ZERO );
-    this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
-    this.previousPosition = this.positionProperty.value; // Previous acceleration for velocity Verlet algorithm
 
     this.massProperty.link( mass => {
       // Mass to radius function
@@ -90,9 +84,8 @@ class Body {
     this.velocityProperty.reset();
     this.accelerationProperty.reset();
     this.forceProperty.reset();
+    this.isCollidedProperty.reset();
     this.clearPath();
-    this.previousAcceleration = this.accelerationProperty.value; // Previous acceleration for velocity Verlet algorithm
-    this.previousPosition = this.positionProperty.value;
   }
 
   /**

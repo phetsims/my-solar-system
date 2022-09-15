@@ -74,6 +74,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
   public readonly availableBodies: Body[];
+  private readonly defaultModeInfo: BodyInfo[];
 
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
@@ -87,7 +88,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     ];
 
     // Define the default mode the bodies will show up in
-    const defaultModeInfo = [
+    this.defaultModeInfo = [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
       { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ];
@@ -96,7 +97,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     //REVIEW: so it doesn't require any of the subtypes to access class properties?
     //REVIEW: Can we just switch to passing in the bodies in the constructor (as an array) and remove this method?
     //REVIEW: Then we can also get rid of the "clear" each createBodies has.
-    this.createBodies( defaultModeInfo );
+    this.createBodies( this.defaultModeInfo );
     this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
     this.centerOfMass = new CenterOfMass( this.bodies );
     this.engine = providedOptions.engineFactory( this.bodies );
@@ -177,8 +178,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   // Restart is for when the time controls are brought back to 0
   public restart(): void {
-    this.isPlayingProperty.value = false;
-    this.bodies.forEach( body => body.reset() );
+    this.isPlayingProperty.value = false; // Pause the sim
+    this.createBodies( this.defaultModeInfo ); // Reset the bodies
     //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
     this.update();
     this.timeProperty.value = 0;
@@ -198,6 +199,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public update(): void {
     this.engine.update( this.bodies );
     this.centerOfMass.updateCenterOfMassPosition();
+    this.numberOfActiveBodiesProperty.value = this.bodies.length;
   }
 
   public step( dt: number ): void {

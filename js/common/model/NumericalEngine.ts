@@ -42,8 +42,18 @@ export default class NumericalEngine extends Engine {
   private checkCollisions(): void {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       for ( let j = i + 1; j < this.bodies.length; j++ ) {
-        if ( this.bodies[ i ].positionProperty.value.distance( this.bodies[ j ].positionProperty.value ) < this.bodies[ i ].radiusProperty.value + this.bodies[ j ].radiusProperty.value ) {
-          console.log( 'Collision!' );
+        const body1 = this.bodies[ i ];
+        const body2 = this.bodies[ j ];
+        const distance = body1.positionProperty.value.distance( body2.positionProperty.value );
+        if ( distance < body1.radiusProperty.value + body2.radiusProperty.value ) {
+          if ( body1.massProperty.value > body2.massProperty.value ) {
+            this.bodies[ j ].reset();
+            this.bodies.splice( j, 1 );
+          }
+          else {
+            this.bodies[ i ].reset();
+            this.bodies.splice( i, 1 );
+          }
         }
       }
     }
@@ -66,7 +76,6 @@ export default class NumericalEngine extends Engine {
     const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
     const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
     const forces = this.bodies.map( body => body.forceProperty.value.copy() );
-    const previousAccelerations = this.bodies.map( body => body.previousAcceleration );
 
     for ( let k = 0; k < iterationCount; k++ ) {
       // Zeroing out forces
@@ -159,7 +168,6 @@ export default class NumericalEngine extends Engine {
       body.velocityProperty.value = velocities[ i ];
       body.accelerationProperty.value = accelerations[ i ];
       body.forceProperty.value = forces[ i ];
-      body.previousAcceleration = previousAccelerations[ i ];
     }
   }
 
@@ -195,23 +203,6 @@ export default class NumericalEngine extends Engine {
     assert && assert( distance > 0, 'Negative distances not allowed!!' );
     const forceMagnitude = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
     return direction.times( forceMagnitude );
-  }
-
-  /**
-   * Modify the positionProperty and velocityProperty of all bodies based on the Verlet's algorithm
-   * x(t+dt) = x(t) + v(t)*dt + a(t)*0.5*dt*dt
-   * v(t+dt) = v(t) + (a(t+dt) + a(t))*0.5*dt
-   * REVIEW: is this used? Looks like an old version
-   */
-  private verlet( dt: number ): void {
-    this.bodies.forEach( body => {
-      const velocity: Vector2 = body.velocityProperty.value;
-      const acceleration: Vector2 = body.accelerationProperty.value;
-      const previousAcceleration: Vector2 = body.previousAcceleration;
-      body.positionProperty.value = body.positionProperty.value.plus( velocity.times( dt ) ).plus( previousAcceleration.times( 0.5 * dt * dt ) );
-      body.velocityProperty.value = body.velocityProperty.value.plus( acceleration.plus( previousAcceleration ).times( 0.5 * dt ) );
-      body.previousAcceleration = body.accelerationProperty.value;
-    } );
   }
 }
 

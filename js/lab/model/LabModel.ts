@@ -20,6 +20,8 @@ type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
+  private readonly modeSetter: ( mode: LabModes ) => void;
+  private lastSelectedMode: LabModes;
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -28,25 +30,39 @@ class LabModel extends CommonModel<NumericalEngine> {
     }, providedOptions );
     super( options );
 
+    this.lastSelectedMode = LabModes.SUN_PLANET;
     this.modeMap = new Map<LabModes, BodyInfo[]>();
     this.setModesToMap();
 
-    this.labModeProperty.link( mode => {
+    this.modeSetter = ( mode: LabModes ) => {
       this.isPlayingProperty.value = false;
       if ( mode !== LabModes.CUSTOM ) {
+        this.lastSelectedMode = mode;
         const modeInfo = this.modeMap.get( mode );
         this.createBodies( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
       }
-    } );
+    };
+
+    this.labModeProperty.link( this.modeSetter );
 
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodiesProperty => {
       if ( numberOfActiveBodiesProperty !== this.bodies.length ) {
+        this.isPlayingProperty.value = false;
         this.labModeProperty.value = LabModes.CUSTOM;
         this.bodies.clear();
         this.bodies.push( ...this.availableBodies.slice( 0, numberOfActiveBodiesProperty ) );
       }
     } );
+  }
+
+  // Restart is for when the time controls are brought back to 0
+  public override restart(): void {
+    this.isPlayingProperty.value = false;
+    this.modeSetter( this.lastSelectedMode );
+    //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
+    this.update();
+    this.timeProperty.value = 0;
   }
 
   public setModesToMap(): void {
@@ -78,9 +94,9 @@ class LabModel extends CommonModel<NumericalEngine> {
     ] );
     this.modeMap.set( LabModes.HYPERBOLIC, [
       { mass: 250, position: new Vector2( -50, -25 ), velocity: new Vector2( 0, 0 ) },
-      { mass: 0.000001, position: new Vector2( 300, 50 ), velocity: new Vector2( -120, 0 ) },
-      { mass: 0.000001, position: new Vector2( 300, 120 ), velocity: new Vector2( -120, 0 ) },
-      { mass: 0.000001, position: new Vector2( 300, 190 ), velocity: new Vector2( -120, 0 ) }
+      { mass: 0.000001, position: new Vector2( -300, 70 ), velocity: new Vector2( 120, 0 ) },
+      { mass: 0.000001, position: new Vector2( -300, 140 ), velocity: new Vector2( 120, 0 ) },
+      { mass: 0.000001, position: new Vector2( -300, 210 ), velocity: new Vector2( 120, 0 ) }
     ] );
     this.modeMap.set( LabModes.SLINGSHOT, [
       { mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
@@ -116,15 +132,6 @@ class LabModel extends CommonModel<NumericalEngine> {
       { mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
       { mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
-  }
-
-  // Restart is for when the time controls are brought back to 0
-  public override restart(): void {
-    this.isPlayingProperty.value = false;
-    this.bodies.forEach( body => body.reset() );
-    //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
-    this.update();
-    this.timeProperty.value = 0;
   }
 }
 

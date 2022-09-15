@@ -98,7 +98,7 @@ export default class IntroLabScreenView extends CommonScreenView {
     const numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
-        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 2, 4 ) ),
+        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, 4 ) ),
           combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
             arrowsPosition: 'bothRight',
             numberDisplayOptions: {
