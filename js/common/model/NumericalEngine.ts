@@ -47,10 +47,12 @@ export default class NumericalEngine extends Engine {
         const distance = body1.positionProperty.value.distance( body2.positionProperty.value );
         if ( distance < body1.radiusProperty.value + body2.radiusProperty.value ) {
           if ( body1.massProperty.value > body2.massProperty.value ) {
+            this.bodies[ i ].velocityProperty.value = body1.velocityProperty.value.plus( body2.velocityProperty.value.times( body2.massProperty.value / body1.massProperty.value ) );
             this.bodies[ j ].reset();
             this.bodies.splice( j, 1 );
           }
           else {
+            this.bodies[ j ].velocityProperty.value = body2.velocityProperty.value.plus( body1.velocityProperty.value.times( body1.massProperty.value / body2.massProperty.value ) );
             this.bodies[ i ].reset();
             this.bodies.splice( i, 1 );
           }
