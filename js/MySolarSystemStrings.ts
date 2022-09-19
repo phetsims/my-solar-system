@@ -122,6 +122,8 @@ type StringsType = {
   'pattern': {
     'labelParenthesesUnits': string;
     'labelParenthesesUnitsStringProperty': TReadOnlyProperty<string>;
+    'velocityValueUnits': string;
+    'velocityValueUnitsStringProperty': TReadOnlyProperty<string>;
   }
 };
 

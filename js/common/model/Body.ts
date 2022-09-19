@@ -26,6 +26,7 @@ class Body {
 
   // Collision handling
   public readonly isCollidedProperty = new Property<boolean>( false );
+  public readonly valueVisibleProperty = new Property<boolean>( false );
 
   // Emitters for various events
   //REVIEW: This first emitter isn't emitted or listened to! Can it be removed?

@@ -124,6 +124,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.moreDataProperty = new Property<boolean>( false );
     this.systemCenteredProperty = new Property<boolean>( false );
 
+    this.valuesVisibleProperty.link( visible => {
+      this.availableBodies.forEach( body => {
+        body.valueVisibleProperty.value = visible; // Doesn't need disposal because will always exist
+      } );
+    } );
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {

@@ -145,5 +145,8 @@
   },
   "pattern.labelParenthesesUnits": {
     "value": "{{label}} ({{units}})"
+  },
+  "pattern.velocityValueUnits": {
+    "value": "|v| = {{value}} {{units}}"
   }
 }
