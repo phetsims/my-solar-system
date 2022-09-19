@@ -59,6 +59,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
         this.engine.periodDivisions = divisions;
       }
     );
+
+    this.timeScale = 0.3;
   }
 
   public override createBodies(): void {

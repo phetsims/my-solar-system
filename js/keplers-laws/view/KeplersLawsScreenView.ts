@@ -22,6 +22,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import AreasGraphPanel from './AreasGraphPanel.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
+import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 
 // constants
 const MARGIN = 5;
@@ -101,6 +102,20 @@ class KeplersLawsScreenView extends CommonScreenView {
       {
         alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
       } ) );
+
+    // Add the center box containing the time control buttons
+    const centerBox = new AlignBox( this.timeBox, {
+        margin: MySolarSystemConstants.MARGIN,
+        xAlign: 'center',
+        yAlign: 'bottom'
+      } );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      centerBox.alignBounds = visibleBounds;
+    } );
+
+    // Slider that controls the bodies mass
+    this.interfaceLayer.addChild( centerBox );
   }
 }
 

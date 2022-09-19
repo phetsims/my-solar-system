@@ -23,6 +23,13 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import ViewSynchronizer from './ViewSynchronizer.js';
+import Body from '../model/Body.js';
+import BodyNode from './BodyNode.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
+import DraggableVectorNode from './DraggableVectorNode.js';
+import VectorNode from './VectorNode.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -55,6 +62,49 @@ const spinnerOptions: NumberSpinnerOptions = {
 export default class IntroLabScreenView extends CommonScreenView {
   public constructor( model: CommonModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, providedOptions );
+
+
+    // Body and Arrows Creation =================================================================================================
+    // Setting the Factory functions that will create the necessary Nodes
+
+    const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
+      return new BodyNode( body, this.modelViewTransformProperty, {
+        mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayer.getChildrenCount() ]
+      } );
+    } );
+
+    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
+      return new DraggableVectorNode(
+        body, this.modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
+        //REVIEW: translatable label! Also factor this out with the kepler's law version
+        1, 'V', { fill: PhetColorScheme.VELOCITY }
+      );
+    } );
+
+    const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
+      return new VectorNode(
+        body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty,
+        0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
+      );
+    } );
+
+    // The ViewSynchronizers handle the creation and disposal of Model-View pairs
+    const trackers = [
+      bodyNodeSynchronizer, velocityVectorSynchronizer, forceVectorSynchronizer
+    ];
+
+    // Create bodyNodes and arrows for every body
+    model.bodies.forEach( body => trackers.forEach( tracker => tracker.add( body ) ) );
+
+    // Set up listeners for object creation and disposal
+    model.bodies.elementAddedEmitter.addListener( body => {
+      trackers.forEach( tracker => tracker.add( body ) );
+      this.update();
+    } );
+    model.bodies.elementRemovedEmitter.addListener( body => {
+      trackers.forEach( tracker => tracker.remove( body ) );
+      this.update();
+    } );
 
     // UI Elements ===================================================================================================
 

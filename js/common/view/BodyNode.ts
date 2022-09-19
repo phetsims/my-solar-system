@@ -40,7 +40,6 @@ export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
   private readonly positionMultilink: UnknownMultilink;
-  public readonly draggable: boolean;
   private readonly valueNode: Text; // node that contains the text
   private readonly valueBackgroundNode: Rectangle; // rectangle behind text
   private readonly valueContainer: Node; // parent that displays the text and its background
@@ -48,7 +47,6 @@ export default class BodyNode extends ShadedSphereNode {
 
   public constructor( body: Body, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
-      cursor: 'pointer',
       draggable: true,
 
       // Text Options
@@ -64,6 +62,8 @@ export default class BodyNode extends ShadedSphereNode {
 
     }, providedOptions );
 
+    options.cursor = options.draggable ? 'pointer' : 'default';
+
     super( 1, options );
 
     this.body = body;
@@ -76,8 +76,7 @@ export default class BodyNode extends ShadedSphereNode {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
-    this.draggable = options.draggable;
-    if ( this.draggable ) {
+    if ( options.draggable ) {
       const dragListener = new DragListener( {
         positionProperty: body.positionProperty,
         start: () => {

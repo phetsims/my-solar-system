@@ -54,7 +54,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public engine: EngineType;
 
   // Time control parameters
-  public readonly timeScale;
+  public timeScale; // Changeable because Kepler's Laws screen uses a different speed
   public readonly timeRange;
   public readonly timeProperty;
   public readonly isPlayingProperty;
