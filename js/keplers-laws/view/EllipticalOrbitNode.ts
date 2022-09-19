@@ -10,35 +10,40 @@ import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import { Path, Node, Circle } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export default class EllipticalOrbitNode extends Path {
-  //REVIEW: readonly?
-  private orbit: EllipticalOrbit;
-  private shapeMultilink: UnknownMultilink;
+  private readonly orbit: EllipticalOrbit;
+  private readonly shapeMultilink: UnknownMultilink;
 
   public constructor(
     model: KeplersLawsModel,
-    //REVIEW: Prefer TReadOnlyProperty
-    modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>
+    modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>
     ) {
 
-    //REVIEW: Can pass in `null` here, since we're setting the shape later (instead of creating an empty shape).
-    super( new Shape(), {
+    // Passing in a null shape, since it will be updated later
+    super( null, {
       lineWidth: 3,
       stroke: 'fuchsia'
     } );
 
     this.orbit = model.engine;
-    const predictedBody = this.orbit.predictedBody;
 
-    // Drawing of Periapsis and Apoapsis
+    // Temporal orbiting body, displayed as a white X. In the future, the orbiting body should be the BodyNode
+    const predictedBody = this.orbit.predictedBody;
+    const predicted = new XNode( {
+      fill: 'white',
+      stroke: 'white',
+      center: Vector2.ZERO
+    } );
+
+    // Drawing of Periapsis and Apoapsis, their position is updated later
     const periapsis = new XNode( {
       fill: 'gold',
       stroke: 'white',
@@ -58,16 +63,10 @@ export default class EllipticalOrbitNode extends Path {
       } )
     } );
 
-    // Position of the provisional predicted body
-    const predicted = new XNode( {
-      fill: 'white',
-      stroke: 'white',
-      center: Vector2.ZERO
-    } );
-
-
+    // Arrays of orbital divisions' dots and areas
     const orbitDivisions: Circle[] = [];
     const areaPaths: Path[] = [];
+
     for ( let i = 0; i < model.maxDivisionValue; i++ ) {
       orbitDivisions.push( new Circle( 5, {
         fill: 'black',
@@ -81,6 +80,9 @@ export default class EllipticalOrbitNode extends Path {
         opacity: 0.7 * ( i / 10 ) + 0.3
       } ) );
     }
+
+    // Nodes for the orbital divisions' dots and areas
+    // There are Nodes and arrays separately to access them by index
     const orbitDivisionsNode = new Node( {
       visibleProperty: model.dotsVisibleProperty
     } );
@@ -125,8 +127,6 @@ export default class EllipticalOrbitNode extends Path {
       let endIndex = 0;
       let bodyAngle = Math.atan2( predicted.center.y / radiusY, predicted.center.x / radiusX );
 
-      //REVIEW: console.log still helpful?
-      console.log( 'start' );
       for ( let i = 0; i < model.maxDivisionValue; i++ ) {
         if ( ( i < model.periodDivisionProperty.value ) ) {
           if ( this.orbit.retrograde ) {
@@ -145,27 +145,38 @@ export default class EllipticalOrbitNode extends Path {
           startAngle = Math.atan2( orbitDivisions[ startIndex ].y / radiusY, orbitDivisions[ startIndex ].x / radiusX );
           endAngle = Math.atan2( orbitDivisions[ endIndex ].y / radiusY, orbitDivisions[ endIndex ].x / radiusX );
 
-          if ( this.orbit.retrograde ) {
-            startAngle = Utils.moduloBetweenDown( startAngle, endAngle, Math.PI * 2 + endAngle );
-            bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, Math.PI * 2 + endAngle );
-
-            if ( ( endAngle < bodyAngle ) && ( bodyAngle < startAngle ) ) {
-              startAngle = bodyAngle;
-            }
-          }
-          else {
-            startAngle = Utils.moduloBetweenDown( startAngle, endAngle, Math.PI * 2 + endAngle );
-            bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, Math.PI * 2 + endAngle );
-
-            if ( ( endAngle < bodyAngle ) && ( bodyAngle < startAngle ) ) {
-              endAngle = bodyAngle;
-            }
-          }
+          startAngle = Utils.moduloBetweenDown( startAngle, endAngle, Math.PI * 2 + endAngle );
+          bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, Math.PI * 2 + endAngle );
 
           areaPaths[ i ].visible = true;
 
-          //REVIEW: commented-out code?
-          // areaPaths[ i ].opacity = 0.8 * Math.abs( endAngle - bodyAngle ) / ( Math.PI * 2 );
+          if ( ( endAngle < bodyAngle ) && ( bodyAngle < startAngle ) ) {
+            // Map opacity from 0 to 0.8 based on BodyAngle from endAngle to startAngle
+            const areaRatio = ( bodyAngle - endAngle ) / ( startAngle - endAngle );
+            if ( this.orbit.retrograde ) {
+              areaPaths[ i ].opacity = 0.8 * areaRatio;
+              startAngle = bodyAngle;
+            }
+            else {
+              areaPaths[ i ].opacity = 0.8 * ( 1 - areaRatio );
+              endAngle = bodyAngle;
+            }
+          }
+          else {
+            // Map opacity based on distance from BodyAngle to endAngle or startAngle
+            const maxAngleRatio = Math.max(
+              Math.abs( bodyAngle - endAngle ), Math.abs( bodyAngle - startAngle )
+              ) / ( 2 * Math.PI );
+            const minAngleRatio = Math.min(
+              Math.abs( bodyAngle - endAngle ), Math.abs( bodyAngle - startAngle )
+            ) / ( 2 * Math.PI );
+            if ( this.orbit.retrograde ) {
+              areaPaths[ i ].opacity = 0.8 * ( 1 - minAngleRatio );
+            }
+            else {
+              areaPaths[ i ].opacity = 0.8 * ( maxAngleRatio );
+            }
+          }
 
           areaPaths[ i ].shape = new Shape().moveTo( c, 0 ).ellipticalArc(
             0, 0, radiusX, radiusY, 0, startAngle, endAngle, true
