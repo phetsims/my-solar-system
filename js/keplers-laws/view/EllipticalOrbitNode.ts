@@ -18,6 +18,8 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
+const TWOPI = 2 * Math.PI;
+
 export default class EllipticalOrbitNode extends Path {
   private readonly orbit: EllipticalOrbit;
   private readonly shapeMultilink: UnknownMultilink;
@@ -145,16 +147,25 @@ export default class EllipticalOrbitNode extends Path {
           startAngle = Math.atan2( orbitDivisions[ startIndex ].y / radiusY, orbitDivisions[ startIndex ].x / radiusX );
           endAngle = Math.atan2( orbitDivisions[ endIndex ].y / radiusY, orbitDivisions[ endIndex ].x / radiusX );
 
-          startAngle = Utils.moduloBetweenDown( startAngle, endAngle, Math.PI * 2 + endAngle );
-          bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, Math.PI * 2 + endAngle );
+          startAngle = Utils.moduloBetweenDown( startAngle, endAngle, TWOPI + endAngle );
+          bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, TWOPI + endAngle );
 
           areaPaths[ i ].visible = true;
 
-          if ( ( endAngle < bodyAngle ) && ( bodyAngle < startAngle ) ) {
-            // Map opacity from 0 to 0.8 based on BodyAngle from endAngle to startAngle
-            const areaRatio = ( bodyAngle - endAngle ) / ( startAngle - endAngle );
+
+          // Map opacity from 0 to 0.8 based on BodyAngle from endAngle to startAngle (inside area)
+          const areaRatio = ( bodyAngle - endAngle ) / ( startAngle - endAngle );
+
+          // Map opacity from 0 to 0.8 based on BodyAngle from startAngle to endAngle (outside area)
+          let opacityFalloff = -1 * ( bodyAngle - endAngle - TWOPI ) / ( TWOPI - ( startAngle - endAngle ) );
+          opacityFalloff = Utils.moduloBetweenDown( opacityFalloff, 0, 1 );
+
+          if ( startAngle === endAngle ) { // TODO: Check why this happens
+            areaPaths[ i ].opacity = 0;
+          }
+          else if ( ( endAngle <= bodyAngle ) && ( bodyAngle <= startAngle ) ) {
             if ( this.orbit.retrograde ) {
-              areaPaths[ i ].opacity = 0.8 * areaRatio;
+              areaPaths[ i ].opacity = 0.8 * ( areaRatio );
               startAngle = bodyAngle;
             }
             else {
@@ -163,18 +174,11 @@ export default class EllipticalOrbitNode extends Path {
             }
           }
           else {
-            // Map opacity based on distance from BodyAngle to endAngle or startAngle
-            const maxAngleRatio = Math.max(
-              Math.abs( bodyAngle - endAngle ), Math.abs( bodyAngle - startAngle )
-              ) / ( 2 * Math.PI );
-            const minAngleRatio = Math.min(
-              Math.abs( bodyAngle - endAngle ), Math.abs( bodyAngle - startAngle )
-            ) / ( 2 * Math.PI );
             if ( this.orbit.retrograde ) {
-              areaPaths[ i ].opacity = 0.8 * ( 1 - minAngleRatio );
+              areaPaths[ i ].opacity = 0.8 * ( opacityFalloff );
             }
             else {
-              areaPaths[ i ].opacity = 0.8 * ( maxAngleRatio );
+              areaPaths[ i ].opacity = 0.8 * ( 1 - opacityFalloff );
             }
           }
 
