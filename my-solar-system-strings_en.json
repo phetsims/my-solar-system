@@ -12,7 +12,7 @@
     "value": "Center of Mass"
   },
   "systemCentered": {
-    "value": "Follow System"
+    "value": "Follow Center of Mass"
   },
   "measuringTape": {
     "value": "Measuring Tape"

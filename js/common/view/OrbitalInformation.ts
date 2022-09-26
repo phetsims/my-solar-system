@@ -12,13 +12,12 @@ import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
-import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 
 // constants
 //REVIEW: This is shared between VisibilityInformation and OrbitalInformation, can we factor it out? Thoughts?
@@ -61,13 +60,7 @@ export default class OrbitalInformation extends VBox {
             scale: 0.5
           } )
         ]
-      } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-      new MySolarSystemCheckbox( model.systemCenteredProperty, new HBox( {
-        spacing: 10,
-        children: [
-          new Text( MySolarSystemStrings.systemCenteredStringProperty, TEXT_OPTIONS )
-        ]
-      } ), combineOptions<CheckboxOptions>( { visible: model.isLab }, MySolarSystemConstants.CHECKBOX_OPTIONS ) )
+      } ), MySolarSystemConstants.CHECKBOX_OPTIONS )
     ];
 
     super( optionize<OrbitalInformationOptions, SelfOptions, VBoxOptions>()( {

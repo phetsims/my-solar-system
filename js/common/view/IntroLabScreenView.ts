@@ -30,6 +30,8 @@ import MySolarSystemColors from '../MySolarSystemColors.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
 import VectorNode from './VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -129,8 +131,23 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     // Control Panel --------------------------------------------------------------------------------------------
     const topRightControlBox = new AlignBox(
-      new Panel(
-        new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+      new VBox(
+        {
+          spacing: 10,
+          stretch: true,
+          children: [
+            new Panel(
+              new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+            new TextPushButton( MySolarSystemStrings.systemCenteredStringProperty, {
+              enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
+              listener: () => {
+                model.systemCenteredProperty.value = !model.systemCenteredProperty.value;
+              },
+              font: MySolarSystemConstants.PANEL_FONT
+            } )
+          ]
+        }
+      ),
       {
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'right',
