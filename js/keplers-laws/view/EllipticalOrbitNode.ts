@@ -104,11 +104,11 @@ export default class EllipticalOrbitNode extends Path {
       // Non allowed orbits will show up as dashed lines
       this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
 
+      const scale = modelViewTransformProperty.value.modelToViewDeltaX( 1 );
       const a = this.orbit.a;
       const e = this.orbit.e;
       const c = e * a;
       const center = new Vector2( -c, 0 );
-      const scale = modelViewTransformProperty.value.modelToViewDeltaX( 1 );
 
       const radiusX = scale * a;
       const radiusY = scale * Math.sqrt( a * a - c * c );
@@ -182,7 +182,7 @@ export default class EllipticalOrbitNode extends Path {
             }
           }
 
-          areaPaths[ i ].shape = new Shape().moveTo( c, 0 ).ellipticalArc(
+          areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
             0, 0, radiusX, radiusY, 0, startAngle, endAngle, true
           ).close();
         }
