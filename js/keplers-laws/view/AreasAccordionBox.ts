@@ -93,7 +93,7 @@ class AreasControls extends VBox {
           combineOptions<CheckboxOptions>(
             { enabledProperty: model.sweepAreaVisibleProperty },
             MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
-        new HSeparator( MySolarSystemConstants.VDIVIDER_OPTIONS ),
+        new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         new HBox( {
           children: [
             new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ),

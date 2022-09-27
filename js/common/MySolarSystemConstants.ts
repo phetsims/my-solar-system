@@ -34,7 +34,7 @@ const MySolarSystemConstants = {
     checkboxColor: MySolarSystemColors.foregroundProperty,
     checkboxColorBackground: MySolarSystemColors.backgroundProperty
   },
-  VDIVIDER_OPTIONS: {
+  HSEPARATOR_OPTIONS: {
     lineWidth: 2,
     stroke: CONTROL_PANEL_STROKE,
     layoutOptions: {

@@ -137,7 +137,9 @@ export default class IntroLabScreenView extends CommonScreenView {
           stretch: true,
           children: [
             new Panel(
-              new MySolarSystemControls( model, this.topLayer ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+              new MySolarSystemControls( model, this.topLayer, {
+                tandem: providedOptions.tandem.createTandem( 'controlPanel' )
+              } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
             new TextPushButton( MySolarSystemStrings.systemCenteredStringProperty, {
               enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
               listener: () => {

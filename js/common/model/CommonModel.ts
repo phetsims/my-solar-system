@@ -11,7 +11,7 @@
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from './Body.js';
-import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
@@ -109,20 +109,20 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // timeScale controls the velocity of time
     this.timeScale = 1.0;
     this.timeRange = new Range( 0, 1000 );
-    this.timeProperty = new Property<number>( 0 );
-    this.isPlayingProperty = new Property<boolean>( false );
+    this.timeProperty = new NumberProperty( 0 );
+    this.isPlayingProperty = new BooleanProperty( false );
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
 
     // Visibility properties for checkboxes
     //REVIEW: We'll want to add tandems to these (perhaps we can collaborate on adding phet-io tandems?)
-    this.pathVisibleProperty = new Property<boolean>( false );
-    this.gravityVisibleProperty = new Property<boolean>( false );
-    this.velocityVisibleProperty = new Property<boolean>( false );
-    this.gridVisibleProperty = new Property<boolean>( false );
-    this.measuringTapeVisibleProperty = new Property<boolean>( false );
-    this.valuesVisibleProperty = new Property<boolean>( false );
-    this.moreDataProperty = new Property<boolean>( false );
-    this.systemCenteredProperty = new Property<boolean>( false );
+    this.pathVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'pathVisibleProperty' ) } );
+    this.gravityVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'gravityVisibleProperty' ) } );
+    this.velocityVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'velocityVisibleProperty' ) } );
+    this.gridVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'gridVisibleProperty' ) } );
+    this.measuringTapeVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'measuringTapeVisibleProperty' ) } );
+    this.valuesVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'valuesVisibleProperty' ) } );
+    this.moreDataProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'moreDataProperty' ) } );
+    this.systemCenteredProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ) } );
 
     this.valuesVisibleProperty.link( visible => {
       this.availableBodies.forEach( body => {
@@ -143,14 +143,18 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
 
     this.zoomLevelProperty = new NumberProperty( 3, {
-      range: new Range( 0, 7 )
+      range: new Range( 0, 7 ),
+      tandem: providedOptions.tandem.createTandem( 'zoomLevelProperty' ),
+      numberType: 'Integer'
     } ).asRanged();
     this.zoomProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
       return Utils.linear( 0, 7, 0.5, 1.5, zoomLevel );
     } );
 
     this.isLab = providedOptions.isLab;
-    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET );
+    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
+      tandem: providedOptions.isLab ? providedOptions.tandem.createTandem( 'labModeProperty' ) : Tandem.OPT_OUT
+    } );
     this.labModeProperty.link( mode => {
       this.clearPaths();
     } );

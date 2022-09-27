@@ -57,8 +57,7 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
           fill: MySolarSystemColors.foregroundProperty,
           maxWidth: 200
         }
-      },
-      tandem: providedOptions.tandem
+      }
     }, providedOptions );
 
     super( model.isPlayingProperty, options );

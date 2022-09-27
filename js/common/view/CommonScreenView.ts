@@ -92,7 +92,8 @@ class CommonScreenView extends ScreenView {
       //REVIEW: commented-out code, can this be deleted?
       // dragBounds: this.layoutBounds,
       basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
-      tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) )
+      tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) ),
+      tandem: providedOptions.tandem.createTandem( 'measuringTapeNode' )
     } );
     // this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
     this.modelViewTransformProperty.link( modelViewTransform => {
@@ -118,7 +119,8 @@ class CommonScreenView extends ScreenView {
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
-          maxTextWidth: 130
+          maxTextWidth: 130,
+          tandem: providedOptions.tandem.createTandem( 'clearButton' )
         } )
       ],
       spacing: 8

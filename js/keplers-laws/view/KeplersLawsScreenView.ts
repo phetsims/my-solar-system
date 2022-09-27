@@ -88,7 +88,7 @@ class KeplersLawsScreenView extends CommonScreenView {
 
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
-    this.interfaceLayer.addChild( new AlignBox( new KeplersLawsControls( model ),
+    this.interfaceLayer.addChild( new AlignBox( new KeplersLawsControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) ),
       {
         alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
       } ) );
