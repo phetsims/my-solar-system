@@ -134,6 +134,15 @@
   "mode.custom": {
     "value": "Custom"
   },
+  "units.units": {
+    "value": "Units:"
+  },
+  "units.real": {
+    "value": "Real"
+  },
+  "units.arbitrary": {
+    "value": "Arbitrary"
+  },
   "units.AU": {
     "value": "AU"
   },

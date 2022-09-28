@@ -112,6 +112,12 @@ type StringsType = {
     'customStringProperty': LinkableProperty<string>;
   };
   'units': {
+    'units': string;
+    'unitsStringProperty': LinkableProperty<string>;
+    'real': string;
+    'realStringProperty': LinkableProperty<string>;
+    'arbitrary': string;
+    'arbitraryStringProperty': LinkableProperty<string>;
     'AU': string;
     'AUStringProperty': LinkableProperty<string>;
     'kms': string;

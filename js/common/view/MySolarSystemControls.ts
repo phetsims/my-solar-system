@@ -6,10 +6,10 @@
  * @author Agustín Vallejo
  */
 
-import { HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HSeparator, Node, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import LabModes from '../model/LabModes.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -18,10 +18,16 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import createVisibilityInformationCheckboxes from './createVisibilityInformationCheckboxes.js';
 import createArrowsVisibilityCheckboxes from './createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
+import ABSwitch from '../../../../sun/js/ABSwitch.js';
 
-//REVIEW: Perhaps note these are text options for within the combo box.
-const TEXT_OPTIONS = {
+const COMBO_BOX_TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
+};
+
+const TEXT_OPTIONS = {
+  font: MySolarSystemConstants.PANEL_FONT,
+  fill: MySolarSystemColors.foregroundProperty
 };
 
 /**
@@ -57,18 +63,18 @@ export default class MySolarSystemControls extends VBox {
           model.isLab
           ? [
               new ComboBox( model.labModeProperty, [
-                { value: LabModes.SUN_PLANET, node: new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.SUN_PLANET_MOON, node: new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.SUN_PLANET_COMET, node: new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.TROJAN_ASTEROIDS, node: new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.ELLIPSES, node: new Text( MySolarSystemStrings.mode.ellipsesStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.HYPERBOLIC, node: new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.SLINGSHOT, node: new Text( MySolarSystemStrings.mode.slingshotStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.DOUBLE_SLINGSHOT, node: new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.BINARY_STAR_PLANET, node: new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.FOUR_STAR_BALLET, node: new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.DOUBLE_DOUBLE, node: new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, TEXT_OPTIONS ) },
-                { value: LabModes.CUSTOM, node: new Text( MySolarSystemStrings.mode.customStringProperty, TEXT_OPTIONS ) }
+                { value: LabModes.SUN_PLANET, node: new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.SUN_PLANET_MOON, node: new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.SUN_PLANET_COMET, node: new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.TROJAN_ASTEROIDS, node: new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.ELLIPSES, node: new Text( MySolarSystemStrings.mode.ellipsesStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.HYPERBOLIC, node: new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.SLINGSHOT, node: new Text( MySolarSystemStrings.mode.slingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.DOUBLE_SLINGSHOT, node: new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.BINARY_STAR_PLANET, node: new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.FOUR_STAR_BALLET, node: new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.DOUBLE_DOUBLE, node: new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.CUSTOM, node: new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
               ], topLayer, {
                 tandem: providedOptions.tandem.createTandem( 'labModeComboBox' )
               } )
@@ -78,7 +84,28 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
+        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem ),
+        // add a Units title and a Switch between Arbitrary and Real
+        new VBox( {
+          children: [
+            new Text( MySolarSystemStrings.units.unitsStringProperty, combineOptions<TextOptions>( {
+              layoutOptions: {
+                align: 'left'
+              }
+            }, TEXT_OPTIONS ) ),
+            new ABSwitch(
+              model.realUnitsProperty,
+              true,
+              new Text( MySolarSystemStrings.units.realStringProperty, TEXT_OPTIONS ),
+              false,
+              new Text( MySolarSystemStrings.units.arbitraryStringProperty, TEXT_OPTIONS ),
+              {
+                scale: 0.8,
+                tandem: providedOptions.tandem.createTandem( 'unitsSwitch' )
+              }
+            )
+          ]
+        } )
       ],
       spacing: 5,
       align: 'left',

@@ -67,6 +67,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly measuringTapeVisibleProperty;
   public readonly valuesVisibleProperty;
   public readonly moreDataProperty;
+  public readonly realUnitsProperty;
 
   public readonly zoomLevelProperty: RangedProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
@@ -123,6 +124,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.valuesVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'valuesVisibleProperty' ) } );
     this.moreDataProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'moreDataProperty' ) } );
     this.systemCenteredProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ) } );
+    this.realUnitsProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'realUnitsProperty' ) } );
 
     this.valuesVisibleProperty.link( visible => {
       this.availableBodies.forEach( body => {
