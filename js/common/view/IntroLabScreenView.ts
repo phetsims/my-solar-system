@@ -115,7 +115,9 @@ export default class IntroLabScreenView extends CommonScreenView {
       new MagnifyingGlassZoomButtonGroup(
         model.zoomLevelProperty,
         {
-          spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 }
+          spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 },
+          touchAreaXDilation: 5,
+          touchAreaYDilation: 5
         } ),
       {
         margin: MySolarSystemConstants.MARGIN,
