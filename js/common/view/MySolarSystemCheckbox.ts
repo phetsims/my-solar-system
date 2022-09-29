@@ -25,7 +25,7 @@ export default class MySolarSystemCheckbox extends Checkbox {
       checkboxColor: MySolarSystemColors.foregroundProperty,
       checkboxColorBackground: MySolarSystemColors.backgroundProperty,
       touchAreaXDilation: 5,
-      touchAreaYDilation: 5
+      touchAreaYDilation: 2.5 //REVIEW: Have this be half of the spacing between the checkboxes (programmatically)
     }, providedOptions );
 
     super( property, content, options );
