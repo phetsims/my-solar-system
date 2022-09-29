@@ -57,6 +57,9 @@ export default class MySolarSystemControls extends VBox {
     topLayer: Node,
     providedOptions: MySolarSystemControlsOptions
   ) {
+
+    const unitsSwitchBoxTandem = providedOptions.tandem.createTandem( 'unitsSwitchBox' );
+
     super( {
       children: [
         ...(
@@ -85,13 +88,14 @@ export default class MySolarSystemControls extends VBox {
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createVisibilityInformationCheckboxes( model, providedOptions.tandem ),
-        // add a Units title and a Switch between Arbitrary and Real
         new VBox( {
+          tandem: unitsSwitchBoxTandem,
           children: [
             new Text( MySolarSystemStrings.units.unitsStringProperty, combineOptions<TextOptions>( {
               layoutOptions: {
                 align: 'left'
-              }
+              },
+              tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitchTitle' )
             }, TEXT_OPTIONS ) ),
             new ABSwitch(
               model.realUnitsProperty,
@@ -101,7 +105,7 @@ export default class MySolarSystemControls extends VBox {
               new Text( MySolarSystemStrings.units.arbitraryStringProperty, TEXT_OPTIONS ),
               {
                 scale: 0.8,
-                tandem: providedOptions.tandem.createTandem( 'unitsSwitch' )
+                tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitch' )
               }
             )
           ]
