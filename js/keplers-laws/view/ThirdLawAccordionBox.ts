@@ -12,7 +12,7 @@ import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionB
 import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { Circle, GridBox, Node, Path, RichText, RichTextOptions, Text } from '../../../../scenery/js/imports.js';
+import { Circle, GridBox, Node, NodeOptions, Path, RichText, RichTextOptions, Text } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -37,8 +37,7 @@ const TITLE_OPTIONS = {
   fill: MySolarSystemColors.foregroundProperty
 };
 
-//REVIEW: export!
-type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
+export type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
 
 export default class ThirdLawAccordionBox extends AccordionBox {
   public constructor( model: KeplersLawsModel ) {
@@ -101,7 +100,10 @@ export default class ThirdLawAccordionBox extends AccordionBox {
             orientation: 'horizontal'
           }
         ),
-        new KeplerLawsGraph( model, model.engine )
+        new KeplerLawsGraph( model, model.engine, {
+          layoutOptions: { column: 1, row: 0 },
+          excludeInvisibleChildrenFromBounds: true
+        } )
       ],
       spacing: 10
     } ), options );
@@ -109,13 +111,8 @@ export default class ThirdLawAccordionBox extends AccordionBox {
 }
 
 class KeplerLawsGraph extends Node {
-  public constructor( model: KeplersLawsModel, orbit: EllipticalOrbit ) {
-    super( {
-      //REVIEW: Can we allow options to be passed in, so that we can specify the layoutOptions where this is used,
-      //REVIEW: instead of here?
-      layoutOptions: { column: 1, row: 0 },
-      excludeInvisibleChildrenFromBounds: true
-    } );
+  public constructor( model: KeplersLawsModel, orbit: EllipticalOrbit, providedOptions?: NodeOptions ) {
+    super( providedOptions );
 
     const semimajorAxisToPeriod = ( axis: number ) => {
       return Math.pow( axis, 3 / 2 );

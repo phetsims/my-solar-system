@@ -19,8 +19,7 @@ const TEXT_OPTIONS: TextOptions = {
   font: MySolarSystemConstants.PANEL_FONT
 };
 
-//REVIEW: export!
-type LawsButtonsOptions = RectangularRadioButtonGroupOptions;
+export type LawsButtonsOptions = RectangularRadioButtonGroupOptions;
 
 export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
   public constructor( model: KeplersLawsModel, providedOptions?: LawsButtonsOptions ) {

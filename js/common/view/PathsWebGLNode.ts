@@ -154,10 +154,10 @@ class PathsPainter implements WebGLNodePainter {
     const numBodies = this.node.model.bodies.length;
     for ( let bodyIndex = 0; bodyIndex < numBodies; bodyIndex++ ) {
       const body = this.node.model.bodies.get( bodyIndex )!;
-      const numPoints = body.path.length;
+      const numPoints = body.pathPoints.length;
       numPointsAll[ bodyIndex ] = numPoints;
       for ( let pointIndex = 0; pointIndex < numPoints; pointIndex++ ) {
-        const point = body.path.get( pointIndex );
+        const point = body.pathPoints.get( pointIndex );
         if ( point ) {
           const index = ELEMENTS_PER_VECTOR * ( bodyIndex * MAX_PATH_LENGTH + pointIndex );
 
