@@ -12,14 +12,14 @@ import MySolarSystemColors from '../common/MySolarSystemColors.js';
 import mySolarSystem from '../mySolarSystem.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
+import IntroScreenIcon from './view/IntroScreenIcon.js';
 
 class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const options = {
-      //REVIEW: Make an issue for screen icons?
-      //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
+      homeScreenIcon: new IntroScreenIcon(),
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
       //REVIEW: Make this translatable!

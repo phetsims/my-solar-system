@@ -12,13 +12,14 @@ import MySolarSystemColors from '../common/MySolarSystemColors.js';
 import mySolarSystem from '../mySolarSystem.js';
 import KeplersLawsModel from './model/KeplersLawsModel.js';
 import KeplersLawsScreenView from './view/KeplersLawsScreenView.js';
+import KeplersLawsScreenIcon from './view/KeplersLawsScreenIcon.js';
 
 class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const options = {
-      //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
+      homeScreenIcon: new KeplersLawsScreenIcon(),
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
       //REVIEW: make translatable

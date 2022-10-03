@@ -152,7 +152,6 @@ export default class EllipticalOrbitNode extends Path {
 
           areaPaths[ i ].visible = true;
 
-
           // Map opacity from 0 to 0.8 based on BodyAngle from endAngle to startAngle (inside area)
           const areaRatio = ( bodyAngle - endAngle ) / ( startAngle - endAngle );
 

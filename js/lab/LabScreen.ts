@@ -1,8 +1,7 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * REVIEW: Would recommend replacing the author here
- * @author Sola Olateju
+ * @author Agustín Vallejo
  */
 
 import Property from '../../../axon/js/Property.js';
@@ -12,13 +11,14 @@ import MySolarSystemColors from '../common/MySolarSystemColors.js';
 import mySolarSystem from '../mySolarSystem.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
+import LabScreenIcon from './view/LabScreenIcon.js';
 
 class LabScreen extends Screen<LabModel, LabScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const options = {
-      //TODO if you include homeScreenIcon or navigationBarIcon, use JOIST/ScreenIcon
+      homeScreenIcon: new LabScreenIcon(),
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
       //REVIEW: make this translatable!

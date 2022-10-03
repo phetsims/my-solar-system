@@ -132,8 +132,7 @@ export default class EllipticalOrbit extends Engine {
       const M = i * 2 * Math.PI / this.periodDivisions;
       const nu = this.getTrueAnomaly( M );
       const r = this.calculateR( this.a, this.e, nu );
-      //REVIEW: Prefer Vector2.createPolar( r, nu )
-      this.divisionPoints.push( new Vector2( r * Math.cos( nu ), r * Math.sin( nu ) ) );
+      this.divisionPoints.push( Vector2.createPolar( r, nu ) );
     }
   }
 
@@ -218,8 +217,7 @@ export default class EllipticalOrbit extends Engine {
     // This will be filled in in the future
   }
 
-  //REVIEW: "Eccentric", "Kepler's"?
-  // Numerical solution to Keplers Equations for Excentric Anomaly (E) and then True Anomaly (nu)
+  // Numerical solution to Kepler's Equations for Eccentric Anomaly (E) and then True Anomaly (nu)
   private getTrueAnomaly( M: number ): number {
     const E1 = M + this.e * Math.sin( M );
     const E2 = M + this.e * Math.sin( E1 );
