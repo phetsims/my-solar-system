@@ -1,11 +1,11 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * REVIEW: Would recommend replacing the author here
- * @author Sola Olateju
+ * Intro Screen, where the user can learn about a two-body system
+ *
+ * @author Agustín Vallejo
  */
 
-import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../common/MySolarSystemColors.js';
@@ -13,6 +13,7 @@ import mySolarSystem from '../mySolarSystem.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import IntroScreenIcon from './view/IntroScreenIcon.js';
+import MySolarSystemStrings from '../MySolarSystemStrings.js';
 
 class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
@@ -22,8 +23,7 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       homeScreenIcon: new IntroScreenIcon(),
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
-      //REVIEW: Make this translatable!
-      name: new Property( 'Intro' )
+      name: MySolarSystemStrings.screen.introStringProperty
     };
 
     super(

@@ -1,10 +1,11 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
+ * Screen for Lab Screen, where the user can create their own system
+ *
  * @author Agustín Vallejo
  */
 
-import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../common/MySolarSystemColors.js';
@@ -12,6 +13,7 @@ import mySolarSystem from '../mySolarSystem.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
 import LabScreenIcon from './view/LabScreenIcon.js';
+import MySolarSystemStrings from '../MySolarSystemStrings.js';
 
 class LabScreen extends Screen<LabModel, LabScreenView> {
 
@@ -21,8 +23,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
       homeScreenIcon: new LabScreenIcon(),
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
-      //REVIEW: make this translatable!
-      name: new Property( 'Lab' )
+      name: MySolarSystemStrings.screen.labStringProperty
     };
 
     super(

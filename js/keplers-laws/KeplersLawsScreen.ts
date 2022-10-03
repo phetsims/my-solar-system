@@ -1,11 +1,11 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * REVIEW: Would recommend replacing the author here
- * @author Sola Olateju
+ * Kepler's Laws Screen, where the user can learn about Kepler's Laws via an elliptical orbit
+ *
+ * @author Agustín Vallejo
  */
 
-import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemColors from '../common/MySolarSystemColors.js';
@@ -13,6 +13,7 @@ import mySolarSystem from '../mySolarSystem.js';
 import KeplersLawsModel from './model/KeplersLawsModel.js';
 import KeplersLawsScreenView from './view/KeplersLawsScreenView.js';
 import KeplersLawsScreenIcon from './view/KeplersLawsScreenIcon.js';
+import MySolarSystemStrings from '../MySolarSystemStrings.js';
 
 class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> {
 
@@ -22,8 +23,7 @@ class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> 
       homeScreenIcon: new KeplersLawsScreenIcon(),
       backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
       tandem: tandem,
-      //REVIEW: make translatable
-      name: new Property( 'Kepler\'s Laws' )
+      name: MySolarSystemStrings.screen.keplersLawsStringProperty
     };
 
     super(

@@ -13,6 +13,14 @@ type StringsType = {
     'title': string;
     'titleStringProperty': LinkableProperty<string>;
   };
+  'screen': {
+    'intro': string;
+    'introStringProperty': LinkableProperty<string>;
+    'keplersLaws': string;
+    'keplersLawsStringProperty': LinkableProperty<string>;
+    'lab': string;
+    'labStringProperty': LinkableProperty<string>;
+  };
   'gravityForce': string;
   'gravityForceStringProperty': LinkableProperty<string>;
   'grid': string;

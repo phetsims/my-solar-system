@@ -2,6 +2,15 @@
   "my-solar-system.title": {
     "value": "My Solar System"
   },
+  "screen.intro": {
+    "value": "Intro"
+  },
+  "screen.keplersLaws": {
+    "value": "Kepler's Laws"
+  },
+  "screen.lab": {
+    "value": "Lab"
+  },
   "gravityForce": {
     "value": "Gravity Force"
   },

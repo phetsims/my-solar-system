@@ -60,8 +60,9 @@ class LabModel extends CommonModel<NumericalEngine> {
   public override restart(): void {
     this.isPlayingProperty.value = false;
     this.modeSetter( this.lastSelectedMode );
-    //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
     this.update();
+
+    // Time property is set to 0 to restart the clock timer
     this.timeProperty.value = 0;
   }
 
