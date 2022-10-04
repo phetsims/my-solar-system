@@ -9,8 +9,6 @@
 
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Property from '../../../../axon/js/Property.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, DragListener, Path, PressListenerEvent, Text } from '../../../../scenery/js/imports.js';
@@ -19,6 +17,7 @@ import Body from '../model/Body.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   zeroAllowed?: boolean;
@@ -30,12 +29,9 @@ export default class DraggableVectorNode extends VectorNode {
 
   public constructor(
     body: Body,
-    //REVIEW: This should be TReadOnlyProperty<ModelViewTransform2>, as the general type (rather than the full Property) is sufficient
-    transformProperty: ReadOnlyProperty<ModelViewTransform2>,
-    //REVIEW: This should be TReadOnlyProperty<boolean>, so that the interface is flexible (we're only using the read-only part)
-    visibleProperty: Property<boolean>,
-    //REVIEW: This should be TReadOnlyProperty<Vector2>, so that the interface is flexible (we're only using the read-only part)
-    vectorProperty: Property<Vector2>,
+    transformProperty: TReadOnlyProperty<ModelViewTransform2>,
+    visibleProperty: TReadOnlyProperty<boolean>,
+    vectorProperty: TReadOnlyProperty<Vector2>,
     scale: number,
     //REVIEW: Hmm, this looks like it should be translatable (we've done similar things for other simulations, including
     //REVIEW: GAO. TReadOnlyProperty<string> it?
@@ -114,21 +110,12 @@ export default class DraggableVectorNode extends VectorNode {
         }
       },
       end: _.noop
-      //REVIEW: Prefer not to have commented-out code lying around. If it's not needed, delete it.
-      // tandem: tandem.createTandem( 'dragListener' )
     } );
     grabArea.addInputListener( dragListener );
 
     // // move behind the geometry created by the superclass
     grabArea.moveToBack();
     text.moveToBack();
-
-    //REVIEW: Prefer not to have commented-out code lying around. If it's not needed, delete it.
-    // // For PhET-iO, when the node does not support input, don't show the drag circle
-    // this.inputEnabledProperty.link( ( inputEnabled: boolean ) => {
-    //   grabArea.visible = inputEnabled;
-    //   text.visible = inputEnabled;
-    // } );
   }
 }
 

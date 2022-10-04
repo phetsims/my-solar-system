@@ -1,8 +1,5 @@
 // Copyright 2022, University of Colorado Boulder
 
-
-//REVIEW: Sometimes there are extra blank lines above the top documentation and under the copyright header.
-//REVIEW: Prefer just one blank line between the copyright header and the top documentation.
 /**
  * Visual representation of space object's property checkbox.
  *
@@ -38,8 +35,7 @@ const createVisibilityInformationCheckboxes = ( model: CommonModel, tandem: Tand
       spacing: 10,
       children: [
         new Text( MySolarSystemStrings.gridStringProperty, TEXT_OPTIONS ),
-        //REVIEW: Usually prefer Vector2.ZERO to new Vector2( 0, 0 ) - it's a bit easier, and doesn't create a new vector
-        new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, new Vector2( 0, 0 ), 1, {
+        new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, Vector2.ZERO, 1, {
           stroke: MySolarSystemColors.gridIconStrokeColorProperty,
           lineWidth: 1.5
         } )
@@ -56,13 +52,7 @@ const createVisibilityInformationCheckboxes = ( model: CommonModel, tandem: Tand
     } ), {
       tandem: tandem.createTandem( 'measuringTapeVisibleCheckbox' )
     } ),
-    //REVIEW: Is this HBox here for consistency? This HBox probably doesn't need to exist
-    new MySolarSystemCheckbox( model.valuesVisibleProperty, new HBox( {
-      spacing: 10,
-      children: [
-        new Text( MySolarSystemStrings.valuesStringProperty, TEXT_OPTIONS )
-      ]
-    } ), {
+    new MySolarSystemCheckbox( model.valuesVisibleProperty, new Text( MySolarSystemStrings.valuesStringProperty, TEXT_OPTIONS ), {
       tandem: tandem.createTandem( 'valuesVisibleCheckbox' )
     } )
   ];

@@ -12,7 +12,6 @@ import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
@@ -46,8 +45,6 @@ const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem 
         new XNode( {
           fill: 'red',
           stroke: 'white',
-          //REVIEW: Why is this being positioned, when the HBox will reposition it? This shoudl be removable.
-          center: Vector2.ZERO,
           scale: 0.5
         } )
       ],

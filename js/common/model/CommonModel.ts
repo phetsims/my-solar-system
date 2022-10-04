@@ -115,7 +115,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
 
     // Visibility properties for checkboxes
-    //REVIEW: We'll want to add tandems to these (perhaps we can collaborate on adding phet-io tandems?)
     this.pathVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'pathVisibleProperty' ) } );
     this.gravityVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'gravityVisibleProperty' ) } );
     this.velocityVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'velocityVisibleProperty' ) } );
@@ -197,10 +196,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   // Restart is for when the time controls are brought back to 0
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
+    this.timeProperty.value = 0; // Reset the time
     this.createBodies( this.defaultModeInfo ); // Reset the bodies
-    //REVIEW: We set the timeProperty to zero after the update... is there a reason for that? If so, it should be documented.
     this.update();
-    this.timeProperty.value = 0;
   }
 
   public stepOnce( dt: number ): void {

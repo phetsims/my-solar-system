@@ -32,8 +32,7 @@ const scratchFloatArray = new Float32Array( 9 );
 const scratchInverseMatrix = new Matrix3();
 const scratchProjectionMatrix = new Matrix3();
 
-//REVIEW: Export
-type PathsWebGLNodeOptions = WebGLNodeOptions;
+export type PathsWebGLNodeOptions = WebGLNodeOptions;
 
 export default class PathsWebGLNode extends WebGLNode {
   public readonly model: CommonModel;

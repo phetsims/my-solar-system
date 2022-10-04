@@ -14,7 +14,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
@@ -72,7 +71,6 @@ class KeplersLawsOrbitalInformation extends VBox {
           new XNode( {
             fill: 'cyan',
             stroke: 'white',
-            center: Vector2.ZERO, //REVIEW: positioning something in an HBox doesn't do much, it will be overwritten
             scale: 0.5
           } )
         ]
@@ -84,7 +82,6 @@ class KeplersLawsOrbitalInformation extends VBox {
           new XNode( {
             fill: 'gold',
             stroke: 'white',
-            center: Vector2.ZERO, //REVIEW: positioning something in an HBox doesn't do much, it will be overwritten
             scale: 0.5
           } )
         ]

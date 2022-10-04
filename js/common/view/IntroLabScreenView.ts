@@ -232,12 +232,6 @@ export default class IntroLabScreenView extends CommonScreenView {
     const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
     this.bottomLayer.addChild( pathsWebGLNode );
   }
-
-  //REVIEW: This provides no value over the CommonScreenView update() method, and should be removed (so the subtypes
-  //REVIEW: can specify the implementation more directly).
-  public override update(): void {
-    // See subclass for implementation
-  }
 }
 
 mySolarSystem.register( 'IntroLabScreenView', IntroLabScreenView );

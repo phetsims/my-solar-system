@@ -89,13 +89,10 @@ class CommonScreenView extends ScreenView {
       textBackgroundXMargin: 10,
       textBackgroundYMargin: 3,
       textBackgroundCornerRadius: 5,
-      //REVIEW: commented-out code, can this be deleted?
-      // dragBounds: this.layoutBounds,
       basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
       tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) ),
       tandem: providedOptions.tandem.createTandem( 'measuringTapeNode' )
     } );
-    // this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
     this.modelViewTransformProperty.link( modelViewTransform => {
       measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
     } );

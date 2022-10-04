@@ -40,7 +40,7 @@ export default class EllipticalOrbit extends Engine {
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 0; // semimajor axis
-  public e = 0; // excentricity REVIEW: eccentricity?
+  public e = 0; // eccentricity
   public w = 0; // argument of periapsis
   public M = 0; // mean anomaly
   public W = 0; // angular velocity
@@ -66,9 +66,7 @@ export default class EllipticalOrbit extends Engine {
 
     // Multilink to update the orbit based on the bodies position and velocity
     Multilink.multilink(
-      [ this.body.positionProperty, this.body.velocityProperty ],
-      //REVIEW: can omit parameters if desired
-      ( position, velocity ) => {
+      [ this.body.positionProperty, this.body.velocityProperty ], () => {
         if ( this.updateAllowed ) {
           this.update();
         }
@@ -82,10 +80,7 @@ export default class EllipticalOrbit extends Engine {
     this.M += dt * this.W * 20;
     const nu = this.getTrueAnomaly( this.M );
     const r = this.calculateR( this.a, this.e, nu );
-    //REVIEW: Prefer Vector2.createPolar( r, -nu )
-    this.predictedBody.positionProperty.value = new Vector2( r * Math.cos( -nu ), r * Math.sin( -nu ) );
-    //REVIEW: commented-out code?
-    // this.predictedBody.velocityProperty.value = new Vector2( -this.a * Math.sin( nu ) / r, this.a * ( e + Math.cos( nu ) ) / r );
+    this.predictedBody.positionProperty.value = Vector2.createPolar( r, -nu );
     this.updateAllowed = true;
   }
 

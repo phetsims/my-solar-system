@@ -13,11 +13,10 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import CenterOfMass from '../model/CenterOfMass.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 class CenterOfMassNode extends Node {
-  //REVIEW: Generally prefer TReadOnlyProperty instead of ReadOnlyProperty where possible for interfaces
-  public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2> ) {
+  public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2> ) {
     super( {
       children: [
         new XNode( {

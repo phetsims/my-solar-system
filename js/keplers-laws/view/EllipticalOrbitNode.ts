@@ -201,12 +201,7 @@ export default class EllipticalOrbitNode extends Path {
         model.periodDivisionProperty,
         model.dotsVisibleProperty
       ],
-      (
-        predictedPosition,
-        modelViewTransform,
-        divisions,
-        dotsVisible
-      ) => updatedOrbit ); //REVIEW: this callback... isn't actually calling updatedOrbit, is it? Buggy? do updatedOrbit()
+      () => updatedOrbit() );
   }
 }
 

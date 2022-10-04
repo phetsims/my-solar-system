@@ -26,12 +26,9 @@ type SelfOptions = {
   stepForwardListener: () => void;
 };
 
-//REVIEW: export type
-type MySolarSystemTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions & PickRequired<TimeControlNodeOptions, 'tandem'>;
+export type MySolarSystemTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions & PickRequired<TimeControlNodeOptions, 'tandem'>;
 
-//REVIEW: I've seen a lot of places where you export default at the class declaration. I think we should be consistent,
-//REVIEW: so I'd prefer we export default in this location as well.
-class MySolarSystemTimeControlNode extends TimeControlNode {
+export default class MySolarSystemTimeControlNode extends TimeControlNode {
   public constructor(
     model: CommonModel,
     providedOptions: MySolarSystemTimeControlNodeOptions
@@ -81,4 +78,3 @@ class MySolarSystemTimeControlNode extends TimeControlNode {
 }
 
 mySolarSystem.register( 'MySolarSystemTimeControlNode', MySolarSystemTimeControlNode );
-export default MySolarSystemTimeControlNode;
