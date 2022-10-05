@@ -68,8 +68,8 @@ class LabModel extends CommonModel<NumericalEngine> {
 
   public setModesToMap(): void {
     this.modeMap.set( LabModes.SUN_PLANET, [
-      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -6 ) },
-      { mass: 10, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) }
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ] );
     this.modeMap.set( LabModes.SUN_PLANET_MOON, [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },

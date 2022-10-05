@@ -64,8 +64,8 @@ class KeplersLawsScreenView extends CommonScreenView {
     this.bottomLayer.addChild( new EllipticalOrbitNode( model, this.modelViewTransformProperty ) );
 
     // UI ----------------------------------------------------------------------------------
-    // Zoom Buttons
-    this.interfaceLayer.addChild( new AlignBox( new HBox( {
+    // Second and Third Law Accordion Boxes and Zoom Buttons
+    const lawsAndZoomBoxes = new AlignBox( new HBox( {
         children: [
           new VBox( {
             margin: 5,
@@ -82,26 +82,25 @@ class KeplersLawsScreenView extends CommonScreenView {
         spacing: 10,
         align: 'top'
       } ),
-      { alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'top' }
-    ) );
-
+      { margin: MARGIN, xAlign: 'left', yAlign: 'top' }
+    );
 
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
-    this.interfaceLayer.addChild( new AlignBox( new KeplersLawsControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) ),
-      {
-        alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'right', yAlign: 'top'
-      } ) );
+    const controlPanelAlignBox = new AlignBox(
+      new KeplersLawsControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) ),
+      { margin: MARGIN, xAlign: 'right', yAlign: 'top' }
+    );
 
-    this.interfaceLayer.addChild( new AlignBox( new HBox( {
+    const lawsButtonsBox = new AlignBox( new HBox( {
         children: [
           new LawsButtons( model )
         ],
         spacing: 20
       } ),
-      {
-        alignBounds: this.layoutBounds, margin: MARGIN, xAlign: 'left', yAlign: 'bottom'
-      } ) );
+      { margin: MARGIN, xAlign: 'left', yAlign: 'bottom' }
+    );
+
 
     // Add the center box containing the time control buttons
     const centerBox = new AlignBox( this.timeBox, {
@@ -111,10 +110,16 @@ class KeplersLawsScreenView extends CommonScreenView {
       } );
 
     this.visibleBoundsProperty.link( visibleBounds => {
+      lawsAndZoomBoxes.alignBounds = visibleBounds;
+      controlPanelAlignBox.alignBounds = visibleBounds;
+      lawsButtonsBox.alignBounds = visibleBounds;
       centerBox.alignBounds = visibleBounds;
     } );
 
     // Slider that controls the bodies mass
+    this.interfaceLayer.addChild( lawsAndZoomBoxes );
+    this.interfaceLayer.addChild( controlPanelAlignBox );
+    this.interfaceLayer.addChild( lawsButtonsBox );
     this.interfaceLayer.addChild( centerBox );
   }
 }

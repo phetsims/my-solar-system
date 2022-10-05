@@ -108,6 +108,7 @@ export default class EllipticalOrbit extends Engine {
 
       this.calculateDivisionPoints();
 
+
       if ( !this.collidedWithSun( a, e ) ) {
         this.allowedOrbit = true;
       }
