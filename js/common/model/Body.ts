@@ -55,7 +55,7 @@ class Body {
 
     this.massProperty.link( mass => {
       // Mass to radius function
-      this.radiusProperty.set( 2 * Math.pow( mass, 1 / 3 ) + 5 );
+      this.radiusProperty.set( Math.pow( mass, 1 / 3 ) + 5 );
     } );
 
     // Emitters for dragging the body and velocity vector

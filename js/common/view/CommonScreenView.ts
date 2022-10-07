@@ -28,6 +28,7 @@ import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js'
 import Property from '../../../../axon/js/Property.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import SimpleClockIcon from '../../../../scenery-phet/js/SimpleClockIcon.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -112,12 +113,22 @@ class CommonScreenView extends ScreenView {
 
     const clockNode = new VBox( {
       children: [
-        new NumberDisplay( model.timeProperty, model.timeRange ),
+        new HBox( {
+          spacing: 5,
+          children: [
+            new SimpleClockIcon( 10, {
+              stroke: 'white',
+              fill: 'transparent'
+            } ),
+            new NumberDisplay( model.timeProperty, model.timeRange )
+          ]
+        } ),
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 130,
-          tandem: providedOptions.tandem.createTandem( 'clearButton' )
+          tandem: providedOptions.tandem.createTandem( 'clearButton' ),
+          layoutOptions: { align: 'right', stretch: true }
         } )
       ],
       spacing: 8
@@ -126,7 +137,7 @@ class CommonScreenView extends ScreenView {
     this.timeBox = new HBox( {
       children: [ timeControlNode, clockNode ],
       layoutOptions: { yAlign: 'bottom', column: 1 },
-      spacing: 10
+      spacing: 20
       } );
 
     const resetAllButton = new ResetAllButton( {

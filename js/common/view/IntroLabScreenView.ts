@@ -145,7 +145,7 @@ export default class IntroLabScreenView extends CommonScreenView {
             new TextPushButton( MySolarSystemStrings.systemCenteredStringProperty, {
               enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
               listener: () => {
-                model.systemCenteredProperty.value = !model.systemCenteredProperty.value;
+                model.systemCenteredProperty.value = true;
               },
               font: MySolarSystemConstants.PANEL_FONT
             } )
