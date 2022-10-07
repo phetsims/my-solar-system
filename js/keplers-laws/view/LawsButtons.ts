@@ -40,12 +40,12 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
     super( model.selectedLawProperty, [
       {
         value: LawMode.SECOND_LAW,
-        node: new Text( '2nd Law', TEXT_OPTIONS ),
+        createNode: tandem => new Text( '2nd Law', TEXT_OPTIONS ),
         tandemName: 'secondLawButton'
       },
       {
         value: LawMode.THIRD_LAW,
-        node: new Text( '3rd Law', TEXT_OPTIONS ),
+        createNode: tandem => new Text( '3rd Law', TEXT_OPTIONS ),
         tandemName: 'thirdLawButton'
       }
     ], options );

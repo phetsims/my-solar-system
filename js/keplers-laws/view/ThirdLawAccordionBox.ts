@@ -61,17 +61,17 @@ export default class ThirdLawAccordionBox extends AccordionBox {
             {
               value: 1,
               //REVIEW: We should probably make these terms translatable
-              node: new RichText( 'T', TEXT_OPTIONS )
+              createNode: tandem => new RichText( 'T', TEXT_OPTIONS )
             },
             {
               value: 2,
               //REVIEW: And this should probably include string composition (e.g. combining the translated string for
               //REVIEW: T with the superscript somehow?)
-              node: new RichText( 'T<sup>2</sup>', TEXT_OPTIONS )
+              createNode: tandem => new RichText( 'T<sup>2</sup>', TEXT_OPTIONS )
             },
             {
               value: 3,
-              node: new RichText( 'T<sup>3</sup>', TEXT_OPTIONS )
+              createNode: tandem => new RichText( 'T<sup>3</sup>', TEXT_OPTIONS )
             }
           ],
           {
@@ -84,15 +84,15 @@ export default class ThirdLawAccordionBox extends AccordionBox {
             {
               value: 1,
               //REVIEW: We should probably make these terms translatable
-              node: new RichText( 'a', TEXT_OPTIONS )
+              createNode: tandem => new RichText( 'a', TEXT_OPTIONS )
             },
             {
               value: 2,
-              node: new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
+              createNode: tandem => new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
             },
             {
               value: 3,
-              node: new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
+              createNode: tandem => new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
             }
           ],
           {
@@ -127,14 +127,14 @@ class KeplerLawsGraph extends Node {
 
       return new Vector2(
         axisLength * Math.pow( Utils.linear(
-          0, maxSemimajorAxis,
-          0, 1,
-          semimajorAxis ), axisPower ),
+                     0, maxSemimajorAxis,
+                     0, 1,
+                     semimajorAxis ), axisPower ),
         -axisLength * Math.pow( Utils.linear(
-          0, maxPeriod,
-          0, 1,
-          period
-        ), periodPower )
+                      0, maxPeriod,
+                      0, 1,
+                      period
+                    ), periodPower )
       );
     };
 
@@ -148,10 +148,10 @@ class KeplerLawsGraph extends Node {
       tailWidth: 1
     } );
     const yAxis = new ArrowNode( 0, 0, 0, -axisLength, {
-        fill: 'white',
-        stroke: 'white',
-        tailWidth: 1
-      } );
+      fill: 'white',
+      stroke: 'white',
+      tailWidth: 1
+    } );
 
     const maxSemimajorAxis = 500;
     const maxPeriod = semimajorAxisToPeriod( maxSemimajorAxis );
