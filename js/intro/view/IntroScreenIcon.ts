@@ -14,6 +14,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
   public constructor() {
@@ -41,23 +42,23 @@ export default class IntroScreenIcon extends ScreenIcon {
           new Path(
             new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
             {
-              stroke: 'yellow',
+              stroke: MySolarSystemColors.firstBodyColorProperty,
               lineWidth: 0.5,
               x: smallEllipseCenterX
             } ),
           new Path(
             new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
             {
-              stroke: 'fuchsia',
+              stroke: MySolarSystemColors.secondBodyColorProperty,
               lineWidth: 0.5,
               x: bigEllipseCenterX
             } ),
           new ShadedSphereNode( 6, {
-            mainColor: 'yellow',
+            mainColor: MySolarSystemColors.firstBodyColorProperty,
             x: ( smallEllipseFocalPoint - smallEllipseSemiMajorAxis )
           } ),
           new ShadedSphereNode( 3, {
-            mainColor: 'fuchsia',
+            mainColor: MySolarSystemColors.secondBodyColorProperty,
             x: bigEllipseSemiMajorAxis - bigEllipseFocalPoint
           } ),
           new XNode( {
@@ -68,7 +69,7 @@ export default class IntroScreenIcon extends ScreenIcon {
           } )
         ]
       } ),
-      { fill: 'black' }
+      { fill: MySolarSystemColors.backgroundProperty }
     );
   }
 }

@@ -31,6 +31,7 @@ import VectorNode from './VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -39,7 +40,7 @@ export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
 // Consts
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
-  fill: 'white'
+  fill: MySolarSystemColors.foregroundProperty
 };
 
 const spinnerOptions: NumberSpinnerOptions = {

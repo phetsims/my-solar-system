@@ -58,6 +58,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
     this.periodDivisionProperty.link( divisions => {
         this.engine.periodDivisions = divisions;
+        this.engine.update();
       }
     );
 

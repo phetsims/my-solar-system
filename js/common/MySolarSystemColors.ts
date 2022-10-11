@@ -39,7 +39,8 @@ const MySolarSystemColors = {
   HIGHLIGHTED_NUMBER_DISPLAY_FILL: PhetColorScheme.BUTTON_YELLOW,
 
   firstBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'first body color', {
-    default: 'yellow'
+    default: 'yellow',
+    projector: '#FFAE00'
   }, {
     tandem: Tandem.COLORS.createTandem( 'firstBodyColorProperty' )
   } ),
@@ -51,7 +52,8 @@ const MySolarSystemColors = {
   } ),
 
   thirdBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'third body color', {
-    default: 'cyan'
+    default: 'cyan',
+    projector: '#0055FF'
   }, {
     tandem: Tandem.COLORS.createTandem( 'thirdBodyColorProperty' )
   } ),

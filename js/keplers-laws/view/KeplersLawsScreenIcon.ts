@@ -13,6 +13,7 @@ import { Node, Path } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 export default class KeplersLawsScreenIcon extends ScreenIcon {
   public constructor() {
@@ -53,7 +54,7 @@ export default class KeplersLawsScreenIcon extends ScreenIcon {
           0, 0, EllipseSemiMajorAxis, EllipseSemiMinorAxis, 0, startAngle, endAngle, true
         ).close(),
           {
-            fill: 'fuchsia',
+            fill: MySolarSystemColors.secondBodyColorProperty,
             opacity: ( divisionAngles.length - i + 1 ) / ( divisionAngles.length + 1 )
           }
         )
@@ -67,21 +68,21 @@ export default class KeplersLawsScreenIcon extends ScreenIcon {
           new Path(
             new Shape().ellipse( 0, 0, EllipseSemiMajorAxis, EllipseSemiMinorAxis, 0 ),
             {
-              stroke: 'fuchsia',
+              stroke: MySolarSystemColors.secondBodyColorProperty,
               lineWidth: 1
             } ),
           new ShadedSphereNode( 8, {
-            mainColor: 'yellow',
+            mainColor: MySolarSystemColors.firstBodyColorProperty,
             x: -EllipseFocalPoint
           } ),
           new ShadedSphereNode( 3, {
-            mainColor: 'fuchsia',
+            mainColor: MySolarSystemColors.secondBodyColorProperty,
             x: bodyPosition.x + EllipseFocalPoint,
             y: -bodyPosition.y
           } )
         ]
       } ),
-      { fill: 'black' }
+      { fill: MySolarSystemColors.backgroundProperty }
     );
   }
 }

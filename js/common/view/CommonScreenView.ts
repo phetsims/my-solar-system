@@ -117,7 +117,7 @@ class CommonScreenView extends ScreenView {
           spacing: 5,
           children: [
             new SimpleClockIcon( 10, {
-              stroke: 'white',
+              stroke: MySolarSystemColors.foregroundProperty,
               fill: 'transparent'
             } ),
             new NumberDisplay( model.timeProperty, model.timeRange )
