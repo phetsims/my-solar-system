@@ -8,7 +8,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, AlignGroup, HBox, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, HBox, RichText, VBox, Node } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -78,7 +78,7 @@ export default class FullDataPanel extends Panel {
     //----------------------------------------------------------------------------------------
 
     // Convenience function to create each section of the Panel, which includes the column group and a title above it.
-    const createSectionNode = ( titleNode: AlignBox, columnGroup: HBox, isComponentColumnGroup = true ) => {
+    const createSectionNode = ( titleNode: AlignBox, columnGroup: Node, isComponentColumnGroup = true ) => {
       return new VBox( {
         children: [
           titleNode,
