@@ -33,7 +33,7 @@ class Body {
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
 
-  public readonly color: TReadOnlyProperty<Color>;
+  public readonly colorProperty: TReadOnlyProperty<Color>;
 
   // Path constants
   public pathDistance = 0;
@@ -50,7 +50,7 @@ class Body {
     this.velocityProperty = new Vector2Property( initialVelocity );
     this.accelerationProperty = new Vector2Property( Vector2.ZERO );
     this.forceProperty = new Vector2Property( Vector2.ZERO );
-    this.color = color;
+    this.colorProperty = color;
 
     this.massProperty.link( mass => {
       // Mass to radius function
