@@ -6,9 +6,11 @@
  * @author Agustín Vallejo
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from './Body.js';
 
@@ -20,9 +22,9 @@ export default class CenterOfMass {
 
   public constructor( bodies: ObservableArray<Body> ) {
     this.bodies = bodies;
-    this.positionProperty = new Property<Vector2>( Vector2.ZERO );
-    this.velocityProperty = new Property<Vector2>( Vector2.ZERO );
-    this.visibleProperty = new Property<boolean>( false );
+    this.positionProperty = new Vector2Property( Vector2.ZERO );
+    this.velocityProperty = new Vector2Property( Vector2.ZERO );
+    this.visibleProperty = new BooleanProperty( false );
     this.updateCenterOfMassPosition();
   }
 

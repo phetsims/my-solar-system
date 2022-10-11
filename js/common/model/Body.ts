@@ -9,10 +9,12 @@
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
-import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 
 
 class Body {
@@ -25,8 +27,8 @@ class Body {
   public readonly forceProperty;
 
   // Collision handling
-  public readonly isCollidedProperty = new Property<boolean>( false );
-  public readonly valueVisibleProperty = new Property<boolean>( false );
+  public readonly isCollidedProperty = new BooleanProperty( false );
+  public readonly valueVisibleProperty = new BooleanProperty( false );
 
   // Emitters for various events
   //REVIEW: This first emitter isn't emitted or listened to! Can it be removed?
@@ -46,12 +48,12 @@ class Body {
 
   public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2 ) {
     // Physical properties of the body
-    this.massProperty = new Property<number>( initialMass );
-    this.radiusProperty = new Property<number>( 1 );
-    this.positionProperty = new Property<Vector2>( initialPosition );
-    this.velocityProperty = new Property<Vector2>( initialVelocity );
-    this.accelerationProperty = new Property<Vector2>( Vector2.ZERO );
-    this.forceProperty = new Property<Vector2>( Vector2.ZERO );
+    this.massProperty = new NumberProperty( initialMass );
+    this.radiusProperty = new NumberProperty( 1 );
+    this.positionProperty = new Vector2Property( initialPosition );
+    this.velocityProperty = new Vector2Property( initialVelocity );
+    this.accelerationProperty = new Vector2Property( Vector2.ZERO );
+    this.forceProperty = new Vector2Property( Vector2.ZERO );
 
     this.massProperty.link( mass => {
       // Mass to radius function

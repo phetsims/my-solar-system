@@ -12,11 +12,11 @@ import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Property from '../../../../axon/js/Property.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbit from './EllipticalOrbit.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
@@ -26,20 +26,20 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
 
   // Second Law properties
-  public axisVisibleProperty = new Property<boolean>( false );
-  public apoapsisVisibleProperty = new Property<boolean>( false );
-  public periapsisVisibleProperty = new Property<boolean>( false );
+  public axisVisibleProperty = new BooleanProperty( false );
+  public apoapsisVisibleProperty = new BooleanProperty( false );
+  public periapsisVisibleProperty = new BooleanProperty( false );
 
-  public areasVisibleProperty = new Property<boolean>( false );
-  public dotsVisibleProperty = new Property<boolean>( false );
-  public sweepAreaVisibleProperty = new Property<boolean>( false );
-  public areaGraphVisibleProperty = new Property<boolean>( false );
-  public periodDivisionProperty = new Property<number>( 4 ); //REVIEW: use NumberProperty?
+  public areasVisibleProperty = new BooleanProperty( false );
+  public dotsVisibleProperty = new BooleanProperty( false );
+  public sweepAreaVisibleProperty = new BooleanProperty( false );
+  public areaGraphVisibleProperty = new BooleanProperty( false );
+  public periodDivisionProperty = new NumberProperty( 4 );
   public maxDivisionValue = 6;
 
   // Third law properties
-  public semimajorAxisVisibleProperty = new Property<boolean>( false );
-  public periodVisibleProperty = new Property<boolean>( false );
+  public semimajorAxisVisibleProperty = new BooleanProperty( false );
+  public periodVisibleProperty = new BooleanProperty( false );
 
   public selectedAxisPowerProperty = new NumberProperty( 1 );
   public selectedPeriodPowerProperty = new NumberProperty( 1 );
