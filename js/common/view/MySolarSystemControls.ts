@@ -6,10 +6,10 @@
  * @author Agustín Vallejo
  */
 
-import { HSeparator, Node, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import LabModes from '../model/LabModes.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -18,33 +18,10 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import createVisibilityInformationCheckboxes from './createVisibilityInformationCheckboxes.js';
 import createArrowsVisibilityCheckboxes from './createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
-import ABSwitch from '../../../../sun/js/ABSwitch.js';
 
 const COMBO_BOX_TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
 };
-
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
-
-/**
- * The possible pre-sets for the lab are:
- Sun and planet
- Sun, planet, moon
- Sun, planet, comet
- Trojan asteroid
- Ellipses
- Hyperbolic
- Slingshot
- Double Slingshot
- Binary star, planet
- Four-star ballet
- Double double
- Custom
- */
 
 type SelfOptions = EmptySelfOptions;
 
@@ -58,7 +35,8 @@ export default class MySolarSystemControls extends VBox {
     providedOptions: MySolarSystemControlsOptions
   ) {
 
-    const unitsSwitchBoxTandem = providedOptions.tandem.createTandem( 'unitsSwitchBox' );
+    // TODO: The units switch is disabled for now until a design decision is taken
+    // const unitsSwitchBoxTandem = providedOptions.tandem.createTandem( 'unitsSwitchBox' );
 
     super( {
       children: [
@@ -87,29 +65,30 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem ),
-        new VBox( {
-          tandem: unitsSwitchBoxTandem,
-          children: [
-            new Text( MySolarSystemStrings.units.unitsStringProperty, combineOptions<TextOptions>( {
-              layoutOptions: {
-                align: 'left'
-              },
-              tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitchTitle' )
-            }, TEXT_OPTIONS ) ),
-            new ABSwitch(
-              model.realUnitsProperty,
-              true,
-              new Text( MySolarSystemStrings.units.realStringProperty, TEXT_OPTIONS ),
-              false,
-              new Text( MySolarSystemStrings.units.arbitraryStringProperty, TEXT_OPTIONS ),
-              {
-                scale: 0.8,
-                tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitch' )
-              }
-            )
-          ]
-        } )
+        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
+        // TODO: The units switch is disabled for now until a design decision is taken
+        // new VBox( {
+        //   tandem: unitsSwitchBoxTandem,
+        //   children: [
+        //     new Text( MySolarSystemStrings.units.unitsStringProperty, combineOptions<TextOptions>( {
+        //       layoutOptions: {
+        //         align: 'left'
+        //       },
+        //       tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitchTitle' )
+        //     }, TEXT_OPTIONS ) ),
+        //     new ABSwitch(
+        //       model.realUnitsProperty,
+        //       true,
+        //       new Text( MySolarSystemStrings.units.realStringProperty, TEXT_OPTIONS ),
+        //       false,
+        //       new Text( MySolarSystemStrings.units.arbitraryStringProperty, TEXT_OPTIONS ),
+        //       {
+        //         scale: 0.8,
+        //         tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitch' )
+        //       }
+        //     )
+        //   ]
+        // } )
       ],
       spacing: 5,
       align: 'left',
