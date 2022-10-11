@@ -11,6 +11,21 @@ import BodySoundGenerator from './BodySoundGenerator.js';
 import CommonModel from '../model/CommonModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
+import Bodies_Strings_e3_mp3 from '../../../sounds/Bodies_Strings_e3_mp3.js';
+import Bodies_Flute_g3_mp3 from '../../../sounds/Bodies_Flute_g3_mp3.js';
+import Bodies_Organ_b3_mp3 from '../../../sounds/Bodies_Organ_b3_mp3.js';
+import Bodies_Strings_e3_v2_mp3 from '../../../sounds/Bodies_Strings_e3_v2_mp3.js';
+import Bodies_Woodwinds_e3_mp3 from '../../../sounds/Bodies_Woodwinds_e3_mp3.js';
+
+const allSounds = [
+  Bodies_Brass_C3_mp3,
+  Bodies_Woodwinds_e3_mp3,
+  Bodies_Strings_e3_v2_mp3,
+  Bodies_Flute_g3_mp3,
+  Bodies_Strings_e3_mp3,
+  Bodies_Organ_b3_mp3
+];
 
 export type BodySoundsManagerOptions = {
   tandem?: Tandem;
@@ -24,10 +39,10 @@ export default class BodySoundManager {
     this.model = model;
 
     this.bodySoundGenerators = [
-      new BodySoundGenerator( 0 ),
-      new BodySoundGenerator( 1 ),
-      new BodySoundGenerator( 2 ),
-      new BodySoundGenerator( 3 )
+      new BodySoundGenerator( allSounds[ 0 ] ),
+      new BodySoundGenerator( allSounds[ 1 ] ),
+      new BodySoundGenerator( allSounds[ 2 ] ),
+      new BodySoundGenerator( allSounds[ 3 ] )
     ];
 
     this.bodySoundGenerators.forEach( sound => soundManager.addSoundGenerator( sound ) );
@@ -37,7 +52,10 @@ export default class BodySoundManager {
     for ( let i = 0; i < 4; i++ ) {
       if ( i < this.model.numberOfActiveBodiesProperty.value ) {
         const body = this.model.bodies.get( i );
-        this.bodySoundGenerators[ i ].setOutputLevel( body.accelerationProperty.value.magnitude / 5000 );
+        this.bodySoundGenerators[ i ].setOutputLevel( body.accelerationProperty.value.magnitude / 8000 );
+        // this.bodySoundGenerators[ i ].setOutputLevel(
+        //   1 / body.positionProperty.value.magnitude
+        // );
         this.bodySoundGenerators[ i ].play();
       }
       else {
