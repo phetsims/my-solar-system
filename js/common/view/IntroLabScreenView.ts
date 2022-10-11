@@ -23,7 +23,7 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import ViewSynchronizer from './ViewSynchronizer.js';
+import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
 import Body from '../model/Body.js';
 import BodyNode from './BodyNode.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
