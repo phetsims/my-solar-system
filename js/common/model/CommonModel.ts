@@ -24,6 +24,7 @@ import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import BodySoundManager from '../view/BodySoundManager.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -49,6 +50,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
   public readonly systemCenteredProperty;
+  private readonly bodySoundManager: BodySoundManager;
 
   public numberOfActiveBodiesProperty: NumberProperty;
   public engine: EngineType;
@@ -163,6 +165,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.pathVisibleProperty.link( visible => {
       this.clearPaths();
     } );
+
+    this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
   }
 
   public createBodies( bodiesInfo: BodyInfo[] ): void {
@@ -228,7 +232,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.update();
 
     if ( this.isPlayingProperty.value ) {
+      this.bodySoundManager.playSounds();
       this.stepOnce( dt );
+    }
+    else {
+      this.bodySoundManager.stop();
     }
   }
 
