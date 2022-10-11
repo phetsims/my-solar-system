@@ -133,8 +133,10 @@ export default class EllipticalOrbit extends Engine {
     const rMagnitude = r.magnitude;
     const vMagnitude = v.magnitude;
 
-    //REVIEW: significance of 0.99? Is that an epsilon value?
-    return vMagnitude > ( 0.99 * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
+    // Scaling down the escape velocity a little to avoid unwanted errors
+    const epsilon = 0.99;
+
+    return vMagnitude > ( epsilon * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
   }
 
   private collidedWithSun( a: number, e: number ): boolean {

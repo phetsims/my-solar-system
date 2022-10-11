@@ -13,7 +13,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
-import MySolarSystemGridNode from './MySolarSystemGridNode.js';
+import GridNode from '../../../../scenery-phet/js/GridNode.js';
 import MySolarSystemTimeControlNode from './MySolarSystemTimeControlNode.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
@@ -62,8 +62,8 @@ class CommonScreenView extends ScreenView {
       } );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
-    // const gridNode = new MySolarSystemGridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
-    this.interfaceLayer.addChild( new MySolarSystemGridNode(
+    // const gridNode = new GridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
+    this.interfaceLayer.addChild( new GridNode(
       this.modelViewTransformProperty,
       MySolarSystemConstants.GRID.spacing,
       Vector2.ZERO,

@@ -10,7 +10,7 @@ import { HBox, Text } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
-import MySolarSystemGridNode from './MySolarSystemGridNode.js';
+import GridNode from '../../../../scenery-phet/js/GridNode.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -35,7 +35,7 @@ const createVisibilityInformationCheckboxes = ( model: CommonModel, tandem: Tand
       spacing: 10,
       children: [
         new Text( MySolarSystemStrings.gridStringProperty, TEXT_OPTIONS ),
-        new MySolarSystemGridNode( new Property( ModelViewTransform2.createIdentity() ), 10, Vector2.ZERO, 1, {
+        new GridNode( new Property( ModelViewTransform2.createIdentity() ), 10, Vector2.ZERO, 1, {
           stroke: MySolarSystemColors.gridIconStrokeColorProperty,
           lineWidth: 1.5
         } )
