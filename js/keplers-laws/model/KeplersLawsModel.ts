@@ -17,6 +17,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbit from './EllipticalOrbit.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
@@ -66,9 +67,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public override createBodies(): void {
     // Clear out the bodies array and create 2 new bodies
     this.bodies.clear();
-    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ) ) );
-    this.bodies.push( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 110 ) ) );
-
+    this.bodies.push( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ), MySolarSystemColors.firstBodyColorProperty ) );
+    this.bodies.push( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 110 ), MySolarSystemColors.secondBodyColorProperty ) );
   }
 
   public softReset(): void {

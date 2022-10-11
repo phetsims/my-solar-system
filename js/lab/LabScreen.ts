@@ -21,7 +21,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
 
     const options = {
       homeScreenIcon: new LabScreenIcon(),
-      backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
+      backgroundColorProperty: MySolarSystemColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.labStringProperty
     };

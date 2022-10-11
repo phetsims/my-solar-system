@@ -21,7 +21,7 @@ class KeplersLawsScreen extends Screen<KeplersLawsModel, KeplersLawsScreenView> 
 
     const options = {
       homeScreenIcon: new KeplersLawsScreenIcon(),
-      backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
+      backgroundColorProperty: MySolarSystemColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.keplersLawsStringProperty
     };

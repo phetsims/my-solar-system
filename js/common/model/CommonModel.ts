@@ -25,6 +25,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BodySoundManager from '../view/BodySoundManager.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -85,10 +86,10 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.bodies = createObservableArray();
 
     this.availableBodies = [
-      new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ) ),
-      new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ) ),
-      new Body( 1, new Vector2( 100, -100 ), new Vector2( 50, 50 ) ),
-      new Body( 1, new Vector2( -100, -100 ), new Vector2( 50, -50 ) )
+      new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ), MySolarSystemColors.firstBodyColorProperty ),
+      new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ), MySolarSystemColors.secondBodyColorProperty ),
+      new Body( 1, new Vector2( 100, -100 ), new Vector2( 50, 50 ), MySolarSystemColors.thirdBodyColorProperty ),
+      new Body( 1, new Vector2( -100, -100 ), new Vector2( 50, -50 ), MySolarSystemColors.fourthBodyColorProperty )
     ];
 
     // Define the default mode the bodies will show up in

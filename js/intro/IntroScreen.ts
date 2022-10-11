@@ -21,7 +21,7 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
     const options = {
       homeScreenIcon: new IntroScreenIcon(),
-      backgroundColorProperty: MySolarSystemColors.SCREEN_VIEW_BACKGROUND,
+      backgroundColorProperty: MySolarSystemColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.introStringProperty
     };

@@ -13,6 +13,8 @@ import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Color } from '../../../../scenery/js/imports.js';
 
 
 class Body {
@@ -31,6 +33,8 @@ class Body {
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
 
+  public readonly color: TReadOnlyProperty<Color>;
+
   // Path constants
   public pathDistance = 0;
   public pathLengthLimit = MAX_PATH_LENGTH;
@@ -38,7 +42,7 @@ class Body {
   public stepCounter = 0; // Counting steps to only add points on multiples of wholeStepSize
   public wholeStepSize = 10;
 
-  public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2 ) {
+  public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2, color: TReadOnlyProperty<Color> ) {
     // Physical properties of the body
     this.massProperty = new NumberProperty( initialMass );
     this.radiusProperty = new NumberProperty( 1 );
@@ -46,6 +50,7 @@ class Body {
     this.velocityProperty = new Vector2Property( initialVelocity );
     this.accelerationProperty = new Vector2Property( Vector2.ZERO );
     this.forceProperty = new Vector2Property( Vector2.ZERO );
+    this.color = color;
 
     this.massProperty.link( mass => {
       // Mass to radius function

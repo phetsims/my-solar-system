@@ -23,10 +23,12 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import Engine from '../../common/model/Engine.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import TinyProperty from '../../../../axon/js/TinyProperty.js';
 
 export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
@@ -59,7 +61,8 @@ export default class EllipticalOrbit extends Engine {
     this.predictedBody = new Body(
       1,
       Vector2.ZERO,
-      Vector2.ZERO
+      Vector2.ZERO,
+      new TinyProperty( Color.BLACK )
     );
     this.allowedOrbit = false;
     this.update();

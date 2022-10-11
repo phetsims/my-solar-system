@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { Color, ShaderProgram, WebGLNode, WebGLNodeOptions, WebGLNodePainter, WebGLNodePainterResult } from '../../../../scenery/js/imports.js';
+import { ShaderProgram, WebGLNode, WebGLNodeOptions, WebGLNodePainter, WebGLNodePainterResult } from '../../../../scenery/js/imports.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import CommonModel from '../model/CommonModel.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -15,6 +15,8 @@ import stepTimer from '../../../../axon/js/stepTimer.js';
 import PathsPainter_shader from '../../../shaders/PathsPainter_shader.js';
 import PathsPainter_vert from '../../../shaders/PathsPainter_vert.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import Body from '../model/Body.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 
 const NUM_BODIES = 4;
@@ -55,6 +57,7 @@ class PathsPainter implements WebGLNodePainter {
   private readonly shaderProgram: ShaderProgram;
   private readonly dataTexture: WebGLTexture;
   private readonly dataArray: Float32Array;
+  private readonly bodies: ObservableArray<Body>;
 
   // A 16-length array that contains all 4 body colors (doesn't change once it's initialized)
   private readonly colorsFloatArray: Float32Array;
@@ -62,6 +65,8 @@ class PathsPainter implements WebGLNodePainter {
   public constructor( gl: WebGLRenderingContext, node: PathsWebGLNode ) {
     this.gl = gl;
     this.node = node;
+
+    this.bodies = node.model.bodies;
 
     // Use floating-point textures so we can specify the locations with better precision
     gl.getExtension( 'OES_texture_float' );
@@ -84,7 +89,8 @@ class PathsPainter implements WebGLNodePainter {
         'uMaxPathLength',
         'uColors',
         'uActiveBodies',
-        'uColorMatrix'
+        'uColorMatrix',
+        'uBackgroundColor'
       ]
     } );
     
@@ -105,12 +111,6 @@ class PathsPainter implements WebGLNodePainter {
     this.dataArray = new Float32Array( DATA_TEXTURE_SIZE * ELEMENTS_PER_VECTOR );
 
     this.colorsFloatArray = new Float32Array( 16 );
-    MySolarSystemColors.bodiesPalette.forEach( ( colorName, colorIndex ) => {
-      const color = new Color( colorName );
-      this.colorsFloatArray[ 4 * colorIndex ] = color.getRed() / 255;
-      this.colorsFloatArray[ 4 * colorIndex + 1 ] = color.getGreen() / 255;
-      this.colorsFloatArray[ 4 * colorIndex + 2 ] = color.getBlue() / 255;
-    } );
 
     this.updateDataTexture();
 
@@ -150,6 +150,7 @@ class PathsPainter implements WebGLNodePainter {
     const numBodies = this.node.model.bodies.length;
     for ( let bodyIndex = 0; bodyIndex < numBodies; bodyIndex++ ) {
       const body = this.node.model.bodies.get( bodyIndex )!;
+
       const numPoints = body.pathPoints.length;
       numPointsAll[ bodyIndex ] = numPoints;
       for ( let pointIndex = 0; pointIndex < numPoints; pointIndex++ ) {
@@ -161,6 +162,11 @@ class PathsPainter implements WebGLNodePainter {
           this.dataArray[ index + 1 ] = point.y;
         }
       }
+
+      const color = body.color.value;
+      this.colorsFloatArray[ 4 * bodyIndex ] = color.getRed() / 255;
+      this.colorsFloatArray[ 4 * bodyIndex + 1 ] = color.getGreen() / 255;
+      this.colorsFloatArray[ 4 * bodyIndex + 2 ] = color.getBlue() / 255;
     }
 
     this.updateDataTexture();
@@ -173,6 +179,15 @@ class PathsPainter implements WebGLNodePainter {
     gl.uniform1i( this.shaderProgram.uniformLocations.uData, 0 );
 
     gl.uniformMatrix4fv( this.shaderProgram.uniformLocations.uColorMatrix, false, this.colorsFloatArray );
+
+    const backgroundColor = MySolarSystemColors.backgroundProperty.value;
+    gl.uniform4f(
+      this.shaderProgram.uniformLocations.uBackgroundColor,
+      backgroundColor.getRed() / 255,
+      backgroundColor.getGreen() / 255,
+      backgroundColor.getBlue() / 255,
+      backgroundColor.getAlpha()
+    );
 
     const matrixInverse = scratchInverseMatrix;
     const projectionMatrixInverse = scratchProjectionMatrix.set( projectionMatrix ).invert();

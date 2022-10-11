@@ -7,6 +7,7 @@ uniform ivec4 uPathLength;
 uniform int uMaxPathLength;
 uniform int uActiveBodies;
 uniform mat4 uColorMatrix;
+uniform vec4 uBackgroundColor;
 
 // NOTE: This is best hardcoded as a constant (we could replace in JS if needed)
 const int maxPathLength = 32 * 32 / 4;
@@ -58,18 +59,21 @@ vec4 getStroke( in vec2 modelPosition, in int bodyIndex, in vec3 planetColor ) {
 
     lastPosition = position;
   }
-  return vec4( planetColor * smoothstep( radius, radius - 2.0, minDistance ), 0.0 );
+  return vec4( planetColor, smoothstep( radius, radius - 2.0, minDistance ) );
 }
 
 // Returns the color from the vertex shader
 void main( void ) {
   vec2 modelPosition = globalToModel( vPosition );
-  vec4 stroke = vec4( 0.0, 0.0, 0.0, 1.0 );
+  vec4 color = uBackgroundColor;
 
   for ( int bodyIndex = 0 ; bodyIndex < 4 ; bodyIndex++ ) {
     if ( bodyIndex < uActiveBodies ){
-      stroke += getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
+      vec4 stroke = getStroke( modelPosition, bodyIndex, uColorMatrix[ bodyIndex ].xyz );
+
+      color.rgb = stroke.a * stroke.rgb + color.a * color.rgb * ( 1.0 - stroke.a );
+      color.a = stroke.a + color.a * ( 1.0 - stroke.a );
     }
   }
-  gl_FragColor = stroke;
+  gl_FragColor = color;
 }

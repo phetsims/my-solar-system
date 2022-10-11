@@ -7,7 +7,7 @@
  */
 
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { AlignBox, AlignGroup, FireListener, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, FireListener, Node, RichText, TColor, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
@@ -16,7 +16,6 @@ import MySolarSystemSlider from './MySolarSystemSlider.js';
 import Body from '../model/Body.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
@@ -63,7 +62,7 @@ export default class ValuesColumnNode extends VBox {
     model.availableBodies.forEach( ( body, i ) => {
 
       // Retrieve the color from the colors palette
-      const color = MySolarSystemColors.bodiesPalette[ i ];
+      const color = body.color;
 
       // Create the corresponding contentNode for each available body.
       const contentNode = ValuesColumnNode.createContentNode( body, columnType, model, color );
@@ -84,7 +83,7 @@ export default class ValuesColumnNode extends VBox {
     super( options );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, color: string ): AlignBox {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, color: TColor ): AlignBox {
     // Flag that references the contentNode.
     let contentNode;
 

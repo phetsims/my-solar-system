@@ -6,15 +6,12 @@
  * @author Jonathan Olson
  */
 
-import Property from '../../../axon/js/Property.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import mySolarSystem from '../mySolarSystem.js';
 
 const MySolarSystemColors = {
-
-  SCREEN_VIEW_BACKGROUND: new Property( 'black' ),
 
   // Color mainly used for foreground things like text
   foregroundProperty: new ProfileColorProperty( mySolarSystem, 'foreground', {
@@ -41,13 +38,29 @@ const MySolarSystemColors = {
   } ),
   HIGHLIGHTED_NUMBER_DISPLAY_FILL: PhetColorScheme.BUTTON_YELLOW,
 
-  bodiesPalette: [
-    'yellow',
-    'magenta',
-    'cyan',
-    'green'
-  ]
+  firstBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'first body color', {
+    default: 'yellow'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'firstBodyColorProperty' )
+  } ),
 
+  secondBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'second body color', {
+    default: 'magenta'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'secondBodyColorProperty' )
+  } ),
+
+  thirdBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'third body color', {
+    default: 'cyan'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'thirdBodyColorProperty' )
+  } ),
+
+  fourthBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'fourth body color', {
+    default: 'green'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'fourthBodyColorProperty' )
+  } )
 };
 
 mySolarSystem.register( 'MySolarSystemColors', MySolarSystemColors );

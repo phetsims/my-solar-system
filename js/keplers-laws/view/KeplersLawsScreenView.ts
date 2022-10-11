@@ -10,7 +10,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, HBox, VBox } from '../../../../scenery/js/imports.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
 import AreasAccordionBox from './AreasAccordionBox.js';
 import BodyNode from '../../common/view/BodyNode.js';
@@ -44,16 +43,12 @@ class KeplersLawsScreenView extends CommonScreenView {
       sun,
       this.modelViewTransformProperty,
       {
-        mainColor: MySolarSystemColors.bodiesPalette[ 0 ],
         draggable: false
       }
     ) );
     this.bodiesLayer.addChild( new BodyNode(
       planet,
-      this.modelViewTransformProperty,
-      {
-        mainColor: MySolarSystemColors.bodiesPalette[ 1 ]
-      }
+      this.modelViewTransformProperty
     ) );
     this.componentsLayer.addChild( new DraggableVectorNode(
       planet, this.modelViewTransformProperty, model.velocityVisibleProperty, planet.velocityProperty,

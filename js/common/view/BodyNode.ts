@@ -49,6 +49,8 @@ export default class BodyNode extends ShadedSphereNode {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
       draggable: true,
 
+      mainColor: body.color,
+
       // Text Options
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
       significantFigures: 1, // number of significant figures in the length measurement

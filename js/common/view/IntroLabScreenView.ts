@@ -26,7 +26,6 @@ import Range from '../../../../dot/js/Range.js';
 import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
 import Body from '../model/Body.js';
 import BodyNode from './BodyNode.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 import DraggableVectorNode from './DraggableVectorNode.js';
 import VectorNode from './VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
@@ -70,9 +69,7 @@ export default class IntroLabScreenView extends CommonScreenView {
     // Setting the Factory functions that will create the necessary Nodes
 
     const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
-      return new BodyNode( body, this.modelViewTransformProperty, {
-        mainColor: MySolarSystemColors.bodiesPalette[ this.bodiesLayer.getChildrenCount() ]
-      } );
+      return new BodyNode( body, this.modelViewTransformProperty );
     } );
 
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
