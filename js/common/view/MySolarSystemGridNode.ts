@@ -43,7 +43,7 @@ export default class MySolarSystemGridNode extends Path {
 
     super( null, options );
 
-    transformProperty.link( () => {
+    transformProperty.link( ( transform: ModelViewTransform2 ) => {
       const shape = new Shape();
 
       const x1 = -numGridLines * spacing + center.x;
@@ -58,9 +58,7 @@ export default class MySolarSystemGridNode extends Path {
         shape.moveTo( x, y1 ).lineTo( x, y2 ); // vertical lines
       }
 
-      //REVIEW: #2: try to avoid .value/.get() for a Property when inside a link for it. Just add a parameter to this
-      //REVIEW: arrow function ('transform') and use that instead.
-      this.shape = transformProperty.value.modelToViewShape( shape );
+      this.shape = transform.modelToViewShape( shape );
     } );
   }
 }

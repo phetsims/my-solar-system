@@ -10,23 +10,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
-/**
- * REVIEW: Does this comment add a benefit? It will need to be updated if the enum changes.
- * The possible pre-sets for the lab are:
-    Sun and planet
-    Sun, planet, moon
-    Sun, planet, comet
-    Trojan asteroid 
-    Ellipses
-    Hyperbolic
-    Slingshot
-    Double Slingshot
-    Binary star, planet 
-    Four-star ballet
-    Double double
-    Custom
- */
-
 export default class LabModes extends EnumerationValue {
   public static SUN_PLANET = new LabModes();
   public static SUN_PLANET_MOON = new LabModes();

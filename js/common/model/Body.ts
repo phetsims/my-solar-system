@@ -7,8 +7,6 @@
  */
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Emitter from '../../../../axon/js/Emitter.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
@@ -29,12 +27,6 @@ class Body {
   // Collision handling
   public readonly isCollidedProperty = new BooleanProperty( false );
   public readonly valueVisibleProperty = new BooleanProperty( false );
-
-  // Emitters for various events
-  //REVIEW: This first emitter isn't emitted or listened to! Can it be removed?
-  public readonly userModifiedPositionEmitter: TEmitter;
-  //REVIEW: This second emitter isn't listened to! Can it be removed?
-  public readonly userModifiedVelocityEmitter: TEmitter;
 
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
@@ -59,10 +51,6 @@ class Body {
       // Mass to radius function
       this.radiusProperty.set( Math.pow( mass, 1 / 3 ) + 5 );
     } );
-
-    // Emitters for dragging the body and velocity vector
-    this.userModifiedPositionEmitter = new Emitter();
-    this.userModifiedVelocityEmitter = new Emitter();
 
     // Data for rendering the path as a WebGL object
     this.pathPoints = createObservableArray();

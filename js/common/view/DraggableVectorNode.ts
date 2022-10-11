@@ -100,12 +100,10 @@ export default class DraggableVectorNode extends VectorNode {
             if ( options.zeroAllowed ) {
               proposedVelocity.setXY( 0, 0 );
               body.velocityProperty.value = proposedVelocity;
-              body.userModifiedVelocityEmitter.emit();
             }
           }
           else {
             body.velocityProperty.value = proposedVelocity;
-            body.userModifiedVelocityEmitter.emit();
           }
         }
       },

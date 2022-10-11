@@ -43,8 +43,7 @@ type SelfOptions = EmptySelfOptions;
 
 export type KeplersLawsOrbitalInformationOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
 
-//REVIEW: similarly to OrbitalInformation, I'd recommend a rename to make this sound more like a view
-class KeplersLawsOrbitalInformation extends VBox {
+class KeplersLawsOrbitalInformationBox extends VBox {
 
   public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsOrbitalInformationOptions ) {
 
@@ -152,5 +151,5 @@ class KeplersLawsOrbitalInformation extends VBox {
   }
 }
 
-mySolarSystem.register( 'KeplersLawsOrbitalInformation', KeplersLawsOrbitalInformation );
-export default KeplersLawsOrbitalInformation;
+mySolarSystem.register( 'KeplersLawsOrbitalInformationBox', KeplersLawsOrbitalInformationBox );
+export default KeplersLawsOrbitalInformationBox;

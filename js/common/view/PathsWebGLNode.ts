@@ -48,7 +48,6 @@ export default class PathsWebGLNode extends WebGLNode {
 
 }
 
-//REVIEW: I exported the WebGLNodePainter type, so it can be "implemented" here, sound good?
 class PathsPainter implements WebGLNodePainter {
   private readonly gl: WebGLRenderingContext;
   private readonly node: PathsWebGLNode;
@@ -140,8 +139,6 @@ class PathsPainter implements WebGLNodePainter {
     );
   }
 
-  //REVIEW: I added the type WebGLNodePainterResult, so that it's not needed as a type declared in this file, sound
-  //REVIEW: good?
   public paint( modelViewMatrix: Matrix3, projectionMatrix: Matrix3 ): WebGLNodePainterResult {
     const gl = this.gl;
 

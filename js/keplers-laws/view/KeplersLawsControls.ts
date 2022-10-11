@@ -15,13 +15,13 @@ import createArrowsVisibilityCheckboxes from '../../common/view/createArrowsVisi
 import createVisibilityInformationCheckboxes from '../../common/view/createVisibilityInformationCheckboxes.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import KeplersLawsOrbitalInformation from './KeplersLawsOrbitalInformation.js';
+import KeplersLawsOrbitalInformationBox from './KeplersLawsOrbitalInformationBox.js';
 
 class KeplersLawsControls extends Panel {
   public constructor( model: KeplersLawsModel, tandem: Tandem ) {
     super( new VBox( {
       children: [
-        new KeplersLawsOrbitalInformation( model, {
+        new KeplersLawsOrbitalInformationBox( model, {
           tandem: tandem
         } ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
