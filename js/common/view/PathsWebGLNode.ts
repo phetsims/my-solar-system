@@ -163,7 +163,7 @@ class PathsPainter implements WebGLNodePainter {
         }
       }
 
-      const color = body.color.value;
+      const color = body.colorProperty.value;
       this.colorsFloatArray[ 4 * bodyIndex ] = color.getRed() / 255;
       this.colorsFloatArray[ 4 * bodyIndex + 1 ] = color.getGreen() / 255;
       this.colorsFloatArray[ 4 * bodyIndex + 2 ] = color.getBlue() / 255;
