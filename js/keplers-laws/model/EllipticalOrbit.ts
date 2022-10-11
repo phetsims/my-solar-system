@@ -94,13 +94,10 @@ export default class EllipticalOrbit extends Engine {
 
     this.allowedOrbit = false;
     if ( !this.escapeVelocityExceeded( r, v ) ) {
-      const [ a, e, w, M, W ] = this.calculateEllipse( r, v );
+      const { a, e, w, W } = this.calculateEllipse( r, v );
       this.a = a;
       this.e = e;
       this.w = w;
-      //REVIEW: commented-out code, and something that does nothing? What is this? Looks... buggy
-      // this.M = M;
-      M;
       this.W = W;
 
       // TODO: Check if the complete form of the third law should be used
@@ -197,11 +194,11 @@ export default class EllipticalOrbit extends Engine {
     return [ w, M, W ];
   }
 
-  private calculateEllipse( r: Vector2, v: Vector2 ): number[] {
+  private calculateEllipse( r: Vector2, v: Vector2 ): Ellipse {
     const a = this.calculate_a( r, v );
     const e = this.calculate_e( r, v, a );
     const [ w, M, W ] = this.calculateAngles( r, v, a, e );
-    return [ a, e, w, M, W ];
+    return new Ellipse( a, e, w, M, W );
   }
 
   private calculateR( a: number, e: number, nu: number ): number {
@@ -220,6 +217,10 @@ export default class EllipticalOrbit extends Engine {
     const E = M + this.e * Math.sin( E2 );
     return Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
   }
+}
+
+class Ellipse {
+  public constructor( public a: number, public e: number, public w: number, public M: number, public W: number ) {}
 }
 
 mySolarSystem.register( 'EllipticalOrbit', EllipticalOrbit );
