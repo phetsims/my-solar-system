@@ -21,7 +21,8 @@ export default class BodySoundGenerator extends SoundClip {
 
   public constructor( bodySound: WrappedAudioBuffer, providedOptions?: BodySoundGeneratorOptions ) {
     const options = optionize<BodySoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
-      initialOutputLevel: DEFAULT_OUTPUT_LEVEL
+      initialOutputLevel: DEFAULT_OUTPUT_LEVEL,
+      loop: true
     }, providedOptions );
 
     // Determine which sound it's going to play based on the body index

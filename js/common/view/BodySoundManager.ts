@@ -45,7 +45,9 @@ export default class BodySoundManager {
       new BodySoundGenerator( allSounds[ 3 ] )
     ];
 
-    this.bodySoundGenerators.forEach( sound => soundManager.addSoundGenerator( sound ) );
+    this.bodySoundGenerators.forEach( sound => soundManager.addSoundGenerator( sound, {
+      associatedViewNode: null
+    } ) );
   }
 
   public playSounds(): void {
