@@ -8,7 +8,6 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phet/js/TimeControlNode.js';
-import RestartButton from '../../../../scenery-phet/js/buttons/RestartButton.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
@@ -58,22 +57,6 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
     }, providedOptions );
 
     super( model.isPlayingProperty, options );
-
-    const restartButton = new RestartButton( {
-      enabled: true,
-      radius: STEP_BUTTON_RADIUS,
-      xMargin: 9.5,
-      yMargin: 9.5,
-      listener: options.restartListener,
-      //REVIEW: Are we able to do relative layout here instead, e.g. right/centerY, where we don't have to include the
-      //REVIEW: custom radii and make assumptions about TimeControlNode itself?
-      //REVIEW: Perhaps even better, are we able to just be an HBox that contains everything, so that dynamic layout
-      //REVIEW: will happen?
-      //REVIEW: A lot of this looks like it's copied from GAO
-      center: this.getPlayPauseButtonCenter().minusXY( PLAY_PAUSE_BUTTON_RADIUS + STEP_BUTTON_RADIUS + PUSH_BUTTON_SPACING, 0 ),
-      tandem: providedOptions.tandem.createTandem( 'restartButton' )
-    } );
-    this.addChild( restartButton );
   }
 }
 

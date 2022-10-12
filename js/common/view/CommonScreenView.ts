@@ -23,12 +23,15 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import CommonModel from '../model/CommonModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import SimpleClockIcon from '../../../../scenery-phet/js/SimpleClockIcon.js';
+import Body from '../model/Body.js';
+import DraggableVectorNode, { DraggableVectorNodeOptions } from './DraggableVectorNode.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -42,6 +45,8 @@ class CommonScreenView extends ScreenView {
   protected readonly bottomLayer = new Node();
 
   protected readonly timeBox: HBox;
+
+  protected readonly createDraggableVectorNode: ( body: Body, options?: DraggableVectorNodeOptions ) => DraggableVectorNode;
 
   protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
 
@@ -72,6 +77,18 @@ class CommonScreenView extends ScreenView {
         stroke: MySolarSystemColors.gridIconStrokeColorProperty,
         visibleProperty: model.gridVisibleProperty
      } ) );
+
+    this.createDraggableVectorNode = ( body: Body, options?: DraggableVectorNodeOptions ) => {
+        return new DraggableVectorNode(
+          body,
+          this.modelViewTransformProperty,
+          model.velocityVisibleProperty,
+          body.velocityProperty,
+          1,
+          MySolarSystemStrings.VStringProperty,
+          combineOptions<DraggableVectorNodeOptions>( { fill: PhetColorScheme.VELOCITY }, options )
+        );
+    };
 
     // Center of Mass Node =====================================================================================================
 

@@ -33,9 +33,7 @@ export default class DraggableVectorNode extends VectorNode {
     visibleProperty: TReadOnlyProperty<boolean>,
     vectorProperty: TReadOnlyProperty<Vector2>,
     scale: number,
-    //REVIEW: Hmm, this looks like it should be translatable (we've done similar things for other simulations, including
-    //REVIEW: GAO. TReadOnlyProperty<string> it?
-    labelText: string,
+    labelText: TReadOnlyProperty<string>,
     providedOptions?: DraggableVectorNodeOptions ) {
 
     const options = optionize<DraggableVectorNodeOptions, SelfOptions, VectorNodeOptions>()( {
@@ -50,8 +48,6 @@ export default class DraggableVectorNode extends VectorNode {
       scale,
       options
       );
-
-    //REVIEW: Do we need to deduplicate things with gravity-and-orbits version?
 
     // a circle with text (a character) in the center, to help indicate what it represents
     // ("v" for velocity in this sim)
@@ -114,6 +110,12 @@ export default class DraggableVectorNode extends VectorNode {
     // // move behind the geometry created by the superclass
     grabArea.moveToBack();
     text.moveToBack();
+
+    // For PhET-iO, when the node does not support input, don't show the drag circle
+    this.inputEnabledProperty.link( ( inputEnabled: boolean ) => {
+      grabArea.visible = inputEnabled;
+      text.visible = inputEnabled;
+    } );
   }
 }
 

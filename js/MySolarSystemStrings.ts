@@ -35,6 +35,8 @@ type StringsType = {
   'pathStringProperty': LinkableProperty<string>;
   'velocity': string;
   'velocityStringProperty': LinkableProperty<string>;
+  'V': string;
+  'VStringProperty': LinkableProperty<string>;
   'orbital': string;
   'orbitalStringProperty': LinkableProperty<string>;
   'axis': string;

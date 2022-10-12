@@ -14,8 +14,6 @@ import KeplersLawsControls from './KeplersLawsControls.js';
 import AreasAccordionBox from './AreasAccordionBox.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import DraggableVectorNode from '../../common/view/DraggableVectorNode.js';
 import ThirdLawAccordionBox from './ThirdLawAccordionBox.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import AreasGraphPanel from './AreasGraphPanel.js';
@@ -50,11 +48,7 @@ class KeplersLawsScreenView extends CommonScreenView {
       planet,
       this.modelViewTransformProperty
     ) );
-    this.componentsLayer.addChild( new DraggableVectorNode(
-      planet, this.modelViewTransformProperty, model.velocityVisibleProperty, planet.velocityProperty,
-      //REVIEW: translatable label! also factor this out with the other version in the common screen view
-      1, 'V', { fill: PhetColorScheme.VELOCITY, zeroAllowed: false }
-    ) );
+    this.componentsLayer.addChild( this.createDraggableVectorNode( planet, { zeroAllowed: false } ) );
 
     this.bottomLayer.addChild( new EllipticalOrbitNode( model, this.modelViewTransformProperty ) );
 

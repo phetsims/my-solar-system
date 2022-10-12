@@ -1,13 +1,12 @@
 // Copyright 2022, University of Colorado Boulder
 
-
 /**
  * Visual representation of space object's property checkbox.
  *
  * @author Agustín Vallejo
  */
 
-import { Shape } from '../../../../kite/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import { HBox, HBoxOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -20,6 +19,8 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import LawMode from '../model/LawMode.js';
+import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const CHECKBOX_OPTIONS = {
@@ -37,8 +38,6 @@ const TITLE_OPTIONS = {
   fill: MySolarSystemColors.foregroundProperty
 };
 
-const SPACING = 10;
-
 type SelfOptions = EmptySelfOptions;
 
 export type KeplersLawsOrbitalInformationOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
@@ -55,56 +54,21 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       } );
     };
 
-    const secondLawChildren = [
-      new Checkbox( model.axisVisibleProperty, new HBox( {
-        spacing: 10,
+    const createCheckbox = (
+      property: LinkableProperty<boolean>,
+      text: TReadOnlyProperty<string>,
+      tandemName: string,
+      icon: Node = new Node(),
+      options?: CheckboxOptions
+    ) => {
+      return new Checkbox( property, new HBox( {
         children: [
-          new Text( MySolarSystemStrings.axisStringProperty, TEXT_OPTIONS )
-          //  axisIconImageNode
-        ]
-      } ), getCheckboxOptions( 'axisVisibleCheckbox' ) ),
-      new Checkbox( model.apoapsisVisibleProperty, new HBox( {
-        spacing: 10,
-        children: [
-          new Text( MySolarSystemStrings.apoapsisStringProperty, TEXT_OPTIONS ),
-          new XNode( {
-            fill: 'cyan',
-            stroke: 'white',
-            scale: 0.5
-          } )
-        ]
-      } ), getCheckboxOptions( 'apoapsisVisibleCheckbox' ) ),
-      new Checkbox( model.periapsisVisibleProperty, new HBox( {
-        spacing: 10,
-        children: [
-          new Text( MySolarSystemStrings.periapsisStringProperty, TEXT_OPTIONS ),
-          new XNode( {
-            fill: 'gold',
-            stroke: 'white',
-            scale: 0.5
-          } )
-        ]
-      } ), getCheckboxOptions( 'periapsisVisibleCheckbox' ) )
-    ];
-
-    //REVIEW: lots of spacing: 10, can we factor this out?
-
-    const thirdLawChildren = [
-      new Checkbox( model.semimajorAxisVisibleProperty, new HBox( {
-        spacing: 10,
-        children: [
-          new Text( MySolarSystemStrings.graph.aStringProperty, TEXT_OPTIONS )
-          //  axisIconImageNode
-        ]
-      } ), getCheckboxOptions( 'semimajorAxisVisibleCheckbox' ) ),
-      new Checkbox( model.periodVisibleProperty, new HBox( {
-        spacing: 10,
-        children: [
-          new Text( MySolarSystemStrings.graph.tStringProperty, TEXT_OPTIONS )
-          //  axisIconImageNode
-        ]
-      } ), getCheckboxOptions( 'periodVisibleCheckbox' ) )
-    ];
+          new Text( text, TEXT_OPTIONS ),
+          icon
+        ],
+        spacing: 10
+      } ), getCheckboxOptions( tandemName ) );
+    };
 
     const orbitalInformationNode = new HBox( {
       spacing: 10,
@@ -114,30 +78,52 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       ]
     } );
 
-    //REVIEW: We link below and overwrite this value, so why specify it here? Can we remove this setting of initial children?
-    const children = [
-      orbitalInformationNode,
-      ...( model.selectedLawProperty.value === LawMode.SECOND_LAW ? secondLawChildren : thirdLawChildren )
+    const secondLawChildren = [
+      createCheckbox(
+        model.axisVisibleProperty,
+        MySolarSystemStrings.axisStringProperty,
+        'axisVisibleCheckbox'
+        // axisIconImageNode TODO
+        ),
+      createCheckbox(
+        model.apoapsisVisibleProperty,
+        MySolarSystemStrings.apoapsisStringProperty,
+        'apoapsisVisibleCheckbox',
+        new XNode( {
+          fill: 'cyan',
+          stroke: 'white',
+          scale: 0.5
+        } )
+      ),
+      createCheckbox(
+        model.periapsisVisibleProperty,
+        MySolarSystemStrings.periapsisStringProperty,
+        'periapsisVisibleCheckbox',
+        new XNode( {
+          fill: 'gold',
+          stroke: 'white',
+          scale: 0.5
+        } )
+      )
     ];
 
-    // increase the touch area of the checkboxes
-    const touchAreaHeight = 32;
-    children.forEach( child => {
-      //REVIEW: all of the touch area increases... Seem bad and likely to get overwritten
-      //REVIEW: use touchAreaXDilation/mouseAreaXDilation/etc. Also see comments below for "incremental" improvements
-      //REVIEW: (that can probably be discarded)
-
-      //REVIEW: camel-case the name of the variable, it doesn't represent a type
-      const KeplersLawsOrbitalInformation = child;
-      //REVIEW: Don't do this coordinate transform, just access `.localBounds` to get the bounds in a local coordinate frame
-      const bounds = KeplersLawsOrbitalInformation.parentToLocalBounds( KeplersLawsOrbitalInformation.bounds );
-      //REVIEW: Also, this doesn't update with dynamic layout. We'll need to listen to the bounds of it
-      KeplersLawsOrbitalInformation.touchArea = Shape.rectangle( -5, bounds.centerY - touchAreaHeight / 2, bounds.width + 10, touchAreaHeight );
-    } );
+    const thirdLawChildren = [
+      createCheckbox(
+        model.semimajorAxisVisibleProperty,
+        MySolarSystemStrings.graph.aStringProperty,
+        'semimajorAxisVisibleCheckbox'
+        // axisIconImageNode TODO
+      ),
+      createCheckbox(
+        model.periodVisibleProperty,
+        MySolarSystemStrings.graph.tStringProperty,
+        'periodVisibleCheckbox'
+        // periodIconImageNode TODO
+      )
+      ];
 
     super( optionize<KeplersLawsOrbitalInformationOptions, SelfOptions, HBoxOptions>()( {
-      children: children,
-      spacing: SPACING,
+      spacing: 5,
       align: 'left',
       stretch: true
     }, providedOptions ) );

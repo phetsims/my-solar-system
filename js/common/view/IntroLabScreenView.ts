@@ -26,7 +26,6 @@ import Range from '../../../../dot/js/Range.js';
 import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
 import Body from '../model/Body.js';
 import BodyNode from './BodyNode.js';
-import DraggableVectorNode from './DraggableVectorNode.js';
 import VectorNode from './VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
@@ -73,13 +72,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       return new BodyNode( body, this.modelViewTransformProperty );
     } );
 
-    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
-      return new DraggableVectorNode(
-        body, this.modelViewTransformProperty, model.velocityVisibleProperty, body.velocityProperty,
-        //REVIEW: translatable label! Also factor this out with the kepler's law version
-        1, 'V', { fill: PhetColorScheme.VELOCITY }
-      );
-    } );
+    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
       return new VectorNode(
