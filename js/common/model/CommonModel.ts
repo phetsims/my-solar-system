@@ -51,7 +51,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly bodies: ObservableArray<Body>;
   public readonly centerOfMass: CenterOfMass;
   public readonly systemCenteredProperty;
-  private readonly bodySoundManager: BodySoundManager;
+  public readonly bodySoundManager: BodySoundManager;
 
   public numberOfActiveBodiesProperty: NumberProperty;
   public engine: EngineType;

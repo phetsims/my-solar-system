@@ -10,7 +10,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import BodySoundGenerator from './BodySoundGenerator.js';
 import CommonModel from '../model/CommonModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
 import Bodies_Strings_e3_mp3 from '../../../sounds/Bodies_Strings_e3_mp3.js';
 import Bodies_Flute_g3_mp3 from '../../../sounds/Bodies_Flute_g3_mp3.js';
@@ -33,21 +32,18 @@ export type BodySoundsManagerOptions = {
 
 export default class BodySoundManager {
   private readonly model: CommonModel;
-  private readonly bodySoundGenerators: BodySoundGenerator[];
+  public readonly bodySoundGenerators: BodySoundGenerator[];
 
   public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {
     this.model = model;
 
+    // Create the sound generators for the bodies, they are added to the soundManager in the ScreenView
     this.bodySoundGenerators = [
       new BodySoundGenerator( allSounds[ 0 ] ),
       new BodySoundGenerator( allSounds[ 1 ] ),
       new BodySoundGenerator( allSounds[ 2 ] ),
       new BodySoundGenerator( allSounds[ 3 ] )
     ];
-
-    this.bodySoundGenerators.forEach( sound => soundManager.addSoundGenerator( sound, {
-      associatedViewNode: null
-    } ) );
   }
 
   public playSounds(): void {

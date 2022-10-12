@@ -32,6 +32,7 @@ import SimpleClockIcon from '../../../../scenery-phet/js/SimpleClockIcon.js';
 import Body from '../model/Body.js';
 import DraggableVectorNode, { DraggableVectorNodeOptions } from './DraggableVectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -58,6 +59,10 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.componentsLayer );
     this.addChild( this.interfaceLayer );
     this.addChild( this.topLayer );
+
+    model.bodySoundManager.bodySoundGenerators.forEach( sound => soundManager.addSoundGenerator( sound, {
+      associatedViewNode: this
+    } ) );
 
     this.modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
       return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
