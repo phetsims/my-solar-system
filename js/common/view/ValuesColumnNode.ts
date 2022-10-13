@@ -62,10 +62,10 @@ export default class ValuesColumnNode extends VBox {
     model.availableBodies.forEach( ( body, i ) => {
 
       // Retrieve the color from the colors palette
-      const color = body.colorProperty;
+      const colorProperty = body.colorProperty;
 
       // Create the corresponding contentNode for each available body.
-      const contentNode = ValuesColumnNode.createContentNode( body, columnType, model, color );
+      const contentNode = ValuesColumnNode.createContentNode( body, columnType, model, colorProperty );
 
       // Add the content to the container.
       contentContainer.addChild( contentNode );
