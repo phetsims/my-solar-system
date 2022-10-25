@@ -31,6 +31,7 @@ import Mass_Selection_1_mp3 from '../../../sounds/Mass_Selection_1_mp3.js';
 import Mass_Selection_2_mp3 from '../../../sounds/Mass_Selection_2_mp3.js';
 import Mass_Selection_3_mp3 from '../../../sounds/Mass_Selection_3_mp3.js';
 import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 
 // Mass slider sounds
 // import Mass_Slider_Rubber_Band_mp3 from '../../../sounds/Mass_Slider_Rubber_Band_mp3.js';
@@ -121,7 +122,7 @@ export default class BodySoundManager {
   }
 
   public playCollisionSound(): void {
-    this.collisionSoundClips[ 0 ].play();
+    this.collisionSoundClips[ dotRandom.nextInt( 3 ) ].play();
   }
 
   public stop(): void {
