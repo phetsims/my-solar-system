@@ -85,12 +85,22 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     this.bodies = createObservableArray();
 
+    this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
+
     this.availableBodies = [
       new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ), MySolarSystemColors.firstBodyColorProperty ),
       new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ), MySolarSystemColors.secondBodyColorProperty ),
       new Body( 1, new Vector2( 100, -100 ), new Vector2( 50, 50 ), MySolarSystemColors.thirdBodyColorProperty ),
       new Body( 1, new Vector2( -100, -100 ), new Vector2( 50, -50 ), MySolarSystemColors.fourthBodyColorProperty )
     ];
+
+    this.availableBodies.forEach( body => {
+      body.isCollidedProperty.link( isCollided => {
+        if ( isCollided ) {
+          this.bodySoundManager.playCollisionSound();
+        }
+      } );
+    } );
 
     // Define the default mode the bodies will show up in
     this.defaultModeInfo = [
@@ -166,8 +176,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.pathVisibleProperty.link( visible => {
       this.clearPaths();
     } );
-
-    this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
   }
 
   public createBodies( bodiesInfo: BodyInfo[] ): void {
