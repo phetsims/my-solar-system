@@ -47,17 +47,19 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.labModeProperty.link( this.modeSetter );
 
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodies => {
+      // TODO: Check that new bodies don't collide with existing ones
+      // TODO: Make sure that new bodies are just added and don't replace existing ones!
       if ( numberOfActiveBodies !== this.bodies.length ) {
+        this.isPlayingProperty.value = false;
+        this.labModeProperty.value = LabModes.CUSTOM;
         if ( numberOfActiveBodies > this.bodies.length ) {
           this.bodySoundManager.playBodyAddedSound( numberOfActiveBodies - 1 );
+          this.addBody();
         }
         else {
           this.bodySoundManager.playBodyRemovedSound( numberOfActiveBodies - 1 );
+          this.removeBody();
         }
-        this.isPlayingProperty.value = false;
-        this.labModeProperty.value = LabModes.CUSTOM;
-        this.bodies.clear();
-        this.bodies.push( ...this.availableBodies.slice( 0, numberOfActiveBodies ) );
       }
     } );
   }

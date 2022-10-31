@@ -30,9 +30,11 @@ class Body {
   public readonly isCollidedProperty = new BooleanProperty( false );
   public readonly valueVisibleProperty = new BooleanProperty( false );
 
+  // Not resettable, common model will handle
+  public readonly isActiveProperty = new BooleanProperty( false );
+
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
-
   public readonly colorProperty: TReadOnlyProperty<Color>;
 
   // Path constants
@@ -96,6 +98,35 @@ class Body {
       }
 
     }
+  }
+
+  public checkCollision( otherBody: Body ): boolean {
+    const distance = this.positionProperty.value.distance( otherBody.positionProperty.value );
+    const radiusSum = this.radiusProperty.value + otherBody.radiusProperty.value;
+    if ( distance < radiusSum ) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Add this body's momentum into the body it is colliding into.
+   * @param otherBody
+   */
+  public collideInto( otherBody: Body ): void {
+    otherBody.velocityProperty.value = otherBody.velocityProperty.value.plus( this.velocityProperty.value.times( this.massProperty.value / otherBody.massProperty.value ) );
+    this.isCollidedProperty.value = true;
+    this.reset();
+  }
+
+  public preventCollision( bodies: Body[] ): void {
+    bodies.forEach( body => {
+      if ( body !== this && this.checkCollision( body ) ) {
+        // If it's going to collide, arbitrarily move it 100 pixels up
+        this.positionProperty.value.add( new Vector2( 0, 100 ) );
+        this.preventCollision( bodies );
+      }
+    } );
   }
 
   /**

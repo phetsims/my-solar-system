@@ -97,6 +97,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.availableBodies.forEach( body => {
       body.isCollidedProperty.link( isCollided => {
         if ( isCollided ) {
+          body.isActiveProperty.value = false;
           this.bodySoundManager.playBodyRemovedSound( this.numberOfActiveBodiesProperty.value - 2 );
         }
       } );
@@ -178,17 +179,42 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
   }
 
+  /**
+   * Sets the available bodies initial states according to bodiesInfo
+   * @param bodiesInfo
+   */
   public createBodies( bodiesInfo: BodyInfo[] ): void {
     this.bodies.clear();
     bodiesInfo.forEach( ( body, i ) => {
       this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
       this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
       this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
+      this.availableBodies[ i ].isActiveProperty.value = true;
 
       this.bodies.push( this.availableBodies[ i ] );
     } );
 
     this.bodies.forEach( body => body.reset() );
+  }
+
+  public removeBody(): void {
+    const numberOfActiveBodies = this.bodies.length - 1;
+    const lastBody = this.bodies[ numberOfActiveBodies ];
+    lastBody.isActiveProperty.value = false;
+    this.bodies.remove( lastBody );
+  }
+
+  /**
+   * Adds the next available body to the system and checks that is doesn't collide with any other bodies.
+   */
+  public addBody(): void {
+    const newBody = this.availableBodies.find( body => !body.isActiveProperty.value );
+    if ( newBody ) {
+      newBody.reset();
+      newBody.isActiveProperty.value = true;
+      newBody.preventCollision( this.bodies );
+      this.bodies.push( newBody );
+    }
   }
 
   public reset(): void {
