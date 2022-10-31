@@ -21,17 +21,15 @@ import Bodies_Strings_e3_v2_mp3 from '../../../sounds/Bodies_Strings_e3_v2_mp3.j
 import Bodies_Woodwinds_e3_mp3 from '../../../sounds/Bodies_Woodwinds_e3_mp3.js';
 
 // Bodies collision sounds
-import Mass_Collide_Absorb_mp3 from '../../../sounds/Mass_Collide_Absorb_mp3.js';
-import Mass_Collide_Absorb_001_mp3 from '../../../sounds/Mass_Collide_Absorb_001_mp3.js';
-import Mass_Collide_Absorb_002_mp3 from '../../../sounds/Mass_Collide_Absorb_002_mp3.js';
-import Mass_Collide_Absorb_Fun_mp3 from '../../../sounds/Mass_Collide_Absorb_Fun_mp3.js';
+import Bodies_Collide_Absorb_2_to_1_mp3 from '../../../sounds/Bodies_Collide_Absorb_2_to_1_mp3.js';
+import Bodies_Collide_Absorb_3_to_2_mp3 from '../../../sounds/Bodies_Collide_Absorb_3_to_2_mp3.js';
+import Bodies_Collide_Absorb_4_to_3_mp3 from '../../../sounds/Bodies_Collide_Absorb_4_to_3_mp3.js';
 
 // Body selection sounds
 import Mass_Selection_1_mp3 from '../../../sounds/Mass_Selection_1_mp3.js';
 import Mass_Selection_2_mp3 from '../../../sounds/Mass_Selection_2_mp3.js';
 import Mass_Selection_3_mp3 from '../../../sounds/Mass_Selection_3_mp3.js';
 import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 
 // Mass slider sounds
 // import Mass_Slider_Rubber_Band_mp3 from '../../../sounds/Mass_Slider_Rubber_Band_mp3.js';
@@ -91,10 +89,9 @@ export default class BodySoundManager {
     ];
 
     this.collisionSoundClips = [
-      new SoundClip( Mass_Collide_Absorb_mp3, collisionSoundOptions ),
-      new SoundClip( Mass_Collide_Absorb_001_mp3, collisionSoundOptions ),
-      new SoundClip( Mass_Collide_Absorb_002_mp3, collisionSoundOptions ),
-      new SoundClip( Mass_Collide_Absorb_Fun_mp3, collisionSoundOptions )
+      new SoundClip( Bodies_Collide_Absorb_2_to_1_mp3, collisionSoundOptions ),
+      new SoundClip( Bodies_Collide_Absorb_3_to_2_mp3, collisionSoundOptions ),
+      new SoundClip( Bodies_Collide_Absorb_4_to_3_mp3, collisionSoundOptions )
     ];
 
     this.bodyNumberSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
@@ -117,12 +114,12 @@ export default class BodySoundManager {
     }
   }
 
-  public playBodyNumberSound( bodyNumber: number ): void {
+  public playBodyAddedSound( bodyNumber: number ): void {
     this.bodyNumberSoundClips[ bodyNumber ].play();
   }
 
-  public playCollisionSound(): void {
-    this.collisionSoundClips[ dotRandom.nextInt( 3 ) ].play();
+  public playBodyRemovedSound( bodyNumber: number ): void {
+    this.collisionSoundClips[ bodyNumber ].play();
   }
 
   public stop(): void {

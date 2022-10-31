@@ -97,7 +97,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.availableBodies.forEach( body => {
       body.isCollidedProperty.link( isCollided => {
         if ( isCollided ) {
-          this.bodySoundManager.playCollisionSound();
+          this.bodySoundManager.playBodyRemovedSound( this.numberOfActiveBodiesProperty.value - 2 );
         }
       } );
     } );
