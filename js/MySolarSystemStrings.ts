@@ -134,6 +134,8 @@ type StringsType = {
     'kmsStringProperty': LinkableProperty<string>;
     'Mjup': string;
     'MjupStringProperty': LinkableProperty<string>;
+    'kg': string;
+    'kgStringProperty': LinkableProperty<string>;
   };
   'pattern': {
     'labelParenthesesUnits': string;

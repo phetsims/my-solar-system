@@ -15,11 +15,10 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import optionize from '../../../../phet-core/js/optionize.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -91,15 +90,10 @@ export default class BodyNode extends ShadedSphereNode {
       this.addInputListener( dragListener );
     }
 
-    const readoutStringProperty = new StringProperty( '' );
-    const velocityToString = ( velocity: Vector2 ) => {
-      readoutStringProperty.value = StringUtils.fillIn( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
-        value: Utils.toFixed( velocity.magnitude, options.significantFigures ),
+    const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
+        value: Utils.toFixed( this.body.velocityProperty.value.magnitude, options.significantFigures ),
         units: MySolarSystemStrings.units.kmsStringProperty
       } );
-    };
-
-    this.body.velocityProperty.link( velocityToString );
 
     this.valueNode = new Text( readoutStringProperty, {
       font: options.textFont,
@@ -131,7 +125,6 @@ export default class BodyNode extends ShadedSphereNode {
 
     this.bodyNodeDispose = () => {
       this.positionMultilink.dispose();
-      this.body.velocityProperty.unlink( velocityToString );
     };
 
   }

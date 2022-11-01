@@ -164,6 +164,9 @@
   "units.Mjup": {
       "value": "M<sub>Jupiter</sub>"
   },
+  "units.kg": {
+      "value": "10<sup>27</sup> kg"
+  },
   "pattern.labelParenthesesUnits": {
     "value": "{{label}} ({{units}})"
   },

@@ -13,11 +13,11 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
 import CommonModel from '../model/CommonModel.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -61,17 +61,17 @@ export default class FullDataPanel extends Panel {
     //----------------------------------------------------------------------------------------
 
     // Convenience function to create the title-label that appears above each column group.
-    const createTitleLabel = ( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string> ) => {
-      const titleString = StringUtils.fillIn( MySolarSystemStrings.pattern.labelParenthesesUnits, {
-        label: label,
-        units: units
-      } );
+    const createTitleLabel = ( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string>, useUnits: TReadOnlyProperty<boolean> | boolean = true ) => {
+      const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
+          label: label,
+          units: units
+        } );
 
       // Wrap the text in an AlignGroup to match height.
-      return TITLE_ALIGN_GROUP.createBox( new RichText( titleString, { font: MySolarSystemConstants.TITLE_FONT } ) );
+      return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty, { font: MySolarSystemConstants.TITLE_FONT } ) );
     };
 
-    const massTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.MjupStringProperty );
+    const massTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.PositionStringProperty, MySolarSystemStrings.units.AUStringProperty );
     const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.VelocityStringProperty, MySolarSystemStrings.units.kmsStringProperty );
 
