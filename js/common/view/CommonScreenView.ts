@@ -102,7 +102,7 @@ class CommonScreenView extends ScreenView {
 
     // UI Elements ===================================================================================================
 
-    const measuringTapeUnitsProperty = new Property( { name: 'AU', multiplier: 0.01 } );
+    const measuringTapeUnitsProperty = new Property( { name: 'AU', multiplier: 1 } );
 
     // Add the MeasuringTapeNode
     const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
