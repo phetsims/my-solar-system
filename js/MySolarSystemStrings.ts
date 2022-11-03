@@ -136,12 +136,18 @@ type StringsType = {
     'MjupStringProperty': LinkableProperty<string>;
     'kg': string;
     'kgStringProperty': LinkableProperty<string>;
+    'years': string;
+    'yearsStringProperty': LinkableProperty<string>;
   };
   'pattern': {
     'labelParenthesesUnits': string;
     'labelParenthesesUnitsStringProperty': LinkableProperty<string>;
+    'labelUnits': string;
+    'labelUnitsStringProperty': LinkableProperty<string>;
     'velocityValueUnits': string;
     'velocityValueUnitsStringProperty': LinkableProperty<string>;
+    'rangeWithUnits': string;
+    'rangeWithUnitsStringProperty': LinkableProperty<string>;
   }
 };
 

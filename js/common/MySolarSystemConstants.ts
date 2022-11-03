@@ -49,7 +49,11 @@ const MySolarSystemConstants = {
   },
   GRID: {
     spacing: 100
-  }
+  },
+
+  // Multipliers that modify the numeric value shown in Number Displays
+  POSITION_MULTIPLIER: 0.01,
+  VELOCITY_MULTIPLIER: 1
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );

@@ -101,7 +101,7 @@ export default class FullDataPanel extends Panel {
         positionSectionNode,
         velocitySectionNode
       ],
-      align: 'bottom',
+      bottom: 0,
       spacing: options.columnGroupSpacing
     } );
 
@@ -110,8 +110,13 @@ export default class FullDataPanel extends Panel {
       children: [
         massSliderColumnNode
       ],
-      align: 'bottom',
+      bottom: 0,
+      grow: 1,
       spacing: options.columnGroupSpacing
+    } );
+
+    moreDataBox.boundsProperty.link( bounds => {
+      lessDataBox.preferredWidth = bounds.width;
     } );
 
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
@@ -121,9 +126,16 @@ export default class FullDataPanel extends Panel {
       lessDataBox.visible = !moreDataVisible || !model.isLab;
     } );
 
+    const dataNode = new Node( {
+      children: [
+        moreDataBox,
+        lessDataBox
+        ]
+    } );
+
     super( new HBox( {
       spacing: options.bodyIconColumnSpacing,
-      children: [ ballIconsColumnNode, massSectionNode, moreDataBox, lessDataBox ],
+      children: [ ballIconsColumnNode, massSectionNode, dataNode ],
       align: 'bottom'
     } ), options );
     }

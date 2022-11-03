@@ -209,7 +209,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       } ),
       {
         margin: MySolarSystemConstants.MARGIN,
-        xAlign: 'center',
+        xAlign: 'left',
         yAlign: 'bottom'
       } );
 

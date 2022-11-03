@@ -17,7 +17,6 @@ import GridNode from '../../../../scenery-phet/js/GridNode.js';
 import MySolarSystemTimeControlNode from './MySolarSystemTimeControlNode.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import CommonModel from '../model/CommonModel.js';
@@ -28,11 +27,12 @@ import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js'
 import Property from '../../../../axon/js/Property.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
-import SimpleClockIcon from '../../../../scenery-phet/js/SimpleClockIcon.js';
 import Body from '../model/Body.js';
 import DraggableVectorNode, { DraggableVectorNodeOptions } from './DraggableVectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -102,7 +102,7 @@ class CommonScreenView extends ScreenView {
 
     // UI Elements ===================================================================================================
 
-    const measuringTapeUnitsProperty = new Property( { name: 'AU', multiplier: 1 } );
+    const measuringTapeUnitsProperty = new Property( { name: 'AU', multiplier: 0.01 } );
 
     // Add the MeasuringTapeNode
     const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
@@ -133,17 +133,20 @@ class CommonScreenView extends ScreenView {
       this.layoutBounds.bottom - timeControlNode.height / 2 - MySolarSystemConstants.MARGIN
     ) );
 
+    const timeStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelUnitsStringProperty, {
+      units: MySolarSystemStrings.units.yearsStringProperty
+    } );
+
     const clockNode = new VBox( {
       children: [
-        new HBox( {
-          spacing: 5,
-          children: [
-            new SimpleClockIcon( 10, {
-              stroke: MySolarSystemColors.foregroundProperty,
-              fill: 'transparent'
-            } ),
-            new NumberDisplay( model.timeProperty, model.timeRange )
-          ]
+        new NumberDisplay( model.timeProperty, model.timeRange, {
+          backgroundFill: null,
+          backgroundStroke: null,
+          textOptions: MySolarSystemConstants.TEXT_OPTIONS,
+          xMargin: 0,
+          yMargin: 0,
+          valuePattern: timeStringPatternProperty,
+          decimalPlaces: 1
         } ),
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),

@@ -6,8 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { AlignBox, AlignGroup, FireListener, Node, RichText, TColor, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Node, RichText, TColor, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
@@ -17,12 +16,9 @@ import Body from '../model/Body.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -42,7 +38,9 @@ export default class ValuesColumnNode extends VBox {
       contentContainerSpacing: 3.5,
 
       // {number} - y-spacing between the label and first content Node.
-      labelSpacing: 3
+      labelSpacing: 3,
+
+      stretch: true
     };
 
     const labelString = columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
@@ -54,7 +52,7 @@ export default class ValuesColumnNode extends VBox {
     const labelNode = new RichText( labelString, { font: MySolarSystemConstants.PANEL_FONT } );
 
     // Create the VBox container for the contentNodes of the column.
-    const contentContainer = new VBox( { spacing: options.contentContainerSpacing } );
+    const contentContainer = new VBox( { spacing: options.contentContainerSpacing, stretch: true } );
 
     // Loop through each possible Body and create the corresponding contentNode. These Bodies are NOT necessarily the
     // active bodies, so we are responsible for updating visibility based on whether it is
@@ -89,6 +87,7 @@ export default class ValuesColumnNode extends VBox {
 
     const massRange = new RangeWithValue( 1, 300, 100 );
     const positionRange = new RangeWithValue( -400, 400, 0 );
+    const velocityRange = new RangeWithValue( -400, 400, 0 );
 
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
@@ -98,43 +97,51 @@ export default class ValuesColumnNode extends VBox {
       contentNode = new MySolarSystemSlider( body.massProperty, massRange, { thumbFill: color } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
-      contentNode = new InteractiveNumberDisplay( body.massProperty, massRange );
+      contentNode = new InteractiveNumberDisplay( body.massProperty, massRange, MySolarSystemStrings.units.kgStringProperty );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.positionProperty, {
           bidirectional: true,
-          map: position => position.x,
-          inverseMap: ( x : number ) => new Vector2( x, body.positionProperty.value.y )
+          map: position => position.x * MySolarSystemConstants.POSITION_MULTIPLIER,
+          inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
-        positionRange );
+        positionRange,
+        MySolarSystemStrings.units.AUStringProperty
+      );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.positionProperty, {
           bidirectional: true,
-          map: position => position.y,
-          inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y )
+          map: position => position.y * MySolarSystemConstants.POSITION_MULTIPLIER,
+          inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / MySolarSystemConstants.POSITION_MULTIPLIER )
         } ),
-        positionRange );
+        positionRange,
+        MySolarSystemStrings.units.AUStringProperty
+      );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.velocityProperty, {
           bidirectional: true,
-          map: velocity => velocity.x,
-          inverseMap: ( x : number ) => new Vector2( x, body.velocityProperty.value.y )
+          map: velocity => velocity.x * MySolarSystemConstants.VELOCITY_MULTIPLIER,
+          inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
         } ),
-        positionRange );
+        velocityRange,
+        MySolarSystemStrings.units.kmsStringProperty
+      );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.velocityProperty, {
           bidirectional: true,
-          map: velocity => velocity.y,
-          inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y )
+          map: velocity => velocity.y * MySolarSystemConstants.VELOCITY_MULTIPLIER,
+          inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y / MySolarSystemConstants.VELOCITY_MULTIPLIER )
         } ),
-        positionRange );
+        velocityRange,
+        MySolarSystemStrings.units.kmsStringProperty
+        );
     }
     else {
       contentNode = new Node();
@@ -142,50 +149,6 @@ export default class ValuesColumnNode extends VBox {
 
     // Wrap the contentNode in a AlignBox to match the height of all ContentNodes.
     return CONTENT_ALIGN_GROUP.createBox( contentNode );
-  }
-}
-
-/**
- * NumberDisplay used in the panel to control Masses, Position and Velocity
- */
-class InteractiveNumberDisplay extends NumberDisplay {
-  public constructor(
-    property: TProperty<number>,
-    range: RangeWithValue,
-    providedOptions?: NumberDisplayOptions
-  ) {
-
-    // Keypad dialog
-    const keypadDialog = new KeypadDialog( {
-      keypadOptions: {
-        accumulatorOptions: {
-          // {number} - maximum number of digits that can be entered on the keypad.
-          maxDigits: 8
-        }
-      }
-    } );
-
-    const options = combineOptions<NumberDisplayOptions>( {
-      cursor: 'pointer',
-      textOptions: {
-        font: MySolarSystemConstants.PANEL_FONT
-      }
-    }, providedOptions );
-
-    super( property, range, options );
-
-    this.addInputListener( new FireListener( {
-      fire: () => {
-        keypadDialog.beginEdit( value => {
-          property.value = value;
-        }, range, new PatternStringProperty( MySolarSystemStrings.gridStringProperty, {
-          units: 'AU'
-        } ), () => {
-          // no-op
-        } );
-      },
-      fireOnDown: true
-    } ) );
   }
 }
 
