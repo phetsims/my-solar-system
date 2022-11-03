@@ -28,6 +28,7 @@ class Body {
 
   // Collision handling
   public readonly isCollidedProperty = new BooleanProperty( false );
+  public readonly collisionEndedProperty = new BooleanProperty( true );
   public readonly valueVisibleProperty = new BooleanProperty( false );
 
   // Not resettable, common model will handle
@@ -116,7 +117,6 @@ class Body {
   public collideInto( otherBody: Body ): void {
     otherBody.velocityProperty.value = otherBody.velocityProperty.value.plus( this.velocityProperty.value.times( this.massProperty.value / otherBody.massProperty.value ) );
     this.isCollidedProperty.value = true;
-    this.reset();
   }
 
   public preventCollision( bodies: Body[] ): void {

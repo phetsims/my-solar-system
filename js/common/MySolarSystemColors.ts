@@ -62,6 +62,12 @@ const MySolarSystemColors = {
     default: 'green'
   }, {
     tandem: Tandem.COLORS.createTandem( 'fourthBodyColorProperty' )
+  } ),
+
+  explosionColorProperty: new ProfileColorProperty( mySolarSystem, 'explosion color', {
+    default: 'yellow'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'explosionColorProperty' )
   } )
 };
 

@@ -19,6 +19,7 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import ExplosionNode from './ExplosionNode.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -88,6 +89,12 @@ export default class BodyNode extends ShadedSphereNode {
         dragListener.transform = transform;
       } );
       this.addInputListener( dragListener );
+
+      body.isCollidedProperty.link( isCollided => {
+        if ( isCollided ) {
+          this.interruptSubtreeInput();
+        }
+      } );
     }
 
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
@@ -126,6 +133,12 @@ export default class BodyNode extends ShadedSphereNode {
     this.bodyNodeDispose = () => {
       this.positionMultilink.dispose();
     };
+
+    this.body.isCollidedProperty.link( isCollided => {
+      if ( isCollided ) {
+        ExplosionNode.explode( this );
+      }
+    } );
 
   }
 

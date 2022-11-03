@@ -97,8 +97,15 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.availableBodies.forEach( body => {
       body.isCollidedProperty.link( isCollided => {
         if ( isCollided ) {
+          body.collisionEndedProperty.value = false;
           body.isActiveProperty.value = false;
-          this.bodySoundManager.playBodyRemovedSound( this.numberOfActiveBodiesProperty.value - 2 );
+          this.bodySoundManager.playBodyRemovedSound( 2 );
+        }
+      } );
+      body.collisionEndedProperty.lazyLink( collisionEnded => {
+        if ( collisionEnded ) {
+          body.reset();
+          this.bodies.remove( body );
         }
       } );
     } );
@@ -191,13 +198,13 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
       this.availableBodies[ i ].isActiveProperty.value = true;
 
-      this.bodies.push( this.availableBodies[ i ] );
+      this.bodies.add( this.availableBodies[ i ] );
     } );
 
     this.bodies.forEach( body => body.reset() );
   }
 
-  public removeBody(): void {
+  public removeLastBody(): void {
     const numberOfActiveBodies = this.bodies.length - 1;
     const lastBody = this.bodies[ numberOfActiveBodies ];
     lastBody.isActiveProperty.value = false;
@@ -213,7 +220,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       newBody.reset();
       newBody.isActiveProperty.value = true;
       newBody.preventCollision( this.bodies );
-      this.bodies.push( newBody );
+      this.bodies.add( newBody );
     }
   }
 

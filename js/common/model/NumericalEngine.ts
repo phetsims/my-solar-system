@@ -47,11 +47,9 @@ export default class NumericalEngine extends Engine {
         if ( body1.checkCollision( body2 ) ) {
           if ( body1.massProperty.value > body2.massProperty.value ) {
             body2.collideInto( body1 );
-            this.bodies.splice( j, 1 );
           }
           else {
             body1.collideInto( body2 );
-            this.bodies.splice( i, 1 );
           }
         }
       }

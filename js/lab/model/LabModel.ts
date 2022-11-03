@@ -47,8 +47,6 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.labModeProperty.link( this.modeSetter );
 
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodies => {
-      // TODO: Check that new bodies don't collide with existing ones
-      // TODO: Make sure that new bodies are just added and don't replace existing ones!
       if ( numberOfActiveBodies !== this.bodies.length ) {
         this.isPlayingProperty.value = false;
         this.labModeProperty.value = LabModes.CUSTOM;
@@ -58,7 +56,7 @@ class LabModel extends CommonModel<NumericalEngine> {
         }
         else {
           this.bodySoundManager.playBodyRemovedSound( numberOfActiveBodies - 1 );
-          this.removeBody();
+          this.removeLastBody();
         }
       }
     } );
