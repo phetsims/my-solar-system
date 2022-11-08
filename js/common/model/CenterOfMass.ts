@@ -25,13 +25,13 @@ export default class CenterOfMass {
     this.positionProperty = new Vector2Property( Vector2.ZERO );
     this.velocityProperty = new Vector2Property( Vector2.ZERO );
     this.visibleProperty = new BooleanProperty( false );
-    this.updateCenterOfMassPosition();
+    this.update();
   }
 
   /**
    * Calculates the total mass and the position of the Center of Mass.
    */
-  public updateCenterOfMassPosition(): void {
+  public update(): void {
     const tempPosition = new Vector2( 0, 0 );
     const tempVelocity = new Vector2( 0, 0 );
     let totalMass = 0;

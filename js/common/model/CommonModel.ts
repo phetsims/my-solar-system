@@ -120,9 +120,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     //REVIEW: so it doesn't require any of the subtypes to access class properties?
     //REVIEW: Can we just switch to passing in the bodies in the constructor (as an array) and remove this method?
     //REVIEW: Then we can also get rid of the "clear" each createBodies has.
+    this.centerOfMass = new CenterOfMass( this.bodies );
     this.createBodies( this.defaultModeInfo );
     this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
-    this.centerOfMass = new CenterOfMass( this.bodies );
     this.engine = providedOptions.engineFactory( this.bodies );
     this.engine.reset();
 
@@ -193,15 +193,23 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public createBodies( bodiesInfo: BodyInfo[] ): void {
     this.bodies.clear();
     bodiesInfo.forEach( ( body, i ) => {
+      // Setting initial values and then resetting the body to make sure the body is in the correct state
       this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
       this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
       this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
-      this.availableBodies[ i ].isActiveProperty.value = true;
+      this.availableBodies[ i ].isActiveProperty.value = true; // Not affected by reset
+      this.availableBodies[ i ].reset();
 
       this.bodies.add( this.availableBodies[ i ] );
     } );
 
-    this.bodies.forEach( body => body.reset() );
+    // Update Center of Mass to avoid system's initial movement
+    this.centerOfMass.update();
+
+    // Make the center of mass fixed, but not necessarily centered
+    this.bodies.forEach( body => {
+      body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
+    } );
   }
 
   public removeLastBody(): void {
@@ -260,7 +268,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
    */
   public update(): void {
     this.engine.update( this.bodies );
-    this.centerOfMass.updateCenterOfMassPosition();
+    this.centerOfMass.update();
 
     // If position or velocity of Center of Mass is different than 0, then the system is not centered
     if ( this.centerOfMass.positionProperty.value.magnitude > 0.01 || this.centerOfMass.velocityProperty.value.magnitude > 0.01 ) {
