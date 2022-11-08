@@ -124,6 +124,8 @@ type StringsType = {
   'units': {
     'units': string;
     'unitsStringProperty': LinkableProperty<string>;
+    'unitsInfo': string;
+    'unitsInfoStringProperty': LinkableProperty<string>;
     'real': string;
     'realStringProperty': LinkableProperty<string>;
     'arbitrary': string;

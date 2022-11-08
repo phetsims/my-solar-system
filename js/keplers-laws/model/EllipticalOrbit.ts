@@ -77,12 +77,14 @@ export default class EllipticalOrbit extends Engine {
   }
 
   public override run( dt: number ): void {
-
     // Prevent the orbit from updating if the body is orbiting
     this.updateAllowed = false;
+
+    // Calculate the new position and velocity of the body
     this.M += dt * this.W * 20;
     const nu = this.getTrueAnomaly( this.M );
     const r = this.calculateR( this.a, this.e, nu );
+
     this.predictedBody.positionProperty.value = Vector2.createPolar( r, -nu );
     this.updateAllowed = true;
   }

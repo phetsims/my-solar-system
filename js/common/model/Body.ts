@@ -31,8 +31,12 @@ class Body {
   public readonly collisionEndedProperty = new BooleanProperty( true );
   public readonly valueVisibleProperty = new BooleanProperty( false );
 
-  // Not resettable, common model will handle
+  // Not resettable, common model will handle. Determines if the body is currently on-screen
   public readonly isActiveProperty = new BooleanProperty( false );
+
+  // User modified properties
+  public readonly positionBeingDraggedProperty = new BooleanProperty( false );
+  public readonly velocityBeingDraggedProperty = new BooleanProperty( false );
 
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;

@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Font, HBox, HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,6 +18,8 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import createVisibilityInformationCheckboxes from './createVisibilityInformationCheckboxes.js';
 import createArrowsVisibilityCheckboxes from './createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
+import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
+import Dialog from '../../../../sun/js/Dialog.js';
 
 const COMBO_BOX_TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
@@ -35,8 +37,11 @@ export default class MySolarSystemControls extends VBox {
     providedOptions: MySolarSystemControlsOptions
   ) {
 
-    // TODO: The units switch is disabled for now until a design decision is taken
-    // const unitsSwitchBoxTandem = providedOptions.tandem.createTandem( 'unitsSwitchBox' );
+    const dialog = new Dialog( new Node(), {
+      titleAlign: 'center',
+      title: new Text( 'Title', { font: new Font( { size: 32 } ) } ),
+      tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
+    } );
 
     super( {
       children: [
@@ -65,30 +70,21 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
-        // TODO: The units switch is disabled for now until a design decision is taken
-        // new VBox( {
-        //   tandem: unitsSwitchBoxTandem,
-        //   children: [
-        //     new Text( MySolarSystemStrings.units.unitsStringProperty, combineOptions<TextOptions>( {
-        //       layoutOptions: {
-        //         align: 'left'
-        //       },
-        //       tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitchTitle' )
-        //     }, TEXT_OPTIONS ) ),
-        //     new ABSwitch(
-        //       model.realUnitsProperty,
-        //       true,
-        //       new Text( MySolarSystemStrings.units.realStringProperty, TEXT_OPTIONS ),
-        //       false,
-        //       new Text( MySolarSystemStrings.units.arbitraryStringProperty, TEXT_OPTIONS ),
-        //       {
-        //         scale: 0.8,
-        //         tandem: unitsSwitchBoxTandem.createTandem( 'unitsSwitch' )
-        //       }
-        //     )
-        //   ]
-        // } )
+        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem ),
+        new HBox( {
+          visible: model.isLab,
+          spacing: 5,
+          justify: 'left',
+          children: [
+            new InfoButton( {
+              scale: 0.3,
+              iconFill: 'navy',
+              listener: () => dialog.show(),
+              tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
+            } ),
+            new Text( MySolarSystemStrings.units.unitsInfoStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
+          ]
+        } )
       ],
       spacing: 5,
       align: 'left',

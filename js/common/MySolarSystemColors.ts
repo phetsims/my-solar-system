@@ -68,6 +68,12 @@ const MySolarSystemColors = {
     default: 'yellow'
   }, {
     tandem: Tandem.COLORS.createTandem( 'explosionColorProperty' )
+  } ),
+
+  orbitColorProperty: new ProfileColorProperty( mySolarSystem, 'orbit color', {
+    default: 'fuchsia'
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'orbitColorProperty' )
   } )
 };
 

@@ -17,6 +17,7 @@ import XNode from '../../../../scenery-phet/js/XNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 const TWOPI = 2 * Math.PI;
 
@@ -32,7 +33,7 @@ export default class EllipticalOrbitNode extends Path {
     // Passing in a null shape, since it will be updated later
     super( null, {
       lineWidth: 3,
-      stroke: 'fuchsia'
+      stroke: MySolarSystemColors.orbitColorProperty
     } );
 
     this.orbit = model.engine;
@@ -42,7 +43,9 @@ export default class EllipticalOrbitNode extends Path {
     const predicted = new XNode( {
       fill: 'white',
       stroke: 'white',
-      center: Vector2.ZERO
+      center: Vector2.ZERO,
+      legThickness: 2,
+      length: 10
     } );
 
     // Drawing of Periapsis and Apoapsis, their position is updated later
@@ -64,6 +67,11 @@ export default class EllipticalOrbitNode extends Path {
         return visible && ( this.orbit.e > 0 );
       } )
     } );
+    const axisPath = new Path( null, {
+      stroke: MySolarSystemColors.orbitColorProperty,
+      lineWidth: 1,
+      visibleProperty: model.axisVisibleProperty
+    } );
 
     // Arrays of orbital divisions' dots and areas
     const orbitDivisions: Circle[] = [];
@@ -72,13 +80,13 @@ export default class EllipticalOrbitNode extends Path {
     for ( let i = 0; i < model.maxDivisionValue; i++ ) {
       orbitDivisions.push( new Circle( 5, {
         fill: 'black',
-        stroke: 'fuchsia',
+        stroke: MySolarSystemColors.orbitColorProperty,
         lineWidth: 3,
         center: Vector2.ZERO,
         visible: false
       } ) );
       areaPaths.push( new Path( null, {
-        fill: 'fuchsia',
+        fill: MySolarSystemColors.orbitColorProperty,
         opacity: 0.7 * ( i / 10 ) + 0.3
       } ) );
     }
@@ -94,6 +102,7 @@ export default class EllipticalOrbitNode extends Path {
     orbitDivisions.forEach( node => { orbitDivisionsNode.addChild( node ); } );
     areaPaths.forEach( node => { areaPathsNode.addChild( node ); } );
 
+    this.addChild( axisPath );
     this.addChild( areaPathsNode );
     this.addChild( periapsis );
     this.addChild( apoapsis );
@@ -118,6 +127,11 @@ export default class EllipticalOrbitNode extends Path {
       this.rotation = 0;
       this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
       this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
+
+      // Drawing the axis of the ellipse
+      const axis = new Shape().moveTo( -radiusX, 0 ).lineTo( radiusX, 0 );
+      axis.moveTo( 0, -radiusY ).lineTo( 0, radiusY );
+      axisPath.shape = axis;
 
       periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
       apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );

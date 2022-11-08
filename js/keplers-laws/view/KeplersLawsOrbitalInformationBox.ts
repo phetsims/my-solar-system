@@ -6,8 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
-import { HBox, HBoxOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Font, HBox, HBoxOptions, Node, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -21,6 +20,8 @@ import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import LawMode from '../model/LawMode.js';
 import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dialog from '../../../../sun/js/Dialog.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 // constants
 const CHECKBOX_OPTIONS = {
@@ -46,7 +47,22 @@ class KeplersLawsOrbitalInformationBox extends VBox {
 
   public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsOrbitalInformationOptions ) {
 
-    //  const axisIconImageNode = new Image( ???, { scale: 0.25 } ); TODO
+    // Draw an Ellipse with minor and major axis
+    const axisShape = new Shape().moveTo( 0, 0 ).ellipse( 0, 0, 10, 5, 0 );
+    axisShape.moveTo( -10, 0 ).lineTo( 10, 0 );
+    axisShape.moveTo( 0, -5 ).lineTo( 0, 5 );
+
+     const axisIconImageNode = new Path(
+       axisShape, {
+       stroke: MySolarSystemColors.foregroundProperty,
+       lineWidth: 1
+     } );
+
+    const dialog = new Dialog( new Node(), {
+      titleAlign: 'center',
+      title: new Text( 'Title', { font: new Font( { size: 32 } ) } ),
+      tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
+    } );
 
     const getCheckboxOptions = ( name: string ) => {
       return combineOptions<CheckboxOptions>( {}, CHECKBOX_OPTIONS, {
@@ -74,7 +90,11 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       spacing: 10,
       children: [
         new Text( MySolarSystemStrings.orbitalStringProperty, TITLE_OPTIONS ),
-        new InfoButton( { scale: 0.5, tandem: providedOptions.tandem.createTandem( 'infoButton' ) } )
+        new InfoButton( {
+          scale: 0.5,
+          listener: () => dialog.show(),
+          tandem: providedOptions.tandem.createTandem( 'keplerInfoButton' )
+        } )
       ]
     } );
 
@@ -82,8 +102,8 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       createCheckbox(
         model.axisVisibleProperty,
         MySolarSystemStrings.axisStringProperty,
-        'axisVisibleCheckbox'
-        // axisIconImageNode TODO
+        'axisVisibleCheckbox',
+        axisIconImageNode
         ),
       createCheckbox(
         model.apoapsisVisibleProperty,

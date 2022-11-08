@@ -62,6 +62,14 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       }
     );
 
+    this.bodies.forEach( body => {
+      body.positionBeingDraggedProperty.link( positionBeingDragged => {
+        if ( positionBeingDragged ) {
+          this.isPlayingProperty.value = false;
+        }
+      } );
+    } );
+
     this.timeScale = 0.3;
   }
 

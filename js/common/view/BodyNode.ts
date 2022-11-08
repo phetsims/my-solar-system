@@ -83,6 +83,10 @@ export default class BodyNode extends ShadedSphereNode {
         positionProperty: body.positionProperty,
         start: () => {
           body.clearPath();
+          body.positionBeingDraggedProperty.value = true;
+        },
+        end: () => {
+          body.positionBeingDraggedProperty.value = false;
         }
       } );
       modelViewTransformProperty.link( transform => {
