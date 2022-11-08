@@ -26,6 +26,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BodySoundManager from '../view/BodySoundManager.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -87,6 +88,15 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
 
+    this.isLab = providedOptions.isLab;
+    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
+      tandem: providedOptions.isLab ? providedOptions.tandem.createTandem( 'labModeProperty' ) : Tandem.OPT_OUT
+    } );
+    this.labModeProperty.link( mode => {
+      this.clearPaths();
+    } );
+
+
     this.availableBodies = [
       new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ), MySolarSystemColors.firstBodyColorProperty ),
       new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ), MySolarSystemColors.secondBodyColorProperty ),
@@ -108,6 +118,20 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
           this.bodies.remove( body );
         }
       } );
+      Multilink.multilink(
+        [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
+        ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
+          if ( this.isLab && ( userControlledPosition || userControlledVelocity || userControlledMass ) ) {
+            this.labModeProperty.value = LabModes.CUSTOM;
+          }
+          if ( userControlledMass ) {
+            // this.bodySoundManager.massSliderSoundClip.play();
+          }
+          else {
+            this.bodySoundManager.massSliderSoundClip.stop();
+          }
+        }
+      );
     } );
 
     // Define the default mode the bodies will show up in
@@ -173,14 +197,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       return Utils.linear( 0, 7, 0.5, 1.5, zoomLevel );
     } );
 
-    this.isLab = providedOptions.isLab;
-    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
-      tandem: providedOptions.isLab ? providedOptions.tandem.createTandem( 'labModeProperty' ) : Tandem.OPT_OUT
-    } );
-    this.labModeProperty.link( mode => {
-      this.clearPaths();
-    } );
-
     this.pathVisibleProperty.link( visible => {
       this.clearPaths();
     } );
@@ -192,16 +208,23 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
    */
   public createBodies( bodiesInfo: BodyInfo[] ): void {
     this.bodies.clear();
-    bodiesInfo.forEach( ( body, i ) => {
-      // Setting initial values and then resetting the body to make sure the body is in the correct state
-      this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
-      this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
-      this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
-      this.availableBodies[ i ].isActiveProperty.value = true; // Not affected by reset
-      this.availableBodies[ i ].reset();
+    for ( let i = 0; i < 4; i++ ) {
+      if ( i < bodiesInfo.length ) {
+        const body = bodiesInfo[ i ];
 
-      this.bodies.add( this.availableBodies[ i ] );
-    } );
+        // Setting initial values and then resetting the body to make sure the body is in the correct state
+        this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
+        this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
+        this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
+        this.availableBodies[ i ].isActiveProperty.value = true; // Activate body! Not affected by reset
+        this.availableBodies[ i ].reset();
+
+        this.bodies.add( this.availableBodies[ i ] );
+      }
+      else {
+        this.availableBodies[ i ].isActiveProperty.value = false;
+      }
+    }
 
     // Update Center of Mass to avoid system's initial movement
     this.centerOfMass.update();

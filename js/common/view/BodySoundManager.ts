@@ -33,7 +33,7 @@ import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
 
 // Mass slider sounds
 // import Mass_Slider_Rubber_Band_mp3 from '../../../sounds/Mass_Slider_Rubber_Band_mp3.js';
-// import Mass_Slider_Bass_Pluck_mp3 from '../../../sounds/Mass_Slider_Bass_Pluck_mp3.js';
+import Mass_Slider_Bass_Pluck_mp3 from '../../../sounds/Mass_Slider_Bass_Pluck_mp3.js';
 
 
 const allSounds = [
@@ -54,6 +54,7 @@ export default class BodySoundManager {
   public readonly bodySoundGenerators: SoundClip[];
   public readonly bodyNumberSoundClips: SoundClip[];
   public readonly collisionSoundClips: SoundClip[];
+  public readonly massSliderSoundClip: SoundClip;
 
   public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {
     this.model = model;
@@ -96,6 +97,9 @@ export default class BodySoundManager {
 
     this.bodyNumberSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
     this.collisionSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
+
+    this.massSliderSoundClip = new SoundClip( Mass_Slider_Bass_Pluck_mp3, { loop: true } );
+    soundManager.addSoundGenerator( this.massSliderSoundClip );
   }
 
   public playSounds(): void {
@@ -120,6 +124,10 @@ export default class BodySoundManager {
 
   public playBodyRemovedSound( bodyNumber: number ): void {
     this.collisionSoundClips[ bodyNumber ].play();
+  }
+
+  public playMassSliderSound( ): void {
+    this.massSliderSoundClip.play();
   }
 
   public stop(): void {

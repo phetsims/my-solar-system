@@ -91,10 +91,14 @@ export default class ValuesColumnNode extends VBox {
 
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
-      contentNode = new ShadedSphereNode( 16, { mainColor: color } );
+      contentNode = new ShadedSphereNode( 16, { mainColor: color, stroke: 'black' } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
-      contentNode = new MySolarSystemSlider( body.massProperty, massRange, { thumbFill: color } );
+      contentNode = new MySolarSystemSlider( body.massProperty, massRange, {
+        thumbFill: color,
+        startDrag: () => { body.userControlledMassProperty.value = true; },
+        endDrag: () => { body.userControlledMassProperty.value = false; }
+      } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
       contentNode = new InteractiveNumberDisplay( body.massProperty, massRange, MySolarSystemStrings.units.kgStringProperty );

@@ -63,7 +63,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     );
 
     this.bodies.forEach( body => {
-      body.positionBeingDraggedProperty.link( positionBeingDragged => {
+      body.userControlledPositionProperty.link( positionBeingDragged => {
         if ( positionBeingDragged ) {
           this.isPlayingProperty.value = false;
         }

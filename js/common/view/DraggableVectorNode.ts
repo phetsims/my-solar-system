@@ -80,9 +80,11 @@ export default class DraggableVectorNode extends VectorNode {
     const dragListener = new DragListener( {
       //REVIEW: See if dragListener can be improved (with positionProperty)
       //REVIEW: NOTE that the transform for the DragListener needs to include the scale
+      canStartPress: () => !body.userControlledVelocityProperty.value,
       start: ( event: PressListenerEvent ) => {
         previousPoint = transformProperty.value.viewToModelPosition( this.globalToParentPoint( event.pointer.point ) ).timesScalar( 1 / scale );
         previousValue = body.velocityProperty.get();
+        body.userControlledVelocityProperty.value = true;
       },
       drag: ( event: PressListenerEvent ) => {
 
@@ -103,7 +105,9 @@ export default class DraggableVectorNode extends VectorNode {
           }
         }
       },
-      end: _.noop
+      end: () => {
+        body.userControlledVelocityProperty.value = false;
+      }
     } );
     grabArea.addInputListener( dragListener );
 

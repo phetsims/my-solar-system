@@ -81,12 +81,13 @@ export default class BodyNode extends ShadedSphereNode {
     if ( options.draggable ) {
       const dragListener = new DragListener( {
         positionProperty: body.positionProperty,
+        canStartPress: () => !body.userControlledPositionProperty.value,
         start: () => {
           body.clearPath();
-          body.positionBeingDraggedProperty.value = true;
+          body.userControlledPositionProperty.value = true;
         },
         end: () => {
-          body.positionBeingDraggedProperty.value = false;
+          body.userControlledPositionProperty.value = false;
         }
       } );
       modelViewTransformProperty.link( transform => {

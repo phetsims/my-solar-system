@@ -35,8 +35,9 @@ class Body {
   public readonly isActiveProperty = new BooleanProperty( false );
 
   // User modified properties
-  public readonly positionBeingDraggedProperty = new BooleanProperty( false );
-  public readonly velocityBeingDraggedProperty = new BooleanProperty( false );
+  public readonly userControlledPositionProperty = new BooleanProperty( false );
+  public readonly userControlledVelocityProperty = new BooleanProperty( false );
+  public readonly userControlledMassProperty = new BooleanProperty( false );
 
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
