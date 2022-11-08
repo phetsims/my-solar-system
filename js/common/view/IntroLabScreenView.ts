@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, Font, GridBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, HBox, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -31,6 +31,9 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
+import undoSolidShape from '../../../../sherpa/js/fontawesome-5/undoSolidShape.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+
 
 type SelfOptions = EmptySelfOptions;
 
@@ -124,22 +127,37 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     // Control Panel --------------------------------------------------------------------------------------------
     const topRightControlBox = new AlignBox(
-      new VBox(
+      new HBox(
         {
-          spacing: 10,
-          stretch: true,
+          align: 'top',
           children: [
-            new Panel(
-              new MySolarSystemControls( model, this.topLayer, {
-                tandem: providedOptions.tandem.createTandem( 'controlPanel' )
-              } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
-            new TextPushButton( MySolarSystemStrings.systemCenteredStringProperty, {
-              enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
-              listener: () => {
-                model.systemCenteredProperty.value = true;
-              },
-              font: MySolarSystemConstants.PANEL_FONT
-            } )
+            new RectangularPushButton( {
+              content: new Path( undoSolidShape, { scale: 0.038, fill: 'black' } ),
+              listener: () => model.restart(),
+              tandem: providedOptions.tandem.createTandem( 'restartButton' ),
+              layoutOptions: {
+                xMargin: MySolarSystemConstants.MARGIN / 2
+              }
+            } ),
+            new VBox(
+              {
+                spacing: 10,
+                stretch: true,
+                children: [
+                  new Panel(
+                    new MySolarSystemControls( model, this.topLayer, {
+                      tandem: providedOptions.tandem.createTandem( 'controlPanel' )
+                    } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+                  new TextPushButton( MySolarSystemStrings.systemCenteredStringProperty, {
+                    enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
+                    listener: () => {
+                      model.systemCenteredProperty.value = true;
+                    },
+                    font: MySolarSystemConstants.PANEL_FONT
+                  } )
+                ]
+              }
+            )
           ]
         }
       ),
