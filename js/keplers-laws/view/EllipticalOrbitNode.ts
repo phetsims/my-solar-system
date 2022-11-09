@@ -210,7 +210,6 @@ export default class EllipticalOrbitNode extends Path {
 
     this.shapeMultilink = Multilink.multilink(
       [
-        predictedBody.positionProperty,
         modelViewTransformProperty,
         model.periodDivisionProperty,
         model.dotsVisibleProperty

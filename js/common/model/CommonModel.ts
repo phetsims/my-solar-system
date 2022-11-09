@@ -278,14 +278,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.update();
   }
 
-  public stepOnce( dt: number ): void {
-    this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
-    this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
-    if ( this.pathVisibleProperty ) {
-      this.bodies.forEach( body => body.addPathPoint() );
-    }
-  }
-
   /**
    * Updating for when the bodies are changed
    */
@@ -299,6 +291,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     }
 
     this.numberOfActiveBodiesProperty.value = this.bodies.length;
+  }
+
+  public stepOnce( dt: number ): void {
+    this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
+    this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
+    if ( this.pathVisibleProperty ) {
+      this.bodies.forEach( body => body.addPathPoint() );
+    }
   }
 
   public step( dt: number ): void {

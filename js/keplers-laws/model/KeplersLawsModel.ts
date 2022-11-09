@@ -107,6 +107,12 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
     this.visibilityReset();
   }
+
+  public override update(): void {
+    if ( this.engine.updateAllowed ) {
+      this.engine.update();
+    }
+  }
 }
 
 mySolarSystem.register( 'KeplersLawsModel', KeplersLawsModel );

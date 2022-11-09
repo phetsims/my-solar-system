@@ -37,7 +37,7 @@ export default class EllipticalOrbit extends Engine {
   public readonly changedEmitter = new Emitter();
   public periodDivisions = 4;
   public divisionPoints: Vector2[] = [];
-  private updateAllowed = true;
+  public updateAllowed = true;
   public retrograde = false;
 
   // These variable names are letters to compare and read more easily the equations they are in
@@ -69,10 +69,9 @@ export default class EllipticalOrbit extends Engine {
 
     // Multilink to update the orbit based on the bodies position and velocity
     Multilink.multilink(
-      [ this.body.positionProperty, this.body.velocityProperty ], () => {
-        if ( this.updateAllowed ) {
-          this.update();
-        }
+      [ this.body.userControlledPositionProperty, this.body.userControlledVelocityProperty ],
+      ( userControlledPosition: boolean, userControlledVelocity: boolean ) => {
+        this.updateAllowed = userControlledPosition || userControlledVelocity;
     } );
   }
 
@@ -87,6 +86,7 @@ export default class EllipticalOrbit extends Engine {
 
     this.predictedBody.positionProperty.value = Vector2.createPolar( r, -nu );
     this.updateAllowed = true;
+
   }
 
   /**
