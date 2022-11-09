@@ -27,6 +27,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import BodySoundManager from '../view/BodySoundManager.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -179,12 +180,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {
       if ( systemCentered ) {
-        // this.isPlayingProperty.value = false; // Pause the sim
+        this.isPlayingProperty.value = false; // Pause the sim
+        this.centerOfMass.update();
         this.bodies.forEach( body => {
           body.clearPath();
-          body.positionProperty.set( body.positionProperty.value.minus( this.centerOfMass.positionProperty.value ) );
           body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
+          body.positionProperty.set( body.positionProperty.value.minus( this.centerOfMass.positionProperty.value ) );
         } );
+        this.isPlayingProperty.value = true; // Unpause the sim
       }
     } );
 
@@ -257,6 +260,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   public reset(): void {
     this.restart();
+    this.createBodies( this.defaultModeInfo );
     this.timeSpeedProperty.reset();
     this.zoomLevelProperty.reset();
     this.pathVisibleProperty.reset();
@@ -274,7 +278,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeProperty.value = 0; // Reset the time
-    this.createBodies( this.defaultModeInfo ); // Reset the bodies
+    this.bodies.forEach( body => body.reset() );
     this.update();
   }
 
@@ -295,7 +299,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   public stepOnce( dt: number ): void {
     this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
-    this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
+    this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale * MySolarSystemConstants.TIME_MULTIPLIER;
     if ( this.pathVisibleProperty ) {
       this.bodies.forEach( body => body.addPathPoint() );
     }

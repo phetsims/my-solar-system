@@ -53,7 +53,8 @@ const MySolarSystemConstants = {
 
   // Multipliers that modify the numeric value shown in Number Displays
   POSITION_MULTIPLIER: 0.01,
-  VELOCITY_MULTIPLIER: 1
+  VELOCITY_MULTIPLIER: 0.2,
+  TIME_MULTIPLIER: 0.21
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );

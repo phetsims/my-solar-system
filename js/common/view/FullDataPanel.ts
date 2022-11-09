@@ -8,7 +8,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, AlignGroup, HBox, RichText, VBox, Node } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, HBox, RichText, VBox, Node, Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -18,6 +18,7 @@ import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
 import CommonModel from '../model/CommonModel.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -71,7 +72,10 @@ export default class FullDataPanel extends Panel {
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty, { font: MySolarSystemConstants.TITLE_FONT } ) );
     };
 
-    const massTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
+    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty, { font: new PhetFont( { size: 18, weight: 'bold' } ) } ) );
+    const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
+    const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
+
     const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.PositionStringProperty, MySolarSystemStrings.units.AUStringProperty );
     const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.VelocityStringProperty, MySolarSystemStrings.units.kmsStringProperty );
 
