@@ -101,7 +101,9 @@ export default class ValuesColumnNode extends VBox {
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
-      contentNode = new InteractiveNumberDisplay( body.massProperty, massRange, MySolarSystemStrings.units.kgStringProperty );
+      contentNode = new InteractiveNumberDisplay( body.massProperty, massRange, MySolarSystemStrings.units.kgStringProperty, {
+        useExponential: true
+      } );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
       contentNode = new InteractiveNumberDisplay(

@@ -152,6 +152,8 @@ type StringsType = {
     'velocityValueUnitsStringProperty': LinkableProperty<string>;
     'rangeWithUnits': string;
     'rangeWithUnitsStringProperty': LinkableProperty<string>;
+    'rangeWithExponentialUnits': string;
+    'rangeWithExponentialUnitsStringProperty': LinkableProperty<string>;
   }
 };
 
