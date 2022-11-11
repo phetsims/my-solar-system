@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, Font, GridBox, HBox, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, HBox, Path, Text, Utils, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -238,8 +238,10 @@ export default class IntroLabScreenView extends CommonScreenView {
     // Slider that controls the bodies mass
     this.interfaceLayer.addChild( centerBox );
 
-    const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
-    this.bottomLayer.addChild( pathsWebGLNode );
+    if ( Utils.isWebGLSupported ) {
+      const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
+      this.bottomLayer.addChild( pathsWebGLNode );
+    }
   }
 }
 

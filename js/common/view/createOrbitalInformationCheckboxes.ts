@@ -7,7 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { HBox, Image, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Image, Text, Utils } from '../../../../scenery/js/imports.js';
 import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -17,6 +17,8 @@ import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 // constants
 //REVIEW: This is shared between VisibilityInformation and OrbitalInformation, can we factor it out? Thoughts?
@@ -37,7 +39,7 @@ const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem 
         pathIconImageNode
       ],
       tandem: tandem.createTandem( 'pathVisibleCheckbox' )
-    } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+    } ), combineOptions<CheckboxOptions>( { visible: Utils.isWebGLSupported }, MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
     new MySolarSystemCheckbox( model.centerOfMass.visibleProperty, new HBox( {
       spacing: 10,
       children: [
