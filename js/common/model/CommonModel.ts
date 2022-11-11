@@ -298,10 +298,16 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public stepOnce( dt: number ): void {
-    this.engine.run( dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale );
-    this.timeProperty.value += dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale * MySolarSystemConstants.TIME_MULTIPLIER;
-    if ( this.pathVisibleProperty ) {
-      this.bodies.forEach( body => body.addPathPoint() );
+    let adjustedDT = dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
+    const count = Math.ceil( adjustedDT / 0.1 );
+    adjustedDT /= count;
+
+    for ( let i = 0; i < count; i++ ) {
+      this.engine.run( adjustedDT );
+      this.timeProperty.value += adjustedDT * MySolarSystemConstants.TIME_MULTIPLIER;
+      if ( this.pathVisibleProperty ) {
+        this.bodies.forEach( body => body.addPathPoint() );
+      }
     }
   }
 
