@@ -174,7 +174,7 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( topRightControlBox );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
-    const fullDataPanel = new FullDataPanel( model, { fill: 'white', layoutOptions: { column: 1, row: 1 } } );
+    const fullDataPanel = new FullDataPanel( model, { layoutOptions: { column: 1, row: 1 } } );
     const numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),

@@ -101,7 +101,11 @@ export default class ValuesColumnNode extends VBox {
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
-      contentNode = new InteractiveNumberDisplay( body.massProperty, massRange, MySolarSystemStrings.units.kgStringProperty, {
+      contentNode = new InteractiveNumberDisplay(
+        body.massProperty,
+        massRange,
+        MySolarSystemStrings.units.kgStringProperty,
+        body.userControlledMassProperty, {
         useExponential: true
       } );
     }
@@ -113,7 +117,8 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
         positionRange,
-        MySolarSystemStrings.units.AUStringProperty
+        MySolarSystemStrings.units.AUStringProperty,
+        body.userControlledPositionProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
@@ -124,7 +129,8 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / MySolarSystemConstants.POSITION_MULTIPLIER )
         } ),
         positionRange,
-        MySolarSystemStrings.units.AUStringProperty
+        MySolarSystemStrings.units.AUStringProperty,
+        body.userControlledPositionProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
@@ -135,7 +141,8 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
         } ),
         velocityRange,
-        MySolarSystemStrings.units.kmsStringProperty
+        MySolarSystemStrings.units.kmsStringProperty,
+        body.userControlledVelocityProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
@@ -146,8 +153,9 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y / MySolarSystemConstants.VELOCITY_MULTIPLIER )
         } ),
         velocityRange,
-        MySolarSystemStrings.units.kmsStringProperty
-        );
+        MySolarSystemStrings.units.kmsStringProperty,
+        body.userControlledVelocityProperty
+      );
     }
     else {
       contentNode = new Node();

@@ -14,8 +14,11 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { FireListener } from '../../../../scenery/js/imports.js';
+import { Color, FireListener } from '../../../../scenery/js/imports.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 
 type SelfOptions = {
@@ -29,6 +32,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
     property: TProperty<number>,
     range: RangeWithValue,
     units: TReadOnlyProperty<string>,
+    userControlledProperty: TReadOnlyProperty<boolean>,
     providedOptions?: InteractiveNumberDisplayOptions
   ) {
 
@@ -43,13 +47,23 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       }
     } );
 
+    const isKeypadActiveProperty = new BooleanProperty( false );
+
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
       cursor: 'pointer',
       decimalPlaces: 1,
       useExponential: false,
       textOptions: {
         font: MySolarSystemConstants.PANEL_FONT
-      }
+      },
+      backgroundFill: new DerivedProperty( [
+        userControlledProperty,
+        isKeypadActiveProperty,
+        MySolarSystemColors.userControlledBackgroundColorProperty
+      ], ( isUserControlled, isKeypadActive, backgroundColor ) => {
+        return isUserControlled || isKeypadActive ? backgroundColor : Color.WHITE;
+      } ),
+      backgroundStroke: Color.BLACK
     }, providedOptions );
 
     super( property, range, options );
@@ -60,15 +74,18 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     this.addInputListener( new FireListener( {
       fire: () => {
-        keypadDialog.beginEdit( value => {
-          property.value = value;
-        }, range, new PatternStringProperty( patternStringProperty, {
-          min: range.min,
-          max: range.max,
-          units: units // TODO: How to add RichText here??
-        } ), () => {
-          // no-op
-        } );
+        if ( !userControlledProperty.value ) {
+          isKeypadActiveProperty.value = true;
+          keypadDialog.beginEdit( value => {
+            property.value = value;
+          }, range, new PatternStringProperty( patternStringProperty, {
+            min: range.min,
+            max: range.max,
+            units: units // TODO: How to add RichText here??
+          } ), () => {
+            isKeypadActiveProperty.value = false;
+          } );
+        }
       },
       fireOnDown: true
     } ) );

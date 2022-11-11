@@ -36,7 +36,12 @@ const MySolarSystemColors = {
   }, {
     tandem: Tandem.COLORS.createTandem( 'gridIconStrokeColorProperty' )
   } ),
-  HIGHLIGHTED_NUMBER_DISPLAY_FILL: PhetColorScheme.BUTTON_YELLOW,
+
+  userControlledBackgroundColorProperty: new ProfileColorProperty( mySolarSystem, 'user controlled background', {
+    default: PhetColorScheme.BUTTON_YELLOW
+  }, {
+    tandem: Tandem.COLORS.createTandem( 'userControlledBackgroundColorProperty' )
+  } ),
 
   firstBodyColorProperty: new ProfileColorProperty( mySolarSystem, 'first body color', {
     default: 'yellow',
