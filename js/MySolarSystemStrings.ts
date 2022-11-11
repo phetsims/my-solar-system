@@ -126,10 +126,6 @@ type StringsType = {
     'unitsStringProperty': LinkableProperty<string>;
     'unitsInfo': string;
     'unitsInfoStringProperty': LinkableProperty<string>;
-    'real': string;
-    'realStringProperty': LinkableProperty<string>;
-    'arbitrary': string;
-    'arbitraryStringProperty': LinkableProperty<string>;
     'AU': string;
     'AUStringProperty': LinkableProperty<string>;
     'kms': string;
@@ -140,6 +136,12 @@ type StringsType = {
     'kgStringProperty': LinkableProperty<string>;
     'years': string;
     'yearsStringProperty': LinkableProperty<string>;
+  };
+  'unitsInfo': {
+    'title': string;
+    'titleStringProperty': LinkableProperty<string>;
+    'content': string;
+    'contentStringProperty': LinkableProperty<string>;
   };
   'pattern': {
     'labelParenthesesUnits': string;

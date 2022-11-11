@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Font, HBox, HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Font, HBox, HSeparator, Node, RichText, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -37,9 +37,9 @@ export default class MySolarSystemControls extends VBox {
     providedOptions: MySolarSystemControlsOptions
   ) {
 
-    const dialog = new Dialog( new Node(), {
+    const dialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 1000 } ), {
       titleAlign: 'center',
-      title: new Text( 'Title', { font: new Font( { size: 32 } ) } ),
+      title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new Font( { size: 32 } ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );
 
@@ -94,3 +94,4 @@ export default class MySolarSystemControls extends VBox {
 }
 
 mySolarSystem.register( 'MySolarSystemControls', MySolarSystemControls );
+
