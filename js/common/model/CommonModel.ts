@@ -110,6 +110,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       new Body( 1, new Vector2( -100, -100 ), new Vector2( 50, -50 ), MySolarSystemColors.fourthBodyColorProperty )
     ];
 
+    this.bodies.addItemRemovedListener( body => body.removedEmitter.emit() );
+
     this.availableBodies.forEach( body => {
       body.isCollidedProperty.link( isCollided => {
         if ( isCollided ) {

@@ -40,12 +40,13 @@ export default class ExplosionNode extends Path {
       super( shape, options );
     }
 
-    public static explode( node: BodyNode, providedOptions?: explodingOptions ): void {
+    public static explode( node: BodyNode ): void {
 
-      const explosionPath = new ExplosionNode();
+      const explosionPath = new ExplosionNode( {
+        center: node.translation
+      } );
 
-      node.addChild( explosionPath );
-      // explosionPath.center = node.center;
+      node.parents[ 0 ].addChild( explosionPath );
 
       const startingRadius = 0.1;
       const maximumRadius = 1;
@@ -74,6 +75,14 @@ export default class ExplosionNode extends Path {
         node.body.collisionEndedProperty.value = true;
         explosionPath.detach();
       } );
+
+      const onRemovedListener = () => {
+        node.body.removedEmitter.removeListener( onRemovedListener );
+
+        firstAnimation.stop();
+        secondAnimation.stop();
+      };
+      node.body.removedEmitter.addListener( onRemovedListener );
     }
 }
 
