@@ -81,7 +81,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
   public readonly availableBodies: Body[];
-  private readonly defaultModeInfo: BodyInfo[];
+  private defaultModeInfo: BodyInfo[];
 
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
@@ -97,6 +97,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.clearPaths();
     } );
 
+    // Define the default mode the bodies will show up in
+    this.defaultModeInfo = [
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+    ];
 
     this.availableBodies = [
       new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ), MySolarSystemColors.firstBodyColorProperty ),
@@ -124,22 +129,17 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
           if ( this.isLab && ( userControlledPosition || userControlledVelocity || userControlledMass ) ) {
             this.labModeProperty.value = LabModes.CUSTOM;
+            this.updateDefaultModeInfo();
           }
           if ( userControlledMass ) {
             // this.bodySoundManager.massSliderSoundClip.play();
           }
           else {
-            this.bodySoundManager.massSliderSoundClip.stop();
+            // this.bodySoundManager.massSliderSoundClip.stop();
           }
         }
       );
     } );
-
-    // Define the default mode the bodies will show up in
-    this.defaultModeInfo = [
-      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
-      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
-    ];
 
     //REVIEW: createBodies is only... called once in the constructor? AND it's done in the supertype (common model)
     //REVIEW: so it doesn't require any of the subtypes to access class properties?
@@ -203,6 +203,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.pathVisibleProperty.link( visible => {
       this.clearPaths();
     } );
+  }
+
+  public updateDefaultModeInfo(): void {
+    this.defaultModeInfo = this.bodies.map( body => ( {
+      mass: body.massProperty.value,
+      position: body.positionProperty.value,
+      velocity: body.velocityProperty.value
+    } ) );
   }
 
   /**
@@ -278,7 +286,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeProperty.value = 0; // Reset the time
-    this.bodies.forEach( body => body.reset() );
+    this.createBodies( this.defaultModeInfo ); // Reset the bodies
     this.update();
   }
 

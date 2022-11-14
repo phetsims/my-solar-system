@@ -42,6 +42,7 @@ class LabModel extends CommonModel<NumericalEngine> {
         this.createBodies( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
         this.timeProperty.value = 0;
+        this.updateDefaultModeInfo();
       }
     };
 
@@ -61,16 +62,6 @@ class LabModel extends CommonModel<NumericalEngine> {
         }
       }
     } );
-  }
-
-  // Restart is for when the time controls are brought back to 0
-  public override restart(): void {
-    this.isPlayingProperty.value = false;
-    this.labModeProperty.value = this.lastSelectedMode;
-    this.update();
-
-    // Time property is set to 0 to restart the clock timer
-    this.timeProperty.value = 0;
   }
 
   public setModesToMap(): void {
