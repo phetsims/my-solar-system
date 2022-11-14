@@ -144,7 +144,7 @@ export default class EllipticalOrbitNode extends Path {
       let bodyAngle = Math.atan2( predicted.center.y / radiusY, predicted.center.x / radiusX );
 
       for ( let i = 0; i < model.maxDivisionValue; i++ ) {
-        if ( ( i < model.periodDivisionProperty.value ) ) {
+        if ( ( i < model.periodDivisionProperty.value ) && this.orbit.allowedOrbit ) {
           if ( this.orbit.retrograde ) {
             endIndex = i;
             startIndex = i + 1 < model.periodDivisionProperty.value ? i + 1 : 0;
@@ -168,6 +168,7 @@ export default class EllipticalOrbitNode extends Path {
 
           // Map opacity from 0 to 0.8 based on BodyAngle from endAngle to startAngle (inside area)
           const areaRatio = ( bodyAngle - endAngle ) / ( startAngle - endAngle );
+          const opacityMultiplier = 0.8;
 
           // Map opacity from 0 to 0.8 based on BodyAngle from startAngle to endAngle (outside area)
           let opacityFalloff = -1 * ( bodyAngle - endAngle - TWOPI ) / ( TWOPI - ( startAngle - endAngle ) );
@@ -178,20 +179,20 @@ export default class EllipticalOrbitNode extends Path {
           }
           else if ( ( endAngle <= bodyAngle ) && ( bodyAngle <= startAngle ) ) {
             if ( this.orbit.retrograde ) {
-              areaPaths[ i ].opacity = 0.8 * ( areaRatio );
+              areaPaths[ i ].opacity = opacityMultiplier * ( areaRatio );
               startAngle = bodyAngle;
             }
             else {
-              areaPaths[ i ].opacity = 0.8 * ( 1 - areaRatio );
+              areaPaths[ i ].opacity = opacityMultiplier * ( 1 - areaRatio );
               endAngle = bodyAngle;
             }
           }
           else {
             if ( this.orbit.retrograde ) {
-              areaPaths[ i ].opacity = 0.8 * ( opacityFalloff );
+              areaPaths[ i ].opacity = opacityMultiplier * ( opacityFalloff );
             }
             else {
-              areaPaths[ i ].opacity = 0.8 * ( 1 - opacityFalloff );
+              areaPaths[ i ].opacity = opacityMultiplier * ( 1 - opacityFalloff );
             }
           }
 

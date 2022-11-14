@@ -31,10 +31,10 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public apoapsisVisibleProperty = new BooleanProperty( false );
   public periapsisVisibleProperty = new BooleanProperty( false );
 
-  public areasVisibleProperty = new BooleanProperty( false );
-  public dotsVisibleProperty = new BooleanProperty( false );
-  public sweepAreaVisibleProperty = new BooleanProperty( false );
-  public areaGraphVisibleProperty = new BooleanProperty( false );
+  public areasVisibleProperty = new BooleanProperty( true );
+  public dotsVisibleProperty = new BooleanProperty( true );
+  public sweepAreaVisibleProperty = new BooleanProperty( true );
+  public areaGraphVisibleProperty = new BooleanProperty( true );
   public periodDivisionProperty = new NumberProperty( 4 );
   public maxDivisionValue = 6;
 

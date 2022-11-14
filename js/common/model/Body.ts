@@ -62,7 +62,7 @@ class Body {
 
     this.massProperty.link( mass => {
       // Mass to radius function
-      this.radiusProperty.set( Math.pow( mass, 1 / 3 ) + 5 );
+      this.radiusProperty.set( Body.massToRadius( mass ) );
     } );
 
     // Data for rendering the path as a WebGL object
@@ -70,6 +70,10 @@ class Body {
     // Adding first point twice for the WebGL Path
     this.addPathPoint();
     this.addPathPoint();
+  }
+
+  public static massToRadius( mass: number ): number {
+    return Math.pow( mass, 1 / 3 ) + 5;
   }
 
   public reset(): void {

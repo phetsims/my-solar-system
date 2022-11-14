@@ -47,6 +47,7 @@ export default class EllipticalOrbit extends Engine {
   public M = 0; // mean anomaly
   public W = 0; // angular velocity
   public T = 0; // period
+  public nu = 0; // true anomaly
 
   // Variable that determines if the orbit is elliptical or not, if false, it is parabolic
   public allowedOrbit: boolean;
@@ -81,10 +82,10 @@ export default class EllipticalOrbit extends Engine {
 
     // Calculate the new position and velocity of the body
     this.M += dt * this.W * 20;
-    const nu = this.getTrueAnomaly( this.M );
-    const r = this.calculateR( this.a, this.e, nu );
+    this.nu = this.getTrueAnomaly( this.M );
+    const r = this.calculateR( this.a, this.e, this.nu );
 
-    this.predictedBody.positionProperty.value = Vector2.createPolar( r, -nu );
+    this.predictedBody.positionProperty.value = Vector2.createPolar( r, -this.nu );
     this.updateAllowed = true;
 
   }
@@ -98,7 +99,7 @@ export default class EllipticalOrbit extends Engine {
     const v = this.body.velocityProperty.value;
 
     this.allowedOrbit = false;
-    if ( !this.escapeVelocityExceeded( r, v ) ) {
+    if ( this.escapeVelocityNotExceeded( r, v ) ) {
       const { a, e, w, W } = this.calculateEllipse( r, v );
       this.a = a;
       this.e = e;
@@ -134,19 +135,18 @@ export default class EllipticalOrbit extends Engine {
     }
   }
 
-  private escapeVelocityExceeded( r: Vector2, v: Vector2 ): boolean {
+  private escapeVelocityNotExceeded( r: Vector2, v: Vector2 ): boolean {
     const rMagnitude = r.magnitude;
     const vMagnitude = v.magnitude;
 
     // Scaling down the escape velocity a little to avoid unwanted errors
     const epsilon = 0.99;
 
-    return vMagnitude > ( epsilon * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
+    return vMagnitude < ( epsilon * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
   }
 
   private collidedWithSun( a: number, e: number ): boolean {
-    // TODO: Should the actual radius of the sun be used? Probably
-    return a * ( 1 - e ) < 25;
+    return a * ( 1 - e ) < Body.massToRadius( this.bodies[ 0 ].massProperty.value );
   }
 
   private calculate_a( r: Vector2, v: Vector2 ): number {
