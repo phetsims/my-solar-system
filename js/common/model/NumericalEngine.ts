@@ -88,7 +88,7 @@ export default class NumericalEngine extends Engine {
 
           const direction = scratchVector.set( positions[ j ] ).subtract( positions[ i ] );
           const distance = direction.magnitude;
-          assert && assert( distance > 0, 'Negative distances not allowed!!' );
+          assert && assert( distance >= 0, 'Negative distances not allowed!!' );
           const forceMagnitude = this.G * mass1 * mass2 * ( Math.pow( distance, -3 ) );
           const force = direction.multiplyScalar( forceMagnitude );
 
