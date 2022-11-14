@@ -92,6 +92,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
         new Text( MySolarSystemStrings.orbitalStringProperty, TITLE_OPTIONS ),
         new InfoButton( {
           scale: 0.5,
+          iconFill: 'rgb( 41, 106, 163 )',
           listener: () => dialog.show(),
           tandem: providedOptions.tandem.createTandem( 'keplerInfoButton' )
         } )

@@ -33,7 +33,9 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
           selectedStroke: '#60a9dd',
           selectedLineWidth: 4
         }
-      }
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 10
     }, providedOptions );
 
     // Intentionally left without MySolarSystemStrings because this buttons will have icons

@@ -153,7 +153,9 @@ class CommonScreenView extends ScreenView {
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 130,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
-          layoutOptions: { align: 'right', stretch: true }
+          layoutOptions: { align: 'right', stretch: true },
+          touchAreaXDilation: 10,
+          touchAreaYDilation: 10
         } )
       ],
       spacing: 8
@@ -171,6 +173,7 @@ class CommonScreenView extends ScreenView {
         model.reset();
         measuringTapeNode.reset();
       },
+      touchAreaDilation: 10,
       tandem: providedOptions.tandem.createTandem( 'resetAllButton' )
     } );
 

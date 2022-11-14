@@ -27,8 +27,8 @@ type StringsType = {
   'gridStringProperty': LinkableProperty<string>;
   'centerOfMass': string;
   'centerOfMassStringProperty': LinkableProperty<string>;
-  'systemCentered': string;
-  'systemCenteredStringProperty': LinkableProperty<string>;
+  'followCenterOfMass': string;
+  'followCenterOfMassStringProperty': LinkableProperty<string>;
   'measuringTape': string;
   'measuringTapeStringProperty': LinkableProperty<string>;
   'path': string;

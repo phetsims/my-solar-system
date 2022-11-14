@@ -71,7 +71,14 @@ class KeplersLawsScreenView extends CommonScreenView {
           } ),
           new ThirdLawAccordionBox( model ),
           new MagnifyingGlassZoomButtonGroup(
-            model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
+            model.zoomLevelProperty, {
+              spacing: 8,
+              magnifyingGlassNodeOptions: {
+                glassRadius: 8
+              },
+              touchAreaXDilation: 5,
+              touchAreaYDilation: 5
+            } )
         ],
         spacing: 10,
         align: 'top'

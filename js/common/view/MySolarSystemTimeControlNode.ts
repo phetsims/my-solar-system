@@ -52,7 +52,8 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
           font: MySolarSystemConstants.PANEL_FONT,
           fill: MySolarSystemColors.foregroundProperty,
           maxWidth: 200
-        }
+        },
+        touchAreaXDilation: 10
       }
     }, providedOptions );
 

@@ -20,7 +20,7 @@
   "centerOfMass": {
     "value": "Center of Mass"
   },
-  "systemCentered": {
+  "followCenterOfMass": {
     "value": "Follow Center of Mass"
   },
   "measuringTape": {
