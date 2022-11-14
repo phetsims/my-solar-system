@@ -22,15 +22,17 @@ import CommonModel from '../model/CommonModel.js';
 // constants
 const ARROW_Y_COORDINATE = -10;
 
+//REVIEW: Put this common max width in a constant somewhere
+const MAX_WIDTH = 240;
+
 //REVIEW: Factor-out-able options?
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
+  fill: MySolarSystemColors.foregroundProperty,
+  maxWidth: MAX_WIDTH
 };
 
 const SPACING = 10;
-//REVIEW: Put this common max width in a constant somewhere
-const MAX_WIDTH = 240;
 
 const createArrowsVisibilityCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {
   return [
@@ -41,8 +43,7 @@ const createArrowsVisibilityCheckboxes = ( model: CommonModel, tandem: Tandem ):
         new ArrowNode( 135, ARROW_Y_COORDINATE, 180, ARROW_Y_COORDINATE, { fill: PhetColorScheme.GRAVITATIONAL_FORCE } )
       ]
     }, {
-      spacing: SPACING,
-      maxWidth: MAX_WIDTH
+      spacing: SPACING
     } ) ), {
       tandem: tandem.createTandem( 'gravityForceCheckbox' )
     } ),
@@ -53,8 +54,7 @@ const createArrowsVisibilityCheckboxes = ( model: CommonModel, tandem: Tandem ):
         new ArrowNode( 95, ARROW_Y_COORDINATE, 140, ARROW_Y_COORDINATE, { fill: PhetColorScheme.VELOCITY } )
       ]
     }, {
-      spacing: SPACING,
-      maxWidth: MAX_WIDTH
+      spacing: SPACING
     } ) ), {
       tandem: tandem.createTandem( 'velocityCheckbox' )
     } )
