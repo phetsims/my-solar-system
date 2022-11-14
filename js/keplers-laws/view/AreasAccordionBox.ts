@@ -9,7 +9,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { HBox, Text, VBox, HSeparator } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
@@ -20,8 +20,6 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
-import LawMode from '../model/LawMode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
@@ -42,9 +40,6 @@ export default class AreasAccordionBox extends AccordionBox {
     const options = combineOptions<AreasAccordionBoxOptions>( {
       titleNode: new Text( MySolarSystemStrings.area.titleStringProperty, TITLE_OPTIONS ),
       expandedProperty: model.areasVisibleProperty,
-      visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
-        return selectedLaw === LawMode.SECOND_LAW;
-      } ),
       buttonXMargin: 5,
       buttonYMargin: 5
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
