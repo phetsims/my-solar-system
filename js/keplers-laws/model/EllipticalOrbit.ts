@@ -30,8 +30,31 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const TWOPI = 2 * Math.PI;
+
+// Creation of children classes
+class Ellipse {
+  public constructor(
+    public a: number,
+    public e: number,
+    public w: number,
+    public M: number,
+    public W: number
+  ) {}
+}
+
+class OrbitalArea {
+  public constructor(
+    public dotPosition: Vector2,
+    public startPosition: Vector2,
+    public endPosition: Vector2,
+    public completion: number,
+    public insideProperty: BooleanProperty,
+    public active: boolean
+  ) {}
+}
 
 export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
@@ -60,7 +83,7 @@ export default class EllipticalOrbit extends Engine {
 
     // Populate the orbital areas
     for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
-      this.orbitalAreas.push( new OrbitalArea( Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, 0, false, false ) );
+      this.orbitalAreas.push( new OrbitalArea( Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, 0, new BooleanProperty( false ), false ) );
     }
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
@@ -138,7 +161,6 @@ export default class EllipticalOrbit extends Engine {
    */
   private calculateDivisionPoints(): void {
     let previousNu = 0;
-    const opacityMultiplier = 0.8;
     let bodyAngle = TWOPI - this.nu;
 
     this.orbitalAreas.forEach( ( orbitalArea, i ) => {
@@ -154,33 +176,32 @@ export default class EllipticalOrbit extends Engine {
 
         // Body inside the area
         if ( startAngle <= bodyAngle && bodyAngle <= endAngle ) {
-          orbitalArea.inside = true;
+          orbitalArea.insideProperty.value = true;
 
           // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
-          const areaRatio = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
+          const completionRate = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
           if ( this.retrograde ) {
             endAngle = bodyAngle;
-            orbitalArea.opacity = areaRatio;
+            orbitalArea.completion = completionRate;
           }
           else {
             startAngle = bodyAngle;
-            orbitalArea.opacity = ( 1 - areaRatio );
+            orbitalArea.completion = ( 1 - completionRate );
           }
         }
         // OUTSIDE THE AREA
         else {
-          orbitalArea.inside = false;
-          // Map opacity from 1 to 0 based on BodyAngle from startAngle to endAngle (outside area)
-          let opacityFalloff = ( bodyAngle - startAngle - TWOPI ) / ( endAngle - startAngle - TWOPI );
+          orbitalArea.insideProperty.value = false;
+          // Map completion from 1 to 0 based on BodyAngle from startAngle to endAngle (outside area)
+          let completionFalloff = ( bodyAngle - startAngle - TWOPI ) / ( endAngle - startAngle - TWOPI );
 
           // Correct for negative values
-          opacityFalloff = Utils.moduloBetweenDown( opacityFalloff, 0, 1 );
+          completionFalloff = Utils.moduloBetweenDown( completionFalloff, 0, 1 );
 
-          orbitalArea.opacity = this.retrograde ? opacityFalloff : ( 1 - opacityFalloff );
+          orbitalArea.completion = this.retrograde ? completionFalloff : ( 1 - completionFalloff );
         }
 
         // Update orbital area properties
-        orbitalArea.opacity *= opacityMultiplier;
         orbitalArea.dotPosition = this.createPolar( nu ); // Position for the dots
         orbitalArea.startPosition = this.createPolar( startAngle );
         orbitalArea.endPosition = this.createPolar( endAngle );
@@ -189,9 +210,9 @@ export default class EllipticalOrbit extends Engine {
         previousNu = nu;
       }
       else {
-        orbitalArea.opacity = 0;
+        orbitalArea.completion = 0;
         orbitalArea.active = false;
-        orbitalArea.inside = false;
+        orbitalArea.insideProperty.value = false;
       }
     } );
   }
@@ -286,21 +307,6 @@ export default class EllipticalOrbit extends Engine {
     const nu = Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
     return Utils.moduloBetweenDown( nu, 0, TWOPI );
   }
-}
-
-class Ellipse {
-  public constructor( public a: number, public e: number, public w: number, public M: number, public W: number ) {}
-}
-
-class OrbitalArea {
-  public constructor(
-    public dotPosition: Vector2,
-    public startPosition: Vector2,
-    public endPosition: Vector2,
-    public opacity: number,
-    public inside: boolean,
-    public active: boolean
-  ) {}
 }
 
 mySolarSystem.register( 'EllipticalOrbit', EllipticalOrbit );

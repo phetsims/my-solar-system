@@ -66,8 +66,8 @@ export default class EllipticalOrbitNode extends Path {
       } )
     } );
     const axisPath = new Path( null, {
-      stroke: MySolarSystemColors.orbitColorProperty,
-      lineWidth: 1,
+      stroke: MySolarSystemColors.foregroundProperty,
+      lineWidth: 2,
       visibleProperty: model.axisVisibleProperty
     } );
 
@@ -136,28 +136,29 @@ export default class EllipticalOrbitNode extends Path {
       predicted.center = predictedBody.positionProperty.value.minus( center ).times( scale );
 
       // Drawing the orbital division points and areas
-      if ( this.orbit.allowedOrbit ) {
-        this.orbit.orbitalAreas.forEach( ( area, i ) => {
-          orbitDivisions[ i ].visible = area.active;
-          areaPaths[ i ].visible = area.active;
+      this.orbit.orbitalAreas.forEach( ( area, i ) => {
+        orbitDivisions[ i ].visible = area.active && this.orbit.allowedOrbit;
+        areaPaths[ i ].visible = area.active && this.orbit.allowedOrbit;
 
-          if ( i < model.periodDivisionProperty.value ) {
-            // Set the center of the orbit's divisions dot
-            orbitDivisions[ i ].center = area.dotPosition.minus( center ).times( scale );
+        if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbit ) {
+          // Set the center of the orbit's divisions dot
+          orbitDivisions[ i ].center = area.dotPosition.minus( center ).times( scale );
+          orbitDivisions[ i ].fill = MySolarSystemColors.orbitColorProperty.value.darkerColor( Math.pow( 1 - area.completion, 10 ) );
 
-            const start = area.startPosition.minus( center ).times( scale );
-            const end = area.endPosition.minus( center ).times( scale );
-            const startAngle = Math.atan2( start.y / radiusY, start.x / radiusX );
-            const endAngle = Math.atan2( end.y / radiusY, end.x / radiusX );
 
-            // Activate area path
-            areaPaths[ i ].opacity = area.opacity;
-            areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
-              0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
-            ).close();
-          }
-        } );
-      }
+          const start = area.startPosition.minus( center ).times( scale );
+          const end = area.endPosition.minus( center ).times( scale );
+          const startAngle = Math.atan2( start.y / radiusY, start.x / radiusX );
+          const endAngle = Math.atan2( end.y / radiusY, end.x / radiusX );
+
+          // Activate area path
+          // Opacity lowered down to 0.8 for stylistic purposes
+          areaPaths[ i ].opacity = 0.8 * area.completion;
+          areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
+            0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
+          ).close();
+        }
+      } );
     };
 
     this.orbit.changedEmitter.addListener( updatedOrbit );

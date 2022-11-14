@@ -35,6 +35,10 @@ import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
 // import Mass_Slider_Rubber_Band_mp3 from '../../../sounds/Mass_Slider_Rubber_Band_mp3.js';
 import Mass_Slider_Bass_Pluck_mp3 from '../../../sounds/Mass_Slider_Bass_Pluck_mp3.js';
 
+// Metronome sound
+import Metronome_Sound_1_mp3 from '../../../sounds/Metronome_Sound_1_mp3.js';
+import Metronome_Sound_2_mp3 from '../../../sounds/Metronome_Sound_2_mp3.js';
+
 
 const allSounds = [
   Bodies_Brass_C3_mp3,
@@ -51,9 +55,11 @@ export type BodySoundsManagerOptions = {
 
 export default class BodySoundManager {
   private readonly model: CommonModel;
+  private tickCounter = 0;
   public readonly bodySoundGenerators: SoundClip[];
   public readonly bodyNumberSoundClips: SoundClip[];
   public readonly collisionSoundClips: SoundClip[];
+  public readonly metronomeSoundClips: SoundClip[];
   public readonly massSliderSoundClip: SoundClip;
 
   public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {
@@ -95,8 +101,14 @@ export default class BodySoundManager {
       new SoundClip( Bodies_Collide_Absorb_4_to_3_mp3, collisionSoundOptions )
     ];
 
+    this.metronomeSoundClips = [
+      new SoundClip( Metronome_Sound_1_mp3 ),
+      new SoundClip( Metronome_Sound_2_mp3 )
+    ];
+
     this.bodyNumberSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
     this.collisionSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
+    this.metronomeSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
 
     this.massSliderSoundClip = new SoundClip( Mass_Slider_Bass_Pluck_mp3, { loop: true } );
     soundManager.addSoundGenerator( this.massSliderSoundClip );
@@ -128,6 +140,11 @@ export default class BodySoundManager {
 
   public playMassSliderSound( ): void {
     this.massSliderSoundClip.play();
+  }
+
+  public playOrbitalMetronome(): void {
+    this.metronomeSoundClips[ this.tickCounter % 2 ].play();
+    this.tickCounter++;
   }
 
   public stop(): void {

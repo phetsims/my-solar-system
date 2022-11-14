@@ -60,8 +60,15 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.periodDivisionProperty.link( divisions => {
         this.engine.periodDivisions = divisions;
         this.engine.update();
-      }
-    );
+      } );
+
+    this.engine.orbitalAreas.forEach( area => {
+      area.insideProperty.link( inside => {
+        if ( inside && this.isPlayingProperty.value ) {
+          this.bodySoundManager.playOrbitalMetronome();
+        }
+      } );
+    } );
 
     this.bodies.forEach( body => {
       body.userControlledPositionProperty.link( positionBeingDragged => {
