@@ -18,6 +18,7 @@ import EllipticalOrbit from './EllipticalOrbit.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
@@ -36,7 +37,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public sweepAreaVisibleProperty = new BooleanProperty( true );
   public areaGraphVisibleProperty = new BooleanProperty( true );
   public periodDivisionProperty = new NumberProperty( 4 );
-  public maxDivisionValue = 6;
+  public maxDivisionValue = MySolarSystemConstants.MAX_ORBITAL_DIVISIONS;
 
   // Third law properties
   public semimajorAxisVisibleProperty = new BooleanProperty( false );

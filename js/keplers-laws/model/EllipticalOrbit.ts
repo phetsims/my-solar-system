@@ -29,6 +29,9 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
+import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+
+const TWOPI = 2 * Math.PI;
 
 export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
@@ -36,7 +39,7 @@ export default class EllipticalOrbit extends Engine {
   public readonly predictedBody: Body;
   public readonly changedEmitter = new Emitter();
   public periodDivisions = 4;
-  public divisionPoints: Vector2[] = [];
+  public orbitalAreas: OrbitalArea[] = [];
   public updateAllowed = true;
   public retrograde = false;
 
@@ -54,6 +57,11 @@ export default class EllipticalOrbit extends Engine {
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
+
+    // Populate the orbital areas
+    for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
+      this.orbitalAreas.push( new OrbitalArea( Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, 0, false, false ) );
+    }
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.body = bodies[ 1 ];
@@ -83,9 +91,8 @@ export default class EllipticalOrbit extends Engine {
     // Calculate the new position and velocity of the body
     this.M += dt * this.W * 20;
     this.nu = this.getTrueAnomaly( this.M );
-    const r = this.calculateR( this.a, this.e, this.nu );
 
-    this.predictedBody.positionProperty.value = Vector2.createPolar( r, -this.nu );
+    this.predictedBody.positionProperty.value = this.createPolar( -this.nu );
     this.updateAllowed = true;
 
   }
@@ -120,19 +127,73 @@ export default class EllipticalOrbit extends Engine {
     this.changedEmitter.emit();
   }
 
+  private createPolar( nu: number ): Vector2 {
+    return Vector2.createPolar( this.calculateR( this.a, this.e, nu ), nu );
+  }
+
   /**
    * Based on the number of divisions provided by the model,
    * divides the orbit in isochrone sections.
    *
    */
   private calculateDivisionPoints(): void {
-    this.divisionPoints = [];
-    for ( let i = 0; i < this.periodDivisions; i++ ) {
-      const M = i * 2 * Math.PI / this.periodDivisions;
-      const nu = this.getTrueAnomaly( M );
-      const r = this.calculateR( this.a, this.e, nu );
-      this.divisionPoints.push( Vector2.createPolar( r, nu ) );
-    }
+    let previousNu = 0;
+    const opacityMultiplier = 0.8;
+    let bodyAngle = TWOPI - this.nu;
+
+    this.orbitalAreas.forEach( ( orbitalArea, i ) => {
+      if ( i < this.periodDivisions ) {
+        // Calculate true anomaly
+        const M = ( i + 1 ) * TWOPI / this.periodDivisions;
+        const nu = this.getTrueAnomaly( M );
+
+        // Update orbital areas angles, constrained by the startAngle
+        let startAngle = previousNu;
+        let endAngle = Utils.moduloBetweenDown( nu, startAngle, startAngle + TWOPI );
+        bodyAngle = Utils.moduloBetweenDown( bodyAngle, startAngle, startAngle + TWOPI );
+
+        // Body inside the area
+        if ( startAngle <= bodyAngle && bodyAngle <= endAngle ) {
+          orbitalArea.inside = true;
+
+          // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
+          const areaRatio = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
+          if ( this.retrograde ) {
+            endAngle = bodyAngle;
+            orbitalArea.opacity = areaRatio;
+          }
+          else {
+            startAngle = bodyAngle;
+            orbitalArea.opacity = ( 1 - areaRatio );
+          }
+        }
+        // OUTSIDE THE AREA
+        else {
+          orbitalArea.inside = false;
+          // Map opacity from 1 to 0 based on BodyAngle from startAngle to endAngle (outside area)
+          let opacityFalloff = ( bodyAngle - startAngle - TWOPI ) / ( endAngle - startAngle - TWOPI );
+
+          // Correct for negative values
+          opacityFalloff = Utils.moduloBetweenDown( opacityFalloff, 0, 1 );
+
+          orbitalArea.opacity = this.retrograde ? opacityFalloff : ( 1 - opacityFalloff );
+        }
+
+        // Update orbital area properties
+        orbitalArea.opacity *= opacityMultiplier;
+        orbitalArea.dotPosition = this.createPolar( nu ); // Position for the dots
+        orbitalArea.startPosition = this.createPolar( startAngle );
+        orbitalArea.endPosition = this.createPolar( endAngle );
+        orbitalArea.active = true;
+
+        previousNu = nu;
+      }
+      else {
+        orbitalArea.opacity = 0;
+        orbitalArea.active = false;
+        orbitalArea.inside = false;
+      }
+    } );
   }
 
   private escapeVelocityNotExceeded( r: Vector2, v: Vector2 ): boolean {
@@ -222,12 +283,24 @@ export default class EllipticalOrbit extends Engine {
     const E1 = M + this.e * Math.sin( M );
     const E2 = M + this.e * Math.sin( E1 );
     const E = M + this.e * Math.sin( E2 );
-    return Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
+    const nu = Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
+    return Utils.moduloBetweenDown( nu, 0, TWOPI );
   }
 }
 
 class Ellipse {
   public constructor( public a: number, public e: number, public w: number, public M: number, public W: number ) {}
+}
+
+class OrbitalArea {
+  public constructor(
+    public dotPosition: Vector2,
+    public startPosition: Vector2,
+    public endPosition: Vector2,
+    public opacity: number,
+    public inside: boolean,
+    public active: boolean
+  ) {}
 }
 
 mySolarSystem.register( 'EllipticalOrbit', EllipticalOrbit );

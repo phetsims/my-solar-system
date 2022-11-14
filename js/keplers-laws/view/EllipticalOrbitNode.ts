@@ -15,11 +15,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
-const TWOPI = 2 * Math.PI;
 
 export default class EllipticalOrbitNode extends Path {
   private readonly orbit: EllipticalOrbit;
@@ -137,73 +135,28 @@ export default class EllipticalOrbitNode extends Path {
       apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
       predicted.center = predictedBody.positionProperty.value.minus( center ).times( scale );
 
-      let startAngle = 0;
-      let endAngle = 0;
-      let startIndex = 0;
-      let endIndex = 0;
-      let bodyAngle = Math.atan2( predicted.center.y / radiusY, predicted.center.x / radiusX );
+      // Drawing the orbital division points and areas
+      if ( this.orbit.allowedOrbit ) {
+        this.orbit.orbitalAreas.forEach( ( area, i ) => {
+          orbitDivisions[ i ].visible = area.active;
+          areaPaths[ i ].visible = area.active;
 
-      for ( let i = 0; i < model.maxDivisionValue; i++ ) {
-        if ( ( i < model.periodDivisionProperty.value ) && this.orbit.allowedOrbit ) {
-          if ( this.orbit.retrograde ) {
-            endIndex = i;
-            startIndex = i + 1 < model.periodDivisionProperty.value ? i + 1 : 0;
+          if ( i < model.periodDivisionProperty.value ) {
+            // Set the center of the orbit's divisions dot
+            orbitDivisions[ i ].center = area.dotPosition.minus( center ).times( scale );
+
+            const start = area.startPosition.minus( center ).times( scale );
+            const end = area.endPosition.minus( center ).times( scale );
+            const startAngle = Math.atan2( start.y / radiusY, start.x / radiusX );
+            const endAngle = Math.atan2( end.y / radiusY, end.x / radiusX );
+
+            // Activate area path
+            areaPaths[ i ].opacity = area.opacity;
+            areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
+              0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
+            ).close();
           }
-          else {
-            startIndex = i;
-            endIndex = i - 1 < 0 ? model.periodDivisionProperty.value - 1 : i - 1;
-          }
-
-          // Set the center of the orbit's divisions, seen in the sim as dots
-          orbitDivisions[ i ].center = this.orbit.divisionPoints[ i ].minus( center ).times( scale );
-          orbitDivisions[ i ].visible = true;
-
-          startAngle = Math.atan2( orbitDivisions[ startIndex ].y / radiusY, orbitDivisions[ startIndex ].x / radiusX );
-          endAngle = Math.atan2( orbitDivisions[ endIndex ].y / radiusY, orbitDivisions[ endIndex ].x / radiusX );
-
-          startAngle = Utils.moduloBetweenDown( startAngle, endAngle, TWOPI + endAngle );
-          bodyAngle = Utils.moduloBetweenDown( bodyAngle, endAngle, TWOPI + endAngle );
-
-          areaPaths[ i ].visible = true;
-
-          // Map opacity from 0 to 0.8 based on BodyAngle from endAngle to startAngle (inside area)
-          const areaRatio = ( bodyAngle - endAngle ) / ( startAngle - endAngle );
-          const opacityMultiplier = 0.8;
-
-          // Map opacity from 0 to 0.8 based on BodyAngle from startAngle to endAngle (outside area)
-          let opacityFalloff = -1 * ( bodyAngle - endAngle - TWOPI ) / ( TWOPI - ( startAngle - endAngle ) );
-          opacityFalloff = Utils.moduloBetweenDown( opacityFalloff, 0, 1 );
-
-          if ( startAngle === endAngle ) { // TODO: Check why this happens
-            areaPaths[ i ].opacity = 0;
-          }
-          else if ( ( endAngle <= bodyAngle ) && ( bodyAngle <= startAngle ) ) {
-            if ( this.orbit.retrograde ) {
-              areaPaths[ i ].opacity = opacityMultiplier * ( areaRatio );
-              startAngle = bodyAngle;
-            }
-            else {
-              areaPaths[ i ].opacity = opacityMultiplier * ( 1 - areaRatio );
-              endAngle = bodyAngle;
-            }
-          }
-          else {
-            if ( this.orbit.retrograde ) {
-              areaPaths[ i ].opacity = opacityMultiplier * ( opacityFalloff );
-            }
-            else {
-              areaPaths[ i ].opacity = opacityMultiplier * ( 1 - opacityFalloff );
-            }
-          }
-
-          areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
-            0, 0, radiusX, radiusY, 0, startAngle, endAngle, true
-          ).close();
-        }
-        else {
-          orbitDivisions[ i ].visible = false;
-          areaPaths[ i ].visible = false;
-        }
+        } );
       }
     };
 
