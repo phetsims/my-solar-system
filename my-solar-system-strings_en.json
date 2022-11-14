@@ -184,5 +184,8 @@
   },
   "pattern.rangeWithUnits": {
     "value": "{{min}} to {{max}} {{units}}"
+  },
+  "pattern.rangeWithExponentialUnits": {
+    "value": "{{min}} to {{max}} \u00d7 {{units}}"
   }
 }

@@ -37,15 +37,14 @@ export type FullDataPanelOptions = PanelOptions & SelfOptions;
 
 export default class FullDataPanel extends Panel {
   public constructor( model: CommonModel, providedOptions?: FullDataPanelOptions ) {
-    const options = optionize<FullDataPanelOptions, SelfOptions, PanelOptions>()(
-      {
-        bodyIconColumnSpacing: 12,   // {number} - x-spacing between the ball-icons and the first column.
-        componentColumnsSpacing: 12, // {number} - x-spacing between the x and y components of NumberDisplay columns.
-        columnGroupSpacing: 21,      // {number} - x-spacing between each group of columns.
-        titleLabelSpacing: 0.5      // {number} - y-margin between the column groups and the title-labels above them.
-      },
-      providedOptions
-    );
+    const options = optionize<FullDataPanelOptions, SelfOptions, PanelOptions>()( {
+      bodyIconColumnSpacing: 12,   // {number} - x-spacing between the ball-icons and the first column.
+      componentColumnsSpacing: 12, // {number} - x-spacing between the x and y components of NumberDisplay columns.
+      columnGroupSpacing: 21,      // {number} - x-spacing between each group of columns.
+      titleLabelSpacing: 0.5,      // {number} - y-margin between the column groups and the title-labels above them.
+
+      fill: '#f0f0f0'
+    }, providedOptions );
 
     //----------------------------------------------------------------------------------------
     // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel
