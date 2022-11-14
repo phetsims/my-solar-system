@@ -13,7 +13,7 @@ import Body from '../model/Body.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -32,14 +32,12 @@ type SelfOptions = {
   textBackgroundCornerRadius?: number;
   textMaxWidth?: number;
   textFont?: Font; // font for the measurement text
-
 };
 
 export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
-  private readonly positionMultilink: UnknownMultilink;
   private readonly valueNode: Text; // node that contains the text
   private readonly valueBackgroundNode: Rectangle; // rectangle behind text
   private readonly valueContainer: Node; // parent that displays the text and its background
@@ -70,7 +68,7 @@ export default class BodyNode extends ShadedSphereNode {
 
     this.body = body;
 
-    this.positionMultilink = Multilink.multilink(
+    const positionMultilink = Multilink.multilink(
       [ body.positionProperty, body.radiusProperty, modelViewTransformProperty ],
       ( position, radius, modelViewTransform ) => {
         radius = modelViewTransform.modelToViewDeltaX( radius );
@@ -78,6 +76,7 @@ export default class BodyNode extends ShadedSphereNode {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
+    let modelViewTransformListener: ( mvt: ModelViewTransform2 ) => void;
     if ( options.draggable ) {
       const dragListener = new DragListener( {
         positionProperty: body.positionProperty,
@@ -90,16 +89,11 @@ export default class BodyNode extends ShadedSphereNode {
           body.userControlledPositionProperty.value = false;
         }
       } );
-      modelViewTransformProperty.link( transform => {
+      const modelViewTransformListener = ( transform: ModelViewTransform2 ) => {
         dragListener.transform = transform;
-      } );
+      };
+      modelViewTransformProperty.link( modelViewTransformListener );
       this.addInputListener( dragListener );
-
-      body.isCollidedProperty.link( isCollided => {
-        if ( isCollided ) {
-          this.interruptSubtreeInput();
-        }
-      } );
     }
 
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
@@ -135,15 +129,21 @@ export default class BodyNode extends ShadedSphereNode {
     } );
     this.addChild( this.valueContainer );
 
-    this.bodyNodeDispose = () => {
-      this.positionMultilink.dispose();
-    };
-
-    this.body.isCollidedProperty.link( isCollided => {
+    const bodyCollisionListener = ( isCollided: boolean ) => {
       if ( isCollided ) {
+        this.interruptSubtreeInput();
         ExplosionNode.explode( this );
       }
-    } );
+    };
+
+    this.body.isCollidedProperty.link( bodyCollisionListener );
+
+    this.bodyNodeDispose = () => {
+      positionMultilink.dispose();
+      this.body.isCollidedProperty.unlink( bodyCollisionListener );
+      modelViewTransformListener && modelViewTransformProperty.unlink( modelViewTransformListener );
+      readoutStringProperty.dispose();
+    };
 
   }
 

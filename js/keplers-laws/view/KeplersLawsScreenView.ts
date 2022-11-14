@@ -20,6 +20,8 @@ import AreasGraphPanel from './AreasGraphPanel.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import LawMode from '../model/LawMode.js';
 
 // constants
 const MARGIN = 5;
@@ -62,11 +64,21 @@ class KeplersLawsScreenView extends CommonScreenView {
             children: [
               new AreasAccordionBox( model ),
               new AreasGraphPanel( model )
-            ]
+            ],
+            visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
+              return selectedLaw === LawMode.SECOND_LAW;
+            } )
           } ),
           new ThirdLawAccordionBox( model ),
           new MagnifyingGlassZoomButtonGroup(
-            model.zoomLevelProperty, { spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 } } )
+            model.zoomLevelProperty, {
+              spacing: 8,
+              magnifyingGlassNodeOptions: {
+                glassRadius: 8
+              },
+              touchAreaXDilation: 5,
+              touchAreaYDilation: 5
+            } )
         ],
         spacing: 10,
         align: 'top'

@@ -49,7 +49,10 @@ export default class ValuesColumnNode extends VBox {
                         columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
                         '';
 
-    const labelNode = new RichText( labelString, { font: MySolarSystemConstants.PANEL_FONT } );
+    const labelNode = new RichText( labelString, {
+      maxWidth: 60,
+      font: MySolarSystemConstants.PANEL_FONT
+    } );
 
     // Create the VBox container for the contentNodes of the column.
     const contentContainer = new VBox( { spacing: options.contentContainerSpacing, stretch: true } );

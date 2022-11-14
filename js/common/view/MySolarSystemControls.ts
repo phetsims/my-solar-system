@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Font, HBox, HSeparator, Node, RichText, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,8 +18,6 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import createVisibilityInformationCheckboxes from './createVisibilityInformationCheckboxes.js';
 import createArrowsVisibilityCheckboxes from './createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
-import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
-import Dialog from '../../../../sun/js/Dialog.js';
 
 const COMBO_BOX_TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT
@@ -36,12 +34,6 @@ export default class MySolarSystemControls extends VBox {
     topLayer: Node,
     providedOptions: MySolarSystemControlsOptions
   ) {
-
-    const dialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 1000 } ), {
-      titleAlign: 'center',
-      title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new Font( { size: 32 } ) } ),
-      tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
-    } );
 
     super( {
       children: [
@@ -70,21 +62,7 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem ),
-        new HBox( {
-          visible: model.isLab,
-          spacing: 5,
-          justify: 'left',
-          children: [
-            new InfoButton( {
-              scale: 0.3,
-              iconFill: 'navy',
-              listener: () => dialog.show(),
-              tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
-            } ),
-            new Text( MySolarSystemStrings.units.unitsInfoStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
-          ]
-        } )
+        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
       ],
       spacing: 5,
       align: 'left',

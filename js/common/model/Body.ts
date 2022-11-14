@@ -15,6 +15,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Color } from '../../../../scenery/js/imports.js';
+import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 
 
 class Body {
@@ -30,6 +31,8 @@ class Body {
   public readonly isCollidedProperty = new BooleanProperty( false );
   public readonly collisionEndedProperty = new BooleanProperty( true );
   public readonly valueVisibleProperty = new BooleanProperty( false );
+
+  public readonly removedEmitter = new TinyEmitter();
 
   // Not resettable, common model will handle. Determines if the body is currently on-screen
   public readonly isActiveProperty = new BooleanProperty( false );

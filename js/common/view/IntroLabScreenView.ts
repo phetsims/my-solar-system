@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, Font, GridBox, HBox, Path, Text, Utils, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, HBox, Path, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -17,7 +17,7 @@ import PathsWebGLNode from './PathsWebGLNode.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView from './CommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
-import MySolarSystemCheckbox, { MySolarSystemCheckboxOptions } from './MySolarSystemCheckbox.js';
+import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import FullDataPanel from './FullDataPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
@@ -33,6 +33,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import undoSolidShape from '../../../../sherpa/js/fontawesome-5/undoSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Dialog from '../../../../sun/js/Dialog.js';
+import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
+import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 
 
 type SelfOptions = EmptySelfOptions;
@@ -109,7 +112,10 @@ export default class IntroLabScreenView extends CommonScreenView {
       new MagnifyingGlassZoomButtonGroup(
         model.zoomLevelProperty,
         {
-          spacing: 8, magnifyingGlassNodeOptions: { glassRadius: 8 },
+          spacing: 8,
+          magnifyingGlassNodeOptions: {
+            glassRadius: 8
+          },
           touchAreaXDilation: 5,
           touchAreaYDilation: 5
         } ),
@@ -135,6 +141,8 @@ export default class IntroLabScreenView extends CommonScreenView {
               content: new Path( undoSolidShape, { scale: 0.038, fill: 'black' } ),
               listener: () => model.restart(),
               tandem: providedOptions.tandem.createTandem( 'restartButton' ),
+              touchAreaXDilation: 7,
+              touchAreaYDilation: 7,
               layoutOptions: {
                 xMargin: MySolarSystemConstants.MARGIN / 2
               }
@@ -148,11 +156,13 @@ export default class IntroLabScreenView extends CommonScreenView {
                     new MySolarSystemControls( model, this.topLayer, {
                       tandem: providedOptions.tandem.createTandem( 'controlPanel' )
                     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
-                  new TextPushButton( MySolarSystemStrings.systemCenteredStringProperty, {
+                  new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
                     enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
                     listener: () => {
                       model.systemCenteredProperty.value = true;
                     },
+                    touchAreaXDilation: 5,
+                    touchAreaYDilation: 5,
                     font: MySolarSystemConstants.PANEL_FONT
                   } )
                 ]
@@ -177,7 +187,9 @@ export default class IntroLabScreenView extends CommonScreenView {
     const fullDataPanel = new FullDataPanel( model, { layoutOptions: { column: 1, row: 1 } } );
     const numberSpinnerBox = new VBox( {
       children: [
-        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
+        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
+          maxWidth: 70
+        }, TEXT_OPTIONS ) ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, 4 ) ),
           combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
             arrowsPosition: 'bothRight',
@@ -198,28 +210,45 @@ export default class IntroLabScreenView extends CommonScreenView {
       }
     } );
 
-    const moreDataCheckbox = new MySolarSystemCheckbox(
-      model.moreDataProperty,
-      new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ),
-      combineOptions<MySolarSystemCheckboxOptions>(
-        {
-            layoutOptions: { column: 1, row: 0, xAlign: 'left' },
-            visible: model.isLab
-        },
-          MySolarSystemConstants.CHECKBOX_OPTIONS )
-    );
-
+    const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 1000 } ), {
+      titleAlign: 'center',
+      title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new Font( { size: 32 } ) } ),
+      tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
+    } );
 
     const dataGridbox = new GridBox( {
+      ySpacing: 3,
       children: [
           numberSpinnerBox,
-          moreDataCheckbox,
+          new HBox( {
+            visible: model.isLab,
+            layoutOptions: { column: 1, row: 0, xAlign: 'left', xStretch: true },
+            children: [
+              new MySolarSystemCheckbox(
+                model.moreDataProperty,
+                new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
+                  maxWidth: 300
+                }, TEXT_OPTIONS ) ),
+                combineOptions<CheckboxOptions>( {
+                  touchAreaXDilation: 10,
+                  touchAreaYDilation: 10
+                }, MySolarSystemConstants.CHECKBOX_OPTIONS )
+              ),
+              new InfoButton( {
+                scale: 0.5,
+                iconFill: 'rgb( 41, 106, 163 )',
+                touchAreaDilation: 20,
+                listener: () => unitsDialog.show(),
+                tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
+              } )
+            ]
+          } ),
           fullDataPanel
         ],
       layoutOptions: {
         column: 0
       }
-      } );
+    } );
 
     const centerBox = new AlignBox( new GridBox( {
       children: [ dataGridbox, this.timeBox ],

@@ -27,8 +27,8 @@ type StringsType = {
   'gridStringProperty': LinkableProperty<string>;
   'centerOfMass': string;
   'centerOfMassStringProperty': LinkableProperty<string>;
-  'systemCentered': string;
-  'systemCenteredStringProperty': LinkableProperty<string>;
+  'followCenterOfMass': string;
+  'followCenterOfMassStringProperty': LinkableProperty<string>;
   'measuringTape': string;
   'measuringTapeStringProperty': LinkableProperty<string>;
   'path': string;
@@ -124,8 +124,6 @@ type StringsType = {
   'units': {
     'units': string;
     'unitsStringProperty': LinkableProperty<string>;
-    'unitsInfo': string;
-    'unitsInfoStringProperty': LinkableProperty<string>;
     'AU': string;
     'AUStringProperty': LinkableProperty<string>;
     'kms': string;

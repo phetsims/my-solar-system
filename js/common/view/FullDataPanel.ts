@@ -63,12 +63,15 @@ export default class FullDataPanel extends Panel {
     // Convenience function to create the title-label that appears above each column group.
     const createTitleLabel = ( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string>, useUnits: TReadOnlyProperty<boolean> | boolean = true ) => {
       const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
-          label: label,
-          units: units
-        } );
+        label: label,
+        units: units
+      } );
 
       // Wrap the text in an AlignGroup to match height.
-      return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty, { font: MySolarSystemConstants.TITLE_FONT } ) );
+      return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty, {
+        font: MySolarSystemConstants.TITLE_FONT,
+        maxWidth: 135
+      } ) );
     };
 
     const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty, { font: new PhetFont( { size: 18, weight: 'bold' } ) } ) );
