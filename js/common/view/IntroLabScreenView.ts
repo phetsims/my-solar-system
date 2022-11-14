@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, Font, GridBox, HBox, Path, RichText, Text, Utils, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, HBox, Path, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -187,7 +187,9 @@ export default class IntroLabScreenView extends CommonScreenView {
     const fullDataPanel = new FullDataPanel( model, { layoutOptions: { column: 1, row: 1 } } );
     const numberSpinnerBox = new VBox( {
       children: [
-        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, TEXT_OPTIONS ),
+        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
+          maxWidth: 70
+        }, TEXT_OPTIONS ) ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, 4 ) ),
           combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
             arrowsPosition: 'bothRight',
@@ -224,7 +226,9 @@ export default class IntroLabScreenView extends CommonScreenView {
             children: [
               new MySolarSystemCheckbox(
                 model.moreDataProperty,
-                new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, TEXT_OPTIONS ),
+                new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
+                  maxWidth: 300
+                }, TEXT_OPTIONS ) ),
                 combineOptions<CheckboxOptions>( {
                   touchAreaXDilation: 10,
                   touchAreaYDilation: 10

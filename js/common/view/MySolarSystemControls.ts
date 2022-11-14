@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { HBox, HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -62,16 +62,7 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem ),
-        new HBox( {
-          visible: model.isLab,
-          spacing: 5,
-          justify: 'left',
-          children: [
-
-            new Text( MySolarSystemStrings.units.unitsInfoStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
-          ]
-        } )
+        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
       ],
       spacing: 5,
       align: 'left',

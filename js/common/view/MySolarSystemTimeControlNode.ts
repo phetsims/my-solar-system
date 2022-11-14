@@ -46,12 +46,13 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
           listener: providedOptions.stepForwardListener
         }
       },
+      buttonGroupXSpacing: 20,
       speedRadioButtonGroupOnLeft: false,
       speedRadioButtonGroupOptions: {
         labelOptions: {
           font: MySolarSystemConstants.PANEL_FONT,
           fill: MySolarSystemColors.foregroundProperty,
-          maxWidth: 200
+          maxWidth: 70
         },
         touchAreaXDilation: 10
       }

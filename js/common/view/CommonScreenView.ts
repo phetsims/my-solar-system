@@ -10,7 +10,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import GridNode from '../../../../scenery-phet/js/GridNode.js';
@@ -128,10 +128,6 @@ class CommonScreenView extends ScreenView {
         stepForwardListener: () => model.stepOnce( 1 / 4 ),
         tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
       } );
-    timeControlNode.setPlayPauseButtonCenter( new Vector2(
-      this.layoutBounds.centerX - 117,
-      this.layoutBounds.bottom - timeControlNode.height / 2 - MySolarSystemConstants.MARGIN
-    ) );
 
     const timeStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelUnitsStringProperty, {
       units: MySolarSystemStrings.units.yearsStringProperty
@@ -142,7 +138,9 @@ class CommonScreenView extends ScreenView {
         new NumberDisplay( model.timeProperty, model.timeRange, {
           backgroundFill: null,
           backgroundStroke: null,
-          textOptions: MySolarSystemConstants.TEXT_OPTIONS,
+          textOptions: combineOptions<TextOptions>( {
+            maxWidth: 80
+          }, MySolarSystemConstants.TEXT_OPTIONS ),
           xMargin: 0,
           yMargin: 0,
           valuePattern: timeStringPatternProperty,
@@ -151,7 +149,7 @@ class CommonScreenView extends ScreenView {
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
           listener: () => { model.timeProperty.value = 0; },
-          maxTextWidth: 130,
+          maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
           layoutOptions: { align: 'right', stretch: true },
           touchAreaXDilation: 10,
