@@ -114,7 +114,8 @@ class CommonScreenView extends ScreenView {
       textBackgroundCornerRadius: 5,
       basePositionProperty: new Vector2Property( new Vector2( 0, 100 ) ),
       tipPositionProperty: new Vector2Property( new Vector2( 100, 100 ) ),
-      tandem: providedOptions.tandem.createTandem( 'measuringTapeNode' )
+      tandem: providedOptions.tandem.createTandem( 'measuringTapeNode' ),
+      significantFigures: 2
     } );
     this.modelViewTransformProperty.link( modelViewTransform => {
       measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
