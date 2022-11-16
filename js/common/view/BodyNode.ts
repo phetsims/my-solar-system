@@ -97,9 +97,9 @@ export default class BodyNode extends ShadedSphereNode {
       this.addInputListener( dragListener );
     }
 
-    // TODO: Does this derived property dispose properly?
+    const velocityValueProperty = new DerivedProperty( [ this.body.velocityProperty ], ( velocity: Vector2 ) => Utils.toFixed( velocity.magnitude, options.significantFigures ) );
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
-      value: new DerivedProperty( [ this.body.velocityProperty ], ( velocity: Vector2 ) => Utils.toFixed( velocity.magnitude, options.significantFigures ) ),
+      value: velocityValueProperty,
       units: MySolarSystemStrings.units.kmsStringProperty
       } );
 
@@ -145,6 +145,8 @@ export default class BodyNode extends ShadedSphereNode {
       this.body.isCollidedProperty.unlink( bodyCollisionListener );
       modelViewTransformListener && modelViewTransformProperty.unlink( modelViewTransformListener );
       readoutStringProperty.dispose();
+      velocityValueProperty.dispose();
+      this.valueNode.dispose();
     };
 
   }

@@ -16,16 +16,17 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
+import Property from '../../../../axon/js/Property.js';
 
 
 class Body {
   // Unitless body quantities.
-  public readonly massProperty;
-  public readonly radiusProperty;
-  public readonly positionProperty;
-  public readonly velocityProperty;
-  public readonly accelerationProperty;
-  public readonly forceProperty;
+  public readonly massProperty: Property<number>;
+  public readonly radiusProperty: Property<number>;
+  public readonly positionProperty: Property<Vector2>;
+  public readonly velocityProperty: Property<Vector2>;
+  public readonly accelerationProperty: Property<Vector2>;
+  public readonly forceProperty: Property<Vector2>;
 
   // Collision handling
   public readonly isCollidedProperty = new BooleanProperty( false );
