@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { AlignBox, AlignGroup, Node, RichText, TColor, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Color, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
@@ -19,6 +19,9 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
+import Utils from '../../../../dot/js/Utils.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -84,7 +87,7 @@ export default class ValuesColumnNode extends VBox {
     super( options );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, color: TColor ): AlignBox {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, colorProperty: TReadOnlyProperty<Color> ): AlignBox {
     // Flag that references the contentNode.
     let contentNode;
 
@@ -94,13 +97,15 @@ export default class ValuesColumnNode extends VBox {
 
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
-      contentNode = new ShadedSphereNode( 16, { mainColor: color, stroke: 'black' } );
+      contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new MySolarSystemSlider( body.massProperty, massRange, {
-        thumbFill: color,
+        thumbFill: colorProperty,
+        thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.5 ) ),
         startDrag: () => { body.userControlledMassProperty.value = true; },
-        endDrag: () => { body.userControlledMassProperty.value = false; }
+        endDrag: () => { body.userControlledMassProperty.value = false; },
+        constrainValue: value => massRange.constrainValue( 5 * Utils.roundSymmetric( value / 5 ) )
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {

@@ -42,7 +42,9 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       keypadOptions: {
         accumulatorOptions: {
           // {number} - maximum number of digits that can be entered on the keypad.x
-          maxDigits: 8
+          maxDigits: 8,
+
+          maxDigitsRightOfMantissa: 1
         }
       }
     } );
