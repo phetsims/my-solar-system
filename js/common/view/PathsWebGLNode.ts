@@ -47,7 +47,6 @@ export default class PathsWebGLNode extends WebGLNode {
 
     stepTimer.addListener( () => this.invalidatePaint() );
   }
-
 }
 
 class PathsPainter implements WebGLNodePainter {

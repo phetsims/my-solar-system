@@ -47,12 +47,7 @@ class Body {
   public readonly pathPoints: ObservableArray<Vector2>;
   public readonly colorProperty: TReadOnlyProperty<Color>;
 
-  // Path constants
-  public pathDistance = 0;
-  public pathLengthLimit = MAX_PATH_LENGTH;
-  public pathDistanceLimit = 1000; // REVIEW: pathDistanceLimit seems like a constant (never changes). If so, it should be a constant.
-  public stepCounter = 0; // Counting steps to only add points on multiples of wholeStepSize
-  public wholeStepSize = 10;
+  private pathDistance = 0;
 
   public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2, color: TReadOnlyProperty<Color> ) {
     // Physical properties of the body
@@ -66,18 +61,15 @@ class Body {
 
     this.massProperty.link( mass => {
       // Mass to radius function
-      this.radiusProperty.set( Body.massToRadius( mass ) );
+      this.radiusProperty.value = Body.massToRadius( mass );
     } );
 
     // Data for rendering the path as a WebGL object
     this.pathPoints = createObservableArray();
+
     // Adding first point twice for the WebGL Path
     this.addPathPoint();
     this.addPathPoint();
-  }
-
-  public static massToRadius( mass: number ): number {
-    return Math.pow( mass, 1 / 3 ) + 5;
   }
 
   public reset(): void {
@@ -105,8 +97,9 @@ class Body {
       if ( this.pathPoints.length > 2 ) {
         this.pathDistance += pathPoint.minus( this.pathPoints[ this.pathPoints.length - 2 ] ).magnitude;
       }
+
       // Remove points from the path as the path gets too long
-      while ( this.pathDistance > this.pathDistanceLimit || this.pathPoints.length > this.pathLengthLimit ) {
+      while ( this.pathDistance > 2000 || this.pathPoints.length > MAX_PATH_LENGTH ) {
         this.pathDistance -= this.pathPoints[ 1 ].minus( this.pathPoints[ 0 ] ).magnitude;
         this.pathPoints.shift();
       }
@@ -117,15 +110,11 @@ class Body {
   public checkCollision( otherBody: Body ): boolean {
     const distance = this.positionProperty.value.distance( otherBody.positionProperty.value );
     const radiusSum = this.radiusProperty.value + otherBody.radiusProperty.value;
-    if ( distance < radiusSum ) {
-      return true;
-    }
-    return false;
+    return distance < radiusSum;
   }
 
   /**
    * Add this body's momentum into the body it is colliding into.
-   * @param otherBody
    */
   public collideInto( otherBody: Body ): void {
     otherBody.velocityProperty.value = otherBody.velocityProperty.value.plus( this.velocityProperty.value.times( this.massProperty.value / otherBody.massProperty.value ) );
@@ -148,6 +137,10 @@ class Body {
   public clearPath(): void {
     this.pathPoints.clear();
     this.pathDistance = 0;
+  }
+
+  public static massToRadius( mass: number ): number {
+    return Math.pow( mass, 1 / 3 ) + 5;
   }
 }
 

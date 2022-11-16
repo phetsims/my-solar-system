@@ -185,7 +185,7 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( topRightControlBox );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
-    const fullDataPanel = new FullDataPanel( model, { layoutOptions: { column: 1, row: 1 } } );
+    const fullDataPanel = new FullDataPanel( model );
     const numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
@@ -202,13 +202,7 @@ export default class IntroLabScreenView extends CommonScreenView {
           } ) )
       ],
       visible: model.isLab,
-      spacing: 10,
-      layoutOptions: {
-        column: 0,
-        row: 1,
-        margin: 10,
-        yAlign: 'bottom'
-      }
+      spacing: 10
     } );
 
     const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 1000 } ), {
@@ -217,35 +211,42 @@ export default class IntroLabScreenView extends CommonScreenView {
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );
 
-    const dataGridbox = new GridBox( {
-      ySpacing: 3,
+    const dataGridbox = new HBox( {
+      align: 'bottom',
+      spacing: 10,
       children: [
-          numberSpinnerBox,
-          new HBox( {
-            visible: model.isLab,
-            layoutOptions: { column: 1, row: 0, xAlign: 'left', xStretch: true },
-            children: [
-              new MySolarSystemCheckbox(
-                model.moreDataProperty,
-                new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
-                  maxWidth: 300
-                }, TEXT_OPTIONS ) ),
-                combineOptions<CheckboxOptions>( {
-                  touchAreaXDilation: 10,
-                  touchAreaYDilation: 10
-                }, MySolarSystemConstants.CHECKBOX_OPTIONS )
-              ),
-              new InfoButton( {
-                scale: 0.5,
-                iconFill: 'rgb( 41, 106, 163 )',
-                touchAreaDilation: 20,
-                listener: () => unitsDialog.show(),
-                tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
-              } )
-            ]
-          } ),
-          fullDataPanel
-        ],
+        numberSpinnerBox,
+        new VBox( {
+          spacing: 3,
+          stretch: true,
+          children: [
+            new HBox( {
+              stretch: true,
+              visible: model.isLab,
+              children: [
+                new MySolarSystemCheckbox(
+                  model.moreDataProperty,
+                  new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
+                    maxWidth: 300
+                  }, TEXT_OPTIONS ) ),
+                  combineOptions<CheckboxOptions>( {
+                    touchAreaXDilation: 10,
+                    touchAreaYDilation: 10
+                  }, MySolarSystemConstants.CHECKBOX_OPTIONS )
+                ),
+                new InfoButton( {
+                  scale: 0.5,
+                  iconFill: 'rgb( 41, 106, 163 )',
+                  touchAreaDilation: 20,
+                  listener: () => unitsDialog.show(),
+                  tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
+                } )
+              ]
+            } ),
+            fullDataPanel
+          ]
+        } )
+      ],
       layoutOptions: {
         column: 0
       }
