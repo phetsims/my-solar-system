@@ -20,7 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 
 
 class Body {
-  // Unitless body quantities.
+  // Unitless body quantities (physical properties)
   public readonly massProperty: Property<number>;
   public readonly radiusProperty: Property<number>;
   public readonly positionProperty: Property<Vector2>;
@@ -29,11 +29,8 @@ class Body {
   public readonly forceProperty: Property<Vector2>;
 
   // Collision handling
-  public readonly isCollidedProperty = new BooleanProperty( false );
-  public readonly collisionEndedProperty = new BooleanProperty( true );
+  public readonly collidedEmitter = new TinyEmitter();
   public readonly valueVisibleProperty = new BooleanProperty( false );
-
-  public readonly removedEmitter = new TinyEmitter();
 
   // Not resettable, common model will handle. Determines if the body is currently on-screen
   public readonly isActiveProperty = new BooleanProperty( false );
@@ -45,12 +42,12 @@ class Body {
 
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
+
   public readonly colorProperty: TReadOnlyProperty<Color>;
 
   private pathDistance = 0;
 
   public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2, color: TReadOnlyProperty<Color> ) {
-    // Physical properties of the body
     this.massProperty = new NumberProperty( initialMass );
     this.radiusProperty = new NumberProperty( 1 );
     this.positionProperty = new Vector2Property( initialPosition );
@@ -78,7 +75,6 @@ class Body {
     this.velocityProperty.reset();
     this.accelerationProperty.reset();
     this.forceProperty.reset();
-    this.isCollidedProperty.reset();
     this.clearPath();
   }
 
@@ -107,25 +103,17 @@ class Body {
     }
   }
 
-  public checkCollision( otherBody: Body ): boolean {
+  public isOverlapping( otherBody: Body ): boolean {
     const distance = this.positionProperty.value.distance( otherBody.positionProperty.value );
     const radiusSum = this.radiusProperty.value + otherBody.radiusProperty.value;
     return distance < radiusSum;
   }
 
-  /**
-   * Add this body's momentum into the body it is colliding into.
-   */
-  public collideInto( otherBody: Body ): void {
-    otherBody.velocityProperty.value = otherBody.velocityProperty.value.plus( this.velocityProperty.value.times( this.massProperty.value / otherBody.massProperty.value ) );
-    this.isCollidedProperty.value = true;
-  }
-
   public preventCollision( bodies: Body[] ): void {
     bodies.forEach( body => {
-      if ( body !== this && this.checkCollision( body ) ) {
+      if ( body !== this && this.isOverlapping( body ) ) {
         // If it's going to collide, arbitrarily move it 100 pixels up
-        this.positionProperty.value.add( new Vector2( 0, 100 ) );
+        this.positionProperty.value = this.positionProperty.value.plus( new Vector2( 0, 100 ) );
         this.preventCollision( bodies );
       }
     } );

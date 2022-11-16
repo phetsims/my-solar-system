@@ -81,9 +81,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.timeScale = 0.3;
   }
 
-  public override createBodies(): void {
+  public override setInitialBodyStates(): void {
     // Clear out the bodies array and create 2 new bodies
-    this.bodies.clear();
     this.bodies.add( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ), MySolarSystemColors.firstBodyColorProperty ) );
     this.bodies.add( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 110 ), MySolarSystemColors.secondBodyColorProperty ) );
   }

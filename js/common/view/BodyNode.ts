@@ -131,18 +131,16 @@ export default class BodyNode extends ShadedSphereNode {
     } );
     this.addChild( this.valueContainer );
 
-    const bodyCollisionListener = ( isCollided: boolean ) => {
-      if ( isCollided ) {
-        this.interruptSubtreeInput();
-        ExplosionNode.explode( this );
-      }
+    const bodyCollisionListener = () => {
+      this.interruptSubtreeInput();
+      ExplosionNode.explode( this );
     };
 
-    this.body.isCollidedProperty.link( bodyCollisionListener );
+    this.body.collidedEmitter.addListener( bodyCollisionListener );
 
     this.bodyNodeDispose = () => {
       positionMultilink.dispose();
-      this.body.isCollidedProperty.unlink( bodyCollisionListener );
+      this.body.collidedEmitter.removeListener( bodyCollisionListener );
       modelViewTransformListener && modelViewTransformProperty.unlink( modelViewTransformListener );
       readoutStringProperty.dispose();
       velocityValueProperty.dispose();

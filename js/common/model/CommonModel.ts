@@ -50,7 +50,12 @@ export type BodyInfo = {
 export type CommonModelOptions<EngineType extends Engine> = SelfOptions<EngineType>;
 
 abstract class CommonModel<EngineType extends Engine = Engine> {
+
+  // Bodies will consist of all bodies from availableBodies that have isActiveProperty.value === true, and will be in
+  // order.
   public readonly bodies: ObservableArray<Body>;
+  public readonly availableBodies: Body[];
+
   public readonly centerOfMass: CenterOfMass;
   public readonly systemCenteredProperty;
   public readonly bodySoundManager: BodySoundManager;
@@ -76,11 +81,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   public readonly zoomLevelProperty: RangedProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
-
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
-  public readonly availableBodies: Body[];
   private defaultModeInfo: BodyInfo[];
 
 
@@ -110,21 +113,26 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       new Body( 1, new Vector2( -100, -100 ), new Vector2( 50, -50 ), MySolarSystemColors.fourthBodyColorProperty )
     ];
 
-    this.bodies.addItemRemovedListener( body => body.removedEmitter.emit() );
+    // We want to synchronize availableBodies and bodies, so that bodies is effectively availableBodies.filter( isActive )
+    // Order matters, AND we don't want to remove items unnecessarily, so some additional logic is required.
+    // @ts-ignore (multilink doesn't like non-tuple arrays for TypeScript, but works perfectly fine)
+    Multilink.multilink( this.availableBodies.map( body => body.isActiveProperty ), () => {
+      const idealBodies = this.availableBodies.filter( body => body.isActiveProperty.value );
+
+      // Remove all inactive bodies
+      this.bodies.filter( body => !body.isActiveProperty.value ).forEach( body => this.bodies.remove( body ) );
+
+      // Add in active bodies (in order)
+      for ( let i = 0; i < idealBodies.length; i++ ) {
+        if ( this.bodies[ i ] !== idealBodies[ i ] ) {
+          this.bodies.splice( i, 0, idealBodies[ i ] );
+        }
+      }
+    } );
 
     this.availableBodies.forEach( body => {
-      body.isCollidedProperty.link( isCollided => {
-        if ( isCollided ) {
-          body.collisionEndedProperty.value = false;
-          body.isActiveProperty.value = false;
-          this.bodySoundManager.playBodyRemovedSound( 2 );
-        }
-      } );
-      body.collisionEndedProperty.lazyLink( collisionEnded => {
-        if ( collisionEnded ) {
-          body.reset();
-          this.bodies.remove( body );
-        }
+      body.collidedEmitter.addListener( () => {
+        this.bodySoundManager.playBodyRemovedSound( 2 );
       } );
       Multilink.multilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
@@ -143,12 +151,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       );
     } );
 
-    //REVIEW: createBodies is only... called once in the constructor? AND it's done in the supertype (common model)
-    //REVIEW: so it doesn't require any of the subtypes to access class properties?
-    //REVIEW: Can we just switch to passing in the bodies in the constructor (as an array) and remove this method?
-    //REVIEW: Then we can also get rid of the "clear" each createBodies has.
     this.centerOfMass = new CenterOfMass( this.bodies );
-    this.createBodies( this.defaultModeInfo );
+    this.setInitialBodyStates( this.defaultModeInfo );
     this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
     this.engine = providedOptions.engineFactory( this.bodies );
     this.engine.reset();
@@ -173,6 +177,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.systemCenteredProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ) } );
     this.realUnitsProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'realUnitsProperty' ) } );
 
+    //REVIEW: Think about whether this is better than just creating BodyNodes with a valuesVisibleProperty passed in
     this.valuesVisibleProperty.link( visible => {
       this.availableBodies.forEach( body => {
         body.valueVisibleProperty.value = visible; // Doesn't need disposal because will always exist
@@ -217,25 +222,20 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   /**
    * Sets the available bodies initial states according to bodiesInfo
-   * @param bodiesInfo
    */
-  public createBodies( bodiesInfo: BodyInfo[] ): void {
-    this.bodies.clear();
+  public setInitialBodyStates( bodiesInfo: BodyInfo[] ): void {
     for ( let i = 0; i < 4; i++ ) {
-      if ( i < bodiesInfo.length ) {
+      const isActive = i < bodiesInfo.length;
+      this.availableBodies[ i ].isActiveProperty.value = isActive;
+
+      if ( isActive ) {
         const body = bodiesInfo[ i ];
 
         // Setting initial values and then resetting the body to make sure the body is in the correct state
         this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
         this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
         this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
-        this.availableBodies[ i ].isActiveProperty.value = true; // Activate body! Not affected by reset
         this.availableBodies[ i ].reset();
-
-        this.bodies.add( this.availableBodies[ i ] );
-      }
-      else {
-        this.availableBodies[ i ].isActiveProperty.value = false;
       }
     }
 
@@ -252,7 +252,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     const numberOfActiveBodies = this.bodies.length - 1;
     const lastBody = this.bodies[ numberOfActiveBodies ];
     lastBody.isActiveProperty.value = false;
-    this.bodies.remove( lastBody );
   }
 
   /**
@@ -262,15 +261,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     const newBody = this.availableBodies.find( body => !body.isActiveProperty.value );
     if ( newBody ) {
       newBody.reset();
-      newBody.isActiveProperty.value = true;
       newBody.preventCollision( this.bodies );
-      this.bodies.add( newBody );
+      newBody.isActiveProperty.value = true;
     }
   }
 
   public reset(): void {
     this.restart();
-    this.createBodies( this.defaultModeInfo );
+    this.setInitialBodyStates( this.defaultModeInfo );
     this.timeSpeedProperty.reset();
     this.zoomLevelProperty.reset();
     this.pathVisibleProperty.reset();
@@ -288,7 +286,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeProperty.value = 0; // Reset the time
-    this.createBodies( this.defaultModeInfo ); // Reset the bodies
+    this.setInitialBodyStates( this.defaultModeInfo ); // Reset the bodies
     this.update();
   }
 

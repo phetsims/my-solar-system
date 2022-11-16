@@ -40,16 +40,27 @@ export default class NumericalEngine extends Engine {
   }
 
   private checkCollisions(): void {
-    for ( let i = 0; i < this.bodies.length; i++ ) {
-      for ( let j = i + 1; j < this.bodies.length; j++ ) {
-        const body1 = this.bodies[ i ];
-        const body2 = this.bodies[ j ];
-        if ( body1.checkCollision( body2 ) ) {
-          if ( body1.massProperty.value > body2.massProperty.value ) {
-            body2.collideInto( body1 );
-          }
-          else {
-            body1.collideInto( body2 );
+    // We need to rerun collision checks if we get one collision
+    let hadCollision = true;
+    while ( hadCollision ) {
+      hadCollision = false;
+
+      for ( let i = 0; i < this.bodies.length; i++ ) {
+        for ( let j = i + 1; j < this.bodies.length; j++ ) {
+          const body1 = this.bodies[ i ];
+          const body2 = this.bodies[ j ];
+          if ( body1.isOverlapping( body2 ) ) {
+            const isBody1Larger = body1.massProperty.value > body2.massProperty.value;
+            const largerBody = isBody1Larger ? body1 : body2;
+            const smallerBody = isBody1Larger ? body2 : body1;
+
+            // Add this body's momentum into the body it is colliding into.
+            largerBody.velocityProperty.value = largerBody.velocityProperty.value.plus( smallerBody.velocityProperty.value.times( smallerBody.massProperty.value / largerBody.massProperty.value ) );
+
+            smallerBody.collidedEmitter.emit();
+            smallerBody.isActiveProperty.value = false;
+
+            hadCollision = true;
           }
         }
       }
@@ -61,20 +72,18 @@ export default class NumericalEngine extends Engine {
   }
 
   public override run( dt: number ): void {
-    const activeBodies = this.bodies.filter( body => !body.isCollidedProperty.value );
-
-    const iterationCount = 400 / activeBodies.length;
-    const N = activeBodies.length;
+    const iterationCount = 400 / this.bodies.length;
+    const N = this.bodies.length;
     dt /= iterationCount;
 
     //REVIEW: If performance is a problem or concern, we could avoid the array creation AND arrow functions
     //REVIEW: (which can significantly slow down inner-loop code). If we're doing a LOT of iterations, and this is
     //REVIEW: outside the inner-loop code, then it seems fine.
-    const masses = activeBodies.map( body => body.massProperty.value );
-    const positions = activeBodies.map( body => body.positionProperty.value.copy() );
-    const velocities = activeBodies.map( body => body.velocityProperty.value.copy() );
-    const accelerations = activeBodies.map( body => body.accelerationProperty.value.copy() );
-    const forces = activeBodies.map( body => body.forceProperty.value.copy() );
+    const masses = this.bodies.map( body => body.massProperty.value );
+    const positions = this.bodies.map( body => body.positionProperty.value.copy() );
+    const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
+    const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
+    const forces = this.bodies.map( body => body.forceProperty.value.copy() );
 
     for ( let k = 0; k < iterationCount; k++ ) {
       // Zeroing out forces
@@ -161,8 +170,8 @@ export default class NumericalEngine extends Engine {
       }
     }
 
-    for ( let i = 0; i < activeBodies.length; i++ ) {
-      const body = activeBodies[ i ];
+    for ( let i = 0; i < this.bodies.length; i++ ) {
+      const body = this.bodies[ i ];
       body.positionProperty.value = positions[ i ];
       body.velocityProperty.value = velocities[ i ];
       body.accelerationProperty.value = accelerations[ i ];
@@ -171,20 +180,18 @@ export default class NumericalEngine extends Engine {
   }
 
   private updateForces(): void {
-    const activeBodies = this.bodies.filter( body => !body.isCollidedProperty.value );
-
-    for ( let i = 0; i < activeBodies.length; i++ ) {
-      const body = activeBodies[ i ];
+    for ( let i = 0; i < this.bodies.length; i++ ) {
+      const body = this.bodies[ i ];
       body.accelerationProperty.value = Vector2.ZERO;
       body.forceProperty.value = Vector2.ZERO;
     }
 
     // Iterate between all the bodies to add the accelerations
-    for ( let i = 0; i < activeBodies.length; i++ ) {
-      const body1 = activeBodies[ i ];
+    for ( let i = 0; i < this.bodies.length; i++ ) {
+      const body1 = this.bodies[ i ];
       const mass1 = body1.massProperty.value;
-      for ( let j = i + 1; j < activeBodies.length; j++ ) {
-        const body2 = activeBodies[ j ];
+      for ( let j = i + 1; j < this.bodies.length; j++ ) {
+        const body2 = this.bodies[ j ];
         const mass2 = body2.massProperty.value;
         const force: Vector2 = this.getForce( body1, body2 );
         body1.forceProperty.value = body1.forceProperty.value.plus( scratchVector.set( force ) );
