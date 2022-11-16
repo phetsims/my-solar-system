@@ -24,7 +24,8 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 //REVIEW: This is shared between VisibilityInformation and OrbitalInformation, can we factor it out? Thoughts?
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
+  fill: MySolarSystemColors.foregroundProperty,
+  maxWidth: 200
 };
 
 const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {

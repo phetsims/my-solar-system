@@ -76,7 +76,10 @@ export default class FullDataPanel extends Panel {
       } ) );
     };
 
-    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty, { font: new PhetFont( { size: 18, weight: 'bold' } ) } ) );
+    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty, {
+      font: new PhetFont( { size: 18, weight: 'bold' } ),
+      maxWidth: 200
+    } ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
 

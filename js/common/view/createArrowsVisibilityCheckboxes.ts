@@ -22,14 +22,11 @@ import CommonModel from '../model/CommonModel.js';
 // constants
 const ARROW_Y_COORDINATE = -10;
 
-//REVIEW: Put this common max width in a constant somewhere
-const MAX_WIDTH = 240;
-
 //REVIEW: Factor-out-able options?
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty,
-  maxWidth: MAX_WIDTH
+  maxWidth: 200
 };
 
 const SPACING = 10;

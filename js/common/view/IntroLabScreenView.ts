@@ -163,7 +163,8 @@ export default class IntroLabScreenView extends CommonScreenView {
                     },
                     touchAreaXDilation: 5,
                     touchAreaYDilation: 5,
-                    font: MySolarSystemConstants.PANEL_FONT
+                    font: MySolarSystemConstants.PANEL_FONT,
+                    maxTextWidth: 250
                   } )
                 ]
               }

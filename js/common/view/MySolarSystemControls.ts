@@ -20,7 +20,8 @@ import createArrowsVisibilityCheckboxes from './createArrowsVisibilityCheckboxes
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 
 const COMBO_BOX_TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT
+  font: MySolarSystemConstants.PANEL_FONT,
+  maxWidth: 200
 };
 
 type SelfOptions = EmptySelfOptions;

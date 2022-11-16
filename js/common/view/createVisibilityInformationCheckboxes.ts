@@ -21,9 +21,11 @@ import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
+//REVIEW: factor out
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
+  fill: MySolarSystemColors.foregroundProperty,
+  maxWidth: 200
 };
 
 const createVisibilityInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {
