@@ -64,7 +64,7 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
       ],
-      spacing: 5,
+      spacing: 7,
       align: 'left',
       stretch: true
     } );

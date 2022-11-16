@@ -43,7 +43,9 @@ export default class FullDataPanel extends Panel {
       columnGroupSpacing: 21,      // {number} - x-spacing between each group of columns.
       titleLabelSpacing: 0.5,      // {number} - y-margin between the column groups and the title-labels above them.
 
-      fill: '#f0f0f0'
+      fill: '#f0f0f0',
+
+      xMargin: 12
     }, providedOptions );
 
     //----------------------------------------------------------------------------------------
