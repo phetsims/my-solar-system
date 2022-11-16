@@ -20,6 +20,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import ExplosionNode from './ExplosionNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -96,9 +97,10 @@ export default class BodyNode extends ShadedSphereNode {
       this.addInputListener( dragListener );
     }
 
+    // TODO: Does this derived property dispose properly?
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
-        value: Utils.toFixed( this.body.velocityProperty.value.magnitude, options.significantFigures ),
-        units: MySolarSystemStrings.units.kmsStringProperty
+      value: new DerivedProperty( [ this.body.velocityProperty ], ( velocity: Vector2 ) => Utils.toFixed( velocity.magnitude, options.significantFigures ) ),
+      units: MySolarSystemStrings.units.kmsStringProperty
       } );
 
     this.valueNode = new Text( readoutStringProperty, {
