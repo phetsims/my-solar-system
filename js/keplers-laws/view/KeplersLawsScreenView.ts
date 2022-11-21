@@ -35,22 +35,18 @@ class KeplersLawsScreenView extends CommonScreenView {
   public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
     super( model, providedOptions );
 
-
-    const sun = model.bodies[ 0 ];
-    const planet = model.bodies[ 1 ];
-
     this.bodiesLayer.addChild( new BodyNode(
-      sun,
+      model.bodies[ 0 ],
       this.modelViewTransformProperty,
       {
         draggable: false
       }
     ) );
     this.bodiesLayer.addChild( new BodyNode(
-      planet,
+      model.bodies[ 1 ],
       this.modelViewTransformProperty
     ) );
-    this.componentsLayer.addChild( this.createDraggableVectorNode( planet, { zeroAllowed: false } ) );
+    this.componentsLayer.addChild( this.createDraggableVectorNode( model.bodies[ 1 ], { zeroAllowed: false } ) );
 
     this.bottomLayer.addChild( new EllipticalOrbitNode( model, this.modelViewTransformProperty ) );
 

@@ -65,7 +65,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.engine.orbitalAreas.forEach( ( area, index ) => {
       area.insideProperty.link( inside => {
         if ( inside && this.isPlayingProperty.value ) {
-          this.bodySoundManager.playOrbitalMetronome( index );
+          const soundIndex = this.engine.retrograde ? this.periodDivisionProperty.value - index - 1 : index;
+          this.bodySoundManager.playOrbitalMetronome( soundIndex );
         }
       } );
     } );
@@ -80,18 +81,21 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
     this.timeScale = 0.3;
 
+    this.zoomLevelProperty.setInitialValue( 2 );
     this.zoomLevelProperty.value = 2;
   }
 
   public override setInitialBodyStates(): void {
-    // Clear out the bodies array and create 2 new bodies
-    this.bodies.add( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -6 ), MySolarSystemColors.firstBodyColorProperty ) );
-    this.bodies.add( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 110 ), MySolarSystemColors.secondBodyColorProperty ) );
-  }
-
-  public softReset(): void {
-    // Calls reset only on the super to avoid reentries on separationProperty
-    super.reset();
+    if ( this.bodies.length === 0 ) {
+      // If bodies haven't been created, populate the bodies array
+      this.bodies.add( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ), MySolarSystemColors.firstBodyColorProperty ) );
+      this.bodies.add( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 110 ), MySolarSystemColors.secondBodyColorProperty ) );
+    }
+    else {
+      // Reset the orbiting body
+      this.bodies[ 1 ].reset();
+      this.engine.reset();
+    }
   }
 
   public visibilityReset(): void {

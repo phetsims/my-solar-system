@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -101,9 +101,9 @@ class AreasBarPlot extends Node {
 
       const chartRectangle = new ChartRectangle( chartTransform );
 
-      const barPlot = new BarPlot( chartTransform, dataSet, {
+      const barPlot = new BarPlot( chartTransform, dataSet.map( vector => new Vector2( vector.x, vector.y ) ), {
         pointToPaintableFields: ( point: Vector2 ) => {
-          return { fill: 'fuchsia' };
+          return { fill: new Color( 'fuchsia' ).darkerColor( point.y ) }; // TODO: How to set the opacity based on area.completion?
         }
       } );
 
@@ -122,7 +122,8 @@ class AreasBarPlot extends Node {
         dataSet = [];
         modelXRange = new Range( -1, activeAreas.length );
         activeAreas.forEach( ( area, index ) => {
-          dataSet.push( new Vector2( index, area.completion ) );
+          const height = ( area.entered === 1 ) && !area.insideProperty.value ? 1 : area.completion;
+          dataSet.push( new Vector2( index, height ) );
         } );
         barPlot.setDataSet( dataSet );
       };

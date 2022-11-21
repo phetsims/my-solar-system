@@ -11,9 +11,9 @@
  * vAngle: heading of v
  * a: semimajor axis
  * e: excentricity
- * nu: true anomaly
- * w: argument of periapsis
- * M: Initial mean anomaly
+ * nu: true anomaly ( angular position of the body seen from main focus )
+ * w: argument of periapsis ( angular deviation of periapsis from the 0° heading )
+ * M: Initial mean anomaly ( angular position of the body seen from the center of the ellipse )
  * W: angular velocity
  *
  * @author Agustín Vallejo
@@ -56,6 +56,16 @@ class OrbitalArea {
 
   public constructor() {
     // noop
+  }
+
+  public reset(): void {
+    this.dotPosition = Vector2.ZERO;
+    this.startPosition = Vector2.ZERO;
+    this.endPosition = Vector2.ZERO;
+    this.completion = 0;
+    this.insideProperty.reset();
+    this.entered = 0;
+    this.active = false;
   }
 }
 
@@ -107,9 +117,7 @@ export default class EllipticalOrbit extends Engine {
       [ this.body.userControlledPositionProperty, this.body.userControlledVelocityProperty ],
       ( userControlledPosition: boolean, userControlledVelocity: boolean ) => {
         this.updateAllowed = userControlledPosition || userControlledVelocity;
-        this.orbitalAreas.forEach( area => {
-          area.entered = 0;
-        } );
+        this.reset();
     } );
   }
 
@@ -146,12 +154,12 @@ export default class EllipticalOrbit extends Engine {
       // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
 
-      this.calculateDivisionPoints();
-
 
       if ( !this.collidedWithSun( a, e ) ) {
         this.allowedOrbit = true;
       }
+
+      this.calculateDivisionPoints();
     }
 
     this.changedEmitter.emit();
@@ -171,8 +179,9 @@ export default class EllipticalOrbit extends Engine {
     let bodyAngle = TWOPI - this.nu;
 
     this.orbitalAreas.forEach( ( orbitalArea, i ) => {
-      if ( i < this.periodDivisions ) {
+      if ( i < this.periodDivisions && this.allowedOrbit ) {
         // Calculate true anomaly
+        // ( i + 1 ) because first angle is always nu = 0
         const M = ( i + 1 ) * TWOPI / this.periodDivisions;
         const nu = this.getTrueAnomaly( M );
 
@@ -189,12 +198,12 @@ export default class EllipticalOrbit extends Engine {
           // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
           const completionRate = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
           if ( this.retrograde ) {
-            endAngle = bodyAngle;
-            orbitalArea.completion = completionRate;
-          }
-          else {
             startAngle = bodyAngle;
             orbitalArea.completion = ( 1 - completionRate );
+          }
+          else {
+            endAngle = bodyAngle;
+            orbitalArea.completion = completionRate;
           }
         }
         // OUTSIDE THE AREA
@@ -206,7 +215,7 @@ export default class EllipticalOrbit extends Engine {
           // Correct for negative values
           completionFalloff = Utils.moduloBetweenDown( completionFalloff, 0, 1 );
 
-          orbitalArea.completion = this.retrograde ? completionFalloff : ( 1 - completionFalloff );
+          orbitalArea.completion = this.retrograde ? ( 1 - completionFalloff ) : completionFalloff;
         }
 
         // Update orbital area properties
@@ -258,37 +267,45 @@ export default class EllipticalOrbit extends Engine {
       / ( a * this.mu ), 0.5 );
   }
 
+  /**
+   * Calculates the different angles present in the ellipse
+   */
   private calculateAngles( r: Vector2, v: Vector2, a: number, e: number ): number[] {
-    //REVIEW: Not sure I can follow this easily. Can you add some documentation for this implementation?
-
     const rMagnitude = r.magnitude;
-    // nu comes from the polar ellipse equation
-    let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
 
+    // Position and velocity angles
     const rAngle = r.angle;
     const vAngle = v.angle;
 
-    let W = -500 * Math.pow( a, -3 / 2 );
+    // True anomaly comes from the polar ellipse equation. Based on rMagnitude, at what angle should it be
+    let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
+
+    // Determine the cuadrant of the true anomaly
     if ( Math.cos( rAngle - vAngle ) > 0 ) {
       nu *= -1;
     }
-    if ( r.crossScalar( v ) > 0 ) {
-      this.retrograde = false;
+
+    // Mean angular velocity
+    let W = -500 * Math.pow( a, -3 / 2 );
+
+    this.retrograde = r.crossScalar( v ) > 0;
+    if ( this.retrograde ) {
       nu *= -1;
       W *= -1;
     }
-    else {
-      this.retrograde = true;
+
+    // Calculate Excentric Anomaly and determine its cuadrant
+    let E = Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
+    if ( Math.cos( E - nu ) < 0 ) {
+      E *= -1;
     }
-  
-    let E0 = Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
-    if ( Math.cos( E0 - nu ) < 0 ) {
-      E0 *= -1;
-    }
-    const M = E0 - e * Math.sin( E0 );
-  
-    const th = r.angle;
-    const w = th - nu;
+
+    // Calculate Mean Anomaly
+    const M = E - e * Math.sin( E );
+
+    // Calculate the argument of periapsis
+    const w = rAngle - nu;
+
     return [ w, M, W ];
   }
 
@@ -303,11 +320,6 @@ export default class EllipticalOrbit extends Engine {
     return a * ( 1 - e * e ) / ( 1 + e * Math.cos( nu ) );
   }
 
-  public override reset(): void {
-    //REVIEW: What is this doing? Will it be filled in?
-    // This will be filled in in the future
-  }
-
   // Numerical solution to Kepler's Equations for Eccentric Anomaly (E) and then True Anomaly (nu)
   private getTrueAnomaly( M: number ): number {
     const E1 = M + this.e * Math.sin( M );
@@ -315,6 +327,20 @@ export default class EllipticalOrbit extends Engine {
     const E = M + this.e * Math.sin( E2 );
     const nu = Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
     return Utils.moduloBetweenDown( nu, 0, TWOPI );
+  }
+
+  public override reset(): void {
+    this.orbitalAreas.forEach( area => {
+      area.reset();
+    } );
+    this.predictedBody.reset();
+    this.a = 0; // semimajor axis
+    this.e = 0; // eccentricity
+    this.w = 0; // argument of periapsis
+    this.M = 0; // mean anomaly
+    this.W = 0; // angular velocity
+    this.T = 0; // period
+    this.nu = 0; // true anomaly
   }
 }
 

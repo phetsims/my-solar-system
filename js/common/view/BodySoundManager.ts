@@ -56,7 +56,6 @@ export type BodySoundsManagerOptions = {
 
 export default class BodySoundManager {
   private readonly model: CommonModel;
-  private tickCounter = 0;
   public readonly bodySoundGenerators: SoundClip[];
   public readonly bodyNumberSoundClips: SoundClip[];
   public readonly collisionSoundClips: SoundClip[];
@@ -138,10 +137,8 @@ export default class BodySoundManager {
   }
 
   public playOrbitalMetronome( i: number ): void {
-    this.tickCounter = ( i === 0 ) || ( i === SCALE.length ) ? 0 : this.tickCounter;
-    this.metronomeSoundClips[ 0 ].setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, SCALE[ this.tickCounter ] ) );
+    this.metronomeSoundClips[ 0 ].setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, SCALE[ i ] ) );
     this.metronomeSoundClips[ 0 ].play();
-    this.tickCounter++;
   }
 
   public stop(): void {
