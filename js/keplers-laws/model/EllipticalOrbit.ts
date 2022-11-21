@@ -51,8 +51,9 @@ class OrbitalArea {
   public endPosition = Vector2.ZERO;
   public completion = 0;
   public insideProperty = new BooleanProperty( false );
-  public entered = 0;
+  public alreadyEntered = false;
   public active = false;
+  public resetted = true;
 
   public constructor() {
     // noop
@@ -64,8 +65,9 @@ class OrbitalArea {
     this.endPosition = Vector2.ZERO;
     this.completion = 0;
     this.insideProperty.reset();
-    this.entered = 0;
+    this.alreadyEntered = false;
     this.active = false;
+    this.resetted = true;
   }
 }
 
@@ -74,6 +76,7 @@ export default class EllipticalOrbit extends Engine {
   public readonly body: Body;
   public readonly predictedBody: Body;
   public readonly changedEmitter = new Emitter();
+  private userIsUpdating = false;
   public periodDivisions = 4;
   public orbitalAreas: OrbitalArea[] = [];
   public updateAllowed = true;
@@ -116,8 +119,11 @@ export default class EllipticalOrbit extends Engine {
     Multilink.multilink(
       [ this.body.userControlledPositionProperty, this.body.userControlledVelocityProperty ],
       ( userControlledPosition: boolean, userControlledVelocity: boolean ) => {
+        this.userIsUpdating = true;
         this.updateAllowed = userControlledPosition || userControlledVelocity;
-        this.reset();
+        this.resetOrbitalAreas();
+        this.update();
+        this.userIsUpdating = false;
     } );
   }
 
@@ -126,12 +132,11 @@ export default class EllipticalOrbit extends Engine {
     this.updateAllowed = false;
 
     // Calculate the new position and velocity of the body
-    this.M += dt * this.W * 20;
+    this.M += dt * this.W;
     this.nu = this.getTrueAnomaly( this.M );
 
     this.predictedBody.positionProperty.value = this.createPolar( -this.nu );
     this.updateAllowed = true;
-
   }
 
   /**
@@ -191,9 +196,9 @@ export default class EllipticalOrbit extends Engine {
         bodyAngle = Utils.moduloBetweenDown( bodyAngle, startAngle, startAngle + TWOPI );
 
         // Body inside the area
-        if ( startAngle <= bodyAngle && bodyAngle <= endAngle ) {
+        if ( startAngle <= bodyAngle && bodyAngle < endAngle ) {
           orbitalArea.insideProperty.value = true;
-          orbitalArea.entered = 1;
+          orbitalArea.alreadyEntered = !orbitalArea.resetted;
 
           // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
           const completionRate = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
@@ -208,6 +213,9 @@ export default class EllipticalOrbit extends Engine {
         }
         // OUTSIDE THE AREA
         else {
+          // Disable the resetted flag to avoid fully lit areas just when reset button is pressed or the body moved
+          orbitalArea.resetted = false;
+
           orbitalArea.insideProperty.value = false;
           // Map completion from 1 to 0 based on BodyAngle from startAngle to endAngle (outside area)
           let completionFalloff = ( bodyAngle - startAngle - TWOPI ) / ( endAngle - startAngle - TWOPI );
@@ -219,7 +227,9 @@ export default class EllipticalOrbit extends Engine {
         }
 
         // Update orbital area properties
-        orbitalArea.completion *= orbitalArea.entered; // Set it to 0 if it hasn't entered yet
+        if ( !orbitalArea.alreadyEntered ) {
+          orbitalArea.completion = 0; // Set it to 0 if it hasn't entered yet
+        }
         orbitalArea.dotPosition = this.createPolar( nu ); // Position for the dots
         orbitalArea.startPosition = this.createPolar( startAngle );
         orbitalArea.endPosition = this.createPolar( endAngle );
@@ -329,10 +339,14 @@ export default class EllipticalOrbit extends Engine {
     return Utils.moduloBetweenDown( nu, 0, TWOPI );
   }
 
-  public override reset(): void {
+  public resetOrbitalAreas(): void {
     this.orbitalAreas.forEach( area => {
       area.reset();
     } );
+  }
+
+  public override reset(): void {
+    this.resetOrbitalAreas();
     this.predictedBody.reset();
     this.a = 0; // semimajor axis
     this.e = 0; // eccentricity

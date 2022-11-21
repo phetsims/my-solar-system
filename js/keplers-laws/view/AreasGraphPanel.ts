@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Color, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, Node, PaintableOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -101,11 +101,15 @@ class AreasBarPlot extends Node {
 
       const chartRectangle = new ChartRectangle( chartTransform );
 
-      const barPlot = new BarPlot( chartTransform, dataSet.map( vector => new Vector2( vector.x, vector.y ) ), {
-        pointToPaintableFields: ( point: Vector2 ) => {
-          return { fill: new Color( 'fuchsia' ).darkerColor( point.y ) }; // TODO: How to set the opacity based on area.completion?
-        }
+      const barPlot = new BarPlot( chartTransform, dataSet.map( vector => new Vector2( vector.x, vector.y ) ) );
+
+      this.model.periodDivisionProperty.link( periodDivision => {
+        modelXRange = new Range( -1, periodDivision );
+        chartTransform.setModelXRange( modelXRange );
+        barPlot.barWidth = 10 * ( this.model.maxDivisionValue / periodDivision );
+        barPlot.update();
       } );
+
 
       // anything you want clipped goes in here
       const chartClip = new Node( {
@@ -120,12 +124,21 @@ class AreasBarPlot extends Node {
       const orbitChangedListener = () => {
         const activeAreas = model.engine.orbitalAreas.filter( area => area.active );
         dataSet = [];
-        modelXRange = new Range( -1, activeAreas.length );
         activeAreas.forEach( ( area, index ) => {
-          const height = ( area.entered === 1 ) && !area.insideProperty.value ? 1 : area.completion;
-          dataSet.push( new Vector2( index, height ) );
+          const height = area.alreadyEntered && !area.insideProperty.value ? 1 : area.completion;
+          const realIndex = this.model.engine.retrograde ? this.model.periodDivisionProperty.value - index - 1 : index;
+          dataSet.push( new Vector2( realIndex, height ) );
         } );
         barPlot.setDataSet( dataSet );
+
+        // TODO: Maybe there's a better solution than a double loop
+        activeAreas.forEach( ( area, index ) => {
+          const paintableFields: PaintableOptions = {
+            fill: new Color( 'fuchsia' ).darkerColor( area.completion )
+          };
+          // @ts-ignore - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
+          barPlot.rectangles[ index ].mutate( paintableFields );
+        } );
       };
       model.engine.changedEmitter.addListener( orbitChangedListener );
     }

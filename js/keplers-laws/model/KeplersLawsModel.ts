@@ -79,7 +79,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       } );
     } );
 
-    this.timeScale = 0.3;
+    this.timeScale = 5.0;
+    this.timeMultiplier = 1 / 12.7;
 
     this.zoomLevelProperty.setInitialValue( 2 );
     this.zoomLevelProperty.value = 2;
@@ -119,6 +120,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.selectedPeriodPowerProperty.reset();
 
     this.visibilityReset();
+    this.engine.update();
   }
 
   public override update(): void {

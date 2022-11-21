@@ -65,6 +65,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   // Time control parameters
   public timeScale; // Changeable because Kepler's Laws screen uses a different speed
+  public timeMultiplier;
   public readonly timeRange;
   public readonly timeProperty;
   public readonly isPlayingProperty;
@@ -161,6 +162,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // Time settings
     // timeScale controls the velocity of time
     this.timeScale = 1.0;
+    this.timeMultiplier = MySolarSystemConstants.TIME_MULTIPLIER;
     this.timeRange = new Range( 0, 1000 );
     this.timeProperty = new NumberProperty( 0 );
     this.isPlayingProperty = new BooleanProperty( false );
@@ -312,7 +314,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     for ( let i = 0; i < count; i++ ) {
       this.engine.run( adjustedDT );
-      this.timeProperty.value += adjustedDT * MySolarSystemConstants.TIME_MULTIPLIER;
+      this.timeProperty.value += adjustedDT * this.timeMultiplier;
       if ( this.pathVisibleProperty ) {
         this.bodies.forEach( body => body.addPathPoint() );
       }
