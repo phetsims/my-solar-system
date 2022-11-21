@@ -46,14 +46,17 @@ class Ellipse {
 }
 
 class OrbitalArea {
-  public constructor(
-    public dotPosition: Vector2,
-    public startPosition: Vector2,
-    public endPosition: Vector2,
-    public completion: number,
-    public insideProperty: BooleanProperty,
-    public active: boolean
-  ) {}
+  public dotPosition = Vector2.ZERO;
+  public startPosition = Vector2.ZERO;
+  public endPosition = Vector2.ZERO;
+  public completion = 0;
+  public insideProperty = new BooleanProperty( false );
+  public entered = 0;
+  public active = false;
+
+  public constructor() {
+    // noop
+  }
 }
 
 export default class EllipticalOrbit extends Engine {
@@ -83,7 +86,7 @@ export default class EllipticalOrbit extends Engine {
 
     // Populate the orbital areas
     for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
-      this.orbitalAreas.push( new OrbitalArea( Vector2.ZERO, Vector2.ZERO, Vector2.ZERO, 0, new BooleanProperty( false ), false ) );
+      this.orbitalAreas.push( new OrbitalArea() );
     }
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
@@ -104,6 +107,9 @@ export default class EllipticalOrbit extends Engine {
       [ this.body.userControlledPositionProperty, this.body.userControlledVelocityProperty ],
       ( userControlledPosition: boolean, userControlledVelocity: boolean ) => {
         this.updateAllowed = userControlledPosition || userControlledVelocity;
+        this.orbitalAreas.forEach( area => {
+          area.entered = 0;
+        } );
     } );
   }
 
@@ -125,6 +131,7 @@ export default class EllipticalOrbit extends Engine {
    * Updates the orbital elements of the body using Orbital Mechanics Analytic Equations
    */
   public override update(): void {
+
     const r = this.body.positionProperty.value;
     const v = this.body.velocityProperty.value;
 
@@ -177,6 +184,7 @@ export default class EllipticalOrbit extends Engine {
         // Body inside the area
         if ( startAngle <= bodyAngle && bodyAngle <= endAngle ) {
           orbitalArea.insideProperty.value = true;
+          orbitalArea.entered = 1;
 
           // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
           const completionRate = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
@@ -202,6 +210,7 @@ export default class EllipticalOrbit extends Engine {
         }
 
         // Update orbital area properties
+        orbitalArea.completion *= orbitalArea.entered; // Set it to 0 if it hasn't entered yet
         orbitalArea.dotPosition = this.createPolar( nu ); // Position for the dots
         orbitalArea.startPosition = this.createPolar( startAngle );
         orbitalArea.endPosition = this.createPolar( endAngle );

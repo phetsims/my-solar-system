@@ -62,10 +62,10 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
         this.engine.update();
       } );
 
-    this.engine.orbitalAreas.forEach( area => {
+    this.engine.orbitalAreas.forEach( ( area, index ) => {
       area.insideProperty.link( inside => {
         if ( inside && this.isPlayingProperty.value ) {
-          this.bodySoundManager.playOrbitalMetronome();
+          this.bodySoundManager.playOrbitalMetronome( index );
         }
       } );
     } );
@@ -79,6 +79,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     } );
 
     this.timeScale = 0.3;
+
+    this.zoomLevelProperty.value = 2;
   }
 
   public override setInitialBodyStates(): void {

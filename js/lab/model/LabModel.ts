@@ -77,7 +77,7 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.modeMap.set( LabModes.SUN_PLANET_COMET, [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
       { mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) },
-      { mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -15, -28 ) }
+      { mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -20, -35 ) }
     ] );
     this.modeMap.set( LabModes.TROJAN_ASTEROIDS, [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },

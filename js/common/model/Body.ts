@@ -128,7 +128,7 @@ class Body {
   }
 
   public static massToRadius( mass: number ): number {
-    return Math.pow( mass, 1 / 3 ) + 5;
+    return mass > 0.1 ? 2.3 * Math.pow( mass, 1 / 3 ) + 1.7 : 3;
   }
 }
 

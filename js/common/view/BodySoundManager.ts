@@ -11,6 +11,7 @@ import CommonModel from '../model/CommonModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import soundConstants from '../../../../tambo/js/soundConstants.js';
 
 // Bodies sounds
 import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
@@ -31,10 +32,6 @@ import Mass_Selection_2_mp3 from '../../../sounds/Mass_Selection_2_mp3.js';
 import Mass_Selection_3_mp3 from '../../../sounds/Mass_Selection_3_mp3.js';
 import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
 
-// Mass slider sounds
-// import Mass_Slider_Rubber_Band_mp3 from '../../../sounds/Mass_Slider_Rubber_Band_mp3.js';
-import Mass_Slider_Bass_Pluck_mp3 from '../../../sounds/Mass_Slider_Bass_Pluck_mp3.js';
-
 // Metronome sound
 import Metronome_Sound_1_mp3 from '../../../sounds/Metronome_Sound_1_mp3.js';
 import Metronome_Sound_2_mp3 from '../../../sounds/Metronome_Sound_2_mp3.js';
@@ -49,6 +46,10 @@ const allSounds = [
   Bodies_Organ_b3_mp3
 ];
 
+const SCALE = [ 0, 2, 4, 5, 7, 9 ];
+// const PENTATONIC_SCALE = [ 0, 2, 4, 7, 9 ];
+// const BLUES_SCALE = [ 0, 3, 5, 6, 7, 10 ];
+
 export type BodySoundsManagerOptions = {
   tandem?: Tandem;
 };
@@ -60,7 +61,6 @@ export default class BodySoundManager {
   public readonly bodyNumberSoundClips: SoundClip[];
   public readonly collisionSoundClips: SoundClip[];
   public readonly metronomeSoundClips: SoundClip[];
-  public readonly massSliderSoundClip: SoundClip;
 
   public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {
     this.model = model;
@@ -79,6 +79,8 @@ export default class BodySoundManager {
     const collisionSoundOptions: SoundClipOptions = {
       initialOutputLevel: DEFAULT_OUTPUT_LEVEL
     };
+
+    const metronomeSoundOptions = { rateChangesAffectPlayingSounds: false };
 
     // Create the sound generators for the bodies, they are added to the soundManager in the ScreenView
     this.bodySoundGenerators = [
@@ -102,16 +104,13 @@ export default class BodySoundManager {
     ];
 
     this.metronomeSoundClips = [
-      new SoundClip( Metronome_Sound_1_mp3 ),
-      new SoundClip( Metronome_Sound_2_mp3 )
+      new SoundClip( Metronome_Sound_1_mp3, metronomeSoundOptions ),
+      new SoundClip( Metronome_Sound_2_mp3, metronomeSoundOptions )
     ];
 
     this.bodyNumberSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
     this.collisionSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
     this.metronomeSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
-
-    this.massSliderSoundClip = new SoundClip( Mass_Slider_Bass_Pluck_mp3, { loop: true } );
-    soundManager.addSoundGenerator( this.massSliderSoundClip );
   }
 
   public playSounds(): void {
@@ -138,12 +137,10 @@ export default class BodySoundManager {
     this.collisionSoundClips[ bodyNumber ].play();
   }
 
-  public playMassSliderSound( ): void {
-    this.massSliderSoundClip.play();
-  }
-
-  public playOrbitalMetronome(): void {
-    this.metronomeSoundClips[ this.tickCounter % 2 ].play();
+  public playOrbitalMetronome( i: number ): void {
+    this.tickCounter = ( i === 0 ) || ( i === SCALE.length ) ? 0 : this.tickCounter;
+    this.metronomeSoundClips[ 0 ].setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, SCALE[ this.tickCounter ] ) );
+    this.metronomeSoundClips[ 0 ].play();
     this.tickCounter++;
   }
 
@@ -151,5 +148,6 @@ export default class BodySoundManager {
     this.bodySoundGenerators.forEach( sound => sound.stop() );
   }
 }
+
 
 mySolarSystem.register( 'BodySoundManager', BodySoundManager );
