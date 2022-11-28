@@ -205,7 +205,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       spacing: 10
     } );
 
-    const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 1000 } ), {
+    const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 600 } ), {
       titleAlign: 'center',
       title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new Font( { size: 32 } ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )

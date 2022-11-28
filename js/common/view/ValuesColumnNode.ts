@@ -91,7 +91,7 @@ export default class ValuesColumnNode extends VBox {
     // Flag that references the contentNode.
     let contentNode;
 
-    const massRange = new RangeWithValue( 1, 300, 100 );
+    const massRange = new RangeWithValue( 0.1, 300, 100 );
     const positionRange = new RangeWithValue( -400, 400, 0 );
     const velocityRange = new RangeWithValue( -400, 400, 0 );
 

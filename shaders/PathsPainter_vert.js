@@ -1,2 +1,2 @@
 /* eslint-disable */
-export default "attribute vec3 aPosition; // vertex attribute\nvarying vec2 vPosition;\nvoid main() {\n  vPosition = aPosition.xy;\n  gl_Position = vec4( aPosition, 1 );\n}"
+export default "attribute vec3 aPosition; // vertex attribute\r\nvarying vec2 vPosition;\r\nvoid main() {\r\n  vPosition = aPosition.xy;\r\n  gl_Position = vec4( aPosition, 1 );\r\n}"
