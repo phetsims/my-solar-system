@@ -1,11 +1,11 @@
 {
-  "comment": "# my-solar-system 1.0.0-dev.5 Wed Nov 23 2022 10:23:49 GMT-0500 (Colombia Standard Time)",
+  "comment": "# my-solar-system 1.0.0-dev.7 Tue Nov 29 2022 13:47:24 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
   },
   "axon": {
-    "sha": "fd74df96c2b88fca4b88459e946a3e0e609e8f3b",
+    "sha": "5f480d63cad5962e8440e6af3c3579c495fdf58e",
     "branch": "master"
   },
   "brand": {
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "a96fb170c394a63749a48a20d660fdd932f59bfb",
+    "sha": "fdfbf9649808d929a7f8216e6ffcfef799faafef",
     "branch": "master"
   },
   "dot": {
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "2b63f0932d8e3a541cf56fcfc4b604d0413cb3cb",
+    "sha": "681c26a5e7de896071887c0023936a023dc34eb9",
     "branch": "master"
   },
   "kite": {
@@ -29,23 +29,23 @@
     "branch": "master"
   },
   "my-solar-system": {
-    "sha": "59deb0cef31266c7b6b464a897c309fd4e3d2466",
+    "sha": "4c7c89eca8391d9c6d5f74f96e674a66cc01f97d",
     "branch": "master"
   },
   "perennial-alias": {
-    "sha": "836406c1521cc4680f7cce52e503a57c29a65d64",
+    "sha": "b6d4d82bd9c77171e13700ef8e211c00673c5460",
     "branch": "master"
   },
   "phet-core": {
-    "sha": "5d5dd49400c6ffda275fa831b907cd4225cabf18",
+    "sha": "08ef648c569b092876abaa41ae3ce0af26c4c59a",
     "branch": "master"
   },
   "phet-io": {
-    "sha": "3dd8813ee39213080f8fd014b6076fb4ca579deb",
+    "sha": "d680eb79f0b959553dde83b1a09824115e3964f4",
     "branch": "master"
   },
   "phet-io-sim-specific": {
-    "sha": "a3844e84845950e42dcf12187b5f4c7c0632282d",
+    "sha": "ccf4b71ab7a6130adf3b60ee2630f814f1cea1d5",
     "branch": "master"
   },
   "phet-io-wrappers": {
@@ -65,15 +65,15 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "eeb76a827d383956ae603be8365fcbfe1189b2fb",
+    "sha": "71ba69142bb938c1eb215647010aa655f8f5b171",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "5a7ab19a6fa1332b0b970d75bcb68a134ad23736",
+    "sha": "106dd1338dc7c5413dfa51ab359157f18a3b0d3d",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "2188bb8794dd1f750e27f2d8850e27ee7769214f",
+    "sha": "bd9ac046bfc821e7b229d0b42549dc55ac4ac1b2",
     "branch": "master"
   },
   "studio": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "b4196d24654edfb4703fc4200c8ac57bfb71a704",
+    "sha": "add91aba2cb6be6826d07dfe9db61a8ca188b7f6",
     "branch": "master"
   },
   "tambo": {
@@ -97,7 +97,7 @@
     "branch": "master"
   },
   "utterance-queue": {
-    "sha": "d734eb009a613f76b0a12d530883c0fd89f36652",
+    "sha": "9bb6b5bb65cea54c2cf894c7977509274f34476a",
     "branch": "master"
   }
 }
