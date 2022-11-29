@@ -17,6 +17,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import Property from '../../../../axon/js/Property.js';
+import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
 
 
 class Body {
@@ -95,7 +96,7 @@ class Body {
       }
 
       // Remove points from the path as the path gets too long
-      while ( this.pathDistance > 2000 || this.pathPoints.length > MAX_PATH_LENGTH ) {
+      while ( this.pathDistance > 2000 || this.pathPoints.length > MAX_PATH_LENGTH * ( MySolarSystemQueryParameters.pathRenderer === 'canvas' ? 10 : 1 ) ) {
         this.pathDistance -= this.pathPoints[ 1 ].minus( this.pathPoints[ 0 ] ).magnitude;
         this.pathPoints.shift();
       }

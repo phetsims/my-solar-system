@@ -36,6 +36,8 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
+import PathsCanvasNode from './PathsCanvasNode.js';
 
 
 type SelfOptions = EmptySelfOptions;
@@ -270,7 +272,9 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( centerBox );
 
     if ( Utils.isWebGLSupported ) {
-      const pathsWebGLNode = new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
+      const pathsWebGLNode = MySolarSystemQueryParameters.pathRenderer === 'canvas'
+                             ? new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } )
+                             : new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
       this.bottomLayer.addChild( pathsWebGLNode );
     }
   }
