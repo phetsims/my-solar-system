@@ -19,6 +19,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 
 type SelfOptions = {
   useExponential?: boolean;
@@ -57,7 +58,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       hideSmallValues: false,
       numberFormatter: ( n: number ) => {
         if ( providedOptions?.hideSmallValues && Math.abs( n ) <= 0.1 ) {
-          return '< 0.1';
+          return `${MathSymbols.LESS_THAN_OR_EQUAL} 0.1`;
         }
         else {
           return Utils.toFixed( n, 1 );
