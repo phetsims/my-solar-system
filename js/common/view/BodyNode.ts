@@ -21,6 +21,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import ExplosionNode from './ExplosionNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -73,7 +74,13 @@ export default class BodyNode extends ShadedSphereNode {
       [ body.positionProperty, body.radiusProperty, modelViewTransformProperty ],
       ( position, radius, modelViewTransform ) => {
         radius = modelViewTransform.modelToViewDeltaX( radius );
-        this.setRadius( radius );
+        this.radius = radius;
+
+        // Expand mouse/touch areas to 10 units past
+        const area = Shape.circle( 0, 0, radius + 10 );
+        this.mouseArea = area;
+        this.touchArea = area;
+
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
