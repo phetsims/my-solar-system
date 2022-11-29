@@ -18,10 +18,11 @@ import { Color, FireListener } from '../../../../scenery/js/imports.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-
+import Utils from '../../../../dot/js/Utils.js';
 
 type SelfOptions = {
   useExponential?: boolean;
+  hideSmallValues?: boolean;
 };
 
 export type InteractiveNumberDisplayOptions = SelfOptions & NumberDisplayOptions;
@@ -53,7 +54,15 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
       cursor: 'pointer',
-      decimalPlaces: 1,
+      hideSmallValues: false,
+      numberFormatter: ( n: number ) => {
+        if ( providedOptions?.hideSmallValues && Math.abs( n ) <= 0.1 ) {
+          return '< 0.1';
+        }
+        else {
+          return Utils.toFixed( n, 1 );
+        }
+      },
       useExponential: false,
       textOptions: {
         font: MySolarSystemConstants.PANEL_FONT

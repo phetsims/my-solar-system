@@ -115,7 +115,8 @@ export default class ValuesColumnNode extends VBox {
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
         body.colorProperty, {
-          useExponential: true
+          useExponential: true,
+          hideSmallValues: true
       } );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
