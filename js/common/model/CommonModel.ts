@@ -135,10 +135,10 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       body.collidedEmitter.addListener( () => {
         this.bodySoundManager.playBodyRemovedSound( 2 );
       } );
-      Multilink.multilink(
+      Multilink.lazyMultilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
-          if ( this.isLab && ( userControlledPosition || userControlledVelocity || userControlledMass ) ) {
+          if ( this.isLab ) {
             this.labModeProperty.value = LabModes.CUSTOM;
             this.updateDefaultModeInfo();
           }
@@ -266,6 +266,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       newBody.preventCollision( this.bodies );
       newBody.isActiveProperty.value = true;
     }
+    this.updateDefaultModeInfo();
   }
 
   public reset(): void {
@@ -285,6 +286,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   // Restart is for when the time controls are brought back to 0
+  // Bodies move to their last modified position
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeProperty.value = 0; // Reset the time

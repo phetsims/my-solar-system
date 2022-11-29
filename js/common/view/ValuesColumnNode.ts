@@ -102,7 +102,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new MySolarSystemSlider( body.massProperty, massRange, {
         thumbFill: colorProperty,
-        thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.5 ) ),
+        thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
         startDrag: () => { body.userControlledMassProperty.value = true; },
         endDrag: () => { body.userControlledMassProperty.value = false; },
         constrainValue: value => massRange.constrainValue( 5 * Utils.roundSymmetric( value / 5 ) )
@@ -113,8 +113,9 @@ export default class ValuesColumnNode extends VBox {
         body.massProperty,
         massRange,
         MySolarSystemStrings.units.kgStringProperty,
-        body.userControlledMassProperty, {
-        useExponential: true
+        body.userControlledMassProperty,
+        body.colorProperty, {
+          useExponential: true
       } );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
@@ -126,7 +127,8 @@ export default class ValuesColumnNode extends VBox {
         } ),
         positionRange,
         MySolarSystemStrings.units.AUStringProperty,
-        body.userControlledPositionProperty
+        body.userControlledPositionProperty,
+        body.colorProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
@@ -138,7 +140,8 @@ export default class ValuesColumnNode extends VBox {
         } ),
         positionRange,
         MySolarSystemStrings.units.AUStringProperty,
-        body.userControlledPositionProperty
+        body.userControlledPositionProperty,
+        body.colorProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
@@ -150,7 +153,8 @@ export default class ValuesColumnNode extends VBox {
         } ),
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
-        body.userControlledVelocityProperty
+        body.userControlledVelocityProperty,
+        body.colorProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
@@ -162,7 +166,8 @@ export default class ValuesColumnNode extends VBox {
         } ),
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
-        body.userControlledVelocityProperty
+        body.userControlledVelocityProperty,
+        body.colorProperty
       );
     }
     else {

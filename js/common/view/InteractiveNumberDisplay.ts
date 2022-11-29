@@ -18,7 +18,6 @@ import { Color, FireListener } from '../../../../scenery/js/imports.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 
 
 type SelfOptions = {
@@ -33,6 +32,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
     range: RangeWithValue,
     units: TReadOnlyProperty<string>,
     userControlledProperty: TReadOnlyProperty<boolean>,
+    bodyColorProperty: TReadOnlyProperty<Color>,
     providedOptions?: InteractiveNumberDisplayOptions
   ) {
 
@@ -61,9 +61,9 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       backgroundFill: new DerivedProperty( [
         userControlledProperty,
         isKeypadActiveProperty,
-        MySolarSystemColors.userControlledBackgroundColorProperty
+        bodyColorProperty
       ], ( isUserControlled, isKeypadActive, backgroundColor ) => {
-        return isUserControlled || isKeypadActive ? backgroundColor : Color.WHITE;
+        return isUserControlled || isKeypadActive ? backgroundColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
       } ),
       backgroundStroke: Color.BLACK
     }, providedOptions );
