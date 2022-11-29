@@ -46,8 +46,10 @@ const allSounds = [
   Bodies_Organ_b3_mp3
 ];
 
-const SCALE = [ 0, 2, 4, 5, 7, 9 ];
-// const PENTATONIC_SCALE = [ 0, 2, 4, 7, 9 ];
+const METRONOME = [ 7, 0, 0, 0, 0, 0 ];
+// const ADDITIONAL = [ 4, 2, 0, 2, 4, 4 ];
+// const SCALE = [ 0, 2, 4, 5, 7, 9 ];
+// const PENTATONIC_SCALE = [ 0, 2, 4, 7, 9, 12 ];
 // const BLUES_SCALE = [ 0, 3, 5, 6, 7, 10 ];
 
 export type BodySoundsManagerOptions = {
@@ -137,7 +139,7 @@ export default class BodySoundManager {
   }
 
   public playOrbitalMetronome( i: number ): void {
-    this.metronomeSoundClips[ 0 ].setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, SCALE[ i ] ) );
+    this.metronomeSoundClips[ 0 ].setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
     this.metronomeSoundClips[ 0 ].play();
   }
 
