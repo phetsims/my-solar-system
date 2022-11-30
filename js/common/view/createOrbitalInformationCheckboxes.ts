@@ -7,7 +7,7 @@
  * @author Agustín Vallejo
  */
 
-import { HBox, Image, Text } from '../../../../scenery/js/imports.js';
+import { colorProfileProperty, HBox, Image, SceneryConstants, Text } from '../../../../scenery/js/imports.js';
 import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -17,6 +17,7 @@ import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import pathIconProjector_png from '../../../images/pathIconProjector_png.js';
 
 // constants
 //REVIEW: This is shared between VisibilityInformation and OrbitalInformation, can we factor it out? Thoughts?
@@ -29,6 +30,10 @@ const TEXT_OPTIONS = {
 const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {
 
   const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
+  colorProfileProperty.lazyLink( ( profileName: string ) => {
+    assert && assert( profileName === SceneryConstants.DEFAULT_COLOR_PROFILE || profileName === SceneryConstants.PROJECTOR_COLOR_PROFILE );
+    pathIconImageNode.setImage( profileName === SceneryConstants.PROJECTOR_COLOR_PROFILE ? pathIconProjector_png : pathIcon_png );
+  } );
 
   return [
     new MySolarSystemCheckbox( model.pathVisibleProperty, new HBox( {
