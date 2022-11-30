@@ -248,6 +248,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
       this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
       this.availableBodies[ i ].reset();
+      this.availableBodies[ i ].preventCollision( this.bodies );
     }
 
     // Update Center of Mass to avoid system's initial movement
@@ -263,6 +264,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     const numberOfActiveBodies = this.bodies.length - 1;
     const lastBody = this.bodies[ numberOfActiveBodies ];
     lastBody.isActiveProperty.value = false;
+    this.updateDefaultModeInfo();
   }
 
   /**
