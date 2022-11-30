@@ -13,6 +13,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
@@ -25,6 +26,11 @@ class IntroModel extends CommonModel<NumericalEngine> {
       isLab: false
     }, providedOptions );
     super( options );
+
+    this.resetModeInfo = [
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+    ];
   }
 }
 

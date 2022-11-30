@@ -92,8 +92,9 @@ export default class ValuesColumnNode extends VBox {
     let contentNode;
 
     const massRange = new RangeWithValue( 0.1, 300, 100 );
-    const positionRange = new RangeWithValue( -400, 400, 0 );
-    const velocityRange = new RangeWithValue( -400, 400, 0 );
+    const positionRangeX = new RangeWithValue( -4, 4, 0 );
+    const positionRangeY = new RangeWithValue( -2, 2, 0 );
+    const velocityRange = new RangeWithValue( -100, 100, 0 );
 
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
@@ -126,7 +127,7 @@ export default class ValuesColumnNode extends VBox {
           map: position => position.x * MySolarSystemConstants.POSITION_MULTIPLIER,
           inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
-        positionRange,
+        positionRangeX,
         MySolarSystemStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty
@@ -139,7 +140,7 @@ export default class ValuesColumnNode extends VBox {
           map: position => position.y * MySolarSystemConstants.POSITION_MULTIPLIER,
           inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / MySolarSystemConstants.POSITION_MULTIPLIER )
         } ),
-        positionRange,
+        positionRangeY,
         MySolarSystemStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty

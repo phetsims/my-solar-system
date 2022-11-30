@@ -86,7 +86,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
   private defaultModeInfo: BodyInfo[];
-  private resetModeInfo: BodyInfo[];
+  protected resetModeInfo: BodyInfo[];
 
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
@@ -281,7 +281,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public reset(): void {
-    this.setInitialBodyStates( this.resetModeInfo ); // Reset the bodies
     this.timeProperty.value = 0; // Reset the time
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeSpeedProperty.reset();
