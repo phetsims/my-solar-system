@@ -271,10 +271,11 @@ export default class IntroLabScreenView extends CommonScreenView {
     // Slider that controls the bodies mass
     this.interfaceLayer.addChild( centerBox );
 
-    if ( Utils.isWebGLSupported ) {
-      const pathsWebGLNode = MySolarSystemQueryParameters.pathRenderer === 'canvas'
-                             ? new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } )
-                             : new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
+
+    const pathsWebGLNode = MySolarSystemQueryParameters.pathRenderer === 'canvas'
+                           ? new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } )
+                           : Utils.isWebGLSupported ? new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } ) : null;
+    if ( pathsWebGLNode ) {
       this.bottomLayer.addChild( pathsWebGLNode );
     }
   }
