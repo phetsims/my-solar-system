@@ -138,9 +138,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       Multilink.lazyMultilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
+          this.updateDefaultModeInfo();
           if ( this.isLab ) {
             this.labModeProperty.value = LabModes.CUSTOM;
-            this.updateDefaultModeInfo();
           }
           if ( userControlledMass ) {
             // this.bodySoundManager.massSliderSoundClip.play();
