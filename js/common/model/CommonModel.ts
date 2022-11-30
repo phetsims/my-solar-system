@@ -86,6 +86,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
   private defaultModeInfo: BodyInfo[];
+  private resetModeInfo: BodyInfo[];
 
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
@@ -101,18 +102,25 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.clearPaths();
     } );
 
-    // Define the default mode the bodies will show up in
-    this.defaultModeInfo = [
-      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
-      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
-    ];
-
     this.availableBodies = [
       new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ), MySolarSystemColors.firstBodyColorProperty ),
       new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ), MySolarSystemColors.secondBodyColorProperty ),
       new Body( 0.1, new Vector2( 100, 0 ), new Vector2( 0, 150 ), MySolarSystemColors.thirdBodyColorProperty ),
       new Body( 0.1, new Vector2( -100, -100 ), new Vector2( 120, 0 ), MySolarSystemColors.fourthBodyColorProperty )
     ];
+
+    // Define the default mode the bodies will show up in. Is updated when the user changes a body.
+    this.defaultModeInfo = [
+      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+    ];
+
+    // Define the mode bodies will go to when reset, before the default Mode is set.
+    this.resetModeInfo = this.availableBodies.map( body => ( {
+      mass: body.massProperty.value,
+      position: body.positionProperty.value,
+      velocity: body.velocityProperty.value
+    } ) );
 
     // We want to synchronize availableBodies and bodies, so that bodies is effectively availableBodies.filter( isActive )
     // Order matters, AND we don't want to remove items unnecessarily, so some additional logic is required.
@@ -188,6 +196,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {
+      const wasPlayingBefore = this.isPlayingProperty.value;
       if ( systemCentered ) {
         this.isPlayingProperty.value = false; // Pause the sim
         this.centerOfMass.update();
@@ -196,7 +205,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
           body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
           body.positionProperty.set( body.positionProperty.value.minus( this.centerOfMass.positionProperty.value ) );
         } );
-        this.isPlayingProperty.value = true; // Unpause the sim
+      }
+      if ( wasPlayingBefore ) {
+        this.isPlayingProperty.value = true; // Resume the sim
       }
     } );
 
@@ -270,8 +281,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public reset(): void {
-    this.restart();
-    this.setInitialBodyStates( this.defaultModeInfo );
+    this.setInitialBodyStates( this.resetModeInfo ); // Reset the bodies
+    this.timeProperty.value = 0; // Reset the time
+    this.isPlayingProperty.value = false; // Pause the sim
     this.timeSpeedProperty.reset();
     this.zoomLevelProperty.reset();
     this.pathVisibleProperty.reset();
@@ -283,6 +295,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.moreDataProperty.reset();
     this.labModeProperty.reset();
     this.centerOfMass.visibleProperty.reset();
+    this.update();
   }
 
   // Restart is for when the time controls are brought back to 0
