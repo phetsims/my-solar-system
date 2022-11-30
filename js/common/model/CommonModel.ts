@@ -292,6 +292,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.measuringTapeVisibleProperty.reset();
     this.valuesVisibleProperty.reset();
     this.moreDataProperty.reset();
+    this.setInitialBodyStates( this.resetModeInfo );
+    this.updateDefaultModeInfo();
     this.labModeProperty.reset();
     this.centerOfMass.visibleProperty.reset();
     this.update();
