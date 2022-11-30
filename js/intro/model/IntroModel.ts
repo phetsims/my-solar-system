@@ -32,6 +32,12 @@ class IntroModel extends CommonModel<NumericalEngine> {
       { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ];
   }
+
+  public override reset(): void {
+    super.reset();
+    this.setInitialBodyStates( this.resetModeInfo );
+    this.update();
+  }
 }
 
 mySolarSystem.register( 'IntroModel', IntroModel );
