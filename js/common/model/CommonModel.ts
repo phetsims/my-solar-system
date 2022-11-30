@@ -85,8 +85,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
-  private defaultModeInfo: BodyInfo[];
-  protected resetModeInfo: BodyInfo[];
+  private previousModeInfo: BodyInfo[];
+  protected defaultModeInfo: BodyInfo[];
 
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
@@ -103,20 +103,20 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
 
     this.availableBodies = [
-      new Body( 1, new Vector2( -100, 100 ), new Vector2( -50, -50 ), MySolarSystemColors.firstBodyColorProperty ),
-      new Body( 1, new Vector2( 100, 100 ), new Vector2( -50, 50 ), MySolarSystemColors.secondBodyColorProperty ),
+      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ), MySolarSystemColors.firstBodyColorProperty ),
+      new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ), MySolarSystemColors.secondBodyColorProperty ),
       new Body( 0.1, new Vector2( 100, 0 ), new Vector2( 0, 150 ), MySolarSystemColors.thirdBodyColorProperty ),
       new Body( 0.1, new Vector2( -100, -100 ), new Vector2( 120, 0 ), MySolarSystemColors.fourthBodyColorProperty )
     ];
 
-    // Define the default mode the bodies will show up in. Is updated when the user changes a body.
-    this.defaultModeInfo = [
+    // Define the mode bodies will go to when restarted. Is updated when the user changes a body.
+    this.previousModeInfo = [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
       { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ];
 
-    // Define the mode bodies will go to when reset, before the default Mode is set.
-    this.resetModeInfo = this.availableBodies.map( body => ( {
+    // Define the default mode the bodies will show up in
+    this.defaultModeInfo = this.availableBodies.map( body => ( {
       mass: body.massProperty.value,
       position: body.positionProperty.value,
       velocity: body.velocityProperty.value
@@ -161,7 +161,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
 
     this.centerOfMass = new CenterOfMass( this.bodies );
-    this.setInitialBodyStates( this.defaultModeInfo );
+    this.setInitialBodyStates( this.previousModeInfo );
     this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
     this.engine = providedOptions.engineFactory( this.bodies );
     this.engine.reset();
@@ -226,7 +226,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public updateDefaultModeInfo(): void {
-    this.defaultModeInfo = this.bodies.map( body => ( {
+    this.previousModeInfo = this.bodies.map( body => ( {
       mass: body.massProperty.value,
       position: body.positionProperty.value,
       velocity: body.velocityProperty.value
@@ -241,15 +241,13 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       const isActive = i < bodiesInfo.length;
       this.availableBodies[ i ].isActiveProperty.value = isActive;
 
-      if ( isActive ) {
-        const body = bodiesInfo[ i ];
+      const body = isActive ? bodiesInfo[ i ] : this.defaultModeInfo[ i ];
 
-        // Setting initial values and then resetting the body to make sure the body is in the correct state
-        this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
-        this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
-        this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
-        this.availableBodies[ i ].reset();
-      }
+      // Setting initial values and then resetting the body to make sure the body is in the correct state
+      this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
+      this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
+      this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
+      this.availableBodies[ i ].reset();
     }
 
     // Update Center of Mass to avoid system's initial movement
@@ -292,11 +290,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.measuringTapeVisibleProperty.reset();
     this.valuesVisibleProperty.reset();
     this.moreDataProperty.reset();
-    this.setInitialBodyStates( this.resetModeInfo );
-    this.updateDefaultModeInfo();
     this.labModeProperty.reset();
     this.centerOfMass.visibleProperty.reset();
-    this.update();
+    this.restart();
   }
 
   // Restart is for when the time controls are brought back to 0
@@ -304,7 +300,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeProperty.value = 0; // Reset the time
-    this.setInitialBodyStates( this.defaultModeInfo ); // Reset the bodies
+    this.setInitialBodyStates( this.previousModeInfo ); // Reset the bodies
     this.update();
   }
 

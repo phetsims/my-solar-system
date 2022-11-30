@@ -26,11 +26,16 @@ class IntroModel extends CommonModel<NumericalEngine> {
       isLab: false
     }, providedOptions );
     super( options );
+  }
 
-    this.resetModeInfo = [
+  public override reset(): void {
+    super.reset();
+
+    const IntroDefaultModeInfo = [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
       { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ];
+    this.setInitialBodyStates( IntroDefaultModeInfo );
   }
 }
 
