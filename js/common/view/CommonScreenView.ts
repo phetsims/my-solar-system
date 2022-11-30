@@ -185,6 +185,7 @@ class CommonScreenView extends ScreenView {
 
     this.visibleBoundsProperty.link( visibleBounds => {
       resetAllButtonBox.alignBounds = visibleBounds;
+      measuringTapeNode.setDragBounds( this.modelViewTransformProperty.value.viewToModelBounds( this.visibleBoundsProperty.value.eroded( 50 ) ) );
     } );
 
     this.interfaceLayer.addChild( resetAllButtonBox );
