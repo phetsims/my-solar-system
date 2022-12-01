@@ -73,7 +73,7 @@ export default class IntroScreenIcon extends ScreenIcon {
 
     super(
       platform.safari ? node.rasterized( {
-        resolution: 4,
+        resolution: 16,
         sourceBounds: new Bounds2( -8, -10, 30 - 8, 20 - 10 )
       } ) : node,
       { fill: MySolarSystemColors.backgroundProperty }
