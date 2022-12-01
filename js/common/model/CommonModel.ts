@@ -323,11 +323,12 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   public stepOnce( dt: number ): void {
     let adjustedDT = dt * timeFormatter.get( this.timeSpeedProperty.value )! * this.timeScale;
-    const count = Math.ceil( adjustedDT / 0.1 );
+    const count = Math.ceil( adjustedDT / 0.02 );
     adjustedDT /= count;
 
     for ( let i = 0; i < count; i++ ) {
       this.engine.run( adjustedDT );
+      this.engine.checkCollisions();
       this.timeProperty.value += adjustedDT * this.timeMultiplier;
       if ( this.pathVisibleProperty ) {
         this.bodies.forEach( body => body.addPathPoint() );

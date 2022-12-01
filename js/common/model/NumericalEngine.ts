@@ -39,7 +39,7 @@ export default class NumericalEngine extends Engine {
     this.updateForces();
   }
 
-  private checkCollisions(): void {
+  public override checkCollisions(): void {
     // We need to rerun collision checks if we get one collision
     let hadCollision = true;
     while ( hadCollision ) {

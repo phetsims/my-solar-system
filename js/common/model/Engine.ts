@@ -17,6 +17,9 @@ export default abstract class Engine {
   protected constructor( bodies: ObservableArray<Body> ) {
     this.bodies = bodies;
   }
+  public checkCollisions(): void {
+    // no-op
+  }
   public abstract run( dt: number ): void;
   public abstract update( bodies: ObservableArray<Body> ): void;
   public abstract reset(): void;
