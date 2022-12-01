@@ -123,6 +123,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.positionProperty, {
+          reentrant: true,
           bidirectional: true,
           map: position => position.x * MySolarSystemConstants.POSITION_MULTIPLIER,
           inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
@@ -136,6 +137,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.positionProperty, {
+          reentrant: true,
           bidirectional: true,
           map: position => position.y * MySolarSystemConstants.POSITION_MULTIPLIER,
           inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / MySolarSystemConstants.POSITION_MULTIPLIER )
@@ -149,6 +151,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.velocityProperty, {
+          reentrant: true,
           bidirectional: true,
           map: velocity => velocity.x * MySolarSystemConstants.VELOCITY_MULTIPLIER,
           inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
@@ -162,6 +165,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
       contentNode = new InteractiveNumberDisplay(
         new MappedProperty( body.velocityProperty, {
+          reentrant: true,
           bidirectional: true,
           map: velocity => velocity.y * MySolarSystemConstants.VELOCITY_MULTIPLIER,
           inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y / MySolarSystemConstants.VELOCITY_MULTIPLIER )
