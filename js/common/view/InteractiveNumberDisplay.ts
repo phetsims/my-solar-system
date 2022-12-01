@@ -80,20 +80,16 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     super( property, range, options );
 
-    const patternStringProperty = options.useExponential
-                                  ? MySolarSystemStrings.pattern.rangeWithExponentialUnitsStringProperty
-                                  : MySolarSystemStrings.pattern.rangeWithUnitsStringProperty;
-
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {
           isKeypadActiveProperty.value = true;
           keypadDialog.beginEdit( value => {
             property.value = value;
-          }, range, new PatternStringProperty( patternStringProperty, {
+          }, range, new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
             min: range.min,
             max: range.max,
-            units: units // TODO: How to add RichText here??
+            units: units
           } ), () => {
             isKeypadActiveProperty.value = false;
           } );
