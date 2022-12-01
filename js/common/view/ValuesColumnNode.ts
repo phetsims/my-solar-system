@@ -96,6 +96,10 @@ export default class ValuesColumnNode extends VBox {
     const positionRangeY = new RangeWithValue( -2, 2, 0 );
     const velocityRange = new RangeWithValue( -100, 100, 0 );
 
+    const clearPathsCallback = () => {
+      model.clearPaths();
+    };
+
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
       contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
@@ -131,7 +135,9 @@ export default class ValuesColumnNode extends VBox {
         positionRangeX,
         MySolarSystemStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty
+        body.colorProperty, model.isPlayingProperty, {
+          onEditCallback: clearPathsCallback
+        }
       );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
@@ -145,7 +151,9 @@ export default class ValuesColumnNode extends VBox {
         positionRangeY,
         MySolarSystemStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty
+        body.colorProperty, model.isPlayingProperty, {
+          onEditCallback: clearPathsCallback
+        }
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
@@ -159,7 +167,9 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty
+        body.colorProperty, model.isPlayingProperty, {
+          onEditCallback: clearPathsCallback
+        }
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
@@ -173,7 +183,9 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty
+        body.colorProperty, model.isPlayingProperty, {
+          onEditCallback: clearPathsCallback
+        }
       );
     }
     else {

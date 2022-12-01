@@ -99,7 +99,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       tandem: providedOptions.isLab ? providedOptions.tandem.createTandem( 'labModeProperty' ) : Tandem.OPT_OUT
     } );
     this.labModeProperty.link( mode => {
-      this.clearPaths();
+      if ( mode !== LabModes.CUSTOM ) {
+        this.clearPaths();
+      }
     } );
 
     this.availableBodies = [

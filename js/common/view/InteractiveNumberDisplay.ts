@@ -24,6 +24,7 @@ import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 type SelfOptions = {
   useExponential?: boolean;
   hideSmallValues?: boolean;
+  onEditCallback?: () => void;
 };
 
 export type InteractiveNumberDisplayOptions = SelfOptions & NumberDisplayOptions;
@@ -60,6 +61,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
       cursor: 'pointer',
       hideSmallValues: false,
+      onEditCallback: _.noop,
       numberFormatter: ( n: number ) => {
         if ( providedOptions?.hideSmallValues && Math.abs( n ) <= 0.1 ) {
           return `${MathSymbols.LESS_THAN_OR_EQUAL} 0.1`;
@@ -99,6 +101,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
           keypadDialog.beginEdit( value => {
             changed = true;
             property.value = value;
+            options.onEditCallback();
           }, range, new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
             min: range.min,
             max: range.max,
