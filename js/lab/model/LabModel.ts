@@ -35,8 +35,8 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.setModesToMap();
 
     this.modeSetter = ( mode: LabModes ) => {
-      this.isPlayingProperty.value = false;
       if ( mode !== LabModes.CUSTOM ) {
+        this.isPlayingProperty.value = false;
         this.lastSelectedMode = mode;
         const modeInfo = this.modeMap.get( mode );
         this.setInitialBodyStates( modeInfo! );
