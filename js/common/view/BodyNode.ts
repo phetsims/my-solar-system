@@ -22,6 +22,9 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import ExplosionNode from './ExplosionNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -44,6 +47,9 @@ export default class BodyNode extends ShadedSphereNode {
   private readonly valueBackgroundNode: Rectangle; // rectangle behind text
   private readonly valueContainer: Node; // parent that displays the text and its background
   private readonly bodyNodeDispose: () => void;
+
+  public readonly dragBoundsProperty = new Property( Bounds2.EVERYTHING );
+  private readonly radiusProperty = new NumberProperty( 0 );
 
   public constructor( body: Body, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
@@ -74,6 +80,9 @@ export default class BodyNode extends ShadedSphereNode {
       [ body.positionProperty, body.radiusProperty, modelViewTransformProperty ],
       ( position, radius, modelViewTransform ) => {
         radius = modelViewTransform.modelToViewDeltaX( radius );
+
+        this.radiusProperty.value = radius;
+
         this.radius = radius;
 
         // Expand mouse/touch areas to 10 units past
@@ -84,11 +93,16 @@ export default class BodyNode extends ShadedSphereNode {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
+    const erodedDragBoundsProperty = new DerivedProperty( [ this.dragBoundsProperty, this.radiusProperty ], ( dragBounds, radius ) => {
+      return dragBounds.eroded( radius );
+    } );
+
     let modelViewTransformListener: ( mvt: ModelViewTransform2 ) => void;
     if ( options.draggable ) {
       const dragListener = new DragListener( {
         positionProperty: body.positionProperty,
         canStartPress: () => !body.userControlledPositionProperty.value,
+        dragBoundsProperty: erodedDragBoundsProperty,
         start: () => {
           body.clearPath();
           body.userControlledPositionProperty.value = true;

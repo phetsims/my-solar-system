@@ -67,17 +67,34 @@ const spinnerOptions: NumberSpinnerOptions = {
   }
 };
 
-
 export default class IntroLabScreenView extends CommonScreenView {
   public constructor( model: CommonModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, providedOptions );
 
+    const modelDragBoundsProperty = new DerivedProperty( [
+      this.visibleBoundsProperty,
+      this.modelViewTransformProperty
+    ], ( visibleBounds, modelViewTransform ) => {
+      return modelViewTransform.viewToModelBounds( visibleBounds );
+    } );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
 
     const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
-      return new BodyNode( body, this.modelViewTransformProperty );
+      const bodyNode = new BodyNode( body, this.modelViewTransformProperty );
+
+      bodyNode.dragBoundsProperty.value = modelDragBoundsProperty.value;
+
+      return bodyNode;
+    } );
+
+    modelDragBoundsProperty.lazyLink( modelDragBounds => {
+      model.bodies.forEach( body => {
+        const bodyNode = bodyNodeSynchronizer.getView( body );
+
+        bodyNode.dragBoundsProperty.value = modelDragBounds;
+      } );
     } );
 
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
