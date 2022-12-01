@@ -29,14 +29,20 @@ type SelfOptions = {
 export type InteractiveNumberDisplayOptions = SelfOptions & NumberDisplayOptions;
 
 export default class InteractiveNumberDisplay extends NumberDisplay {
+
+  public readonly isKeypadActiveProperty: TProperty<boolean>;
+
   public constructor(
     property: TProperty<number>,
     range: RangeWithValue,
     units: TReadOnlyProperty<string>,
     userControlledProperty: TReadOnlyProperty<boolean>,
     bodyColorProperty: TReadOnlyProperty<Color>,
+    isPlayingProperty: TProperty<boolean>,
     providedOptions?: InteractiveNumberDisplayOptions
   ) {
+
+    const isKeypadActiveProperty = new BooleanProperty( false );
 
     // Keypad dialog
     const keypadDialog = new KeypadDialog( {
@@ -50,8 +56,6 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
         }
       }
     } );
-
-    const isKeypadActiveProperty = new BooleanProperty( false );
 
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
       cursor: 'pointer',
@@ -80,11 +84,20 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     super( property, range, options );
 
+    this.isKeypadActiveProperty = isKeypadActiveProperty;
+
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {
           isKeypadActiveProperty.value = true;
+
+          const wasPlaying = isPlayingProperty.value;
+          isPlayingProperty.value = false;
+
+          let changed = false;
+
           keypadDialog.beginEdit( value => {
+            changed = true;
             property.value = value;
           }, range, new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
             min: range.min,
@@ -92,6 +105,9 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
             units: units
           } ), () => {
             isKeypadActiveProperty.value = false;
+            if ( !changed ) {
+              isPlayingProperty.value = wasPlaying;
+            }
           } );
         }
       },

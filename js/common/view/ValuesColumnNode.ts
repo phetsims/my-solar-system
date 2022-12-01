@@ -115,7 +115,7 @@ export default class ValuesColumnNode extends VBox {
         massRange,
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
-        body.colorProperty, {
+        body.colorProperty, model.isPlayingProperty, {
           useExponential: true,
           hideSmallValues: true
       } );
@@ -131,7 +131,7 @@ export default class ValuesColumnNode extends VBox {
         positionRangeX,
         MySolarSystemStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty
+        body.colorProperty, model.isPlayingProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
@@ -145,7 +145,7 @@ export default class ValuesColumnNode extends VBox {
         positionRangeY,
         MySolarSystemStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty
+        body.colorProperty, model.isPlayingProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
@@ -159,7 +159,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty
+        body.colorProperty, model.isPlayingProperty
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
@@ -173,7 +173,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty
+        body.colorProperty, model.isPlayingProperty
       );
     }
     else {
