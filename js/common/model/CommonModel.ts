@@ -18,7 +18,7 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import Engine from './Engine.js';
 import CenterOfMass from './CenterOfMass.js';
 import Range from '../../../../dot/js/Range.js';
-import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import LabModes from './LabModes.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -80,7 +80,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly moreDataProperty;
   public readonly realUnitsProperty;
 
-  public readonly zoomLevelProperty: RangedProperty;
+  public readonly zoomLevelProperty: NumberProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
@@ -226,7 +226,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       range: new Range( 0, 4 ),
       tandem: providedOptions.tandem.createTandem( 'zoomLevelProperty' ),
       numberType: 'Integer'
-    } ).asRanged();
+    } );
     this.zoomProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
       return Utils.linear( 0, 4, 0.5, 1.25, zoomLevel );
     } );
