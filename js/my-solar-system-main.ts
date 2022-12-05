@@ -19,12 +19,12 @@ const simOptions: SimOptions = {
 
   //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
   credits: {
-    leadDesign: '',
-    softwareDevelopment: '',
-    team: '',
-    qualityAssurance: '',
+    leadDesign: 'Diana Tavares',
+    softwareDevelopment: 'Agustín Vallejo, Jonathan Olson',
+    team: 'Amy Rouinfar, Ariel Paul, Emily Moore, Sola Olateju, Kathy Perkins',
+    qualityAssurance: 'Kathryn Woessner, Nancy Salpepi',
     graphicArts: '',
-    soundDesign: '',
+    soundDesign: 'Ashton Morris',
     thanks: ''
   },
   webgl: true,
