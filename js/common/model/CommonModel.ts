@@ -173,6 +173,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     this.centerOfMass = new CenterOfMass( this.bodies );
     this.setInitialBodyStates( this.previousModeInfo );
+    this.followCenterOfMass();
     this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
     this.engine = providedOptions.engineFactory( this.bodies );
     this.engine.reset();
@@ -216,6 +217,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
           body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
           body.positionProperty.set( body.positionProperty.value.minus( this.centerOfMass.positionProperty.value ) );
         } );
+        this.updateDefaultModeInfo();
       }
       if ( wasPlayingBefore ) {
         this.isPlayingProperty.value = true; // Resume the sim
@@ -262,13 +264,19 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       this.availableBodies[ i ].preventCollision( this.bodies );
     }
 
+    // Update Center of Mass
+    this.centerOfMass.update();
+  }
+
+  public followCenterOfMass(): void {
+    // Make the center of mass fixed, but not necessarily centered
+    const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
+    this.bodies.forEach( body => {
+      body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
+    } );
+
     // Update Center of Mass to avoid system's initial movement
     this.centerOfMass.update();
-
-    // Make the center of mass fixed, but not necessarily centered
-    this.bodies.forEach( body => {
-      body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
-    } );
   }
 
   public removeLastBody(): void {

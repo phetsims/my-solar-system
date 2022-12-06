@@ -40,6 +40,7 @@ class LabModel extends CommonModel<NumericalEngine> {
         this.lastSelectedMode = mode;
         const modeInfo = this.modeMap.get( mode );
         this.setInitialBodyStates( modeInfo! );
+        this.followCenterOfMass();
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
         this.timeProperty.value = 0;
         this.updateDefaultModeInfo();

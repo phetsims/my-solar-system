@@ -37,7 +37,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
     property: TProperty<number>,
     range: RangeWithValue,
     units: TReadOnlyProperty<string>,
-    userControlledProperty: TReadOnlyProperty<boolean>,
+    userControlledProperty: TProperty<boolean>,
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
     providedOptions?: InteractiveNumberDisplayOptions
@@ -101,6 +101,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
           keypadDialog.beginEdit( value => {
             changed = true;
             property.value = value;
+            userControlledProperty.value = true;
             options.onEditCallback();
           }, range, new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
             min: range.min,
@@ -108,6 +109,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
             units: units
           } ), () => {
             isKeypadActiveProperty.value = false;
+            userControlledProperty.value = false;
             if ( !changed ) {
               isPlayingProperty.value = wasPlaying;
             }
