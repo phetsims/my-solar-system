@@ -25,6 +25,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -118,7 +119,12 @@ export default class BodyNode extends ShadedSphereNode {
       this.addInputListener( dragListener );
     }
 
-    const velocityValueProperty = new DerivedProperty( [ this.body.velocityProperty ], ( velocity: Vector2 ) => Utils.toFixed( velocity.magnitude, options.significantFigures ) );
+    const velocityValueProperty = new DerivedProperty(
+      [ this.body.velocityProperty ],
+      ( velocity: Vector2 ) => Utils.toFixed(
+        velocity.magnitude * MySolarSystemConstants.VELOCITY_MULTIPLIER,
+        options.significantFigures
+      ) );
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
       value: velocityValueProperty,
       units: MySolarSystemStrings.units.kmsStringProperty
