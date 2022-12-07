@@ -17,6 +17,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import platform from '../../../../phet-core/js/platform.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
   public constructor() {
@@ -71,11 +72,17 @@ export default class IntroScreenIcon extends ScreenIcon {
       ]
     } );
 
-    super(
-      platform.safari ? node.rasterized( {
+    const containerNode = new Node();
+
+    Multilink.multilink( [ MySolarSystemColors.firstBodyColorProperty, MySolarSystemColors.secondBodyColorProperty ], () => {
+      containerNode.children = [ platform.safari ? node.rasterized( {
         resolution: 16,
         sourceBounds: new Bounds2( -8, -10, 30 - 8, 20 - 10 )
-      } ) : node,
+      } ) : node ];
+    } );
+
+    super(
+      containerNode,
       { fill: MySolarSystemColors.backgroundProperty }
     );
   }
