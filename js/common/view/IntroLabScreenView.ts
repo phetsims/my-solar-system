@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, Font, GridBox, HBox, Path, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, GridBox, HBox, Path, Rectangle, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -31,13 +31,13 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
-import undoSolidShape from '../../../../sherpa/js/fontawesome-5/undoSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 
 type SelfOptions = EmptySelfOptions;
@@ -150,6 +150,23 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     this.interfaceLayer.addChild( topLeftZoomBox );
 
+    // Restart Icon ---------------------------------------------------------------------------
+    // constants
+    const scale = 0.75;
+    const vscale = 1.15;
+    const barWidth = 4 * scale;
+    const barHeight = 19 * scale * vscale;
+    const triangleWidth = 15 * scale;
+    const triangleHeight = 19 * scale * vscale;
+    const barPath = new Rectangle( 0, 0, barWidth, barHeight, { fill: 'black' } );
+    const trianglePath = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+      fill: 'black'
+    } );
+    const trianglePath2 = new Path( new Shape().moveTo( 0, triangleHeight / 2 ).lineTo( -triangleWidth, 0 ).lineTo( 0, -triangleHeight / 2 ).close(), {
+      fill: 'black'
+    } );
+    const restartIcon = new HBox( { children: [ barPath, trianglePath, trianglePath2 ], spacing: -1 } );
+
     // Control Panel --------------------------------------------------------------------------------------------
     const topRightControlBox = new AlignBox(
       new HBox(
@@ -157,7 +174,7 @@ export default class IntroLabScreenView extends CommonScreenView {
           align: 'top',
           children: [
             new RectangularPushButton( {
-              content: new Path( undoSolidShape, { scale: 0.038, fill: 'black' } ),
+              content: restartIcon,
               listener: () => model.restart(),
               tandem: providedOptions.tandem.createTandem( 'restartButton' ),
               touchAreaXDilation: 7,

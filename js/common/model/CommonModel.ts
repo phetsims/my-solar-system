@@ -268,6 +268,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // Update Center of Mass
     this.centerOfMass.update();
+
+    this.updatePreviousModeInfo();
   }
 
   public followCenterOfMass(): void {
