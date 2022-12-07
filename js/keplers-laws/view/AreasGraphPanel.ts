@@ -136,7 +136,7 @@ class AreasBarPlot extends Node {
           const paintableFields: PaintableOptions = {
             fill: new Color( 'fuchsia' ).darkerColor( area.completion )
           };
-          // @ts-ignore - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
+          // @ts-expect-error - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
           barPlot.rectangles[ index ].mutate( paintableFields );
         } );
       };

@@ -126,7 +126,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // We want to synchronize availableBodies and bodies, so that bodies is effectively availableBodies.filter( isActive )
     // Order matters, AND we don't want to remove items unnecessarily, so some additional logic is required.
-    // @ts-ignore (multilink doesn't like non-tuple arrays for TypeScript, but works perfectly fine)
+    // @ts-expect-error (multilink doesn't like non-tuple arrays for TypeScript, but works perfectly fine)
     Multilink.multilink( this.availableBodies.map( body => body.isActiveProperty ), () => {
       const idealBodies = this.availableBodies.filter( body => body.isActiveProperty.value );
 
