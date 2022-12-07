@@ -7,6 +7,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -117,9 +118,6 @@ class CommonScreenView extends ScreenView {
       tandem: providedOptions.tandem.createTandem( 'measuringTapeNode' ),
       significantFigures: 2
     } );
-    this.modelViewTransformProperty.link( modelViewTransform => {
-      measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
-    } );
     this.topLayer.addChild( measuringTapeNode );
 
 
@@ -183,10 +181,14 @@ class CommonScreenView extends ScreenView {
         yAlign: 'bottom'
       } );
 
-    this.visibleBoundsProperty.link( visibleBounds => {
-      resetAllButtonBox.alignBounds = visibleBounds;
-      measuringTapeNode.setDragBounds( this.modelViewTransformProperty.value.viewToModelBounds( this.visibleBoundsProperty.value.eroded( 50 ) ) );
-    } );
+    Multilink.multilink(
+      [ this.visibleBoundsProperty, this.modelViewTransformProperty ],
+      ( visibleBounds, modelViewTransform ) => {
+        resetAllButtonBox.alignBounds = visibleBounds;
+        measuringTapeNode.setDragBounds( modelViewTransform.viewToModelBounds( visibleBounds.eroded( 50 ) ) );
+        measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
+      }
+    );
 
     this.interfaceLayer.addChild( resetAllButtonBox );
   }
