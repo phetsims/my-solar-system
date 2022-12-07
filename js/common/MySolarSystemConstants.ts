@@ -53,8 +53,8 @@ const MySolarSystemConstants = {
 
   // Multipliers that modify the numeric value shown in Number Displays
   POSITION_MULTIPLIER: 0.01,
-  VELOCITY_MULTIPLIER: 0.20,
-  TIME_MULTIPLIER: 0.21,
+  VELOCITY_MULTIPLIER: 0.2109,
+  TIME_MULTIPLIER: 0.218,
 
   MAX_ORBITAL_DIVISIONS: 6
 };
