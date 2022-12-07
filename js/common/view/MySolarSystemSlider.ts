@@ -29,6 +29,7 @@ export default class MySolarSystemSlider extends HSlider {
     const options = optionize<MySolarSystemSliderOptions, SelfOptions, HSliderOptions>()( {
       trackSize: new Dimension2( 226, 2 ),
       thumbSize: new Dimension2( 15, 25 ),
+      thumbTouchAreaYDilation: 2,
       thumbCenterLineStroke: 'black',
       trackFillEnabled: 'black',
       valueChangeSoundGeneratorOptions: {
