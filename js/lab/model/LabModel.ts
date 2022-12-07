@@ -21,7 +21,6 @@ type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabModes ) => void;
-  private lastSelectedMode: LabModes;
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -30,20 +29,18 @@ class LabModel extends CommonModel<NumericalEngine> {
     }, providedOptions );
     super( options );
 
-    this.lastSelectedMode = LabModes.SUN_PLANET;
     this.modeMap = new Map<LabModes, BodyInfo[]>();
     this.setModesToMap();
 
     this.modeSetter = ( mode: LabModes ) => {
       if ( mode !== LabModes.CUSTOM ) {
         this.isPlayingProperty.value = false;
-        this.lastSelectedMode = mode;
+        this.timeProperty.value = 0;
         const modeInfo = this.modeMap.get( mode );
         this.setInitialBodyStates( modeInfo! );
-        this.followCenterOfMass();
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
-        this.timeProperty.value = 0;
-        this.updateDefaultModeInfo();
+        this.updatePreviousModeInfo();
+        this.followCenterOfMass();
       }
     };
 

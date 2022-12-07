@@ -157,7 +157,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       Multilink.lazyMultilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
-          this.updateDefaultModeInfo();
+          this.updatePreviousModeInfo();
           if ( this.isLab ) {
             this.labModeProperty.value = LabModes.CUSTOM;
           }
@@ -212,12 +212,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       if ( systemCentered ) {
         this.isPlayingProperty.value = false; // Pause the sim
         this.centerOfMass.update();
+        const centerOfMassPosition = this.centerOfMass.positionProperty.value;
+        const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
         this.bodies.forEach( body => {
           body.clearPath();
-          body.velocityProperty.set( body.velocityProperty.value.minus( this.centerOfMass.velocityProperty.value ) );
-          body.positionProperty.set( body.positionProperty.value.minus( this.centerOfMass.positionProperty.value ) );
+          body.positionProperty.set( body.positionProperty.value.minus( centerOfMassPosition ) );
+          body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
         } );
-        this.updateDefaultModeInfo();
+        this.updatePreviousModeInfo();
       }
       if ( wasPlayingBefore ) {
         this.isPlayingProperty.value = true; // Resume the sim
@@ -238,7 +240,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
   }
 
-  public updateDefaultModeInfo(): void {
+  public updatePreviousModeInfo(): void {
     this.previousModeInfo = this.bodies.map( body => ( {
       mass: body.massProperty.value,
       position: body.positionProperty.value,
@@ -283,7 +285,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     const numberOfActiveBodies = this.bodies.length - 1;
     const lastBody = this.bodies[ numberOfActiveBodies ];
     lastBody.isActiveProperty.value = false;
-    this.updateDefaultModeInfo();
+    this.updatePreviousModeInfo();
   }
 
   /**
@@ -296,7 +298,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       newBody.preventCollision( this.bodies );
       newBody.isActiveProperty.value = true;
     }
-    this.updateDefaultModeInfo();
+    this.updatePreviousModeInfo();
   }
 
   public reset(): void {
@@ -311,8 +313,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.measuringTapeVisibleProperty.reset();
     this.valuesVisibleProperty.reset();
     this.moreDataProperty.reset();
-    this.labModeProperty.reset();
     this.centerOfMass.visibleProperty.reset();
+
+    // Changing the Lab Mode briefly to custom so the reset actually triggers the listeners
+    this.labModeProperty.value = LabModes.CUSTOM;
+    this.labModeProperty.reset();
     this.restart();
   }
 
