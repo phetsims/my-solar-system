@@ -8,6 +8,10 @@
     "sha": "6d6c7ef93322054d68e8228576bc6514c268e165",
     "branch": "HEAD"
   },
+  "bamboo": {
+    "sha": "6c7295091ae83f151757825d261abc8b06313f97",
+    "branch": "HEAD"
+  },
   "brand": {
     "sha": "1e38bb54fec31bc737e3cb5f7118021abdeef076",
     "branch": "HEAD"
