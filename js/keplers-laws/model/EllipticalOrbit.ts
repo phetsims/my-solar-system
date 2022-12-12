@@ -196,7 +196,7 @@ export default class EllipticalOrbit extends Engine {
         bodyAngle = Utils.moduloBetweenDown( bodyAngle, startAngle, startAngle + TWOPI );
 
         // Body inside the area
-        if ( startAngle <= bodyAngle && bodyAngle < endAngle ) {
+        if ( startAngle <= bodyAngle && bodyAngle <= endAngle ) {
           orbitalArea.insideProperty.value = true;
           orbitalArea.alreadyEntered = !orbitalArea.resetted;
 

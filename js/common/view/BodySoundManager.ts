@@ -12,6 +12,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import soundConstants from '../../../../tambo/js/soundConstants.js';
+import Utils from '../../../../dot/js/Utils.js';
+
 
 // Bodies sounds
 import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
@@ -35,6 +37,8 @@ import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
 // Metronome sound
 import Metronome_Sound_1_mp3 from '../../../sounds/Metronome_Sound_1_mp3.js';
 import Metronome_Sound_2_mp3 from '../../../sounds/Metronome_Sound_2_mp3.js';
+import Metronome_Sound_Reverb_1_mp3 from '../../../sounds/Metronome_Sound_Reverb_1_mp3.js';
+import Metronome_Sound_Reverb_2_mp3 from '../../../sounds/Metronome_Sound_Reverb_2_mp3.js';
 
 
 const allSounds = [
@@ -106,7 +110,9 @@ export default class BodySoundManager {
 
     this.metronomeSoundClips = [
       new SoundClip( Metronome_Sound_1_mp3, metronomeSoundOptions ),
-      new SoundClip( Metronome_Sound_2_mp3, metronomeSoundOptions )
+      new SoundClip( Metronome_Sound_2_mp3, metronomeSoundOptions ),
+      new SoundClip( Metronome_Sound_Reverb_1_mp3, metronomeSoundOptions ),
+      new SoundClip( Metronome_Sound_Reverb_2_mp3, metronomeSoundOptions )
     ];
 
     this.bodyNumberSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
@@ -138,9 +144,18 @@ export default class BodySoundManager {
     this.collisionSoundClips[ bodyNumber ].play();
   }
 
-  public playOrbitalMetronome( i: number ): void {
-    this.metronomeSoundClips[ 0 ].setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
-    this.metronomeSoundClips[ 0 ].play();
+  public playOrbitalMetronome( i: number, semimajorAxis: number ): void {
+    const smallSound = this.metronomeSoundClips[ 0 ];
+    const bigSound = this.metronomeSoundClips[ 2 ];
+    smallSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
+    smallSound.setOutputLevel( Utils.clamp( Utils.linear( 0, 500, 1, 0, semimajorAxis ), 0, 1 ) );
+    smallSound.play();
+
+
+    bigSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
+    bigSound.setOutputLevel( Utils.clamp( Utils.linear( 100, 500, 0, 1, semimajorAxis ), 0, 1 ) );
+    bigSound.play();
+    console.log( semimajorAxis );
   }
 
   public stop(): void {
