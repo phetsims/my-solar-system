@@ -41,8 +41,8 @@ const simOptions: SimOptions = {
 simLauncher.launch( () => {
   const sim = new Sim( MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty, [
     new IntroScreen( Tandem.ROOT.createTandem( 'introScreen' ) ),
-    new KeplersLawsScreen( Tandem.ROOT.createTandem( 'keplersLawsScreen' ) ),
-    new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) )
+    new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) ),
+    new KeplersLawsScreen( Tandem.ROOT.createTandem( 'keplersLawsScreen' ) )
   ], simOptions );
   sim.start();
 } );
