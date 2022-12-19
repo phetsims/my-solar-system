@@ -23,12 +23,10 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { Color } from '../../../../scenery/js/imports.js';
 import Engine from '../../common/model/Engine.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
@@ -74,22 +72,21 @@ class OrbitalArea {
 export default class EllipticalOrbit extends Engine {
   private readonly mu = 2e6;
   public readonly body: Body;
-  public readonly predictedBody: Body;
   public readonly changedEmitter = new Emitter();
-  private userIsUpdating = false;
   public periodDivisions = 4;
   public orbitalAreas: OrbitalArea[] = [];
   public updateAllowed = true;
   public retrograde = false;
 
   // These variable names are letters to compare and read more easily the equations they are in
-  public a = 0; // semimajor axis
-  public e = 0; // eccentricity
-  public w = 0; // argument of periapsis
-  public M = 0; // mean anomaly
-  public W = 0; // angular velocity
-  public T = 0; // period
+  public a = 0;  // semimajor axis
+  public e = 0;  // eccentricity
+  public w = 0;  // argument of periapsis
+  public M = 0;  // mean anomaly
+  public W = 0;  // angular velocity
+  public T = 0;  // period
   public nu = 0; // true anomaly
+  public L = 0;  // angular momentum
 
   // Variable that determines if the orbit is elliptical or not, if false, it is parabolic
   public allowedOrbit: boolean;
@@ -104,14 +101,6 @@ export default class EllipticalOrbit extends Engine {
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.body = bodies[ 1 ];
-
-    // Temporal body to calculate the predicted position of the body
-    this.predictedBody = new Body(
-      1,
-      Vector2.ZERO,
-      Vector2.ZERO,
-      new TinyProperty( Color.BLACK )
-    );
     this.allowedOrbit = false;
     this.update();
 
@@ -119,11 +108,9 @@ export default class EllipticalOrbit extends Engine {
     Multilink.multilink(
       [ this.body.userControlledPositionProperty, this.body.userControlledVelocityProperty ],
       ( userControlledPosition: boolean, userControlledVelocity: boolean ) => {
-        this.userIsUpdating = true;
         this.updateAllowed = userControlledPosition || userControlledVelocity;
         this.resetOrbitalAreas();
         this.update();
-        this.userIsUpdating = false;
     } );
   }
 
@@ -135,8 +122,17 @@ export default class EllipticalOrbit extends Engine {
     this.M += dt * this.W;
     this.nu = this.getTrueAnomaly( this.M );
 
-    this.predictedBody.positionProperty.value = this.createPolar( -this.nu );
-    this.updateAllowed = true;
+    // Update the position and velocity of the body
+    const currentPosition = this.body.positionProperty.value;
+    const newPosition = this.createPolar( this.nu, this.w );
+    const newVelocity = newPosition.minus( currentPosition ).normalize();
+    const newAngularMomentum = newPosition.crossScalar( newVelocity );
+    newVelocity.multiplyScalar( this.L / newAngularMomentum );
+
+    this.body.positionProperty.value = newPosition;
+    this.body.velocityProperty.value = newVelocity;
+
+    this.calculateDivisionPoints();
   }
 
   /**
@@ -147,18 +143,19 @@ export default class EllipticalOrbit extends Engine {
 
     const r = this.body.positionProperty.value;
     const v = this.body.velocityProperty.value;
+    this.L = r.crossScalar( v );
 
     this.allowedOrbit = false;
     if ( this.escapeVelocityNotExceeded( r, v ) ) {
-      const { a, e, w, W } = this.calculateEllipse( r, v );
+      const { a, e, w, M, W } = this.calculateEllipse( r, v );
       this.a = a;
       this.e = e;
       this.w = w;
+      this.M = M;
       this.W = W;
 
       // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
-
 
       if ( !this.collidedWithSun( a, e ) ) {
         this.allowedOrbit = true;
@@ -170,8 +167,8 @@ export default class EllipticalOrbit extends Engine {
     this.changedEmitter.emit();
   }
 
-  private createPolar( nu: number ): Vector2 {
-    return Vector2.createPolar( this.calculateR( this.a, this.e, nu ), nu );
+  private createPolar( nu: number, w = 0 ): Vector2 {
+    return Vector2.createPolar( this.calculateR( this.a, this.e, nu ), nu + w );
   }
 
   /**
@@ -181,7 +178,7 @@ export default class EllipticalOrbit extends Engine {
    */
   private calculateDivisionPoints(): void {
     let previousNu = 0;
-    let bodyAngle = TWOPI - this.nu;
+    let bodyAngle = this.nu;
 
     this.orbitalAreas.forEach( ( orbitalArea, i ) => {
       if ( i < this.periodDivisions && this.allowedOrbit ) {
@@ -347,7 +344,6 @@ export default class EllipticalOrbit extends Engine {
 
   public override reset(): void {
     this.resetOrbitalAreas();
-    this.predictedBody.reset();
     this.a = 0; // semimajor axis
     this.e = 0; // eccentricity
     this.w = 0; // argument of periapsis

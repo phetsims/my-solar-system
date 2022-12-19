@@ -36,16 +36,6 @@ export default class EllipticalOrbitNode extends Path {
 
     this.orbit = model.engine;
 
-    // Temporal orbiting body, displayed as a white X. In the future, the orbiting body should be the BodyNode
-    const predictedBody = this.orbit.predictedBody;
-    const predicted = new XNode( {
-      fill: 'white',
-      stroke: 'white',
-      center: Vector2.ZERO,
-      legThickness: 2,
-      length: 10
-    } );
-
     // Drawing of Periapsis and Apoapsis, their position is updated later
     const periapsis = new XNode( {
       fill: 'gold',
@@ -104,7 +94,6 @@ export default class EllipticalOrbitNode extends Path {
     this.addChild( areaPathsNode );
     this.addChild( periapsis );
     this.addChild( apoapsis );
-    this.addChild( predicted );
     this.addChild( orbitDivisionsNode );
 
     const updatedOrbit = () => {
@@ -133,7 +122,6 @@ export default class EllipticalOrbitNode extends Path {
 
       periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
       apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
-      predicted.center = predictedBody.positionProperty.value.minus( center ).times( scale );
 
       // Drawing the orbital division points and areas
       this.orbit.orbitalAreas.forEach( ( area, i ) => {

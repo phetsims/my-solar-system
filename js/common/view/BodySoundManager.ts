@@ -155,7 +155,6 @@ export default class BodySoundManager {
     bigSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
     bigSound.setOutputLevel( Utils.clamp( Utils.linear( 100, 500, 0, 1, semimajorAxis ), 0, 1 ) );
     bigSound.play();
-    console.log( semimajorAxis );
   }
 
   public stop(): void {
