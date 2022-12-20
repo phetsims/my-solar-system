@@ -145,17 +145,12 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
         this.bodySoundManager.playBodyRemovedSound( 2 );
       } );
 
-      const pauseOnControlledListener = ( controlled: boolean ) => {
-        if ( controlled ) {
-          this.isPlayingProperty.value = false;
-        }
-      };
-      body.userControlledPositionProperty.lazyLink( pauseOnControlledListener );
-      body.userControlledVelocityProperty.lazyLink( pauseOnControlledListener );
-
       Multilink.lazyMultilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
+          if ( userControlledPosition || userControlledVelocity ) {
+            this.isPlayingProperty.value = false;
+          }
           this.updatePreviousModeInfo();
           if ( this.isLab ) {
             this.labModeProperty.value = LabModes.CUSTOM;

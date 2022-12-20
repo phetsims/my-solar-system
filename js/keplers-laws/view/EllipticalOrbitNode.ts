@@ -1,14 +1,14 @@
 // Copyright 2022, University of Colorado Boulder
 /**
  * Visual Node for the Elliptical Orbit based on the Orbital Parameters
- * 
+ *
  * @author Agustín Vallejo
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
-import { Path, Node, Circle } from '../../../../scenery/js/imports.js';
+import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -26,7 +26,7 @@ export default class EllipticalOrbitNode extends Path {
   public constructor(
     model: KeplersLawsModel,
     modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>
-    ) {
+  ) {
 
     // Passing in a null shape, since it will be updated later
     super( null, {
@@ -43,8 +43,8 @@ export default class EllipticalOrbitNode extends Path {
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
         [ model.periapsisVisibleProperty ], visible => {
-        return visible && ( this.orbit.e > 0 );
-      } )
+          return visible && ( this.orbit.e > 0 );
+        } )
     } );
     const apoapsis = new XNode( {
       fill: 'cyan',
@@ -52,8 +52,8 @@ export default class EllipticalOrbitNode extends Path {
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
         [ model.apoapsisVisibleProperty ], visible => {
-        return visible && ( this.orbit.e > 0 );
-      } )
+          return visible && ( this.orbit.e > 0 );
+        } )
     } );
     const axisPath = new Path( null, {
       stroke: MySolarSystemColors.foregroundProperty,
@@ -66,7 +66,7 @@ export default class EllipticalOrbitNode extends Path {
     const areaPaths: Path[] = [];
 
     for ( let i = 0; i < model.maxDivisionValue; i++ ) {
-      orbitDivisions.push( new Circle( 5, {
+      orbitDivisions.push( new Circle( 4, {
         fill: 'black',
         stroke: MySolarSystemColors.orbitColorProperty,
         lineWidth: 3,
@@ -141,7 +141,7 @@ export default class EllipticalOrbitNode extends Path {
 
           // Activate area path
           // Opacity lowered down to 0.8 for stylistic purposes
-          areaPaths[ i ].opacity = 0.8 * area.completion;
+          areaPaths[ i ].opacity = area.insideProperty.value ? 1 : 0.8 * area.completion;
           areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
             0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
           ).close();

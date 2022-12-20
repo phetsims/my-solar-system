@@ -3,7 +3,7 @@
  * The Elliptical Orbit model element. Evolves the body and
  * keeps track of orbital elements.
  * Serves as the Engine for the Keplers Laws Model
- * 
+ *
  * Variable definitions:
  * r: position vector
  * v: velocity vector
@@ -44,6 +44,7 @@ class Ellipse {
 }
 
 class OrbitalArea {
+  // TODO: Document what all this means
   public dotPosition = Vector2.ZERO;
   public startPosition = Vector2.ZERO;
   public endPosition = Vector2.ZERO;
@@ -88,7 +89,7 @@ export default class EllipticalOrbit extends Engine {
   public nu = 0; // true anomaly
   public L = 0;  // angular momentum
 
-  // Variable that determines if the orbit is elliptical or not, if false, it is parabolic
+  // Keeps track of the validity of the orbit. True if elliptic, false either if parabolic or collision orbit.
   public allowedOrbit: boolean;
 
   public constructor( bodies: ObservableArray<Body> ) {
@@ -111,7 +112,7 @@ export default class EllipticalOrbit extends Engine {
         this.updateAllowed = userControlledPosition || userControlledVelocity;
         this.resetOrbitalAreas();
         this.update();
-    } );
+      } );
   }
 
   public override run( dt: number ): void {
@@ -132,7 +133,8 @@ export default class EllipticalOrbit extends Engine {
     this.body.positionProperty.value = newPosition;
     this.body.velocityProperty.value = newVelocity;
 
-    this.calculateDivisionPoints();
+    this.calculateOrbitalDivisions( true );
+    this.changedEmitter.emit();
   }
 
   /**
@@ -157,11 +159,9 @@ export default class EllipticalOrbit extends Engine {
       // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
 
-      if ( !this.collidedWithSun( a, e ) ) {
-        this.allowedOrbit = true;
-      }
+      this.allowedOrbit = !this.collidedWithSun( a, e );
 
-      this.calculateDivisionPoints();
+      this.calculateOrbitalDivisions( false );
     }
 
     this.changedEmitter.emit();
@@ -176,9 +176,9 @@ export default class EllipticalOrbit extends Engine {
    * divides the orbit in isochrone sections.
    *
    */
-  private calculateDivisionPoints(): void {
+  private calculateOrbitalDivisions( fillAreas: boolean ): void {
     let previousNu = 0;
-    let bodyAngle = this.nu;
+    let bodyAngle = -this.nu;
 
     this.orbitalAreas.forEach( ( orbitalArea, i ) => {
       if ( i < this.periodDivisions && this.allowedOrbit ) {
@@ -192,35 +192,34 @@ export default class EllipticalOrbit extends Engine {
         let endAngle = Utils.moduloBetweenDown( nu, startAngle, startAngle + TWOPI );
         bodyAngle = Utils.moduloBetweenDown( bodyAngle, startAngle, startAngle + TWOPI );
 
-        // Body inside the area
-        if ( startAngle <= bodyAngle && bodyAngle <= endAngle ) {
-          orbitalArea.insideProperty.value = true;
-          orbitalArea.alreadyEntered = !orbitalArea.resetted;
+        if ( fillAreas ) {
+          // Body inside the area
+          if ( startAngle <= bodyAngle && bodyAngle < endAngle ) {
+            orbitalArea.insideProperty.value = true;
+            orbitalArea.alreadyEntered = true;
 
-          // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
-          const completionRate = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
-          if ( this.retrograde ) {
-            startAngle = bodyAngle;
-            orbitalArea.completion = ( 1 - completionRate );
+            // Map opacity from 0 to 1 based on BodyAngle from startAngle to endAngle (inside area)
+            const completionRate = ( bodyAngle - startAngle ) / ( endAngle - startAngle );
+            if ( this.retrograde ) {
+              startAngle = bodyAngle;
+              orbitalArea.completion = ( 1 - completionRate );
+            }
+            else {
+              endAngle = bodyAngle;
+              orbitalArea.completion = completionRate;
+            }
           }
+          // OUTSIDE THE AREA
           else {
-            endAngle = bodyAngle;
-            orbitalArea.completion = completionRate;
+            orbitalArea.insideProperty.value = false;
+            // Map completion from 1 to 0 based on BodyAngle from startAngle to endAngle (outside area)
+            let completionFalloff = ( bodyAngle - startAngle - TWOPI ) / ( endAngle - startAngle - TWOPI );
+
+            // Correct for negative values
+            completionFalloff = Utils.moduloBetweenDown( completionFalloff, 0, 1 );
+
+            orbitalArea.completion = this.retrograde ? ( 1 - completionFalloff ) : completionFalloff;
           }
-        }
-        // OUTSIDE THE AREA
-        else {
-          // Disable the resetted flag to avoid fully lit areas just when reset button is pressed or the body moved
-          orbitalArea.resetted = false;
-
-          orbitalArea.insideProperty.value = false;
-          // Map completion from 1 to 0 based on BodyAngle from startAngle to endAngle (outside area)
-          let completionFalloff = ( bodyAngle - startAngle - TWOPI ) / ( endAngle - startAngle - TWOPI );
-
-          // Correct for negative values
-          completionFalloff = Utils.moduloBetweenDown( completionFalloff, 0, 1 );
-
-          orbitalArea.completion = this.retrograde ? ( 1 - completionFalloff ) : completionFalloff;
         }
 
         // Update orbital area properties
@@ -284,12 +283,16 @@ export default class EllipticalOrbit extends Engine {
     const rAngle = r.angle;
     const vAngle = v.angle;
 
-    // True anomaly comes from the polar ellipse equation. Based on rMagnitude, at what angle should it be
-    let nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
+    // Circular orbit
+    let nu = rAngle;
+    if ( e > 0 ) {
+      // True anomaly comes from the polar ellipse equation. Based on rMagnitude, at what angle should it be
+      nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
 
-    // Determine the cuadrant of the true anomaly
-    if ( Math.cos( rAngle - vAngle ) > 0 ) {
-      nu *= -1;
+      // Determine the cuadrant of the true anomaly
+      if ( Math.cos( rAngle - vAngle ) > 0 ) {
+        nu *= -1;
+      }
     }
 
     // Mean angular velocity

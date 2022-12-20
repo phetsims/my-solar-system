@@ -8,7 +8,6 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Body from '../../common/model/Body.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -17,7 +16,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbit from './EllipticalOrbit.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
@@ -58,23 +56,15 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     } );
 
     this.periodDivisionProperty.link( divisions => {
-        this.engine.periodDivisions = divisions;
-        this.engine.update();
-      } );
+      this.engine.periodDivisions = divisions;
+      this.engine.update();
+    } );
 
     this.engine.orbitalAreas.forEach( ( area, index ) => {
       area.insideProperty.link( inside => {
         if ( inside && this.isPlayingProperty.value ) {
-          const soundIndex = this.engine.retrograde ? index : this.periodDivisionProperty.value - index - 1;
+          const soundIndex = this.engine.retrograde ? this.periodDivisionProperty.value - index - 1 : index;
           this.bodySoundManager.playOrbitalMetronome( soundIndex, this.engine.a );
-        }
-      } );
-    } );
-
-    this.bodies.forEach( body => {
-      body.userControlledPositionProperty.link( positionBeingDragged => {
-        if ( positionBeingDragged ) {
-          this.isPlayingProperty.value = false;
         }
       } );
     } );
@@ -91,8 +81,10 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public override setInitialBodyStates(): void {
     if ( this.bodies.length === 0 ) {
       // If bodies haven't been created, populate the bodies array
-      this.bodies.add( new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ), MySolarSystemColors.firstBodyColorProperty ) );
-      this.bodies.add( new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 110 ), MySolarSystemColors.secondBodyColorProperty ) );
+      super.setInitialBodyStates( [
+        { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+        { mass: 50, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+      ] );
     }
     else {
       // Reset the orbiting body

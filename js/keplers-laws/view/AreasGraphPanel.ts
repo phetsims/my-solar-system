@@ -133,8 +133,9 @@ class AreasBarPlot extends Node {
 
         // TODO: Maybe there's a better solution than a double loop
         activeAreas.forEach( ( area, index ) => {
+          const opacity = area.insideProperty.value ? 1 : area.completion;
           const paintableFields: PaintableOptions = {
-            fill: new Color( 'fuchsia' ).darkerColor( area.completion )
+            fill: new Color( 'fuchsia' ).darkerColor( opacity )
           };
           // @ts-expect-error - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
           barPlot.rectangles[ index ].mutate( paintableFields );
