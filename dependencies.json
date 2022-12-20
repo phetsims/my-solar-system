@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "a87ea751fd4dae5792bb09aa1a81c3b031516a28",
+    "sha": "7d9641fa09f71ef9d1095818edecd6c4c91b1cbf",
     "branch": "1.0"
   },
   "perennial-alias": {
@@ -69,7 +69,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "72fc0631642f58dfb65e5a99ddf61804fe3c13cf",
+    "sha": "04f748c59be73f53a5bf529b7f427400b78e85a3",
     "branch": "HEAD"
   },
   "scenery-phet": {
