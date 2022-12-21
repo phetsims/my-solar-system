@@ -27,7 +27,10 @@ const MySolarSystemConstants = {
     lineWidth: 2,
     cornerRadius: 5,
     xMargin: PANEL_X_MARGIN,
-    fill: MySolarSystemColors.controlPanelFillProperty
+    fill: MySolarSystemColors.controlPanelFillProperty,
+    layoutOptions: {
+      stretch: true
+    }
   },
   CHECKBOX_OPTIONS: {
     boxWidth: 14,

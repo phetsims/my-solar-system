@@ -2,7 +2,7 @@
 
 /**
  * Screen view for the My Solar System Screen
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -34,6 +34,7 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import Panel from '../../../../sun/js/Panel.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -46,7 +47,7 @@ class CommonScreenView extends ScreenView {
   protected readonly topLayer = new Node();
   protected readonly bottomLayer = new Node();
 
-  protected readonly timeBox: HBox;
+  protected readonly timeBox: Panel;
 
   protected readonly createDraggableVectorNode: ( body: Body, options?: DraggableVectorNodeOptions ) => DraggableVectorNode;
 
@@ -68,9 +69,12 @@ class CommonScreenView extends ScreenView {
     this.modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
       return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
         Vector2.ZERO,
-        new Vector2( this.layoutBounds.center.x, this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing * 0.5 ),
+        new Vector2(
+          this.layoutBounds.center.x,
+          this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing * 0.5
+        ),
         zoom );
-      } );
+    } );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new GridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
@@ -82,18 +86,18 @@ class CommonScreenView extends ScreenView {
       {
         stroke: MySolarSystemColors.gridIconStrokeColorProperty,
         visibleProperty: model.gridVisibleProperty
-     } ) );
+      } ) );
 
     this.createDraggableVectorNode = ( body: Body, options?: DraggableVectorNodeOptions ) => {
-        return new DraggableVectorNode(
-          body,
-          this.modelViewTransformProperty,
-          model.velocityVisibleProperty,
-          body.velocityProperty,
-          1,
-          MySolarSystemStrings.VStringProperty,
-          combineOptions<DraggableVectorNodeOptions>( { fill: PhetColorScheme.VELOCITY }, options )
-        );
+      return new DraggableVectorNode(
+        body,
+        this.modelViewTransformProperty,
+        model.velocityVisibleProperty,
+        body.velocityProperty,
+        1,
+        MySolarSystemStrings.VStringProperty,
+        combineOptions<DraggableVectorNodeOptions>( { fill: PhetColorScheme.VELOCITY }, options )
+      );
     };
 
     // Center of Mass Node =====================================================================================================
@@ -132,7 +136,7 @@ class CommonScreenView extends ScreenView {
       units: MySolarSystemStrings.units.yearsStringProperty
     } );
 
-    const clockNode = new VBox( {
+    const clockNode = new HBox( {
       children: [
         new NumberDisplay( model.timeProperty, model.timeRange, {
           backgroundFill: null,
@@ -150,7 +154,7 @@ class CommonScreenView extends ScreenView {
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
-          layoutOptions: { align: 'right', stretch: true },
+          // layoutOptions: { align: 'right', stretch: true },
           touchAreaXDilation: 10,
           touchAreaYDilation: 10
         } )
@@ -158,11 +162,11 @@ class CommonScreenView extends ScreenView {
       spacing: 8
     } );
 
-    this.timeBox = new HBox( {
-      children: [ timeControlNode, clockNode ],
-      layoutOptions: { yAlign: 'bottom', column: 1 },
-      spacing: 20
-      } );
+    this.timeBox = new Panel( new VBox( {
+      children: [ clockNode, timeControlNode ],
+      // layoutOptions: { yAlign: 'bottom', column: 1 },
+      spacing: 10
+    } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {

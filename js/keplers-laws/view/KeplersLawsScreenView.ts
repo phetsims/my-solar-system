@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, HBox, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
@@ -85,7 +85,13 @@ class KeplersLawsScreenView extends CommonScreenView {
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
     const controlPanelAlignBox = new AlignBox(
-      new KeplersLawsControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) ),
+      new VBox( {
+        spacing: 10,
+        children: [
+          new KeplersLawsControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) ),
+          this.timeBox
+        ]
+      } ),
       { margin: MARGIN, xAlign: 'right', yAlign: 'top' }
     );
 
@@ -100,7 +106,7 @@ class KeplersLawsScreenView extends CommonScreenView {
 
 
     // Add the center box containing the time control buttons
-    const centerBox = new AlignBox( this.timeBox, {
+    const centerBox = new AlignBox( new Node(), {
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'center',
         yAlign: 'bottom'
