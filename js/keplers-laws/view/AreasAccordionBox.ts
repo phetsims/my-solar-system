@@ -82,7 +82,7 @@ class AreasControls extends VBox {
 
     super( {
       children: [
-        new Checkbox( model.dotsVisibleProperty, new Text( MySolarSystemStrings.area.dotsStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.dotsVisibleProperty, new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new Checkbox( model.sweepAreaVisibleProperty, new Text( MySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
         new Checkbox( model.areaGraphVisibleProperty, new Text( MySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
           combineOptions<CheckboxOptions>(
