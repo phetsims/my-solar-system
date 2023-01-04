@@ -8,15 +8,17 @@
  */
 
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { Text, TextOptions } from '../../../../scenery/js/imports.js';
+import { Image, ImageOptions } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import LawMode from '../model/LawMode.js';
+import iconFirstLaw_png from '../../../images/iconFirstLaw_png.js';
+import iconSecondLaw_png from '../../../images/iconSecondLaw_png.js';
+import iconThirdLaw_png from '../../../images/iconThirdLaw_png.js';
 
-const TEXT_OPTIONS: TextOptions = {
-  font: MySolarSystemConstants.PANEL_FONT
+const IMAGE_OPTIONS: ImageOptions = {
+  scale: 0.5
 };
 
 export type LawsButtonsOptions = RectangularRadioButtonGroupOptions;
@@ -26,9 +28,7 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
     const options = combineOptions<LawsButtonsOptions>( {
       orientation: 'horizontal',
       radioButtonOptions: {
-        baseColor: 'white',
-        xMargin: 10,
-        yMargin: 30,
+        baseColor: '#555',
         buttonAppearanceStrategyOptions: {
           selectedStroke: '#60a9dd',
           selectedLineWidth: 4
@@ -38,16 +38,22 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
       touchAreaYDilation: 10
     }, providedOptions );
 
+
     // Intentionally left without MySolarSystemStrings because this buttons will have icons
     super( model.selectedLawProperty, [
       {
+        value: LawMode.FIRST_LAW,
+        createNode: tandem => new Image( iconFirstLaw_png, IMAGE_OPTIONS ),
+        tandemName: 'firstLawButton'
+      },
+      {
         value: LawMode.SECOND_LAW,
-        createNode: tandem => new Text( '2nd Law', TEXT_OPTIONS ),
+        createNode: tandem => new Image( iconSecondLaw_png, IMAGE_OPTIONS ),
         tandemName: 'secondLawButton'
       },
       {
         value: LawMode.THIRD_LAW,
-        createNode: tandem => new Text( '3rd Law', TEXT_OPTIONS ),
+        createNode: tandem => new Image( iconThirdLaw_png, IMAGE_OPTIONS ),
         tandemName: 'thirdLawButton'
       }
     ], options );

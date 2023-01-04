@@ -52,8 +52,6 @@ type StringsType = {
   'area': {
     'title': string;
     'titleStringProperty': LinkableProperty<string>;
-    'dots': string;
-    'dotsStringProperty': LinkableProperty<string>;
     'sweptArea': string;
     'sweptAreaStringProperty': LinkableProperty<string>;
     'areaGraph': string;
