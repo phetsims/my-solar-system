@@ -7,9 +7,8 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { HBox, HSeparator, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
@@ -20,31 +19,20 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
 };
 
-const TITLE_OPTIONS = {
-  font: MySolarSystemConstants.TITLE_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
-
 type SelfOptions = EmptySelfOptions;
 
-export type AreasAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
+export type SecondLawPanelOptions = SelfOptions & PanelOptions;
 
-export default class AreasAccordionBox extends AccordionBox {
+export default class SecondLawPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
-    const options = combineOptions<AreasAccordionBoxOptions>( {
-      titleNode: new Text( MySolarSystemStrings.area.titleStringProperty, TITLE_OPTIONS ),
-      expandedProperty: model.areasVisibleProperty,
-      buttonXMargin: 5,
-      buttonYMargin: 5
-    }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
-
-    super( new AreasControls( model ), options );
+    super( new AreasControls( model ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
 }
 
@@ -82,13 +70,6 @@ class AreasControls extends VBox {
 
     super( {
       children: [
-        new Checkbox( model.dotsVisibleProperty, new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.sweepAreaVisibleProperty, new Text( MySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.areaGraphVisibleProperty, new Text( MySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
-          combineOptions<CheckboxOptions>(
-            { enabledProperty: model.sweepAreaVisibleProperty },
-            MySolarSystemConstants.CHECKBOX_OPTIONS ) ),
-        new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
         new HBox( {
           children: [
             new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TEXT_OPTIONS ),
@@ -99,7 +80,15 @@ class AreasControls extends VBox {
           margin: 4,
           visibleProperty: model.dotsVisibleProperty
         } ),
-        divisionSlider
+        divisionSlider,
+        new Checkbox( model.sweepAreaVisibleProperty, new Text( MySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
+        new Checkbox( model.areaGraphVisibleProperty, new Text( MySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
+          combineOptions<CheckboxOptions>(
+            {
+              enabledProperty: model.sweepAreaVisibleProperty,
+              x: 100
+            },
+            MySolarSystemConstants.CHECKBOX_OPTIONS ) )
       ],
       spacing: 10,
       align: 'left',
@@ -108,4 +97,4 @@ class AreasControls extends VBox {
   }
 }
 
-mySolarSystem.register( 'AreasAccordionBox', AreasAccordionBox );
+mySolarSystem.register( 'SecondLawPanel', SecondLawPanel );

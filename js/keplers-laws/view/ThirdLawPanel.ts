@@ -8,11 +8,10 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { Circle, GridBox, Node, NodeOptions, Path, RichText, RichTextOptions, Text } from '../../../../scenery/js/imports.js';
+import { Circle, GridBox, Node, NodeOptions, Path, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -24,6 +23,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import LawMode from '../model/LawMode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 
 //REVIEW: Try factoring this out from the places it's seen (it's a few)
 const TEXT_OPTIONS = {
@@ -37,75 +37,77 @@ const TITLE_OPTIONS = {
   fill: MySolarSystemColors.foregroundProperty
 };
 
-export type ThirdLawAccordionBoxOptions = AccordionBoxOptions;
+export type ThirdLawPanelOptions = PanelOptions;
 
-export default class ThirdLawAccordionBox extends AccordionBox {
+export default class ThirdLawPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
-    const options = combineOptions<ThirdLawAccordionBoxOptions>( {
-      titleNode: new Text( MySolarSystemStrings.graph.titleStringProperty, TITLE_OPTIONS ),
-      expandedProperty: model.areasVisibleProperty,
+    const options = combineOptions<ThirdLawPanelOptions>( {
       visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
         return selectedLaw === LawMode.THIRD_LAW;
       } ),
-      buttonXMargin: 5,
-      buttonYMargin: 5,
       fill: MySolarSystemColors.backgroundProperty,
       stroke: MySolarSystemColors.gridIconStrokeColorProperty
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
-    super( new GridBox( {
+    super( new VBox( {
+      spacing: 10,
       children: [
-        new RectangularRadioButtonGroup(
-          model.selectedPeriodPowerProperty,
-          [
-            {
-              value: 1,
-              //REVIEW: We should probably make these terms translatable
-              createNode: tandem => new RichText( 'T', TEXT_OPTIONS )
-            },
-            {
-              value: 2,
-              //REVIEW: And this should probably include string composition (e.g. combining the translated string for
-              //REVIEW: T with the superscript somehow?)
-              createNode: tandem => new RichText( 'T<sup>2</sup>', TEXT_OPTIONS )
-            },
-            {
-              value: 3,
-              createNode: tandem => new RichText( 'T<sup>3</sup>', TEXT_OPTIONS )
-            }
+        new Text( MySolarSystemStrings.graph.titleStringProperty, TITLE_OPTIONS ),
+        new GridBox( {
+          children: [
+            new RectangularRadioButtonGroup(
+              model.selectedPeriodPowerProperty,
+              [
+                {
+                  value: 1,
+                  //REVIEW: We should probably make these terms translatable
+                  createNode: tandem => new RichText( 'T', TEXT_OPTIONS )
+                },
+                {
+                  value: 2,
+                  //REVIEW: And this should probably include string composition (e.g. combining the translated string for
+                  //REVIEW: T with the superscript somehow?)
+                  createNode: tandem => new RichText( 'T<sup>2</sup>', TEXT_OPTIONS )
+                },
+                {
+                  value: 3,
+                  createNode: tandem => new RichText( 'T<sup>3</sup>', TEXT_OPTIONS )
+                }
+              ],
+              {
+                layoutOptions: { column: 0, row: 0 }
+              }
+            ),
+            new RectangularRadioButtonGroup(
+              model.selectedAxisPowerProperty,
+              [
+                {
+                  value: 1,
+                  //REVIEW: We should probably make these terms translatable
+                  createNode: tandem => new RichText( 'a', TEXT_OPTIONS )
+                },
+                {
+                  value: 2,
+                  createNode: tandem => new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
+                },
+                {
+                  value: 3,
+                  createNode: tandem => new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
+                }
+              ],
+              {
+                layoutOptions: { column: 1, row: 1 },
+                orientation: 'horizontal'
+              }
+            ),
+            new KeplerLawsGraph( model, model.engine, {
+              layoutOptions: { column: 1, row: 0 },
+              excludeInvisibleChildrenFromBounds: true
+            } )
           ],
-          {
-            layoutOptions: { column: 0, row: 0 }
-          }
-        ),
-        new RectangularRadioButtonGroup(
-          model.selectedAxisPowerProperty,
-          [
-            {
-              value: 1,
-              //REVIEW: We should probably make these terms translatable
-              createNode: tandem => new RichText( 'a', TEXT_OPTIONS )
-            },
-            {
-              value: 2,
-              createNode: tandem => new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
-            },
-            {
-              value: 3,
-              createNode: tandem => new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
-            }
-          ],
-          {
-            layoutOptions: { column: 1, row: 1 },
-            orientation: 'horizontal'
-          }
-        ),
-        new KeplerLawsGraph( model, model.engine, {
-          layoutOptions: { column: 1, row: 0 },
-          excludeInvisibleChildrenFromBounds: true
+          spacing: 10
         } )
-      ],
-      spacing: 10
+      ]
     } ), options );
   }
 }
@@ -211,4 +213,4 @@ class KeplerLawsGraph extends Node {
   }
 }
 
-mySolarSystem.register( 'ThirdLawAccordionBox', ThirdLawAccordionBox );
+mySolarSystem.register( 'ThirdLawPanel', ThirdLawPanel );

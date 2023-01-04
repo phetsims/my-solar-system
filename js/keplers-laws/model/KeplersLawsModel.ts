@@ -62,7 +62,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
     this.engine.orbitalAreas.forEach( ( area, index ) => {
       area.insideProperty.link( inside => {
-        if ( inside && this.isPlayingProperty.value ) {
+        if ( inside && this.isPlayingProperty.value && this.selectedLawProperty.value === LawMode.SECOND_LAW ) {
           const soundIndex = this.engine.retrograde ? this.periodDivisionProperty.value - index - 1 : index;
           this.bodySoundManager.playOrbitalMetronome( soundIndex, this.engine.a );
         }

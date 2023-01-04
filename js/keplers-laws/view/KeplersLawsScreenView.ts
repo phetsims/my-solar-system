@@ -8,20 +8,19 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
-import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
-import AreasAccordionBox from './AreasAccordionBox.js';
+import SecondLawPanel from './SecondLawPanel.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
-import ThirdLawAccordionBox from './ThirdLawAccordionBox.js';
+import ThirdLawPanel from './ThirdLawPanel.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import AreasGraphPanel from './AreasGraphPanel.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import SecondLawGraph from './SecondLawGraph.js';
 import LawMode from '../model/LawMode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const MARGIN = 5;
@@ -58,23 +57,23 @@ class KeplersLawsScreenView extends CommonScreenView {
             margin: 5,
             stretch: true,
             children: [
-              new AreasAccordionBox( model ),
-              new AreasGraphPanel( model )
+              new SecondLawPanel( model ),
+              new SecondLawGraph( model )
             ],
             visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
               return selectedLaw === LawMode.SECOND_LAW;
             } )
           } ),
-          new ThirdLawAccordionBox( model ),
-          new MagnifyingGlassZoomButtonGroup(
-            model.zoomLevelProperty, {
-              spacing: 8,
-              magnifyingGlassNodeOptions: {
-                glassRadius: 8
-              },
-              touchAreaXDilation: 5,
-              touchAreaYDilation: 5
-            } )
+          new ThirdLawPanel( model )
+          // new MagnifyingGlassZoomButtonGroup(
+          //   model.zoomLevelProperty, {
+          //     spacing: 8,
+          //     magnifyingGlassNodeOptions: {
+          //       glassRadius: 8
+          //     },
+          //     touchAreaXDilation: 5,
+          //     touchAreaYDilation: 5
+          //   } )
         ],
         spacing: 10,
         align: 'top'
@@ -107,10 +106,10 @@ class KeplersLawsScreenView extends CommonScreenView {
 
     // Add the center box containing the time control buttons
     const centerBox = new AlignBox( new Node(), {
-        margin: MySolarSystemConstants.MARGIN,
-        xAlign: 'center',
-        yAlign: 'bottom'
-      } );
+      margin: MySolarSystemConstants.MARGIN,
+      xAlign: 'center',
+      yAlign: 'bottom'
+    } );
 
     this.visibleBoundsProperty.link( visibleBounds => {
       lawsAndZoomBoxes.alignBounds = visibleBounds;
