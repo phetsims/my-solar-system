@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * Panel that shows the graph of the swept area under the curve of the orbit.
