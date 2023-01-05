@@ -25,6 +25,12 @@ type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'i
 class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
 
+  // Boolean derived properties to keep track of the Law in a shorter way than checking the selectedLawProperty everywhere
+  // TODO: Is this very inefficient?
+  public readonly isFirstLawProperty = new BooleanProperty( false );
+  public readonly isSecondLawProperty = new BooleanProperty( false );
+  public readonly isThirdLawProperty = new BooleanProperty( false );
+
   // Second Law properties
   public axisVisibleProperty = new BooleanProperty( false );
   public apoapsisVisibleProperty = new BooleanProperty( false );
@@ -53,6 +59,10 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
     this.selectedLawProperty.link( law => {
       this.visibilityReset();
+
+      this.isFirstLawProperty.value = law === LawMode.FIRST_LAW;
+      this.isSecondLawProperty.value = law === LawMode.SECOND_LAW;
+      this.isThirdLawProperty.value = law === LawMode.THIRD_LAW;
     } );
 
     this.periodDivisionProperty.link( divisions => {
@@ -62,7 +72,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
     this.engine.orbitalAreas.forEach( ( area, index ) => {
       area.insideProperty.link( inside => {
-        if ( inside && this.isPlayingProperty.value && this.selectedLawProperty.value === LawMode.SECOND_LAW ) {
+        if ( inside && this.isPlayingProperty.value && this.isSecondLawProperty.value ) {
           const soundIndex = this.engine.retrograde ? this.periodDivisionProperty.value - index - 1 : index;
           this.bodySoundManager.playOrbitalMetronome( soundIndex, this.engine.a );
         }

@@ -19,8 +19,6 @@ import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/Com
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import SecondLawGraph from './SecondLawGraph.js';
-import LawMode from '../model/LawMode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const MARGIN = 5;
@@ -60,9 +58,7 @@ class KeplersLawsScreenView extends CommonScreenView {
               new SecondLawPanel( model ),
               new SecondLawGraph( model )
             ],
-            visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
-              return selectedLaw === LawMode.SECOND_LAW;
-            } )
+            visibleProperty: model.isSecondLawProperty
           } ),
           new ThirdLawPanel( model )
           // new MagnifyingGlassZoomButtonGroup(

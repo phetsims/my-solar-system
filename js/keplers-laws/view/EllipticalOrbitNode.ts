@@ -17,7 +17,6 @@ import XNode from '../../../../scenery-phet/js/XNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import LawMode from '../model/LawMode.js';
 
 
 export default class EllipticalOrbitNode extends Path {
@@ -126,10 +125,9 @@ export default class EllipticalOrbitNode extends Path {
 
       // Drawing the orbital division points and areas
 
-      const secondLawSelected = model.selectedLawProperty.value === LawMode.SECOND_LAW;
       this.orbit.orbitalAreas.forEach( ( area, i ) => {
-        orbitDivisions[ i ].visible = secondLawSelected && area.active && this.orbit.allowedOrbit;
-        areaPaths[ i ].visible = secondLawSelected && area.active && this.orbit.allowedOrbit;
+        orbitDivisions[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbit;
+        areaPaths[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbit;
 
         if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbit ) {
           // Set the center of the orbit's divisions dot

@@ -21,8 +21,6 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import LawMode from '../model/LawMode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 
 //REVIEW: Try factoring this out from the places it's seen (it's a few)
@@ -42,9 +40,7 @@ export type ThirdLawPanelOptions = PanelOptions;
 export default class ThirdLawPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<ThirdLawPanelOptions>( {
-      visibleProperty: new DerivedProperty( [ model.selectedLawProperty ], selectedLaw => {
-        return selectedLaw === LawMode.THIRD_LAW;
-      } ),
+      visibleProperty: model.isThirdLawProperty,
       fill: MySolarSystemColors.backgroundProperty,
       stroke: MySolarSystemColors.gridIconStrokeColorProperty
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
