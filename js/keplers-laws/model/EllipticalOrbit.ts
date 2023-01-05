@@ -29,6 +29,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const TWOPI = 2 * Math.PI;
 
@@ -79,13 +80,16 @@ export default class EllipticalOrbit extends Engine {
   public updateAllowed = true;
   public retrograde = false;
 
+  public semimajorAxisProperty = new NumberProperty( 1 );
+  public periodProperty = new NumberProperty( 1 );
+
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 1;  // semimajor axis
   public e = 0;  // eccentricity
   public w = 0;  // argument of periapsis
   public M = 0;  // mean anomaly
   public W = 0;  // angular velocity
-  public T = 0;  // period
+  public T = 1;  // period
   public nu = 0; // true anomaly
   public L = 0;  // angular momentum
 
@@ -162,6 +166,9 @@ export default class EllipticalOrbit extends Engine {
       this.allowedOrbit = !this.collidedWithSun( a, e );
 
       this.calculateOrbitalDivisions( false );
+
+      this.semimajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
+      this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 217.81;
     }
 
     this.changedEmitter.emit();
@@ -352,7 +359,7 @@ export default class EllipticalOrbit extends Engine {
     this.w = 0; // argument of periapsis
     this.M = 0; // mean anomaly
     this.W = 0; // angular velocity
-    this.T = 0; // period
+    this.T = 1; // period
     this.nu = 0; // true anomaly
     this.update();
   }

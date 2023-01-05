@@ -153,7 +153,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       this.children = [
         orbitalInformationNode,
         // TODO: Add first law children here
-        ...( law === LawMode.SECOND_LAW ? secondLawChildren : thirdLawChildren )
+        ...( law === LawMode.THIRD_LAW ? thirdLawChildren : secondLawChildren )
       ];
     } );
   }

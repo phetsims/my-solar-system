@@ -25,7 +25,7 @@ type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'i
 class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
 
-  // Boolean derived properties to keep track of the Law in a shorter way than checking the selectedLawProperty everywhere
+  // Booleans to keep track of which law is selected
   // TODO: Is this very inefficient?
   public readonly isFirstLawProperty = new BooleanProperty( false );
   public readonly isSecondLawProperty = new BooleanProperty( false );
@@ -79,13 +79,14 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       } );
     } );
 
-    this.timeScale = 5.0;
+    this.timeScale = 2.0;
     this.timeMultiplier = 1 / 12.7;
 
     this.zoomLevelProperty.setInitialValue( 2 );
     this.zoomLevelProperty.value = 2;
 
     this.velocityVisibleProperty.value = true;
+
   }
 
   public override setInitialBodyStates(): void {
@@ -93,12 +94,15 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       // If bodies haven't been created, populate the bodies array
       super.setInitialBodyStates( [
         { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-        { mass: 50, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+        { mass: 50, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 177 ) }
       ] );
+
+      this.updatePreviousModeInfo();
     }
     else {
       // Reset the orbiting body
       this.bodies[ 1 ].reset();
+      // debugger;
       this.engine.reset();
     }
   }
