@@ -354,6 +354,7 @@ export default class EllipticalOrbit extends Engine {
     this.W = 0; // angular velocity
     this.T = 0; // period
     this.nu = 0; // true anomaly
+    this.update();
   }
 }
 
