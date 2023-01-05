@@ -80,7 +80,7 @@ export default class EllipticalOrbit extends Engine {
   public retrograde = false;
 
   // These variable names are letters to compare and read more easily the equations they are in
-  public a = 0;  // semimajor axis
+  public a = 1;  // semimajor axis
   public e = 0;  // eccentricity
   public w = 0;  // argument of periapsis
   public M = 0;  // mean anomaly
@@ -347,7 +347,7 @@ export default class EllipticalOrbit extends Engine {
 
   public override reset(): void {
     this.resetOrbitalAreas();
-    this.a = 0; // semimajor axis
+    this.a = 1; // semimajor axis
     this.e = 0; // eccentricity
     this.w = 0; // argument of periapsis
     this.M = 0; // mean anomaly
