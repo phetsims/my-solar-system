@@ -13,6 +13,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabModes from '../../common/model/LabModes.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
@@ -21,6 +22,8 @@ type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabModes ) => void;
+  public readonly labModeProperty: EnumerationProperty<LabModes>;
+
 
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -28,6 +31,19 @@ class LabModel extends CommonModel<NumericalEngine> {
       isLab: true
     }, providedOptions );
     super( options );
+
+    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
+      tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
+    } );
+    this.labModeProperty.link( mode => {
+      if ( mode !== LabModes.CUSTOM ) {
+        this.clearPaths();
+      }
+    } );
+
+    this.userInteractingEmitter.addListener( () => {
+      this.labModeProperty.value = LabModes.CUSTOM;
+    } );
 
     this.modeMap = new Map<LabModes, BodyInfo[]>();
     this.setModesToMap();
@@ -60,6 +76,16 @@ class LabModel extends CommonModel<NumericalEngine> {
         }
       }
     } );
+  }
+
+  public override reset(): void {
+    super.reset();
+
+    // Changing the Lab Mode briefly to custom so the reset actually triggers the listeners
+    this.labModeProperty.value = LabModes.CUSTOM;
+    this.labModeProperty.reset();
+
+    super.restart();
   }
 
   public setModesToMap(): void {

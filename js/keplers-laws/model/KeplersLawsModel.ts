@@ -119,13 +119,21 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
   public visibilityReset(): void {
     // Calls reset only on the visibilityProperties to avoid reentries on selectedLawProperty
+    // First Law
+    this.axisVisibleProperty.reset();
+    this.semiaxisVisibleProperty.reset();
+    this.fociVisibleProperty.reset();
+    this.excentricityVisibleProperty.reset();
+
+    // Second Law
     this.apoapsisVisibleProperty.reset();
     this.periapsisVisibleProperty.reset();
-    this.axisVisibleProperty.reset();
     this.areasVisibleProperty.reset();
     this.dotsVisibleProperty.reset();
     this.sweepAreaVisibleProperty.reset();
     this.areaGraphVisibleProperty.reset();
+
+    // Third Law
     this.semimajorAxisVisibleProperty.reset();
     this.periodVisibleProperty.reset();
   }
@@ -138,6 +146,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.selectedPeriodPowerProperty.reset();
 
     this.visibilityReset();
+    this.engine.updateAllowed = true;
     this.engine.update();
   }
 

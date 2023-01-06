@@ -19,7 +19,6 @@ import Engine from './Engine.js';
 import CenterOfMass from './CenterOfMass.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import LabModes from './LabModes.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -28,6 +27,7 @@ import BodySoundManager from '../view/BodySoundManager.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -63,6 +63,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public numberOfActiveBodiesProperty: NumberProperty;
   public engine: EngineType;
 
+  public readonly userInteractingEmitter = new Emitter();
+
   // Time control parameters
   public timeScale; // Changeable because Kepler's Laws screen uses a different speed
   public timeMultiplier;
@@ -83,7 +85,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly zoomLevelProperty: NumberProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
   public readonly isLab: boolean;
-  public readonly labModeProperty: EnumerationProperty<LabModes>;
 
   private previousModeInfo: BodyInfo[];
   protected defaultModeInfo: BodyInfo[];
@@ -95,14 +96,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
 
     this.isLab = providedOptions.isLab;
-    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
-      tandem: providedOptions.isLab ? providedOptions.tandem.createTandem( 'labModeProperty' ) : Tandem.OPT_OUT
-    } );
-    this.labModeProperty.link( mode => {
-      if ( mode !== LabModes.CUSTOM ) {
-        this.clearPaths();
-      }
-    } );
 
     this.availableBodies = [
       new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ), MySolarSystemColors.firstBodyColorProperty ),
@@ -152,15 +145,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
             this.isPlayingProperty.value = false;
           }
           this.updatePreviousModeInfo();
-          if ( this.isLab ) {
-            this.labModeProperty.value = LabModes.CUSTOM;
-          }
-          if ( userControlledMass ) {
-            // this.bodySoundManager.massSliderSoundClip.play();
-          }
-          else {
-            // this.bodySoundManager.massSliderSoundClip.stop();
-          }
+          this.userInteractingEmitter.emit();
         }
       );
     } );
@@ -311,9 +296,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.moreDataProperty.reset();
     this.centerOfMass.visibleProperty.reset();
 
-    // Changing the Lab Mode briefly to custom so the reset actually triggers the listeners
-    this.labModeProperty.value = LabModes.CUSTOM;
-    this.labModeProperty.reset();
     this.restart();
   }
 
