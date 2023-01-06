@@ -18,6 +18,8 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
@@ -57,6 +59,9 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
   public selectedAxisPowerProperty = new NumberProperty( 1 );
   public selectedPeriodPowerProperty = new NumberProperty( 1 );
+
+  public poweredSemimajorAxisProperty: ReadOnlyProperty<number>;
+  public poweredPeriodProperty: ReadOnlyProperty<number>;
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -98,6 +103,16 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.velocityVisibleProperty.value = true;
     this.velocityVisibleProperty.setInitialValue( true );
 
+    // Powered values of semimajor axis and period
+    this.poweredSemimajorAxisProperty = new DerivedProperty(
+      [ this.selectedAxisPowerProperty, this.engine.semimajorAxisProperty ],
+      ( power, semimajorAxis ) => Math.pow( semimajorAxis, power )
+    );
+
+    this.poweredPeriodProperty = new DerivedProperty(
+      [ this.selectedPeriodPowerProperty, this.engine.periodProperty ],
+      ( power, period ) => Math.pow( period, power )
+    );
   }
 
   public override setInitialBodyStates(): void {

@@ -99,6 +99,14 @@ type StringsType = {
     't': string;
     'tStringProperty': LinkableProperty<string>;
   };
+  'semimajorAxis': string;
+  'semimajorAxisStringProperty': LinkableProperty<string>;
+  'period': string;
+  'periodStringProperty': LinkableProperty<string>;
+  'semimajorAxisSymbol': string;
+  'semimajorAxisSymbolStringProperty': LinkableProperty<string>;
+  'periodSymbol': string;
+  'periodSymbolStringProperty': LinkableProperty<string>;
   'mode': {
     'sunAndPlanet': string;
     'sunAndPlanetStringProperty': LinkableProperty<string>;
@@ -152,6 +160,8 @@ type StringsType = {
     'labelUnitsStringProperty': LinkableProperty<string>;
     'velocityValueUnits': string;
     'velocityValueUnitsStringProperty': LinkableProperty<string>;
+    'textValueUnits': string;
+    'textValueUnitsStringProperty': LinkableProperty<string>;
     'rangeWithUnits': string;
     'rangeWithUnitsStringProperty': LinkableProperty<string>;
     'range': string;

@@ -11,7 +11,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { Circle, GridBox, HBox, Node, NodeOptions, Path, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, GridBox, Node, NodeOptions, Path, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -22,8 +22,10 @@ import EllipticalOrbit from '../model/EllipticalOrbit.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 //REVIEW: Try factoring this out from the places it's seen (it's a few)
 const TEXT_OPTIONS = {
@@ -35,6 +37,17 @@ const TEXT_OPTIONS = {
 const TITLE_OPTIONS = {
   font: MySolarSystemConstants.TITLE_FONT,
   fill: MySolarSystemColors.foregroundProperty
+};
+
+const STRING_PATTERN_OPTIONS: NumberDisplayOptions = {
+  backgroundFill: null,
+  backgroundStroke: null,
+  textOptions: MySolarSystemConstants.TEXT_OPTIONS,
+  decimalPlaces: 1,
+  useRichText: true,
+  layoutOptions: {
+    align: 'left'
+  }
 };
 
 export type PanelThirdLawOptions = PanelOptions;
@@ -49,6 +62,27 @@ export default class PanelThirdLaw extends Panel {
 
     const semiMajorAxisValueRange = new RangeWithValue( 1, 10000, model.engine.a );
     const periodValueRange = new RangeWithValue( 1, 10000, model.engine.T );
+
+    const semimajorAxisStringPattern = new PatternStringProperty( MySolarSystemStrings.pattern.textValueUnitsStringProperty, {
+      text: new DerivedProperty(
+        [ MySolarSystemStrings.semimajorAxisSymbolStringProperty, model.selectedAxisPowerProperty ],
+        ( a, power ) => a + ( power === 1 ? '' : `<sup>${power}</sup>` ) + ' =' ),
+      units: new DerivedProperty(
+        [ MySolarSystemStrings.units.AUStringProperty, model.selectedAxisPowerProperty ],
+        ( au, power ) => au + ( power === 1 ? '' : `<sup>${power}</sup>` )
+      )
+    } );
+
+    const periodStringPattern = new PatternStringProperty( MySolarSystemStrings.pattern.textValueUnitsStringProperty, {
+      text: new DerivedProperty(
+        [ MySolarSystemStrings.periodSymbolStringProperty, model.selectedPeriodPowerProperty ],
+        ( T, power ) => T + ( power === 1 ? '' : `<sup>${power}</sup>` ) + ' =' ),
+      units: new DerivedProperty(
+        [ MySolarSystemStrings.units.yearsStringProperty, model.selectedPeriodPowerProperty ],
+        ( years, power ) => years + ( power === 1 ? '' : `<sup>${power}</sup>` )
+      )
+    } );
+
 
     super( new VBox( {
       spacing: 10,
@@ -110,32 +144,14 @@ export default class PanelThirdLaw extends Panel {
           ],
           spacing: 10
         } ),
-        new HBox( {
-          spacing: 10,
-          layoutOptions: {
-            align: 'right'
-          },
-          // visibleProperty: model.valuesVisibleProperty,
-          children: [
-            new Text( MySolarSystemStrings.graph.aStringProperty, TEXT_OPTIONS ),
-            new NumberDisplay( model.engine.semimajorAxisProperty, semiMajorAxisValueRange, {
-              decimalPlaces: 2
-            } )
-            ]
-        } ),
-        new HBox( {
-          spacing: 10,
-          layoutOptions: {
-            align: 'right'
-          },
-          // visibleProperty: model.valuesVisibleProperty,
-          children: [
-            new Text( MySolarSystemStrings.graph.tStringProperty, TEXT_OPTIONS ),
-            new NumberDisplay( model.engine.periodProperty, periodValueRange, {
-              decimalPlaces: 2
-            } )
-          ]
-        } )
+        new NumberDisplay( model.poweredSemimajorAxisProperty, semiMajorAxisValueRange,
+          combineOptions<NumberDisplayOptions>( {
+            valuePattern: semimajorAxisStringPattern
+          }, STRING_PATTERN_OPTIONS ) ),
+        new NumberDisplay( model.poweredPeriodProperty, periodValueRange,
+          combineOptions<NumberDisplayOptions>( {
+            valuePattern: periodStringPattern
+          }, STRING_PATTERN_OPTIONS ) )
       ]
     } ), options );
   }
