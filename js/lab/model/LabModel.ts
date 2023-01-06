@@ -13,7 +13,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabModes from '../../common/model/LabModes.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
 
@@ -22,7 +21,6 @@ type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabModes ) => void;
-  public readonly labModeProperty: EnumerationProperty<LabModes>;
 
 
   public constructor( providedOptions: LabModelOptions ) {
@@ -32,9 +30,6 @@ class LabModel extends CommonModel<NumericalEngine> {
     }, providedOptions );
     super( options );
 
-    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
-      tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
-    } );
     this.labModeProperty.link( mode => {
       if ( mode !== LabModes.CUSTOM ) {
         this.clearPaths();

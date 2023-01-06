@@ -28,6 +28,7 @@ import MySolarSystemColors from '../MySolarSystemColors.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import LabModes from './LabModes.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -85,6 +86,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly zoomLevelProperty: NumberProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
   public readonly isLab: boolean;
+  public readonly labModeProperty: EnumerationProperty<LabModes>;
+
 
   private previousModeInfo: BodyInfo[];
   protected defaultModeInfo: BodyInfo[];
@@ -96,6 +99,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
 
     this.isLab = providedOptions.isLab;
+    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
+      tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
+    } );
 
     this.availableBodies = [
       new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ), MySolarSystemColors.firstBodyColorProperty ),
