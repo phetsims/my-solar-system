@@ -17,6 +17,7 @@ import EllipticalOrbit from './EllipticalOrbit.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
 
@@ -30,9 +31,16 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
   public readonly isFirstLawProperty = new BooleanProperty( false );
   public readonly isSecondLawProperty = new BooleanProperty( false );
   public readonly isThirdLawProperty = new BooleanProperty( false );
+  public readonly lawUpdatedEmitter = new Emitter();
+
+  // First Law Properties
+  public axisVisibleProperty = new BooleanProperty( false );
+  public semiaxisVisibleProperty = new BooleanProperty( false );
+  public fociVisibleProperty = new BooleanProperty( false );
+  public excentricityVisibleProperty = new BooleanProperty( false );
+
 
   // Second Law properties
-  public axisVisibleProperty = new BooleanProperty( false );
   public apoapsisVisibleProperty = new BooleanProperty( false );
   public periapsisVisibleProperty = new BooleanProperty( false );
 
@@ -63,6 +71,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       this.isFirstLawProperty.value = law === LawMode.FIRST_LAW;
       this.isSecondLawProperty.value = law === LawMode.SECOND_LAW;
       this.isThirdLawProperty.value = law === LawMode.THIRD_LAW;
+
+      this.lawUpdatedEmitter.emit();
     } );
 
     this.periodDivisionProperty.link( divisions => {

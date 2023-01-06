@@ -17,7 +17,6 @@ import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
-import LawMode from '../model/LawMode.js';
 import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
@@ -52,11 +51,11 @@ class KeplersLawsOrbitalInformationBox extends VBox {
     axisShape.moveTo( -10, 0 ).lineTo( 10, 0 );
     axisShape.moveTo( 0, -5 ).lineTo( 0, 5 );
 
-     const axisIconImageNode = new Path(
-       axisShape, {
-       stroke: MySolarSystemColors.foregroundProperty,
-       lineWidth: 1
-     } );
+    const axisIconImageNode = new Path(
+      axisShape, {
+        stroke: MySolarSystemColors.foregroundProperty,
+        lineWidth: 1
+      } );
 
     const dialog = new Dialog( new Node(), {
       titleAlign: 'center',
@@ -99,13 +98,34 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       ]
     } );
 
-    const secondLawChildren = [
+    const firstLawChildren = [
       createCheckbox(
         model.axisVisibleProperty,
         MySolarSystemStrings.axisStringProperty,
         'axisVisibleCheckbox',
         axisIconImageNode
-        ),
+      ),
+      createCheckbox(
+        model.semiaxisVisibleProperty,
+        MySolarSystemStrings.semiaxisStringProperty,
+        'semiAxisVisibleCheckbox'
+        // axisIconImageNode
+      ),
+      createCheckbox(
+        model.fociVisibleProperty,
+        MySolarSystemStrings.fociStringProperty,
+        'fociVisibleCheckbox'
+        // axisIconImageNode
+      ),
+      createCheckbox(
+        model.excentricityVisibleProperty,
+        MySolarSystemStrings.excentricityStringProperty,
+        'excentricityVisibleCheckbox'
+        // axisIconImageNode
+      )
+    ];
+
+    const secondLawChildren = [
       createCheckbox(
         model.apoapsisVisibleProperty,
         MySolarSystemStrings.apoapsisStringProperty,
@@ -141,7 +161,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
         'periodVisibleCheckbox'
         // periodIconImageNode TODO
       )
-      ];
+    ];
 
     super( optionize<KeplersLawsOrbitalInformationOptions, SelfOptions, HBoxOptions>()( {
       spacing: 5,
@@ -149,13 +169,16 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       stretch: true
     }, providedOptions ) );
 
-    model.selectedLawProperty.link( law => {
+    model.lawUpdatedEmitter.addListener( () => {
       this.children = [
         orbitalInformationNode,
-        // TODO: Add first law children here
-        ...( law === LawMode.THIRD_LAW ? thirdLawChildren : secondLawChildren )
+        ...( model.isFirstLawProperty.value ? firstLawChildren :
+             model.isSecondLawProperty.value ? secondLawChildren :
+             model.isThirdLawProperty.value ? thirdLawChildren : [] )
       ];
     } );
+
+    model.lawUpdatedEmitter.emit();
   }
 }
 

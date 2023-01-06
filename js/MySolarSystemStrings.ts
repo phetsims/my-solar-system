@@ -41,6 +41,12 @@ type StringsType = {
   'orbitalStringProperty': LinkableProperty<string>;
   'axis': string;
   'axisStringProperty': LinkableProperty<string>;
+  'foci': string;
+  'fociStringProperty': LinkableProperty<string>;
+  'semiaxis': string;
+  'semiaxisStringProperty': LinkableProperty<string>;
+  'excentricity': string;
+  'excentricityStringProperty': LinkableProperty<string>;
   'apoapsis': string;
   'apoapsisStringProperty': LinkableProperty<string>;
   'periapsis': string;

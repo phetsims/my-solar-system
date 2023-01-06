@@ -41,6 +41,15 @@
   "axis": {
     "value": "Axis"
   },
+  "foci": {
+    "value": "Foci"
+  },
+  "semiaxis": {
+    "value": "Semiaxis"
+  },
+  "excentricity": {
+    "value": "Excentricity"
+  },
   "apoapsis": {
     "value": "Apoapsis"
   },
