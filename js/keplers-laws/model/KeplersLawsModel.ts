@@ -96,6 +96,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.zoomLevelProperty.value = 2;
 
     this.velocityVisibleProperty.value = true;
+    this.velocityVisibleProperty.setInitialValue( true );
 
   }
 
@@ -112,7 +113,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     else {
       // Reset the orbiting body
       this.bodies[ 1 ].reset();
-      // debugger;
       this.engine.reset();
     }
   }

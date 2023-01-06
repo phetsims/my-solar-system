@@ -10,15 +10,16 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
-import SecondLawPanel from './SecondLawPanel.js';
+import PanelSecondLaw from './PanelSecondLaw.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
-import ThirdLawPanel from './ThirdLawPanel.js';
+import PanelThirdLaw from './PanelThirdLaw.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import SecondLawGraph from './SecondLawGraph.js';
+import PanelFirstLaw from './PanelFirstLaw.js';
 
 // constants
 const MARGIN = 5;
@@ -51,16 +52,17 @@ class KeplersLawsScreenView extends CommonScreenView {
     // Second and Third Law Accordion Boxes and Zoom Buttons
     const lawsAndZoomBoxes = new AlignBox( new HBox( {
         children: [
+          new PanelFirstLaw( model ),
           new VBox( {
             margin: 5,
             stretch: true,
             children: [
-              new SecondLawPanel( model ),
+              new PanelSecondLaw( model ),
               new SecondLawGraph( model )
             ],
             visibleProperty: model.isSecondLawProperty
           } ),
-          new ThirdLawPanel( model )
+          new PanelThirdLaw( model )
           // new MagnifyingGlassZoomButtonGroup(
           //   model.zoomLevelProperty, {
           //     spacing: 8,

@@ -13,30 +13,20 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Panel from '../../../../sun/js/Panel.js';
 
 const TEXT_OPTIONS = {
   font: MySolarSystemConstants.PANEL_FONT,
   fill: MySolarSystemColors.foregroundProperty
 };
 
-type SelfOptions = EmptySelfOptions;
-
-export type SecondLawPanelOptions = SelfOptions & PanelOptions;
-
-export default class SecondLawPanel extends Panel {
-  public constructor( model: KeplersLawsModel ) {
-    super( new AreasControls( model ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
-  }
-}
-
-class AreasControls extends VBox {
+export default class PanelSecondLaw extends Panel {
   public constructor( model: KeplersLawsModel ) {
     const divisionsRange = new RangeWithValue( 2, model.maxDivisionValue, 4 );
     const divisionSlider = new HSlider( model.periodDivisionProperty, divisionsRange, {
@@ -68,7 +58,7 @@ class AreasControls extends VBox {
     divisionSlider.addMinorTick( divisionsRange.min + 0.25 * divisionsRange.getLength() );
     divisionSlider.addMinorTick( divisionsRange.min + 0.75 * divisionsRange.getLength() );
 
-    super( {
+    super( new VBox( {
       children: [
         new HBox( {
           children: [
@@ -93,8 +83,8 @@ class AreasControls extends VBox {
       spacing: 10,
       align: 'left',
       stretch: true
-    } );
+    } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
 }
 
-mySolarSystem.register( 'SecondLawPanel', SecondLawPanel );
+mySolarSystem.register( 'PanelSecondLaw', PanelSecondLaw );

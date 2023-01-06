@@ -37,11 +37,11 @@ const TITLE_OPTIONS = {
   fill: MySolarSystemColors.foregroundProperty
 };
 
-export type ThirdLawPanelOptions = PanelOptions;
+export type PanelThirdLawOptions = PanelOptions;
 
-export default class ThirdLawPanel extends Panel {
+export default class PanelThirdLaw extends Panel {
   public constructor( model: KeplersLawsModel ) {
-    const options = combineOptions<ThirdLawPanelOptions>( {
+    const options = combineOptions<PanelThirdLawOptions>( {
       visibleProperty: model.isThirdLawProperty,
       fill: MySolarSystemColors.backgroundProperty,
       stroke: MySolarSystemColors.gridIconStrokeColorProperty
@@ -242,4 +242,4 @@ class KeplerLawsGraph extends Node {
   }
 }
 
-mySolarSystem.register( 'ThirdLawPanel', ThirdLawPanel );
+mySolarSystem.register( 'PanelThirdLaw', PanelThirdLaw );
