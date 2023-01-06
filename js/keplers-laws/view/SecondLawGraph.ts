@@ -23,6 +23,7 @@ import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import BarPlot from '../../../../bamboo/js/BarPlot.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 
 const TITLE_OPTIONS = {
   font: MySolarSystemConstants.TITLE_FONT,
@@ -91,7 +92,7 @@ class AreasBarPlot extends Node {
     }, providedOptions );
 
     let modelXRange = new Range( -1, 6 );
-    const modelYRange = new Range( 0, 1 );
+    let modelYRange = new Range( 0, 1 );
 
     // one data point for each integer point in the model, y values interpolated along the x range from min to max
     let dataSet: Vector2[] = [];
@@ -108,9 +109,20 @@ class AreasBarPlot extends Node {
     const barPlot = new BarPlot( chartTransform, dataSet.map( vector => new Vector2( vector.x, vector.y ) ) );
 
     // x Labels of each area bar
-    const tickLabelSet = new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
+    const XTickLabelSet = new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
       edge: 'min'
     } );
+
+    // y tick marks
+    const YTickMarkSet = new TickMarkSet( chartTransform, Orientation.VERTICAL, 20, {
+      edge: 'min',
+      stroke: MySolarSystemColors.foregroundProperty
+    } );
+
+    const updateYRange = () => {
+      modelYRange = new Range( 0, 1.3 * this.model.engine.a / 2 );
+      chartTransform.setModelYRange( modelYRange );
+    };
 
     // Linking the period division to modify the chart ranges and labels
     this.model.periodDivisionProperty.link( periodDivision => {
@@ -118,12 +130,18 @@ class AreasBarPlot extends Node {
       chartTransform.setModelXRange( modelXRange );
       barPlot.barWidth = 15 * ( this.model.maxDivisionValue / periodDivision );
       barPlot.update();
-      tickLabelSet.setCreateLabel( ( value: number ) => {
+      XTickLabelSet.setCreateLabel( ( value: number ) => {
         return ( value >= 0 && value < periodDivision ) ?
                new Text( ( value + 1 ).toString(), TITLE_OPTIONS ) : null;
       } );
+      // updateYRange();
     } );
 
+    this.model.engine.changedEmitter.addListener( () => {
+      updateYRange();
+    } );
+
+    updateYRange();
 
     // anything you want clipped goes in here
     const chartClip = new Node( {
@@ -137,7 +155,8 @@ class AreasBarPlot extends Node {
     this.children = [
       chartRectangle,
       chartClip,
-      tickLabelSet
+      XTickLabelSet,
+      YTickMarkSet
     ];
 
     const orbitChangedListener = () => {
@@ -145,7 +164,7 @@ class AreasBarPlot extends Node {
       dataSet = [];
       activeAreas.forEach( ( area, index ) => {
         let height = area.alreadyEntered && !area.insideProperty.value ? 1 : area.completion;
-        height *= model.engine.a / 100 / model.periodDivisionProperty.value;
+        height *= model.engine.a / model.periodDivisionProperty.value;
         const realIndex = this.model.engine.retrograde ? this.model.periodDivisionProperty.value - index - 1 : index;
         dataSet.push( new Vector2( realIndex, height ) );
       } );

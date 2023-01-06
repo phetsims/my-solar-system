@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
@@ -72,13 +72,13 @@ export default class PanelSecondLaw extends Panel {
         } ),
         divisionSlider,
         new Checkbox( model.sweepAreaVisibleProperty, new Text( MySolarSystemStrings.area.sweptAreaStringProperty, TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-        new Checkbox( model.areaGraphVisibleProperty, new Text( MySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
-          combineOptions<CheckboxOptions>(
-            {
-              enabledProperty: model.sweepAreaVisibleProperty,
-              x: 100
-            },
-            MySolarSystemConstants.CHECKBOX_OPTIONS ) )
+        new AlignBox(
+          new Checkbox( model.areaGraphVisibleProperty, new Text( MySolarSystemStrings.area.areaGraphStringProperty, TEXT_OPTIONS ),
+            combineOptions<CheckboxOptions>( {
+              enabledProperty: model.sweepAreaVisibleProperty
+            }, MySolarSystemConstants.CHECKBOX_OPTIONS ) ), {
+            leftMargin: 20
+          } )
       ],
       spacing: 10,
       align: 'left',
