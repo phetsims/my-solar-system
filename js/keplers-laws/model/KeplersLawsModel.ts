@@ -13,7 +13,7 @@ import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import EllipticalOrbit from './EllipticalOrbit.js';
+import EllipticalOrbitEngine from './EllipticalOrbitEngine.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
@@ -21,12 +21,13 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-type SuperTypeOptions = CommonModelOptions<EllipticalOrbit>;
+type SuperTypeOptions = CommonModelOptions<EllipticalOrbitEngine>;
 
 type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
-class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
+class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
+  public readonly alwaysCircularProperty = new BooleanProperty( false );
 
   // Booleans to keep track of which law is selected
   // TODO: Is this very inefficient?
@@ -65,7 +66,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
-      engineFactory: bodies => new EllipticalOrbit( bodies ),
+      engineFactory: bodies => new EllipticalOrbitEngine( bodies ),
       isLab: false
     }, providedOptions );
     super( options );
@@ -115,6 +116,11 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       [ this.selectedPeriodPowerProperty, this.engine.periodProperty ],
       ( power, period ) => Math.pow( period, power )
     );
+
+    this.alwaysCircularProperty.link( alwaysCircular => {
+      this.engine.alwaysCircles = alwaysCircular;
+      this.engine.update();
+    } );
   }
 
   public override setInitialBodyStates(): void {
@@ -165,6 +171,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.periodDivisionProperty.reset();
     this.selectedAxisPowerProperty.reset();
     this.selectedPeriodPowerProperty.reset();
+    this.alwaysCircularProperty.reset();
 
     this.visibilityReset();
     this.engine.updateAllowed = true;

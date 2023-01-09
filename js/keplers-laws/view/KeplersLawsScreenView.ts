@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, HBox, Node, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
 import PanelSecondLaw from './PanelSecondLaw.js';
@@ -20,6 +20,8 @@ import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import SecondLawGraph from './SecondLawGraph.js';
 import PanelFirstLaw from './PanelFirstLaw.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 
 // constants
 const MARGIN = 5;
@@ -44,7 +46,9 @@ class KeplersLawsScreenView extends CommonScreenView {
       model.bodies[ 1 ],
       this.modelViewTransformProperty
     ) );
-    this.componentsLayer.addChild( this.createDraggableVectorNode( model.bodies[ 1 ], { zeroAllowed: false } ) );
+    this.componentsLayer.addChild( this.createDraggableVectorNode( model.bodies[ 1 ], {
+      zeroAllowed: false
+    } ) );
 
     this.bottomLayer.addChild( new EllipticalOrbitNode( model, this.modelViewTransformProperty ) );
 
@@ -63,6 +67,7 @@ class KeplersLawsScreenView extends CommonScreenView {
             visibleProperty: model.isSecondLawProperty
           } ),
           new PanelThirdLaw( model )
+          // NOTE: CODE TEMPORARILY COMMENTED OUT, AWAITING DESIGN DECISION
           // new MagnifyingGlassZoomButtonGroup(
           //   model.zoomLevelProperty, {
           //     spacing: 8,
@@ -78,6 +83,15 @@ class KeplersLawsScreenView extends CommonScreenView {
       } ),
       { margin: MARGIN, xAlign: 'left', yAlign: 'top' }
     );
+
+    const alwaysCircularCheckbox = new AlignBox(
+      new Checkbox(
+        model.alwaysCircularProperty,
+        new Text( MySolarSystemStrings.circularOrbitStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
+        MySolarSystemConstants.CHECKBOX_OPTIONS ),
+      { margin: MARGIN, xAlign: 'center', yAlign: 'top' }
+    );
+
 
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
@@ -114,6 +128,7 @@ class KeplersLawsScreenView extends CommonScreenView {
       controlPanelAlignBox.alignBounds = visibleBounds;
       lawsButtonsBox.alignBounds = visibleBounds;
       centerBox.alignBounds = visibleBounds;
+      alwaysCircularCheckbox.alignBounds = visibleBounds;
     } );
 
     // Slider that controls the bodies mass
@@ -121,6 +136,7 @@ class KeplersLawsScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( controlPanelAlignBox );
     this.interfaceLayer.addChild( lawsButtonsBox );
     this.interfaceLayer.addChild( centerBox );
+    this.interfaceLayer.addChild( alwaysCircularCheckbox );
   }
 }
 

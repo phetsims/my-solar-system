@@ -7,7 +7,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import EllipticalOrbit from '../model/EllipticalOrbit.js';
+import EllipticalOrbitEngine from '../model/EllipticalOrbitEngine.js';
 import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
@@ -20,7 +20,7 @@ import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 
 export default class EllipticalOrbitNode extends Path {
-  private readonly orbit: EllipticalOrbit;
+  private readonly orbit: EllipticalOrbitEngine;
   private readonly shapeMultilink: UnknownMultilink;
 
   public constructor(

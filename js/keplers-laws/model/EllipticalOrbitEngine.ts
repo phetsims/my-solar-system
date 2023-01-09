@@ -2,15 +2,15 @@
 /**
  * The Elliptical Orbit model element. Evolves the body and
  * keeps track of orbital elements.
- * Serves as the Engine for the Keplers Laws Model
+ * Serves as the Engine for the Kepler's Laws Model
  *
  * Variable definitions:
  * r: position vector
  * v: velocity vector
  * rAngle: heading of r
  * vAngle: heading of v
- * a: semimajor axis
- * e: excentricity
+ * a: semi major axis
+ * e: eccentricity
  * nu: true anomaly ( angular position of the body seen from main focus )
  * w: argument of periapsis ( angular deviation of periapsis from the 0° heading )
  * M: Initial mean anomaly ( angular position of the body seen from the center of the ellipse )
@@ -71,7 +71,7 @@ class OrbitalArea {
   }
 }
 
-export default class EllipticalOrbit extends Engine {
+export default class EllipticalOrbitEngine extends Engine {
   private readonly mu = 2e6;
   public readonly body: Body;
   public readonly changedEmitter = new Emitter();
@@ -79,6 +79,7 @@ export default class EllipticalOrbit extends Engine {
   public orbitalAreas: OrbitalArea[] = [];
   public updateAllowed = true;
   public retrograde = false;
+  public alwaysCircles = false;
 
   public semimajorAxisProperty = new NumberProperty( 1 );
   public periodProperty = new NumberProperty( 1 );
@@ -146,8 +147,12 @@ export default class EllipticalOrbit extends Engine {
    * Updates the orbital elements of the body using Orbital Mechanics Analytic Equations
    */
   public override update(): void {
-
     const r = this.body.positionProperty.value;
+
+    if ( this.alwaysCircles ) {
+      this.enforceCircularOrbit( r );
+    }
+
     const v = this.body.velocityProperty.value;
     this.L = r.crossScalar( v );
 
@@ -172,6 +177,13 @@ export default class EllipticalOrbit extends Engine {
     }
 
     this.changedEmitter.emit();
+  }
+
+  private enforceCircularOrbit( position: Vector2 ): void {
+    // Always set the velocity to be perpendicular to the position and circular
+    this.body.velocityProperty.value =
+      position.perpendicular.normalize().
+      multiplyScalar( -0.999 * Math.sqrt( this.mu / position.magnitude ) );
   }
 
   private createPolar( nu: number, w = 0 ): Vector2 {
@@ -311,7 +323,7 @@ export default class EllipticalOrbit extends Engine {
       W *= -1;
     }
 
-    // Calculate Excentric Anomaly and determine its cuadrant
+    // Calculate Eccentric Anomaly and determine its cuadrant
     let E = Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
     if ( Math.cos( E - nu ) < 0 ) {
       E *= -1;
@@ -365,4 +377,4 @@ export default class EllipticalOrbit extends Engine {
   }
 }
 
-mySolarSystem.register( 'EllipticalOrbit', EllipticalOrbit );
+mySolarSystem.register( 'EllipticalOrbitEngine', EllipticalOrbitEngine );

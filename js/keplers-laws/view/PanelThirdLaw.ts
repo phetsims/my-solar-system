@@ -18,7 +18,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import EllipticalOrbit from '../model/EllipticalOrbit.js';
+import EllipticalOrbitEngine from '../model/EllipticalOrbitEngine.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -147,7 +147,7 @@ export default class PanelThirdLaw extends Panel {
 }
 
 class KeplerLawsGraph extends Node {
-  public constructor( model: KeplersLawsModel, orbit: EllipticalOrbit, providedOptions?: NodeOptions ) {
+  public constructor( model: KeplersLawsModel, orbit: EllipticalOrbitEngine, providedOptions?: NodeOptions ) {
     super( providedOptions );
 
     const semimajorAxisToPeriod = ( axis: number ) => {
