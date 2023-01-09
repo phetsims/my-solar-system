@@ -22,6 +22,7 @@ import SecondLawGraph from './SecondLawGraph.js';
 import PanelFirstLaw from './PanelFirstLaw.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const MARGIN = 5;
@@ -47,7 +48,8 @@ class KeplersLawsScreenView extends CommonScreenView {
       this.modelViewTransformProperty
     ) );
     this.componentsLayer.addChild( this.createDraggableVectorNode( model.bodies[ 1 ], {
-      zeroAllowed: false
+      zeroAllowed: false,
+      enabledProperty: DerivedProperty.not( model.alwaysCircularProperty )
     } ) );
 
     this.bottomLayer.addChild( new EllipticalOrbitNode( model, this.modelViewTransformProperty ) );
