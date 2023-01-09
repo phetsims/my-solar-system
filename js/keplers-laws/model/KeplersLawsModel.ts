@@ -70,6 +70,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     }, providedOptions );
     super( options );
 
+    this.systemCenteredProperty.value = false;
+
     this.selectedLawProperty.link( law => {
       this.visibilityReset();
 
@@ -97,8 +99,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
     this.timeScale = 2.0;
     this.timeMultiplier = 1 / 12.7;
 
-    this.zoomLevelProperty.setInitialValue( 2 );
     this.zoomLevelProperty.value = 2;
+    this.zoomLevelProperty.setInitialValue( this.zoomLevelProperty.value );
 
     this.velocityVisibleProperty.value = true;
     this.velocityVisibleProperty.setInitialValue( true );
@@ -120,9 +122,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       // If bodies haven't been created, populate the bodies array
       super.setInitialBodyStates( [
         { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-        { mass: 50, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 177 ) }
+        { mass: 5, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
       ] );
-
       this.updatePreviousModeInfo();
     }
     else {
@@ -130,6 +131,11 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbit> {
       this.bodies[ 1 ].reset();
       this.engine.reset();
     }
+  }
+
+  public override followCenterOfMass(): void {
+    // This function is called on Common Model and shouldn't do anything in this screen
+    // no-op
   }
 
   public visibilityReset(): void {

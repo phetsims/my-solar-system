@@ -99,15 +99,15 @@ export default class EllipticalOrbit extends Engine {
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
 
-    // Populate the orbital areas
-    for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
-      this.orbitalAreas.push( new OrbitalArea() );
-    }
-
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.body = bodies[ 1 ];
     this.allowedOrbit = false;
     this.update();
+
+    // Populate the orbital areas
+    for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
+      this.orbitalAreas.push( new OrbitalArea() );
+    }
 
     // Multilink to update the orbit based on the bodies position and velocity
     Multilink.multilink(
