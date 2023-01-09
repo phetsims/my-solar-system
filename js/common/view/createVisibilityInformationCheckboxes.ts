@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { HBox, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemColors from '../MySolarSystemColors.js';
@@ -19,14 +19,12 @@ import CommonModel from '../model/CommonModel.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 // constants
-//REVIEW: factor out
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty,
+const TEXT_OPTIONS = combineOptions<TextOptions>( {
   maxWidth: 200
-};
+}, MySolarSystemConstants.TEXT_OPTIONS );
 
 const createVisibilityInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {
 

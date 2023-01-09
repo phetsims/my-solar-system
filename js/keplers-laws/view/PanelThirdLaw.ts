@@ -27,17 +27,6 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-//REVIEW: Try factoring this out from the places it's seen (it's a few)
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
-
-//REVIEW: Try factoring this out from the places it's seen (it's a few)
-const TITLE_OPTIONS = {
-  font: MySolarSystemConstants.TITLE_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
 
 const STRING_PATTERN_OPTIONS: NumberDisplayOptions = {
   backgroundFill: null,
@@ -87,7 +76,7 @@ export default class PanelThirdLaw extends Panel {
     super( new VBox( {
       spacing: 10,
       children: [
-        new Text( MySolarSystemStrings.graph.titleStringProperty, TITLE_OPTIONS ),
+        new Text( MySolarSystemStrings.graph.titleStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
         new GridBox( {
           children: [
             // Period power buttons
@@ -97,17 +86,17 @@ export default class PanelThirdLaw extends Panel {
                 {
                   value: 1,
                   //REVIEW: We should probably make these terms translatable
-                  createNode: tandem => new RichText( 'T', TEXT_OPTIONS )
+                  createNode: tandem => new RichText( 'T', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,
                   //REVIEW: And this should probably include string composition (e.g. combining the translated string for
                   //REVIEW: T with the superscript somehow?)
-                  createNode: tandem => new RichText( 'T<sup>2</sup>', TEXT_OPTIONS )
+                  createNode: tandem => new RichText( 'T<sup>2</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 3,
-                  createNode: tandem => new RichText( 'T<sup>3</sup>', TEXT_OPTIONS )
+                  createNode: tandem => new RichText( 'T<sup>3</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 }
               ],
               {
@@ -121,15 +110,15 @@ export default class PanelThirdLaw extends Panel {
                 {
                   value: 1,
                   //REVIEW: We should probably make these terms translatable
-                  createNode: tandem => new RichText( 'a', TEXT_OPTIONS )
+                  createNode: tandem => new RichText( 'a', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,
-                  createNode: tandem => new RichText( 'a<sup>2</sup>', TEXT_OPTIONS )
+                  createNode: tandem => new RichText( 'a<sup>2</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 3,
-                  createNode: tandem => new RichText( 'a<sup>3</sup>', TEXT_OPTIONS )
+                  createNode: tandem => new RichText( 'a<sup>3</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 }
               ],
               {
@@ -226,12 +215,12 @@ class KeplerLawsGraph extends Node {
         axisText,
         combineOptions<RichTextOptions>( {
           x: axisLength * 0.4, y: 30
-        }, TITLE_OPTIONS ) );
+        }, MySolarSystemConstants.TITLE_OPTIONS ) );
       yAxisLabel = new RichText(
         periodText,
         combineOptions<RichTextOptions>( {
           x: -30, y: -axisLength * 0.4
-        }, TITLE_OPTIONS ) );
+        }, MySolarSystemConstants.TITLE_OPTIONS ) );
       this.children = [
         xAxis,
         yAxis,

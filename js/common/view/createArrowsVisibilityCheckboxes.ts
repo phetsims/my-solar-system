@@ -9,11 +9,10 @@
 
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import { HBox, HBoxOptions, Text } from '../../../../scenery/js/imports.js';
+import { HBox, HBoxOptions, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
@@ -22,12 +21,9 @@ import CommonModel from '../model/CommonModel.js';
 // constants
 const ARROW_Y_COORDINATE = -10;
 
-//REVIEW: Factor-out-able options?
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty,
+const TEXT_OPTIONS = combineOptions<TextOptions>( {
   maxWidth: 200
-};
+}, MySolarSystemConstants.TEXT_OPTIONS );
 
 const SPACING = 10;
 

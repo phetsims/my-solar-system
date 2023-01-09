@@ -22,22 +22,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import { Shape } from '../../../../kite/js/imports.js';
 
-// constants
-const CHECKBOX_OPTIONS = {
-  boxWidth: 14,
-  checkboxColor: MySolarSystemColors.foregroundProperty,
-  checkboxColorBackground: MySolarSystemColors.backgroundProperty
-};
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
-
-const TITLE_OPTIONS = {
-  font: MySolarSystemConstants.TITLE_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
-
 type SelfOptions = EmptySelfOptions;
 
 export type KeplersLawsOrbitalInformationOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
@@ -64,7 +48,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
     } );
 
     const getCheckboxOptions = ( name: string ) => {
-      return combineOptions<CheckboxOptions>( {}, CHECKBOX_OPTIONS, {
+      return combineOptions<CheckboxOptions>( {}, MySolarSystemConstants.CHECKBOX_OPTIONS, {
         tandem: providedOptions.tandem.createTandem( name )
       } );
     };
@@ -78,7 +62,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
     ) => {
       return new Checkbox( property, new HBox( {
         children: [
-          new Text( text, TEXT_OPTIONS ),
+          new Text( text, MySolarSystemConstants.TEXT_OPTIONS ),
           icon
         ],
         spacing: 10
@@ -88,7 +72,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
     const orbitalInformationNode = new HBox( {
       spacing: 10,
       children: [
-        new Text( MySolarSystemStrings.orbitalStringProperty, TITLE_OPTIONS ),
+        new Text( MySolarSystemStrings.orbitalStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
         new InfoButton( {
           scale: 0.5,
           iconFill: 'rgb( 41, 106, 163 )',

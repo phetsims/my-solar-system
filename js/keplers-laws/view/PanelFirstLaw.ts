@@ -16,10 +16,6 @@ import Panel from '../../../../sun/js/Panel.js';
 import { PanelThirdLawOptions } from './PanelThirdLaw.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
 
 export default class PanelFirstLaw extends Panel {
   public constructor( model: KeplersLawsModel ) {
@@ -31,7 +27,7 @@ export default class PanelFirstLaw extends Panel {
 
     super( new VBox( {
       children: [
-        new Text( MySolarSystemStrings.excentricityStringProperty, TEXT_OPTIONS )
+        new Text( MySolarSystemStrings.excentricityStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
       ],
       spacing: 10,
       align: 'left',

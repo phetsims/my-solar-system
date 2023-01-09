@@ -7,25 +7,22 @@
  * @author Agustín Vallejo
  */
 
-import { colorProfileProperty, HBox, Image, SceneryConstants, Text } from '../../../../scenery/js/imports.js';
+import { colorProfileProperty, HBox, Image, SceneryConstants, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import CommonModel from '../model/CommonModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import pathIconProjector_png from '../../../images/pathIconProjector_png.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 // constants
-//REVIEW: This is shared between VisibilityInformation and OrbitalInformation, can we factor it out? Thoughts?
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty,
+const TEXT_OPTIONS = combineOptions<TextOptions>( {
   maxWidth: 200
-};
+}, MySolarSystemConstants.TEXT_OPTIONS );
 
 const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {
 

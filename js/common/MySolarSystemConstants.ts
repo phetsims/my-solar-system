@@ -50,6 +50,10 @@ const MySolarSystemConstants = {
     font: new PhetFont( 16 ),
     fill: MySolarSystemColors.foregroundProperty
   },
+  TITLE_OPTIONS: {
+    font: new PhetFont( { size: 16, weight: 'bold' } ),
+    fill: MySolarSystemColors.foregroundProperty
+  },
   GRID: {
     spacing: 100
   },

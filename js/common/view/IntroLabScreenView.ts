@@ -30,7 +30,6 @@ import VectorNode from './VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
@@ -41,12 +40,6 @@ import PathsCanvasNode from './PathsCanvasNode.js';
 type SelfOptions = EmptySelfOptions;
 
 export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
-
-// Consts
-const TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
-  fill: MySolarSystemColors.foregroundProperty
-};
 
 const spinnerOptions: NumberSpinnerOptions = {
   deltaValue: 1,
@@ -192,7 +185,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
           maxWidth: 70
-        }, TEXT_OPTIONS ) ),
+        }, MySolarSystemConstants.TEXT_OPTIONS ) ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, 4 ) ),
           combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
             arrowsPosition: 'bothRight',
@@ -229,7 +222,7 @@ export default class IntroLabScreenView extends CommonScreenView {
                   model.moreDataProperty,
                   new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
                     maxWidth: 300
-                  }, TEXT_OPTIONS ) ),
+                  }, MySolarSystemConstants.TEXT_OPTIONS ) ),
                   combineOptions<CheckboxOptions>( {
                     touchAreaXDilation: 10,
                     touchAreaYDilation: 10
