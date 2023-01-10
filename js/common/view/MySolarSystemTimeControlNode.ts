@@ -17,6 +17,7 @@ import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import { HBox, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import RoundPushButton from '../../../../sun/js/buttons/RoundPushButton.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const PLAY_PAUSE_BUTTON_RADIUS = 34;
@@ -83,7 +84,10 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
 
     const restartButton = new RoundPushButton( {
       content: restartIcon,
-      enabled: true,
+      enabledProperty: new DerivedProperty(
+        [ model.timeProperty ],
+        time => time !== 0
+      ),
       radius: STEP_BUTTON_RADIUS,
       xMargin: 9.5,
       yMargin: 9.5,

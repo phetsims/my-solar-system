@@ -22,6 +22,7 @@ import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 export default class EllipticalOrbitNode extends Path {
   private readonly orbit: EllipticalOrbitEngine;
   private readonly shapeMultilink: UnknownMultilink;
+  public readonly topLayer = new Node();
 
   public constructor(
     model: KeplersLawsModel,
@@ -36,14 +37,33 @@ export default class EllipticalOrbitNode extends Path {
 
     this.orbit = model.engine;
 
+    // FIRST LAW: Axis, foci, and Ellipse definition lines
+    const axisPath = new Path( null, {
+      stroke: MySolarSystemColors.foregroundProperty,
+      lineWidth: 2,
+      visibleProperty: model.axisVisibleProperty
+    } );
+    const fociOptions = {
+      fill: '#29ABE2',
+      stroke: 'black',
+      scale: 0.8,
+      center: Vector2.ZERO,
+      visibleProperty: model.fociVisibleProperty
+    };
+    const foci = [
+      new XNode( fociOptions ),
+      new XNode( fociOptions )
+    ];
+
     // Drawing of Periapsis and Apoapsis, their position is updated later
     const periapsis = new XNode( {
       fill: 'gold',
       stroke: 'white',
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
-        [ model.periapsisVisibleProperty ], visible => {
-          return visible && ( this.orbit.e > 0 );
+        [ model.periapsisVisibleProperty, this.orbit.eccentricityProperty ],
+        ( visible, e ) => {
+          return visible && ( e > 0 );
         } )
     } );
     const apoapsis = new XNode( {
@@ -51,14 +71,10 @@ export default class EllipticalOrbitNode extends Path {
       stroke: 'white',
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
-        [ model.apoapsisVisibleProperty ], visible => {
-          return visible && ( this.orbit.e > 0 );
+        [ model.periapsisVisibleProperty, this.orbit.eccentricityProperty ],
+        ( visible, e ) => {
+          return visible && ( e > 0 );
         } )
-    } );
-    const axisPath = new Path( null, {
-      stroke: MySolarSystemColors.foregroundProperty,
-      lineWidth: 2,
-      visibleProperty: model.axisVisibleProperty
     } );
 
     // Arrays of orbital divisions' dots and areas
@@ -96,9 +112,12 @@ export default class EllipticalOrbitNode extends Path {
     this.addChild( apoapsis );
     this.addChild( orbitDivisionsNode );
 
+    this.topLayer.addChild( foci[ 0 ] );
+    this.topLayer.addChild( foci[ 1 ] );
+
     const updatedOrbit = () => {
       // Non allowed orbits will show up as dashed lines
-      this.lineDash = this.orbit.allowedOrbit ? [ 0 ] : [ 5 ];
+      this.lineDash = this.orbit.allowedOrbitProperty.value ? [ 0 ] : [ 5 ];
 
       const scale = modelViewTransformProperty.value.modelToViewDeltaX( 1 );
       const a = this.orbit.a;
@@ -109,27 +128,40 @@ export default class EllipticalOrbitNode extends Path {
       const radiusX = scale * a;
       const radiusY = scale * Math.sqrt( a * a - c * c );
 
+      const applyTransformation = ( point: Node ) => {
+        point.translation = modelViewTransformProperty.value.modelToViewPosition( center );
+        point.rotation = 0;
+        point.rotateAround( point.translation.add( center.times( -scale ) ), -this.orbit.w );
+      };
+
       // The ellipse is translated and rotated so its children can use local coordinates
-      this.translation = modelViewTransformProperty.value.modelToViewPosition( center );
-      this.rotation = 0;
-      this.rotateAround( this.translation.add( center.times( -scale ) ), -this.orbit.w );
+      applyTransformation( this );
       this.shape = new Shape().ellipse( 0, 0, radiusX, radiusY, 0 );
 
-      // Drawing the axis of the ellipse
+      // Same transformations set to TopLayer because it's not directly a child of this
+      applyTransformation( this.topLayer );
+
+      // FIRST LAW -------------------------------------------
+      // Axis of the ellipse
       const axis = new Shape().moveTo( -radiusX, 0 ).lineTo( radiusX, 0 );
       axis.moveTo( 0, -radiusY ).lineTo( 0, radiusY );
       axisPath.shape = axis;
 
+      //Foci
+      foci[ 0 ].center = new Vector2( -c * scale, 0 );
+      foci[ 1 ].center = new Vector2( c * scale, 0 );
+
+      // SECOND LAW -------------------------------------------
+      // Periapsis and apoapsis
       periapsis.center = new Vector2( scale * ( a * ( 1 - e ) + c ), 0 );
       apoapsis.center = new Vector2( -scale * ( a * ( 1 + e ) - c ), 0 );
 
-      // Drawing the orbital division points and areas
-
+      // Drawing orbital divisions and areas
       this.orbit.orbitalAreas.forEach( ( area, i ) => {
-        orbitDivisions[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbit;
-        areaPaths[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbit;
+        orbitDivisions[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbitProperty.value;
+        areaPaths[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbitProperty.value;
 
-        if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbit ) {
+        if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbitProperty.value ) {
           // Set the center of the orbit's divisions dot
           orbitDivisions[ i ].center = area.dotPosition.minus( center ).times( scale );
           orbitDivisions[ i ].fill = MySolarSystemColors.orbitColorProperty.value.darkerColor( Math.pow( 1 - area.completion, 10 ) );

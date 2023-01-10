@@ -14,7 +14,7 @@ import PanelSecondLaw from './PanelSecondLaw.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
 import PanelThirdLaw from './PanelThirdLaw.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
@@ -34,7 +34,11 @@ export type KeplersLawsScreenViewOptions = SelfOptions & CommonScreenViewOptions
 class KeplersLawsScreenView extends CommonScreenView {
 
   public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
-    super( model, providedOptions );
+    const options = combineOptions<CommonScreenViewOptions>( providedOptions, {
+      playingAllowedProperty: model.engine.allowedOrbitProperty
+    } );
+
+    super( model, options );
 
     this.bodiesLayer.addChild( new BodyNode(
       model.bodies[ 0 ],
@@ -52,7 +56,9 @@ class KeplersLawsScreenView extends CommonScreenView {
       enabledProperty: DerivedProperty.not( model.alwaysCircularProperty )
     } ) );
 
-    this.bottomLayer.addChild( new EllipticalOrbitNode( model, this.modelViewTransformProperty ) );
+    const ellipticalOrbitNode = new EllipticalOrbitNode( model, this.modelViewTransformProperty );
+    this.bottomLayer.addChild( ellipticalOrbitNode );
+    this.bodiesLayer.addChild( ellipticalOrbitNode.topLayer );
 
     // UI ----------------------------------------------------------------------------------
     // Second and Third Law Accordion Boxes and Zoom Buttons

@@ -83,6 +83,7 @@ export default class EllipticalOrbitEngine extends Engine {
 
   public semimajorAxisProperty = new NumberProperty( 1 );
   public periodProperty = new NumberProperty( 1 );
+  public eccentricityProperty = new NumberProperty( 0 );
 
   // These variable names are letters to compare and read more easily the equations they are in
   public a = 1;  // semimajor axis
@@ -95,14 +96,13 @@ export default class EllipticalOrbitEngine extends Engine {
   public L = 0;  // angular momentum
 
   // Keeps track of the validity of the orbit. True if elliptic, false either if parabolic or collision orbit.
-  public allowedOrbit: boolean;
+  public allowedOrbitProperty = new BooleanProperty( false );
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.body = bodies[ 1 ];
-    this.allowedOrbit = false;
     this.update();
 
     // Populate the orbital areas
@@ -156,7 +156,6 @@ export default class EllipticalOrbitEngine extends Engine {
     const v = this.body.velocityProperty.value;
     this.L = r.crossScalar( v );
 
-    this.allowedOrbit = false;
     if ( this.escapeVelocityNotExceeded( r, v ) ) {
       const { a, e, w, M, W } = this.calculateEllipse( r, v );
       this.a = a;
@@ -168,12 +167,19 @@ export default class EllipticalOrbitEngine extends Engine {
       // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
 
-      this.allowedOrbit = !this.collidedWithSun( a, e );
+      this.allowedOrbitProperty.value = !this.collidedWithSun( a, e );
 
       this.calculateOrbitalDivisions( false );
 
       this.semimajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
       this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 217.81;
+
+      if ( e !== this.eccentricityProperty.value ) {
+        this.eccentricityProperty.value = e;
+      }
+    }
+    else {
+      this.allowedOrbitProperty.value = false;
     }
 
     this.changedEmitter.emit();
@@ -183,7 +189,7 @@ export default class EllipticalOrbitEngine extends Engine {
     // Always set the velocity to be perpendicular to the position and circular
     this.body.velocityProperty.value =
       position.perpendicular.normalize().
-      multiplyScalar( -0.999 * Math.sqrt( this.mu / position.magnitude ) );
+      multiplyScalar( -1.0001 * Math.sqrt( this.mu / position.magnitude ) );
   }
 
   private createPolar( nu: number, w = 0 ): Vector2 {
@@ -200,7 +206,7 @@ export default class EllipticalOrbitEngine extends Engine {
     let bodyAngle = -this.nu;
 
     this.orbitalAreas.forEach( ( orbitalArea, i ) => {
-      if ( i < this.periodDivisions && this.allowedOrbit ) {
+      if ( i < this.periodDivisions && this.allowedOrbitProperty.value ) {
         // Calculate true anomaly
         // ( i + 1 ) because first angle is always nu = 0
         const M = ( i + 1 ) * TWOPI / this.periodDivisions;

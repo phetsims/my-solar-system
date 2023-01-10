@@ -23,7 +23,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import CommonModel from '../model/CommonModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -35,8 +35,12 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Panel from '../../../../sun/js/Panel.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-type SelfOptions = EmptySelfOptions;
+
+type SelfOptions = {
+  playingAllowedProperty?: TReadOnlyProperty<boolean>;
+};
 
 export type CommonScreenViewOptions = SelfOptions & ScreenViewOptions;
 
@@ -127,6 +131,7 @@ class CommonScreenView extends ScreenView {
 
     const timeControlNode = new MySolarSystemTimeControlNode( model,
       {
+        enabledProperty: providedOptions.playingAllowedProperty,
         restartListener: () => model.restart(),
         stepForwardListener: () => model.stepOnce( 1 / 4 ),
         tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
