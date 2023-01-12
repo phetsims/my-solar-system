@@ -28,7 +28,7 @@ export default class KeplersLawsScreenIcon extends ScreenIcon {
       return Vector2.createPolar( r, nu );
     };
 
-    const excentricity = EllipseFocalPoint / EllipseSemiMajorAxis;
+    const eccentricity = EllipseFocalPoint / EllipseSemiMajorAxis;
 
     const divisionAngles = [
       0,
@@ -39,7 +39,7 @@ export default class KeplersLawsScreenIcon extends ScreenIcon {
     ];
     const areas = [];
 
-    const bodyPosition = calculateR( EllipseSemiMajorAxis, excentricity, divisionAngles[ divisionAngles.length - 1 ] * 1.08 );
+    const bodyPosition = calculateR( EllipseSemiMajorAxis, eccentricity, divisionAngles[ divisionAngles.length - 1 ] * 1.08 );
 
     for ( let i = 1; i < divisionAngles.length; i++ ) {
       let startAngle = divisionAngles[ i ];

@@ -45,10 +45,14 @@ type StringsType = {
   'axisStringProperty': LinkableProperty<string>;
   'foci': string;
   'fociStringProperty': LinkableProperty<string>;
+  'strings': string;
+  'stringsStringProperty': LinkableProperty<string>;
   'semiaxis': string;
   'semiaxisStringProperty': LinkableProperty<string>;
-  'excentricity': string;
-  'excentricityStringProperty': LinkableProperty<string>;
+  'eccentricity': string;
+  'eccentricityStringProperty': LinkableProperty<string>;
+  'eccentricityEquation': string;
+  'eccentricityEquationStringProperty': LinkableProperty<string>;
   'apoapsis': string;
   'apoapsisStringProperty': LinkableProperty<string>;
   'periapsis': string;

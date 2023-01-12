@@ -164,6 +164,8 @@ export default class EllipticalOrbitEngine extends Engine {
       this.M = M;
       this.W = W;
 
+      this.nu = this.getTrueAnomaly( this.M );
+
       // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
 
@@ -187,12 +189,13 @@ export default class EllipticalOrbitEngine extends Engine {
 
   private enforceCircularOrbit( position: Vector2 ): void {
     // Always set the velocity to be perpendicular to the position and circular
+    const direction = this.retrograde ? -1 : 1;
     this.body.velocityProperty.value =
       position.perpendicular.normalize().
-      multiplyScalar( -1.0001 * Math.sqrt( this.mu / position.magnitude ) );
+      multiplyScalar( direction * 1.0001 * Math.sqrt( this.mu / position.magnitude ) );
   }
 
-  private createPolar( nu: number, w = 0 ): Vector2 {
+  public createPolar( nu: number, w = 0 ): Vector2 {
     return Vector2.createPolar( this.calculateR( this.a, this.e, nu ), nu + w );
   }
 
@@ -308,8 +311,10 @@ export default class EllipticalOrbitEngine extends Engine {
     const rAngle = r.angle;
     const vAngle = v.angle;
 
-    // Circular orbit
+    // Circular orbit case
     let nu = rAngle;
+
+    // Elliptical orbit case
     if ( e > 0 ) {
       // True anomaly comes from the polar ellipse equation. Based on rMagnitude, at what angle should it be
       nu = Math.acos( Utils.clamp( ( 1 / e ) * ( a * ( 1 - e * e ) / rMagnitude - 1 ), -1, 1 ) );
@@ -330,8 +335,8 @@ export default class EllipticalOrbitEngine extends Engine {
     }
 
     // Calculate Eccentric Anomaly and determine its cuadrant
-    let E = Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
-    if ( Math.cos( E - nu ) < 0 ) {
+    let E = -Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
+    if ( Math.sin( E ) * Math.sin( nu ) < 0 ) {
       E *= -1;
     }
 

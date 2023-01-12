@@ -26,7 +26,7 @@ type SuperTypeOptions = CommonModelOptions<EllipticalOrbitEngine>;
 type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
 class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
-  public readonly selectedLawProperty = new EnumerationProperty( LawMode.SECOND_LAW );
+  public readonly selectedLawProperty = new EnumerationProperty( LawMode.FIRST_LAW );
   public readonly alwaysCircularProperty = new BooleanProperty( false );
 
   // Booleans to keep track of which law is selected
@@ -37,10 +37,11 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly lawUpdatedEmitter = new Emitter();
 
   // First Law Properties
-  public axisVisibleProperty = new BooleanProperty( false );
+  public axisVisibleProperty = new BooleanProperty( true );
   public semiaxisVisibleProperty = new BooleanProperty( false );
   public fociVisibleProperty = new BooleanProperty( false );
-  public excentricityVisibleProperty = new BooleanProperty( false );
+  public stringsVisibleProperty = new BooleanProperty( false );
+  public eccentricityVisibleProperty = new BooleanProperty( false );
 
 
   // Second Law properties
@@ -126,6 +127,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public override setInitialBodyStates(): void {
     if ( this.bodies.length === 0 ) {
       // If bodies haven't been created, populate the bodies array
+      // Earth's Position is x = 100, vy = 141.5
       super.setInitialBodyStates( [
         { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
         { mass: 5, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
@@ -150,7 +152,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.axisVisibleProperty.reset();
     this.semiaxisVisibleProperty.reset();
     this.fociVisibleProperty.reset();
-    this.excentricityVisibleProperty.reset();
+    this.eccentricityVisibleProperty.reset();
+    this.stringsVisibleProperty.reset();
 
     // Second Law
     this.apoapsisVisibleProperty.reset();

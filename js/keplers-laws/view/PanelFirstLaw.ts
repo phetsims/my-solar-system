@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Kepler's first law panel control: Excentricity display
+ * Kepler's first law panel control: eccentricity display
  *
  * @author Agustín Vallejo
  */
@@ -22,12 +22,14 @@ export default class PanelFirstLaw extends Panel {
     const options = combineOptions<PanelThirdLawOptions>( {
       visibleProperty: model.isFirstLawProperty,
       fill: MySolarSystemColors.backgroundProperty,
-      stroke: MySolarSystemColors.gridIconStrokeColorProperty
+      stroke: MySolarSystemColors.gridIconStrokeColorProperty,
+      xMargin: 10,
+      yMargin: 10
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
     super( new VBox( {
       children: [
-        new Text( MySolarSystemStrings.excentricityStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
+        new Text( MySolarSystemStrings.eccentricityEquationStringProperty, MySolarSystemConstants.TITLE_OPTIONS )
       ],
       spacing: 10,
       align: 'left',

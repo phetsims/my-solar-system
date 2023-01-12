@@ -27,7 +27,7 @@ const MySolarSystemColors = {
     tandem: Tandem.COLORS.createTandem( 'backgroundColorProperty' )
   } ),
   controlPanelFillProperty: new ProfileColorProperty( mySolarSystem, 'control panel fill', {
-    default: 'black',
+    default: 'rgb( 40, 40, 40 )',
     projector: new Color( 222, 234, 255 )
   } ),
   gridIconStrokeColorProperty: new ProfileColorProperty( mySolarSystem, 'grid icon stroke', {

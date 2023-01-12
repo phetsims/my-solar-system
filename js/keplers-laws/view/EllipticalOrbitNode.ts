@@ -43,6 +43,12 @@ export default class EllipticalOrbitNode extends Path {
       lineWidth: 2,
       visibleProperty: model.axisVisibleProperty
     } );
+    const stringsPath = new Path( null, {
+      stroke: 'beige',
+      lineWidth: 3,
+      visibleProperty: model.fociVisibleProperty,
+      lineDash: [ 10, 2 ]
+    } );
     const fociOptions = {
       fill: '#29ABE2',
       stroke: 'black',
@@ -107,6 +113,7 @@ export default class EllipticalOrbitNode extends Path {
     areaPaths.forEach( node => { areaPathsNode.addChild( node ); } );
 
     this.addChild( axisPath );
+    this.addChild( stringsPath );
     this.addChild( areaPathsNode );
     this.addChild( periapsis );
     this.addChild( apoapsis );
@@ -146,6 +153,12 @@ export default class EllipticalOrbitNode extends Path {
       const axis = new Shape().moveTo( -radiusX, 0 ).lineTo( radiusX, 0 );
       axis.moveTo( 0, -radiusY ).lineTo( 0, radiusY );
       axisPath.shape = axis;
+
+      // Strings of the foci
+      const bodyPosition = this.orbit.createPolar( -this.orbit.nu );
+      const stringsShape = new Shape().moveTo( -c * scale, 0 ).lineTo( ( bodyPosition.x + c ) * scale, bodyPosition.y * scale );
+      stringsShape.moveTo( c * scale, 0 ).lineTo( ( bodyPosition.x + c ) * scale, bodyPosition.y * scale );
+      stringsPath.shape = stringsShape;
 
       //Foci
       foci[ 0 ].center = new Vector2( -c * scale, 0 );

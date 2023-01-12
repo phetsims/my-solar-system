@@ -47,11 +47,17 @@
   "foci": {
     "value": "Foci"
   },
+  "strings": {
+    "value": "Strings"
+  },
   "semiaxis": {
     "value": "Semiaxis"
   },
-  "excentricity": {
-    "value": "Excentricity"
+  "eccentricity": {
+    "value": "Eccentricity"
+  },
+  "eccentricityEquation": {
+    "value": "Eccentricity = c/a"
   },
   "apoapsis": {
     "value": "Apoapsis"
@@ -122,9 +128,9 @@
   "semimajorAxis": {
     "value": "Semimajor Axis"
   },
-    "period": {
-        "value": "Period"
-    },
+  "period": {
+    "value": "Period"
+  },
   "semimajorAxisSymbol": {
     "value": "a"
   },
@@ -174,16 +180,16 @@
     "value": "AU"
   },
   "units.kms": {
-      "value": "km/s"
+    "value": "km/s"
   },
   "units.Mjup": {
-      "value": "M<sub>Jupiter</sub>"
+    "value": "M<sub>Jupiter</sub>"
   },
   "units.kg": {
-      "value": "10<sup>28</sup> kg"
+    "value": "10<sup>28</sup> kg"
   },
-  "units.years":{
-      "value": "years"
+  "units.years": {
+    "value": "years"
   },
   "unitsInfo.title": {
     "value": "Notes on units"

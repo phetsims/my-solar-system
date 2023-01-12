@@ -23,7 +23,7 @@ const MySolarSystemConstants = {
   CONTROL_PANEL_STROKE: CONTROL_PANEL_STROKE,
   PANEL_X_MARGIN: PANEL_X_MARGIN,
   CONTROL_PANEL_OPTIONS: {
-    stroke: CONTROL_PANEL_STROKE,
+    stroke: MySolarSystemColors.controlPanelFillProperty,
     lineWidth: 2,
     cornerRadius: 5,
     xMargin: PANEL_X_MARGIN,

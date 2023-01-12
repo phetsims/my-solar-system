@@ -97,7 +97,7 @@ class KeplersLawsScreenView extends CommonScreenView {
         model.alwaysCircularProperty,
         new Text( MySolarSystemStrings.circularOrbitStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
         MySolarSystemConstants.CHECKBOX_OPTIONS ),
-      { margin: MARGIN, xAlign: 'center', yAlign: 'top' }
+      { margin: MARGIN, xAlign: 'center', yAlign: 'bottom' }
     );
 
 

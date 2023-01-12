@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Font, HBox, HBoxOptions, Node, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, Font, HBox, HBoxOptions, Image, Node, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -21,6 +21,15 @@ import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import semiaxisIcon_png from '../../../images/semiaxisIcon_png.js';
+import eccentricityIcon_png from '../../../images/eccentricityIcon_png.js';
+import fociIcon_png from '../../../images/fociIcon_png.js';
+import stringsIcon_png from '../../../images/stringsIcon_png.js';
+
+// Const
+const ICON_OPTIONS = {
+  scale: 0.38
+};
 
 type SelfOptions = EmptySelfOptions;
 
@@ -92,20 +101,30 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       createCheckbox(
         model.semiaxisVisibleProperty,
         MySolarSystemStrings.semiaxisStringProperty,
-        'semiAxisVisibleCheckbox'
-        // axisIconImageNode
+        'semiAxisVisibleCheckbox',
+        new Image( semiaxisIcon_png, ICON_OPTIONS )
       ),
       createCheckbox(
         model.fociVisibleProperty,
         MySolarSystemStrings.fociStringProperty,
-        'fociVisibleCheckbox'
-        // axisIconImageNode
+        'fociVisibleCheckbox',
+        new Image( fociIcon_png, ICON_OPTIONS )
       ),
+      new AlignBox(
+        createCheckbox(
+          model.stringsVisibleProperty,
+          MySolarSystemStrings.stringsStringProperty,
+          'stringsVisibleCheckbox',
+          new Image( stringsIcon_png, ICON_OPTIONS )
+        ), {
+          leftMargin: 20,
+          layoutOptions: { stretch: true }
+        } ),
       createCheckbox(
-        model.excentricityVisibleProperty,
-        MySolarSystemStrings.excentricityStringProperty,
-        'excentricityVisibleCheckbox'
-        // axisIconImageNode
+        model.eccentricityVisibleProperty,
+        MySolarSystemStrings.eccentricityStringProperty,
+        'eccentricityVisibleCheckbox',
+        new Image( eccentricityIcon_png, ICON_OPTIONS )
       )
     ];
 
