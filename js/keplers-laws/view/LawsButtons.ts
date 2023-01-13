@@ -43,17 +43,17 @@ export default class LawsButtons extends RectangularRadioButtonGroup<LawMode> {
     super( model.selectedLawProperty, [
       {
         value: LawMode.FIRST_LAW,
-        createNode: tandem => new Image( iconFirstLaw_png, IMAGE_OPTIONS ),
+        createNode: () => new Image( iconFirstLaw_png, IMAGE_OPTIONS ),
         tandemName: 'firstLawButton'
       },
       {
         value: LawMode.SECOND_LAW,
-        createNode: tandem => new Image( iconSecondLaw_png, IMAGE_OPTIONS ),
+        createNode: () => new Image( iconSecondLaw_png, IMAGE_OPTIONS ),
         tandemName: 'secondLawButton'
       },
       {
         value: LawMode.THIRD_LAW,
-        createNode: tandem => new Image( iconThirdLaw_png, IMAGE_OPTIONS ),
+        createNode: () => new Image( iconThirdLaw_png, IMAGE_OPTIONS ),
         tandemName: 'thirdLawButton'
       }
     ], options );

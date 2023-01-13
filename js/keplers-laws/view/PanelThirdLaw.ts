@@ -86,17 +86,17 @@ export default class PanelThirdLaw extends Panel {
                 {
                   value: 1,
                   //REVIEW: We should probably make these terms translatable
-                  createNode: tandem => new RichText( 'T', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( 'T', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,
                   //REVIEW: And this should probably include string composition (e.g. combining the translated string for
                   //REVIEW: T with the superscript somehow?)
-                  createNode: tandem => new RichText( 'T<sup>2</sup>', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( 'T<sup>2</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 3,
-                  createNode: tandem => new RichText( 'T<sup>3</sup>', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( 'T<sup>3</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 }
               ],
               {
@@ -110,15 +110,15 @@ export default class PanelThirdLaw extends Panel {
                 {
                   value: 1,
                   //REVIEW: We should probably make these terms translatable
-                  createNode: tandem => new RichText( 'a', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( 'a', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,
-                  createNode: tandem => new RichText( 'a<sup>2</sup>', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( 'a<sup>2</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 3,
-                  createNode: tandem => new RichText( 'a<sup>3</sup>', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( 'a<sup>3</sup>', MySolarSystemConstants.TEXT_OPTIONS )
                 }
               ],
               {

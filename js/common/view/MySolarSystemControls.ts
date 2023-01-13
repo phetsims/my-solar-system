@@ -42,18 +42,18 @@ export default class MySolarSystemControls extends VBox {
           model.isLab
           ? [
               new ComboBox( model.labModeProperty, [
-                { value: LabModes.SUN_PLANET, createNode: tandem => new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.SUN_PLANET_MOON, createNode: tandem => new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.SUN_PLANET_COMET, createNode: tandem => new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.TROJAN_ASTEROIDS, createNode: tandem => new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.ELLIPSES, createNode: tandem => new Text( MySolarSystemStrings.mode.ellipsesStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.HYPERBOLIC, createNode: tandem => new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.SLINGSHOT, createNode: tandem => new Text( MySolarSystemStrings.mode.slingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.DOUBLE_SLINGSHOT, createNode: tandem => new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.BINARY_STAR_PLANET, createNode: tandem => new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.FOUR_STAR_BALLET, createNode: tandem => new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.DOUBLE_DOUBLE, createNode: tandem => new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                { value: LabModes.CUSTOM, createNode: tandem => new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
+                { value: LabModes.SUN_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.SUN_PLANET_MOON, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.SUN_PLANET_COMET, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.TROJAN_ASTEROIDS, createNode: () => new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.ELLIPSES, createNode: () => new Text( MySolarSystemStrings.mode.ellipsesStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.HYPERBOLIC, createNode: () => new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.slingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.DOUBLE_SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.BINARY_STAR_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.FOUR_STAR_BALLET, createNode: () => new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.DOUBLE_DOUBLE, createNode: () => new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+                { value: LabModes.CUSTOM, createNode: () => new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
               ], topLayer, {
                 tandem: providedOptions.tandem.createTandem( 'labModeComboBox' )
               } )
