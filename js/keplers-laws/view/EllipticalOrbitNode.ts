@@ -46,7 +46,7 @@ export default class EllipticalOrbitNode extends Path {
     const stringsPath = new Path( null, {
       stroke: 'beige',
       lineWidth: 3,
-      visibleProperty: model.fociVisibleProperty,
+      visibleProperty: model.stringsVisibleProperty,
       lineDash: [ 10, 2 ]
     } );
     const fociOptions = {
@@ -161,7 +161,10 @@ export default class EllipticalOrbitNode extends Path {
       stringsPath.shape = stringsShape;
 
       //Foci
+      foci[ 0 ].rotation = this.orbit.w + Math.PI / 4;
       foci[ 0 ].center = new Vector2( -c * scale, 0 );
+
+      foci[ 1 ].rotation = this.orbit.w + Math.PI / 4;
       foci[ 1 ].center = new Vector2( c * scale, 0 );
 
       // SECOND LAW -------------------------------------------

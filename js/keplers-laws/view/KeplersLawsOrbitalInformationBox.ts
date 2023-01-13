@@ -56,8 +56,8 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );
 
-    const getCheckboxOptions = ( name: string ) => {
-      return combineOptions<CheckboxOptions>( {}, MySolarSystemConstants.CHECKBOX_OPTIONS, {
+    const getCheckboxOptions = ( name: string, options: CheckboxOptions = {} ) => {
+      return combineOptions<CheckboxOptions>( options, MySolarSystemConstants.CHECKBOX_OPTIONS, {
         tandem: providedOptions.tandem.createTandem( name )
       } );
     };
@@ -75,7 +75,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
           icon
         ],
         spacing: 10
-      } ), getCheckboxOptions( tandemName ) );
+      } ), getCheckboxOptions( tandemName, options ) );
     };
 
     const orbitalInformationNode = new HBox( {
@@ -115,7 +115,10 @@ class KeplersLawsOrbitalInformationBox extends VBox {
           model.stringsVisibleProperty,
           MySolarSystemStrings.stringsStringProperty,
           'stringsVisibleCheckbox',
-          new Image( stringsIcon_png, ICON_OPTIONS )
+          new Image( stringsIcon_png, ICON_OPTIONS ),
+          {
+            enabledProperty: model.fociVisibleProperty
+          }
         ), {
           leftMargin: 20,
           layoutOptions: { stretch: true }

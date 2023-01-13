@@ -37,7 +37,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly lawUpdatedEmitter = new Emitter();
 
   // First Law Properties
-  public axisVisibleProperty = new BooleanProperty( true );
+  public axisVisibleProperty = new BooleanProperty( false );
   public semiaxisVisibleProperty = new BooleanProperty( false );
   public fociVisibleProperty = new BooleanProperty( false );
   public stringsVisibleProperty = new BooleanProperty( false );
