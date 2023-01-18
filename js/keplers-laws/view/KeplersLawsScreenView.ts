@@ -23,9 +23,11 @@ import PanelFirstLaw from './PanelFirstLaw.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 // constants
-const MARGIN = 5;
+const MARGIN = 10;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -92,23 +94,34 @@ class KeplersLawsScreenView extends CommonScreenView {
       { margin: MARGIN, xAlign: 'left', yAlign: 'top' }
     );
 
-    const alwaysCircularCheckbox = new AlignBox(
-      new Checkbox(
-        model.alwaysCircularProperty,
-        new Text( MySolarSystemStrings.circularOrbitStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
-        MySolarSystemConstants.CHECKBOX_OPTIONS ),
-      { margin: MARGIN, xAlign: 'center', yAlign: 'bottom' }
-    );
-
-
     // Add the control panel on top of the canvases
     // Visibility checkboxes for sim elements
     const controlPanelAlignBox = new AlignBox(
       new VBox( {
         spacing: 10,
+        align: 'left',
         children: [
           new KeplersLawsControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) ),
-          this.timeBox
+          this.timeBox,
+          new AlignBox(
+            new Checkbox(
+              model.alwaysCircularProperty,
+              new Text( MySolarSystemStrings.circularOrbitStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
+              MySolarSystemConstants.CHECKBOX_OPTIONS ), {
+              xMargin: MARGIN / 2,
+              xAlign: 'left',
+              yAlign: 'bottom',
+              maxWidth: 150,
+              tandem: providedOptions.tandem.createTandem( 'alwaysCircularCheckbox' )
+            }
+          ),
+          new TextPushButton( MySolarSystemStrings.centerOrbitStringProperty, {
+            font: new PhetFont( 16 ),
+            maxTextWidth: 120,
+            tandem: providedOptions.tandem.createTandem( 'centerSystemButton' ),
+            touchAreaXDilation: 10,
+            touchAreaYDilation: 10
+          } )
         ]
       } ),
       { margin: MARGIN, xAlign: 'right', yAlign: 'top' }
@@ -136,7 +149,6 @@ class KeplersLawsScreenView extends CommonScreenView {
       controlPanelAlignBox.alignBounds = visibleBounds;
       lawsButtonsBox.alignBounds = visibleBounds;
       centerBox.alignBounds = visibleBounds;
-      alwaysCircularCheckbox.alignBounds = visibleBounds;
     } );
 
     // Slider that controls the bodies mass
@@ -144,7 +156,6 @@ class KeplersLawsScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( controlPanelAlignBox );
     this.interfaceLayer.addChild( lawsButtonsBox );
     this.interfaceLayer.addChild( centerBox );
-    this.interfaceLayer.addChild( alwaysCircularCheckbox );
   }
 }
 

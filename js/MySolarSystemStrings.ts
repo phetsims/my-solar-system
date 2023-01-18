@@ -59,6 +59,8 @@ type StringsType = {
   'periapsisStringProperty': LinkableProperty<string>;
   'clear': string;
   'clearStringProperty': LinkableProperty<string>;
+  'centerOrbit': string;
+  'centerOrbitStringProperty': LinkableProperty<string>;
   'values': string;
   'valuesStringProperty': LinkableProperty<string>;
   'area': {

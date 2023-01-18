@@ -31,7 +31,8 @@ class KeplersLawsControls extends Panel {
       ],
       spacing: 5,
       align: 'left',
-      stretch: true
+      stretch: true,
+      maxWidth: 200
     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
 }

@@ -10,23 +10,19 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import mySolarSystem from '../mySolarSystem.js';
 import MySolarSystemColors from './MySolarSystemColors.js';
 
-// constants
-const CONTROL_PANEL_STROKE = '#8E9097';
-const PANEL_X_MARGIN = 5;
-
 const MySolarSystemConstants = {
 
   MARGIN: 15,
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
 
-  CONTROL_PANEL_STROKE: CONTROL_PANEL_STROKE,
-  PANEL_X_MARGIN: PANEL_X_MARGIN,
   CONTROL_PANEL_OPTIONS: {
     stroke: MySolarSystemColors.controlPanelFillProperty,
     lineWidth: 2,
     cornerRadius: 5,
-    xMargin: PANEL_X_MARGIN,
+    xMargin: 10,
+    yMargin: 10,
+    maxWidth: 200,
     fill: MySolarSystemColors.controlPanelFillProperty,
     layoutOptions: {
       stretch: true
@@ -39,7 +35,7 @@ const MySolarSystemConstants = {
   },
   HSEPARATOR_OPTIONS: {
     lineWidth: 2,
-    stroke: CONTROL_PANEL_STROKE,
+    stroke: '#8E9097',
     layoutOptions: {
       yMargin: 5
     }
