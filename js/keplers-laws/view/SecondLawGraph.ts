@@ -114,14 +114,25 @@ class AreasBarPlot extends Node {
     } );
 
     // y tick marks
-    const YTickMarkSet = new TickMarkSet( chartTransform, Orientation.VERTICAL, 20, {
+    const YSpacing = 30;
+    const YTickMarkSet = new TickMarkSet( chartTransform, Orientation.VERTICAL, YSpacing, {
       edge: 'min',
       stroke: MySolarSystemColors.foregroundProperty
+    } );
+    const YTickMarkSetSecondary = new TickMarkSet( chartTransform, Orientation.VERTICAL, YSpacing * 10, {
+      edge: 'min',
+      stroke: MySolarSystemColors.foregroundProperty,
+      lineWidth: 3
     } );
 
     const updateYRange = () => {
       modelYRange = new Range( 0, 1.3 * this.model.engine.a / 2 );
       chartTransform.setModelYRange( modelYRange );
+      const ratio = modelYRange.max / YSpacing;
+      if ( ratio > 9.5 ) {
+        YTickMarkSet.opacity = Math.max( 0, 1 - ( ratio - 9.5 ) / 10 );
+        YTickMarkSetSecondary.opacity = Math.min( 1, ( ratio - 9.5 ) / 10 );
+      }
     };
 
     // Linking the period division to modify the chart ranges and labels
@@ -156,7 +167,8 @@ class AreasBarPlot extends Node {
       chartRectangle,
       chartClip,
       XTickLabelSet,
-      YTickMarkSet
+      YTickMarkSet,
+      YTickMarkSetSecondary
     ];
 
     const orbitChangedListener = () => {

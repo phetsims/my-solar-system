@@ -55,6 +55,8 @@ class CommonScreenView extends ScreenView {
 
   protected readonly createDraggableVectorNode: ( body: Body, options?: DraggableVectorNodeOptions ) => DraggableVectorNode;
 
+  protected readonly orbitalCenterProperty: Property<Vector2>;
+
   protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
 
   public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
@@ -70,15 +72,16 @@ class CommonScreenView extends ScreenView {
       associatedViewNode: this
     } ) );
 
-    this.modelViewTransformProperty = new DerivedProperty( [ model.zoomProperty ], zoom => {
-      return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-        Vector2.ZERO,
-        new Vector2(
-          this.layoutBounds.center.x,
-          this.layoutBounds.center.y - MySolarSystemConstants.GRID.spacing * 0.5
-        ),
-        zoom );
-    } );
+    this.orbitalCenterProperty = new Vector2Property( this.layoutBounds.center );
+
+    this.modelViewTransformProperty = new DerivedProperty(
+      [ model.zoomProperty, this.orbitalCenterProperty ],
+      ( zoom, orbitalCenter ) => {
+        return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+          Vector2.ZERO,
+          new Vector2( orbitalCenter.x, orbitalCenter.y ),
+          zoom );
+      } );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
     // const gridNode = new GridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
@@ -178,6 +181,7 @@ class CommonScreenView extends ScreenView {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         measuringTapeNode.reset();
+        this.orbitalCenterProperty.reset();
       },
       touchAreaDilation: 10,
       tandem: providedOptions.tandem.createTandem( 'resetAllButton' )

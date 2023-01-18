@@ -118,6 +118,10 @@ class KeplersLawsScreenView extends CommonScreenView {
           new TextPushButton( MySolarSystemStrings.centerOrbitStringProperty, {
             font: new PhetFont( 16 ),
             maxTextWidth: 120,
+            listener: () => {
+              const offset = this.layoutBounds.center.minus( ellipticalOrbitNode.center );
+              this.orbitalCenterProperty.value = this.orbitalCenterProperty.value.plus( offset );
+            },
             tandem: providedOptions.tandem.createTandem( 'centerSystemButton' ),
             touchAreaXDilation: 10,
             touchAreaYDilation: 10
