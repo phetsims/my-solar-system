@@ -13,14 +13,15 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Panel from '../../../../sun/js/Panel.js';
-import { PanelThirdLawOptions } from './PanelThirdLaw.js';
+import { PanelThirdLawOptions } from './ThirdLawPanel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import FirstLawGraph from './FirstLawGraph.js';
 
 
-export default class PanelFirstLaw extends Panel {
+export default class FirstLawPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<PanelThirdLawOptions>( {
-      visibleProperty: model.isFirstLawProperty,
+      visibleProperty: model.eccentricityVisibleProperty,
       fill: MySolarSystemColors.backgroundProperty,
       stroke: MySolarSystemColors.gridIconStrokeColorProperty,
       xMargin: 10,
@@ -29,7 +30,8 @@ export default class PanelFirstLaw extends Panel {
 
     super( new VBox( {
       children: [
-        new Text( MySolarSystemStrings.eccentricityEquationStringProperty, MySolarSystemConstants.TITLE_OPTIONS )
+        new Text( MySolarSystemStrings.eccentricityEquationStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
+        new FirstLawGraph( model )
       ],
       spacing: 10,
       align: 'left',
@@ -38,4 +40,4 @@ export default class PanelFirstLaw extends Panel {
   }
 }
 
-mySolarSystem.register( 'PanelFirstLaw', PanelFirstLaw );
+mySolarSystem.register( 'FirstLawPanel', FirstLawPanel );

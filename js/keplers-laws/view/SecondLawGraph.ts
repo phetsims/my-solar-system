@@ -129,9 +129,9 @@ class AreasBarPlot extends Node {
       modelYRange = new Range( 0, 1.3 * this.model.engine.a / 2 );
       chartTransform.setModelYRange( modelYRange );
       const ratio = modelYRange.max / YSpacing;
-      if ( ratio > 9.5 ) {
-        YTickMarkSet.opacity = Math.max( 0, 1 - ( ratio - 9.5 ) / 10 );
-        YTickMarkSetSecondary.opacity = Math.min( 1, ( ratio - 9.5 ) / 10 );
+      if ( ratio > 15 ) {
+        YTickMarkSet.opacity = Math.max( 0, 1 - ( ratio - 15 ) / 20 );
+        YTickMarkSetSecondary.opacity = Math.min( 1, ( ratio - 15 ) / 20 );
       }
     };
 

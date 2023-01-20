@@ -10,16 +10,15 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
-import PanelSecondLaw from './PanelSecondLaw.js';
+import SecondLawPanel from './SecondLawPanel.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
-import PanelThirdLaw from './PanelThirdLaw.js';
+import ThirdLawPanel from './ThirdLawPanel.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
-import SecondLawGraph from './SecondLawGraph.js';
-import PanelFirstLaw from './PanelFirstLaw.js';
+import FirstLawPanel from './FirstLawPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -66,17 +65,9 @@ class KeplersLawsScreenView extends CommonScreenView {
     // Second and Third Law Accordion Boxes and Zoom Buttons
     const lawsAndZoomBoxes = new AlignBox( new HBox( {
         children: [
-          new PanelFirstLaw( model ),
-          new VBox( {
-            margin: 5,
-            stretch: true,
-            children: [
-              new PanelSecondLaw( model ),
-              new SecondLawGraph( model )
-            ],
-            visibleProperty: model.isSecondLawProperty
-          } ),
-          new PanelThirdLaw( model )
+          new FirstLawPanel( model ),
+          new SecondLawPanel( model ),
+          new ThirdLawPanel( model )
           // NOTE: CODE TEMPORARILY COMMENTED OUT, AWAITING DESIGN DECISION
           // new MagnifyingGlassZoomButtonGroup(
           //   model.zoomLevelProperty, {

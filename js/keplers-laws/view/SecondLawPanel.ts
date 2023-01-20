@@ -19,8 +19,23 @@ import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Panel from '../../../../sun/js/Panel.js';
+import SecondLawGraph from './SecondLawGraph.js';
 
-export default class PanelSecondLaw extends Panel {
+export default class SecondLawPanel extends VBox {
+  public constructor( model: KeplersLawsModel ) {
+    super( {
+      margin: 5,
+      stretch: true,
+      children: [
+        new SecondLawControls( model ),
+        new SecondLawGraph( model )
+      ],
+      visibleProperty: model.isSecondLawProperty
+    } );
+  }
+}
+
+class SecondLawControls extends Panel {
   public constructor( model: KeplersLawsModel ) {
     const divisionsRange = new RangeWithValue( 2, model.maxDivisionValue, 4 );
     const divisionSlider = new HSlider( model.periodDivisionProperty, divisionsRange, {
@@ -81,4 +96,4 @@ export default class PanelSecondLaw extends Panel {
   }
 }
 
-mySolarSystem.register( 'PanelSecondLaw', PanelSecondLaw );
+mySolarSystem.register( 'SecondLawPanel', SecondLawPanel );
