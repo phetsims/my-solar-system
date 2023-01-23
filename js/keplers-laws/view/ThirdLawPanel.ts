@@ -20,6 +20,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ThirdLawGraph from './ThirdLawGraph.js';
+import ThirdLawSliderPanel from './ThirdLawSliderPanel.js';
 
 
 const STRING_PATTERN_OPTIONS: NumberDisplayOptions = {
@@ -35,7 +36,21 @@ const STRING_PATTERN_OPTIONS: NumberDisplayOptions = {
 
 export type PanelThirdLawOptions = PanelOptions;
 
-export default class ThirdLawPanel extends Panel {
+export default class ThirdLawPanel extends VBox {
+  public constructor( model: KeplersLawsModel ) {
+    super( {
+      margin: 5,
+      stretch: true,
+      children: [
+        new ThirdLawMainPanel( model ),
+        new ThirdLawSliderPanel( model )
+      ],
+      visibleProperty: model.isThirdLawProperty
+    } );
+  }
+}
+
+class ThirdLawMainPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
     const options = combineOptions<PanelThirdLawOptions>( {
       visibleProperty: model.isThirdLawProperty,

@@ -37,33 +37,33 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly lawUpdatedEmitter = new Emitter();
 
   // First Law Properties
-  public axisVisibleProperty = new BooleanProperty( false );
-  public semiaxisVisibleProperty = new BooleanProperty( false );
-  public fociVisibleProperty = new BooleanProperty( false );
-  public stringsVisibleProperty = new BooleanProperty( false );
-  public eccentricityVisibleProperty = new BooleanProperty( false );
+  public readonly axisVisibleProperty = new BooleanProperty( false );
+  public readonly semiaxisVisibleProperty = new BooleanProperty( false );
+  public readonly fociVisibleProperty = new BooleanProperty( false );
+  public readonly stringsVisibleProperty = new BooleanProperty( false );
+  public readonly eccentricityVisibleProperty = new BooleanProperty( false );
 
 
   // Second Law properties
-  public apoapsisVisibleProperty = new BooleanProperty( false );
-  public periapsisVisibleProperty = new BooleanProperty( false );
+  public readonly apoapsisVisibleProperty = new BooleanProperty( false );
+  public readonly periapsisVisibleProperty = new BooleanProperty( false );
 
-  public areasVisibleProperty = new BooleanProperty( true );
-  public dotsVisibleProperty = new BooleanProperty( true );
-  public sweepAreaVisibleProperty = new BooleanProperty( true );
-  public areaGraphVisibleProperty = new BooleanProperty( true );
-  public periodDivisionProperty = new NumberProperty( 4 );
-  public maxDivisionValue = MySolarSystemConstants.MAX_ORBITAL_DIVISIONS;
+  public readonly areasVisibleProperty = new BooleanProperty( true );
+  public readonly dotsVisibleProperty = new BooleanProperty( true );
+  public readonly sweepAreaVisibleProperty = new BooleanProperty( true );
+  public readonly areaGraphVisibleProperty = new BooleanProperty( true );
+  public readonly periodDivisionProperty = new NumberProperty( 4 );
+  public readonly maxDivisionValue = MySolarSystemConstants.MAX_ORBITAL_DIVISIONS;
 
   // Third law properties
-  public semimajorAxisVisibleProperty = new BooleanProperty( false );
-  public periodVisibleProperty = new BooleanProperty( false );
+  public readonly semimajorAxisVisibleProperty = new BooleanProperty( false );
+  public readonly periodVisibleProperty = new BooleanProperty( false );
 
-  public selectedAxisPowerProperty = new NumberProperty( 1 );
-  public selectedPeriodPowerProperty = new NumberProperty( 1 );
+  public readonly selectedAxisPowerProperty = new NumberProperty( 1 );
+  public readonly selectedPeriodPowerProperty = new NumberProperty( 1 );
 
-  public poweredSemimajorAxisProperty: ReadOnlyProperty<number>;
-  public poweredPeriodProperty: ReadOnlyProperty<number>;
+  public readonly poweredSemimajorAxisProperty: ReadOnlyProperty<number>;
+  public readonly poweredPeriodProperty: ReadOnlyProperty<number>;
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -136,7 +136,9 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     }
     else {
       // Reset the orbiting body
-      this.bodies[ 1 ].reset();
+      this.bodies.forEach( body => {
+        body.reset();
+      } );
       this.engine.reset();
     }
   }

@@ -63,6 +63,10 @@ type StringsType = {
   'centerOrbitStringProperty': LinkableProperty<string>;
   'values': string;
   'valuesStringProperty': LinkableProperty<string>;
+  'starMass': string;
+  'starMassStringProperty': LinkableProperty<string>;
+  'ourSun': string;
+  'ourSunStringProperty': LinkableProperty<string>;
   'area': {
     'title': string;
     'titleStringProperty': LinkableProperty<string>;

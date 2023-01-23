@@ -30,6 +30,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 const TWOPI = 2 * Math.PI;
 
@@ -72,8 +73,9 @@ class OrbitalArea {
 }
 
 export default class EllipticalOrbitEngine extends Engine {
-  private readonly mu = 2e6;
+  private mu = 2e6;
   public readonly body: Body;
+  public readonly sunMassProperty: Property<number>;
   public readonly changedEmitter = new Emitter();
   public periodDivisions = 4;
   public orbitalAreas: OrbitalArea[] = [];
@@ -103,7 +105,11 @@ export default class EllipticalOrbitEngine extends Engine {
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.body = bodies[ 1 ];
-    this.update();
+    this.sunMassProperty = bodies[ 0 ].massProperty;
+    this.sunMassProperty.link( ( mass: number ) => {
+      this.mu = 1e4 * mass;
+      this.update();
+    } );
 
     // Populate the orbital areas
     for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
@@ -112,9 +118,17 @@ export default class EllipticalOrbitEngine extends Engine {
 
     // Multilink to update the orbit based on the bodies position and velocity
     Multilink.multilink(
-      [ this.body.userControlledPositionProperty, this.body.userControlledVelocityProperty ],
-      ( userControlledPosition: boolean, userControlledVelocity: boolean ) => {
-        this.updateAllowed = userControlledPosition || userControlledVelocity;
+      [
+        this.body.userControlledPositionProperty,
+        this.body.userControlledVelocityProperty,
+        this.bodies[ 0 ].userControlledMassProperty
+      ],
+      (
+        userControlledPosition: boolean,
+        userControlledVelocity: boolean,
+        userControlledMass: boolean
+        ) => {
+        this.updateAllowed = userControlledPosition || userControlledVelocity || userControlledMass;
         this.resetOrbitalAreas();
         this.update();
       } );
