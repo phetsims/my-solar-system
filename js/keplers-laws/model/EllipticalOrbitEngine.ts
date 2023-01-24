@@ -188,7 +188,7 @@ export default class EllipticalOrbitEngine extends Engine {
       this.calculateOrbitalDivisions( false );
 
       this.semimajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
-      this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 217.81;
+      this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
 
       if ( e !== this.eccentricityProperty.value ) {
         this.eccentricityProperty.value = e;

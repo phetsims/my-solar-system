@@ -111,7 +111,7 @@ class KeplersLawsScreenView extends CommonScreenView {
             maxTextWidth: 120,
             listener: () => {
               const offset = this.layoutBounds.center.minus( ellipticalOrbitNode.center );
-              this.orbitalCenterProperty.value = this.orbitalCenterProperty.value.plus( offset );
+              this.orbitalCenterProperty.value = this.orbitalCenterProperty.value.plusXY( offset.x, offset.y - MySolarSystemConstants.GRID.spacing * 0.5 );
             },
             tandem: providedOptions.tandem.createTandem( 'centerSystemButton' ),
             touchAreaXDilation: 10,

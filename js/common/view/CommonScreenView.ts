@@ -79,7 +79,7 @@ class CommonScreenView extends ScreenView {
       ( zoom, orbitalCenter ) => {
         return ModelViewTransform2.createSinglePointScaleInvertedYMapping(
           Vector2.ZERO,
-          new Vector2( orbitalCenter.x, orbitalCenter.y ),
+          new Vector2( orbitalCenter.x, orbitalCenter.y - MySolarSystemConstants.GRID.spacing * 0.5 ),
           zoom );
       } );
 

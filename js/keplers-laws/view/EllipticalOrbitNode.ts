@@ -44,7 +44,7 @@ export default class EllipticalOrbitNode extends Path {
       visibleProperty: model.axisVisibleProperty
     } );
     const stringsPath = new Path( null, {
-      stroke: 'beige',
+      stroke: '#ccb285',
       lineWidth: 3,
       visibleProperty: model.stringsVisibleProperty,
       lineDash: [ 10, 2 ]
