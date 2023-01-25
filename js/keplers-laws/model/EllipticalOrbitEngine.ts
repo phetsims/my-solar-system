@@ -31,6 +31,8 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import OrbitTypes from './OrbitTypes.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 const TWOPI = 2 * Math.PI;
 
@@ -100,9 +102,12 @@ export default class EllipticalOrbitEngine extends Engine {
 
   // Keeps track of the validity of the orbit. True if elliptic, false either if parabolic or collision orbit.
   public allowedOrbitProperty = new BooleanProperty( false );
+  public readonly orbitTypeProperty: EnumerationProperty<OrbitTypes>;
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
+
+    this.orbitTypeProperty = new EnumerationProperty( OrbitTypes.STABLE_ORBIT );
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
     this.sun = bodies[ 0 ];
@@ -194,7 +199,15 @@ export default class EllipticalOrbitEngine extends Engine {
       // TODO: Check if the complete form of the third law should be used
       this.T = Math.pow( a, 3 / 2 );
 
-      this.allowedOrbitProperty.value = !this.collidedWithSun( a, e );
+      if ( this.collidedWithSun( a, e ) ) {
+        this.allowedOrbitProperty.value = false;
+        this.orbitTypeProperty.value = OrbitTypes.CRASH_ORBIT;
+      }
+      else {
+        this.allowedOrbitProperty.value = true;
+        this.orbitTypeProperty.value = OrbitTypes.STABLE_ORBIT;
+      }
+
 
       this.calculateOrbitalDivisions( false );
 
@@ -206,8 +219,9 @@ export default class EllipticalOrbitEngine extends Engine {
       }
     }
     else {
-      this.allowedOrbitProperty.value = false;
       this.eccentricityProperty.value = 1;
+      this.allowedOrbitProperty.value = false;
+      this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
     }
 
     this.changedEmitter.emit();

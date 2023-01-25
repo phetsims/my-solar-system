@@ -26,6 +26,7 @@ import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import VectorNode from '../../common/view/VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import OrbitalWarningMessage from './OrbitalWarningMessage.js';
 
 // constants
 const MARGIN = 10;
@@ -74,6 +75,9 @@ class KeplersLawsScreenView extends CommonScreenView {
 
     // UI ----------------------------------------------------------------------------------
     // Second and Third Law Accordion Boxes and Zoom Buttons
+
+    this.topLayer.addChild( new OrbitalWarningMessage( model, this.modelViewTransformProperty ) );
+
     const lawsAndZoomBoxes = new AlignBox( new HBox( {
         children: [
           new FirstLawPanel( model ),
