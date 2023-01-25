@@ -24,6 +24,8 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import VectorNode from '../../common/view/VectorNode.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 
 // constants
 const MARGIN = 10;
@@ -41,21 +43,30 @@ class KeplersLawsScreenView extends CommonScreenView {
 
     super( model, options );
 
-    this.bodiesLayer.addChild( new BodyNode(
-      model.bodies[ 0 ],
-      this.modelViewTransformProperty,
-      {
-        draggable: false
-      }
-    ) );
-    this.bodiesLayer.addChild( new BodyNode(
-      model.bodies[ 1 ],
-      this.modelViewTransformProperty
-    ) );
-    this.componentsLayer.addChild( this.createDraggableVectorNode( model.bodies[ 1 ], {
+
+    const sun = model.bodies[ 0 ];
+    const body = model.bodies[ 1 ];
+    const sunNode = new BodyNode( model.bodies[ 0 ], this.modelViewTransformProperty, { draggable: false } );
+    const bodyNode = new BodyNode( body, this.modelViewTransformProperty );
+    this.bodiesLayer.addChild( sunNode );
+    this.bodiesLayer.addChild( bodyNode );
+
+    // Draggable velocity vector
+    this.componentsLayer.addChild( this.createDraggableVectorNode( body, {
       zeroAllowed: false,
       enabledProperty: DerivedProperty.not( model.alwaysCircularProperty )
     } ) );
+
+    // Gravity force vectors
+    this.componentsLayer.addChild( new VectorNode(
+      body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty,
+      0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
+    ) );
+
+    this.componentsLayer.addChild( new VectorNode(
+      sun, this.modelViewTransformProperty, model.gravityVisibleProperty, sun.forceProperty,
+      0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
+    ) );
 
     const ellipticalOrbitNode = new EllipticalOrbitNode( model, this.modelViewTransformProperty );
     this.bottomLayer.addChild( ellipticalOrbitNode );

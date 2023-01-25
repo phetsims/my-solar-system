@@ -130,7 +130,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
       // Earth's Position is x = 100, vy = 141.5
       super.setInitialBodyStates( [
         { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-        { mass: 5, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+        { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
       ] );
       this.updatePreviousModeInfo();
     }

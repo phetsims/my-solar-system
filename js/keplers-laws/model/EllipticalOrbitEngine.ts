@@ -74,6 +74,7 @@ class OrbitalArea {
 
 export default class EllipticalOrbitEngine extends Engine {
   private mu = 2e6;
+  public readonly sun: Body;
   public readonly body: Body;
   public readonly sunMassProperty: Property<number>;
   public readonly changedEmitter = new Emitter();
@@ -104,6 +105,7 @@ export default class EllipticalOrbitEngine extends Engine {
     super( bodies );
 
     // In the case of this screen, the body 0 is the sun, and the body 1 is the planet
+    this.sun = bodies[ 0 ];
     this.body = bodies[ 1 ];
     this.sunMassProperty = bodies[ 0 ].massProperty;
     this.sunMassProperty.link( ( mass: number ) => {
@@ -152,16 +154,25 @@ export default class EllipticalOrbitEngine extends Engine {
     this.body.positionProperty.value = newPosition;
     this.body.velocityProperty.value = newVelocity;
 
+    this.updateForces( newPosition );
+
     this.calculateOrbitalDivisions( true );
     this.changedEmitter.emit();
   }
 
+  public updateForces( position: Vector2 ): void {
+    const force = position.timesScalar( -this.mu * this.body.massProperty.value / Math.pow( position.magnitude, 3 ) );
+    this.body.forceProperty.value = force;
+    this.sun.forceProperty.value = force.timesScalar( -1 );
+  }
   /**
    * Based on the current position and velocity of the body
    * Updates the orbital elements of the body using Orbital Mechanics Analytic Equations
    */
   public override update(): void {
     const r = this.body.positionProperty.value;
+
+    this.updateForces( r );
 
     if ( this.alwaysCircles ) {
       this.enforceCircularOrbit( r );
@@ -196,6 +207,7 @@ export default class EllipticalOrbitEngine extends Engine {
     }
     else {
       this.allowedOrbitProperty.value = false;
+      this.eccentricityProperty.value = 1;
     }
 
     this.changedEmitter.emit();

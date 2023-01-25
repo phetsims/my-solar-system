@@ -211,7 +211,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       }
     } );
 
-    this.zoomLevelProperty = new NumberProperty( 3, {
+    this.zoomLevelProperty = new NumberProperty( 2, {
       range: new Range( 0, 4 ),
       tandem: providedOptions.tandem.createTandem( 'zoomLevelProperty' ),
       numberType: 'Integer'
