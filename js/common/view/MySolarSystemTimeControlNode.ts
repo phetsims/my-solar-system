@@ -10,7 +10,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phet/js/TimeControlNode.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import CommonModel from '../model/CommonModel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -58,6 +57,7 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
     const options = optionize<MySolarSystemTimeControlNodeOptions, SelfOptions, TimeControlNodeOptions>()( {
       timeSpeedProperty: model.timeSpeedProperty,
       timeSpeeds: [ TimeSpeed.FAST, TimeSpeed.NORMAL, TimeSpeed.SLOW ],
+      scale: 0.9,
       playPauseStepButtonOptions: {
         playPauseStepXSpacing: PUSH_BUTTON_SPACING,
         playPauseButtonOptions: {
@@ -71,11 +71,7 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
       buttonGroupXSpacing: 20,
       speedRadioButtonGroupOnLeft: false,
       speedRadioButtonGroupOptions: {
-        labelOptions: {
-          font: MySolarSystemConstants.PANEL_FONT,
-          fill: MySolarSystemColors.foregroundProperty,
-          maxWidth: 70
-        },
+        labelOptions: MySolarSystemConstants.TEXT_OPTIONS,
         touchAreaXDilation: 10
       }
     }, providedOptions );
@@ -104,7 +100,7 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
     this.addChild( restartButton );
 
     this.speedRadioButtonGroupParent!.center = this.getPlayPauseButtonCenter().plusXY(
-      0,
+      -0.9 * ( PLAY_PAUSE_BUTTON_RADIUS + STEP_BUTTON_RADIUS ),
       PLAY_PAUSE_BUTTON_RADIUS + STEP_BUTTON_RADIUS + 3 * PUSH_BUTTON_SPACING
     );
   }
