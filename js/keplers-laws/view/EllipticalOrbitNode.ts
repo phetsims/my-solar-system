@@ -55,7 +55,7 @@ export default class EllipticalOrbitNode extends Path {
     const cLabelNode = new Text( 'c', combineOptions<TextOptions>( {
       visibleProperty: new DerivedProperty(
         [
-          model.eccentricityVisibleProperty,
+          model.semiaxisVisibleProperty,
           model.engine.eccentricityProperty
         ],
         ( visible, e ) => {
@@ -119,7 +119,7 @@ export default class EllipticalOrbitNode extends Path {
     const focalDistancePath = new Path( null, {
       stroke: 'cyan',
       lineWidth: 3,
-      visibleProperty: model.eccentricityVisibleProperty
+      visibleProperty: model.semiaxisVisibleProperty
     } );
     const stringsPath = new Path( null, {
       stroke: '#ccb285',
