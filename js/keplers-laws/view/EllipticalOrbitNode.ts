@@ -8,7 +8,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbitEngine from '../model/EllipticalOrbitEngine.js';
-import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
+import { Circle, Node, Path, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -17,6 +17,8 @@ import XNode from '../../../../scenery-phet/js/XNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 
 export default class EllipticalOrbitNode extends Path {
@@ -37,11 +39,48 @@ export default class EllipticalOrbitNode extends Path {
 
     this.orbit = model.engine;
 
+    // Text Nodes
+    const aLabelNode = new Text( 'a', combineOptions<TextOptions>( {
+      visibleProperty: DerivedProperty.or(
+        [ model.semiaxisVisibleProperty, model.semimajorAxisVisibleProperty ]
+      ),
+      scale: 1.5,
+      stroke: 'orange'
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    const bLabelNode = new Text( 'b', combineOptions<TextOptions>( {
+      visibleProperty: model.semiaxisVisibleProperty,
+      scale: 1.5,
+      stroke: 'orange'
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    const cLabelNode = new Text( 'c', combineOptions<TextOptions>( {
+      visibleProperty: new DerivedProperty(
+        [
+          model.eccentricityVisibleProperty,
+          model.engine.eccentricityProperty
+        ],
+        ( visible, e ) => {
+          return visible && ( e > 0 );
+        }
+      ),
+      scale: 1,
+      stroke: 'cyan'
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+
     // FIRST LAW: Axis, foci, and Ellipse definition lines
     const axisPath = new Path( null, {
       stroke: MySolarSystemColors.foregroundProperty,
       lineWidth: 2,
       visibleProperty: model.axisVisibleProperty
+    } );
+    const semiAxisPath = new Path( null, {
+      stroke: 'orange',
+      lineWidth: 3,
+      visibleProperty: model.semiaxisVisibleProperty
+    } );
+    const focalDistancePath = new Path( null, {
+      stroke: 'cyan',
+      lineWidth: 3,
+      visibleProperty: model.eccentricityVisibleProperty
     } );
     const stringsPath = new Path( null, {
       stroke: '#ccb285',
@@ -61,7 +100,7 @@ export default class EllipticalOrbitNode extends Path {
       new XNode( fociOptions )
     ];
 
-    // Drawing of Periapsis and Apoapsis, their position is updated later
+    // SECOND LAW: Periapsis and Apoapsis
     const periapsis = new XNode( {
       fill: 'gold',
       stroke: 'white',
@@ -112,12 +151,32 @@ export default class EllipticalOrbitNode extends Path {
     orbitDivisions.forEach( node => { orbitDivisionsNode.addChild( node ); } );
     areaPaths.forEach( node => { areaPathsNode.addChild( node ); } );
 
+    // THIRD LAW: Semimajor axis
+    const semiMajorAxisPath = new Path( null, {
+      stroke: 'orange',
+      lineWidth: 3,
+      visibleProperty: model.semimajorAxisVisibleProperty
+    } );
+
+    // Text Nodes
+    this.addChild( aLabelNode );
+    this.addChild( bLabelNode );
+    this.addChild( cLabelNode );
+
+    // First Law: Axis, foci, and Ellipse definition lines
     this.addChild( axisPath );
+    this.addChild( semiAxisPath );
     this.addChild( stringsPath );
+    this.addChild( focalDistancePath );
+
+    // Second Law: Periapsis, Apoapsis and orbital division dots and areas
     this.addChild( areaPathsNode );
     this.addChild( periapsis );
     this.addChild( apoapsis );
     this.addChild( orbitDivisionsNode );
+
+    // Third Law: Semimajor axis
+    this.addChild( semiMajorAxisPath );
 
     this.topLayer.addChild( foci[ 0 ] );
     this.topLayer.addChild( foci[ 1 ] );
@@ -153,6 +212,20 @@ export default class EllipticalOrbitNode extends Path {
       const axis = new Shape().moveTo( -radiusX, 0 ).lineTo( radiusX, 0 );
       axis.moveTo( 0, -radiusY ).lineTo( 0, radiusY );
       axisPath.shape = axis;
+
+      // Semi-axis of the ellipse
+      const semiAxis = new Shape().moveTo( 0, 0 ).lineTo( -radiusX, 0 );
+      // const semiAxis = new ArrowShape( 0, 0, -radiusX, 0, {} );
+      semiAxis.moveTo( 0, 0 ).lineTo( 0, radiusY );
+      semiAxisPath.shape = semiAxis;
+      aLabelNode.center = new Vector2( -radiusX / 2, 10 );
+      aLabelNode.rotation = this.orbit.w;
+      bLabelNode.center = new Vector2( -15, radiusY / 2 );
+      bLabelNode.rotation = this.orbit.w;
+
+      focalDistancePath.shape = new Shape().moveTo( 0, 0 ).lineTo( e * radiusX, 0 );
+      cLabelNode.center = new Vector2( e * radiusX / 2, 10 );
+      cLabelNode.rotation = this.orbit.w;
 
       // Strings of the foci
       const bodyPosition = this.orbit.createPolar( -this.orbit.nu );
@@ -195,6 +268,10 @@ export default class EllipticalOrbitNode extends Path {
             0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
           ).close();
         }
+
+        // THIRD LAW -------------------------------------------
+        // Semi-major axis
+        semiMajorAxisPath.shape = new Shape().moveTo( -radiusX, 0 ).lineTo( radiusX, 0 );
       } );
     };
 

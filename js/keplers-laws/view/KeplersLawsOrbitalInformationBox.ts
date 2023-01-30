@@ -98,12 +98,19 @@ class KeplersLawsOrbitalInformationBox extends VBox {
         'axisVisibleCheckbox',
         axisIconImageNode
       ),
-      createCheckbox(
-        model.semiaxisVisibleProperty,
-        MySolarSystemStrings.semiaxisStringProperty,
-        'semiAxisVisibleCheckbox',
-        new Image( semiaxisIcon_png, ICON_OPTIONS )
-      ),
+      new AlignBox(
+        createCheckbox(
+          model.semiaxisVisibleProperty,
+          MySolarSystemStrings.semiaxisStringProperty,
+          'semiAxisVisibleCheckbox',
+          new Image( semiaxisIcon_png, ICON_OPTIONS ),
+          {
+            enabledProperty: model.axisVisibleProperty
+          }
+        ), {
+          leftMargin: 20,
+          layoutOptions: { stretch: true }
+        } ),
       createCheckbox(
         model.fociVisibleProperty,
         MySolarSystemStrings.fociStringProperty,
