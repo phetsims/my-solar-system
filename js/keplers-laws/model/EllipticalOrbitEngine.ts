@@ -215,7 +215,12 @@ export default class EllipticalOrbitEngine extends Engine {
       this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
 
       if ( e !== this.eccentricityProperty.value ) {
-        this.eccentricityProperty.value = e;
+        if ( this.alwaysCircles ) {
+          this.eccentricityProperty.value = 0;
+        }
+        else {
+          this.eccentricityProperty.value = e;
+        }
       }
     }
     else {
@@ -233,6 +238,7 @@ export default class EllipticalOrbitEngine extends Engine {
     this.body.velocityProperty.value =
       position.perpendicular.normalize().
       multiplyScalar( direction * 1.0001 * Math.sqrt( this.mu / position.magnitude ) );
+    // TODO: Velocity a bit over circular orbit to avoid some errors, but they shouldnt be happening
   }
 
   public createPolar( nu: number, w = 0 ): Vector2 {

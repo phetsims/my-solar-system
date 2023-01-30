@@ -8,7 +8,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import EllipticalOrbitEngine from '../model/EllipticalOrbitEngine.js';
-import { Circle, Node, Path, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import { Circle, Node, Path, RichText, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink, { UnknownMultilink } from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -64,6 +64,45 @@ export default class EllipticalOrbitNode extends Path {
       ),
       scale: 1,
       stroke: 'cyan'
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    const stringLabelNode1 = new RichText( 'd<sub>1', combineOptions<TextOptions>( {
+      visibleProperty: new DerivedProperty(
+        [
+          model.stringsVisibleProperty,
+          model.engine.eccentricityProperty
+        ],
+        ( visible, e ) => {
+          return visible && ( e > 0 );
+        }
+      ),
+      scale: 1.5,
+      stroke: '#ccb285'
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    const stringLabelNode2 = new RichText( 'd<sub>2', combineOptions<TextOptions>( {
+      visibleProperty: new DerivedProperty(
+        [
+          model.stringsVisibleProperty,
+          model.engine.eccentricityProperty
+        ],
+        ( visible, e ) => {
+          return visible && ( e > 0 );
+        }
+      ),
+      scale: 1.5,
+      stroke: '#ccb285'
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    const radiusLabelNode = new RichText( 'R', combineOptions<TextOptions>( {
+      visibleProperty: new DerivedProperty(
+        [
+          model.stringsVisibleProperty,
+          model.engine.eccentricityProperty
+        ],
+        ( visible, e ) => {
+          return visible && ( e === 0 );
+        }
+      ),
+      scale: 1.5,
+      stroke: '#ccb285'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
 
     // FIRST LAW: Axis, foci, and Ellipse definition lines
@@ -162,6 +201,10 @@ export default class EllipticalOrbitNode extends Path {
     this.addChild( aLabelNode );
     this.addChild( bLabelNode );
     this.addChild( cLabelNode );
+    this.addChild( stringLabelNode1 );
+    this.addChild( stringLabelNode2 );
+    this.addChild( radiusLabelNode );
+
 
     // First Law: Axis, foci, and Ellipse definition lines
     this.addChild( axisPath );
@@ -189,15 +232,16 @@ export default class EllipticalOrbitNode extends Path {
       const a = this.orbit.a;
       const e = this.orbit.e;
       const c = e * a;
-      const center = new Vector2( -c, 0 );
+      const center = new Vector2( -c, 0 ).times( scale );
 
+      const radiusC = scale * c; // Focal point
       const radiusX = scale * a;
       const radiusY = scale * Math.sqrt( a * a - c * c );
 
       const applyTransformation = ( point: Node ) => {
-        point.translation = modelViewTransformProperty.value.modelToViewPosition( center );
+        point.translation = modelViewTransformProperty.value.modelToViewPosition( center.times( 1 / scale ) );
         point.rotation = 0;
-        point.rotateAround( point.translation.add( center.times( -scale ) ), -this.orbit.w );
+        point.rotateAround( point.translation.add( center.times( -1 ) ), -this.orbit.w );
       };
 
       // The ellipse is translated and rotated so its children can use local coordinates
@@ -228,17 +272,26 @@ export default class EllipticalOrbitNode extends Path {
       cLabelNode.rotation = this.orbit.w;
 
       // Strings of the foci
-      const bodyPosition = this.orbit.createPolar( -this.orbit.nu );
-      const stringsShape = new Shape().moveTo( -c * scale, 0 ).lineTo( ( bodyPosition.x + c ) * scale, bodyPosition.y * scale );
-      stringsShape.moveTo( c * scale, 0 ).lineTo( ( bodyPosition.x + c ) * scale, bodyPosition.y * scale );
+      const bodyPosition = this.orbit.createPolar( -this.orbit.nu ).times( scale );
+      const stringsShape = new Shape().moveTo( -radiusC, 0 ).lineTo( ( bodyPosition.x + radiusC ), bodyPosition.y );
+      stringsShape.moveTo( radiusC, 0 ).lineTo( ( bodyPosition.x + radiusC ), bodyPosition.y );
       stringsPath.shape = stringsShape;
+
+      const labelsYPosition = bodyPosition.y / 2;
+      const offsetVector = new Vector2( 0, 15 ).rotated( bodyPosition.angle );
+      stringLabelNode1.center = new Vector2( ( bodyPosition.x / 2 + radiusC ), labelsYPosition ).add( offsetVector );
+      stringLabelNode1.rotation = this.orbit.w;
+      stringLabelNode2.center = new Vector2( ( bodyPosition.x / 2 ), labelsYPosition ).add( offsetVector );
+      stringLabelNode2.rotation = this.orbit.w;
+      radiusLabelNode.center = new Vector2( ( bodyPosition.x / 2 ), labelsYPosition ).add( offsetVector );
+      radiusLabelNode.rotation = this.orbit.w;
 
       //Foci
       foci[ 0 ].rotation = this.orbit.w + Math.PI / 4;
-      foci[ 0 ].center = new Vector2( -c * scale, 0 );
+      foci[ 0 ].center = new Vector2( -radiusC, 0 );
 
       foci[ 1 ].rotation = this.orbit.w + Math.PI / 4;
-      foci[ 1 ].center = new Vector2( c * scale, 0 );
+      foci[ 1 ].center = new Vector2( radiusC, 0 );
 
       // SECOND LAW -------------------------------------------
       // Periapsis and apoapsis
@@ -252,19 +305,19 @@ export default class EllipticalOrbitNode extends Path {
 
         if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbitProperty.value ) {
           // Set the center of the orbit's divisions dot
-          orbitDivisions[ i ].center = area.dotPosition.minus( center ).times( scale );
+          orbitDivisions[ i ].center = area.dotPosition.minus( center );
           orbitDivisions[ i ].fill = MySolarSystemColors.orbitColorProperty.value.darkerColor( Math.pow( 1 - area.completion, 10 ) );
 
 
-          const start = area.startPosition.minus( center ).times( scale );
-          const end = area.endPosition.minus( center ).times( scale );
+          const start = area.startPosition.minus( center );
+          const end = area.endPosition.minus( center );
           const startAngle = Math.atan2( start.y / radiusY, start.x / radiusX );
           const endAngle = Math.atan2( end.y / radiusY, end.x / radiusX );
 
           // Activate area path
           // Opacity lowered down to 0.8 for stylistic purposes
           areaPaths[ i ].opacity = area.insideProperty.value ? 1 : 0.8 * area.completion;
-          areaPaths[ i ].shape = new Shape().moveTo( c * scale, 0 ).ellipticalArc(
+          areaPaths[ i ].shape = new Shape().moveTo( radiusC, 0 ).ellipticalArc(
             0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
           ).close();
         }
