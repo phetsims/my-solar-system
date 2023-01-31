@@ -2,6 +2,7 @@
 
 /**
  * Logic for Center of Mass class
+ * REVIEW: What does it represent, and why does it exist? The above line doesn't help much
  * 
  * @author Agustín Vallejo
  */
@@ -22,6 +23,8 @@ export default class CenterOfMass {
 
   public constructor( bodies: ObservableArray<Body> ) {
     this.bodies = bodies;
+
+    //REVIEW: Can initialize these at their declaration sites!
     this.positionProperty = new Vector2Property( Vector2.ZERO );
     this.velocityProperty = new Vector2Property( Vector2.ZERO );
     this.visibleProperty = new BooleanProperty( false );
@@ -36,7 +39,12 @@ export default class CenterOfMass {
     const tempVelocity = new Vector2( 0, 0 );
     let totalMass = 0;
 
+    //REVIEW: Is performance a concern for this? If not don't change, but the .forEach with closures can slow things
+    //REVIEW: down. If performance is a concern, consider using a for loop instead.
+
     // Total Mass must be calculated before calculating the weighted mean position and velocity
+    //REVIEW: const totalMass = _.sum( this.bodies.map( body => body.massProperty.value ) );
+    //REVIEW: replaces two lines, if performance is not a concern.
     this.bodies.forEach( body => { totalMass += body.massProperty.value; } );
 
     this.bodies.forEach( body => {

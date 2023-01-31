@@ -47,6 +47,8 @@ export default class NumericalEngine extends Engine {
 
       for ( let i = 0; i < this.bodies.length; i++ ) {
         for ( let j = i + 1; j < this.bodies.length; j++ ) {
+          //REVIEW: body1 doesn't depend on j, so it could be moved outside the inner loop (sometimes that can be helpful
+          //REVIEW: for performance, if this is run a lot.
           const body1 = this.bodies[ i ];
           const body2 = this.bodies[ j ];
           if ( body1.isOverlapping( body2 ) ) {
@@ -180,6 +182,8 @@ export default class NumericalEngine extends Engine {
   }
 
   private updateForces(): void {
+    //REVIEW: Are arrows or things getting updated a lot? We might be able to improve performance if that's happening
+    //REVIEW: by computing these in temporary variables, and then setting them all at once at the end.
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
       body.accelerationProperty.value = Vector2.ZERO;

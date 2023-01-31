@@ -185,6 +185,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.realUnitsProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'realUnitsProperty' ) } );
 
     //REVIEW: Think about whether this is better than just creating BodyNodes with a valuesVisibleProperty passed in
+    //REVIEW: Just noticed this, presumably pass it in to the bodies instead of having them create their own Properties
     this.valuesVisibleProperty.link( visible => {
       this.availableBodies.forEach( body => {
         body.valueVisibleProperty.value = visible; // Doesn't need disposal because will always exist

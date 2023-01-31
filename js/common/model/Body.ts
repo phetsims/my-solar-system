@@ -31,6 +31,8 @@ class Body {
 
   // Collision handling
   public readonly collidedEmitter = new TinyEmitter();
+
+  //REVIEW: This should not be created here, just use the CommonModel's valuesVisibleProperty. Might be good for collaboration
   public readonly valueVisibleProperty = new BooleanProperty( false );
 
   // Not resettable, common model will handle. Determines if the body is currently on-screen
@@ -48,14 +50,14 @@ class Body {
 
   private pathDistance = 0;
 
-  public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2, color: TReadOnlyProperty<Color> ) {
+  public constructor( initialMass: number, initialPosition: Vector2, initialVelocity: Vector2, colorProperty: TReadOnlyProperty<Color> ) {
     this.massProperty = new NumberProperty( initialMass );
     this.radiusProperty = new NumberProperty( 1 );
     this.positionProperty = new Vector2Property( initialPosition );
     this.velocityProperty = new Vector2Property( initialVelocity );
     this.accelerationProperty = new Vector2Property( Vector2.ZERO );
     this.forceProperty = new Vector2Property( Vector2.ZERO );
-    this.colorProperty = color;
+    this.colorProperty = colorProperty;
 
     this.massProperty.link( mass => {
       // Mass to radius function
@@ -66,6 +68,7 @@ class Body {
     this.pathPoints = createObservableArray();
 
     // Adding first point twice for the WebGL Path
+    //REVIEW: Why would this be needed? If it's for WebGL, is it much harder to include this type of thing there?
     this.addPathPoint();
     this.addPathPoint();
   }
@@ -87,16 +90,23 @@ class Body {
     const pathPoint = this.positionProperty.value;
 
     // Only add or remove points if the body is effectively moving
+    //REVIEW: Are we always guaranteed pathPoints? It seems easier to have a conditional here if there IS another pathPoint
+    //REVIEW: ACTUALLY, that should be added, AND we should probably not be doing an instance equality check.
+    //REVIEW: new Vector2( 0, 0 ) !== new Vector2( 0, 0 ) is true, so this guard does not do much at all to help us
+    //REVIEW: use .equals() instead.
     if ( pathPoint !== this.pathPoints[ this.pathPoints.length - 1 ] ) {
       this.pathPoints.push( pathPoint );
 
       // Add the length to the tracked path length
+      //REVIEW: Shouldn't this be >= 2? Does this omit the distance of the first two points?
       if ( this.pathPoints.length > 2 ) {
+        //REVIEW: Use vector.distance( otherVector ). It's faster and easier
         this.pathDistance += pathPoint.minus( this.pathPoints[ this.pathPoints.length - 2 ] ).magnitude;
       }
 
       // Remove points from the path as the path gets too long
       while ( this.pathDistance > 2000 || this.pathPoints.length > MAX_PATH_LENGTH * ( MySolarSystemQueryParameters.pathRenderer === 'canvas' ? 10 : 1 ) ) {
+        //REVIEW: Use vector.distance( otherVector ). It's faster and easier
         this.pathDistance -= this.pathPoints[ 1 ].minus( this.pathPoints[ 0 ] ).magnitude;
         this.pathPoints.shift();
       }
@@ -124,6 +134,7 @@ class Body {
    * Clear the whole path of points tracking the body's trajectory.
    */
   public clearPath(): void {
+    //REVIEW: This doesn't match with our initial value of a few points for WebGL. Is that a bug?
     this.pathPoints.clear();
     this.pathDistance = 0;
   }
