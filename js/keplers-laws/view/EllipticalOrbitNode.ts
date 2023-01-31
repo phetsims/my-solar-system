@@ -305,12 +305,11 @@ export default class EllipticalOrbitNode extends Path {
 
         if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbitProperty.value ) {
           // Set the center of the orbit's divisions dot
-          orbitDivisions[ i ].center = area.dotPosition.minus( center );
+          orbitDivisions[ i ].center = area.dotPosition.times( scale ).minus( center );
           orbitDivisions[ i ].fill = MySolarSystemColors.orbitColorProperty.value.darkerColor( Math.pow( 1 - area.completion, 10 ) );
 
-
-          const start = area.startPosition.minus( center );
-          const end = area.endPosition.minus( center );
+          const start = area.startPosition.times( scale ).minus( center );
+          const end = area.endPosition.times( scale ).minus( center );
           const startAngle = Math.atan2( start.y / radiusY, start.x / radiusX );
           const endAngle = Math.atan2( end.y / radiusY, end.x / radiusX );
 

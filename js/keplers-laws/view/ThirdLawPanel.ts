@@ -144,11 +144,13 @@ class ThirdLawMainPanel extends Panel {
         } ),
         new NumberDisplay( model.poweredSemimajorAxisProperty, semiMajorAxisValueRange,
           combineOptions<NumberDisplayOptions>( {
-            valuePattern: semimajorAxisStringPattern
+            valuePattern: semimajorAxisStringPattern,
+            align: 'left'
           }, STRING_PATTERN_OPTIONS ) ),
         new NumberDisplay( model.poweredPeriodProperty, periodValueRange,
           combineOptions<NumberDisplayOptions>( {
-            valuePattern: periodStringPattern
+            valuePattern: periodStringPattern,
+            align: 'left'
           }, STRING_PATTERN_OPTIONS ) )
       ]
     } ), options );

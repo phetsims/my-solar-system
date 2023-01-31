@@ -23,7 +23,7 @@ export default class ThirdLawGraph extends Node {
     super( providedOptions );
 
     const semimajorAxisToPeriod = ( axis: number ) => {
-      return Math.pow( axis, 3 / 2 );
+      return Math.pow( axis * model.engine.sunMassProperty.value, 3 / 2 );
     };
 
     const axisLength = 120;
