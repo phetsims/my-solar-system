@@ -103,7 +103,12 @@ export default class ThirdLawGraph extends Node {
       ];
     };
 
-    Multilink.multilink( [ model.selectedAxisPowerProperty, model.selectedPeriodPowerProperty ], () => {
+    Multilink.multilink(
+      [
+        model.selectedAxisPowerProperty,
+        model.selectedPeriodPowerProperty,
+        model.engine.sunMassProperty
+      ], () => {
       orbitUpdated();
 
       const shape = new Shape().moveTo( 0, 0 );

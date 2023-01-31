@@ -20,6 +20,7 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbitEngine>;
 
@@ -48,8 +49,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly apoapsisVisibleProperty = new BooleanProperty( false );
   public readonly periapsisVisibleProperty = new BooleanProperty( false );
 
-  public readonly areasVisibleProperty = new BooleanProperty( true );
-  public readonly dotsVisibleProperty = new BooleanProperty( true );
   public readonly sweepAreaVisibleProperty = new BooleanProperty( true );
   public readonly areaGraphVisibleProperty = new BooleanProperty( true );
   public readonly periodDivisionProperty = new NumberProperty( 4 );
@@ -64,6 +63,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
 
   public readonly poweredSemimajorAxisProperty: ReadOnlyProperty<number>;
   public readonly poweredPeriodProperty: ReadOnlyProperty<number>;
+
+  public readonly stopwatch: Stopwatch;
 
   public constructor( providedOptions: KeplersLawsModelOptions ) {
     const options = optionize<KeplersLawsModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
@@ -104,6 +105,9 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.fociVisibleProperty.link( fociVisible => {
       this.stringsVisibleProperty.value = fociVisible ? this.stringsVisibleProperty.value : false;
     } );
+    this.sweepAreaVisibleProperty.link( areasVisible => {
+      this.areaGraphVisibleProperty.value = areasVisible ? this.areaGraphVisibleProperty.value : false;
+    } );
 
     this.timeScale = 2.0;
     this.timeMultiplier = 1 / 12.7;
@@ -128,6 +132,14 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.alwaysCircularProperty.link( alwaysCircular => {
       this.engine.alwaysCircles = alwaysCircular;
       this.engine.update();
+    } );
+
+    this.stopwatch = new Stopwatch( {
+      timePropertyOptions: {
+        range: Stopwatch.ZERO_TO_ALMOST_SIXTY,
+        units: 's'
+      }
+      // tandem: tandem.createTandem( 'stopwatch' )
     } );
   }
 
@@ -167,8 +179,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     // Second Law
     this.apoapsisVisibleProperty.reset();
     this.periapsisVisibleProperty.reset();
-    this.areasVisibleProperty.reset();
-    this.dotsVisibleProperty.reset();
     this.sweepAreaVisibleProperty.reset();
     this.areaGraphVisibleProperty.reset();
 

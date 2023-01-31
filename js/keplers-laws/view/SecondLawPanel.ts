@@ -54,8 +54,6 @@ class SecondLawControls extends Panel {
       thumbMouseAreaXDilation: 10,
       thumbMouseAreaYDilation: 5,
 
-      visibleProperty: model.dotsVisibleProperty,
-
       constrainValue: value => Utils.roundSymmetric( value )
     } );
 
@@ -76,8 +74,7 @@ class SecondLawControls extends Panel {
               maxWidth: 40
             } )
           ],
-          margin: 4,
-          visibleProperty: model.dotsVisibleProperty
+          margin: 4
         } ),
         divisionSlider,
         new Checkbox( model.sweepAreaVisibleProperty, new Text( MySolarSystemStrings.area.sweptAreaStringProperty, MySolarSystemConstants.TEXT_OPTIONS ), MySolarSystemConstants.CHECKBOX_OPTIONS ),

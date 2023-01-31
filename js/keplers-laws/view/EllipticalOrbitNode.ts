@@ -155,7 +155,7 @@ export default class EllipticalOrbitNode extends Path {
       stroke: 'white',
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
-        [ model.periapsisVisibleProperty, this.orbit.eccentricityProperty ],
+        [ model.apoapsisVisibleProperty, this.orbit.eccentricityProperty ],
         ( visible, e ) => {
           return visible && ( e > 0 );
         } )
@@ -181,9 +181,7 @@ export default class EllipticalOrbitNode extends Path {
 
     // Nodes for the orbital divisions' dots and areas
     // There are Nodes and arrays separately to access them by index
-    const orbitDivisionsNode = new Node( {
-      visibleProperty: model.dotsVisibleProperty
-    } );
+    const orbitDivisionsNode = new Node();
     const areaPathsNode = new Node( {
       visibleProperty: model.sweepAreaVisibleProperty
     } );
@@ -334,7 +332,6 @@ export default class EllipticalOrbitNode extends Path {
       [
         modelViewTransformProperty,
         model.periodDivisionProperty,
-        model.dotsVisibleProperty,
         model.selectedLawProperty
       ],
       () => updatedOrbit() );

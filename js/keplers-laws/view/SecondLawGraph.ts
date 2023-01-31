@@ -14,7 +14,6 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -35,7 +34,7 @@ export default class SecondLawGraph extends Panel {
   public constructor( public model: KeplersLawsModel ) {
 
     const options = combineOptions<PanelOptions>( {
-      visibleProperty: DerivedProperty.and( [ model.areasVisibleProperty, model.areaGraphVisibleProperty ] )
+      visibleProperty: model.areaGraphVisibleProperty
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
     const xAxisLength = 180;
@@ -184,9 +183,9 @@ class AreasBarPlot extends Node {
 
       // TODO: Maybe there's a better solution than a double loop
       activeAreas.forEach( ( area, index ) => {
-        const opacity = area.insideProperty.value ? 1 : area.completion;
+        const alpha = area.insideProperty.value ? 1 : area.completion;
         const paintableFields: PaintableOptions = {
-          fill: new Color( 'fuchsia' ).darkerColor( opacity )
+          fill: new Color( 'fuchsia' ).setAlpha( alpha )
         };
         // @ts-expect-error - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
         barPlot.rectangles[ index ].mutate( paintableFields );

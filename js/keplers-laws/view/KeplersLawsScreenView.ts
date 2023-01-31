@@ -27,6 +27,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import VectorNode from '../../common/view/VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import OrbitalWarningMessage from './OrbitalWarningMessage.js';
+import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 
 // constants
 const MARGIN = 10;
@@ -36,6 +37,7 @@ type SelfOptions = EmptySelfOptions;
 export type KeplersLawsScreenViewOptions = SelfOptions & CommonScreenViewOptions;
 
 class KeplersLawsScreenView extends CommonScreenView {
+  private readonly stopwatchNode: StopwatchNode;
 
   public constructor( model: KeplersLawsModel, providedOptions: KeplersLawsScreenViewOptions ) {
     const options = combineOptions<CommonScreenViewOptions>( providedOptions, {
@@ -136,6 +138,20 @@ class KeplersLawsScreenView extends CommonScreenView {
       } ),
       { margin: MARGIN, xAlign: 'right', yAlign: 'top' }
     );
+
+    this.stopwatchNode = new StopwatchNode( model.stopwatch, {
+      dragBoundsProperty: this.visibleBoundsProperty,
+      visibleProperty: model.periodVisibleProperty,
+      // tandem: tandem.createTandem( 'stopwatchNode' ),
+      numberDisplayOptions: {
+        numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
+          bigNumberFont: 25,
+          smallNumberFont: 17
+        } )
+      }
+    } );
+
+    this.topLayer.addChild( this.stopwatchNode );
 
     const lawsButtonsBox = new AlignBox( new HBox( {
         children: [
