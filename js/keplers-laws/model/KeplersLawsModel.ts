@@ -87,6 +87,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
 
     this.periodDivisionProperty.link( divisions => {
       this.engine.periodDivisions = divisions;
+      this.engine.resetOrbitalAreas();
       this.engine.update();
     } );
 
@@ -94,7 +95,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
       area.insideProperty.link( inside => {
         if ( inside && this.isPlayingProperty.value && this.isSecondLawProperty.value ) {
           const soundIndex = this.engine.retrograde ? this.periodDivisionProperty.value - index - 1 : index;
-          this.bodySoundManager.playOrbitalMetronome( soundIndex, this.engine.a );
+          this.bodySoundManager.playOrbitalMetronome( soundIndex, this.engine.a, this.periodDivisionProperty.value );
         }
       } );
     } );
@@ -135,6 +136,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     } );
 
     this.stopwatch = new Stopwatch( {
+      // TODO: Make this stopwatch work
       timePropertyOptions: {
         range: Stopwatch.ZERO_TO_ALMOST_SIXTY,
         units: 's'

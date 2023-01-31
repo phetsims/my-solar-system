@@ -173,7 +173,9 @@ class AreasBarPlot extends Node {
     const orbitChangedListener = () => {
       const activeAreas = model.engine.orbitalAreas.filter( area => area.active );
       dataSet = [];
+
       activeAreas.forEach( ( area, index ) => {
+        // Setting all the bar's height and pushing them to the dataSet
         let height = area.alreadyEntered && !area.insideProperty.value ? 1 : area.completion;
         height *= model.engine.a / model.periodDivisionProperty.value;
         const realIndex = this.model.engine.retrograde ? this.model.periodDivisionProperty.value - index - 1 : index;
@@ -183,6 +185,7 @@ class AreasBarPlot extends Node {
 
       // TODO: Maybe there's a better solution than a double loop
       activeAreas.forEach( ( area, index ) => {
+        // Setting the color of the bar
         const alpha = area.insideProperty.value ? 1 : area.completion;
         const paintableFields: PaintableOptions = {
           fill: new Color( 'fuchsia' ).setAlpha( alpha )

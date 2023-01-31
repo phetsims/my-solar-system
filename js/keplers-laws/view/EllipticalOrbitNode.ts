@@ -325,7 +325,6 @@ export default class EllipticalOrbitNode extends Path {
       } );
     };
 
-
     this.orbit.changedEmitter.addListener( updatedOrbit );
 
     this.shapeMultilink = Multilink.multilink(

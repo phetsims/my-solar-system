@@ -50,11 +50,11 @@ const allSounds = [
   Bodies_Organ_b3_mp3
 ];
 
-const METRONOME = [ 7, 0, 0, 0, 0, 0 ];
-// const ADDITIONAL = [ 4, 2, 0, 2, 4, 4 ];
-// const SCALE = [ 0, 2, 4, 5, 7, 9 ];
-// const PENTATONIC_SCALE = [ 0, 2, 4, 7, 9, 12 ];
-// const BLUES_SCALE = [ 0, 3, 5, 6, 7, 10 ];
+const METRONOME = [ 7, 0, 0, 0, 0, 0 ]; // METRONOME
+// const METRONOME = [ 4, 2, 0, 2, 4, 4 ]; // ADDITIONAL
+// const METRONOME = [ 0, 2, 4, 5, 7, 9 ]; // SCALE
+// const METRONOME = [ 0, 2, 4, 7, 9, 12 ]; // PENTATONIC_SCALE
+// const METRONOME = [ 0, 3, 5, 6, 7, 10 ]; // BLUES_SCALE
 
 export type BodySoundsManagerOptions = {
   tandem?: Tandem;
@@ -144,15 +144,17 @@ export default class BodySoundManager {
     this.collisionSoundClips[ bodyNumber ].play();
   }
 
-  public playOrbitalMetronome( i: number, semimajorAxis: number ): void {
+  public playOrbitalMetronome( i: number, semimajorAxis: number, divisions: number ): void {
     const smallSound = this.metronomeSoundClips[ 0 ];
     const bigSound = this.metronomeSoundClips[ 2 ];
-    smallSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
+    const divisionOffset = 1 + divisions / 12;
+
+    smallSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) * divisionOffset );
     smallSound.setOutputLevel( Utils.clamp( Utils.linear( 0, 500, 1, 0, semimajorAxis ), 0, 1 ) );
     smallSound.play();
 
 
-    bigSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) );
+    bigSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) * divisionOffset );
     bigSound.setOutputLevel( Utils.clamp( Utils.linear( 100, 500, 0, 1, semimajorAxis ), 0, 1 ) );
     bigSound.play();
   }
