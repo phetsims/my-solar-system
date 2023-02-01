@@ -42,6 +42,7 @@ type SelfOptions<EngineType extends Engine> = {
   tandem: Tandem;
 };
 
+//REVIEW: I'm split 50/50 on whether this should have a class associated with it. Thoughts?
 export type BodyInfo = {
   mass: number;
   position: Vector2;
@@ -67,13 +68,18 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly userInteractingEmitter = new Emitter();
 
   // Time control parameters
+  //REVIEW: Please document types, or inline! It's hard to read the code when it's like this, I have to guess types,
+  //REVIEW: or have the IDE look up things.
   public timeScale; // Changeable because Kepler's Laws screen uses a different speed
   public timeMultiplier;
+  //REVIEW: Why timeScale and timeMultiplier? They seem to be doing very similar things, and I'm not convinced we need two things yet
   public readonly timeRange;
   public readonly timeProperty;
   public readonly isPlayingProperty;
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
+  //REVIEW: Please document types, or inline! It's hard to read the code when it's like this, I have to guess types,
+  //REVIEW: or have the IDE look up things.
   public readonly pathVisibleProperty;
   public readonly gravityVisibleProperty;
   public readonly velocityVisibleProperty;
@@ -88,13 +94,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabModes>;
 
-
   private previousModeInfo: BodyInfo[];
-  protected defaultModeInfo: BodyInfo[];
-
+  protected defaultModeInfo: BodyInfo[]; //REVIEW: protected, but not used in subclasses?
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
+    //REVIEW: Consider inlining this into the declaration?
     this.bodies = createObservableArray();
+
+    //REVIEW: We're pulling providedOptions.tandem out a lot. Perhaps `const tandem = providedOptions.tandem` would make things more readable?
 
     this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
 
@@ -103,6 +110,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
     } );
 
+    //REVIEW: Consider inlining this into the declaration?
     this.availableBodies = [
       new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ), MySolarSystemColors.firstBodyColorProperty ),
       new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ), MySolarSystemColors.secondBodyColorProperty ),
@@ -111,12 +119,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     ];
 
     // Define the mode bodies will go to when restarted. Is updated when the user changes a body.
+    //REVIEW: Consider inlining this into the declaration?
     this.previousModeInfo = [
       { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
       { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ];
 
     // Define the default mode the bodies will show up in
+    //REVIEW: Code like this is in multiple places. Can we have a method on Body that returns a BodyInfo?
     this.defaultModeInfo = this.availableBodies.map( body => ( {
       mass: body.massProperty.value,
       position: body.positionProperty.value,
@@ -166,8 +176,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     // Time settings
     // timeScale controls the velocity of time
-    this.timeScale = 1.0;
-    this.timeMultiplier = MySolarSystemConstants.TIME_MULTIPLIER;
+    this.timeScale = 1.0; //REVIEW: I would definitely use the options pattern here, instead of relying on mutation. Have keplers pass in a different timeScale, and set the default in the options
+    this.timeMultiplier = MySolarSystemConstants.TIME_MULTIPLIER; //REVIEW: same here
+    //REVIEW: timeRange seems fully static. Can we move it to its usage in the view instead of putting it here?
     this.timeRange = new Range( 0, 1000 );
     this.timeProperty = new NumberProperty( 0 );
     this.isPlayingProperty = new BooleanProperty( false );
@@ -290,7 +301,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public reset(): void {
+    //REVIEW: Why not this.timeProperty.reset()?
     this.timeProperty.value = 0; // Reset the time
+    //REVIEW: why not this.isPlayingProperty.reset()?
+    //REVIEW: Additionally, this AND the time is handled in reset()
+    //REVIEW: so either resets() OR potentially just omit them (timeProperty/isPlayingProperty) here and rely on restart()
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeSpeedProperty.reset();
     this.zoomLevelProperty.reset();
@@ -303,6 +318,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.moreDataProperty.reset();
     this.centerOfMass.visibleProperty.reset();
 
+    //REVIEW: Why no this.realUnitsProperty.reset()? Seems buggy?
+
     this.restart();
   }
 
@@ -310,6 +327,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   // Bodies move to their last modified position
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
+    //REVIEW: Why not this.timeProperty.reset()?
     this.timeProperty.value = 0; // Reset the time
     this.setInitialBodyStates( this.previousModeInfo ); // Reset the bodies
     this.update();

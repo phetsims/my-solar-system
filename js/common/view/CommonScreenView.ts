@@ -146,6 +146,7 @@ class CommonScreenView extends ScreenView {
 
     const clockNode = new HBox( {
       children: [
+        //REVIEW: timeRange seems fully static. Can we move it to here instead of putting it on the model?
         new NumberDisplay( model.timeProperty, model.timeRange, {
           backgroundFill: null,
           backgroundStroke: null,
@@ -159,6 +160,7 @@ class CommonScreenView extends ScreenView {
         } ),
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
+          //REVIEW: Why not timeProperty.reset()?
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
