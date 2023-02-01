@@ -161,12 +161,12 @@ export default class BodyNode extends ShadedSphereNode {
       return dragBounds.eroded( radius );
     } );
 
-    let modelViewTransformListener: ( mvt: ModelViewTransform2 ) => void;
     if ( options.draggable ) {
-      const dragListener = new DragListener( {
+      this.addInputListener( new DragListener( {
         positionProperty: body.positionProperty,
         canStartPress: () => !body.userControlledPositionProperty.value,
         dragBoundsProperty: erodedDragBoundsProperty,
+        transform: modelViewTransformProperty,
         start: () => {
           body.clearPath();
           body.userControlledPositionProperty.value = true;
@@ -174,12 +174,7 @@ export default class BodyNode extends ShadedSphereNode {
         end: () => {
           body.userControlledPositionProperty.value = false;
         }
-      } );
-      const modelViewTransformListener = ( transform: ModelViewTransform2 ) => {
-        dragListener.transform = transform;
-      };
-      modelViewTransformProperty.link( modelViewTransformListener );
-      this.addInputListener( dragListener );
+      } ) );
     }
 
     const velocityValueProperty = new DerivedProperty(
@@ -238,7 +233,6 @@ export default class BodyNode extends ShadedSphereNode {
 
       positionMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
-      modelViewTransformListener && modelViewTransformProperty.unlink( modelViewTransformListener );
       readoutStringProperty.dispose();
       velocityValueProperty.dispose();
       this.valueNode.dispose();
