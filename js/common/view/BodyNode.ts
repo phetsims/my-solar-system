@@ -29,27 +29,67 @@ import MySolarSystemConstants from '../MySolarSystemConstants.js';
 
 type SelfOptions = {
   draggable?: boolean;
+
+  //REVIEW: There seems to be a lot here that is copying a bad pattern in MeasuringTapeNode. I don't recommend these
+  //REVIEW: patterns, since nested options objects would be preferred, e.g. { textOptions: TextOptions, backgroundOptions: RectangleOptions }
+  //REVIEW: THAT SAID, we aren't actually using any of these options (they are ALWAYS the default).
+  //REVIEW: So they shouldn't be options here. They can just be inlined. OR could use the options pattern above and
+  //REVIEW: specify the defaults in the options (if you really want the future extensibility). I'd strongly recommend
+  //REVIEW: Just minimizing the code here, and inlining the defaults.
+  //REVIEW: `draggable` seems like the ONLY needed option here. I imagine something like
+  //REVIEW: type SelfOptions = { draggable?: boolean }
+  //REVIEW: UPDATE: It looks like we'll want to pass in dragBoundsProperty, so maybe:
+  //REVIEW: UPDATE: type SelfOptions = { draggable?: boolean, dragBoundsProperty?: TReadOnlyProperty<Bounds2> }
+
+  //REVIEW: textPosition is never used, so it should be removed.
   textPosition?: Vector2; // Position of text node relative to body node
+
+  //REVIEW: significantFigures doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   significantFigures?: number; // number of significant figures in the length measurement
+
+  //REVIEW: textColor doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   textColor?: TColor; // Color of the velocity value and unit
+
+  //REVIEW: textBackgroundColor doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   textBackgroundColor?: TColor; // fill color of the text background
+
+  //REVIEW: textBackgroundXMargin/textBackgroundYMargin/textBackgroundCornerRadius doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   textBackgroundXMargin?: number;
   textBackgroundYMargin?: number;
   textBackgroundCornerRadius?: number;
+
+  //REVIEW: textMaxWidth doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   textMaxWidth?: number;
+
+  //REVIEW: I don't see where this is ever used. Get rid of the option if it's not used?
   textFont?: Font; // font for the measurement text
+
+  //REVIEW: textFont, textColor and textFont are just passed through to the Text node. In those cases, it's generally
+  //REVIEW: preferred to use textOptions in SelfOptions, and then put the defaults in your options call.
 };
 
 export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
+
+  //REVIEW: I don't see use of valueNode outside the constructor. Make it a local variable instead, we don't need a field
   private readonly valueNode: Text; // node that contains the text
+
+  //REVIEW: valueBackgroundNode also not used outside the constructor. Make it a local variable instead, we don't need a field
   private readonly valueBackgroundNode: Rectangle; // rectangle behind text
+
+  //REVIEW: valueContainer also not used outside the constructor. Make it a local variable instead, we don't need a field
   private readonly valueContainer: Node; // parent that displays the text and its background
   private readonly bodyNodeDispose: () => void;
 
+  //REVIEW: This ideally shouldn't be something we're exposing to be modified by other sources. Instead the one case where
+  //REVIEW: it's used, please just pass in a dragBoundsProperty in constructor options. Then it won't require all of the
+  //REVIEW: mutation logic, and we won't create a Property here that we don't modify. IF this type of pattern is ever
+  //REVIEW: needed in the future, we should also document that we're exposing this TO be modified by external sources.
   public readonly dragBoundsProperty = new Property( Bounds2.EVERYTHING );
+
+  //REVIEW: radiusProperty also not used outside the constructor. Make it a local variable instead, we don't need a field
   private readonly radiusProperty = new NumberProperty( 0 );
 
   public constructor( body: Body, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
@@ -67,6 +107,8 @@ export default class BodyNode extends ShadedSphereNode {
       textBackgroundYMargin: 2,
       textBackgroundCornerRadius: 2,
       textMaxWidth: 200,
+
+      //REVIEW: I don't see where this is ever used. Get rid of the option if it's not used? OR use textOptions
       textFont: new PhetFont( { size: 16 } ) // font for the measurement text
 
     }, providedOptions );
@@ -82,6 +124,7 @@ export default class BodyNode extends ShadedSphereNode {
       ( position, radius, modelViewTransform ) => {
         radius = modelViewTransform.modelToViewDeltaX( radius );
 
+        //REVIEW: Wait, why do we have a radiusProperty of our own? Just use the radiusProperty of the body.
         this.radiusProperty.value = radius;
 
         this.radius = radius;
@@ -94,6 +137,7 @@ export default class BodyNode extends ShadedSphereNode {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
+    //REVIEW: Don't use a radiusProperty on this instance. Just use the radiusProperty on the body.
     const erodedDragBoundsProperty = new DerivedProperty( [ this.dragBoundsProperty, this.radiusProperty ], ( dragBounds, radius ) => {
       return dragBounds.eroded( radius );
     } );
@@ -130,12 +174,16 @@ export default class BodyNode extends ShadedSphereNode {
       units: MySolarSystemStrings.units.kmsStringProperty
       } );
 
+    //REVIEW: consolidate options into textOptions. WAIT: I don't see when any are not using the defaults.
+    //REVIEW: Just inline the defaults!
     this.valueNode = new Text( readoutStringProperty, {
       font: options.textFont,
       fill: options.textColor,
       maxWidth: options.textMaxWidth
     } );
 
+    //REVIEW: consolidate options into backgroundOptions. WAIT: I don't see when any are not using the defaults.
+    //REVIEW: Just inline the defaults!
     this.valueBackgroundNode = new Rectangle( 0, 0, 1, 1, {
       cornerRadius: options.textBackgroundCornerRadius,
       fill: options.textBackgroundColor
@@ -166,6 +214,9 @@ export default class BodyNode extends ShadedSphereNode {
     this.body.collidedEmitter.addListener( bodyCollisionListener );
 
     this.bodyNodeDispose = () => {
+      //REVIEW: missing dispose() of erodedDragBoundsProperty, we'll want that when it's listening to external things
+      //REVIEW: like the radiusProperty of the body.
+      
       positionMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
       modelViewTransformListener && modelViewTransformProperty.unlink( modelViewTransformListener );

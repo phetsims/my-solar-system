@@ -75,11 +75,17 @@ export default class IntroLabScreenView extends CommonScreenView {
     const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       const bodyNode = new BodyNode( body, this.modelViewTransformProperty );
 
+      //REVIEW: This would be better if we just passed in dragBoundsProperty as an option into the BodyNode.
+      //REVIEW: Then we wouldn't have to update it later (as we do below). Additionally, we wouldn't need to have the
+      //REVIEW: dragBoundsProperty be mutated by external sources. It was a bit of a confusing pattern when I was
+      //REVIEW: looking at BodyNode.
       bodyNode.dragBoundsProperty.value = modelDragBoundsProperty.value;
 
       return bodyNode;
     } );
 
+    //REVIEW: Won't need any of this lazyLink if we pass the dragBoundsProperty (modelDragBoundsProperty) into the
+    //REVIEW: BodyNode on creation
     modelDragBoundsProperty.lazyLink( modelDragBounds => {
       model.bodies.forEach( body => {
         const bodyNode = bodyNodeSynchronizer.getView( body );

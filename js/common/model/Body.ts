@@ -59,6 +59,9 @@ class Body {
     this.forceProperty = new Vector2Property( Vector2.ZERO );
     this.colorProperty = colorProperty;
 
+    //REVIEW: This looks an awful lot like a DerivedProperty. Please replace with a DerivedProperty unless I'm missing
+    //REVIEW: something? I don't see other clients setting this, or it getting reset(), etc.
+    //REVIEW: (radiusProperty should be a TReadOnlyProperty<number>).
     this.massProperty.link( mass => {
       // Mass to radius function
       this.radiusProperty.value = Body.massToRadius( mass );
