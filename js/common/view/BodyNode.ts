@@ -71,6 +71,10 @@ type SelfOptions = {
 export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
 
 export default class BodyNode extends ShadedSphereNode {
+  //REVIEW: I actually can't find a usage of this outside of BodyNode. It also doesn't look like it's used outside the
+  //REVIEW: constructor here, so this doesn't need to be a field.
+  //REVIEW: However, I could imagine this being useful in the future, so for this one I'm completely fine leaving this
+  //REVIEW: as a field.
   public readonly body: Body;
 
   //REVIEW: I don't see use of valueNode outside the constructor. Make it a local variable instead, we don't need a field
@@ -99,10 +103,19 @@ export default class BodyNode extends ShadedSphereNode {
       mainColor: body.colorProperty,
 
       // Text Options
+      //REVIEW: This documentation would be better in general in the SelfOptions. It shouldn't talk about the field
+      //REVIEW: does in the optionize.
       textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
       significantFigures: 1, // number of significant figures in the length measurement
+
+      //REVIEW: This documentation would be better in general in the SelfOptions. And ColorDef is not accurate, that
+      //REVIEW: would be a TColor. In addition, TColor isn't the best option, for flexibility of setting fills/strokes,
+      //REVIEW: just set it to TPaint to allow full flexibility.
       textColor: 'white', // {ColorDef} color of the length measurement and unit
+
+      //REVIEW: Same doc notes as above
       textBackgroundColor: new Color( 0, 0, 0, 0.5 ), // {ColorDef} fill color of the text background
+
       textBackgroundXMargin: 4,
       textBackgroundYMargin: 2,
       textBackgroundCornerRadius: 2,
@@ -113,6 +126,7 @@ export default class BodyNode extends ShadedSphereNode {
 
     }, providedOptions );
 
+    //REVIEW: StrictOmit<ShadedSphereNodeOptions, 'cursor'> since we're overriding it
     options.cursor = options.draggable ? 'pointer' : 'default';
 
     super( 1, options );
@@ -122,6 +136,8 @@ export default class BodyNode extends ShadedSphereNode {
     const positionMultilink = Multilink.multilink(
       [ body.positionProperty, body.radiusProperty, modelViewTransformProperty ],
       ( position, radius, modelViewTransform ) => {
+        //REVIEW: many times I'll actually create a new variable so it's a bit clearer, e.g.
+        //REVIEW: const viewRadius = modelViewTransform.modelToViewDeltaX( radius );
         radius = modelViewTransform.modelToViewDeltaX( radius );
 
         //REVIEW: Wait, why do we have a radiusProperty of our own? Just use the radiusProperty of the body.
@@ -134,6 +150,9 @@ export default class BodyNode extends ShadedSphereNode {
         this.mouseArea = area;
         this.touchArea = area;
 
+        //REVIEW: It seems like we're handling radius AND position in this multilink. Usually it would make sense to
+        //REVIEW: make those independent, so we don't compute EVERYTHING when only one thing changes.
+        //REVIEW: So, a slight preference for a separate multilink for this piece.
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
@@ -216,7 +235,7 @@ export default class BodyNode extends ShadedSphereNode {
     this.bodyNodeDispose = () => {
       //REVIEW: missing dispose() of erodedDragBoundsProperty, we'll want that when it's listening to external things
       //REVIEW: like the radiusProperty of the body.
-      
+
       positionMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
       modelViewTransformListener && modelViewTransformProperty.unlink( modelViewTransformListener );
