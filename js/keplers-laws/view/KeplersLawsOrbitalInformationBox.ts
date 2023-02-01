@@ -93,25 +93,6 @@ class KeplersLawsOrbitalInformationBox extends VBox {
 
     const firstLawChildren = [
       createCheckbox(
-        model.axisVisibleProperty,
-        MySolarSystemStrings.axisStringProperty,
-        'axisVisibleCheckbox',
-        axisIconImageNode
-      ),
-      new AlignBox(
-        createCheckbox(
-          model.semiaxisVisibleProperty,
-          MySolarSystemStrings.semiaxisStringProperty,
-          'semiAxisVisibleCheckbox',
-          new Image( semiaxisIcon_png, ICON_OPTIONS ),
-          {
-            enabledProperty: model.axisVisibleProperty
-          }
-        ), {
-          leftMargin: 20,
-          layoutOptions: { stretch: true }
-        } ),
-      createCheckbox(
         model.fociVisibleProperty,
         MySolarSystemStrings.fociStringProperty,
         'fociVisibleCheckbox',
@@ -131,11 +112,37 @@ class KeplersLawsOrbitalInformationBox extends VBox {
           layoutOptions: { stretch: true }
         } ),
       createCheckbox(
-        model.eccentricityVisibleProperty,
-        MySolarSystemStrings.eccentricityStringProperty,
-        'eccentricityVisibleCheckbox',
-        new Image( eccentricityIcon_png, ICON_OPTIONS )
-      )
+        model.axisVisibleProperty,
+        MySolarSystemStrings.axisStringProperty,
+        'axisVisibleCheckbox',
+        axisIconImageNode
+      ),
+      new AlignBox(
+        createCheckbox(
+          model.semiaxisVisibleProperty,
+          MySolarSystemStrings.semiaxisStringProperty,
+          'semiAxisVisibleCheckbox',
+          new Image( semiaxisIcon_png, ICON_OPTIONS ),
+          {
+            enabledProperty: model.axisVisibleProperty
+          }
+        ), {
+          leftMargin: 20,
+          layoutOptions: { stretch: true }
+        } ),
+      new AlignBox(
+        createCheckbox(
+          model.eccentricityVisibleProperty,
+          MySolarSystemStrings.eccentricityStringProperty,
+          'eccentricityVisibleCheckbox',
+          new Image( eccentricityIcon_png, ICON_OPTIONS ),
+          {
+            enabledProperty: model.axisVisibleProperty
+          }
+        ), {
+          leftMargin: 20,
+          layoutOptions: { stretch: true }
+        } )
     ];
 
     const secondLawChildren = [

@@ -102,6 +102,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
 
     this.axisVisibleProperty.link( axisVisible => {
       this.semiaxisVisibleProperty.value = axisVisible ? this.semiaxisVisibleProperty.value : false;
+      this.eccentricityVisibleProperty.value = axisVisible ? this.eccentricityVisibleProperty.value : false;
     } );
     this.fociVisibleProperty.link( fociVisible => {
       this.stringsVisibleProperty.value = fociVisible ? this.stringsVisibleProperty.value : false;

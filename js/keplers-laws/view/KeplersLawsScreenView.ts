@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
 import SecondLawPanel from './SecondLawPanel.js';
@@ -28,6 +28,7 @@ import VectorNode from '../../common/view/VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import OrbitalWarningMessage from './OrbitalWarningMessage.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
+import DistancesDisplayNode from './DistancesDisplayNode.js';
 
 // constants
 const MARGIN = 10;
@@ -162,9 +163,7 @@ class KeplersLawsScreenView extends CommonScreenView {
       { margin: MARGIN, xAlign: 'left', yAlign: 'bottom' }
     );
 
-
-    // Add the center box containing the time control buttons
-    const centerBox = new AlignBox( new Node(), {
+    const distancesDisplayBox = new AlignBox( new DistancesDisplayNode( model, this.modelViewTransformProperty ), {
       margin: MySolarSystemConstants.MARGIN,
       xAlign: 'center',
       yAlign: 'bottom'
@@ -174,14 +173,14 @@ class KeplersLawsScreenView extends CommonScreenView {
       lawsAndZoomBoxes.alignBounds = visibleBounds;
       controlPanelAlignBox.alignBounds = visibleBounds;
       lawsButtonsBox.alignBounds = visibleBounds;
-      centerBox.alignBounds = visibleBounds;
+      distancesDisplayBox.alignBounds = visibleBounds;
     } );
 
     // Slider that controls the bodies mass
     this.interfaceLayer.addChild( lawsAndZoomBoxes );
     this.interfaceLayer.addChild( controlPanelAlignBox );
     this.interfaceLayer.addChild( lawsButtonsBox );
-    this.interfaceLayer.addChild( centerBox );
+    this.interfaceLayer.addChild( distancesDisplayBox );
   }
 }
 
