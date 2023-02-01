@@ -53,6 +53,8 @@ const spinnerOptions: NumberSpinnerOptions = {
     xMargin: 10,
     yMargin: 3,
     textOptions: {
+      //REVIEW: In general, PhetFont should be used in sims, not Font, unless there was a very explicit decision about
+      //REVIEW: a custom font to be used
       font: new Font( { size: 28 } )
     }
   }
@@ -208,6 +210,8 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 600 } ), {
       titleAlign: 'center',
+      //REVIEW: In general, PhetFont should be used in sims, not Font, unless there was a very explicit decision about
+      //REVIEW: a custom font to be used
       title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new Font( { size: 32 } ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );

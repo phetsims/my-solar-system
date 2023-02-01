@@ -51,6 +51,7 @@ export default class DraggableVectorNode extends VectorNode {
 
     // a circle with text (a character) in the center, to help indicate what it represents
     // ("v" for velocity in this sim)
+    //REVIEW: Why an ellipse when the radii are the same? Perhaps use the circle method?
     const ellipse = Shape.ellipse( 0, 0, 18, 18, 0 );
     const grabArea = new Path( ellipse, {
       lineWidth: 3,
@@ -59,6 +60,8 @@ export default class DraggableVectorNode extends VectorNode {
     } );
 
     const text = new Text( labelText, {
+      //REVIEW: anti-pattern, put the { size: 22, weight: 'bold' } in the options to PhetFont instead of using fontWeight
+      //REVIEW: otherwise it implicitly depends on the specific order in which these are executed (which is fragile)
       font: new PhetFont( 22 ),
       fontWeight: 'bold',
       fill: Color.gray,
@@ -111,9 +114,11 @@ export default class DraggableVectorNode extends VectorNode {
     } );
     grabArea.addInputListener( dragListener );
 
-    // // move behind the geometry created by the superclass
+    // move behind the geometry created by the superclass
     grabArea.moveToBack();
     text.moveToBack();
+
+    //REVIEW: is this a persistent type that doesn't get disposed? Need to document if so
 
     // For PhET-iO, when the node does not support input, don't show the drag circle
     this.inputEnabledProperty.link( ( inputEnabled: boolean ) => {

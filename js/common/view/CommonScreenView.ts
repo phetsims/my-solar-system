@@ -135,13 +135,13 @@ class CommonScreenView extends ScreenView {
 
 
     const timeControlNode = new MySolarSystemTimeControlNode( model,
-      {
-        //REVIEW: Seems a bit weird to pass `undefined` through here. Should we || null it?
-        enabledProperty: providedOptions.playingAllowedProperty,
-        restartListener: () => model.restart(),
-        stepForwardListener: () => model.stepOnce( 1 / 4 ),
-        tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
-      } );
+    {
+      //REVIEW: Seems a bit weird to pass `undefined` through here. Should we || null it?
+      enabledProperty: providedOptions.playingAllowedProperty,
+      restartListener: () => model.restart(),
+      stepForwardListener: () => model.stepOnce( 1 / 4 ),
+      tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
+    } );
 
     const timeStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelUnitsStringProperty, {
       units: MySolarSystemStrings.units.yearsStringProperty

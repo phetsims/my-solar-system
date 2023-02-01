@@ -27,9 +27,16 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
 type SelfOptions = {
+  //REVIEW: I don't see this option ever being used, can it be removed?
   bodyIconColumnSpacing?: number;
+
+  //REVIEW: I don't see this option ever being used, can it be removed?
   componentColumnsSpacing?: number;
+
+  //REVIEW: I don't see this option ever being used, can it be removed?
   columnGroupSpacing?: number;
+
+  //REVIEW: I don't see this option ever being used, can it be removed?
   titleLabelSpacing?: number;
 };
 
@@ -83,6 +90,7 @@ export default class FullDataPanel extends Panel {
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
 
+    //REVIEW: This capitalization of things is throwing me off. Why is the "Position" capitalized?
     const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.PositionStringProperty, MySolarSystemStrings.units.AUStringProperty );
     const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.VelocityStringProperty, MySolarSystemStrings.units.kmsStringProperty );
 
@@ -118,6 +126,7 @@ export default class FullDataPanel extends Panel {
 
     // The content of the entire Panel when "More Data" is not checked.
     const lessDataBox = new HBox( {
+      //REVIEW: Why an HBox with one child? Can't we just skip it
       children: [
         massSliderColumnNode
       ],
@@ -141,7 +150,7 @@ export default class FullDataPanel extends Panel {
       children: [
         moreDataBox,
         lessDataBox
-        ]
+      ]
     } );
 
     super( new HBox( {
@@ -149,7 +158,7 @@ export default class FullDataPanel extends Panel {
       children: [ ballIconsColumnNode, massSectionNode, dataNode ],
       align: 'bottom'
     } ), options );
-    }
+  }
 }
 
 mySolarSystem.register( 'FullDataPanel', FullDataPanel );
