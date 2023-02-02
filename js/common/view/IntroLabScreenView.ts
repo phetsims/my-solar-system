@@ -265,6 +265,8 @@ export default class IntroLabScreenView extends CommonScreenView {
         yAlign: 'bottom'
       } );
 
+    //REVIEW: Instead of this link, just pass `alignBoundsProperty: this.visibleBoundsProperty` to the AlignBox constructor
+    //REVIEW: Then we won't need a name for centerBox
     this.visibleBoundsProperty.link( visibleBounds => {
       centerBox.alignBounds = visibleBounds;
     } );

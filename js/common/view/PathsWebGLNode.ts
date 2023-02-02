@@ -144,6 +144,7 @@ class PathsPainter implements WebGLNodePainter {
     this.shaderProgram.use();
 
     // TODO: add assertions to make sure these are equal
+    //REVIEW: handle the TODO
     const numPointsAll = [ 0, 0, 0, 0 ];
 
     const numBodies = this.node.model.bodies.length;

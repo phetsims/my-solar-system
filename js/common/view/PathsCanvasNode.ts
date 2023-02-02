@@ -33,6 +33,7 @@ class PathsCanvasNode extends CanvasNode {
   public constructor( bodies: Body[], transformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: CanvasNodeOptions ) {
 
     const options = optionize<CanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
+      //REVIEW: handle the TODO, this will need to be updated when the visible layout bounds changes.
       // TODO: fix canvas bounds
       canvasBounds: new Bounds2( 0, 0, 1024, 768 ),
       preventFit: true
@@ -56,6 +57,7 @@ class PathsCanvasNode extends CanvasNode {
       const points = body.pathPoints.map( point => this.transformProperty.value.modelToViewPosition( point ) );
 
       // max path length in view coordinates
+      //REVIEW: handle the TODO
       const maxPathLength = this.transformProperty.get().modelToViewDeltaX( 1200 ); // TODO: update max length
       const fadePathLength = maxPathLength * 0.15; // fade length is ~15% of the path
 
@@ -106,7 +108,7 @@ class PathsCanvasNode extends CanvasNode {
         const alpha = Utils.linear( maxPathLength - fadePathLength, maxPathLength, 1, 0, pathLength );
 
         // format without Color to avoid unnecessary allocation
-        const fade = `rgba( ${faded.r}, ${faded.g}, ${faded.b}, ${alpha} )`;
+        const fade = `rgba(${faded.r},${faded.g},${faded.b},${alpha})`;
 
         context.beginPath();
         context.strokeStyle = fade;
