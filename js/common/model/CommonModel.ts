@@ -154,6 +154,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
         this.bodySoundManager.playBodyRemovedSound( 2 );
       } );
 
+      body.valueVisibleProperty = this.valuesVisibleProperty;
+
       Multilink.lazyMultilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {
@@ -194,14 +196,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.moreDataProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'moreDataProperty' ) } );
     this.systemCenteredProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ) } );
     this.realUnitsProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'realUnitsProperty' ) } );
-
-    //REVIEW: Think about whether this is better than just creating BodyNodes with a valuesVisibleProperty passed in
-    //REVIEW: Just noticed this, presumably pass it in to the bodies instead of having them create their own Properties
-    this.valuesVisibleProperty.link( visible => {
-      this.availableBodies.forEach( body => {
-        body.valueVisibleProperty.value = visible; // Doesn't need disposal because will always exist
-      } );
-    } );
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {

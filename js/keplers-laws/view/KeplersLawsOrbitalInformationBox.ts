@@ -16,16 +16,13 @@ import XNode from '../../../../scenery-phet/js/XNode.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Dialog from '../../../../sun/js/Dialog.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import semiaxisIcon_png from '../../../images/semiaxisIcon_png.js';
 import eccentricityIcon_png from '../../../images/eccentricityIcon_png.js';
 import fociIcon_png from '../../../images/fociIcon_png.js';
 import stringsIcon_png from '../../../images/stringsIcon_png.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 // Const
 const ICON_OPTIONS = {
@@ -51,12 +48,6 @@ class KeplersLawsOrbitalInformationBox extends VBox {
         lineWidth: 1
       } );
 
-    const dialog = new Dialog( new Node(), {
-      titleAlign: 'center',
-      title: new Text( 'Title', { font: new PhetFont( 32 ) } ),
-      tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
-    } );
-
     const getCheckboxOptions = ( name: string, options: CheckboxOptions = {} ) => {
       return combineOptions<CheckboxOptions>( options, MySolarSystemConstants.CHECKBOX_OPTIONS, {
         tandem: providedOptions.tandem.createTandem( name )
@@ -78,19 +69,6 @@ class KeplersLawsOrbitalInformationBox extends VBox {
         spacing: 10
       } ), getCheckboxOptions( tandemName, options ) );
     };
-
-    const orbitalInformationNode = new HBox( {
-      spacing: 10,
-      children: [
-        new Text( MySolarSystemStrings.orbitalStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
-        new InfoButton( {
-          scale: 0.5,
-          iconFill: 'rgb( 41, 106, 163 )',
-          listener: () => dialog.show(),
-          tandem: providedOptions.tandem.createTandem( 'keplerInfoButton' )
-        } )
-      ]
-    } );
 
     const firstLawChildren = [
       createCheckbox(
@@ -192,7 +170,6 @@ class KeplersLawsOrbitalInformationBox extends VBox {
 
     model.lawUpdatedEmitter.addListener( () => {
       this.children = [
-        orbitalInformationNode,
         ...( model.isFirstLawProperty.value ? firstLawChildren :
              model.isSecondLawProperty.value ? secondLawChildren :
              model.isThirdLawProperty.value ? thirdLawChildren : [] )

@@ -33,8 +33,7 @@ class Body {
   // Collision handling
   public readonly collidedEmitter = new TinyEmitter();
 
-  //REVIEW: This should not be created here, just use the CommonModel's valuesVisibleProperty. Might be good for collaboration
-  public readonly valueVisibleProperty = new BooleanProperty( false );
+  public valueVisibleProperty: TReadOnlyProperty<boolean> | null;
 
   // Not resettable, common model will handle. Determines if the body is currently on-screen
   public readonly isActiveProperty = new BooleanProperty( false );
@@ -59,6 +58,7 @@ class Body {
     this.accelerationProperty = new Vector2Property( Vector2.ZERO );
     this.forceProperty = new Vector2Property( Vector2.ZERO );
     this.colorProperty = colorProperty;
+    this.valueVisibleProperty = null;
 
     this.radiusProperty = new DerivedProperty( [ this.massProperty ], mass => Body.massToRadius( mass ) );
 

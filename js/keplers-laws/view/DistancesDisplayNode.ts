@@ -116,8 +116,8 @@ export default class DistancesDisplayNode extends VBox {
       const d1Length = bodyPosition.magnitude * scale;
       const d2Length = bodyPosition.plusXY( 2 * c, 0 ).magnitude * scale;
 
-      stringLabelNode1.setString( this.orbit.eccentricityProperty.value === 0 ? 'R' : 'd<sub>1' );
-      stringLabelNode2.setString( this.orbit.eccentricityProperty.value === 0 ? 'R' : 'd<sub>2' );
+      stringLabelNode1.setString( this.orbit.eccentricityProperty.value === 0 ? 'r' : 'd<sub>1' );
+      stringLabelNode2.setString( this.orbit.eccentricityProperty.value === 0 ? 'r' : 'd<sub>2' );
 
       stringLabelNode1.x = -d2Length / 2;
       stringLabelNode2.x = d1Length / 2;

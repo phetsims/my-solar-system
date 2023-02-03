@@ -24,7 +24,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 export default class EllipticalOrbitNode extends Path {
   private readonly orbit: EllipticalOrbitEngine;
   private readonly shapeMultilink: UnknownMultilink;
-  public readonly topLayer = new Node();
+  public readonly topLayer: Node;
 
   public constructor(
     model: KeplersLawsModel,
@@ -38,6 +38,19 @@ export default class EllipticalOrbitNode extends Path {
     } );
 
     this.orbit = model.engine;
+
+    // Top layer is a field because it has to be accessed from the ScreenView and added as a child there
+    this.topLayer = new Node( { visibleProperty: this.orbit.allowedOrbitProperty } );
+    const labelsLayer = new Node( { visibleProperty: this.orbit.allowedOrbitProperty } );
+    const firstLawLayer = new Node( { visibleProperty: this.orbit.allowedOrbitProperty } );
+    const secondLawLayer = new Node( { visibleProperty: this.orbit.allowedOrbitProperty } );
+    const thirdLawLayer = new Node( { visibleProperty: this.orbit.allowedOrbitProperty } );
+
+    // Also Top Layer is not added as child because it's a child of the ScreenView, just controlled in here
+    this.addChild( labelsLayer );
+    this.addChild( firstLawLayer );
+    this.addChild( secondLawLayer );
+    this.addChild( thirdLawLayer );
 
     // Text Nodes
     const aLabelNode = new Text( 'a', combineOptions<TextOptions>( {
@@ -64,7 +77,7 @@ export default class EllipticalOrbitNode extends Path {
           return visible && ( e > 0 );
         }
       ),
-      scale: 1,
+      scale: 1.5,
       stroke: 'cyan'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
     const stringLabelNode1 = new RichText( 'd<sub>1', combineOptions<TextOptions>( {
@@ -93,7 +106,7 @@ export default class EllipticalOrbitNode extends Path {
       scale: 1.5,
       stroke: '#ccb285'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const radiusLabelNode = new RichText( 'R', combineOptions<TextOptions>( {
+    const radiusLabelNode = new RichText( 'r', combineOptions<TextOptions>( {
       visibleProperty: new DerivedProperty(
         [
           model.stringsVisibleProperty,
@@ -202,28 +215,28 @@ export default class EllipticalOrbitNode extends Path {
     } );
 
     // Text Nodes
-    this.addChild( aLabelNode );
-    this.addChild( bLabelNode );
-    this.addChild( cLabelNode );
-    this.addChild( stringLabelNode1 );
-    this.addChild( stringLabelNode2 );
-    this.addChild( radiusLabelNode );
+    labelsLayer.addChild( aLabelNode );
+    labelsLayer.addChild( bLabelNode );
+    labelsLayer.addChild( cLabelNode );
+    labelsLayer.addChild( stringLabelNode1 );
+    labelsLayer.addChild( stringLabelNode2 );
+    labelsLayer.addChild( radiusLabelNode );
 
 
     // First Law: Axis, foci, and Ellipse definition lines
-    this.addChild( axisPath );
-    this.addChild( semiAxisPath );
-    this.addChild( stringsPath );
-    this.addChild( focalDistancePath );
+    firstLawLayer.addChild( axisPath );
+    firstLawLayer.addChild( semiAxisPath );
+    firstLawLayer.addChild( stringsPath );
+    firstLawLayer.addChild( focalDistancePath );
 
     // Second Law: Periapsis, Apoapsis and orbital division dots and areas
-    this.addChild( areaPathsNode );
-    this.addChild( periapsis );
-    this.addChild( apoapsis );
-    this.addChild( orbitDivisionsNode );
+    secondLawLayer.addChild( areaPathsNode );
+    secondLawLayer.addChild( periapsis );
+    secondLawLayer.addChild( apoapsis );
+    secondLawLayer.addChild( orbitDivisionsNode );
 
     // Third Law: Semimajor axis
-    this.addChild( semiMajorAxisPath );
+    thirdLawLayer.addChild( semiMajorAxisPath );
 
     this.topLayer.addChild( foci[ 0 ] );
     this.topLayer.addChild( foci[ 1 ] );
@@ -304,10 +317,10 @@ export default class EllipticalOrbitNode extends Path {
 
       // Drawing orbital divisions and areas
       this.orbit.orbitalAreas.forEach( ( area, i ) => {
-        orbitDivisions[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbitProperty.value;
-        areaPaths[ i ].visible = model.isSecondLawProperty.value && area.active && this.orbit.allowedOrbitProperty.value;
+        orbitDivisions[ i ].visible = model.isSecondLawProperty.value && area.active;
+        areaPaths[ i ].visible = model.isSecondLawProperty.value && area.active;
 
-        if ( i < model.periodDivisionProperty.value && this.orbit.allowedOrbitProperty.value ) {
+        if ( i < model.periodDivisionProperty.value ) {
           // Set the center of the orbit's divisions dot
           orbitDivisions[ i ].center = area.dotPosition.times( scale ).minus( center );
           orbitDivisions[ i ].fill = MySolarSystemColors.orbitColorProperty.value.darkerColor( Math.pow( 1 - area.completion, 10 ) );

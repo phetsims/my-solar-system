@@ -74,8 +74,11 @@
   "values": {
     "value": "Values"
   },
+  "speed": {
+    "value": "Speed (km/s)"
+  },
   "starMass": {
-    "value": "Star's Mass"
+    "value": "Star Mass"
   },
   "ourSun":{
     "value": "Our Sun"

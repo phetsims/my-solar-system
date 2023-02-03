@@ -51,9 +51,6 @@ const createVisibilityInformationCheckboxes = ( model: CommonModel, tandem: Tand
       ]
     } ), {
       tandem: tandem.createTandem( 'measuringTapeVisibleCheckbox' )
-    } ),
-    new MySolarSystemCheckbox( model.valuesVisibleProperty, new Text( MySolarSystemStrings.valuesStringProperty, TEXT_OPTIONS ), {
-      tandem: tandem.createTandem( 'valuesVisibleCheckbox' )
     } )
   ];
 };

@@ -50,6 +50,9 @@ const createArrowsVisibilityCheckboxes = ( model: CommonModel, tandem: Tandem ):
       spacing: SPACING
     } ) ), {
       tandem: tandem.createTandem( 'velocityCheckbox' )
+    } ),
+    new MySolarSystemCheckbox( model.valuesVisibleProperty, new Text( MySolarSystemStrings.speedStringProperty, TEXT_OPTIONS ), {
+      tandem: tandem.createTandem( 'valuesVisibleCheckbox' )
     } )
   ];
 };

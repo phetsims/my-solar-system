@@ -26,6 +26,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -223,7 +224,8 @@ export default class BodyNode extends ShadedSphereNode {
     //REVIEW: No need to have even a local variable for this, inline it in addChild?
     this.valueContainer = new Node( {
       children: [ this.valueBackgroundNode, this.valueNode ],
-      visibleProperty: body.valueVisibleProperty,
+      // TODO:
+      visibleProperty: body.valueVisibleProperty ? body.valueVisibleProperty : new BooleanProperty( false ),
       center: options.textPosition
     } );
     this.addChild( this.valueContainer );

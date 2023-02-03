@@ -21,6 +21,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   zeroAllowed?: boolean;
+  maxMagnitudeProperty?: TReadOnlyProperty<number> | null;
 };
 
 export type DraggableVectorNodeOptions = SelfOptions & VectorNodeOptions;
@@ -37,7 +38,8 @@ export default class DraggableVectorNode extends VectorNode {
     providedOptions?: DraggableVectorNodeOptions ) {
 
     const options = optionize<DraggableVectorNodeOptions, SelfOptions, VectorNodeOptions>()( {
-      zeroAllowed: true
+      zeroAllowed: true,
+      maxMagnitudeProperty: null
     }, providedOptions );
 
     super(
@@ -98,6 +100,11 @@ export default class DraggableVectorNode extends VectorNode {
               proposedVelocity.setXY( 0, 0 );
               body.velocityProperty.value = proposedVelocity;
             }
+          }
+          else if ( options.maxMagnitudeProperty && proposedVelocity.magnitude > options.maxMagnitudeProperty.value ) {
+            const maxMagnitude = options.maxMagnitudeProperty.value;
+            const unit = proposedVelocity.normalized();
+            body.velocityProperty.value = unit.times( maxMagnitude );
           }
           else {
             body.velocityProperty.value = proposedVelocity;

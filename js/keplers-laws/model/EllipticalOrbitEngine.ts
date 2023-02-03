@@ -103,6 +103,7 @@ export default class EllipticalOrbitEngine extends Engine {
   // Keeps track of the validity of the orbit. True if elliptic, false either if parabolic or collision orbit.
   public allowedOrbitProperty = new BooleanProperty( false );
   public readonly orbitTypeProperty: EnumerationProperty<OrbitTypes>;
+  public readonly escapeSpeedProperty = new NumberProperty( 0 );
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
@@ -187,47 +188,43 @@ export default class EllipticalOrbitEngine extends Engine {
     const v = this.body.velocityProperty.value;
     this.L = r.crossScalar( v );
 
-    if ( this.escapeVelocityNotExceeded( r, v ) ) {
-      const { a, e, w, M, W } = this.calculateEllipse( r, v );
-      this.a = a;
-      this.e = e;
-      this.w = w;
-      this.M = M;
-      this.W = W;
+    const { a, e, w, M, W } = this.calculateEllipse( r, v );
+    this.a = a;
+    this.e = e;
+    this.w = w;
+    this.M = M;
+    this.W = W;
 
-      this.nu = this.getTrueAnomaly( this.M );
+    this.nu = this.getTrueAnomaly( this.M );
 
-      // TODO: Check if the complete form of the third law should be used
-      this.T = Math.pow( a, 3 / 2 );
+    // TODO: Check if the complete form of the third law should be used
+    this.T = Math.pow( a, 3 / 2 );
 
-      if ( this.collidedWithSun( a, e ) ) {
-        this.allowedOrbitProperty.value = false;
-        this.orbitTypeProperty.value = OrbitTypes.CRASH_ORBIT;
-      }
-      else {
-        this.allowedOrbitProperty.value = true;
-        this.orbitTypeProperty.value = OrbitTypes.STABLE_ORBIT;
-      }
+    this.semimajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
+    this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
 
-
-      this.calculateOrbitalDivisions( false );
-
-      this.semimajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
-      this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
-
-      if ( e !== this.eccentricityProperty.value ) {
-        if ( this.alwaysCircles ) {
-          this.eccentricityProperty.value = 0;
-        }
-        else {
-          this.eccentricityProperty.value = e;
-        }
-      }
+    if ( this.collidedWithSun( a, e ) ) {
+      this.allowedOrbitProperty.value = false;
+      this.orbitTypeProperty.value = OrbitTypes.CRASH_ORBIT;
     }
-    else {
-      this.eccentricityProperty.value = 1;
+    else if ( this.escapeSpeedExceeded( r, v ) ) {
       this.allowedOrbitProperty.value = false;
       this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
+      this.eccentricityProperty.value = 1;
+    }
+    else {
+      this.allowedOrbitProperty.value = true;
+      this.orbitTypeProperty.value = OrbitTypes.STABLE_ORBIT;
+      this.calculateOrbitalDivisions( false );
+    }
+
+    if ( e !== this.eccentricityProperty.value && this.orbitTypeProperty.value !== OrbitTypes.ESCAPE_ORBIT ) {
+      if ( this.alwaysCircles || this.e < 0.01 ) {
+        this.eccentricityProperty.value = 0;
+      }
+      else {
+        this.eccentricityProperty.value = e;
+      }
     }
 
     this.changedEmitter.emit();
@@ -316,14 +313,17 @@ export default class EllipticalOrbitEngine extends Engine {
     } );
   }
 
-  private escapeVelocityNotExceeded( r: Vector2, v: Vector2 ): boolean {
+  private escapeSpeedExceeded( r: Vector2, v: Vector2 ): boolean {
     const rMagnitude = r.magnitude;
     const vMagnitude = v.magnitude;
 
     // Scaling down the escape velocity a little to avoid unwanted errors
     const epsilon = 0.99;
 
-    return vMagnitude < ( epsilon * Math.pow( 2 * this.mu / rMagnitude, 0.5 ) );
+    const escapeSpeed = Math.sqrt( 2 * this.mu / rMagnitude ) * epsilon;
+    this.escapeSpeedProperty.value = escapeSpeed;
+
+    return vMagnitude >= escapeSpeed * epsilon;
   }
 
   private collidedWithSun( a: number, e: number ): boolean {
