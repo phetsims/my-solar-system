@@ -301,11 +301,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public reset(): void {
-    //REVIEW: Why not this.timeProperty.reset()?
-    this.timeProperty.value = 0; // Reset the time
-    //REVIEW: why not this.isPlayingProperty.reset()?
-    //REVIEW: Additionally, this AND the time is handled in reset()
-    //REVIEW: so either resets() OR potentially just omit them (timeProperty/isPlayingProperty) here and rely on restart()
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeSpeedProperty.reset();
     this.zoomLevelProperty.reset();
@@ -317,8 +312,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.valuesVisibleProperty.reset();
     this.moreDataProperty.reset();
     this.centerOfMass.visibleProperty.reset();
-
-    //REVIEW: Why no this.realUnitsProperty.reset()? Seems buggy?
+    this.realUnitsProperty.reset();
 
     this.restart();
   }
@@ -327,8 +321,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   // Bodies move to their last modified position
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
-    //REVIEW: Why not this.timeProperty.reset()?
-    this.timeProperty.value = 0; // Reset the time
+    this.timeProperty.reset(); // Reset the time
     this.setInitialBodyStates( this.previousModeInfo ); // Reset the bodies
     this.update();
   }

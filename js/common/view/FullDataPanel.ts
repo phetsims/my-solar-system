@@ -8,8 +8,8 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, AlignGroup, HBox, RichText, VBox, Node, Text } from '../../../../scenery/js/imports.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import { AlignBox, AlignGroup, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -18,7 +18,7 @@ import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
 import CommonModel from '../model/CommonModel.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -51,7 +51,7 @@ export default class FullDataPanel extends Panel {
       columnGroupSpacing: 21,      // {number} - x-spacing between each group of columns.
       titleLabelSpacing: 0.5,      // {number} - y-margin between the column groups and the title-labels above them.
 
-      fill: '#f0f0f0',
+      fill: MySolarSystemColors.controlPanelFillProperty,
 
       xMargin: 12
     }, providedOptions );
@@ -78,16 +78,16 @@ export default class FullDataPanel extends Panel {
       } );
 
       // Wrap the text in an AlignGroup to match height.
-      return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty, {
-        font: MySolarSystemConstants.TITLE_FONT,
-        maxWidth: 135
-      } ) );
+      return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
+        combineOptions<TextOptions>( {
+          maxWidth: 200
+        }, MySolarSystemConstants.TEXT_OPTIONS ) ) );
     };
 
-    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty, {
-      font: new PhetFont( { size: 18, weight: 'bold' } ),
-      maxWidth: 200
-    } ) );
+    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty,
+      combineOptions<TextOptions>( {
+        maxWidth: 200
+      }, MySolarSystemConstants.TEXT_OPTIONS ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
 

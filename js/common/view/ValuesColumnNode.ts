@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { AlignBox, AlignGroup, Color, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Color, Node, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
@@ -22,6 +22,7 @@ import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -54,10 +55,9 @@ export default class ValuesColumnNode extends VBox {
                         columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
                         '';
 
-    const labelNode = new RichText( labelString, {
-      maxWidth: 60,
-      font: MySolarSystemConstants.PANEL_FONT
-    } );
+    const labelNode = new RichText( labelString, combineOptions<TextOptions>( {
+      maxWidth: 60
+    }, MySolarSystemConstants.TEXT_OPTIONS ) );
 
     // Create the VBox container for the contentNodes of the column.
     const contentContainer = new VBox( { spacing: options.contentContainerSpacing, stretch: true } );

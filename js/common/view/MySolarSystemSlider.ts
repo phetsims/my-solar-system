@@ -15,6 +15,7 @@ import Property from '../../../../axon/js/Property.js';
 import Mass_Slider_Bass_Pluck_mp3 from '../../../sounds/Mass_Slider_Bass_Pluck_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -31,7 +32,8 @@ export default class MySolarSystemSlider extends HSlider {
       thumbSize: new Dimension2( 15, 25 ),
       thumbTouchAreaYDilation: 2,
       thumbCenterLineStroke: 'black',
-      trackFillEnabled: 'black',
+      trackFillEnabled: MySolarSystemColors.foregroundProperty,
+      trackStroke: MySolarSystemColors.foregroundProperty,
       valueChangeSoundGeneratorOptions: {
         middleMovingUpSoundPlayer: massSliderSoundClip,
         middleMovingDownSoundPlayer: massSliderSoundClip,

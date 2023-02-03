@@ -47,7 +47,7 @@ const MySolarSystemConstants = {
     fill: MySolarSystemColors.foregroundProperty
   },
   TITLE_OPTIONS: {
-    font: new PhetFont( { size: 16, weight: 'bold' } ),
+    font: new PhetFont( { size: 18, weight: 'bold' } ),
     fill: MySolarSystemColors.foregroundProperty
   },
   GRID: {

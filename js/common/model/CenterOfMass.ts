@@ -10,25 +10,17 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from './Body.js';
 
 export default class CenterOfMass {
-  public readonly positionProperty: Property<Vector2>;
-  public readonly velocityProperty: Property<Vector2>;
-  public readonly visibleProperty: Property<boolean>;
-  private readonly bodies: ObservableArray<Body>;
+  public readonly positionProperty = new Vector2Property( Vector2.ZERO );
+  public readonly velocityProperty = new Vector2Property( Vector2.ZERO );
+  public readonly visibleProperty = new BooleanProperty( false );
 
-  public constructor( bodies: ObservableArray<Body> ) {
-    this.bodies = bodies;
-
-    //REVIEW: Can initialize these at their declaration sites!
-    this.positionProperty = new Vector2Property( Vector2.ZERO );
-    this.velocityProperty = new Vector2Property( Vector2.ZERO );
-    this.visibleProperty = new BooleanProperty( false );
+  public constructor( public readonly bodies: ObservableArray<Body> ) {
     this.update();
   }
 

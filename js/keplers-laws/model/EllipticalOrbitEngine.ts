@@ -75,7 +75,7 @@ class OrbitalArea {
 }
 
 export default class EllipticalOrbitEngine extends Engine {
-  private mu = 2e6;
+  private mu = 1e4;
   public readonly sun: Body;
   public readonly body: Body;
   public readonly sunMassProperty: Property<number>;
@@ -168,6 +168,7 @@ export default class EllipticalOrbitEngine extends Engine {
   public updateForces( position: Vector2 ): void {
     const force = position.timesScalar( -this.mu * this.body.massProperty.value / Math.pow( position.magnitude, 3 ) );
     this.body.forceProperty.value = force;
+    this.body.accelerationProperty.value = force.timesScalar( 1 / this.body.massProperty.value );
     this.sun.forceProperty.value = force.timesScalar( -1 );
   }
   /**
