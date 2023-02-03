@@ -55,6 +55,7 @@ class CommonScreenView extends ScreenView {
 
   protected readonly createDraggableVectorNode: ( body: Body, options?: DraggableVectorNodeOptions ) => DraggableVectorNode;
 
+  //REVIEW: doc on what this is?
   protected readonly orbitalCenterProperty: Property<Vector2>;
 
   protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
@@ -84,6 +85,7 @@ class CommonScreenView extends ScreenView {
       } );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
+    //REVIEW: What is this commented out code for?
     // const gridNode = new GridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
     this.interfaceLayer.addChild( new GridNode(
       this.modelViewTransformProperty,
@@ -133,12 +135,13 @@ class CommonScreenView extends ScreenView {
 
 
     const timeControlNode = new MySolarSystemTimeControlNode( model,
-      {
-        enabledProperty: providedOptions.playingAllowedProperty,
-        restartListener: () => model.restart(),
-        stepForwardListener: () => model.stepOnce( 1 / 4 ),
-        tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
-      } );
+    {
+      //REVIEW: Seems a bit weird to pass `undefined` through here. Should we || null it?
+      enabledProperty: providedOptions.playingAllowedProperty,
+      restartListener: () => model.restart(),
+      stepForwardListener: () => model.stepOnce( 1 / 4 ),
+      tandem: providedOptions.tandem.createTandem( 'timeControlNode' )
+    } );
 
     const timeStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelUnitsStringProperty, {
       units: MySolarSystemStrings.units.yearsStringProperty
@@ -164,6 +167,7 @@ class CommonScreenView extends ScreenView {
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
+          //REVIEW: Why is this commented out?
           // layoutOptions: { align: 'right', stretch: true },
           touchAreaXDilation: 10,
           touchAreaYDilation: 10
@@ -174,6 +178,7 @@ class CommonScreenView extends ScreenView {
 
     this.timeBox = new Panel( new VBox( {
       children: [ clockNode, timeControlNode ],
+      //REVIEW: Why is this commented out?
       // layoutOptions: { yAlign: 'bottom', column: 1 },
       spacing: 10
     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
@@ -190,11 +195,11 @@ class CommonScreenView extends ScreenView {
     } );
 
     const resetAllButtonBox = new AlignBox( resetAllButton,
-      {
-        margin: MySolarSystemConstants.MARGIN,
-        xAlign: 'right',
-        yAlign: 'bottom'
-      } );
+    {
+      margin: MySolarSystemConstants.MARGIN,
+      xAlign: 'right',
+      yAlign: 'bottom'
+    } );
 
     Multilink.multilink(
       [ this.visibleBoundsProperty, this.modelViewTransformProperty ],

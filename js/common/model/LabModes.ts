@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * Enumerates the presets and custom settings for the bodies in the Lab Screen.
@@ -10,6 +10,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
+//REVIEW: Usually we would name this LabMode, not LabModes (since it represents a single mode, not multiple modes at once)
 export default class LabModes extends EnumerationValue {
   public static readonly SUN_PLANET = new LabModes();
   public static readonly SUN_PLANET_MOON = new LabModes();

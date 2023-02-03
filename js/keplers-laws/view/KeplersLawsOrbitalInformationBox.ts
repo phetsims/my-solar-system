@@ -52,6 +52,8 @@ class KeplersLawsOrbitalInformationBox extends VBox {
 
     const dialog = new Dialog( new Node(), {
       titleAlign: 'center',
+      //REVIEW: In general, PhetFont should be used in sims, not Font, unless there was a very explicit decision about
+      //REVIEW: a custom font to be used
       title: new Text( 'Title', { font: new Font( { size: 32 } ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );

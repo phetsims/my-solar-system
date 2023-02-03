@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * Draws a vector for a Body, such as a force vector or velocity vector.
@@ -46,6 +46,8 @@ export default class VectorNode extends ArrowNode {
         return transform.modelToViewPosition( bodyPosition );
       } );
 
+    //REVIEW: I'd consider moving visibility OUT of this, and then a link of tipProperty/tailProperty/visibleProperty to
+    //REVIEW: actually setTailAndTip. Thoughts?
     this.tipProperty = new DerivedProperty( [ visibleProperty, this.tailProperty, vectorProperty, transformProperty ],
       ( visible, tail, vector, transform ) => {
         const force = transform.modelToViewDelta( vector.times( scale ) );

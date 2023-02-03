@@ -14,7 +14,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import soundConstants from '../../../../tambo/js/soundConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 
-
+//REVIEW: This organization around imports might get messed up by automatic IDE handling, careful!
 // Bodies sounds
 import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
 import Bodies_Strings_e3_mp3 from '../../../sounds/Bodies_Strings_e3_mp3.js';
@@ -46,16 +46,20 @@ const allSounds = [
   Bodies_Woodwinds_e3_mp3,
   Bodies_Strings_e3_v2_mp3,
   Bodies_Flute_g3_mp3,
+
+  //REVIEW: Why are these elements of allSounds not used? Can this be cleaned up?
   Bodies_Strings_e3_mp3,
   Bodies_Organ_b3_mp3
 ];
 
+//REVIEW: Has this been decided on?
 const METRONOME = [ 7, 0, 0, 0, 0, 0 ]; // METRONOME
 // const METRONOME = [ 4, 2, 0, 2, 4, 4 ]; // ADDITIONAL
 // const METRONOME = [ 0, 2, 4, 5, 7, 9 ]; // SCALE
 // const METRONOME = [ 0, 2, 4, 7, 9, 12 ]; // PENTATONIC_SCALE
 // const METRONOME = [ 0, 3, 5, 6, 7, 10 ]; // BLUES_SCALE
 
+//REVIEW: providedOptions never used, so presumably this can go away. Do we need a tandem?
 export type BodySoundsManagerOptions = {
   tandem?: Tandem;
 };
@@ -63,10 +67,11 @@ export type BodySoundsManagerOptions = {
 export default class BodySoundManager {
   private readonly model: CommonModel;
   public readonly bodySoundGenerators: SoundClip[];
-  public readonly bodyNumberSoundClips: SoundClip[];
-  public readonly collisionSoundClips: SoundClip[];
-  public readonly metronomeSoundClips: SoundClip[];
+  public readonly bodyNumberSoundClips: SoundClip[]; //REVIEW: Why public?
+  public readonly collisionSoundClips: SoundClip[]; //REVIEW: Why public?
+  public readonly metronomeSoundClips: SoundClip[]; //REVIEW: Why public?
 
+  //REVIEW: providedOptions never used!!!
   public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {
     this.model = model;
 
@@ -89,6 +94,9 @@ export default class BodySoundManager {
 
     // Create the sound generators for the bodies, they are added to the soundManager in the ScreenView
     this.bodySoundGenerators = [
+      //REVIEW: If allSounds is cleaned up, this can be simplified to something like
+      //REVIEW: this.bodySoundGenerators = allSounds.map( sound => new SoundClip( sound, bodySoundOptions ) );
+      //REVIEW: THEN, you would also inline the options so it's a bit more concise.
       new SoundClip( allSounds[ 0 ], bodySoundOptions ),
       new SoundClip( allSounds[ 1 ], bodySoundOptions ),
       new SoundClip( allSounds[ 2 ], bodySoundOptions ),
@@ -121,6 +129,10 @@ export default class BodySoundManager {
   }
 
   public playSounds(): void {
+    //REVIEW: This makes a lot of assumptions (that bodies are always in the same order). Is that OK to do?
+    //REVIEW: Why not loop through availableBodies and check if they are each active?
+    //REVIEW: On further thought, why don't we tag the sound generators ON the bodies themselves? Then we can just loop
+    //REVIEW: through the bodies and play the sound generators that are active.
     for ( let i = 0; i < 4; i++ ) {
       if ( i < this.model.numberOfActiveBodiesProperty.value ) {
         const body = this.model.bodies.get( i );
@@ -148,6 +160,8 @@ export default class BodySoundManager {
     const smallSound = this.metronomeSoundClips[ 0 ];
     const bigSound = this.metronomeSoundClips[ 2 ];
     const divisionOffset = 1 + divisions / 12;
+
+    //REVIEW: some documentation here would be helpful
 
     smallSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) * divisionOffset );
     smallSound.setOutputLevel( Utils.clamp( Utils.linear( 0, 500, 1, 0, semimajorAxis ), 0, 1 ) );

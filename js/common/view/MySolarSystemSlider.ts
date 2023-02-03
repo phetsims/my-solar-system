@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * Universal slider for MySolarSystem
@@ -36,6 +36,7 @@ export default class MySolarSystemSlider extends HSlider {
         middleMovingUpSoundPlayer: massSliderSoundClip,
         middleMovingDownSoundPlayer: massSliderSoundClip,
         numberOfMiddleThresholds: 10,
+        //REVIEW: Why the difference? document?
         middleMovingUpPlaybackRateMapper: ( value: number ) => 0.5 + ( value - range.min ) / range.getLength(),
         middleMovingDownPlaybackRateMapper: ( value: number ) => 0.4 + ( value - range.min ) / range.getLength()
       }

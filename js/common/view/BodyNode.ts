@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * Visible Body Node that draws a sphere with size dependent on the Body's mass.
@@ -182,11 +182,11 @@ export default class BodyNode extends ShadedSphereNode {
       ( velocity: Vector2 ) => Utils.toFixed(
         velocity.magnitude * MySolarSystemConstants.VELOCITY_MULTIPLIER,
         options.significantFigures
-      ) );
+      ) ); //REVIEW: formatting, lines like these should be un-intented
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
       value: velocityValueProperty,
       units: MySolarSystemStrings.units.kmsStringProperty
-      } );
+      } ); //REVIEW: formatting, lines like these should be un-intented
 
     //REVIEW: consolidate options into textOptions. WAIT: I don't see when any are not using the defaults.
     //REVIEW: Just inline the defaults!
@@ -199,20 +199,28 @@ export default class BodyNode extends ShadedSphereNode {
     //REVIEW: consolidate options into backgroundOptions. WAIT: I don't see when any are not using the defaults.
     //REVIEW: Just inline the defaults!
     this.valueBackgroundNode = new Rectangle( 0, 0, 1, 1, {
+      //REVIEW: Don't put in placeholder values for Rectangle. Just use new Rectangle( { ... } )
+      //REVIEW: Especially since these things get overridden below
       cornerRadius: options.textBackgroundCornerRadius,
       fill: options.textBackgroundColor
     } );
 
     // Resizes the value background and centers it on the value
     const updateValueBackgroundNode = () => {
+      //REVIEW: This seems like a lot of logic, perhaps try:
+      //REVIEW: this.valueNode.boundsProperty.link( bounds => {
+      //REVIEW:   this.valueBackgroundNode.rectBounds = bounds.dilated( options.textBackgroundXMargin );
+      //REVIEW: } );
       const valueBackgroundWidth = this.valueNode.width + ( 2 * options.textBackgroundXMargin );
       const valueBackgroundHeight = this.valueNode.height + ( 2 * options.textBackgroundYMargin );
       this.valueBackgroundNode.setRect( 0, 0, valueBackgroundWidth, valueBackgroundHeight );
       this.valueBackgroundNode.center = this.valueNode.center;
     };
+    //REVIEW: Replace with link(), so we don't need 2 extra lines (and a variable name) for this.
     this.valueNode.boundsProperty.lazyLink( updateValueBackgroundNode );
     updateValueBackgroundNode();
 
+    //REVIEW: No need to have even a local variable for this, inline it in addChild?
     this.valueContainer = new Node( {
       children: [ this.valueBackgroundNode, this.valueNode ],
       visibleProperty: body.valueVisibleProperty,

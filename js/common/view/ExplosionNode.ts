@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 /**
  *
  * @author Agustín Vallejo
@@ -28,7 +28,7 @@ export default class ExplosionNode extends Path {
 
     const shape = new Shape();
     shape.moveTo( 0, 0 );
-    for ( let i = 0; i < numSegments + 1; i++ ) {
+    for ( let i = 0; i < numSegments + 1; i++ ) { //REVIEW: why numSegments + 1?
       shape.lineToPoint( Vector2.createPolar( ( i % 2 === 0 ) ? radius * 2 : radius, i * Math.PI * 2 / numSegments ) );
     }
     shape.close();
@@ -64,6 +64,7 @@ export default class ExplosionNode extends Path {
       easing: Easing.QUADRATIC_IN
     } );
 
+    //REVIEW: Can this commented-out line be removed?
     // firstAnimation.finishEmitter.addListener( () => { node.detach(); } );
     firstAnimation.then( secondAnimation );
     firstAnimation.start();

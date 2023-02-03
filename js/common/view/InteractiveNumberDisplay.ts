@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 /**
  * NumberDisplay used in the panel to control Masses, Position and Velocity
  *
@@ -50,6 +50,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       useRichTextRange: true,
       keypadOptions: {
         accumulatorOptions: {
+          //REVIEW: Why is there documentation on this here?
           // {number} - maximum number of digits that can be entered on the keypad.x
           maxDigits: 8,
 

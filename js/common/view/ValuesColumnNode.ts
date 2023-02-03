@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * Generates the information column for values depending on the type of Value used.
@@ -37,9 +37,11 @@ export type ValuesColumnNodeOptions = SelfOptions & VBoxOptions;
 export default class ValuesColumnNode extends VBox {
   public constructor( model: CommonModel, columnType: ValuesColumnTypes ) {
     const options: ValuesColumnNodeOptions = {
+      //REVIEW: Don't doc them here! They should be documented in SelfOptions. Why the type docs, copied from BallValuesPanelColumnNode?
       // {number} - y-spacing between each of the content Nodes.
       contentContainerSpacing: 3.5,
 
+      //REVIEW: Don't doc them here! They should be documented in SelfOptions. Why the type docs, copied from BallValuesPanelColumnNode?
       // {number} - y-spacing between the label and first content Node.
       labelSpacing: 3,
 
@@ -63,6 +65,7 @@ export default class ValuesColumnNode extends VBox {
     // Loop through each possible Body and create the corresponding contentNode. These Bodies are NOT necessarily the
     // active bodies, so we are responsible for updating visibility based on whether it is
     // the system.
+    //REVIEW: not using `i` parameter
     model.availableBodies.forEach( ( body, i ) => {
 
       // Retrieve the color from the colors palette
@@ -76,12 +79,15 @@ export default class ValuesColumnNode extends VBox {
 
       // Observe when Bodies are added or removed from the Model, meaning the contentNode's visibility could change
       // if the body is added or removed from the system. It should only be visible if the body is in the Model.
+      //REVIEW: This actually fails if we replace an element in the ObservableArray. elementAddedEmitter/elementRemovedEmitter
+      //REVIEW: would in general be safer to listen to.
       model.bodies.lengthProperty.link( () => {
         contentNode.visible = model.bodies.includes( body );
       } );
     } );
 
     // Set the children of this Node to the correct rendering order.
+    //REVIEW: StrictOmit<VBoxOptions, 'children'>
     options.children = [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ];
 
     super( options );

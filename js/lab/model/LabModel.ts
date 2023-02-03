@@ -22,7 +22,6 @@ class LabModel extends CommonModel<NumericalEngine> {
   private readonly modeMap: Map<LabModes, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabModes ) => void;
 
-
   public constructor( providedOptions: LabModelOptions ) {
     const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
       engineFactory: bodies => new NumericalEngine( bodies ),
