@@ -76,7 +76,7 @@ export default class IntroLabScreenView extends CommonScreenView {
     const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       return new BodyNode( body, this.modelViewTransformProperty, {
         valuesVisibleProperty: model.valuesVisibleProperty,
-        dragBoundsProperty: modelDragBoundsProperty
+        mapPosition: ( point, radius ) => modelDragBoundsProperty.value.eroded( radius ).closestPointTo( point )
       } );
     } );
 

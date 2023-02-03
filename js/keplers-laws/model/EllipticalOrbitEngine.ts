@@ -179,14 +179,12 @@ export default class EllipticalOrbitEngine extends Engine {
    */
   public override update(): void {
     const r = this.body.positionProperty.value;
-    let v = this.body.velocityProperty.value;
+    const v = this.body.velocityProperty.value;
     this.L = r.crossScalar( v );
     this.updateForces( r );
 
     const escaped = this.escapeSpeedExceeded( r, v );
     if ( escaped ) {
-      this.body.velocityProperty.value = v.normalized().timesScalar( this.escapeSpeedProperty.value );
-      v = this.body.velocityProperty.value;
       this.allowedOrbitProperty.value = false;
       this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
       this.eccentricityProperty.value = 1;
@@ -326,7 +324,7 @@ export default class EllipticalOrbitEngine extends Engine {
     const escapeSpeed = Math.sqrt( 2 * this.mu / rMagnitude ) * epsilon;
     this.escapeSpeedProperty.value = escapeSpeed;
 
-    const escapeRadius = 2 * this.mu / ( escapeSpeed * escapeSpeed );
+    const escapeRadius = 2 * this.mu / ( vMagnitude * vMagnitude ) * Math.sqrt( epsilon );
     this.escapeRadiusProperty.value = escapeRadius;
 
     return vMagnitude >= escapeSpeed * epsilon;

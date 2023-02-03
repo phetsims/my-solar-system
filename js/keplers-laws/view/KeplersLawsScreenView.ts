@@ -59,12 +59,21 @@ class KeplersLawsScreenView extends CommonScreenView {
     const sun = model.bodies[ 0 ];
     const body = model.bodies[ 1 ];
     const sunNode = new BodyNode( model.bodies[ 0 ], this.modelViewTransformProperty, {
-      draggable: false,
-      dragBoundsProperty: modelDragBoundsProperty
+      draggable: false
     } );
     const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
       valuesVisibleProperty: model.valuesVisibleProperty,
-      dragBoundsProperty: modelDragBoundsProperty
+      mapPosition: ( point, radius ) => {
+        point = modelDragBoundsProperty.value.eroded( radius ).closestPointTo( point );
+
+        const escapeRadius = model.engine.escapeRadiusProperty.value;
+
+        if ( point.magnitude > escapeRadius ) {
+          point = point.normalized().times( escapeRadius );
+        }
+
+        return point;
+      }
     } );
     this.bodiesLayer.addChild( sunNode );
     this.bodiesLayer.addChild( bodyNode );

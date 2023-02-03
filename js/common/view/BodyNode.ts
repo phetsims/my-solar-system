@@ -22,16 +22,14 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import ExplosionNode from './ExplosionNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   draggable?: boolean;
 
-  dragBoundsProperty?: TReadOnlyProperty<Bounds2>;
+  mapPosition?: ( position: Vector2, radius: number ) => Vector2;
 
   valuesVisibleProperty?: TReadOnlyProperty<boolean>;
 
@@ -101,7 +99,7 @@ export default class BodyNode extends ShadedSphereNode {
 
       mainColor: body.colorProperty,
 
-      dragBoundsProperty: new Property( Bounds2.EVERYTHING ),
+      mapPosition: _.identity,
 
       valuesVisibleProperty: new BooleanProperty( false ),
 
@@ -159,16 +157,13 @@ export default class BodyNode extends ShadedSphereNode {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
-    //REVIEW: Don't use a radiusProperty on this instance. Just use the radiusProperty on the body.
-    const erodedDragBoundsProperty = new DerivedProperty( [ options.dragBoundsProperty, this.radiusProperty ], ( dragBounds, radius ) => {
-      return dragBounds.eroded( radius );
-    } );
-
     if ( options.draggable ) {
       this.addInputListener( new DragListener( {
         positionProperty: body.positionProperty,
         canStartPress: () => !body.userControlledPositionProperty.value,
-        dragBoundsProperty: erodedDragBoundsProperty,
+        mapPosition: point => {
+          return options.mapPosition( point, this.radiusProperty.value );
+        },
         transform: modelViewTransformProperty,
         start: () => {
           body.clearPath();
@@ -239,8 +234,6 @@ export default class BodyNode extends ShadedSphereNode {
     this.body.collidedEmitter.addListener( bodyCollisionListener );
 
     this.bodyNodeDispose = () => {
-      erodedDragBoundsProperty.dispose();
-
       positionMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
       readoutStringProperty.dispose();
