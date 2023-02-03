@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, Font, HBox, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -35,6 +35,7 @@ import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 
 type SelfOptions = EmptySelfOptions;
@@ -53,9 +54,7 @@ const spinnerOptions: NumberSpinnerOptions = {
     xMargin: 10,
     yMargin: 3,
     textOptions: {
-      //REVIEW: In general, PhetFont should be used in sims, not Font, unless there was a very explicit decision about
-      //REVIEW: a custom font to be used
-      font: new Font( { size: 28 } )
+      font: new PhetFont( 28 )
     }
   }
 };
@@ -210,9 +209,7 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 600 } ), {
       titleAlign: 'center',
-      //REVIEW: In general, PhetFont should be used in sims, not Font, unless there was a very explicit decision about
-      //REVIEW: a custom font to be used
-      title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new Font( { size: 32 } ) } ),
+      title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new PhetFont( 32 ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );
 
@@ -262,14 +259,9 @@ export default class IntroLabScreenView extends CommonScreenView {
       {
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'left',
-        yAlign: 'bottom'
+        yAlign: 'bottom',
+        alignBoundsProperty: this.visibleBoundsProperty
       } );
-
-    //REVIEW: Instead of this link, just pass `alignBoundsProperty: this.visibleBoundsProperty` to the AlignBox constructor
-    //REVIEW: Then we won't need a name for centerBox
-    this.visibleBoundsProperty.link( visibleBounds => {
-      centerBox.alignBounds = visibleBounds;
-    } );
 
     // Slider that controls the bodies mass
     this.interfaceLayer.addChild( centerBox );

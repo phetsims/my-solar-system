@@ -27,6 +27,7 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
 type SelfOptions = {
+  // ANSWER: All these are used down below!
   //REVIEW: I don't see this option ever being used, can it be removed?
   bodyIconColumnSpacing?: number;
 
@@ -127,6 +128,7 @@ export default class FullDataPanel extends Panel {
     // The content of the entire Panel when "More Data" is not checked.
     const lessDataBox = new HBox( {
       //REVIEW: Why an HBox with one child? Can't we just skip it
+      //ANSWER: It breaks otherwise
       children: [
         massSliderColumnNode
       ],

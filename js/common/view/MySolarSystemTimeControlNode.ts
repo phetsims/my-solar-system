@@ -90,9 +90,6 @@ export default class MySolarSystemTimeControlNode extends TimeControlNode {
       listener: () => model.restart(),
       center: this.getPlayPauseButtonCenter().minusXY( PLAY_PAUSE_BUTTON_RADIUS + STEP_BUTTON_RADIUS + PUSH_BUTTON_SPACING, 0 ),
       tandem: providedOptions.tandem.createTandem( 'restartButton' ),
-      //REVIEW: Remove commented-out code? Is there anything to do here?
-      // touchAreaXDilation: 7,
-      // touchAreaYDilation: 7,
       layoutOptions: {
         xMargin: MySolarSystemConstants.MARGIN / 2
       }

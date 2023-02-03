@@ -46,10 +46,6 @@ export default class ThirdLawGraph extends Node {
       );
     };
 
-    let xAxisLabel = new RichText( '' );
-    let yAxisLabel = new RichText( '' );
-
-
     const xAxis = new ArrowNode( 0, 0, axisLength, 0, {
       fill: 'white',
       stroke: 'white',
@@ -72,6 +68,26 @@ export default class ThirdLawGraph extends Node {
       stroke: 'white'
     } );
 
+    const xAxisLabel = new RichText(
+      '',
+      combineOptions<RichTextOptions>( {
+        x: axisLength * 0.4, y: 25
+      }, MySolarSystemConstants.TITLE_OPTIONS ) );
+    const yAxisLabel = new RichText(
+      '',
+      combineOptions<RichTextOptions>( {
+        x: -25, y: -axisLength * 0.4
+      }, MySolarSystemConstants.TITLE_OPTIONS ) );
+
+    this.children = [
+      xAxis,
+      yAxis,
+      xAxisLabel,
+      yAxisLabel,
+      linePath,
+      dataPoint
+    ];
+
     const orbitUpdated = () => {
       dataPoint.translation = semimajorAxisToViewPoint( orbit.a );
       dataPoint.visible = orbit.a < maxSemimajorAxis;
@@ -79,28 +95,9 @@ export default class ThirdLawGraph extends Node {
       const periodPower = model.selectedPeriodPowerProperty.value;
       const axisPower = model.selectedAxisPowerProperty.value;
 
-      const axisText = axisPower === 1 ? 'a' : 'a<sup>' + axisPower + '</sup>';
-      const periodText = periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>';
+      xAxisLabel.setString( axisPower === 1 ? 'a' : 'a<sup>' + axisPower + '</sup>' );
+      yAxisLabel.setString( periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>' );
 
-      //REVIEW: Why creating new RichText, instead of reusing the existing ones? Reusing would be more efficient.
-      xAxisLabel = new RichText(
-        axisText,
-        combineOptions<RichTextOptions>( {
-          x: axisLength * 0.4, y: 25
-        }, MySolarSystemConstants.TITLE_OPTIONS ) );
-      yAxisLabel = new RichText(
-        periodText,
-        combineOptions<RichTextOptions>( {
-          x: -25, y: -axisLength * 0.4
-        }, MySolarSystemConstants.TITLE_OPTIONS ) );
-      this.children = [
-        xAxis,
-        yAxis,
-        xAxisLabel,
-        yAxisLabel,
-        linePath,
-        dataPoint
-      ];
     };
 
     Multilink.multilink(

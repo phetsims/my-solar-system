@@ -28,7 +28,7 @@ import MySolarSystemColors from '../MySolarSystemColors.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import LabModes from './LabModes.js';
+import LabMode from './LabMode.js';
 
 const timeFormatter = new Map<TimeSpeed, number>( [
   [ TimeSpeed.FAST, 7 / 4 ],
@@ -92,7 +92,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly zoomLevelProperty: NumberProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;
   public readonly isLab: boolean;
-  public readonly labModeProperty: EnumerationProperty<LabModes>;
+  public readonly labModeProperty: EnumerationProperty<LabMode>;
 
   private previousModeInfo: BodyInfo[];
   protected defaultModeInfo: BodyInfo[]; //REVIEW: protected, but not used in subclasses?
@@ -106,7 +106,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
 
     this.isLab = providedOptions.isLab;
-    this.labModeProperty = new EnumerationProperty( LabModes.SUN_PLANET, {
+    this.labModeProperty = new EnumerationProperty( LabMode.SUN_PLANET, {
       tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
     } );
 

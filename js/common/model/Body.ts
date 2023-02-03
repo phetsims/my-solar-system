@@ -18,12 +18,13 @@ import { Color } from '../../../../scenery/js/imports.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import Property from '../../../../axon/js/Property.js';
 import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 
 class Body {
   // Unitless body quantities (physical properties)
   public readonly massProperty: Property<number>;
-  public readonly radiusProperty: Property<number>;
+  public readonly radiusProperty: TReadOnlyProperty<number>;
   public readonly positionProperty: Property<Vector2>;
   public readonly velocityProperty: Property<Vector2>;
   public readonly accelerationProperty: Property<Vector2>;
@@ -59,13 +60,7 @@ class Body {
     this.forceProperty = new Vector2Property( Vector2.ZERO );
     this.colorProperty = colorProperty;
 
-    //REVIEW: This looks an awful lot like a DerivedProperty. Please replace with a DerivedProperty unless I'm missing
-    //REVIEW: something? I don't see other clients setting this, or it getting reset(), etc.
-    //REVIEW: (radiusProperty should be a TReadOnlyProperty<number>).
-    this.massProperty.link( mass => {
-      // Mass to radius function
-      this.radiusProperty.value = Body.massToRadius( mass );
-    } );
+    this.radiusProperty = new DerivedProperty( [ this.massProperty ], mass => Body.massToRadius( mass ) );
 
     // Data for rendering the path as a WebGL object
     this.pathPoints = createObservableArray();
@@ -103,8 +98,7 @@ class Body {
       // Add the length to the tracked path length
       //REVIEW: Shouldn't this be >= 2? Does this omit the distance of the first two points?
       if ( this.pathPoints.length > 2 ) {
-        //REVIEW: Use vector.distance( otherVector ). It's faster and easier
-        this.pathDistance += pathPoint.minus( this.pathPoints[ this.pathPoints.length - 2 ] ).magnitude;
+        this.pathDistance += pathPoint.distance( this.pathPoints[ this.pathPoints.length - 2 ] );
       }
 
       // Remove points from the path as the path gets too long

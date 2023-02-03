@@ -14,7 +14,6 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import soundConstants from '../../../../tambo/js/soundConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 
-//REVIEW: This organization around imports might get messed up by automatic IDE handling, careful!
 // Bodies sounds
 import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
 import Bodies_Strings_e3_mp3 from '../../../sounds/Bodies_Strings_e3_mp3.js';
@@ -53,6 +52,7 @@ const allSounds = [
 ];
 
 //REVIEW: Has this been decided on?
+//ANSWER: Not yet, but I think it's a good idea to have a single place where all the sounds are defined.
 const METRONOME = [ 7, 0, 0, 0, 0, 0 ]; // METRONOME
 // const METRONOME = [ 4, 2, 0, 2, 4, 4 ]; // ADDITIONAL
 // const METRONOME = [ 0, 2, 4, 5, 7, 9 ]; // SCALE
@@ -60,6 +60,7 @@ const METRONOME = [ 7, 0, 0, 0, 0, 0 ]; // METRONOME
 // const METRONOME = [ 0, 3, 5, 6, 7, 10 ]; // BLUES_SCALE
 
 //REVIEW: providedOptions never used, so presumably this can go away. Do we need a tandem?
+//ANSWER: Maybe eventually for PhetIO, no?
 export type BodySoundsManagerOptions = {
   tandem?: Tandem;
 };
@@ -67,9 +68,9 @@ export type BodySoundsManagerOptions = {
 export default class BodySoundManager {
   private readonly model: CommonModel;
   public readonly bodySoundGenerators: SoundClip[];
-  public readonly bodyNumberSoundClips: SoundClip[]; //REVIEW: Why public?
-  public readonly collisionSoundClips: SoundClip[]; //REVIEW: Why public?
-  public readonly metronomeSoundClips: SoundClip[]; //REVIEW: Why public?
+  private readonly bodyNumberSoundClips: SoundClip[];
+  private readonly collisionSoundClips: SoundClip[];
+  private readonly metronomeSoundClips: SoundClip[];
 
   //REVIEW: providedOptions never used!!!
   public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {

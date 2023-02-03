@@ -1,9 +1,10 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * Logic for Center of Mass class
- * REVIEW: What does it represent, and why does it exist? The above line doesn't help much
- * 
+ * Logic for Center of Mass class.
+ * It keeps track of the position of the Center of Mass of the system by
+ * calculating the average position of all the bodies, weighted by their mass.
+ *
  * @author Agustín Vallejo
  */
 
@@ -43,9 +44,7 @@ export default class CenterOfMass {
     //REVIEW: down. If performance is a concern, consider using a for loop instead.
 
     // Total Mass must be calculated before calculating the weighted mean position and velocity
-    //REVIEW: const totalMass = _.sum( this.bodies.map( body => body.massProperty.value ) );
-    //REVIEW: replaces two lines, if performance is not a concern.
-    this.bodies.forEach( body => { totalMass += body.massProperty.value; } );
+    totalMass = _.sum( this.bodies.map( body => body.massProperty.value ) );
 
     this.bodies.forEach( body => {
       assert && assert( totalMass !== 0, 'Total mass should not go to 0' );

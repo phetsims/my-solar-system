@@ -64,8 +64,6 @@ export default class ExplosionNode extends Path {
       easing: Easing.QUADRATIC_IN
     } );
 
-    //REVIEW: Can this commented-out line be removed?
-    // firstAnimation.finishEmitter.addListener( () => { node.detach(); } );
     firstAnimation.then( secondAnimation );
     firstAnimation.start();
     secondAnimation.finishEmitter.addListener( () => {

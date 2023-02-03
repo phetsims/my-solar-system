@@ -85,8 +85,6 @@ class CommonScreenView extends ScreenView {
       } );
 
     // Add the node for the overlay grid, setting its visibility based on the model.showGridProperty
-    //REVIEW: What is this commented out code for?
-    // const gridNode = new GridNode( scene.transformProperty, scene.gridSpacing, scene.gridCenter, 28 );
     this.interfaceLayer.addChild( new GridNode(
       this.modelViewTransformProperty,
       MySolarSystemConstants.GRID.spacing,
@@ -167,8 +165,6 @@ class CommonScreenView extends ScreenView {
           listener: () => { model.timeProperty.value = 0; },
           maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
-          //REVIEW: Why is this commented out?
-          // layoutOptions: { align: 'right', stretch: true },
           touchAreaXDilation: 10,
           touchAreaYDilation: 10
         } )

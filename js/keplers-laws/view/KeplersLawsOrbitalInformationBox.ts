@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { AlignBox, Font, HBox, HBoxOptions, Image, Node, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, HBoxOptions, Image, Node, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -25,6 +25,7 @@ import semiaxisIcon_png from '../../../images/semiaxisIcon_png.js';
 import eccentricityIcon_png from '../../../images/eccentricityIcon_png.js';
 import fociIcon_png from '../../../images/fociIcon_png.js';
 import stringsIcon_png from '../../../images/stringsIcon_png.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 // Const
 const ICON_OPTIONS = {
@@ -52,9 +53,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
 
     const dialog = new Dialog( new Node(), {
       titleAlign: 'center',
-      //REVIEW: In general, PhetFont should be used in sims, not Font, unless there was a very explicit decision about
-      //REVIEW: a custom font to be used
-      title: new Text( 'Title', { font: new Font( { size: 32 } ) } ),
+      title: new Text( 'Title', { font: new PhetFont( 32 ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );
 

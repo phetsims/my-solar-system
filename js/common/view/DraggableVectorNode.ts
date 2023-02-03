@@ -51,19 +51,15 @@ export default class DraggableVectorNode extends VectorNode {
 
     // a circle with text (a character) in the center, to help indicate what it represents
     // ("v" for velocity in this sim)
-    //REVIEW: Why an ellipse when the radii are the same? Perhaps use the circle method?
-    const ellipse = Shape.ellipse( 0, 0, 18, 18, 0 );
-    const grabArea = new Path( ellipse, {
+    const circle = Shape.circle( 0, 0, 18 );
+    const grabArea = new Path( circle, {
       lineWidth: 3,
       stroke: Color.lightGray,
       cursor: 'pointer'
     } );
 
     const text = new Text( labelText, {
-      //REVIEW: anti-pattern, put the { size: 22, weight: 'bold' } in the options to PhetFont instead of using fontWeight
-      //REVIEW: otherwise it implicitly depends on the specific order in which these are executed (which is fragile)
-      font: new PhetFont( 22 ),
-      fontWeight: 'bold',
+      font: new PhetFont( { size: 22, weight: 'bold' } ),
       fill: Color.gray,
       maxWidth: 25
     } );
