@@ -47,11 +47,25 @@ class KeplersLawsScreenView extends CommonScreenView {
 
     super( model, options );
 
+    const modelDragBoundsProperty = new DerivedProperty( [
+      this.visibleBoundsProperty,
+      this.modelViewTransformProperty
+    ], ( visibleBounds, modelViewTransform ) => {
+      const viewBounds = modelViewTransform.viewToModelBounds( visibleBounds );
+
+      return viewBounds;
+    } );
 
     const sun = model.bodies[ 0 ];
     const body = model.bodies[ 1 ];
-    const sunNode = new BodyNode( model.bodies[ 0 ], this.modelViewTransformProperty, { draggable: false } );
-    const bodyNode = new BodyNode( body, this.modelViewTransformProperty );
+    const sunNode = new BodyNode( model.bodies[ 0 ], this.modelViewTransformProperty, {
+      draggable: false,
+      dragBoundsProperty: modelDragBoundsProperty
+    } );
+    const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
+      valuesVisibleProperty: model.valuesVisibleProperty,
+      dragBoundsProperty: modelDragBoundsProperty
+    } );
     this.bodiesLayer.addChild( sunNode );
     this.bodiesLayer.addChild( bodyNode );
 

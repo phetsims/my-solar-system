@@ -33,8 +33,6 @@ class Body {
   // Collision handling
   public readonly collidedEmitter = new TinyEmitter();
 
-  public valueVisibleProperty: TReadOnlyProperty<boolean> | null;
-
   // Not resettable, common model will handle. Determines if the body is currently on-screen
   public readonly isActiveProperty = new BooleanProperty( false );
 
@@ -58,7 +56,6 @@ class Body {
     this.accelerationProperty = new Vector2Property( Vector2.ZERO );
     this.forceProperty = new Vector2Property( Vector2.ZERO );
     this.colorProperty = colorProperty;
-    this.valueVisibleProperty = null;
 
     this.radiusProperty = new DerivedProperty( [ this.massProperty ], mass => Body.massToRadius( mass ) );
 

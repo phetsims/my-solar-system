@@ -22,14 +22,18 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import ExplosionNode from './ExplosionNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   draggable?: boolean;
+
+  dragBoundsProperty?: TReadOnlyProperty<Bounds2>;
+
+  valuesVisibleProperty?: TReadOnlyProperty<boolean>;
 
   //REVIEW: There seems to be a lot here that is copying a bad pattern in MeasuringTapeNode. I don't recommend these
   //REVIEW: patterns, since nested options objects would be preferred, e.g. { textOptions: TextOptions, backgroundOptions: RectangleOptions }
@@ -88,12 +92,6 @@ export default class BodyNode extends ShadedSphereNode {
   private readonly valueContainer: Node; // parent that displays the text and its background
   private readonly bodyNodeDispose: () => void;
 
-  //REVIEW: This ideally shouldn't be something we're exposing to be modified by other sources. Instead the one case where
-  //REVIEW: it's used, please just pass in a dragBoundsProperty in constructor options. Then it won't require all of the
-  //REVIEW: mutation logic, and we won't create a Property here that we don't modify. IF this type of pattern is ever
-  //REVIEW: needed in the future, we should also document that we're exposing this TO be modified by external sources.
-  public readonly dragBoundsProperty = new Property( Bounds2.EVERYTHING );
-
   //REVIEW: radiusProperty also not used outside the constructor. Make it a local variable instead, we don't need a field
   private readonly radiusProperty = new NumberProperty( 0 );
 
@@ -102,6 +100,10 @@ export default class BodyNode extends ShadedSphereNode {
       draggable: true,
 
       mainColor: body.colorProperty,
+
+      dragBoundsProperty: new Property( Bounds2.EVERYTHING ),
+
+      valuesVisibleProperty: new BooleanProperty( false ),
 
       // Text Options
       //REVIEW: This documentation would be better in general in the SelfOptions. It shouldn't talk about the field
@@ -158,7 +160,7 @@ export default class BodyNode extends ShadedSphereNode {
       } );
 
     //REVIEW: Don't use a radiusProperty on this instance. Just use the radiusProperty on the body.
-    const erodedDragBoundsProperty = new DerivedProperty( [ this.dragBoundsProperty, this.radiusProperty ], ( dragBounds, radius ) => {
+    const erodedDragBoundsProperty = new DerivedProperty( [ options.dragBoundsProperty, this.radiusProperty ], ( dragBounds, radius ) => {
       return dragBounds.eroded( radius );
     } );
 
@@ -224,8 +226,7 @@ export default class BodyNode extends ShadedSphereNode {
     //REVIEW: No need to have even a local variable for this, inline it in addChild?
     this.valueContainer = new Node( {
       children: [ this.valueBackgroundNode, this.valueNode ],
-      // TODO:
-      visibleProperty: body.valueVisibleProperty ? body.valueVisibleProperty : new BooleanProperty( false ),
+      visibleProperty: options.valuesVisibleProperty,
       center: options.textPosition
     } );
     this.addChild( this.valueContainer );
@@ -238,8 +239,7 @@ export default class BodyNode extends ShadedSphereNode {
     this.body.collidedEmitter.addListener( bodyCollisionListener );
 
     this.bodyNodeDispose = () => {
-      //REVIEW: missing dispose() of erodedDragBoundsProperty, we'll want that when it's listening to external things
-      //REVIEW: like the radiusProperty of the body.
+      erodedDragBoundsProperty.dispose();
 
       positionMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );

@@ -154,8 +154,6 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
         this.bodySoundManager.playBodyRemovedSound( 2 );
       } );
 
-      body.valueVisibleProperty = this.valuesVisibleProperty;
-
       Multilink.lazyMultilink(
         [ body.userControlledPositionProperty, body.userControlledVelocityProperty, body.userControlledMassProperty ],
         ( userControlledPosition: boolean, userControlledVelocity: boolean, userControlledMass: boolean ) => {

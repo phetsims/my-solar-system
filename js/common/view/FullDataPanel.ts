@@ -9,7 +9,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, AlignGroup, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
@@ -26,31 +26,13 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 // vertical height of each title-label across screens, regardless of their scaling.
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
-type SelfOptions = {
-  // ANSWER: All these are used down below!
-  //REVIEW: I don't see this option ever being used, can it be removed?
-  bodyIconColumnSpacing?: number;
-
-  //REVIEW: I don't see this option ever being used, can it be removed?
-  componentColumnsSpacing?: number;
-
-  //REVIEW: I don't see this option ever being used, can it be removed?
-  columnGroupSpacing?: number;
-
-  //REVIEW: I don't see this option ever being used, can it be removed?
-  titleLabelSpacing?: number;
-};
+type SelfOptions = EmptySelfOptions;
 
 export type FullDataPanelOptions = PanelOptions & SelfOptions;
 
 export default class FullDataPanel extends Panel {
   public constructor( model: CommonModel, providedOptions?: FullDataPanelOptions ) {
     const options = optionize<FullDataPanelOptions, SelfOptions, PanelOptions>()( {
-      bodyIconColumnSpacing: 12,   // {number} - x-spacing between the ball-icons and the first column.
-      componentColumnsSpacing: 12, // {number} - x-spacing between the x and y components of NumberDisplay columns.
-      columnGroupSpacing: 21,      // {number} - x-spacing between each group of columns.
-      titleLabelSpacing: 0.5,      // {number} - y-margin between the column groups and the title-labels above them.
-
       fill: MySolarSystemColors.controlPanelFillProperty,
 
       xMargin: 12
@@ -66,8 +48,9 @@ export default class FullDataPanel extends Panel {
     const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y );
     const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS );
 
-    const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: options.componentColumnsSpacing } );
-    const velocityColumnGroup = new HBox( { children: [ velocityXColumnNode, velocityYColumnNode ], spacing: options.componentColumnsSpacing } );
+    const componentColumnsSpacing = 12;
+    const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: componentColumnsSpacing } );
+    const velocityColumnGroup = new HBox( { children: [ velocityXColumnNode, velocityYColumnNode ], spacing: componentColumnsSpacing } );
     //----------------------------------------------------------------------------------------
 
     // Convenience function to create the title-label that appears above each column group.
@@ -106,7 +89,7 @@ export default class FullDataPanel extends Panel {
           // If the group is a grouping of component columns, wrap the column group in an align group to match width.
           isComponentColumnGroup ? COMPONENT_COLUMN_GROUP_ALIGN_GROUP.createBox( columnGroup ) : columnGroup
         ],
-        spacing: options.titleLabelSpacing
+        spacing: 0.5
       } );
     };
 
@@ -115,6 +98,8 @@ export default class FullDataPanel extends Panel {
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup );
 
+    const columnGroupSpacing = 21;
+
     // The content of the entire Panel when "More Data" is checked.
     const moreDataBox = new HBox( {
       children: [
@@ -122,7 +107,7 @@ export default class FullDataPanel extends Panel {
         velocitySectionNode
       ],
       bottom: 0,
-      spacing: options.columnGroupSpacing
+      spacing: columnGroupSpacing
     } );
 
     // The content of the entire Panel when "More Data" is not checked.
@@ -134,7 +119,7 @@ export default class FullDataPanel extends Panel {
       ],
       bottom: 0,
       grow: 1,
-      spacing: options.columnGroupSpacing
+      spacing: columnGroupSpacing
     } );
 
     moreDataBox.boundsProperty.link( bounds => {
@@ -156,7 +141,7 @@ export default class FullDataPanel extends Panel {
     } );
 
     super( new HBox( {
-      spacing: options.bodyIconColumnSpacing,
+      spacing: 12,
       children: [ ballIconsColumnNode, massSectionNode, dataNode ],
       align: 'bottom'
     } ), options );
