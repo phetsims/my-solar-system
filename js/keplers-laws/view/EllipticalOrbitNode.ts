@@ -42,20 +42,22 @@ export default class EllipticalOrbitNode extends Path {
     // Text Nodes
     const aLabelNode = new Text( 'a', combineOptions<TextOptions>( {
       visibleProperty: DerivedProperty.or(
-        [ model.semiaxisVisibleProperty, model.semimajorAxisVisibleProperty ]
+        [ model.semiaxisVisibleProperty, model.semimajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
       ),
       scale: 1.5,
-      stroke: 'orange'
+      stroke: 'orange',
+      fill: 'orange'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
     const bLabelNode = new Text( 'b', combineOptions<TextOptions>( {
       visibleProperty: model.semiaxisVisibleProperty,
       scale: 1.5,
-      stroke: 'orange'
+      stroke: 'orange',
+      fill: 'orange'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
     const cLabelNode = new Text( 'c', combineOptions<TextOptions>( {
       visibleProperty: new DerivedProperty(
         [
-          model.semiaxisVisibleProperty,
+          model.eccentricityVisibleProperty,
           model.engine.eccentricityProperty
         ],
         ( visible, e ) => {
@@ -109,7 +111,9 @@ export default class EllipticalOrbitNode extends Path {
     const axisPath = new Path( null, {
       stroke: MySolarSystemColors.foregroundProperty,
       lineWidth: 2,
-      visibleProperty: model.axisVisibleProperty
+      visibleProperty: DerivedProperty.or(
+        [ model.axisVisibleProperty, model.semimajorAxisVisibleProperty ]
+      )
     } );
     const semiAxisPath = new Path( null, {
       stroke: 'orange',
@@ -119,7 +123,7 @@ export default class EllipticalOrbitNode extends Path {
     const focalDistancePath = new Path( null, {
       stroke: 'cyan',
       lineWidth: 3,
-      visibleProperty: model.semiaxisVisibleProperty
+      visibleProperty: model.eccentricityVisibleProperty
     } );
     const stringsPath = new Path( null, {
       stroke: '#ccb285',
@@ -192,7 +196,9 @@ export default class EllipticalOrbitNode extends Path {
     const semiMajorAxisPath = new Path( null, {
       stroke: 'orange',
       lineWidth: 3,
-      visibleProperty: model.semimajorAxisVisibleProperty
+      visibleProperty: DerivedProperty.or(
+        [ model.semiaxisVisibleProperty, model.semimajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
+      )
     } );
 
     // Text Nodes
@@ -321,7 +327,7 @@ export default class EllipticalOrbitNode extends Path {
 
         // THIRD LAW -------------------------------------------
         // Semi-major axis
-        semiMajorAxisPath.shape = new Shape().moveTo( -radiusX, 0 ).lineTo( radiusX, 0 );
+        semiMajorAxisPath.shape = new Shape().moveTo( 0, 0 ).lineTo( -radiusX, 0 );
       } );
     };
 

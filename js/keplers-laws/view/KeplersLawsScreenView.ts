@@ -166,7 +166,7 @@ class KeplersLawsScreenView extends CommonScreenView {
     const distancesDisplayBox = new AlignBox( new DistancesDisplayNode( model, this.modelViewTransformProperty ), {
       margin: MySolarSystemConstants.MARGIN,
       xAlign: 'center',
-      yAlign: 'bottom'
+      yAlign: 'top'
     } );
 
     this.visibleBoundsProperty.link( visibleBounds => {
@@ -180,7 +180,7 @@ class KeplersLawsScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( lawsAndZoomBoxes );
     this.interfaceLayer.addChild( controlPanelAlignBox );
     this.interfaceLayer.addChild( lawsButtonsBox );
-    this.interfaceLayer.addChild( distancesDisplayBox );
+    this.bottomLayer.addChild( distancesDisplayBox );
   }
 }
 

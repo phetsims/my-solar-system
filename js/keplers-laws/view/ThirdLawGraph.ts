@@ -86,12 +86,12 @@ export default class ThirdLawGraph extends Node {
       xAxisLabel = new RichText(
         axisText,
         combineOptions<RichTextOptions>( {
-          x: axisLength * 0.4, y: 30
+          x: axisLength * 0.4, y: 25
         }, MySolarSystemConstants.TITLE_OPTIONS ) );
       yAxisLabel = new RichText(
         periodText,
         combineOptions<RichTextOptions>( {
-          x: -30, y: -axisLength * 0.4
+          x: -25, y: -axisLength * 0.4
         }, MySolarSystemConstants.TITLE_OPTIONS ) );
       this.children = [
         xAxis,

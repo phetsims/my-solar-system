@@ -18,6 +18,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 const DISTANCE_LABEL_OPTIONS = combineOptions<TextOptions>( {
   scale: 1.5,
@@ -55,6 +56,55 @@ export default class DistancesDisplayNode extends VBox {
       tailLineWidth: 3
     };
 
+    const stringLabelNode1 = new RichText( '', DISTANCE_LABEL_OPTIONS );
+    const stringLabelNode2 = new RichText( '', DISTANCE_LABEL_OPTIONS );
+
+    const d1lineArrowNode = new LineArrowNode( 0, 0, 0, 1, STRING_ARROW_OPTIONS );
+    const d2lineArrowNode = new LineArrowNode( 0, 0, 0, 1, STRING_ARROW_OPTIONS );
+
+    const aLineArrowNode1 = new LineArrowNode( 0, 0, 0, 1, MAJOR_AXIS_ARROW_OPTIONS );
+    const aLineArrowNode2 = new LineArrowNode( 0, 0, 0, 1, MAJOR_AXIS_ARROW_OPTIONS );
+
+
+    const focalStringsBox = new HBox( {
+      children: [
+        new VBox( {
+          children: [
+            stringLabelNode1,
+            d1lineArrowNode
+          ]
+        } ),
+        new VBox( {
+          children: [
+            stringLabelNode2,
+            d2lineArrowNode
+          ]
+        } )
+      ]
+    } );
+
+    const majorAxisBox = new HBox( {
+      children: [
+        new VBox( {
+          children: [
+            aLineArrowNode1,
+            new RichText( MySolarSystemStrings.semimajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
+          ]
+        } ),
+        new VBox( {
+          children: [
+            aLineArrowNode2,
+            new RichText( MySolarSystemStrings.semimajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
+          ]
+        } )
+      ]
+    } );
+
+    this.children = [
+      focalStringsBox,
+      majorAxisBox
+    ];
+
     const updateDistances = () => {
       const a = this.orbit.a;
       const e = this.orbit.e;
@@ -66,50 +116,17 @@ export default class DistancesDisplayNode extends VBox {
       const d1Length = bodyPosition.magnitude * scale;
       const d2Length = bodyPosition.plusXY( 2 * c, 0 ).magnitude * scale;
 
-      const stringLabelNode1 = new RichText( this.orbit.eccentricityProperty.value === 0 ? 'R' : 'd<sub>1', DISTANCE_LABEL_OPTIONS );
-      const stringLabelNode2 = new RichText( this.orbit.eccentricityProperty.value === 0 ? 'R' : 'd<sub>2', DISTANCE_LABEL_OPTIONS );
+      stringLabelNode1.setString( this.orbit.eccentricityProperty.value === 0 ? 'R' : 'd<sub>1' );
+      stringLabelNode2.setString( this.orbit.eccentricityProperty.value === 0 ? 'R' : 'd<sub>2' );
 
       stringLabelNode1.x = -d2Length / 2;
       stringLabelNode2.x = d1Length / 2;
 
-      const focalStringsBox = new HBox( {
-        children: [
-          new VBox( {
-            children: [
-              stringLabelNode1,
-              new LineArrowNode( 0, 0, d1Length, 0, STRING_ARROW_OPTIONS )
-            ]
-          } ),
-          new VBox( {
-            children: [
-              stringLabelNode2,
-              new LineArrowNode( 0, 0, -d2Length, 0, STRING_ARROW_OPTIONS )
-            ]
-          } )
-        ]
-      } );
+      d1lineArrowNode.setTailAndTip( 0, 0, d1Length, 0 );
+      d2lineArrowNode.setTailAndTip( 0, 0, -d2Length, 0 );
 
-      const majorAxisBox = new HBox( {
-        children: [
-          new VBox( {
-            children: [
-              new LineArrowNode( 0, 0, a * scale, 0, MAJOR_AXIS_ARROW_OPTIONS ),
-              new RichText( 'a', DISTANCE_LABEL_OPTIONS )
-            ]
-          } ),
-          new VBox( {
-            children: [
-              new LineArrowNode( 0, 0, -a * scale, 0, MAJOR_AXIS_ARROW_OPTIONS ),
-              new RichText( 'a', DISTANCE_LABEL_OPTIONS )
-            ]
-          } )
-        ]
-      } );
-
-      this.children = [
-        focalStringsBox,
-        majorAxisBox
-      ];
+      aLineArrowNode1.setTailAndTip( 0, 0, a * scale, 0 );
+      aLineArrowNode2.setTailAndTip( 0, 0, -a * scale, 0 );
     };
 
     updateDistances();
