@@ -113,12 +113,16 @@ type StringsType = {
     't': string;
     'tStringProperty': LinkableProperty<string>;
   };
-  'semimajorAxis': string;
-  'semimajorAxisStringProperty': LinkableProperty<string>;
+  'semiMajorAxis': string;
+  'semiMajorAxisStringProperty': LinkableProperty<string>;
   'period': string;
   'periodStringProperty': LinkableProperty<string>;
-  'semimajorAxisSymbol': string;
-  'semimajorAxisSymbolStringProperty': LinkableProperty<string>;
+  'semiMajorAxisSymbol': string;
+  'semiMajorAxisSymbolStringProperty': LinkableProperty<string>;
+  'semiMinorAxisSymbol': string;
+  'semiMinorAxisSymbolStringProperty': LinkableProperty<string>;
+  'focalDistanceSymbol': string;
+  'focalDistanceSymbolStringProperty': LinkableProperty<string>;
   'periodSymbol': string;
   'periodSymbolStringProperty': LinkableProperty<string>;
   'mode': {
@@ -176,6 +180,8 @@ type StringsType = {
     'velocityValueUnitsStringProperty': LinkableProperty<string>;
     'textValueUnits': string;
     'textValueUnitsStringProperty': LinkableProperty<string>;
+    'textEqualsValueUnits': string;
+    'textEqualsValueUnitsStringProperty': LinkableProperty<string>;
     'rangeWithUnits': string;
     'rangeWithUnitsStringProperty': LinkableProperty<string>;
     'range': string;

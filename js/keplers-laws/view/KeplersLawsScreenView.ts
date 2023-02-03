@@ -10,15 +10,15 @@ import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import KeplersLawsControls from './KeplersLawsControls.js';
-import SecondLawPanel from './SecondLawPanel.js';
+import SecondLawPanels from './SecondLawPanels.js';
 import BodyNode from '../../common/view/BodyNode.js';
 import EllipticalOrbitNode from './EllipticalOrbitNode.js';
-import ThirdLawPanel from './ThirdLawPanel.js';
+import ThirdLawPanels from './ThirdLawPanels.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView, { CommonScreenViewOptions } from '../../common/view/CommonScreenView.js';
 import LawsButtons from './LawsButtons.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
-import FirstLawPanel from './FirstLawPanel.js';
+import FirstLawPanels from './FirstLawPanels.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -107,9 +107,9 @@ class KeplersLawsScreenView extends CommonScreenView {
 
     const lawsAndZoomBoxes = new AlignBox( new HBox( {
         children: [
-          new FirstLawPanel( model ),
-          new SecondLawPanel( model ),
-          new ThirdLawPanel( model )
+          new FirstLawPanels( model ),
+          new SecondLawPanels( model ),
+          new ThirdLawPanels( model )
           // NOTE: CODE TEMPORARILY COMMENTED OUT, AWAITING DESIGN DECISION
           // new MagnifyingGlassZoomButtonGroup(
           //   model.zoomLevelProperty, {

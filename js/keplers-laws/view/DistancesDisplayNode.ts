@@ -88,13 +88,13 @@ export default class DistancesDisplayNode extends VBox {
         new VBox( {
           children: [
             aLineArrowNode1,
-            new RichText( MySolarSystemStrings.semimajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
+            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
           ]
         } ),
         new VBox( {
           children: [
             aLineArrowNode2,
-            new RichText( MySolarSystemStrings.semimajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
+            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
           ]
         } )
       ]

@@ -132,19 +132,25 @@
     "value": "Graph (a vs T)"
   },
   "graph.a": {
-    "value": "Semimajor Axis (a)"
+    "value": "Semi-major Axis (a)"
   },
   "graph.t": {
     "value": "Period (T)"
   },
-  "semimajorAxis": {
-    "value": "Semimajor Axis"
+  "semiMajorAxis": {
+    "value": "Semi-major Axis"
   },
   "period": {
     "value": "Period"
   },
-  "semimajorAxisSymbol": {
+  "semiMajorAxisSymbol": {
     "value": "a"
+  },
+  "semiMinorAxisSymbol": {
+    "value": "b"
+  },
+  "focalDistanceSymbol": {
+    "value": "c"
   },
   "periodSymbol": {
     "value": "T"
@@ -221,6 +227,9 @@
   },
   "pattern.textValueUnits": {
     "value": "{{text}} {{value}} {{units}}"
+  },
+  "pattern.textEqualsValueUnits": {
+    "value": "{{text}} = {{value}} {{units}}"
   },
   "pattern.rangeWithUnits": {
     "value": "{{min}} to {{max}} {{units}}"

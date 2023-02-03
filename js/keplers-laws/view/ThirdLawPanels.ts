@@ -15,28 +15,16 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ThirdLawGraph from './ThirdLawGraph.js';
 import ThirdLawSliderPanel from './ThirdLawSliderPanel.js';
-
-
-const STRING_PATTERN_OPTIONS: NumberDisplayOptions = {
-  backgroundFill: null,
-  backgroundStroke: null,
-  textOptions: MySolarSystemConstants.TEXT_OPTIONS,
-  decimalPlaces: 1,
-  useRichText: true,
-  layoutOptions: {
-    align: 'left'
-  }
-};
+import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextNumberDisplay.js';
 
 export type PanelThirdLawOptions = PanelOptions;
 
-export default class ThirdLawPanel extends VBox {
+export default class ThirdLawPanels extends VBox {
   public constructor( model: KeplersLawsModel ) {
     super( {
       margin: 5,
@@ -61,9 +49,9 @@ class ThirdLawMainPanel extends Panel {
     const semiMajorAxisValueRange = new RangeWithValue( 1, 10000, model.engine.a );
     const periodValueRange = new RangeWithValue( 1, 10000, model.engine.T );
 
-    const semimajorAxisStringPattern = new PatternStringProperty( MySolarSystemStrings.pattern.textValueUnitsStringProperty, {
+    const semiMajorAxisStringPattern = new PatternStringProperty( MySolarSystemStrings.pattern.textValueUnitsStringProperty, {
       text: new DerivedProperty(
-        [ MySolarSystemStrings.semimajorAxisSymbolStringProperty, model.selectedAxisPowerProperty ],
+        [ MySolarSystemStrings.semiMajorAxisSymbolStringProperty, model.selectedAxisPowerProperty ],
         ( a, power ) => a + ( power === 1 ? '' : `<sup>${power}</sup>` ) + ' =' ),
       units: new DerivedProperty(
         [ MySolarSystemStrings.units.AUStringProperty, model.selectedAxisPowerProperty ],
@@ -142,19 +130,24 @@ class ThirdLawMainPanel extends Panel {
           ],
           spacing: 10
         } ),
-        new NumberDisplay( model.poweredSemimajorAxisProperty, semiMajorAxisValueRange,
-          combineOptions<NumberDisplayOptions>( {
-            valuePattern: semimajorAxisStringPattern,
+        new MySolarSystemTextNumberDisplay(
+          model.poweredSemiMajorAxisProperty,
+          semiMajorAxisValueRange,
+          {
+            valuePattern: semiMajorAxisStringPattern,
             align: 'left'
-          }, STRING_PATTERN_OPTIONS ) ),
-        new NumberDisplay( model.poweredPeriodProperty, periodValueRange,
-          combineOptions<NumberDisplayOptions>( {
+          }
+        ),
+        new MySolarSystemTextNumberDisplay(
+          model.poweredPeriodProperty,
+          periodValueRange,
+          {
             valuePattern: periodStringPattern,
             align: 'left'
-          }, STRING_PATTERN_OPTIONS ) )
+          } )
       ]
     } ), options );
   }
 }
 
-mySolarSystem.register( 'ThirdLawPanel', ThirdLawPanel );
+mySolarSystem.register( 'ThirdLawPanels', ThirdLawPanels );

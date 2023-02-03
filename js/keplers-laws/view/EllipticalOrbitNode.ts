@@ -55,7 +55,7 @@ export default class EllipticalOrbitNode extends Path {
     // Text Nodes
     const aLabelNode = new Text( 'a', combineOptions<TextOptions>( {
       visibleProperty: DerivedProperty.or(
-        [ model.semiaxisVisibleProperty, model.semimajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
+        [ model.semiaxisVisibleProperty, model.semiMajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
       ),
       scale: 1.5,
       stroke: 'orange',
@@ -125,7 +125,7 @@ export default class EllipticalOrbitNode extends Path {
       stroke: MySolarSystemColors.foregroundProperty,
       lineWidth: 2,
       visibleProperty: DerivedProperty.or(
-        [ model.axisVisibleProperty, model.semimajorAxisVisibleProperty ]
+        [ model.axisVisibleProperty, model.semiMajorAxisVisibleProperty ]
       )
     } );
     const semiAxisPath = new Path( null, {
@@ -205,12 +205,12 @@ export default class EllipticalOrbitNode extends Path {
     orbitDivisions.forEach( node => { orbitDivisionsNode.addChild( node ); } );
     areaPaths.forEach( node => { areaPathsNode.addChild( node ); } );
 
-    // THIRD LAW: Semimajor axis
+    // THIRD LAW: SemiMajor axis
     const semiMajorAxisPath = new Path( null, {
       stroke: 'orange',
       lineWidth: 3,
       visibleProperty: DerivedProperty.or(
-        [ model.semiaxisVisibleProperty, model.semimajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
+        [ model.semiaxisVisibleProperty, model.semiMajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
       )
     } );
 
@@ -235,7 +235,7 @@ export default class EllipticalOrbitNode extends Path {
     secondLawLayer.addChild( apoapsis );
     secondLawLayer.addChild( orbitDivisionsNode );
 
-    // Third Law: Semimajor axis
+    // Third Law: SemiMajor axis
     thirdLawLayer.addChild( semiMajorAxisPath );
 
     this.topLayer.addChild( foci[ 0 ] );
@@ -246,14 +246,17 @@ export default class EllipticalOrbitNode extends Path {
       this.lineDash = this.orbit.allowedOrbitProperty.value ? [ 0 ] : [ 5 ];
 
       const scale = modelViewTransformProperty.value.modelToViewDeltaX( 1 );
+
+      // Ellipse distances in model coordinates
       const a = this.orbit.a;
+      const b = this.orbit.b;
+      const c = this.orbit.c;
       const e = this.orbit.e;
-      const c = e * a;
       const center = new Vector2( -c, 0 ).times( scale );
 
-      const radiusC = scale * c; // Focal point
       const radiusX = scale * a;
-      const radiusY = scale * Math.sqrt( a * a - c * c );
+      const radiusY = scale * b;
+      const radiusC = scale * c; // Focal point
 
       const applyTransformation = ( point: Node ) => {
         point.translation = modelViewTransformProperty.value.modelToViewPosition( center.times( 1 / scale ) );

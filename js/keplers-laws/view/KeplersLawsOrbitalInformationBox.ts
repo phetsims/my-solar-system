@@ -149,9 +149,9 @@ class KeplersLawsOrbitalInformationBox extends VBox {
 
     const thirdLawChildren = [
       createCheckbox(
-        model.semimajorAxisVisibleProperty,
+        model.semiMajorAxisVisibleProperty,
         MySolarSystemStrings.graph.aStringProperty,
-        'semimajorAxisVisibleCheckbox'
+        'semiMajorAxisVisibleCheckbox'
         // axisIconImageNode TODO
       ),
       createCheckbox(

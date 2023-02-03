@@ -22,22 +22,22 @@ export default class ThirdLawGraph extends Node {
   public constructor( model: KeplersLawsModel, orbit: EllipticalOrbitEngine, providedOptions?: NodeOptions ) {
     super( providedOptions );
 
-    const semimajorAxisToPeriod = ( axis: number ) => {
+    const semiMajorAxisToPeriod = ( axis: number ) => {
       return Math.pow( axis * model.engine.sunMassProperty.value, 3 / 2 );
     };
 
     const axisLength = 120;
 
-    const semimajorAxisToViewPoint = ( semimajorAxis: number ) => {
-      const period = semimajorAxisToPeriod( semimajorAxis );
+    const semiMajorAxisToViewPoint = ( semiMajorAxis: number ) => {
+      const period = semiMajorAxisToPeriod( semiMajorAxis );
       const periodPower = model.selectedPeriodPowerProperty.value;
       const axisPower = model.selectedAxisPowerProperty.value;
 
       return new Vector2(
         axisLength * Math.pow( Utils.linear(
-                     0, maxSemimajorAxis,
+                     0, maxSemiMajorAxis,
                      0, 1,
-                     semimajorAxis ), axisPower ),
+                     semiMajorAxis ), axisPower ),
         -axisLength * Math.pow( Utils.linear(
                       0, maxPeriod,
                       0, 1,
@@ -57,8 +57,8 @@ export default class ThirdLawGraph extends Node {
       tailWidth: 1
     } );
 
-    const maxSemimajorAxis = 500;
-    const maxPeriod = semimajorAxisToPeriod( maxSemimajorAxis );
+    const maxSemiMajorAxis = 500;
+    const maxPeriod = semiMajorAxisToPeriod( maxSemiMajorAxis );
 
     const dataPoint = new Circle( 5, {
       fill: 'red'
@@ -89,8 +89,8 @@ export default class ThirdLawGraph extends Node {
     ];
 
     const orbitUpdated = () => {
-      dataPoint.translation = semimajorAxisToViewPoint( orbit.a );
-      dataPoint.visible = orbit.a < maxSemimajorAxis;
+      dataPoint.translation = semiMajorAxisToViewPoint( orbit.a );
+      dataPoint.visible = orbit.a < maxSemiMajorAxis;
 
       const periodPower = model.selectedPeriodPowerProperty.value;
       const axisPower = model.selectedAxisPowerProperty.value;
@@ -109,8 +109,8 @@ export default class ThirdLawGraph extends Node {
       orbitUpdated();
 
       const shape = new Shape().moveTo( 0, 0 );
-      for ( let axis = 0; axis <= maxSemimajorAxis; axis += maxSemimajorAxis / 100 ) {
-        shape.lineToPoint( semimajorAxisToViewPoint( axis ) );
+      for ( let axis = 0; axis <= maxSemiMajorAxis; axis += maxSemiMajorAxis / 100 ) {
+        shape.lineToPoint( semiMajorAxisToViewPoint( axis ) );
       }
       shape.makeImmutable();
 

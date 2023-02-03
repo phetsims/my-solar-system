@@ -157,7 +157,7 @@ export default class BodySoundManager {
     this.collisionSoundClips[ bodyNumber ].play();
   }
 
-  public playOrbitalMetronome( i: number, semimajorAxis: number, divisions: number ): void {
+  public playOrbitalMetronome( i: number, semiMajorAxis: number, divisions: number ): void {
     const smallSound = this.metronomeSoundClips[ 0 ];
     const bigSound = this.metronomeSoundClips[ 2 ];
     const divisionOffset = 1 + divisions / 12;
@@ -165,12 +165,12 @@ export default class BodySoundManager {
     //REVIEW: some documentation here would be helpful
 
     smallSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) * divisionOffset );
-    smallSound.setOutputLevel( Utils.clamp( Utils.linear( 0, 500, 1, 0, semimajorAxis ), 0, 1 ) );
+    smallSound.setOutputLevel( Utils.clamp( Utils.linear( 0, 500, 1, 0, semiMajorAxis ), 0, 1 ) );
     smallSound.play();
 
 
     bigSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) * divisionOffset );
-    bigSound.setOutputLevel( Utils.clamp( Utils.linear( 100, 500, 0, 1, semimajorAxis ), 0, 1 ) );
+    bigSound.setOutputLevel( Utils.clamp( Utils.linear( 100, 500, 0, 1, semiMajorAxis ), 0, 1 ) );
     bigSound.play();
   }
 

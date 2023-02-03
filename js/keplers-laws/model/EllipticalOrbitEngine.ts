@@ -9,7 +9,9 @@
  * v: velocity vector
  * rAngle: heading of r
  * vAngle: heading of v
- * a: semi major axis
+ * a: semi-major axis
+ * b: semi-minor axis
+ * c: focal distance
  * e: eccentricity
  * nu: true anomaly ( angular position of the body seen from main focus )
  * w: argument of periapsis ( angular deviation of periapsis from the 0° heading )
@@ -40,6 +42,8 @@ const TWOPI = 2 * Math.PI;
 class Ellipse {
   public constructor(
     public a: number,
+    public b: number,
+    public c: number,
     public e: number,
     public w: number,
     public M: number,
@@ -86,12 +90,14 @@ export default class EllipticalOrbitEngine extends Engine {
   public retrograde = false;
   public alwaysCircles = false;
 
-  public semimajorAxisProperty = new NumberProperty( 1 );
+  public semiMajorAxisProperty = new NumberProperty( 1 );
   public periodProperty = new NumberProperty( 1 );
   public eccentricityProperty = new NumberProperty( 0 );
 
   // These variable names are letters to compare and read more easily the equations they are in
-  public a = 1;  // semimajor axis
+  public a = 1;  // semi-major axis
+  public b = 0;  // semi-minor axis
+  public c = 0;  // focal distance
   public e = 0;  // eccentricity
   public w = 0;  // argument of periapsis
   public M = 0;  // mean anomaly
@@ -179,9 +185,14 @@ export default class EllipticalOrbitEngine extends Engine {
    */
   public override update(): void {
     const r = this.body.positionProperty.value;
+    this.updateForces( r );
+
+    if ( this.alwaysCircles ) {
+      this.enforceCircularOrbit( r );
+    }
+
     const v = this.body.velocityProperty.value;
     this.L = r.crossScalar( v );
-    this.updateForces( r );
 
     const escaped = this.escapeSpeedExceeded( r, v );
     if ( escaped ) {
@@ -190,12 +201,10 @@ export default class EllipticalOrbitEngine extends Engine {
       this.eccentricityProperty.value = 1;
     }
 
-    if ( this.alwaysCircles ) {
-      this.enforceCircularOrbit( r );
-    }
-
-    const { a, e, w, M, W } = this.calculateEllipse( r, v );
+    const { a, b, c, e, w, M, W } = this.calculateEllipse( r, v );
     this.a = a;
+    this.b = b;
+    this.c = c;
     this.e = e;
     this.w = w;
     this.M = M;
@@ -206,7 +215,7 @@ export default class EllipticalOrbitEngine extends Engine {
     // TODO: Check if the complete form of the third law should be used
     this.T = Math.pow( a, 3 / 2 );
 
-    this.semimajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
+    this.semiMajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
     this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
 
     if ( this.collidedWithSun( a, e ) ) {
@@ -403,8 +412,10 @@ export default class EllipticalOrbitEngine extends Engine {
   private calculateEllipse( r: Vector2, v: Vector2 ): Ellipse {
     const a = this.calculate_a( r, v );
     const e = this.calculate_e( r, v, a );
+    const b = a * Math.sqrt( 1 - e * e );
+    const c = a * e;
     const [ w, M, W ] = this.calculateAngles( r, v, a, e );
-    return new Ellipse( a, e, w, M, W );
+    return new Ellipse( a, b, c, e, w, M, W );
   }
 
   private calculateR( a: number, e: number, nu: number ): number {
@@ -428,7 +439,7 @@ export default class EllipticalOrbitEngine extends Engine {
 
   public override reset(): void {
     this.resetOrbitalAreas();
-    this.a = 1; // semimajor axis
+    this.a = 1; // semiMajor axis
     this.e = 0; // eccentricity
     this.w = 0; // argument of periapsis
     this.M = 0; // mean anomaly

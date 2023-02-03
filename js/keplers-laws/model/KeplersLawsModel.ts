@@ -55,13 +55,13 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly maxDivisionValue = MySolarSystemConstants.MAX_ORBITAL_DIVISIONS;
 
   // Third law properties
-  public readonly semimajorAxisVisibleProperty = new BooleanProperty( false );
+  public readonly semiMajorAxisVisibleProperty = new BooleanProperty( false );
   public readonly periodVisibleProperty = new BooleanProperty( false );
 
   public readonly selectedAxisPowerProperty = new NumberProperty( 1 );
   public readonly selectedPeriodPowerProperty = new NumberProperty( 1 );
 
-  public readonly poweredSemimajorAxisProperty: ReadOnlyProperty<number>;
+  public readonly poweredSemiMajorAxisProperty: ReadOnlyProperty<number>;
   public readonly poweredPeriodProperty: ReadOnlyProperty<number>;
 
   public readonly stopwatch: Stopwatch;
@@ -122,10 +122,10 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.velocityVisibleProperty.value = true;
     this.velocityVisibleProperty.setInitialValue( true );
 
-    // Powered values of semimajor axis and period
-    this.poweredSemimajorAxisProperty = new DerivedProperty(
-      [ this.selectedAxisPowerProperty, this.engine.semimajorAxisProperty ],
-      ( power, semimajorAxis ) => Math.pow( semimajorAxis, power )
+    // Powered values of semiMajor axis and period
+    this.poweredSemiMajorAxisProperty = new DerivedProperty(
+      [ this.selectedAxisPowerProperty, this.engine.semiMajorAxisProperty ],
+      ( power, semiMajorAxis ) => Math.pow( semiMajorAxis, power )
     );
 
     this.poweredPeriodProperty = new DerivedProperty(
@@ -188,7 +188,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.areaGraphVisibleProperty.reset();
 
     // Third Law
-    this.semimajorAxisVisibleProperty.reset();
+    this.semiMajorAxisVisibleProperty.reset();
     this.periodVisibleProperty.reset();
   }
 

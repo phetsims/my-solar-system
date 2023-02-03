@@ -21,7 +21,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SecondLawGraph from './SecondLawGraph.js';
 
-export default class SecondLawPanel extends VBox {
+export default class SecondLawPanels extends VBox {
   public constructor( model: KeplersLawsModel ) {
     super( {
       margin: 5,
@@ -93,4 +93,4 @@ class SecondLawControls extends Panel {
   }
 }
 
-mySolarSystem.register( 'SecondLawPanel', SecondLawPanel );
+mySolarSystem.register( 'SecondLawPanels', SecondLawPanels );
