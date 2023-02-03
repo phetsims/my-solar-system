@@ -75,7 +75,7 @@ class OrbitalArea {
 }
 
 export default class EllipticalOrbitEngine extends Engine {
-  private mu = 1e4;
+  private mu = 1e4; // mu = G * Mass_sun
   public readonly sun: Body;
   public readonly body: Body;
   public readonly sunMassProperty: Property<number>;
@@ -104,6 +104,7 @@ export default class EllipticalOrbitEngine extends Engine {
   public allowedOrbitProperty = new BooleanProperty( false );
   public readonly orbitTypeProperty: EnumerationProperty<OrbitTypes>;
   public readonly escapeSpeedProperty = new NumberProperty( 0 );
+  public readonly escapeRadiusProperty = new NumberProperty( 0 );
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
@@ -178,15 +179,22 @@ export default class EllipticalOrbitEngine extends Engine {
    */
   public override update(): void {
     const r = this.body.positionProperty.value;
-
+    let v = this.body.velocityProperty.value;
+    this.L = r.crossScalar( v );
     this.updateForces( r );
+
+    const escaped = this.escapeSpeedExceeded( r, v );
+    if ( escaped ) {
+      this.body.velocityProperty.value = v.normalized().timesScalar( this.escapeSpeedProperty.value );
+      v = this.body.velocityProperty.value;
+      this.allowedOrbitProperty.value = false;
+      this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
+      this.eccentricityProperty.value = 1;
+    }
 
     if ( this.alwaysCircles ) {
       this.enforceCircularOrbit( r );
     }
-
-    const v = this.body.velocityProperty.value;
-    this.L = r.crossScalar( v );
 
     const { a, e, w, M, W } = this.calculateEllipse( r, v );
     this.a = a;
@@ -207,12 +215,7 @@ export default class EllipticalOrbitEngine extends Engine {
       this.allowedOrbitProperty.value = false;
       this.orbitTypeProperty.value = OrbitTypes.CRASH_ORBIT;
     }
-    else if ( this.escapeSpeedExceeded( r, v ) ) {
-      this.allowedOrbitProperty.value = false;
-      this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
-      this.eccentricityProperty.value = 1;
-    }
-    else {
+    else if ( !escaped ) {
       this.allowedOrbitProperty.value = true;
       this.orbitTypeProperty.value = OrbitTypes.STABLE_ORBIT;
       this.calculateOrbitalDivisions( false );
@@ -322,6 +325,9 @@ export default class EllipticalOrbitEngine extends Engine {
 
     const escapeSpeed = Math.sqrt( 2 * this.mu / rMagnitude ) * epsilon;
     this.escapeSpeedProperty.value = escapeSpeed;
+
+    const escapeRadius = 2 * this.mu / ( escapeSpeed * escapeSpeed );
+    this.escapeRadiusProperty.value = escapeRadius;
 
     return vMagnitude >= escapeSpeed * epsilon;
   }
