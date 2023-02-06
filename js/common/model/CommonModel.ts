@@ -43,6 +43,7 @@ type SelfOptions<EngineType extends Engine> = {
 };
 
 //REVIEW: I'm split 50/50 on whether this should have a class associated with it. Thoughts?
+//ANSWER: As we don't need it to have custom methods or properties, I think it's fine to just have it as a type.
 export type BodyInfo = {
   mass: number;
   position: Vector2;
@@ -55,8 +56,13 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
   // Bodies will consist of all bodies from availableBodies that have isActiveProperty.value === true, and will be in
   // order.
-  public readonly bodies: ObservableArray<Body>;
-  public readonly availableBodies: Body[];
+  public readonly bodies: ObservableArray<Body> = createObservableArray();
+  public readonly availableBodies = [
+    new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ), MySolarSystemColors.firstBodyColorProperty ),
+    new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ), MySolarSystemColors.secondBodyColorProperty ),
+    new Body( 0.1, new Vector2( 100, 0 ), new Vector2( 0, 150 ), MySolarSystemColors.thirdBodyColorProperty ),
+    new Body( 0.1, new Vector2( -100, -100 ), new Vector2( 120, 0 ), MySolarSystemColors.fourthBodyColorProperty )
+  ];
 
   public readonly centerOfMass: CenterOfMass;
   public readonly systemCenteredProperty;
@@ -73,6 +79,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public timeScale; // Changeable because Kepler's Laws screen uses a different speed
   public timeMultiplier;
   //REVIEW: Why timeScale and timeMultiplier? They seem to be doing very similar things, and I'm not convinced we need two things yet
+  //AMSWER: One is for internal use (for the model steps) and the other one is for the UI (for the time speed)
   public readonly timeRange;
   public readonly timeProperty;
   public readonly isPlayingProperty;
@@ -94,13 +101,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly isLab: boolean;
   public readonly labModeProperty: EnumerationProperty<LabMode>;
 
-  private previousModeInfo: BodyInfo[];
+  // Define the mode bodies will go to when restarted. Is updated when the user changes a body.
+  private previousModeInfo = [
+    { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+    { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+  ];
   protected defaultModeInfo: BodyInfo[]; //REVIEW: protected, but not used in subclasses?
 
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
-    //REVIEW: Consider inlining this into the declaration?
-    this.bodies = createObservableArray();
-
     //REVIEW: We're pulling providedOptions.tandem out a lot. Perhaps `const tandem = providedOptions.tandem` would make things more readable?
 
     this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
@@ -110,28 +118,8 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
     } );
 
-    //REVIEW: Consider inlining this into the declaration?
-    this.availableBodies = [
-      new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, -5 ), MySolarSystemColors.firstBodyColorProperty ),
-      new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ), MySolarSystemColors.secondBodyColorProperty ),
-      new Body( 0.1, new Vector2( 100, 0 ), new Vector2( 0, 150 ), MySolarSystemColors.thirdBodyColorProperty ),
-      new Body( 0.1, new Vector2( -100, -100 ), new Vector2( 120, 0 ), MySolarSystemColors.fourthBodyColorProperty )
-    ];
-
-    // Define the mode bodies will go to when restarted. Is updated when the user changes a body.
-    //REVIEW: Consider inlining this into the declaration?
-    this.previousModeInfo = [
-      { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
-      { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
-    ];
-
     // Define the default mode the bodies will show up in
-    //REVIEW: Code like this is in multiple places. Can we have a method on Body that returns a BodyInfo?
-    this.defaultModeInfo = this.availableBodies.map( body => ( {
-      mass: body.massProperty.value,
-      position: body.positionProperty.value,
-      velocity: body.velocityProperty.value
-    } ) );
+    this.defaultModeInfo = this.availableBodies.map( body => body.info );
 
     // We want to synchronize availableBodies and bodies, so that bodies is effectively availableBodies.filter( isActive )
     // Order matters, AND we don't want to remove items unnecessarily, so some additional logic is required.

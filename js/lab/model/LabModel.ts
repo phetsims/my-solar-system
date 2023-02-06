@@ -45,8 +45,7 @@ class LabModel extends CommonModel<NumericalEngine> {
     this.modeSetter = ( mode: LabMode ) => {
       if ( mode !== LabMode.CUSTOM ) {
         this.isPlayingProperty.value = false;
-        //REVIEW: Why not this.timeProperty.reset()?
-        this.timeProperty.value = 0;
+        this.timeProperty.reset();
         const modeInfo = this.modeMap.get( mode );
         this.setInitialBodyStates( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.bodies.length;

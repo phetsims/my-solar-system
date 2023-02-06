@@ -82,8 +82,7 @@ class ThirdLawMainPanel extends Panel {
               [
                 {
                   value: 1,
-                  //REVIEW: We should probably make these terms translatable
-                  createNode: () => new RichText( 'T', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( MySolarSystemStrings.periodSymbolStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,
@@ -106,8 +105,7 @@ class ThirdLawMainPanel extends Panel {
               [
                 {
                   value: 1,
-                  //REVIEW: We should probably make these terms translatable
-                  createNode: () => new RichText( 'a', MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,

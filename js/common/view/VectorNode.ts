@@ -48,14 +48,13 @@ export default class VectorNode extends ArrowNode {
 
     //REVIEW: I'd consider moving visibility OUT of this, and then a link of tipProperty/tailProperty/visibleProperty to
     //REVIEW: actually setTailAndTip. Thoughts?
-    this.tipProperty = new DerivedProperty( [ visibleProperty, this.tailProperty, vectorProperty, transformProperty ],
-      ( visible, tail, vector, transform ) => {
+    //ANSWER: Removed visibility. But I don't understand the second part of the comment.
+    this.tipProperty = new DerivedProperty( [ this.tailProperty, vectorProperty, transformProperty ],
+      ( tail, vector, transform ) => {
         const force = transform.modelToViewDelta( vector.times( scale ) );
         const tip = force.plus( tail );
 
-        if ( visible ) {
-          this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
-        }
+        this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
 
         return tip;
       } );

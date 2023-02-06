@@ -19,6 +19,7 @@ import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import Property from '../../../../axon/js/Property.js';
 import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { BodyInfo } from './CommonModel.js';
 
 
 class Body {
@@ -100,12 +101,20 @@ class Body {
 
       // Remove points from the path as the path gets too long
       while ( this.pathDistance > 2000 || this.pathPoints.length > MAX_PATH_LENGTH * ( MySolarSystemQueryParameters.pathRenderer === 'canvas' ? 10 : 1 ) ) {
-        //REVIEW: Use vector.distance( otherVector ). It's faster and easier
-        this.pathDistance -= this.pathPoints[ 1 ].minus( this.pathPoints[ 0 ] ).magnitude;
+        this.pathDistance -= this.pathPoints[ 1 ].distance( this.pathPoints[ 0 ] );
         this.pathPoints.shift();
       }
 
     }
+  }
+
+  //ANSWER: How's this?
+  public get info(): BodyInfo {
+    return {
+      mass: this.massProperty.value,
+      position: this.positionProperty.value,
+      velocity: this.velocityProperty.value
+    };
   }
 
   public isOverlapping( otherBody: Body ): boolean {

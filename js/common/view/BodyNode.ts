@@ -222,7 +222,7 @@ export default class BodyNode extends ShadedSphereNode {
     this.valueContainer = new Node( {
       children: [ this.valueBackgroundNode, this.valueNode ],
       visibleProperty: options.valuesVisibleProperty,
-      center: options.textPosition
+      center: new Vector2( 0, 30 )
     } );
     this.addChild( this.valueContainer );
 

@@ -88,12 +88,12 @@ type StringsType = {
     'VxStringProperty': LinkableProperty<string>;
     'Vy': string;
     'VyStringProperty': LinkableProperty<string>;
-    'Mass': string;
-    'MassStringProperty': LinkableProperty<string>;
-    'Velocity': string;
-    'VelocityStringProperty': LinkableProperty<string>;
-    'Position': string;
-    'PositionStringProperty': LinkableProperty<string>;
+    'mass': string;
+    'massStringProperty': LinkableProperty<string>;
+    'velocity': string;
+    'velocityStringProperty': LinkableProperty<string>;
+    'position': string;
+    'positionStringProperty': LinkableProperty<string>;
     'bodies': string;
     'bodiesStringProperty': LinkableProperty<string>;
     'moreData': string;

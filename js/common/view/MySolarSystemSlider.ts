@@ -38,7 +38,7 @@ export default class MySolarSystemSlider extends HSlider {
         middleMovingUpSoundPlayer: massSliderSoundClip,
         middleMovingDownSoundPlayer: massSliderSoundClip,
         numberOfMiddleThresholds: 10,
-        //REVIEW: Why the difference? document?
+        // This mapping function the same as in Greenhouse
         middleMovingUpPlaybackRateMapper: ( value: number ) => 0.5 + ( value - range.min ) / range.getLength(),
         middleMovingDownPlaybackRateMapper: ( value: number ) => 0.4 + ( value - range.min ) / range.getLength()
       }

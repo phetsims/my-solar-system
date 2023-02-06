@@ -114,8 +114,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.timeScale = 2.0;
     this.timeMultiplier = 1 / 12.7;
 
-    //REVIEW: (a) if we need an initial value, can we create an option to pass it through super options, and (b)
-    //REVIEW: ... doesn't zoomLevelProperty start at 2 in the supertype anyway?
+    //REVIEW: if we need an initial value, can we create an option to pass it through super options?
     this.zoomLevelProperty.value = 2;
     this.zoomLevelProperty.setInitialValue( this.zoomLevelProperty.value );
 

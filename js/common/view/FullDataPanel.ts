@@ -71,12 +71,10 @@ export default class FullDataPanel extends Panel {
       combineOptions<TextOptions>( {
         maxWidth: 200
       }, MySolarSystemConstants.TEXT_OPTIONS ) ) );
-    const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.MassStringProperty, MySolarSystemStrings.units.kgStringProperty );
+    const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
-
-    //REVIEW: This capitalization of things is throwing me off. Why is the "Position" capitalized?
-    const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.PositionStringProperty, MySolarSystemStrings.units.AUStringProperty );
-    const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.VelocityStringProperty, MySolarSystemStrings.units.kmsStringProperty );
+    const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.positionStringProperty, MySolarSystemStrings.units.AUStringProperty );
+    const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.velocityStringProperty, MySolarSystemStrings.units.kmsStringProperty );
 
     //----------------------------------------------------------------------------------------
 

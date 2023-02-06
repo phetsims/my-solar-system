@@ -110,13 +110,13 @@
   "mass": {
     "value": "Mass"
   },
-  "dataPanel.Mass": {
+  "dataPanel.mass": {
     "value": "Mass"
   },
-  "dataPanel.Velocity": {
+  "dataPanel.velocity": {
     "value": "Velocity"
   },
-  "dataPanel.Position": {
+  "dataPanel.position": {
     "value": "Position"
   },
   "dataPanel.bodies": {

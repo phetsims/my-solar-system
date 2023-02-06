@@ -46,10 +46,8 @@ export default class NumericalEngine extends Engine {
       hadCollision = false;
 
       for ( let i = 0; i < this.bodies.length; i++ ) {
+        const body1 = this.bodies[ i ];
         for ( let j = i + 1; j < this.bodies.length; j++ ) {
-          //REVIEW: body1 doesn't depend on j, so it could be moved outside the inner loop (sometimes that can be helpful
-          //REVIEW: for performance, if this is run a lot.
-          const body1 = this.bodies[ i ];
           const body2 = this.bodies[ j ];
           if ( body1.isOverlapping( body2 ) ) {
             const isBody1Larger = body1.massProperty.value > body2.massProperty.value;

@@ -65,8 +65,7 @@ export default class ValuesColumnNode extends VBox {
     // Loop through each possible Body and create the corresponding contentNode. These Bodies are NOT necessarily the
     // active bodies, so we are responsible for updating visibility based on whether it is
     // the system.
-    //REVIEW: not using `i` parameter
-    model.availableBodies.forEach( ( body, i ) => {
+    model.availableBodies.forEach( body => {
 
       // Retrieve the color from the colors palette
       const colorProperty = body.colorProperty;
