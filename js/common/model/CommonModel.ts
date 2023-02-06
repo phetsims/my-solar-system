@@ -109,7 +109,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public constructor( providedOptions: CommonModelOptions<EngineType> ) {
     //REVIEW: We're pulling providedOptions.tandem out a lot. Perhaps `const tandem = providedOptions.tandem` would make things more readable?
 
-    this.bodySoundManager = new BodySoundManager( this, { tandem: providedOptions.tandem.createTandem( 'bodySoundManager' ) } );
+    this.bodySoundManager = new BodySoundManager( this );
 
     this.isLab = providedOptions.isLab;
     this.labModeProperty = new EnumerationProperty( LabMode.SUN_PLANET, {

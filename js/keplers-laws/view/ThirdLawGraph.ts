@@ -17,6 +17,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class ThirdLawGraph extends Node {
   public constructor( model: KeplersLawsModel, orbit: EllipticalOrbitEngine, providedOptions?: NodeOptions ) {
@@ -61,7 +62,7 @@ export default class ThirdLawGraph extends Node {
     const maxPeriod = semiMajorAxisToPeriod( maxSemiMajorAxis );
 
     const dataPoint = new Circle( 5, {
-      fill: 'red'
+      fill: 'fuchsia'
     } );
 
     const linePath = new Path( null, {
@@ -84,8 +85,10 @@ export default class ThirdLawGraph extends Node {
       yAxis,
       xAxisLabel,
       yAxisLabel,
-      linePath,
-      dataPoint
+      new Node( {
+        children: [ linePath, dataPoint ],
+        clipArea: Shape.bounds( new Bounds2( 0, -axisLength, axisLength, 0 ) )
+      } )
     ];
 
     const orbitUpdated = () => {
