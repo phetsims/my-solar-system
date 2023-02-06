@@ -18,6 +18,8 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextNumberDisplay.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 export default class ThirdLawGraph extends Node {
   public constructor( model: KeplersLawsModel, orbit: EllipticalOrbitEngine, providedOptions?: NodeOptions ) {
@@ -69,13 +71,23 @@ export default class ThirdLawGraph extends Node {
       stroke: 'white'
     } );
 
+    const xAxisLabelStringProperty = MySolarSystemTextNumberDisplay.combinePowerString(
+      MySolarSystemStrings.semiMajorAxisSymbolStringProperty,
+      model.selectedAxisPowerProperty
+    );
+
+    const yAxisLabelStringProperty = MySolarSystemTextNumberDisplay.combinePowerString(
+      MySolarSystemStrings.periodSymbolStringProperty,
+      model.selectedPeriodPowerProperty
+    );
+
     const xAxisLabel = new RichText(
-      '',
+      xAxisLabelStringProperty,
       combineOptions<RichTextOptions>( {
         x: axisLength * 0.4, y: 25
       }, MySolarSystemConstants.TITLE_OPTIONS ) );
     const yAxisLabel = new RichText(
-      '',
+      yAxisLabelStringProperty,
       combineOptions<RichTextOptions>( {
         x: -25, y: -axisLength * 0.4
       }, MySolarSystemConstants.TITLE_OPTIONS ) );
@@ -94,13 +106,6 @@ export default class ThirdLawGraph extends Node {
     const orbitUpdated = () => {
       dataPoint.translation = semiMajorAxisToViewPoint( orbit.a );
       dataPoint.visible = orbit.a < maxSemiMajorAxis;
-
-      const periodPower = model.selectedPeriodPowerProperty.value;
-      const axisPower = model.selectedAxisPowerProperty.value;
-
-      xAxisLabel.setString( axisPower === 1 ? 'a' : 'a<sup>' + axisPower + '</sup>' );
-      yAxisLabel.setString( periodPower === 1 ? 'T' : 'T<sup>' + periodPower + '</sup>' );
-
     };
 
     Multilink.multilink(

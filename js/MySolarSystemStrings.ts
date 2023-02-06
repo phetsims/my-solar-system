@@ -188,6 +188,8 @@ type StringsType = {
     'rangeStringProperty': LinkableProperty<string>;
     'rangeWithExponentialUnits': string;
     'rangeWithExponentialUnitsStringProperty': LinkableProperty<string>;
+    'unitsPower': string;
+    'unitsPowerStringProperty': LinkableProperty<string>;
   }
 };
 

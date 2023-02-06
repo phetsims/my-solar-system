@@ -17,7 +17,6 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ThirdLawGraph from './ThirdLawGraph.js';
 import ThirdLawSliderPanel from './ThirdLawSliderPanel.js';
 import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextNumberDisplay.js';
@@ -49,26 +48,15 @@ class ThirdLawMainPanel extends Panel {
     const semiMajorAxisValueRange = new RangeWithValue( 1, 10000, model.engine.a );
     const periodValueRange = new RangeWithValue( 1, 10000, model.engine.T );
 
-    const semiMajorAxisStringPattern = new PatternStringProperty( MySolarSystemStrings.pattern.textValueUnitsStringProperty, {
-      text: new DerivedProperty(
-        [ MySolarSystemStrings.semiMajorAxisSymbolStringProperty, model.selectedAxisPowerProperty ],
-        ( a, power ) => a + ( power === 1 ? '' : `<sup>${power}</sup>` ) + ' =' ),
-      units: new DerivedProperty(
-        [ MySolarSystemStrings.units.AUStringProperty, model.selectedAxisPowerProperty ],
-        ( au, power ) => au + ( power === 1 ? '' : `<sup>${power}</sup>` )
-      )
+    const semiMajorAxisPatternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+      text: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, model.selectedAxisPowerProperty ),
+      units: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.units.AUStringProperty, model.selectedAxisPowerProperty )
     } );
 
-    const periodStringPattern = new PatternStringProperty( MySolarSystemStrings.pattern.textValueUnitsStringProperty, {
-      text: new DerivedProperty(
-        [ MySolarSystemStrings.periodSymbolStringProperty, model.selectedPeriodPowerProperty ],
-        ( T, power ) => T + ( power === 1 ? '' : `<sup>${power}</sup>` ) + ' =' ),
-      units: new DerivedProperty(
-        [ MySolarSystemStrings.units.yearsStringProperty, model.selectedPeriodPowerProperty ],
-        ( years, power ) => years + ( power === 1 ? '' : `<sup>${power}</sup>` )
-      )
+    const periodPatternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+      text: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.periodSymbolStringProperty, model.selectedPeriodPowerProperty ),
+      units: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.units.yearsStringProperty, model.selectedPeriodPowerProperty )
     } );
-
 
     super( new VBox( {
       spacing: 10,
@@ -132,7 +120,7 @@ class ThirdLawMainPanel extends Panel {
           model.poweredSemiMajorAxisProperty,
           semiMajorAxisValueRange,
           {
-            valuePattern: semiMajorAxisStringPattern,
+            valuePattern: semiMajorAxisPatternStringProperty,
             align: 'left'
           }
         ),
@@ -140,7 +128,7 @@ class ThirdLawMainPanel extends Panel {
           model.poweredPeriodProperty,
           periodValueRange,
           {
-            valuePattern: periodStringPattern,
+            valuePattern: periodPatternStringProperty,
             align: 'left'
           } )
       ]

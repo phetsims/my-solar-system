@@ -239,5 +239,8 @@
   },
   "pattern.rangeWithExponentialUnits": {
     "value": "{{min}} to {{max}} \u00d7 {{units}}"
+  },
+  "pattern.unitsPower": {
+    "value": "{{units}}<sup>{{power}}</sup>"
   }
 }
