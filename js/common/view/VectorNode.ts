@@ -14,6 +14,7 @@ import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNo
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export type VectorNodeOptions = ArrowNodeOptions;
 
@@ -46,18 +47,14 @@ export default class VectorNode extends ArrowNode {
         return transform.modelToViewPosition( bodyPosition );
       } );
 
-    //REVIEW: I'd consider moving visibility OUT of this, and then a link of tipProperty/tailProperty/visibleProperty to
-    //REVIEW: actually setTailAndTip. Thoughts?
-    //ANSWER: Removed visibility. But I don't understand the second part of the comment.
     this.tipProperty = new DerivedProperty( [ this.tailProperty, vectorProperty, transformProperty ],
       ( tail, vector, transform ) => {
-        const force = transform.modelToViewDelta( vector.times( scale ) );
-        const tip = force.plus( tail );
-
-        this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
-
-        return tip;
+        return transform.modelToViewDelta( vector.times( scale ) ).plus( tail );
       } );
+
+    Multilink.multilink( [ this.tailProperty, this.tipProperty ], ( tail, tip ) => {
+      this.setTailAndTip( tail.x, tail.y, tip.x, tip.y );
+    } );
   }
 
   public override dispose(): void {

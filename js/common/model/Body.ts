@@ -108,7 +108,6 @@ class Body {
     }
   }
 
-  //ANSWER: How's this?
   public get info(): BodyInfo {
     return {
       mass: this.massProperty.value,

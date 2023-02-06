@@ -42,8 +42,6 @@ type SelfOptions<EngineType extends Engine> = {
   tandem: Tandem;
 };
 
-//REVIEW: I'm split 50/50 on whether this should have a class associated with it. Thoughts?
-//ANSWER: As we don't need it to have custom methods or properties, I think it's fine to just have it as a type.
 export type BodyInfo = {
   mass: number;
   position: Vector2;
@@ -218,11 +216,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public updatePreviousModeInfo(): void {
-    this.previousModeInfo = this.bodies.map( body => ( {
-      mass: body.massProperty.value,
-      position: body.positionProperty.value,
-      velocity: body.velocityProperty.value
-    } ) );
+    this.previousModeInfo = this.bodies.map( body => body.info );
   }
 
   /**

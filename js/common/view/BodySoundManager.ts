@@ -8,7 +8,6 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import soundConstants from '../../../../tambo/js/soundConstants.js';
@@ -51,19 +50,12 @@ const allSounds = [
   Bodies_Organ_b3_mp3
 ];
 
-//REVIEW: Has this been decided on?
-//ANSWER: Not yet, but I think it's a good idea to have a single place where all the sounds are defined.
+// Other scales available to play around with!
 const METRONOME = [ 7, 0, 0, 0, 0, 0 ]; // METRONOME
 // const METRONOME = [ 4, 2, 0, 2, 4, 4 ]; // ADDITIONAL
 // const METRONOME = [ 0, 2, 4, 5, 7, 9 ]; // SCALE
 // const METRONOME = [ 0, 2, 4, 7, 9, 12 ]; // PENTATONIC_SCALE
 // const METRONOME = [ 0, 3, 5, 6, 7, 10 ]; // BLUES_SCALE
-
-//REVIEW: providedOptions never used, so presumably this can go away. Do we need a tandem?
-//ANSWER: Maybe eventually for PhetIO, no?
-export type BodySoundsManagerOptions = {
-  tandem?: Tandem;
-};
 
 export default class BodySoundManager {
   private readonly model: CommonModel;
@@ -73,7 +65,7 @@ export default class BodySoundManager {
   private readonly metronomeSoundClips: SoundClip[];
 
   //REVIEW: providedOptions never used!!!
-  public constructor( model: CommonModel, providedOptions?: BodySoundsManagerOptions ) {
+  public constructor( model: CommonModel ) {
     this.model = model;
 
     const DEFAULT_OUTPUT_LEVEL = 0.1;

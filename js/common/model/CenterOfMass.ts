@@ -32,10 +32,6 @@ export default class CenterOfMass {
     const tempVelocity = new Vector2( 0, 0 );
     let totalMass = 0;
 
-    //REVIEW: Is performance a concern for this? If not don't change, but the .forEach with closures can slow things
-    //REVIEW: down. If performance is a concern, consider using a for loop instead.
-    //ANSWER: Explain closures...
-
     // Total Mass must be calculated before calculating the weighted mean position and velocity
     totalMass = _.sum( this.bodies.map( body => body.massProperty.value ) );
 

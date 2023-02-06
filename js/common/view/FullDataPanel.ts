@@ -109,16 +109,8 @@ export default class FullDataPanel extends Panel {
     } );
 
     // The content of the entire Panel when "More Data" is not checked.
-    const lessDataBox = new HBox( {
-      //REVIEW: Why an HBox with one child? Can't we just skip it
-      //ANSWER: It breaks otherwise
-      children: [
-        massSliderColumnNode
-      ],
-      bottom: 0,
-      grow: 1,
-      spacing: columnGroupSpacing
-    } );
+    const lessDataBox = massSliderColumnNode;
+    lessDataBox.bottom = 0;
 
     moreDataBox.boundsProperty.link( bounds => {
       lessDataBox.preferredWidth = bounds.width;
