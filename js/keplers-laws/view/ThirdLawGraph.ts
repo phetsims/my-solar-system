@@ -28,14 +28,10 @@ export default class ThirdLawGraph extends Node {
   public constructor( model: KeplersLawsModel, orbit: EllipticalOrbitEngine, providedOptions?: NodeOptions ) {
     super( providedOptions );
 
-    const semiMajorAxisToPeriod = ( axis: number ) => {
-      return Math.pow( axis * model.engine.sunMassProperty.value, 3 / 2 );
-    };
-
     const axisLength = 120;
 
     const semiMajorAxisToViewPoint = ( semiMajorAxis: number ) => {
-      const period = semiMajorAxisToPeriod( semiMajorAxis );
+      const period = model.engine.thirdLaw( semiMajorAxis );
       const periodPower = model.selectedPeriodPowerProperty.value;
       const axisPower = model.selectedAxisPowerProperty.value;
 
@@ -64,7 +60,7 @@ export default class ThirdLawGraph extends Node {
     } );
 
     const maxSemiMajorAxis = 500;
-    const maxPeriod = semiMajorAxisToPeriod( maxSemiMajorAxis );
+    const maxPeriod = model.engine.thirdLaw( maxSemiMajorAxis );
 
     const dataPoint = new Circle( 5, {
       fill: 'fuchsia'

@@ -56,7 +56,7 @@ class Ellipse {
 }
 
 export default class EllipticalOrbitEngine extends Engine {
-  private mu = 1e4; // mu = G * Mass_sun
+  public mu = 2e6; // mu = G * Mass_sun, and G in this sim is 1e4
   public readonly sun: Body;
   public readonly body: Body;
   public readonly sunMassProperty: Property<number>;
@@ -143,6 +143,10 @@ export default class EllipticalOrbitEngine extends Engine {
       } );
   }
 
+  public thirdLaw( a: number ): number {
+    return Math.pow( 2e6 * a * a * a / this.mu, 1 / 2 );
+  }
+
   public override run( dt: number ): void {
     // Prevent the orbit from updating if the body is orbiting
     this.updateAllowed = false;
@@ -209,8 +213,7 @@ export default class EllipticalOrbitEngine extends Engine {
 
     this.nu = this.getTrueAnomaly( this.M );
 
-    // TODO: Check if the complete form of the third law should be used
-    this.T = Math.pow( a, 3 / 2 );
+    this.T = this.thirdLaw( this.a );
 
     this.semiMajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
     this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
@@ -371,7 +374,7 @@ export default class EllipticalOrbitEngine extends Engine {
     }
 
     // Mean angular velocity
-    let W = -500 * Math.pow( a, -3 / 2 );
+    let W = -500 / this.thirdLaw( a );
 
     this.retrograde = r.crossScalar( v ) > 0;
     if ( this.retrograde ) {

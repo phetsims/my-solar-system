@@ -21,6 +21,8 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
+import Body from '../../common/model/Body.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbitEngine>;
 
@@ -29,6 +31,11 @@ type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'i
 class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.FIRST_LAW );
   public readonly alwaysCircularProperty = new BooleanProperty( false );
+
+  public override readonly availableBodies = [
+    new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ), MySolarSystemColors.firstBodyColorProperty ),
+    new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ), MySolarSystemColors.secondBodyColorProperty )
+  ];
 
   // Booleans to keep track of which law is selected
   // TODO: Is this very inefficient?
