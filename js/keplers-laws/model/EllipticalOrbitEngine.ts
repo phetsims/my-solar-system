@@ -32,11 +32,15 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import OrbitTypes from './OrbitTypes.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import OrbitalArea from './OrbitalArea.js';
+import Property from '../../../../axon/js/Property.js';
 
 const TWOPI = 2 * Math.PI;
+
+// Scaling down factor for the escape velocity to avoid unwanted errors
+const epsilon = 0.99;
 
 // Creation of children classes
 class Ellipse {
@@ -49,33 +53,6 @@ class Ellipse {
     public M: number,
     public W: number
   ) {}
-}
-
-class OrbitalArea {
-  // TODO: Document what all this means
-  public dotPosition = Vector2.ZERO;
-  public startPosition = Vector2.ZERO;
-  public endPosition = Vector2.ZERO;
-  public completion = 0;
-  public insideProperty = new BooleanProperty( false );
-  public alreadyEntered = false;
-  public active = false;
-  public resetted = true;
-
-  public constructor() {
-    // noop
-  }
-
-  public reset(): void {
-    this.dotPosition = Vector2.ZERO;
-    this.startPosition = Vector2.ZERO;
-    this.endPosition = Vector2.ZERO;
-    this.completion = 0;
-    this.insideProperty.reset();
-    this.alreadyEntered = false;
-    this.active = false;
-    this.resetted = true;
-  }
 }
 
 export default class EllipticalOrbitEngine extends Engine {
@@ -121,10 +98,6 @@ export default class EllipticalOrbitEngine extends Engine {
     this.sun = bodies[ 0 ];
     this.body = bodies[ 1 ];
     this.sunMassProperty = bodies[ 0 ].massProperty;
-    this.sunMassProperty.link( ( mass: number ) => {
-      this.mu = 1e4 * mass;
-      this.update();
-    } );
 
     // Populate the orbital areas
     for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
@@ -132,6 +105,27 @@ export default class EllipticalOrbitEngine extends Engine {
     }
 
     // Multilink to update the orbit based on the bodies position and velocity
+    Multilink.multilink(
+      [
+        this.body.positionProperty,
+        this.body.velocityProperty,
+        this.bodies[ 0 ].massProperty
+      ],
+      (
+        position: Vector2,
+        velocity: Vector2,
+        mass: number
+      ) => {
+        const rMagnitude = position.magnitude;
+        const vMagnitude = velocity.magnitude;
+
+        this.mu = 1e4 * mass;
+
+        this.escapeRadiusProperty.value = 2 * this.mu / ( vMagnitude * vMagnitude ) * epsilon * epsilon;
+        this.escapeSpeedProperty.value = Math.sqrt( 2 * this.mu / rMagnitude ) * epsilon;
+      } );
+
+    // Multilink to release orbital updates when the user is controlling the body
     Multilink.multilink(
       [
         this.body.userControlledPositionProperty,
@@ -142,7 +136,7 @@ export default class EllipticalOrbitEngine extends Engine {
         userControlledPosition: boolean,
         userControlledVelocity: boolean,
         userControlledMass: boolean
-        ) => {
+      ) => {
         this.updateAllowed = userControlledPosition || userControlledVelocity || userControlledMass;
         this.resetOrbitalAreas();
         this.update();
@@ -187,19 +181,22 @@ export default class EllipticalOrbitEngine extends Engine {
     const r = this.body.positionProperty.value;
     this.updateForces( r );
 
+    let escaped = false;
     if ( this.alwaysCircles ) {
       this.enforceCircularOrbit( r );
+    }
+    else {
+      escaped = this.body.velocityProperty.value.magnitude >= this.escapeSpeedProperty.value * epsilon;
+      if ( escaped ) {
+        this.enforceEscapeSpeed();
+        this.allowedOrbitProperty.value = false;
+        this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
+        this.eccentricityProperty.value = 1;
+      }
     }
 
     const v = this.body.velocityProperty.value;
     this.L = r.crossScalar( v );
-
-    const escaped = this.escapeSpeedExceeded( r, v );
-    if ( escaped ) {
-      this.allowedOrbitProperty.value = false;
-      this.orbitTypeProperty.value = OrbitTypes.ESCAPE_ORBIT;
-      this.eccentricityProperty.value = 1;
-    }
 
     const { a, b, c, e, w, M, W } = this.calculateEllipse( r, v );
     this.a = a;
@@ -247,6 +244,14 @@ export default class EllipticalOrbitEngine extends Engine {
       position.perpendicular.normalize().
       multiplyScalar( direction * 1.0001 * Math.sqrt( this.mu / position.magnitude ) );
     // TODO: Velocity a bit over circular orbit to avoid some errors, but they shouldnt be happening
+  }
+
+  private enforceEscapeSpeed(): void {
+    this.body.velocityProperty.value = this.body.velocityProperty.value.normalized().multiplyScalar( this.escapeSpeedProperty.value );
+  }
+
+  private collidedWithSun( a: number, e: number ): boolean {
+    return a * ( 1 - e ) < Body.massToRadius( this.bodies[ 0 ].massProperty.value );
   }
 
   public createPolar( nu: number, w = 0 ): Vector2 {
@@ -321,26 +326,6 @@ export default class EllipticalOrbitEngine extends Engine {
         orbitalArea.insideProperty.value = false;
       }
     } );
-  }
-
-  private escapeSpeedExceeded( r: Vector2, v: Vector2 ): boolean {
-    const rMagnitude = r.magnitude;
-    const vMagnitude = v.magnitude;
-
-    // Scaling down the escape velocity a little to avoid unwanted errors
-    const epsilon = 0.99;
-
-    const escapeSpeed = Math.sqrt( 2 * this.mu / rMagnitude ) * epsilon;
-    this.escapeSpeedProperty.value = escapeSpeed;
-
-    const escapeRadius = 2 * this.mu / ( vMagnitude * vMagnitude ) * Math.sqrt( epsilon );
-    this.escapeRadiusProperty.value = escapeRadius;
-
-    return vMagnitude >= escapeSpeed * epsilon;
-  }
-
-  private collidedWithSun( a: number, e: number ): boolean {
-    return a * ( 1 - e ) < Body.massToRadius( this.bodies[ 0 ].massProperty.value );
   }
 
   private calculate_a( r: Vector2, v: Vector2 ): number {
