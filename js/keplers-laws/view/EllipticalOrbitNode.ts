@@ -215,6 +215,11 @@ export default class EllipticalOrbitNode extends Path {
         [ model.semiaxisVisibleProperty, model.semiMajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
       )
     } );
+    const trackPath = new Path( null, {
+      stroke: MySolarSystemColors.thirdBodyColorProperty,
+      lineWidth: 5,
+      visibleProperty: model.periodVisibleProperty
+    } );
 
     // Text Nodes
     labelsLayer.addChild( aLabelNode );
@@ -237,8 +242,9 @@ export default class EllipticalOrbitNode extends Path {
     secondLawLayer.addChild( apoapsis );
     secondLawLayer.addChild( orbitDivisionsNode );
 
-    // Third Law: SemiMajor axis
+    // Third Law: SemiMajor axis, and track
     thirdLawLayer.addChild( semiMajorAxisPath );
+    thirdLawLayer.addChild( trackPath );
 
     this.topLayer.addChild( foci[ 0 ] );
     this.topLayer.addChild( foci[ 1 ] );
@@ -342,11 +348,17 @@ export default class EllipticalOrbitNode extends Path {
             0, 0, radiusX, radiusY, 0, startAngle, endAngle, false
           ).close();
         }
-
-        // THIRD LAW -------------------------------------------
-        // Semi-major axis
-        semiMajorAxisPath.shape = new Shape().moveTo( 0, 0 ).lineTo( -radiusX, 0 );
       } );
+
+      // THIRD LAW -------------------------------------------
+      // Semi-major axis
+      semiMajorAxisPath.shape = new Shape().moveTo( 0, 0 ).lineTo( -radiusX, 0 );
+
+      bodyPosition.subtract( center );
+      const endAngle = Math.atan2( bodyPosition.y / radiusY, bodyPosition.x / radiusX );
+      // applyTransformation( trackPath );
+      const trackShape = new Shape().ellipticalArc( 0, 0, radiusX, radiusY, 0, 0, endAngle, this.orbit.retrograde );
+      trackPath.shape = trackShape;
     };
 
     this.orbit.changedEmitter.addListener( updatedOrbit );

@@ -267,10 +267,10 @@ export default class EllipticalOrbitEngine extends Engine {
 
   /**
    * Based on the number of divisions provided by the model,
-   * divides the orbit in isochrone sections.
-   *
+   * divides the orbit in equal time sections.
    */
   private calculateOrbitalDivisions( fillAreas: boolean ): void {
+    // Nu is the angular position of the body as seen from the main focus
     let previousNu = 0;
     let bodyAngle = -this.nu;
 
