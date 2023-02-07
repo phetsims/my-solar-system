@@ -19,11 +19,38 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-const DISTANCE_LABEL_OPTIONS = combineOptions<TextOptions>( {
+export const DISTANCE_LABEL_OPTIONS = combineOptions<TextOptions>( {
   scale: 1.5,
-  stroke: '#ccb285'
+  stroke: '#ccb285',
+  fill: '#ccb285'
 }, MySolarSystemConstants.TEXT_OPTIONS );
+
+export const AXIS_LABEL_OPTIONS = combineOptions<TextOptions>( {
+  scale: 1.5,
+  stroke: 'orange',
+  fill: 'orange'
+}, MySolarSystemConstants.TEXT_OPTIONS );
+
+export const STRING_ARROW_OPTIONS = {
+  stroke: '#ccb285',
+  headHeight: 10,
+  headWidth: 10,
+  headLineWidth: 3,
+  tailLineWidth: 3,
+  tailLineDash: [ 10, 2 ]
+};
+
+export const MAJOR_AXIS_ARROW_OPTIONS = {
+  stroke: 'orange',
+  fill: 'orange',
+  headHeight: 10,
+  headWidth: 10,
+  headLineWidth: 3,
+  tailLineWidth: 3
+};
+
 
 export default class DistancesDisplayNode extends VBox {
   public orbit: EllipticalOrbitEngine;
@@ -34,27 +61,10 @@ export default class DistancesDisplayNode extends VBox {
   ) {
     super( {
       spacing: 10,
-      visibleProperty: model.stringsVisibleProperty
+      visibleProperty: DerivedProperty.and( [ model.stringsVisibleProperty, model.engine.allowedOrbitProperty ] )
     } );
 
     this.orbit = model.engine;
-
-    const STRING_ARROW_OPTIONS = {
-      stroke: '#ccb285',
-      headHeight: 10,
-      headWidth: 10,
-      headLineWidth: 3,
-      tailLineWidth: 3,
-      tailLineDash: [ 10, 2 ]
-    };
-
-    const MAJOR_AXIS_ARROW_OPTIONS = {
-      stroke: 'orange',
-      headHeight: 10,
-      headWidth: 10,
-      headLineWidth: 3,
-      tailLineWidth: 3
-    };
 
     const stringLabelNode1 = new RichText( '', DISTANCE_LABEL_OPTIONS );
     const stringLabelNode2 = new RichText( '', DISTANCE_LABEL_OPTIONS );
@@ -88,13 +98,13 @@ export default class DistancesDisplayNode extends VBox {
         new VBox( {
           children: [
             aLineArrowNode1,
-            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
+            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, AXIS_LABEL_OPTIONS )
           ]
         } ),
         new VBox( {
           children: [
             aLineArrowNode2,
-            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, DISTANCE_LABEL_OPTIONS )
+            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, AXIS_LABEL_OPTIONS )
           ]
         } )
       ]

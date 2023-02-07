@@ -21,6 +21,8 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
+const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
+
 export default class FirstLawGraph extends AlignBox {
 
   public constructor( public model: KeplersLawsModel ) {
@@ -30,8 +32,8 @@ export default class FirstLawGraph extends AlignBox {
     const modelYRange = new Range( 0, 1 );
 
     const yAxis = new Path( new Shape().moveTo( 0, 0 ).lineTo( 0, yAxisLength ), {
-      fill: 'white',
-      stroke: 'white'
+      fill: FOREGROUND_COLOR_PROPERTY,
+      stroke: FOREGROUND_COLOR_PROPERTY
     } );
 
     const eccentricities = {
@@ -62,7 +64,7 @@ export default class FirstLawGraph extends AlignBox {
         spacing: 5,
         children: [
           title,
-          new ArrowNode( 0, 0, 20, 0, { stroke: 'white', fill: 'white', tailWidth: 1 } )
+          new ArrowNode( 0, 0, 20, 0, { stroke: FOREGROUND_COLOR_PROPERTY, fill: FOREGROUND_COLOR_PROPERTY, tailWidth: 1 } )
         ]
       } ) );
     }

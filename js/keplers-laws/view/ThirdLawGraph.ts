@@ -20,6 +20,9 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextNumberDisplay.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+
+const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
 
 export default class ThirdLawGraph extends Node {
   public constructor( model: KeplersLawsModel, orbit: EllipticalOrbitEngine, providedOptions?: NodeOptions ) {
@@ -50,13 +53,13 @@ export default class ThirdLawGraph extends Node {
     };
 
     const xAxis = new ArrowNode( 0, 0, axisLength, 0, {
-      fill: 'white',
-      stroke: 'white',
+      fill: FOREGROUND_COLOR_PROPERTY,
+      stroke: FOREGROUND_COLOR_PROPERTY,
       tailWidth: 1
     } );
     const yAxis = new ArrowNode( 0, 0, 0, -axisLength, {
-      fill: 'white',
-      stroke: 'white',
+      fill: FOREGROUND_COLOR_PROPERTY,
+      stroke: FOREGROUND_COLOR_PROPERTY,
       tailWidth: 1
     } );
 
@@ -68,7 +71,7 @@ export default class ThirdLawGraph extends Node {
     } );
 
     const linePath = new Path( null, {
-      stroke: 'white'
+      stroke: FOREGROUND_COLOR_PROPERTY
     } );
 
     const xAxisLabelStringProperty = MySolarSystemTextNumberDisplay.combinePowerString(

@@ -18,6 +18,7 @@ import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import pathIconProjector_png from '../../../images/pathIconProjector_png.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 // constants
 const TEXT_OPTIONS = combineOptions<TextOptions>( {
@@ -47,7 +48,7 @@ const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem 
         new Text( MySolarSystemStrings.centerOfMassStringProperty, TEXT_OPTIONS ),
         new XNode( {
           fill: 'red',
-          stroke: 'white',
+          stroke: MySolarSystemColors.foregroundProperty,
           scale: 0.5
         } )
       ],

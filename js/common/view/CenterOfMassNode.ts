@@ -14,6 +14,7 @@ import XNode from '../../../../scenery-phet/js/XNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import CenterOfMass from '../model/CenterOfMass.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import MySolarSystemColors from '../MySolarSystemColors.js';
 
 class CenterOfMassNode extends Node {
   public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2> ) {
@@ -21,7 +22,7 @@ class CenterOfMassNode extends Node {
       children: [
         new XNode( {
           fill: 'red',
-          stroke: 'white',
+          stroke: MySolarSystemColors.foregroundProperty,
           center: Vector2.ZERO
         } )
       ],

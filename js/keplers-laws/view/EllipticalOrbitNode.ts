@@ -19,6 +19,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 
 export default class EllipticalOrbitNode extends Path {
@@ -53,7 +54,7 @@ export default class EllipticalOrbitNode extends Path {
     this.addChild( thirdLawLayer );
 
     // Text Nodes
-    const aLabelNode = new Text( 'a', combineOptions<TextOptions>( {
+    const aLabelNode = new Text( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, combineOptions<TextOptions>( {
       visibleProperty: DerivedProperty.or(
         [ model.semiaxisVisibleProperty, model.semiMajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
       ),
@@ -61,13 +62,13 @@ export default class EllipticalOrbitNode extends Path {
       stroke: 'orange',
       fill: 'orange'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const bLabelNode = new Text( 'b', combineOptions<TextOptions>( {
+    const bLabelNode = new Text( MySolarSystemStrings.semiMinorAxisSymbolStringProperty, combineOptions<TextOptions>( {
       visibleProperty: model.semiaxisVisibleProperty,
       scale: 1.5,
       stroke: 'orange',
       fill: 'orange'
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const cLabelNode = new Text( 'c', combineOptions<TextOptions>( {
+    const cLabelNode = new Text( MySolarSystemStrings.focalDistanceSymbolStringProperty, combineOptions<TextOptions>( {
       visibleProperty: new DerivedProperty(
         [
           model.eccentricityVisibleProperty,
@@ -78,7 +79,8 @@ export default class EllipticalOrbitNode extends Path {
         }
       ),
       scale: 1.5,
-      stroke: 'cyan'
+      stroke: MySolarSystemColors.thirdBodyColorProperty,
+      fill: MySolarSystemColors.thirdBodyColorProperty
     }, MySolarSystemConstants.TEXT_OPTIONS ) );
     const stringLabelNode1 = new RichText( 'd<sub>1', combineOptions<TextOptions>( {
       visibleProperty: new DerivedProperty(
@@ -134,7 +136,7 @@ export default class EllipticalOrbitNode extends Path {
       visibleProperty: model.semiaxisVisibleProperty
     } );
     const focalDistancePath = new Path( null, {
-      stroke: 'cyan',
+      stroke: MySolarSystemColors.thirdBodyColorProperty,
       lineWidth: 3,
       visibleProperty: model.eccentricityVisibleProperty
     } );
@@ -146,7 +148,7 @@ export default class EllipticalOrbitNode extends Path {
     } );
     const fociOptions = {
       fill: '#29ABE2',
-      stroke: 'black',
+      stroke: MySolarSystemColors.backgroundProperty,
       scale: 0.8,
       center: Vector2.ZERO,
       visibleProperty: model.fociVisibleProperty
@@ -159,7 +161,7 @@ export default class EllipticalOrbitNode extends Path {
     // SECOND LAW: Periapsis and Apoapsis
     const periapsis = new XNode( {
       fill: 'gold',
-      stroke: 'white',
+      stroke: MySolarSystemColors.foregroundProperty,
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
         [ model.periapsisVisibleProperty, this.orbit.eccentricityProperty ],
@@ -168,8 +170,8 @@ export default class EllipticalOrbitNode extends Path {
         } )
     } );
     const apoapsis = new XNode( {
-      fill: 'cyan',
-      stroke: 'white',
+      fill: MySolarSystemColors.thirdBodyColorProperty,
+      stroke: MySolarSystemColors.foregroundProperty,
       center: Vector2.ZERO,
       visibleProperty: new DerivedProperty(
         [ model.apoapsisVisibleProperty, this.orbit.eccentricityProperty ],

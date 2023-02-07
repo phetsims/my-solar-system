@@ -24,9 +24,11 @@ import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 
+const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
+
 const TITLE_OPTIONS = {
   font: MySolarSystemConstants.TITLE_FONT,
-  fill: MySolarSystemColors.foregroundProperty
+  fill: FOREGROUND_COLOR_PROPERTY
 };
 
 export default class SecondLawGraph extends Panel {
@@ -43,13 +45,13 @@ export default class SecondLawGraph extends Panel {
     const title = new Text( MySolarSystemStrings.areaGraph.titleStringProperty, TITLE_OPTIONS );
 
     const xAxis = new ArrowNode( 0, 0, xAxisLength, 0, {
-      fill: 'white',
-      stroke: 'white',
+      fill: FOREGROUND_COLOR_PROPERTY,
+      stroke: FOREGROUND_COLOR_PROPERTY,
       tailWidth: 1
     } );
     const yAxis = new ArrowNode( 0, 0, 0, -yAxisLength, {
-      fill: 'white',
-      stroke: 'white',
+      fill: FOREGROUND_COLOR_PROPERTY,
+      stroke: FOREGROUND_COLOR_PROPERTY,
       tailWidth: 1
     } );
 
@@ -116,11 +118,11 @@ class AreasBarPlot extends Node {
     const YSpacing = 30;
     const YTickMarkSet = new TickMarkSet( chartTransform, Orientation.VERTICAL, YSpacing, {
       edge: 'min',
-      stroke: MySolarSystemColors.foregroundProperty
+      stroke: FOREGROUND_COLOR_PROPERTY
     } );
     const YTickMarkSetSecondary = new TickMarkSet( chartTransform, Orientation.VERTICAL, YSpacing * 10, {
       edge: 'min',
-      stroke: MySolarSystemColors.foregroundProperty,
+      stroke: FOREGROUND_COLOR_PROPERTY,
       lineWidth: 3
     } );
 

@@ -9,8 +9,8 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import { AlignBox, AlignGroup, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -26,17 +26,13 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 // vertical height of each title-label across screens, regardless of their scaling.
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
-type SelfOptions = EmptySelfOptions;
-
-export type FullDataPanelOptions = PanelOptions & SelfOptions;
-
 export default class FullDataPanel extends Panel {
-  public constructor( model: CommonModel, providedOptions?: FullDataPanelOptions ) {
-    const options = optionize<FullDataPanelOptions, SelfOptions, PanelOptions>()( {
-      fill: MySolarSystemColors.controlPanelFillProperty,
-
-      xMargin: 12
-    }, providedOptions );
+  public constructor( model: CommonModel ) {
+    const options = {
+      xMargin: 12,
+      stroke: null,
+      fill: MySolarSystemColors.controlPanelFillProperty
+    };
 
     //----------------------------------------------------------------------------------------
     // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel

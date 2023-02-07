@@ -20,6 +20,9 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SecondLawGraph from './SecondLawGraph.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+
+const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
 
 export default class SecondLawPanels extends VBox {
   public constructor( model: KeplersLawsModel ) {
@@ -41,11 +44,11 @@ class SecondLawControls extends Panel {
     const divisionSlider = new HSlider( model.periodDivisionProperty, divisionsRange, {
       trackSize: new Dimension2( 150, 2 ),
       thumbSize: new Dimension2( 15, 25 ),
-      thumbCenterLineStroke: 'white',
-      trackFillEnabled: 'white',
-      majorTickStroke: 'white',
+      thumbCenterLineStroke: FOREGROUND_COLOR_PROPERTY,
+      trackFillEnabled: FOREGROUND_COLOR_PROPERTY,
+      majorTickStroke: FOREGROUND_COLOR_PROPERTY,
       majorTickLength: 10,
-      minorTickStroke: 'white',
+      minorTickStroke: FOREGROUND_COLOR_PROPERTY,
       minorTickLength: 6,
 
       // Demonstrate larger x dilation.

@@ -17,13 +17,12 @@ const MySolarSystemConstants = {
   SCREEN_VIEW_Y_MARGIN: 15,
 
   CONTROL_PANEL_OPTIONS: {
-    stroke: MySolarSystemColors.controlPanelFillProperty,
-    lineWidth: 2,
+    stroke: null,
+    fill: MySolarSystemColors.controlPanelFillProperty,
     cornerRadius: 5,
     xMargin: 10,
     yMargin: 10,
     maxWidth: 200,
-    fill: MySolarSystemColors.controlPanelFillProperty,
     layoutOptions: {
       stretch: true
     }
@@ -44,7 +43,8 @@ const MySolarSystemConstants = {
   TITLE_FONT: new PhetFont( { size: 16, weight: 'bold' } ),
   TEXT_OPTIONS: {
     font: new PhetFont( 16 ),
-    fill: MySolarSystemColors.foregroundProperty
+    fill: MySolarSystemColors.foregroundProperty,
+    lineWidth: 0.1
   },
   TITLE_OPTIONS: {
     font: new PhetFont( { size: 18, weight: 'bold' } ),
