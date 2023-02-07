@@ -68,6 +68,8 @@ export default class EllipticalOrbitEngine extends Engine {
   public alwaysCircles = false;
 
   public semiMajorAxisProperty = new NumberProperty( 1 );
+  public semiMinorAxisProperty = new NumberProperty( 1 );
+  public focalDistanceProperty = new NumberProperty( 1 );
   public periodProperty = new NumberProperty( 1 );
   public eccentricityProperty = new NumberProperty( 0 );
 
@@ -216,6 +218,8 @@ export default class EllipticalOrbitEngine extends Engine {
     this.T = this.thirdLaw( this.a );
 
     this.semiMajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
+    this.semiMinorAxisProperty.value = this.b * MySolarSystemConstants.POSITION_MULTIPLIER;
+    this.focalDistanceProperty.value = this.c * MySolarSystemConstants.POSITION_MULTIPLIER;
     this.periodProperty.value = this.T * MySolarSystemConstants.TIME_MULTIPLIER / 218;
 
     if ( this.collidedWithSun( a, e ) ) {

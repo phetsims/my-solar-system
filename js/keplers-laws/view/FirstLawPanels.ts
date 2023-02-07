@@ -72,13 +72,13 @@ class ValuesPanel extends Panel {
             valuePattern: semiMajorAxisStringPatternProperty,
             align: 'left'
           } ),
-        new MySolarSystemTextNumberDisplay( model.poweredSemiMajorAxisProperty, semiMinorAxisValueRange,
+        new MySolarSystemTextNumberDisplay( model.engine.semiMinorAxisProperty, semiMinorAxisValueRange,
           {
             visibleProperty: model.semiaxisVisibleProperty,
             valuePattern: semiMinorAxisStringPatternProperty,
             align: 'left'
           } ),
-        new MySolarSystemTextNumberDisplay( model.poweredSemiMajorAxisProperty, focalDistanceValueRange,
+        new MySolarSystemTextNumberDisplay( model.engine.focalDistanceProperty, focalDistanceValueRange,
           {
             visibleProperty: model.eccentricityVisibleProperty,
             valuePattern: focalDistanceStringPatternProperty,
