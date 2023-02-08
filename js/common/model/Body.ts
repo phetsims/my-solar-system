@@ -113,7 +113,8 @@ class Body {
     return {
       mass: this.massProperty.value,
       position: this.positionProperty.value,
-      velocity: this.velocityProperty.value
+      velocity: this.velocityProperty.value,
+      active: this.isActiveProperty.value
     };
   }
 

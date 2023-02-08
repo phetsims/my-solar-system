@@ -155,8 +155,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
       // If bodies haven't been created, populate the bodies array
       // Earth's Position is x = 100, vy = 141.5
       super.setInitialBodyStates( [
-        { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-        { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+        { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+        { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
       ] );
       this.updatePreviousModeInfo();
     }

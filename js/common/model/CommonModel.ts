@@ -46,6 +46,7 @@ export type BodyInfo = {
   mass: number;
   position: Vector2;
   velocity: Vector2;
+  active: boolean;
 };
 
 export type CommonModelOptions<EngineType extends Engine> = SelfOptions<EngineType>;
@@ -97,9 +98,9 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly labModeProperty: EnumerationProperty<LabMode>;
 
   // Define the mode bodies will go to when restarted. Is updated when the user changes a body.
-  private previousModeInfo = [
-    { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
-    { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+  private previousModeInfo: BodyInfo[] = [
+    { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ), active: true },
+    { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ), active: true }
   ];
   private readonly defaultModeInfo: BodyInfo[];
 
@@ -211,25 +212,30 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   }
 
   public updatePreviousModeInfo(): void {
-    this.previousModeInfo = this.bodies.map( body => body.info );
+    this.previousModeInfo = this.availableBodies.map( body => body.info );
   }
 
   /**
    * Sets the available bodies initial states according to bodiesInfo
    */
   public setInitialBodyStates( bodiesInfo: BodyInfo[] ): void {
+    //REVIEW: factor out NUM_BODIES to somewhere common, instead of specifying 4 everywhere
     for ( let i = 0; i < 4; i++ ) {
-      const isActive = i < bodiesInfo.length;
-      this.availableBodies[ i ].isActiveProperty.value = isActive;
+      const bodyInfo = bodiesInfo[ i ];
 
-      const body = isActive ? bodiesInfo[ i ] : this.defaultModeInfo[ i ];
+      if ( bodyInfo ) {
+        this.availableBodies[ i ].isActiveProperty.value = bodyInfo.active;
 
-      // Setting initial values and then resetting the body to make sure the body is in the correct state
-      this.availableBodies[ i ].massProperty.setInitialValue( body.mass );
-      this.availableBodies[ i ].positionProperty.setInitialValue( body.position );
-      this.availableBodies[ i ].velocityProperty.setInitialValue( body.velocity );
-      this.availableBodies[ i ].reset();
-      this.availableBodies[ i ].preventCollision( this.bodies );
+        // Setting initial values and then resetting the body to make sure the body is in the correct state
+        this.availableBodies[ i ].massProperty.setInitialValue( bodyInfo.mass );
+        this.availableBodies[ i ].positionProperty.setInitialValue( bodyInfo.position );
+        this.availableBodies[ i ].velocityProperty.setInitialValue( bodyInfo.velocity );
+        this.availableBodies[ i ].reset();
+        this.availableBodies[ i ].preventCollision( this.bodies );
+      }
+      else {
+        this.availableBodies[ i ].isActiveProperty.value = false;
+      }
     }
 
     // Update Center of Mass
