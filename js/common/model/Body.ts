@@ -41,6 +41,7 @@ class Body {
   public readonly userControlledPositionProperty = new BooleanProperty( false );
   public readonly userControlledVelocityProperty = new BooleanProperty( false );
   public readonly userControlledMassProperty = new BooleanProperty( false );
+  public readonly movedProperty = new BooleanProperty( false );
 
   // Array of points for drawing the path
   public readonly pathPoints: ObservableArray<Vector2>;
@@ -62,6 +63,10 @@ class Body {
 
     // Data for rendering the path as a WebGL object
     this.pathPoints = createObservableArray();
+
+    this.positionProperty.lazyLink( () => {
+      this.movedProperty.value = true;
+    } );
   }
 
   public reset(): void {
@@ -70,6 +75,7 @@ class Body {
     this.velocityProperty.reset();
     this.accelerationProperty.reset();
     this.forceProperty.reset();
+    this.movedProperty.reset();
     this.clearPath();
   }
 

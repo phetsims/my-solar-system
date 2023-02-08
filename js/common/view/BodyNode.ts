@@ -25,6 +25,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import CueingArrowsNode from './CueingArrowsNode.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -45,7 +46,7 @@ export type BodyNodeOptions = SelfOptions & StrictOmit<ShadedSphereNodeOptions, 
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
 
-  private readonly bodyNodeDispose: () => void;
+  private readonly disposeBodyNode: () => void;
 
   public constructor( body: Body, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
@@ -144,19 +145,27 @@ export default class BodyNode extends ShadedSphereNode {
 
     this.body.collidedEmitter.addListener( bodyCollisionListener );
 
-    this.bodyNodeDispose = () => {
+    const cueingArrowsNode = new CueingArrowsNode( {
+      fill: options.mainColor,
+      left: this.radius + 15,
+      visibleProperty: CueingArrowsNode.createVisibleProperty( new BooleanProperty( options.draggable ), this.body.movedProperty )
+    } );
+
+    this.addChild( cueingArrowsNode );
+
+    this.disposeBodyNode = () => {
       positionMultilink.dispose();
       radiusMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
       readoutStringProperty.dispose();
       velocityValueProperty.dispose();
       valueNode.dispose();
+      cueingArrowsNode.dispose();
     };
-
   }
 
   public override dispose(): void {
-    this.bodyNodeDispose();
+    this.disposeBodyNode();
     super.dispose();
   }
 }
