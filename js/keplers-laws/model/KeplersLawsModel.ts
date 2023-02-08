@@ -9,7 +9,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
+import CommonModel, { BodyInfo, CommonModelOptions } from '../../common/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import LawMode from './LawMode.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -21,8 +21,6 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
-import Body from '../../common/model/Body.js';
-import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 type SuperTypeOptions = CommonModelOptions<EllipticalOrbitEngine>;
 
@@ -31,11 +29,6 @@ type KeplersLawsModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'i
 class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly selectedLawProperty = new EnumerationProperty( LawMode.FIRST_LAW );
   public readonly alwaysCircularProperty = new BooleanProperty( false );
-
-  public override readonly availableBodies = [
-    new Body( 200, new Vector2( 0, 0 ), new Vector2( 0, 0 ), MySolarSystemColors.firstBodyColorProperty ),
-    new Body( 10, new Vector2( 200, 0 ), new Vector2( 0, 100 ), MySolarSystemColors.secondBodyColorProperty )
-  ];
 
   // Booleans to keep track of which law is selected
   // TODO: Is this very inefficient?
@@ -79,6 +72,12 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
       isLab: false
     }, providedOptions );
     super( options );
+
+    this.defaultBodyState = [
+      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+    ];
+    this.loadBodyStates( this.defaultBodyState );
 
     this.systemCenteredProperty.value = false;
 
@@ -150,23 +149,10 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     } );
   }
 
-  public override setInitialBodyStates(): void {
-    if ( this.bodies.length === 0 ) {
-      // If bodies haven't been created, populate the bodies array
-      // Earth's Position is x = 100, vy = 141.5
-      super.setInitialBodyStates( [
-        { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-        { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
-      ] );
-      this.updatePreviousModeInfo();
-    }
-    else {
-      // Reset the orbiting body
-      this.bodies.forEach( body => {
-        body.reset();
-      } );
-      this.engine.reset();
-    }
+  public override loadBodyStates( bodiesInfo: BodyInfo[] ): void {
+    super.loadBodyStates( bodiesInfo );
+
+    this.engine && this.engine.update();
   }
 
   public override followCenterOfMass(): void {

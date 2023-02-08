@@ -75,7 +75,7 @@ class Body {
     this.velocityProperty.reset();
     this.accelerationProperty.reset();
     this.forceProperty.reset();
-    this.movedProperty.reset();
+    this.movedProperty.reset(); //REVIEW: movedProperty shouldn't reappear on restarts
     this.clearPath();
   }
 

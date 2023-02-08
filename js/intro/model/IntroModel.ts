@@ -30,7 +30,7 @@ class IntroModel extends CommonModel<NumericalEngine> {
 
   public override reset(): void {
     super.reset();
-    this.setInitialBodyStates( [
+    this.loadBodyStates( [
       { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
       { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ] );

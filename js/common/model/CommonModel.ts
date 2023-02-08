@@ -98,11 +98,11 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly labModeProperty: EnumerationProperty<LabMode>;
 
   // Define the mode bodies will go to when restarted. Is updated when the user changes a body.
-  private previousModeInfo: BodyInfo[] = [
+  private startingBodyState: BodyInfo[] = [
     { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ), active: true },
     { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ), active: true }
   ];
-  private readonly defaultModeInfo: BodyInfo[];
+  protected defaultBodyState: BodyInfo[];
 
   protected constructor( providedOptions: CommonModelOptions<EngineType> ) {
     const tandem = providedOptions.tandem;
@@ -115,7 +115,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
 
     // Define the default mode the bodies will show up in
-    this.defaultModeInfo = this.availableBodies.map( body => body.info );
+    this.defaultBodyState = this.availableBodies.map( body => body.info );
 
     // We want to synchronize availableBodies and bodies, so that bodies is effectively availableBodies.filter( isActive )
     // Order matters, AND we don't want to remove items unnecessarily, so some additional logic is required.
@@ -144,14 +144,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
           if ( userControlledPosition || userControlledVelocity ) {
             this.isPlayingProperty.value = false;
           }
-          this.updatePreviousModeInfo();
+          this.saveStartingBodyState();
           this.userInteractingEmitter.emit();
         }
       );
     } );
 
     this.centerOfMass = new CenterOfMass( this.bodies );
-    this.setInitialBodyStates( this.previousModeInfo );
+    this.loadBodyStates( this.startingBodyState );
     this.followCenterOfMass();
     this.numberOfActiveBodiesProperty = new NumberProperty( this.bodies.length );
     this.engine = providedOptions.engineFactory( this.bodies );
@@ -190,7 +190,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
           body.positionProperty.set( body.positionProperty.value.minus( centerOfMassPosition ) );
           body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
         } );
-        this.updatePreviousModeInfo();
+        this.saveStartingBodyState();
       }
       if ( wasPlayingBefore ) {
         this.isPlayingProperty.value = true; // Resume the sim
@@ -211,14 +211,14 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     } );
   }
 
-  public updatePreviousModeInfo(): void {
-    this.previousModeInfo = this.availableBodies.map( body => body.info );
+  public saveStartingBodyState(): void {
+    this.startingBodyState = this.availableBodies.map( body => body.info );
   }
 
   /**
    * Sets the available bodies initial states according to bodiesInfo
    */
-  public setInitialBodyStates( bodiesInfo: BodyInfo[] ): void {
+  public loadBodyStates( bodiesInfo: BodyInfo[] ): void {
     //REVIEW: factor out NUM_BODIES to somewhere common, instead of specifying 4 everywhere
     for ( let i = 0; i < 4; i++ ) {
       const bodyInfo = bodiesInfo[ i ];
@@ -241,7 +241,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // Update Center of Mass
     this.centerOfMass.update();
 
-    this.updatePreviousModeInfo();
+    this.saveStartingBodyState();
   }
 
   public followCenterOfMass(): void {
@@ -259,7 +259,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     const numberOfActiveBodies = this.bodies.length - 1;
     const lastBody = this.bodies[ numberOfActiveBodies ];
     lastBody.isActiveProperty.value = false;
-    this.updatePreviousModeInfo();
+    this.saveStartingBodyState();
   }
 
   /**
@@ -272,7 +272,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
       newBody.preventCollision( this.bodies );
       newBody.isActiveProperty.value = true;
     }
-    this.updatePreviousModeInfo();
+    this.saveStartingBodyState();
   }
 
   public reset(): void {
@@ -297,7 +297,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public restart(): void {
     this.isPlayingProperty.value = false; // Pause the sim
     this.timeProperty.reset(); // Reset the time
-    this.setInitialBodyStates( this.previousModeInfo ); // Reset the bodies
+    this.loadBodyStates( this.startingBodyState ); // Reset the bodies
     this.update();
   }
 
