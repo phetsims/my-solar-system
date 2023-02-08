@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Color, DragListener, Font, Node, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Node, Rectangle, TColor, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
@@ -22,9 +22,9 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import ExplosionNode from './ExplosionNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   draggable?: boolean;
@@ -45,13 +45,10 @@ type SelfOptions = {
   //REVIEW: UPDATE: type SelfOptions = { draggable?: boolean, dragBoundsProperty?: TReadOnlyProperty<Bounds2> }
 
   //REVIEW: textPosition is never used, so it should be removed.
-  textPosition?: Vector2; // Position of text node relative to body node
+  textPosition?: Vector2; // position of the text relative to center of the base image in view units
 
   //REVIEW: significantFigures doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   significantFigures?: number; // number of significant figures in the length measurement
-
-  //REVIEW: textColor doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
-  textColor?: TColor; // Color of the velocity value and unit
 
   //REVIEW: textBackgroundColor doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
   textBackgroundColor?: TColor; // fill color of the text background
@@ -61,23 +58,12 @@ type SelfOptions = {
   textBackgroundYMargin?: number;
   textBackgroundCornerRadius?: number;
 
-  //REVIEW: textMaxWidth doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
-  textMaxWidth?: number;
-
-  //REVIEW: I don't see where this is ever used. Get rid of the option if it's not used?
-  textFont?: Font; // font for the measurement text
-
-  //REVIEW: textFont, textColor and textFont are just passed through to the Text node. In those cases, it's generally
-  //REVIEW: preferred to use textOptions in SelfOptions, and then put the defaults in your options call.
+  textOptions?: TextOptions;
 };
 
-export type BodyNodeOptions = SelfOptions & ShadedSphereNodeOptions;
+export type BodyNodeOptions = SelfOptions & StrictOmit<ShadedSphereNodeOptions, 'cursor'>;
 
 export default class BodyNode extends ShadedSphereNode {
-  //REVIEW: I actually can't find a usage of this outside of BodyNode. It also doesn't look like it's used outside the
-  //REVIEW: constructor here, so this doesn't need to be a field.
-  //REVIEW: However, I could imagine this being useful in the future, so for this one I'm completely fine leaving this
-  //REVIEW: as a field.
   public readonly body: Body;
 
   //REVIEW: I don't see use of valueNode outside the constructor. Make it a local variable instead, we don't need a field
@@ -86,12 +72,7 @@ export default class BodyNode extends ShadedSphereNode {
   //REVIEW: valueBackgroundNode also not used outside the constructor. Make it a local variable instead, we don't need a field
   private readonly valueBackgroundNode: Rectangle; // rectangle behind text
 
-  //REVIEW: valueContainer also not used outside the constructor. Make it a local variable instead, we don't need a field
-  private readonly valueContainer: Node; // parent that displays the text and its background
   private readonly bodyNodeDispose: () => void;
-
-  //REVIEW: radiusProperty also not used outside the constructor. Make it a local variable instead, we don't need a field
-  private readonly radiusProperty = new NumberProperty( 0 );
 
   public constructor( body: Body, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>, providedOptions?: BodyNodeOptions ) {
     const options = optionize<BodyNodeOptions, SelfOptions, ShadedSphereNodeOptions>()( {
@@ -103,57 +84,42 @@ export default class BodyNode extends ShadedSphereNode {
 
       valuesVisibleProperty: new BooleanProperty( false ),
 
-      // Text Options
-      //REVIEW: This documentation would be better in general in the SelfOptions. It shouldn't talk about the field
-      //REVIEW: does in the optionize.
-      textPosition: new Vector2( 0, 30 ), // position of the text relative to center of the base image in view units
-      significantFigures: 1, // number of significant figures in the length measurement
+      textPosition: new Vector2( 0, 30 ),
+      significantFigures: 1,
 
-      //REVIEW: This documentation would be better in general in the SelfOptions. And ColorDef is not accurate, that
-      //REVIEW: would be a TColor. In addition, TColor isn't the best option, for flexibility of setting fills/strokes,
-      //REVIEW: just set it to TPaint to allow full flexibility.
-      textColor: 'white', // {ColorDef} color of the length measurement and unit
-
-      //REVIEW: Same doc notes as above
-      textBackgroundColor: new Color( 0, 0, 0, 0.5 ), // {ColorDef} fill color of the text background
+      textBackgroundColor: new Color( 0, 0, 0, 0.5 ),
 
       textBackgroundXMargin: 4,
       textBackgroundYMargin: 2,
       textBackgroundCornerRadius: 2,
-      textMaxWidth: 200,
 
-      //REVIEW: I don't see where this is ever used. Get rid of the option if it's not used? OR use textOptions
-      textFont: new PhetFont( { size: 16 } ) // font for the measurement text
+      textOptions: {
+        fill: 'white', // Not a colorProperty because it is not dynamic
+        maxWidth: 200,
+        font: new PhetFont( 16 )
+      }
 
     }, providedOptions );
 
-    //REVIEW: StrictOmit<ShadedSphereNodeOptions, 'cursor'> since we're overriding it
     options.cursor = options.draggable ? 'pointer' : 'default';
 
     super( 1, options );
 
     this.body = body;
 
-    const positionMultilink = Multilink.multilink(
-      [ body.positionProperty, body.radiusProperty, modelViewTransformProperty ],
-      ( position, radius, modelViewTransform ) => {
-        //REVIEW: many times I'll actually create a new variable so it's a bit clearer, e.g.
-        //REVIEW: const viewRadius = modelViewTransform.modelToViewDeltaX( radius );
-        radius = modelViewTransform.modelToViewDeltaX( radius );
-
-        //REVIEW: Wait, why do we have a radiusProperty of our own? Just use the radiusProperty of the body.
-        this.radiusProperty.value = radius;
-
-        this.radius = radius;
-
+    const radiusMultilink = Multilink.multilink(
+      [ body.radiusProperty, modelViewTransformProperty ],
+      ( radius, modelViewTransform ) => {
+        this.radius = modelViewTransform.modelToViewDeltaX( radius );
         // Expand mouse/touch areas to 10 units past
-        const area = Shape.circle( 0, 0, radius + 10 );
+        const area = Shape.circle( 0, 0, this.radius + 10 );
         this.mouseArea = area;
         this.touchArea = area;
+      } );
 
-        //REVIEW: It seems like we're handling radius AND position in this multilink. Usually it would make sense to
-        //REVIEW: make those independent, so we don't compute EVERYTHING when only one thing changes.
-        //REVIEW: So, a slight preference for a separate multilink for this piece.
+    const positionMultilink = Multilink.multilink(
+      [ body.positionProperty, modelViewTransformProperty ],
+      ( position, modelViewTransform ) => {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
@@ -162,7 +128,7 @@ export default class BodyNode extends ShadedSphereNode {
         positionProperty: body.positionProperty,
         canStartPress: () => !body.userControlledPositionProperty.value,
         mapPosition: point => {
-          return options.mapPosition( point, this.radiusProperty.value );
+          return options.mapPosition( point, this.radius );
         },
         transform: modelViewTransformProperty,
         start: () => {
@@ -180,51 +146,31 @@ export default class BodyNode extends ShadedSphereNode {
       ( velocity: Vector2 ) => Utils.toFixed(
         velocity.magnitude * MySolarSystemConstants.VELOCITY_MULTIPLIER,
         options.significantFigures
-      ) ); //REVIEW: formatting, lines like these should be un-intented
+      )
+    );
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
       value: velocityValueProperty,
       units: MySolarSystemStrings.units.kmsStringProperty
-      } ); //REVIEW: formatting, lines like these should be un-intented
-
-    //REVIEW: consolidate options into textOptions. WAIT: I don't see when any are not using the defaults.
-    //REVIEW: Just inline the defaults!
-    this.valueNode = new Text( readoutStringProperty, {
-      font: options.textFont,
-      fill: options.textColor,
-      maxWidth: options.textMaxWidth
     } );
 
-    //REVIEW: consolidate options into backgroundOptions. WAIT: I don't see when any are not using the defaults.
-    //REVIEW: Just inline the defaults!
-    this.valueBackgroundNode = new Rectangle( 0, 0, 1, 1, {
-      //REVIEW: Don't put in placeholder values for Rectangle. Just use new Rectangle( { ... } )
-      //REVIEW: Especially since these things get overridden below
+    this.valueNode = new Text( readoutStringProperty, options.textOptions );
+
+    this.valueBackgroundNode = new Rectangle( {
       cornerRadius: options.textBackgroundCornerRadius,
       fill: options.textBackgroundColor
     } );
 
     // Resizes the value background and centers it on the value
-    const updateValueBackgroundNode = () => {
-      //REVIEW: This seems like a lot of logic, perhaps try:
-      //REVIEW: this.valueNode.boundsProperty.link( bounds => {
-      //REVIEW:   this.valueBackgroundNode.rectBounds = bounds.dilated( options.textBackgroundXMargin );
-      //REVIEW: } );
-      const valueBackgroundWidth = this.valueNode.width + ( 2 * options.textBackgroundXMargin );
-      const valueBackgroundHeight = this.valueNode.height + ( 2 * options.textBackgroundYMargin );
-      this.valueBackgroundNode.setRect( 0, 0, valueBackgroundWidth, valueBackgroundHeight );
-      this.valueBackgroundNode.center = this.valueNode.center;
-    };
-    //REVIEW: Replace with link(), so we don't need 2 extra lines (and a variable name) for this.
-    this.valueNode.boundsProperty.lazyLink( updateValueBackgroundNode );
-    updateValueBackgroundNode();
+    this.valueNode.boundsProperty.link( bounds => {
+      this.valueBackgroundNode.rectBounds = bounds.dilated( options.textBackgroundXMargin );
+    } );
 
-    //REVIEW: No need to have even a local variable for this, inline it in addChild?
-    this.valueContainer = new Node( {
+    // Value Container
+    this.addChild( new Node( {
       children: [ this.valueBackgroundNode, this.valueNode ],
       visibleProperty: options.valuesVisibleProperty,
       center: new Vector2( 0, 30 )
-    } );
-    this.addChild( this.valueContainer );
+    } ) );
 
     const bodyCollisionListener = () => {
       this.interruptSubtreeInput();
@@ -235,6 +181,7 @@ export default class BodyNode extends ShadedSphereNode {
 
     this.bodyNodeDispose = () => {
       positionMultilink.dispose();
+      radiusMultilink.dispose();
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
       readoutStringProperty.dispose();
       velocityValueProperty.dispose();

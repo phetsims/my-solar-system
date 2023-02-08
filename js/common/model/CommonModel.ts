@@ -76,10 +76,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   //REVIEW: or have the IDE look up things.
   public timeScale; // Changeable because Kepler's Laws screen uses a different speed
   public timeMultiplier;
-  //REVIEW: Why timeScale and timeMultiplier? They seem to be doing very similar things, and I'm not convinced we need two things yet
-  //AMSWER: One is for internal use (for the model steps) and the other one is for the UI (for the time speed)
-  public readonly timeRange;
-  public readonly timeProperty;
+  public readonly timeProperty; //TODO DOCUMENT TIMESCALE AND TIMESPEED
   public readonly isPlayingProperty;
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
@@ -104,16 +101,16 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     { mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
     { mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
   ];
-  protected defaultModeInfo: BodyInfo[]; //REVIEW: protected, but not used in subclasses?
+  private readonly defaultModeInfo: BodyInfo[];
 
-  public constructor( providedOptions: CommonModelOptions<EngineType> ) {
-    //REVIEW: We're pulling providedOptions.tandem out a lot. Perhaps `const tandem = providedOptions.tandem` would make things more readable?
+  protected constructor( providedOptions: CommonModelOptions<EngineType> ) {
+    const tandem = providedOptions.tandem;
 
     this.bodySoundManager = new BodySoundManager( this );
 
     this.isLab = providedOptions.isLab;
     this.labModeProperty = new EnumerationProperty( LabMode.SUN_PLANET, {
-      tandem: providedOptions.tandem.createTandem( 'labModeProperty' )
+      tandem: tandem.createTandem( 'labModeProperty' )
     } );
 
     // Define the default mode the bodies will show up in
@@ -163,23 +160,21 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
     // Time settings
     // timeScale controls the velocity of time
     this.timeScale = 1.0; //REVIEW: I would definitely use the options pattern here, instead of relying on mutation. Have keplers pass in a different timeScale, and set the default in the options
-    this.timeMultiplier = MySolarSystemConstants.TIME_MULTIPLIER; //REVIEW: same here
-    //REVIEW: timeRange seems fully static. Can we move it to its usage in the view instead of putting it here?
-    this.timeRange = new Range( 0, 1000 );
+    this.timeMultiplier = MySolarSystemConstants.TIME_MULTIPLIER; //REVIEW: same here;
     this.timeProperty = new NumberProperty( 0 );
     this.isPlayingProperty = new BooleanProperty( false );
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
 
     // Visibility properties for checkboxes
-    this.pathVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'pathVisibleProperty' ) } );
-    this.gravityVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'gravityVisibleProperty' ) } );
-    this.velocityVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'velocityVisibleProperty' ) } );
-    this.gridVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'gridVisibleProperty' ) } );
-    this.measuringTapeVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'measuringTapeVisibleProperty' ) } );
-    this.valuesVisibleProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'valuesVisibleProperty' ) } );
-    this.moreDataProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'moreDataProperty' ) } );
-    this.systemCenteredProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ) } );
-    this.realUnitsProperty = new BooleanProperty( false, { tandem: providedOptions.tandem.createTandem( 'realUnitsProperty' ) } );
+    this.pathVisibleProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'pathVisibleProperty' ) } );
+    this.gravityVisibleProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'gravityVisibleProperty' ) } );
+    this.velocityVisibleProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'velocityVisibleProperty' ) } );
+    this.gridVisibleProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'gridVisibleProperty' ) } );
+    this.measuringTapeVisibleProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'measuringTapeVisibleProperty' ) } );
+    this.valuesVisibleProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'valuesVisibleProperty' ) } );
+    this.moreDataProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'moreDataProperty' ) } );
+    this.systemCenteredProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'systemCenteredProperty' ) } );
+    this.realUnitsProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'realUnitsProperty' ) } );
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {
@@ -203,7 +198,7 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
 
     this.zoomLevelProperty = new NumberProperty( 2, {
       range: new Range( 0, 4 ),
-      tandem: providedOptions.tandem.createTandem( 'zoomLevelProperty' ),
+      tandem: tandem.createTandem( 'zoomLevelProperty' ),
       numberType: 'Integer'
     } );
     this.zoomProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {

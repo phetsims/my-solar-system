@@ -62,11 +62,6 @@ class Body {
 
     // Data for rendering the path as a WebGL object
     this.pathPoints = createObservableArray();
-
-    // Adding first point twice for the WebGL Path
-    //REVIEW: Why would this be needed? If it's for WebGL, is it much harder to include this type of thing there?
-    this.addPathPoint();
-    this.addPathPoint();
   }
 
   public reset(): void {
@@ -136,7 +131,6 @@ class Body {
    * Clear the whole path of points tracking the body's trajectory.
    */
   public clearPath(): void {
-    //REVIEW: This doesn't match with our initial value of a few points for WebGL. Is that a bug?
     this.pathPoints.clear();
     this.pathDistance = 0;
   }

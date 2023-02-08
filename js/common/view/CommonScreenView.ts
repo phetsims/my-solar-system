@@ -36,6 +36,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Panel from '../../../../sun/js/Panel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 
 type SelfOptions = {
@@ -147,8 +148,7 @@ class CommonScreenView extends ScreenView {
 
     const clockNode = new HBox( {
       children: [
-        //REVIEW: timeRange seems fully static. Can we move it to here instead of putting it on the model?
-        new NumberDisplay( model.timeProperty, model.timeRange, {
+        new NumberDisplay( model.timeProperty, new Range( 0, 1000 ), {
           backgroundFill: null,
           backgroundStroke: null,
           textOptions: combineOptions<TextOptions>( {
