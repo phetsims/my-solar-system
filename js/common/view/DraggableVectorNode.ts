@@ -122,6 +122,7 @@ export default class DraggableVectorNode extends VectorNode {
     text.moveToBack();
 
     //REVIEW: is this a persistent type that doesn't get disposed? Need to document if so
+    //ANSWER: Isn't this disposed by the syncronizer?
 
     // For PhET-iO, when the node does not support input, don't show the drag circle
     this.inputEnabledProperty.link( ( inputEnabled: boolean ) => {

@@ -56,7 +56,7 @@ class CommonScreenView extends ScreenView {
 
   protected readonly createDraggableVectorNode: ( body: Body, options?: DraggableVectorNodeOptions ) => DraggableVectorNode;
 
-  //REVIEW: doc on what this is?
+  // View position of where the geometrical center of the orbit is located
   protected readonly orbitalCenterProperty: Property<Vector2>;
 
   protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
@@ -70,7 +70,7 @@ class CommonScreenView extends ScreenView {
     this.addChild( this.interfaceLayer );
     this.addChild( this.topLayer );
 
-    model.bodySoundManager.bodySoundGenerators.forEach( sound => soundManager.addSoundGenerator( sound, {
+    model.bodySoundManager.bodySoundClips.forEach( sound => soundManager.addSoundGenerator( sound, {
       associatedViewNode: this
     } ) );
 
@@ -161,8 +161,7 @@ class CommonScreenView extends ScreenView {
         } ),
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
-          //REVIEW: Why not timeProperty.reset()?
-          listener: () => { model.timeProperty.value = 0; },
+          listener: model.timeProperty.reset,
           maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
           touchAreaXDilation: 10,

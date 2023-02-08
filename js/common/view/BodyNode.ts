@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { Color, DragListener, Node, Rectangle, TColor, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Node, Rectangle, RectangleOptions, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Body from '../model/Body.js';
@@ -33,31 +33,10 @@ type SelfOptions = {
 
   valuesVisibleProperty?: TReadOnlyProperty<boolean>;
 
-  //REVIEW: There seems to be a lot here that is copying a bad pattern in MeasuringTapeNode. I don't recommend these
-  //REVIEW: patterns, since nested options objects would be preferred, e.g. { textOptions: TextOptions, backgroundOptions: RectangleOptions }
-  //REVIEW: THAT SAID, we aren't actually using any of these options (they are ALWAYS the default).
-  //REVIEW: So they shouldn't be options here. They can just be inlined. OR could use the options pattern above and
-  //REVIEW: specify the defaults in the options (if you really want the future extensibility). I'd strongly recommend
-  //REVIEW: Just minimizing the code here, and inlining the defaults.
-  //REVIEW: `draggable` seems like the ONLY needed option here. I imagine something like
-  //REVIEW: type SelfOptions = { draggable?: boolean }
   //REVIEW: UPDATE: It looks like we'll want to pass in dragBoundsProperty, so maybe:
   //REVIEW: UPDATE: type SelfOptions = { draggable?: boolean, dragBoundsProperty?: TReadOnlyProperty<Bounds2> }
 
-  //REVIEW: textPosition is never used, so it should be removed.
-  textPosition?: Vector2; // position of the text relative to center of the base image in view units
-
-  //REVIEW: significantFigures doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
-  significantFigures?: number; // number of significant figures in the length measurement
-
-  //REVIEW: textBackgroundColor doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
-  textBackgroundColor?: TColor; // fill color of the text background
-
-  //REVIEW: textBackgroundXMargin/textBackgroundYMargin/textBackgroundCornerRadius doesn't ever seem to be used except with the default. Get rid of the option if it's not used?
-  textBackgroundXMargin?: number;
-  textBackgroundYMargin?: number;
-  textBackgroundCornerRadius?: number;
-
+  rectangleOptions?: RectangleOptions;
   textOptions?: TextOptions;
 };
 
@@ -65,12 +44,6 @@ export type BodyNodeOptions = SelfOptions & StrictOmit<ShadedSphereNodeOptions, 
 
 export default class BodyNode extends ShadedSphereNode {
   public readonly body: Body;
-
-  //REVIEW: I don't see use of valueNode outside the constructor. Make it a local variable instead, we don't need a field
-  private readonly valueNode: Text; // node that contains the text
-
-  //REVIEW: valueBackgroundNode also not used outside the constructor. Make it a local variable instead, we don't need a field
-  private readonly valueBackgroundNode: Rectangle; // rectangle behind text
 
   private readonly bodyNodeDispose: () => void;
 
@@ -84,21 +57,16 @@ export default class BodyNode extends ShadedSphereNode {
 
       valuesVisibleProperty: new BooleanProperty( false ),
 
-      textPosition: new Vector2( 0, 30 ),
-      significantFigures: 1,
-
-      textBackgroundColor: new Color( 0, 0, 0, 0.5 ),
-
-      textBackgroundXMargin: 4,
-      textBackgroundYMargin: 2,
-      textBackgroundCornerRadius: 2,
+      rectangleOptions: {
+        cornerRadius: 2,
+        fill: new Color( 0, 0, 0, 0.5 )
+      },
 
       textOptions: {
         fill: 'white', // Not a colorProperty because it is not dynamic
         maxWidth: 200,
         font: new PhetFont( 16 )
       }
-
     }, providedOptions );
 
     options.cursor = options.draggable ? 'pointer' : 'default';
@@ -145,7 +113,7 @@ export default class BodyNode extends ShadedSphereNode {
       [ this.body.velocityProperty ],
       ( velocity: Vector2 ) => Utils.toFixed(
         velocity.magnitude * MySolarSystemConstants.VELOCITY_MULTIPLIER,
-        options.significantFigures
+        1
       )
     );
     const readoutStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.velocityValueUnitsStringProperty, {
@@ -153,21 +121,18 @@ export default class BodyNode extends ShadedSphereNode {
       units: MySolarSystemStrings.units.kmsStringProperty
     } );
 
-    this.valueNode = new Text( readoutStringProperty, options.textOptions );
+    const valueNode = new Text( readoutStringProperty, options.textOptions );
 
-    this.valueBackgroundNode = new Rectangle( {
-      cornerRadius: options.textBackgroundCornerRadius,
-      fill: options.textBackgroundColor
-    } );
+    const valueBackgroundNode = new Rectangle( options.rectangleOptions );
 
     // Resizes the value background and centers it on the value
-    this.valueNode.boundsProperty.link( bounds => {
-      this.valueBackgroundNode.rectBounds = bounds.dilated( options.textBackgroundXMargin );
+    valueNode.boundsProperty.link( bounds => {
+      valueBackgroundNode.rectBounds = bounds.dilated( 4 );
     } );
 
     // Value Container
     this.addChild( new Node( {
-      children: [ this.valueBackgroundNode, this.valueNode ],
+      children: [ valueBackgroundNode, valueNode ],
       visibleProperty: options.valuesVisibleProperty,
       center: new Vector2( 0, 30 )
     } ) );
@@ -185,7 +150,7 @@ export default class BodyNode extends ShadedSphereNode {
       this.body.collidedEmitter.removeListener( bodyCollisionListener );
       readoutStringProperty.dispose();
       velocityValueProperty.dispose();
-      this.valueNode.dispose();
+      valueNode.dispose();
     };
 
   }

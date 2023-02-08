@@ -8,46 +8,51 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
-import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import soundConstants from '../../../../tambo/js/soundConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
-
-// Bodies sounds
 import Bodies_Brass_C3_mp3 from '../../../sounds/Bodies_Brass_C3_mp3.js';
-import Bodies_Strings_e3_mp3 from '../../../sounds/Bodies_Strings_e3_mp3.js';
 import Bodies_Flute_g3_mp3 from '../../../sounds/Bodies_Flute_g3_mp3.js';
-import Bodies_Organ_b3_mp3 from '../../../sounds/Bodies_Organ_b3_mp3.js';
 import Bodies_Strings_e3_v2_mp3 from '../../../sounds/Bodies_Strings_e3_v2_mp3.js';
 import Bodies_Woodwinds_e3_mp3 from '../../../sounds/Bodies_Woodwinds_e3_mp3.js';
-
-// Bodies collision sounds
 import Bodies_Collide_Absorb_2_to_1_mp3 from '../../../sounds/Bodies_Collide_Absorb_2_to_1_mp3.js';
 import Bodies_Collide_Absorb_3_to_2_mp3 from '../../../sounds/Bodies_Collide_Absorb_3_to_2_mp3.js';
 import Bodies_Collide_Absorb_4_to_3_mp3 from '../../../sounds/Bodies_Collide_Absorb_4_to_3_mp3.js';
-
-// Body selection sounds
 import Mass_Selection_1_mp3 from '../../../sounds/Mass_Selection_1_mp3.js';
 import Mass_Selection_2_mp3 from '../../../sounds/Mass_Selection_2_mp3.js';
 import Mass_Selection_3_mp3 from '../../../sounds/Mass_Selection_3_mp3.js';
 import Mass_Selection_4_mp3 from '../../../sounds/Mass_Selection_4_mp3.js';
-
-// Metronome sound
 import Metronome_Sound_1_mp3 from '../../../sounds/Metronome_Sound_1_mp3.js';
 import Metronome_Sound_2_mp3 from '../../../sounds/Metronome_Sound_2_mp3.js';
 import Metronome_Sound_Reverb_1_mp3 from '../../../sounds/Metronome_Sound_Reverb_1_mp3.js';
 import Metronome_Sound_Reverb_2_mp3 from '../../../sounds/Metronome_Sound_Reverb_2_mp3.js';
 
-
-const allSounds = [
+const bodiesSounds = [
   Bodies_Brass_C3_mp3,
   Bodies_Woodwinds_e3_mp3,
   Bodies_Strings_e3_v2_mp3,
-  Bodies_Flute_g3_mp3,
+  Bodies_Flute_g3_mp3
+];
 
-  //REVIEW: Why are these elements of allSounds not used? Can this be cleaned up?
-  Bodies_Strings_e3_mp3,
-  Bodies_Organ_b3_mp3
+const bodyNumberSounds = [
+  Mass_Selection_1_mp3,
+  Mass_Selection_2_mp3,
+  Mass_Selection_3_mp3,
+  Mass_Selection_4_mp3
+];
+
+const collisionSounds = [
+  Bodies_Collide_Absorb_2_to_1_mp3,
+  Bodies_Collide_Absorb_3_to_2_mp3,
+  Bodies_Collide_Absorb_4_to_3_mp3
+];
+
+const metronomeSounds = [
+  Metronome_Sound_1_mp3,
+  Metronome_Sound_2_mp3,
+  Metronome_Sound_Reverb_1_mp3,
+  Metronome_Sound_Reverb_2_mp3
 ];
 
 // Other scales available to play around with!
@@ -59,63 +64,35 @@ const METRONOME = [ 7, 0, 0, 0, 0, 0 ]; // METRONOME
 
 export default class BodySoundManager {
   private readonly model: CommonModel;
-  public readonly bodySoundGenerators: SoundClip[];
+  public readonly bodySoundClips: SoundClip[];
   private readonly bodyNumberSoundClips: SoundClip[];
   private readonly collisionSoundClips: SoundClip[];
   private readonly metronomeSoundClips: SoundClip[];
 
-  //REVIEW: providedOptions never used!!!
   public constructor( model: CommonModel ) {
     this.model = model;
 
     const DEFAULT_OUTPUT_LEVEL = 0.1;
 
-    const bodySoundOptions: SoundClipOptions = {
+    // Create the sound generators for the bodies, they are added to the soundManager in the ScreenView
+    this.bodySoundClips = bodiesSounds.map( sound => new SoundClip( sound, {
       initialOutputLevel: DEFAULT_OUTPUT_LEVEL,
       loop: true
-    };
+    } ) );
 
-    const bodyNumberSoundOptions: SoundClipOptions = {
+    this.bodyNumberSoundClips = bodyNumberSounds.map( sound => new SoundClip( sound, {
       initialOutputLevel: DEFAULT_OUTPUT_LEVEL
-    };
+    } ) );
 
-    const collisionSoundOptions: SoundClipOptions = {
+    this.collisionSoundClips = collisionSounds.map( sound => new SoundClip( sound, {
       initialOutputLevel: DEFAULT_OUTPUT_LEVEL
-    };
+    } ) );
 
-    const metronomeSoundOptions = { rateChangesAffectPlayingSounds: false };
+    this.metronomeSoundClips = metronomeSounds.map( sound => new SoundClip( sound, {
+      rateChangesAffectPlayingSounds: false
+    } ) );
 
-    // Create the sound generators for the bodies, they are added to the soundManager in the ScreenView
-    this.bodySoundGenerators = [
-      //REVIEW: If allSounds is cleaned up, this can be simplified to something like
-      //REVIEW: this.bodySoundGenerators = allSounds.map( sound => new SoundClip( sound, bodySoundOptions ) );
-      //REVIEW: THEN, you would also inline the options so it's a bit more concise.
-      new SoundClip( allSounds[ 0 ], bodySoundOptions ),
-      new SoundClip( allSounds[ 1 ], bodySoundOptions ),
-      new SoundClip( allSounds[ 2 ], bodySoundOptions ),
-      new SoundClip( allSounds[ 3 ], bodySoundOptions )
-    ];
-
-    this.bodyNumberSoundClips = [
-      new SoundClip( Mass_Selection_1_mp3, bodyNumberSoundOptions ),
-      new SoundClip( Mass_Selection_2_mp3, bodyNumberSoundOptions ),
-      new SoundClip( Mass_Selection_3_mp3, bodyNumberSoundOptions ),
-      new SoundClip( Mass_Selection_4_mp3, bodyNumberSoundOptions )
-    ];
-
-    this.collisionSoundClips = [
-      new SoundClip( Bodies_Collide_Absorb_2_to_1_mp3, collisionSoundOptions ),
-      new SoundClip( Bodies_Collide_Absorb_3_to_2_mp3, collisionSoundOptions ),
-      new SoundClip( Bodies_Collide_Absorb_4_to_3_mp3, collisionSoundOptions )
-    ];
-
-    this.metronomeSoundClips = [
-      new SoundClip( Metronome_Sound_1_mp3, metronomeSoundOptions ),
-      new SoundClip( Metronome_Sound_2_mp3, metronomeSoundOptions ),
-      new SoundClip( Metronome_Sound_Reverb_1_mp3, metronomeSoundOptions ),
-      new SoundClip( Metronome_Sound_Reverb_2_mp3, metronomeSoundOptions )
-    ];
-
+    // BodySoundClips are added in the ScreenView because they have an associated view node
     this.bodyNumberSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
     this.collisionSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
     this.metronomeSoundClips.forEach( sound => soundManager.addSoundGenerator( sound ) );
@@ -129,14 +106,11 @@ export default class BodySoundManager {
     for ( let i = 0; i < 4; i++ ) {
       if ( i < this.model.numberOfActiveBodiesProperty.value ) {
         const body = this.model.bodies.get( i );
-        this.bodySoundGenerators[ i ].setOutputLevel( body.accelerationProperty.value.magnitude / 2000 );
-        // this.bodySoundGenerators[ i ].setOutputLevel(
-        //   1 / body.positionProperty.value.magnitude
-        // );
-        this.bodySoundGenerators[ i ].play();
+        this.bodySoundClips[ i ].setOutputLevel( body.accelerationProperty.value.magnitude / 2000 );
+        this.bodySoundClips[ i ].play();
       }
       else {
-        this.bodySoundGenerators[ i ].stop();
+        this.bodySoundClips[ i ].stop();
       }
     }
   }
@@ -149,12 +123,19 @@ export default class BodySoundManager {
     this.collisionSoundClips[ bodyNumber ].play();
   }
 
+  /**
+   *  This function plays the melody described in METRONOME based on the division index.
+   *  Because of how scales work, they are powers of the twelfth root of 2.
+   *
+   *  The amount of divisions shifts the metronome sound up or down half an octave (1 to 1.5)
+   *
+   *  And depending on the semi major axis, the sound is small (muted) or big (with reverb)
+   */
   public playOrbitalMetronome( i: number, semiMajorAxis: number, divisions: number ): void {
     const smallSound = this.metronomeSoundClips[ 0 ];
     const bigSound = this.metronomeSoundClips[ 2 ];
-    const divisionOffset = 1 + divisions / 12;
 
-    //REVIEW: some documentation here would be helpful
+    const divisionOffset = 1 + divisions / 12;
 
     smallSound.setPlaybackRate( Math.pow( soundConstants.TWELFTH_ROOT_OF_TWO, METRONOME[ i ] ) * divisionOffset );
     smallSound.setOutputLevel( Utils.clamp( Utils.linear( 0, 500, 1, 0, semiMajorAxis ), 0, 1 ) );
@@ -167,7 +148,7 @@ export default class BodySoundManager {
   }
 
   public stop(): void {
-    this.bodySoundGenerators.forEach( sound => sound.stop() );
+    this.bodySoundClips.forEach( sound => sound.stop() );
   }
 }
 

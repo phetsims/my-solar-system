@@ -38,14 +38,8 @@ export type ValuesColumnNodeOptions = SelfOptions & VBoxOptions;
 export default class ValuesColumnNode extends VBox {
   public constructor( model: CommonModel, columnType: ValuesColumnTypes ) {
     const options: ValuesColumnNodeOptions = {
-      //REVIEW: Don't doc them here! They should be documented in SelfOptions. Why the type docs, copied from BallValuesPanelColumnNode?
-      // {number} - y-spacing between each of the content Nodes.
       contentContainerSpacing: 3.5,
-
-      //REVIEW: Don't doc them here! They should be documented in SelfOptions. Why the type docs, copied from BallValuesPanelColumnNode?
-      // {number} - y-spacing between the label and first content Node.
       labelSpacing: 3,
-
       stretch: true
     };
 
