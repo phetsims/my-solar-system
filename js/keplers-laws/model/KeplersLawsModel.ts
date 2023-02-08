@@ -108,6 +108,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
 
     this.axisVisibleProperty.link( axisVisible => {
       this.semiaxisVisibleProperty.value = axisVisible ? this.semiaxisVisibleProperty.value : false;
+      //REVIEW: commented-out code
       // this.eccentricityVisibleProperty.value = axisVisible ? this.eccentricityVisibleProperty.value : false;
     } );
     this.fociVisibleProperty.link( fociVisible => {
@@ -145,6 +146,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
         range: Stopwatch.ZERO_TO_ALMOST_SIXTY,
         units: 's'
       }
+      //REVIEW: commented-out code
       // tandem: tandem.createTandem( 'stopwatch' )
     } );
   }
