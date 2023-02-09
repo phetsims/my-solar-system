@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * CueingArrowsNode is the cueing arrows used to indicate that something can be dragged in some direction.
