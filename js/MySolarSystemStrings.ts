@@ -117,14 +117,20 @@ type StringsType = {
   'semiMajorAxisStringProperty': LinkableProperty<string>;
   'period': string;
   'periodStringProperty': LinkableProperty<string>;
-  'semiMajorAxisSymbol': string;
-  'semiMajorAxisSymbolStringProperty': LinkableProperty<string>;
-  'semiMinorAxisSymbol': string;
-  'semiMinorAxisSymbolStringProperty': LinkableProperty<string>;
-  'focalDistanceSymbol': string;
-  'focalDistanceSymbolStringProperty': LinkableProperty<string>;
-  'periodSymbol': string;
-  'periodSymbolStringProperty': LinkableProperty<string>;
+  'symbols': {
+    'semiMajorAxis': string;
+    'semiMajorAxisStringProperty': LinkableProperty<string>;
+    'semiMinorAxis': string;
+    'semiMinorAxisStringProperty': LinkableProperty<string>;
+    'focalDistance': string;
+    'focalDistanceStringProperty': LinkableProperty<string>;
+    'eccentricity': string;
+    'eccentricityStringProperty': LinkableProperty<string>;
+    'period': string;
+    'periodStringProperty': LinkableProperty<string>;
+    'division': string;
+    'divisionStringProperty': LinkableProperty<string>;
+  };
   'mode': {
     'sunAndPlanet': string;
     'sunAndPlanetStringProperty': LinkableProperty<string>;

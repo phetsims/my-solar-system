@@ -49,12 +49,12 @@ class ThirdLawMainPanel extends Panel {
     const periodValueRange = new RangeWithValue( 1, 10000, model.engine.T );
 
     const semiMajorAxisPatternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, model.selectedAxisPowerProperty ),
+      text: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.symbols.semiMajorAxisStringProperty, model.selectedAxisPowerProperty ),
       units: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.units.AUStringProperty, model.selectedAxisPowerProperty )
     } );
 
     const periodPatternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.periodSymbolStringProperty, model.selectedPeriodPowerProperty ),
+      text: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.symbols.periodStringProperty, model.selectedPeriodPowerProperty ),
       units: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.units.yearsStringProperty, model.selectedPeriodPowerProperty )
     } );
 
@@ -70,7 +70,7 @@ class ThirdLawMainPanel extends Panel {
               [
                 {
                   value: 1,
-                  createNode: () => new RichText( MySolarSystemStrings.periodSymbolStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( MySolarSystemStrings.symbols.periodStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,
@@ -93,7 +93,7 @@ class ThirdLawMainPanel extends Panel {
               [
                 {
                   value: 1,
-                  createNode: () => new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
+                  createNode: () => new RichText( MySolarSystemStrings.symbols.semiMajorAxisStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
                 },
                 {
                   value: 2,

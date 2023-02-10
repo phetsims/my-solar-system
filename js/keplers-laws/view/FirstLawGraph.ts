@@ -75,9 +75,9 @@ export default class FirstLawGraph extends AlignBox {
         new ArrowNode( 0, 0, -20, 0, { stroke: 'fuchsia', fill: 'fuchsia', tailWidth: 1 } ),
         new NumberDisplay( model.engine.eccentricityProperty, modelYRange, {
           decimalPlaces: 2,
-          textOptions: combineOptions<TextOptions>( {
+          textOptions: combineOptions<TextOptions>( {}, MySolarSystemConstants.TEXT_OPTIONS, {
             fill: 'fuchsia'
-          }, MySolarSystemConstants.TEXT_OPTIONS ),
+          } ),
           backgroundFill: null,
           backgroundStroke: null
         } )

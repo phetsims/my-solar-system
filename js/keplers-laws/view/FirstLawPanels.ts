@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -16,6 +16,8 @@ import FirstLawGraph from './FirstLawGraph.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextNumberDisplay.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 export default class FirstLawPanels extends VBox {
   public constructor( model: KeplersLawsModel ) {
@@ -33,7 +35,16 @@ class ExcentricityPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
     super( new VBox( {
       children: [
-        new Text( MySolarSystemStrings.eccentricityEquationStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
+        new HBox( {
+          children: [
+            new Text( MySolarSystemStrings.eccentricityEquationStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
+            new Text( MySolarSystemStrings.symbols.focalDistanceStringProperty, combineOptions<TextOptions>( {},
+              MySolarSystemConstants.TITLE_OPTIONS, { fill: MySolarSystemColors.thirdBodyColorProperty } ) ),
+            new Text( MySolarSystemStrings.symbols.divisionStringProperty, MySolarSystemConstants.TITLE_OPTIONS ),
+            new Text( MySolarSystemStrings.symbols.semiMajorAxisStringProperty, combineOptions<TextOptions>( {},
+              MySolarSystemConstants.TITLE_OPTIONS, { fill: 'orange' } ) )
+            ]
+        } ),
         new FirstLawGraph( model )
       ],
       spacing: 10,
@@ -52,15 +63,15 @@ class ValuesPanel extends Panel {
     const focalDistanceValueRange = new RangeWithValue( 0, 10000, model.engine.c );
 
     const semiMajorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemStrings.semiMajorAxisSymbolStringProperty,
+      text: MySolarSystemStrings.symbols.semiMajorAxisStringProperty,
       units: MySolarSystemStrings.units.AUStringProperty
     } );
     const semiMinorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemStrings.semiMinorAxisSymbolStringProperty,
+      text: MySolarSystemStrings.symbols.semiMinorAxisStringProperty,
       units: MySolarSystemStrings.units.AUStringProperty
     } );
     const focalDistanceStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemStrings.focalDistanceSymbolStringProperty,
+      text: MySolarSystemStrings.symbols.focalDistanceStringProperty,
       units: MySolarSystemStrings.units.AUStringProperty
     } );
 

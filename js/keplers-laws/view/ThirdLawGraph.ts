@@ -71,12 +71,12 @@ export default class ThirdLawGraph extends Node {
     } );
 
     const xAxisLabelStringProperty = MySolarSystemTextNumberDisplay.combinePowerString(
-      MySolarSystemStrings.semiMajorAxisSymbolStringProperty,
+      MySolarSystemStrings.symbols.semiMajorAxisStringProperty,
       model.selectedAxisPowerProperty
     );
 
     const yAxisLabelStringProperty = MySolarSystemTextNumberDisplay.combinePowerString(
-      MySolarSystemStrings.periodSymbolStringProperty,
+      MySolarSystemStrings.symbols.periodStringProperty,
       model.selectedPeriodPowerProperty
     );
 

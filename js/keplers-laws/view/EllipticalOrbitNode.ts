@@ -54,60 +54,71 @@ export default class EllipticalOrbitNode extends Path {
     this.addChild( thirdLawLayer );
 
     // Text Nodes
-    const aLabelNode = new Text( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, combineOptions<TextOptions>( {
+    const aLabelNode = new Text( MySolarSystemStrings.symbols.semiMajorAxisStringProperty, combineOptions<TextOptions>( {
       visibleProperty: DerivedProperty.or(
         [ model.semiaxisVisibleProperty, model.semiMajorAxisVisibleProperty, model.eccentricityVisibleProperty ]
-      ),
+      )
+    }, MySolarSystemConstants.TEXT_OPTIONS, {
       scale: 1.5,
       stroke: 'orange',
       fill: 'orange'
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const bLabelNode = new Text( MySolarSystemStrings.semiMinorAxisSymbolStringProperty, combineOptions<TextOptions>( {
-      visibleProperty: model.semiaxisVisibleProperty,
-      scale: 1.5,
-      stroke: 'orange',
-      fill: 'orange'
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const cLabelNode = new Text( MySolarSystemStrings.focalDistanceSymbolStringProperty, combineOptions<TextOptions>( {
-      visibleProperty: new DerivedProperty(
-        [
-          model.eccentricityVisibleProperty,
-          model.engine.eccentricityProperty
-        ],
-        ( visible, e ) => {
-          return visible && ( e > 0 );
-        }
-      ),
-      scale: 1.5,
-      stroke: MySolarSystemColors.thirdBodyColorProperty,
-      fill: MySolarSystemColors.thirdBodyColorProperty
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const stringLabelNode1 = new RichText( 'd<sub>1', combineOptions<TextOptions>( {
-      visibleProperty: new DerivedProperty(
-        [
-          model.stringsVisibleProperty,
-          model.engine.eccentricityProperty
-        ],
-        ( visible, e ) => {
-          return visible && ( e > 0 );
-        }
-      ),
-      scale: 1.5,
-      stroke: '#ccb285'
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
-    const stringLabelNode2 = new RichText( 'd<sub>2', combineOptions<TextOptions>( {
-      visibleProperty: new DerivedProperty(
-        [
-          model.stringsVisibleProperty,
-          model.engine.eccentricityProperty
-        ],
-        ( visible, e ) => {
-          return visible && ( e > 0 );
-        }
-      ),
-      scale: 1.5,
-      stroke: '#ccb285'
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    } ) );
+    const bLabelNode = new Text( MySolarSystemStrings.symbols.semiMinorAxisStringProperty, combineOptions<TextOptions>(
+      {
+        visibleProperty: model.semiaxisVisibleProperty
+      }, MySolarSystemConstants.TEXT_OPTIONS, {
+        scale: 1.5,
+        stroke: 'orange',
+        fill: 'orange'
+      } ) );
+    const cLabelNode = new Text( MySolarSystemStrings.symbols.focalDistanceStringProperty, combineOptions<TextOptions>(
+      {
+        visibleProperty: new DerivedProperty(
+          [
+            model.eccentricityVisibleProperty,
+            model.engine.eccentricityProperty
+          ],
+          ( visible, e ) => {
+            return visible && ( e > 0 );
+          }
+        )
+      }, MySolarSystemConstants.TEXT_OPTIONS, {
+        scale: 1.5,
+        stroke: MySolarSystemColors.thirdBodyColorProperty,
+        fill: MySolarSystemColors.thirdBodyColorProperty
+      } ) );
+    const stringLabelNode1 = new RichText( 'd<sub>1', combineOptions<TextOptions>(
+      {
+        visibleProperty: new DerivedProperty(
+          [
+            model.stringsVisibleProperty,
+            model.engine.eccentricityProperty
+          ],
+          ( visible, e ) => {
+            return visible && ( e > 0 );
+          }
+        )
+      }, MySolarSystemConstants.TEXT_OPTIONS, {
+        scale: 1.5,
+        stroke: '#ccb285',
+        fill: '#ccb285'
+      } ) );
+    const stringLabelNode2 = new RichText( 'd<sub>2', combineOptions<TextOptions>(
+      {
+        visibleProperty: new DerivedProperty(
+          [
+            model.stringsVisibleProperty,
+            model.engine.eccentricityProperty
+          ],
+          ( visible, e ) => {
+            return visible && ( e > 0 );
+          }
+        )
+      }, MySolarSystemConstants.TEXT_OPTIONS, {
+        scale: 1.5,
+        stroke: '#ccb285',
+        fill: '#ccb285'
+      } ) );
     const radiusLabelNode = new RichText( 'r', combineOptions<TextOptions>( {
       visibleProperty: new DerivedProperty(
         [
@@ -117,10 +128,12 @@ export default class EllipticalOrbitNode extends Path {
         ( visible, e ) => {
           return visible && ( e === 0 );
         }
-      ),
+      )
+    }, MySolarSystemConstants.TEXT_OPTIONS, {
       scale: 1.5,
-      stroke: '#ccb285'
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+      stroke: '#ccb285',
+      fill: '#ccb285'
+    } ) );
 
     // FIRST LAW: Axis, foci, and Ellipse definition lines
     const axisPath = new Path( null, {

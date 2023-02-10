@@ -21,17 +21,17 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
-export const DISTANCE_LABEL_OPTIONS = combineOptions<TextOptions>( {
+export const DISTANCE_LABEL_OPTIONS = combineOptions<TextOptions>( {}, MySolarSystemConstants.TEXT_OPTIONS, {
   scale: 1.5,
   stroke: '#ccb285',
   fill: '#ccb285'
-}, MySolarSystemConstants.TEXT_OPTIONS );
+} );
 
-export const AXIS_LABEL_OPTIONS = combineOptions<TextOptions>( {
+export const AXIS_LABEL_OPTIONS = combineOptions<TextOptions>( {}, MySolarSystemConstants.TEXT_OPTIONS, {
   scale: 1.5,
   stroke: 'orange',
   fill: 'orange'
-}, MySolarSystemConstants.TEXT_OPTIONS );
+} );
 
 export const STRING_ARROW_OPTIONS = {
   stroke: '#ccb285',
@@ -98,13 +98,13 @@ export default class DistancesDisplayNode extends VBox {
         new VBox( {
           children: [
             aLineArrowNode1,
-            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, AXIS_LABEL_OPTIONS )
+            new RichText( MySolarSystemStrings.symbols.semiMajorAxisStringProperty, AXIS_LABEL_OPTIONS )
           ]
         } ),
         new VBox( {
           children: [
             aLineArrowNode2,
-            new RichText( MySolarSystemStrings.semiMajorAxisSymbolStringProperty, AXIS_LABEL_OPTIONS )
+            new RichText( MySolarSystemStrings.symbols.semiMajorAxisStringProperty, AXIS_LABEL_OPTIONS )
           ]
         } )
       ]
