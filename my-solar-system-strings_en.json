@@ -248,5 +248,14 @@
   },
   "pattern.unitsPower": {
     "value": "{{units}}<sup>{{power}}</sup>"
+  },
+  "warning.warning": {
+    "value": "Warning"
+  },
+  "warning.crashOrbit": {
+    "value": "The body will crash into the sun"
+  },
+  "warning.escapeOrbit": {
+    "value": "The body will escape the system"
   }
 }

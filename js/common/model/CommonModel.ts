@@ -73,24 +73,20 @@ abstract class CommonModel<EngineType extends Engine = Engine> {
   public readonly userInteractingEmitter = new Emitter();
 
   // Time control parameters
-  //REVIEW: Please document types, or inline! It's hard to read the code when it's like this, I have to guess types,
-  //REVIEW: or have the IDE look up things.
-  public timeScale; // Changeable because Kepler's Laws screen uses a different speed
-  public timeMultiplier;
-  public readonly timeProperty; //TODO DOCUMENT TIMESCALE AND TIMESPEED
-  public readonly isPlayingProperty;
+  public timeScale: number; // Scale of the model's dt
+  public timeMultiplier: number; // Transform between model's and view's times
+  public readonly timeProperty: NumberProperty;
+  public readonly isPlayingProperty: BooleanProperty;
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
 
-  //REVIEW: Please document types, or inline! It's hard to read the code when it's like this, I have to guess types,
-  //REVIEW: or have the IDE look up things.
-  public readonly pathVisibleProperty;
-  public readonly gravityVisibleProperty;
-  public readonly velocityVisibleProperty;
-  public readonly gridVisibleProperty;
-  public readonly measuringTapeVisibleProperty;
-  public readonly valuesVisibleProperty;
-  public readonly moreDataProperty;
-  public readonly realUnitsProperty;
+  public readonly pathVisibleProperty: BooleanProperty;
+  public readonly gravityVisibleProperty: BooleanProperty;
+  public readonly velocityVisibleProperty: BooleanProperty;
+  public readonly gridVisibleProperty: BooleanProperty;
+  public readonly measuringTapeVisibleProperty: BooleanProperty;
+  public readonly valuesVisibleProperty: BooleanProperty;
+  public readonly moreDataProperty: BooleanProperty;
+  public readonly realUnitsProperty: BooleanProperty;
 
   public readonly zoomLevelProperty: NumberProperty;
   public readonly zoomProperty: ReadOnlyProperty<number>;

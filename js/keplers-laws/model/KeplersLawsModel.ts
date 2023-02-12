@@ -31,7 +31,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly alwaysCircularProperty = new BooleanProperty( false );
 
   // Booleans to keep track of which law is selected
-  // TODO: Is this very inefficient?
   public readonly isFirstLawProperty = new BooleanProperty( false );
   public readonly isSecondLawProperty = new BooleanProperty( false );
   public readonly isThirdLawProperty = new BooleanProperty( false );

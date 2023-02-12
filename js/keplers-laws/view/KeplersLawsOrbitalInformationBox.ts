@@ -130,7 +130,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
         MySolarSystemStrings.apoapsisStringProperty,
         'apoapsisVisibleCheckbox',
         new XNode( {
-          fill: MySolarSystemColors.secondBodyColorProperty,
+          fill: MySolarSystemColors.thirdBodyColorProperty,
           stroke: MySolarSystemColors.foregroundProperty,
           scale: 0.5
         } )
@@ -138,7 +138,7 @@ class KeplersLawsOrbitalInformationBox extends VBox {
       createCheckbox(
         model.periapsisVisibleProperty,
         MySolarSystemStrings.periapsisStringProperty,
-        'periapsisVisibleCheckbox',
+        'periapsisVisibFleCheckbox',
         new XNode( {
           fill: 'gold',
           stroke: MySolarSystemColors.foregroundProperty,

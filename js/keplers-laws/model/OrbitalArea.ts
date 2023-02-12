@@ -10,11 +10,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 export default class OrbitalArea {
-  // TODO: Document what all this means
-  public dotPosition = Vector2.ZERO;
-  public startPosition = Vector2.ZERO;
-  public endPosition = Vector2.ZERO;
-  public completion = 0;
+  public dotPosition = Vector2.ZERO; // Position of the dot in the orbital area
+  public startPosition = Vector2.ZERO; // Start position of the orbital area
+  public endPosition = Vector2.ZERO; // End position of the orbital area
+  public completion = 0; // Proportional completion of the orbital area
   public insideProperty = new BooleanProperty( false );
   public alreadyEntered = false;
   public active = false;

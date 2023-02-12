@@ -2,7 +2,6 @@
 
 /**
  * A combination of a Rich Text node and a Number Display node.
- * TODO: Is there an easier way?
  *
  * @author Agustín Vallejo
  */

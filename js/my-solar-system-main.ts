@@ -17,7 +17,6 @@ import MySolarSystemStrings from './MySolarSystemStrings.js';
 
 const simOptions: SimOptions = {
 
-  //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
   credits: {
     leadDesign: 'Diana López Tavares',
     softwareDevelopment: 'Agustín Vallejo, Jonathan Olson',

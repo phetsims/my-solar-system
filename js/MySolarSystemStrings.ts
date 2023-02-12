@@ -196,6 +196,14 @@ type StringsType = {
     'rangeWithExponentialUnitsStringProperty': LinkableProperty<string>;
     'unitsPower': string;
     'unitsPowerStringProperty': LinkableProperty<string>;
+  };
+  'warning': {
+    'warning': string;
+    'warningStringProperty': LinkableProperty<string>;
+    'crashOrbit': string;
+    'crashOrbitStringProperty': LinkableProperty<string>;
+    'escapeOrbit': string;
+    'escapeOrbitStringProperty': LinkableProperty<string>;
   }
 };
 

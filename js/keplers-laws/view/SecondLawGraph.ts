@@ -176,6 +176,8 @@ class AreasBarPlot extends Node {
       const activeAreas = model.engine.orbitalAreas.filter( area => area.active );
       dataSet = [];
 
+      // First forEach is for updating the dataset, which will create the rectangles
+      // Second forEach is for updating the color of the rectangles
       activeAreas.forEach( ( area, index ) => {
         // Setting all the bar's height and pushing them to the dataSet
         let height = area.alreadyEntered && !area.insideProperty.value ? 1 : area.completion;
@@ -185,7 +187,6 @@ class AreasBarPlot extends Node {
       } );
       barPlot.setDataSet( dataSet );
 
-      // TODO: Maybe there's a better solution than a double loop
       activeAreas.forEach( ( area, index ) => {
         // Setting the color of the bar
         const alpha = area.insideProperty.value ? 1 : area.completion;
