@@ -161,7 +161,7 @@ class CommonScreenView extends ScreenView {
         } ),
         new TextPushButton( MySolarSystemStrings.clearStringProperty, {
           font: new PhetFont( 16 ),
-          listener: model.timeProperty.reset,
+          listener: () => { model.timeProperty.reset(); },
           maxTextWidth: 65,
           tandem: providedOptions.tandem.createTandem( 'clearButton' ),
           touchAreaXDilation: 10,
