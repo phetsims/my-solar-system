@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Color, Node, PaintableOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, Node, PaintableOptions, Path, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -23,8 +23,12 @@ import BarPlot from '../../../../bamboo/js/BarPlot.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
+
+// How much bigger is the top of the graph compared to the total area
+const UPSCALE = 1.3;
 
 const TITLE_OPTIONS = {
   font: MySolarSystemConstants.TITLE_FONT,
@@ -65,6 +69,13 @@ export default class SecondLawGraph extends Panel {
         x: -25, centerY: -yAxisLength * 0.5, rotation: -Math.PI / 2
       }, MySolarSystemConstants.TITLE_OPTIONS ) );
 
+    // Add dotted line in total area height
+    const totalAreaLine = new Path( new Shape().moveTo( 0, -yAxisLength / UPSCALE ).lineTo( xAxisLength, -yAxisLength / UPSCALE ), {
+      stroke: MySolarSystemColors.thirdBodyColorProperty,
+      lineWidth: 2,
+      lineDash: [ 5, 5 ]
+    } );
+
     super( new VBox(
       {
         spacing: 10,
@@ -75,7 +86,8 @@ export default class SecondLawGraph extends Panel {
               barPlot,
               xAxis,
               yAxis,
-              yAxisLabel
+              yAxisLabel,
+              totalAreaLine
             ]
           } ),
           xAxisLabel
@@ -123,7 +135,7 @@ class AreasBarPlot extends Node {
     } );
 
     // y tick marks
-    const YSpacing = 30;
+    const YSpacing = 2e4;
     const YTickMarkSet = new TickMarkSet( chartTransform, Orientation.VERTICAL, YSpacing, {
       edge: 'min',
       stroke: FOREGROUND_COLOR_PROPERTY
@@ -135,7 +147,7 @@ class AreasBarPlot extends Node {
     } );
 
     const updateYRange = () => {
-      modelYRange = new Range( 0, 1.3 * this.model.engine.a / 2 );
+      modelYRange = new Range( 0, UPSCALE * this.model.engine.totalArea );
       chartTransform.setModelYRange( modelYRange );
       const ratio = modelYRange.max / YSpacing;
       if ( ratio > 15 ) {
@@ -188,8 +200,7 @@ class AreasBarPlot extends Node {
       // Second forEach is for updating the color of the rectangles
       activeAreas.forEach( ( area, index ) => {
         // Setting all the bar's height and pushing them to the dataSet
-        let height = area.alreadyEntered && !area.insideProperty.value ? 1 : area.completion;
-        height *= model.engine.a / model.periodDivisionProperty.value;
+        const height = area.alreadyEntered && !area.insideProperty.value ? model.engine.segmentArea : area.sweptArea;
         const realIndex = this.model.engine.retrograde ? this.model.periodDivisionProperty.value - index - 1 : index;
         dataSet.push( new Vector2( realIndex, height ) );
       } );

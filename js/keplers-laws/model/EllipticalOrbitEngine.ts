@@ -91,6 +91,9 @@ export default class EllipticalOrbitEngine extends Engine {
   public readonly escapeSpeedProperty = new NumberProperty( 0 );
   public readonly escapeRadiusProperty = new NumberProperty( 0 );
 
+  public totalArea = 1;
+  public segmentArea = 1;
+
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
 
@@ -184,6 +187,8 @@ export default class EllipticalOrbitEngine extends Engine {
    * Updates the orbital elements of the body using Orbital Mechanics Analytic Equations
    */
   public override update(): void {
+    this.resetOrbitalAreas();
+
     const r = this.body.positionProperty.value;
     this.updateForces( r );
 
@@ -216,6 +221,9 @@ export default class EllipticalOrbitEngine extends Engine {
     this.nu = this.getTrueAnomaly( this.M );
 
     this.T = this.thirdLaw( this.a );
+
+    this.totalArea = Math.PI * this.a * this.b;
+    this.segmentArea = this.totalArea / this.periodDivisions;
 
     this.semiMajorAxisProperty.value = this.a * MySolarSystemConstants.POSITION_MULTIPLIER;
     this.semiMinorAxisProperty.value = this.b * MySolarSystemConstants.POSITION_MULTIPLIER;
@@ -302,6 +310,7 @@ export default class EllipticalOrbitEngine extends Engine {
               endAngle = bodyAngle;
               orbitalArea.completion = completionRate;
             }
+            orbitalArea.sweptArea = this.calculateSweptArea( startAngle, endAngle );
           }
           // OUTSIDE THE AREA
           else {
@@ -333,6 +342,13 @@ export default class EllipticalOrbitEngine extends Engine {
         orbitalArea.insideProperty.value = false;
       }
     } );
+  }
+
+  private calculateSweptArea( startAngle: number, endAngle: number ): number {
+    // Convert angles from foci to center to get the correct area
+    startAngle = this.getMeanAnomaly( startAngle, this.e );
+    endAngle = this.getMeanAnomaly( endAngle, this.e );
+    return Math.abs( 0.5 * this.a * this.b * ( endAngle - startAngle ) );
   }
 
   private calculate_a( r: Vector2, v: Vector2 ): number {
@@ -386,14 +402,8 @@ export default class EllipticalOrbitEngine extends Engine {
       W *= -1;
     }
 
-    // Calculate Eccentric Anomaly and determine its cuadrant
-    let E = -Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
-    if ( Math.sin( E ) * Math.sin( nu ) < 0 ) {
-      E *= -1;
-    }
-
     // Calculate Mean Anomaly
-    const M = E - e * Math.sin( E );
+    const M = this.getMeanAnomaly( nu, e );
 
     // Calculate the argument of periapsis
     const w = rAngle - nu;
@@ -421,6 +431,18 @@ export default class EllipticalOrbitEngine extends Engine {
     const E = M + this.e * Math.sin( E2 );
     const nu = Math.atan2( Math.pow( 1 - this.e * this.e, 0.5 ) * Math.sin( E ), Math.cos( E ) - this.e );
     return Utils.moduloBetweenDown( nu, 0, TWOPI );
+  }
+
+  private getMeanAnomaly( nu: number, e: number ): number {
+    // Calculate Eccentric Anomaly and determine its cuadrant
+    let E = -Math.acos( Utils.clamp( ( e + Math.cos( nu ) ) / ( 1 + e * Math.cos( nu ) ), -1, 1 ) );
+    if ( Math.sin( E ) * Math.sin( nu ) < 0 ) {
+      E *= -1;
+    }
+
+    // Calculate Mean Anomaly
+    const M = E - e * Math.sin( E );
+    return M;
   }
 
   public resetOrbitalAreas(): void {

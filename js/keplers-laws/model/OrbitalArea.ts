@@ -14,6 +14,7 @@ export default class OrbitalArea {
   public startPosition = Vector2.ZERO; // Start position of the orbital area
   public endPosition = Vector2.ZERO; // End position of the orbital area
   public completion = 0; // Proportional completion of the orbital area
+  public sweptArea = 0;
   public insideProperty = new BooleanProperty( false );
   public alreadyEntered = false;
   public active = false;
@@ -28,6 +29,7 @@ export default class OrbitalArea {
     this.startPosition = Vector2.ZERO;
     this.endPosition = Vector2.ZERO;
     this.completion = 0;
+    this.sweptArea = 0;
     this.insideProperty.reset();
     this.alreadyEntered = false;
     this.active = false;
