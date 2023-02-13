@@ -81,19 +81,22 @@ class ValuesPanel extends Panel {
           {
             visibleProperty: model.semiaxisVisibleProperty,
             valuePattern: semiMajorAxisStringPatternProperty,
-            align: 'left'
+            align: 'left',
+            decimalPlaces: 2
           } ),
         new MySolarSystemTextNumberDisplay( model.engine.semiMinorAxisProperty, semiMinorAxisValueRange,
           {
             visibleProperty: model.semiaxisVisibleProperty,
             valuePattern: semiMinorAxisStringPatternProperty,
-            align: 'left'
+            align: 'left',
+            decimalPlaces: 2
           } ),
         new MySolarSystemTextNumberDisplay( model.engine.focalDistanceProperty, focalDistanceValueRange,
           {
             visibleProperty: model.eccentricityVisibleProperty,
             valuePattern: focalDistanceStringPatternProperty,
-            align: 'left'
+            align: 'left',
+            decimalPlaces: 2
           } )
       ]
     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );

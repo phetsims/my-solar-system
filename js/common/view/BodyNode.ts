@@ -151,7 +151,8 @@ export default class BodyNode extends ShadedSphereNode {
       visibleProperty: CueingArrowsNode.createVisibleProperty( new BooleanProperty( options.draggable ), this.body.movedProperty )
     } );
 
-    this.addChild( cueingArrowsNode );
+    // Commented out while we take a design decision on whether to show the cueing arrows
+    // this.addChild( cueingArrowsNode );
 
     this.disposeBodyNode = () => {
       positionMultilink.dispose();

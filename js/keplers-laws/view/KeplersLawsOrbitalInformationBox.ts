@@ -23,6 +23,7 @@ import semiaxisIcon_png from '../../../images/semiaxisIcon_png.js';
 import eccentricityIcon_png from '../../../images/eccentricityIcon_png.js';
 import fociIcon_png from '../../../images/fociIcon_png.js';
 import stringsIcon_png from '../../../images/stringsIcon_png.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // Const
 const ICON_OPTIONS = {
@@ -133,7 +134,11 @@ class KeplersLawsOrbitalInformationBox extends VBox {
           fill: MySolarSystemColors.thirdBodyColorProperty,
           stroke: MySolarSystemColors.foregroundProperty,
           scale: 0.5
-        } )
+        } ),
+        {
+          enabledProperty: new DerivedProperty( [ model.engine.eccentricityProperty ],
+            e => e > 0 )
+        }
       ),
       createCheckbox(
         model.periapsisVisibleProperty,
@@ -143,7 +148,11 @@ class KeplersLawsOrbitalInformationBox extends VBox {
           fill: 'gold',
           stroke: MySolarSystemColors.foregroundProperty,
           scale: 0.5
-        } )
+        } ),
+        {
+          enabledProperty: new DerivedProperty( [ model.engine.eccentricityProperty ],
+            e => e > 0 )
+        }
       )
     ];
 
