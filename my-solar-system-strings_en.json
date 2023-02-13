@@ -95,6 +95,9 @@
   "area.periodDivision": {
     "value": "Period Divisions"
   },
+  "area.areaUnits": {
+    "value": "Area (AU<sup>2</sup>)"
+  },
   "dataPanel.X": {
     "value": "x"
   },

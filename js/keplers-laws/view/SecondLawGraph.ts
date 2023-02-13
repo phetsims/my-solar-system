@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Color, Node, PaintableOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, Node, PaintableOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -58,6 +58,13 @@ export default class SecondLawGraph extends Panel {
     const barPlot = new AreasBarPlot( model, { viewWidth: xAxisLength, viewHeight: yAxisLength } );
     barPlot.y = -yAxisLength;
 
+    const xAxisLabel = new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TITLE_OPTIONS );
+    const yAxisLabel = new RichText(
+      MySolarSystemStrings.area.areaUnitsStringProperty,
+      combineOptions<RichTextOptions>( {
+        x: -25, centerY: -yAxisLength * 0.5, rotation: -Math.PI / 2
+      }, MySolarSystemConstants.TITLE_OPTIONS ) );
+
     super( new VBox(
       {
         spacing: 10,
@@ -67,10 +74,11 @@ export default class SecondLawGraph extends Panel {
             children: [
               barPlot,
               xAxis,
-              yAxis
+              yAxis,
+              yAxisLabel
             ]
           } ),
-          new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TITLE_OPTIONS )
+          xAxisLabel
         ]
       }
     ), options );

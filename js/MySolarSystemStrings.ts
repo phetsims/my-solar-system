@@ -78,6 +78,8 @@ type StringsType = {
     'areaGraphStringProperty': LinkableProperty<string>;
     'periodDivision': string;
     'periodDivisionStringProperty': LinkableProperty<string>;
+    'areaUnits': string;
+    'areaUnitsStringProperty': LinkableProperty<string>;
   };
   'dataPanel': {
     'X': string;
