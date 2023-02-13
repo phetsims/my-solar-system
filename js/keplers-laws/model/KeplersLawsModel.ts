@@ -192,6 +192,8 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.visibilityReset();
     this.engine.updateAllowed = true;
     this.engine.update();
+
+    this.loadBodyStates( this.defaultBodyState );
   }
 
   public override update(): void {
