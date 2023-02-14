@@ -58,6 +58,8 @@ class ThirdLawMainPanel extends Panel {
       units: MySolarSystemTextNumberDisplay.combinePowerString( MySolarSystemStrings.units.yearsStringProperty, model.selectedPeriodPowerProperty )
     } );
 
+    // TODO: Add string a=infinite. Look at FirstLawPanels.ts to be consistent. Should we change that way?
+
     super( new VBox( {
       spacing: 10,
       children: [
@@ -121,7 +123,8 @@ class ThirdLawMainPanel extends Panel {
           semiMajorAxisValueRange,
           {
             valuePattern: semiMajorAxisPatternStringProperty,
-            align: 'left'
+            align: 'left',
+            visibleProperty: model.engine.allowedOrbitProperty
           }
         ),
         new MySolarSystemTextNumberDisplay(
@@ -129,7 +132,8 @@ class ThirdLawMainPanel extends Panel {
           periodValueRange,
           {
             valuePattern: periodPatternStringProperty,
-            align: 'left'
+            align: 'left',
+            visibleProperty: model.engine.allowedOrbitProperty
           } )
       ]
     } ), options );

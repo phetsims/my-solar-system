@@ -17,6 +17,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const SNAP_TOLERANCE = 0.05;
@@ -27,6 +28,7 @@ const SPACING = ( WIDTH - NUM_TICKS ) / ( NUM_TICKS - 1 );
 
 export default class ThirdLawSliderPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
+    const colorProperty = MySolarSystemColors.firstBodyColorProperty;
     const defaultLabelValue = model.bodies[ 0 ].massProperty.value;
     const massRange = new RangeWithValue( defaultLabelValue / 2, 2 * defaultLabelValue, defaultLabelValue );
     const slider = new MySolarSystemSlider(
@@ -45,8 +47,9 @@ export default class ThirdLawSliderPanel extends Panel {
         majorTickStroke: MySolarSystemColors.foregroundProperty,
 
         // custom thumb
-        thumbFill: '#98BECF',
-        thumbFillHighlighted: '#B3D3E2',
+        thumbFill: colorProperty,
+        thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
+
 
         // snap to default value if close
         constrainValue: ( mass: number ) => Math.abs( mass - defaultLabelValue ) / defaultLabelValue < SNAP_TOLERANCE ? defaultLabelValue : mass,

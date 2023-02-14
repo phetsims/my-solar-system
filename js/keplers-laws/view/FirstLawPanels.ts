@@ -18,6 +18,8 @@ import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextN
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 export default class FirstLawPanels extends VBox {
   public constructor( model: KeplersLawsModel ) {
@@ -25,7 +27,8 @@ export default class FirstLawPanels extends VBox {
       margin: 5,
       children: [
         new ExcentricityPanel( model ),
-        new ValuesPanel( model )
+        new ValuesPanel( model ),
+        new InvalidValuesPanel( model )
       ]
     } );
   }
@@ -98,7 +101,40 @@ class ValuesPanel extends Panel {
             align: 'left',
             decimalPlaces: 2
           } )
-      ]
+      ],
+      visibleProperty: model.engine.allowedOrbitProperty
+    } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
+  }
+}
+
+class InvalidValuesPanel extends Panel {
+  public constructor( model: KeplersLawsModel ) {
+
+    const semiMajorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+      text: MySolarSystemStrings.symbols.semiMajorAxisStringProperty,
+      units: MySolarSystemStrings.units.AUStringProperty,
+      value: MathSymbols.INFINITY
+    } );
+    const semiMinorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+      text: MySolarSystemStrings.symbols.semiMinorAxisStringProperty,
+      units: MySolarSystemStrings.units.AUStringProperty,
+      value: MathSymbols.NO_VALUE
+    } );
+    const focalDistanceStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+      text: MySolarSystemStrings.symbols.focalDistanceStringProperty,
+      units: MySolarSystemStrings.units.AUStringProperty,
+      value: MathSymbols.INFINITY
+    } );
+
+    super( new VBox( {
+      align: 'left',
+      spacing: 5,
+      children: [
+        new Text( semiMajorAxisStringPatternProperty, combineOptions<TextOptions>( { visibleProperty: model.semiaxisVisibleProperty }, MySolarSystemConstants.TEXT_OPTIONS ) ),
+        new Text( semiMinorAxisStringPatternProperty, combineOptions<TextOptions>( { visibleProperty: model.semiaxisVisibleProperty }, MySolarSystemConstants.TEXT_OPTIONS ) ),
+        new Text( focalDistanceStringPatternProperty, combineOptions<TextOptions>( { visibleProperty: model.eccentricityVisibleProperty }, MySolarSystemConstants.TEXT_OPTIONS ) )
+      ],
+      visibleProperty: DerivedProperty.not( model.engine.allowedOrbitProperty )
     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
 }
