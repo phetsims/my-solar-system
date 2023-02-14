@@ -9,7 +9,7 @@
  * @author Agustín Vallejo
  */
 
-import { HBox, RichText, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Path, RichText, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
 import EllipticalOrbitEngine from '../model/EllipticalOrbitEngine.js';
@@ -20,6 +20,7 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 export const DISTANCE_LABEL_OPTIONS = combineOptions<TextOptions>( {}, MySolarSystemConstants.TEXT_OPTIONS, {
   scale: 1.5,
@@ -39,7 +40,8 @@ export const STRING_ARROW_OPTIONS = {
   headWidth: 10,
   headLineWidth: 3,
   tailLineWidth: 3,
-  tailLineDash: [ 10, 2 ]
+  tailLineDash: [ 10, 2 ],
+  lineWidth: 3 // See note below
 };
 
 export const MAJOR_AXIS_ARROW_OPTIONS = {
@@ -48,9 +50,13 @@ export const MAJOR_AXIS_ARROW_OPTIONS = {
   headHeight: 10,
   headWidth: 10,
   headLineWidth: 3,
-  tailLineWidth: 3
+  tailLineWidth: 3,
+  lineWidth: 3 // See note below
 };
 
+// Note: lineWidth is not supported by LineArrowNode but it is supported by Path.
+// This is a workaround to use the same arrow options in the butts to make it
+// Look like a DimensionalArrowNode (which is not yet implemented in common code)
 
 export default class DistancesDisplayNode extends VBox {
   public orbit: EllipticalOrbitEngine;
@@ -71,9 +77,13 @@ export default class DistancesDisplayNode extends VBox {
 
     const d1lineArrowNode = new LineArrowNode( 0, 0, 0, 1, STRING_ARROW_OPTIONS );
     const d2lineArrowNode = new LineArrowNode( 0, 0, 0, 1, STRING_ARROW_OPTIONS );
+    d1lineArrowNode.addChild( new Path( new Shape().moveTo( 0, -5 ).lineTo( 0, 5 ), STRING_ARROW_OPTIONS ) );
+    d2lineArrowNode.addChild( new Path( new Shape().moveTo( 0, -5 ).lineTo( 0, 5 ), STRING_ARROW_OPTIONS ) );
 
     const aLineArrowNode1 = new LineArrowNode( 0, 0, 0, 1, MAJOR_AXIS_ARROW_OPTIONS );
     const aLineArrowNode2 = new LineArrowNode( 0, 0, 0, 1, MAJOR_AXIS_ARROW_OPTIONS );
+    aLineArrowNode1.addChild( new Path( new Shape().moveTo( 0, -5 ).lineTo( 0, 5 ), MAJOR_AXIS_ARROW_OPTIONS ) );
+    aLineArrowNode2.addChild( new Path( new Shape().moveTo( 0, -5 ).lineTo( 0, 5 ), MAJOR_AXIS_ARROW_OPTIONS ) );
 
 
     const focalStringsBox = new HBox( {
