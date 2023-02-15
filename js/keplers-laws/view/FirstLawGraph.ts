@@ -20,6 +20,7 @@ import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
 
@@ -59,7 +60,7 @@ export default class FirstLawGraph extends AlignBox {
       const value = eccentricities[ eccentricitiesKey ];
       const title = new Text( orbit, MySolarSystemConstants.TEXT_OPTIONS );
       orbitAndValues.push( new HBox( {
-        y: yAxisLength * ( value - 0.05 ),
+        centerY: yAxisLength * value,
         x: -title.width - 30,
         spacing: 5,
         children: [
@@ -69,7 +70,7 @@ export default class FirstLawGraph extends AlignBox {
       } ) );
     }
 
-    const actualEccentricity = new HBox( {
+    const currentEccentricityNode = new HBox( {
       x: 10,
       children: [
         new ArrowNode( 0, 0, -20, 0, { stroke: 'fuchsia', fill: 'fuchsia', tailWidth: 1 } ),
@@ -84,8 +85,13 @@ export default class FirstLawGraph extends AlignBox {
       ]
     } );
 
+    const currentEccentricityContainer = new Node( {
+      children: [ currentEccentricityNode ],
+      localBounds: new Bounds2( currentEccentricityNode.left, 0, currentEccentricityNode.right, yAxisLength )
+    } );
+
     model.engine.eccentricityProperty.link( ( eccentricity: number ) => {
-      actualEccentricity.y = yAxisLength * ( eccentricity - 0.05 );
+      currentEccentricityNode.centerY = yAxisLength * eccentricity;
     } );
 
     const chartTransform = new ChartTransform( {
@@ -105,7 +111,7 @@ export default class FirstLawGraph extends AlignBox {
         ...orbitAndValues,
         yAxis,
         YTickMarkSet,
-        actualEccentricity
+        currentEccentricityContainer
       ]
     } ), {
       layoutOptions: {
