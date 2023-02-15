@@ -47,9 +47,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   // Second Law properties
   public readonly apoapsisVisibleProperty = new BooleanProperty( false );
   public readonly periapsisVisibleProperty = new BooleanProperty( false );
-
-  public readonly sweepAreaVisibleProperty = new BooleanProperty( true );
-  public readonly areaGraphVisibleProperty = new BooleanProperty( true );
   public readonly periodDivisionProperty = new NumberProperty( 4 );
   public readonly maxDivisionValue = MySolarSystemConstants.MAX_ORBITAL_DIVISIONS;
 
@@ -113,9 +110,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.fociVisibleProperty.link( fociVisible => {
       this.stringsVisibleProperty.value = fociVisible ? this.stringsVisibleProperty.value : false;
     } );
-    this.sweepAreaVisibleProperty.link( areasVisible => {
-      this.areaGraphVisibleProperty.value = areasVisible ? this.areaGraphVisibleProperty.value : false;
-    } );
 
     this.timeScale = 2.0;
     this.timeMultiplier = 1 / 12.7;
@@ -173,8 +167,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     // Second Law
     this.apoapsisVisibleProperty.reset();
     this.periapsisVisibleProperty.reset();
-    this.sweepAreaVisibleProperty.reset();
-    this.areaGraphVisibleProperty.reset();
 
     // Third Law
     this.semiMajorAxisVisibleProperty.reset();

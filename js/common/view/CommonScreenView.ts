@@ -37,6 +37,7 @@ import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Panel from '../../../../sun/js/Panel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 
 type SelfOptions = {
@@ -61,8 +62,19 @@ class CommonScreenView extends ScreenView {
 
   protected readonly modelViewTransformProperty: ReadOnlyProperty<ModelViewTransform2>;
 
+  // Derived from visibleBoundsProperty to keep the UI elements centered on narrow screens
+  // Tracks only the vertical bounds and constrains them to layoutBounds
+  protected readonly availableBoundsProperty: TReadOnlyProperty<Bounds2>;
+
   public constructor( model: CommonModel, providedOptions: CommonScreenViewOptions ) {
     super( providedOptions );
+
+    this.availableBoundsProperty = new DerivedProperty(
+      [ this.visibleBoundsProperty ],
+      visibleBounds => {
+        return visibleBounds.withMinY( this.layoutBounds.minY ).withMaxY( this.layoutBounds.maxY );
+      }
+    );
 
     this.addChild( this.bottomLayer );
     this.addChild( this.bodiesLayer );
@@ -191,6 +203,7 @@ class CommonScreenView extends ScreenView {
 
     const resetAllButtonBox = new AlignBox( resetAllButton,
     {
+      alignBoundsProperty: this.availableBoundsProperty,
       margin: MySolarSystemConstants.MARGIN,
       xAlign: 'right',
       yAlign: 'bottom'
@@ -199,7 +212,6 @@ class CommonScreenView extends ScreenView {
     Multilink.multilink(
       [ this.visibleBoundsProperty, this.modelViewTransformProperty ],
       ( visibleBounds, modelViewTransform ) => {
-        resetAllButtonBox.alignBounds = visibleBounds;
         measuringTapeNode.setDragBounds( modelViewTransform.viewToModelBounds( visibleBounds.eroded( 50 ) ) );
         measuringTapeNode.modelViewTransformProperty.value = modelViewTransform;
       }

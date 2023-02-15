@@ -124,7 +124,12 @@ class KeplersLawsScreenView extends CommonScreenView {
         spacing: 10,
         align: 'top'
       } ),
-      { margin: MARGIN, xAlign: 'left', yAlign: 'top' }
+      {
+        alignBoundsProperty: this.availableBoundsProperty,
+        margin: MARGIN,
+        xAlign: 'left',
+        yAlign: 'top'
+      }
     );
 
     // Add the control panel on top of the canvases
@@ -161,7 +166,12 @@ class KeplersLawsScreenView extends CommonScreenView {
           } )
         ]
       } ),
-      { margin: MARGIN, xAlign: 'right', yAlign: 'top' }
+      {
+        alignBoundsProperty: this.availableBoundsProperty,
+        margin: MARGIN,
+        xAlign: 'right',
+        yAlign: 'top'
+      }
     );
 
     this.stopwatchNode = new StopwatchNode( model.stopwatch, {
@@ -184,20 +194,19 @@ class KeplersLawsScreenView extends CommonScreenView {
         ],
         spacing: 20
       } ),
-      { margin: MARGIN, xAlign: 'left', yAlign: 'bottom' }
+      {
+        alignBoundsProperty: this.availableBoundsProperty,
+        margin: MARGIN,
+        xAlign: 'left',
+        yAlign: 'bottom'
+      }
     );
 
     const distancesDisplayBox = new AlignBox( new DistancesDisplayNode( model, this.modelViewTransformProperty ), {
+      alignBoundsProperty: this.availableBoundsProperty,
       margin: MySolarSystemConstants.MARGIN,
       xAlign: 'center',
       yAlign: 'top'
-    } );
-
-    this.visibleBoundsProperty.link( visibleBounds => {
-      lawsAndZoomBoxes.alignBounds = visibleBounds;
-      controlPanelAlignBox.alignBounds = visibleBounds;
-      lawsButtonsBox.alignBounds = visibleBounds;
-      distancesDisplayBox.alignBounds = visibleBounds;
     } );
 
     // Slider that controls the bodies mass

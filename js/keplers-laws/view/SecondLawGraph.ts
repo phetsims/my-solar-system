@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Color, Node, PaintableOptions, Path, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, Node, PaintableOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -23,7 +23,11 @@ import BarPlot from '../../../../bamboo/js/BarPlot.js';
 import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Utils from '../../../../dot/js/Utils.js';
+
 
 const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
 
@@ -40,7 +44,7 @@ export default class SecondLawGraph extends Panel {
   public constructor( public model: KeplersLawsModel ) {
 
     const options = combineOptions<PanelOptions>( {
-      visibleProperty: model.areaGraphVisibleProperty
+      visibleProperty: model.isSecondLawProperty
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
     const xAxisLength = 180;
@@ -69,13 +73,6 @@ export default class SecondLawGraph extends Panel {
         x: -25, centerY: -yAxisLength * 0.5, rotation: -Math.PI / 2
       }, MySolarSystemConstants.TITLE_OPTIONS ) );
 
-    // Add dotted line in total area height
-    const totalAreaLine = new Path( new Shape().moveTo( 0, -yAxisLength / UPSCALE ).lineTo( xAxisLength, -yAxisLength / UPSCALE ), {
-      stroke: MySolarSystemColors.thirdBodyColorProperty,
-      lineWidth: 2,
-      lineDash: [ 5, 5 ]
-    } );
-
     super( new VBox(
       {
         spacing: 10,
@@ -86,14 +83,46 @@ export default class SecondLawGraph extends Panel {
               barPlot,
               xAxis,
               yAxis,
-              yAxisLabel,
-              totalAreaLine
+              yAxisLabel
             ]
           } ),
-          xAxisLabel
+          xAxisLabel,
+          new DivisionSlider( model )
         ]
       }
     ), options );
+  }
+}
+
+class DivisionSlider extends HSlider {
+  public constructor( model: KeplersLawsModel ) {
+    const divisionsRange = new RangeWithValue( 2, model.maxDivisionValue, 4 );
+    super( model.periodDivisionProperty, divisionsRange, {
+      trackSize: new Dimension2( 150, 2 ),
+      thumbSize: new Dimension2( 15, 25 ),
+      thumbCenterLineStroke: FOREGROUND_COLOR_PROPERTY,
+      trackFillEnabled: FOREGROUND_COLOR_PROPERTY,
+      majorTickStroke: FOREGROUND_COLOR_PROPERTY,
+      majorTickLength: 10,
+      minorTickStroke: FOREGROUND_COLOR_PROPERTY,
+      minorTickLength: 6,
+
+      // Demonstrate larger x dilation.
+      thumbTouchAreaXDilation: 30,
+      thumbTouchAreaYDilation: 15,
+      thumbMouseAreaXDilation: 10,
+      thumbMouseAreaYDilation: 5,
+
+      constrainValue: value => Utils.roundSymmetric( value )
+    } );
+
+    this.addMajorTick( divisionsRange.min, new Text( divisionsRange.min, MySolarSystemConstants.TEXT_OPTIONS ) );
+    this.addMajorTick( divisionsRange.min + 0.50 * divisionsRange.getLength() );
+    this.addMajorTick( divisionsRange.max, new Text( divisionsRange.max, MySolarSystemConstants.TEXT_OPTIONS ) );
+
+    // minor ticks
+    this.addMinorTick( divisionsRange.min + 0.25 * divisionsRange.getLength() );
+    this.addMinorTick( divisionsRange.min + 0.75 * divisionsRange.getLength() );
   }
 }
 
@@ -135,6 +164,7 @@ class AreasBarPlot extends Node {
     } );
 
     // y tick marks
+    // TODO: Based on this, is there an easier way to make iterable smaller (x1/10) or larger (x10) tick marks?
     const YSpacing = 2e4;
     const YTickMarkSet = new TickMarkSet( chartTransform, Orientation.VERTICAL, YSpacing, {
       edge: 'min',
@@ -147,7 +177,7 @@ class AreasBarPlot extends Node {
     } );
 
     const updateYRange = () => {
-      modelYRange = new Range( 0, UPSCALE * this.model.engine.totalArea );
+      modelYRange = new Range( 0, UPSCALE * this.model.engine.totalArea / 2 );
       chartTransform.setModelYRange( modelYRange );
       const ratio = modelYRange.max / YSpacing;
       if ( ratio > 15 ) {

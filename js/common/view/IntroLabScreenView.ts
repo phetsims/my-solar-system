@@ -122,17 +122,11 @@ export default class IntroLabScreenView extends CommonScreenView {
           touchAreaYDilation: 5
         } ),
       {
+        alignBoundsProperty: this.availableBoundsProperty,
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'left',
         yAlign: 'top'
       } );
-
-    this.visibleBoundsProperty.link( visibleBounds => {
-      topLeftZoomBox.alignBounds = visibleBounds;
-    } );
-
-    this.interfaceLayer.addChild( topLeftZoomBox );
-
 
     // Control Panel --------------------------------------------------------------------------------------------
     const topRightControlBox = new AlignBox(
@@ -160,16 +154,11 @@ export default class IntroLabScreenView extends CommonScreenView {
         }
       ),
       {
+        alignBoundsProperty: this.availableBoundsProperty,
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'right',
         yAlign: 'top'
       } );
-
-    this.visibleBoundsProperty.link( visibleBounds => {
-      topRightControlBox.alignBounds = visibleBounds;
-    } );
-
-    this.interfaceLayer.addChild( topRightControlBox );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
     const fullDataPanel = new FullDataPanel( model );
@@ -242,15 +231,15 @@ export default class IntroLabScreenView extends CommonScreenView {
     const centerBox = new AlignBox(
       dataGridbox,
       {
+        alignBoundsProperty: this.availableBoundsProperty,
         margin: MySolarSystemConstants.MARGIN,
         xAlign: 'left',
-        yAlign: 'bottom',
-        alignBoundsProperty: this.visibleBoundsProperty
+        yAlign: 'bottom'
       } );
 
-    // Slider that controls the bodies mass
     this.interfaceLayer.addChild( centerBox );
-
+    this.interfaceLayer.addChild( topRightControlBox );
+    this.interfaceLayer.addChild( topLeftZoomBox );
 
     const pathsWebGLNode = MySolarSystemQueryParameters.pathRenderer === 'canvas'
                            ? new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } )

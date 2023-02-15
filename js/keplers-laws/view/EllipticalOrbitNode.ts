@@ -215,7 +215,7 @@ export default class EllipticalOrbitNode extends Path {
     // There are Nodes and arrays separately to access them by index
     const orbitDivisionsNode = new Node();
     const areaPathsNode = new Node( {
-      visibleProperty: model.sweepAreaVisibleProperty
+      visibleProperty: model.isSecondLawProperty
     } );
     orbitDivisions.forEach( node => { orbitDivisionsNode.addChild( node ); } );
     areaPaths.forEach( node => { areaPathsNode.addChild( node ); } );
