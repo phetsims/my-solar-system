@@ -8,18 +8,17 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import KeplersLawsModel from '../model/KeplersLawsModel.js';
-import { HBox, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Panel from '../../../../sun/js/Panel.js';
 import FirstLawGraph from './FirstLawGraph.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import MySolarSystemTextNumberDisplay from '../../common/view/MySolarSystemTextNumberDisplay.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 export default class FirstLawPanels extends VBox {
   public constructor( model: KeplersLawsModel ) {
@@ -27,8 +26,7 @@ export default class FirstLawPanels extends VBox {
       margin: 5,
       children: [
         new ExcentricityPanel( model ),
-        new ValuesPanel( model ),
-        new InvalidValuesPanel( model )
+        new ValuesPanel( model )
       ]
     } );
   }
@@ -61,80 +59,35 @@ class ExcentricityPanel extends Panel {
 class ValuesPanel extends Panel {
   public constructor( model: KeplersLawsModel ) {
 
-    const semiMajorAxisValueRange = new RangeWithValue( 1, 10000, model.engine.a );
-    const semiMinorAxisValueRange = new RangeWithValue( 1, 10000, model.engine.b );
-    const focalDistanceValueRange = new RangeWithValue( 0, 10000, model.engine.c );
-
-    const semiMajorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemStrings.symbols.semiMajorAxisStringProperty,
-      units: MySolarSystemStrings.units.AUStringProperty
-    } );
-    const semiMinorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemStrings.symbols.semiMinorAxisStringProperty,
-      units: MySolarSystemStrings.units.AUStringProperty
-    } );
-    const focalDistanceStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
-      text: MySolarSystemStrings.symbols.focalDistanceStringProperty,
-      units: MySolarSystemStrings.units.AUStringProperty
-    } );
-
-    super( new VBox( {
-      children: [
-        new MySolarSystemTextNumberDisplay( model.engine.semiMajorAxisProperty, semiMajorAxisValueRange,
-          {
-            visibleProperty: model.semiaxisVisibleProperty,
-            valuePattern: semiMajorAxisStringPatternProperty,
-            align: 'left',
-            decimalPlaces: 2
-          } ),
-        new MySolarSystemTextNumberDisplay( model.engine.semiMinorAxisProperty, semiMinorAxisValueRange,
-          {
-            visibleProperty: model.semiaxisVisibleProperty,
-            valuePattern: semiMinorAxisStringPatternProperty,
-            align: 'left',
-            decimalPlaces: 2
-          } ),
-        new MySolarSystemTextNumberDisplay( model.engine.focalDistanceProperty, focalDistanceValueRange,
-          {
-            visibleProperty: model.eccentricityVisibleProperty,
-            valuePattern: focalDistanceStringPatternProperty,
-            align: 'left',
-            decimalPlaces: 2
-          } )
-      ],
-      visibleProperty: model.engine.allowedOrbitProperty
-    } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
-  }
-}
-
-class InvalidValuesPanel extends Panel {
-  public constructor( model: KeplersLawsModel ) {
-
-    const semiMajorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+    const semiMajorAxisStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
       text: MySolarSystemStrings.symbols.semiMajorAxisStringProperty,
       units: MySolarSystemStrings.units.AUStringProperty,
-      value: MathSymbols.INFINITY
+      value: new DerivedProperty( [ model.engine.semiMajorAxisProperty, model.engine.allowedOrbitProperty ], ( semiMajorAxis, allowedOrbit ) => {
+        return allowedOrbit ? Utils.toFixed( semiMajorAxis, 2 ) : MathSymbols.INFINITY;
+      } )
     } );
-    const semiMinorAxisStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+    const semiMinorAxisStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
       text: MySolarSystemStrings.symbols.semiMinorAxisStringProperty,
       units: MySolarSystemStrings.units.AUStringProperty,
-      value: MathSymbols.NO_VALUE
+      value: new DerivedProperty( [ model.engine.semiMinorAxisProperty, model.engine.allowedOrbitProperty ], ( semiMinorAxis, allowedOrbit ) => {
+        return allowedOrbit ? Utils.toFixed( semiMinorAxis, 2 ) : MathSymbols.NO_VALUE;
+      } )
     } );
-    const focalDistanceStringPatternProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
+    const focalDistanceStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.textEqualsValueUnitsStringProperty, {
       text: MySolarSystemStrings.symbols.focalDistanceStringProperty,
       units: MySolarSystemStrings.units.AUStringProperty,
-      value: MathSymbols.INFINITY
+      value: new DerivedProperty( [ model.engine.focalDistanceProperty, model.engine.allowedOrbitProperty ], ( focalDistance, allowedOrbit ) => {
+        return allowedOrbit ? Utils.toFixed( focalDistance, 2 ) : MathSymbols.INFINITY;
+      } )
     } );
 
     super( new VBox( {
       align: 'left',
-      spacing: 5,
       children: [
-        new Text( semiMajorAxisStringPatternProperty, combineOptions<TextOptions>( { visibleProperty: model.semiaxisVisibleProperty }, MySolarSystemConstants.TEXT_OPTIONS ) ),
-        new Text( semiMinorAxisStringPatternProperty, combineOptions<TextOptions>( { visibleProperty: model.semiaxisVisibleProperty }, MySolarSystemConstants.TEXT_OPTIONS ) ),
-        new Text( focalDistanceStringPatternProperty, combineOptions<TextOptions>( { visibleProperty: model.eccentricityVisibleProperty }, MySolarSystemConstants.TEXT_OPTIONS ) )
-      ],
-      visibleProperty: DerivedProperty.not( model.engine.allowedOrbitProperty )
+        new RichText( semiMajorAxisStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
+        new RichText( semiMinorAxisStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
+        new RichText( focalDistanceStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
+      ]
     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }
 }
