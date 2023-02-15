@@ -16,7 +16,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EllipticalOrbitEngine from './EllipticalOrbitEngine.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
