@@ -59,7 +59,8 @@ const MySolarSystemConstants = {
   VELOCITY_MULTIPLIER: 0.2109,
   TIME_MULTIPLIER: 0.218,
 
-  MAX_ORBITAL_DIVISIONS: 6
+  MAX_ORBITAL_DIVISIONS: 6,
+  MIN_ORBITAL_DIVISIONS: 2
 };
 
 mySolarSystem.register( 'MySolarSystemConstants', MySolarSystemConstants );

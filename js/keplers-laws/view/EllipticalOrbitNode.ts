@@ -197,7 +197,7 @@ export default class EllipticalOrbitNode extends Path {
     const orbitDivisions: Circle[] = [];
     const areaPaths: Path[] = [];
 
-    for ( let i = 0; i < model.maxDivisionValue; i++ ) {
+    for ( let i = 0; i < MySolarSystemConstants.MAX_ORBITAL_DIVISIONS; i++ ) {
       orbitDivisions.push( new Circle( 4, {
         fill: 'black',
         stroke: MySolarSystemColors.orbitColorProperty,
@@ -206,8 +206,7 @@ export default class EllipticalOrbitNode extends Path {
         visible: false
       } ) );
       areaPaths.push( new Path( null, {
-        fill: MySolarSystemColors.orbitColorProperty,
-        opacity: 0.7 * ( i / 10 ) + 0.3
+        fill: MySolarSystemColors.orbitColorProperty
       } ) );
     }
 

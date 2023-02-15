@@ -84,9 +84,15 @@ class ValuesPanel extends Panel {
     super( new VBox( {
       align: 'left',
       children: [
-        new RichText( semiMajorAxisStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
-        new RichText( semiMinorAxisStringProperty, MySolarSystemConstants.TEXT_OPTIONS ),
-        new RichText( focalDistanceStringProperty, MySolarSystemConstants.TEXT_OPTIONS )
+        new RichText( semiMajorAxisStringProperty, combineOptions<TextOptions>( {
+          visibleProperty: model.semiaxisVisibleProperty
+        }, MySolarSystemConstants.TEXT_OPTIONS ) ),
+        new RichText( semiMinorAxisStringProperty, combineOptions<TextOptions>( {
+          visibleProperty: model.semiaxisVisibleProperty
+        }, MySolarSystemConstants.TEXT_OPTIONS ) ),
+        new RichText( focalDistanceStringProperty, combineOptions<TextOptions>( {
+          visibleProperty: model.eccentricityVisibleProperty
+        }, MySolarSystemConstants.TEXT_OPTIONS ) )
       ]
     } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
   }

@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Color, Node, PaintableOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, PaintableOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import MySolarSystemConstants from '../../common/MySolarSystemConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
@@ -24,10 +24,11 @@ import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import TickMarkSet from '../../../../bamboo/js/TickMarkSet.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Utils from '../../../../dot/js/Utils.js';
+import ArrowButton, { ArrowButtonOptions } from '../../../../sun/js/buttons/ArrowButton.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
+const xAxisLength = 180;
+const yAxisLength = 180;
 
 const FOREGROUND_COLOR_PROPERTY = MySolarSystemColors.foregroundProperty;
 
@@ -47,9 +48,6 @@ export default class SecondLawGraph extends Panel {
       visibleProperty: model.isSecondLawProperty
     }, MySolarSystemConstants.CONTROL_PANEL_OPTIONS );
 
-    const xAxisLength = 180;
-    const yAxisLength = 180;
-
     const title = new Text( MySolarSystemStrings.areaGraph.titleStringProperty, TITLE_OPTIONS );
 
     const xAxis = new ArrowNode( 0, 0, xAxisLength, 0, {
@@ -63,7 +61,7 @@ export default class SecondLawGraph extends Panel {
       tailWidth: 1
     } );
 
-    const barPlot = new AreasBarPlot( model, { viewWidth: xAxisLength, viewHeight: yAxisLength } );
+    const barPlot = new AreasBarPlot( model );
     barPlot.y = -yAxisLength;
 
     const xAxisLabel = new Text( MySolarSystemStrings.area.periodDivisionStringProperty, TITLE_OPTIONS );
@@ -87,60 +85,82 @@ export default class SecondLawGraph extends Panel {
             ]
           } ),
           xAxisLabel,
-          new DivisionSlider( model )
+          new DivisionsArrowButtonsBox( model )
         ]
       }
     ), options );
   }
 }
 
-class DivisionSlider extends HSlider {
+class DivisionsArrowButtonsBox extends HBox {
   public constructor( model: KeplersLawsModel ) {
-    const divisionsRange = new RangeWithValue( 2, model.maxDivisionValue, 4 );
-    super( model.periodDivisionProperty, divisionsRange, {
-      trackSize: new Dimension2( 150, 2 ),
-      thumbSize: new Dimension2( 15, 25 ),
-      thumbCenterLineStroke: FOREGROUND_COLOR_PROPERTY,
-      trackFillEnabled: FOREGROUND_COLOR_PROPERTY,
-      majorTickStroke: FOREGROUND_COLOR_PROPERTY,
-      majorTickLength: 10,
-      minorTickStroke: FOREGROUND_COLOR_PROPERTY,
-      minorTickLength: 6,
 
-      // Demonstrate larger x dilation.
-      thumbTouchAreaXDilation: 30,
-      thumbTouchAreaYDilation: 15,
-      thumbMouseAreaXDilation: 10,
-      thumbMouseAreaYDilation: 5,
+    const divisionsRange = new RangeWithValue(
+      MySolarSystemConstants.MIN_ORBITAL_DIVISIONS,
+      MySolarSystemConstants.MAX_ORBITAL_DIVISIONS,
+      4 );
 
-      constrainValue: value => Utils.roundSymmetric( value )
+    const arrowButtonOptions: ArrowButtonOptions = {
+      baseColor: 'white',
+      stroke: 'black',
+      lineWidth: 1
+    };
+
+    // increment button
+    const incrementButton = new ArrowButton(
+      'right',
+      () => {
+        const numberValue = model.periodDivisionProperty.value;
+        model.periodDivisionProperty.value =
+          numberValue < divisionsRange.max ?
+          numberValue + 1 :
+          numberValue;
+      },
+      combineOptions<ArrowButtonOptions>( {
+        enabledProperty: new DerivedProperty(
+          [ model.periodDivisionProperty ],
+          periodDivisions => {
+            return periodDivisions < divisionsRange.max;
+          }
+        )
+      }, arrowButtonOptions )
+    );
+
+    // decrement button
+    const decrementButton = new ArrowButton(
+      'left',
+      () => {
+        const numberValue = model.periodDivisionProperty.value;
+        model.periodDivisionProperty.value =
+          numberValue > divisionsRange.min ?
+          numberValue - 1 :
+          numberValue;
+      },
+      combineOptions<ArrowButtonOptions>( {
+        enabledProperty: new DerivedProperty(
+          [ model.periodDivisionProperty ],
+          periodDivisions => {
+            return periodDivisions > divisionsRange.min;
+          }
+        )
+      }, arrowButtonOptions )
+    );
+
+    super( {
+      children: [
+        decrementButton,
+        incrementButton
+      ]
     } );
-
-    this.addMajorTick( divisionsRange.min, new Text( divisionsRange.min, MySolarSystemConstants.TEXT_OPTIONS ) );
-    this.addMajorTick( divisionsRange.min + 0.50 * divisionsRange.getLength() );
-    this.addMajorTick( divisionsRange.max, new Text( divisionsRange.max, MySolarSystemConstants.TEXT_OPTIONS ) );
-
-    // minor ticks
-    this.addMinorTick( divisionsRange.min + 0.25 * divisionsRange.getLength() );
-    this.addMinorTick( divisionsRange.min + 0.75 * divisionsRange.getLength() );
   }
 }
 
-type AreasBarPlotOptions = {
-  viewWidth?: number;
-  viewHeight?: number;
-};
-
 class AreasBarPlot extends Node {
 
-  public constructor( public model: KeplersLawsModel, providedOptions?: AreasBarPlotOptions ) {
+  public constructor( public model: KeplersLawsModel ) {
     super();
 
-    const options = combineOptions<AreasBarPlotOptions>( {
-      viewWidth: 120,
-      viewHeight: 180
-    }, providedOptions );
-
+    // -1 is so that the first bar is not inside the Y axis
     let modelXRange = new Range( -1, 6 );
     let modelYRange = new Range( 0, 1 );
 
@@ -148,15 +168,40 @@ class AreasBarPlot extends Node {
     let dataSet: Vector2[] = [];
 
     const chartTransform = new ChartTransform( {
-      viewWidth: options.viewWidth,
-      viewHeight: options.viewHeight,
+      viewWidth: xAxisLength,
+      viewHeight: yAxisLength,
       modelXRange: modelXRange,
       modelYRange: modelYRange
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform );
 
-    const barPlot = new BarPlot( chartTransform, dataSet.map( vector => new Vector2( vector.x, vector.y ) ) );
+    const barPlot = new BarPlot( chartTransform, dataSet );
+
+    const orbitChangedListener = () => {
+      const activeAreas = model.engine.orbitalAreas.filter( area => area.active );
+      dataSet = [];
+
+      // First forEach is for updating the dataset, which will create the rectangles
+      // Second forEach is for updating the color of the rectangles
+      activeAreas.forEach( ( area, index ) => {
+        // Setting all the bar's height and pushing them to the dataSet
+        const height = area.alreadyEntered && !area.insideProperty.value ? model.engine.segmentArea : area.sweptArea;
+        const realIndex = this.model.engine.retrograde ? this.model.periodDivisionProperty.value - index - 1 : index;
+        dataSet.push( new Vector2( realIndex, height ) );
+      } );
+      barPlot.setDataSet( dataSet ); // BarPlot creates the rectangles here
+
+      activeAreas.forEach( ( area, index ) => {
+        // Setting the color of the bar
+        const alpha = area.insideProperty.value ? 1 : area.completion;
+        const paintableFields: PaintableOptions = {
+          fill: new Color( 'fuchsia' ).setAlpha( alpha )
+        };
+        // @ts-expect-error - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
+        barPlot.rectangles[ index ].mutate( paintableFields );
+      } );
+    };
 
     // x Labels of each area bar
     const XTickLabelSet = new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
@@ -190,17 +235,13 @@ class AreasBarPlot extends Node {
     this.model.periodDivisionProperty.link( periodDivision => {
       modelXRange = new Range( -1, periodDivision );
       chartTransform.setModelXRange( modelXRange );
-      barPlot.barWidth = 15 * ( this.model.maxDivisionValue / periodDivision );
+      barPlot.barWidth = 15 * ( MySolarSystemConstants.MAX_ORBITAL_DIVISIONS / periodDivision );
       barPlot.update();
       XTickLabelSet.setCreateLabel( ( value: number ) => {
         return ( value >= 0 && value < periodDivision ) ?
                new Text( ( value + 1 ).toString(), TITLE_OPTIONS ) : null;
       } );
       // updateYRange();
-    } );
-
-    this.model.engine.changedEmitter.addListener( () => {
-      updateYRange();
     } );
 
     updateYRange();
@@ -222,31 +263,10 @@ class AreasBarPlot extends Node {
       YTickMarkSetSecondary
     ];
 
-    const orbitChangedListener = () => {
-      const activeAreas = model.engine.orbitalAreas.filter( area => area.active );
-      dataSet = [];
-
-      // First forEach is for updating the dataset, which will create the rectangles
-      // Second forEach is for updating the color of the rectangles
-      activeAreas.forEach( ( area, index ) => {
-        // Setting all the bar's height and pushing them to the dataSet
-        const height = area.alreadyEntered && !area.insideProperty.value ? model.engine.segmentArea : area.sweptArea;
-        const realIndex = this.model.engine.retrograde ? this.model.periodDivisionProperty.value - index - 1 : index;
-        dataSet.push( new Vector2( realIndex, height ) );
-      } );
-      barPlot.setDataSet( dataSet );
-
-      activeAreas.forEach( ( area, index ) => {
-        // Setting the color of the bar
-        const alpha = area.insideProperty.value ? 1 : area.completion;
-        const paintableFields: PaintableOptions = {
-          fill: new Color( 'fuchsia' ).setAlpha( alpha )
-        };
-        // @ts-expect-error - mutate needs to know about the suboptions, see https://github.com/phetsims/scenery/issues/1428
-        barPlot.rectangles[ index ].mutate( paintableFields );
-      } );
-    };
-    model.engine.changedEmitter.addListener( orbitChangedListener );
+    model.engine.changedEmitter.addListener( () => {
+      orbitChangedListener();
+      updateYRange();
+    } );
   }
 }
 

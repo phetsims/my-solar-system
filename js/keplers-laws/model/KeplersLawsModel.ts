@@ -48,7 +48,7 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
   public readonly apoapsisVisibleProperty = new BooleanProperty( false );
   public readonly periapsisVisibleProperty = new BooleanProperty( false );
   public readonly periodDivisionProperty = new NumberProperty( 4 );
-  public readonly maxDivisionValue = MySolarSystemConstants.MAX_ORBITAL_DIVISIONS;
+
 
   // Third law properties
   public readonly semiMajorAxisVisibleProperty = new BooleanProperty( false );
@@ -90,7 +90,6 @@ class KeplersLawsModel extends CommonModel<EllipticalOrbitEngine> {
     this.periodDivisionProperty.link( divisions => {
       this.engine.periodDivisions = divisions;
       this.engine.resetOrbitalAreas();
-      this.engine.update();
     } );
 
     this.engine.orbitalAreas.forEach( ( area, index ) => {

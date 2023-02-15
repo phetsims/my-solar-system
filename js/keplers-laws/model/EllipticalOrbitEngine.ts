@@ -282,6 +282,8 @@ export default class EllipticalOrbitEngine extends Engine {
     let previousNu = 0;
     let bodyAngle = -this.nu;
 
+    this.segmentArea = this.totalArea / this.periodDivisions;
+
     this.orbitalAreas.forEach( ( orbitalArea, i ) => {
       if ( i < this.periodDivisions && this.allowedOrbitProperty.value ) {
         // Calculate true anomaly
@@ -449,6 +451,7 @@ export default class EllipticalOrbitEngine extends Engine {
     this.orbitalAreas.forEach( area => {
       area.reset();
     } );
+    this.calculateOrbitalDivisions( true );
   }
 
   public override reset(): void {
