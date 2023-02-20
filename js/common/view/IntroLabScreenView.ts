@@ -9,23 +9,23 @@
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import { AlignBox, HBox, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
-import MySolarSystemConstants from '../MySolarSystemConstants.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import CommonModel from '../model/CommonModel.js';
+import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import CommonScreenView from './CommonScreenView.js';
+import CommonScreenView from '../../../../solar-system-common/js/view/CommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
-import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
+import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import FullDataPanel from './FullDataPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
-import Body from '../model/Body.js';
-import BodyNode from './BodyNode.js';
-import VectorNode from './VectorNode.js';
+import Body from '../../../../solar-system-common/js/model/Body.js';
+import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
+import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -121,7 +121,7 @@ export default class IntroLabScreenView extends CommonScreenView {
         } ),
       {
         alignBoundsProperty: this.availableBoundsProperty,
-        margin: MySolarSystemConstants.MARGIN,
+        margin: SolarSystemCommonConstants.MARGIN,
         xAlign: 'left',
         yAlign: 'top'
       } );
@@ -136,7 +136,7 @@ export default class IntroLabScreenView extends CommonScreenView {
             new Panel(
               new MySolarSystemControls( model, this.topLayer, {
                 tandem: providedOptions.tandem.createTandem( 'controlPanel' )
-              } ), MySolarSystemConstants.CONTROL_PANEL_OPTIONS ),
+              } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
             this.timeBox,
             new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
               enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
@@ -145,7 +145,7 @@ export default class IntroLabScreenView extends CommonScreenView {
               },
               touchAreaXDilation: 5,
               touchAreaYDilation: 5,
-              font: MySolarSystemConstants.PANEL_FONT,
+              font: SolarSystemCommonConstants.PANEL_FONT,
               maxTextWidth: 200
             } )
           ]
@@ -153,7 +153,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       ),
       {
         alignBoundsProperty: this.availableBoundsProperty,
-        margin: MySolarSystemConstants.MARGIN,
+        margin: SolarSystemCommonConstants.MARGIN,
         xAlign: 'right',
         yAlign: 'top'
       } );
@@ -164,7 +164,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
           maxWidth: 70
-        }, MySolarSystemConstants.TEXT_OPTIONS ) ),
+        }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, 4 ) ),
           combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
             arrowsPosition: 'bothRight',
@@ -197,15 +197,15 @@ export default class IntroLabScreenView extends CommonScreenView {
               stretch: true,
               visible: model.isLab,
               children: [
-                new MySolarSystemCheckbox(
+                new SolarSystemCommonCheckbox(
                   model.moreDataProperty,
                   new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
                     maxWidth: 300
-                  }, MySolarSystemConstants.TEXT_OPTIONS ) ),
+                  }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
                   combineOptions<CheckboxOptions>( {
                     touchAreaXDilation: 10,
                     touchAreaYDilation: 10
-                  }, MySolarSystemConstants.CHECKBOX_OPTIONS )
+                  }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
                 ),
                 new InfoButton( {
                   scale: 0.5,
@@ -230,7 +230,7 @@ export default class IntroLabScreenView extends CommonScreenView {
       dataGridbox,
       {
         alignBoundsProperty: this.availableBoundsProperty,
-        margin: MySolarSystemConstants.MARGIN,
+        margin: SolarSystemCommonConstants.MARGIN,
         xAlign: 'left',
         yAlign: 'bottom'
       } );

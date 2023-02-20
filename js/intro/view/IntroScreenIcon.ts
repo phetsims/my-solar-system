@@ -14,7 +14,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import platform from '../../../../phet-core/js/platform.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -44,23 +44,23 @@ export default class IntroScreenIcon extends ScreenIcon {
         new Path(
           new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
           {
-            stroke: MySolarSystemColors.firstBodyColorProperty,
+            stroke: SolarSystemCommonColors.firstBodyColorProperty,
             lineWidth: 0.5,
             x: smallEllipseCenterX
           } ),
         new Path(
           new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
           {
-            stroke: MySolarSystemColors.secondBodyColorProperty,
+            stroke: SolarSystemCommonColors.secondBodyColorProperty,
             lineWidth: 0.5,
             x: bigEllipseCenterX
           } ),
         new ShadedSphereNode( 6, {
-          mainColor: MySolarSystemColors.firstBodyColorProperty,
+          mainColor: SolarSystemCommonColors.firstBodyColorProperty,
           x: ( smallEllipseFocalPoint - smallEllipseSemiMajorAxis )
         } ),
         new ShadedSphereNode( 3, {
-          mainColor: MySolarSystemColors.secondBodyColorProperty,
+          mainColor: SolarSystemCommonColors.secondBodyColorProperty,
           x: bigEllipseSemiMajorAxis - bigEllipseFocalPoint
         } ),
         new XNode( {
@@ -74,7 +74,7 @@ export default class IntroScreenIcon extends ScreenIcon {
 
     const containerNode = new Node();
 
-    Multilink.multilink( [ MySolarSystemColors.firstBodyColorProperty, MySolarSystemColors.secondBodyColorProperty ], () => {
+    Multilink.multilink( [ SolarSystemCommonColors.firstBodyColorProperty, SolarSystemCommonColors.secondBodyColorProperty ], () => {
       containerNode.children = [ platform.safari ? node.rasterized( {
         resolution: 16,
         sourceBounds: new Bounds2( -8, -10, 30 - 8, 20 - 10 )
@@ -83,7 +83,7 @@ export default class IntroScreenIcon extends ScreenIcon {
 
     super(
       containerNode,
-      { fill: MySolarSystemColors.backgroundProperty }
+      { fill: SolarSystemCommonColors.backgroundProperty }
     );
   }
 }

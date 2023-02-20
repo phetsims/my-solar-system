@@ -14,8 +14,8 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Body from './Body.js';
-import Engine from './Engine.js';
+import Body from '../../../../solar-system-common/js/model/Body.js';
+import Engine from '../../../../solar-system-common/js/model/Engine.js';
 
 const scratchVector = new Vector2( 0, 0 );
 

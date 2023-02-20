@@ -10,7 +10,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import CommonModel, { CommonModelOptions } from '../../common/model/CommonModel.js';
+import CommonModel, { CommonModelOptions } from '../../../../solar-system-common/js/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import Vector2 from '../../../../dot/js/Vector2.js';

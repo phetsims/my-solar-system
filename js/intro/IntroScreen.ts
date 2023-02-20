@@ -8,7 +8,7 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import MySolarSystemColors from '../common/MySolarSystemColors.js';
+import SolarSystemCommonColors from '../../../solar-system-common/js/SolarSystemCommonColors.js';
 import mySolarSystem from '../mySolarSystem.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
@@ -21,7 +21,7 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
     const options = {
       homeScreenIcon: new IntroScreenIcon(),
-      backgroundColorProperty: MySolarSystemColors.backgroundProperty,
+      backgroundColorProperty: SolarSystemCommonColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.introStringProperty
     };

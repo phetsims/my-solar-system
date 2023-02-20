@@ -11,16 +11,16 @@ import ComboBox from '../../../../sun/js/ComboBox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import LabMode from '../model/LabMode.js';
-import MySolarSystemConstants from '../MySolarSystemConstants.js';
-import CommonModel from '../model/CommonModel.js';
+import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import createVisibilityInformationCheckboxes from './createVisibilityInformationCheckboxes.js';
-import createArrowsVisibilityCheckboxes from './createArrowsVisibilityCheckboxes.js';
+import createVisibilityInformationCheckboxes from '../../../../solar-system-common/js/view/createVisibilityInformationCheckboxes.js';
+import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 
 const COMBO_BOX_TEXT_OPTIONS = {
-  font: MySolarSystemConstants.PANEL_FONT,
+  font: SolarSystemCommonConstants.PANEL_FONT,
   maxWidth: 200
 };
 
@@ -60,9 +60,9 @@ export default class MySolarSystemControls extends VBox {
             ]
           : [] ),
         ...createOrbitalInformationCheckboxes( model, providedOptions.tandem ),
-        new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
+        new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
-        new HSeparator( MySolarSystemConstants.HSEPARATOR_OPTIONS ),
+        new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
       ],
       spacing: 7,

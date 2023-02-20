@@ -8,11 +8,11 @@
 
 import { AlignBox, AlignGroup, Color, Node, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import CommonModel from '../model/CommonModel.js';
+import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
-import MySolarSystemConstants from '../MySolarSystemConstants.js';
-import MySolarSystemSlider from './MySolarSystemSlider.js';
-import Body from '../model/Body.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import SolarSystemCommonSlider from '../../../../solar-system-common/js/view/SolarSystemCommonSlider.js';
+import Body from '../../../../solar-system-common/js/model/Body.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
@@ -51,7 +51,7 @@ export default class ValuesColumnNode extends VBox {
 
     const labelNode = new RichText( labelString, combineOptions<TextOptions>( {
       maxWidth: 60
-    }, MySolarSystemConstants.TEXT_OPTIONS ) );
+    }, SolarSystemCommonConstants.TEXT_OPTIONS ) );
 
     // Create the VBox container for the contentNodes of the column.
     const contentContainer = new VBox( { spacing: options.contentContainerSpacing, stretch: true } );
@@ -104,7 +104,7 @@ export default class ValuesColumnNode extends VBox {
       contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
-      contentNode = new MySolarSystemSlider( body.massProperty, massRange, {
+      contentNode = new SolarSystemCommonSlider( body.massProperty, massRange, {
         thumbFill: colorProperty,
         thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
         startDrag: () => { body.userControlledMassProperty.value = true; },
@@ -128,8 +128,8 @@ export default class ValuesColumnNode extends VBox {
         new MappedProperty( body.positionProperty, {
           reentrant: true,
           bidirectional: true,
-          map: position => position.x * MySolarSystemConstants.POSITION_MULTIPLIER,
-          inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
+          map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
+          inverseMap: ( x : number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
         positionRangeX,
         MySolarSystemStrings.units.AUStringProperty,
@@ -144,8 +144,8 @@ export default class ValuesColumnNode extends VBox {
         new MappedProperty( body.positionProperty, {
           reentrant: true,
           bidirectional: true,
-          map: position => position.y * MySolarSystemConstants.POSITION_MULTIPLIER,
-          inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / MySolarSystemConstants.POSITION_MULTIPLIER )
+          map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
+          inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
         } ),
         positionRangeY,
         MySolarSystemStrings.units.AUStringProperty,
@@ -160,8 +160,8 @@ export default class ValuesColumnNode extends VBox {
         new MappedProperty( body.velocityProperty, {
           reentrant: true,
           bidirectional: true,
-          map: velocity => velocity.x * MySolarSystemConstants.VELOCITY_MULTIPLIER,
-          inverseMap: ( x : number ) => new Vector2( x / MySolarSystemConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
+          map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
+          inverseMap: ( x : number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
         } ),
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,
@@ -176,8 +176,8 @@ export default class ValuesColumnNode extends VBox {
         new MappedProperty( body.velocityProperty, {
           reentrant: true,
           bidirectional: true,
-          map: velocity => velocity.y * MySolarSystemConstants.VELOCITY_MULTIPLIER,
-          inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y / MySolarSystemConstants.VELOCITY_MULTIPLIER )
+          map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
+          inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
         } ),
         velocityRange,
         MySolarSystemStrings.units.kmsStringProperty,

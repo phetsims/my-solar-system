@@ -8,10 +8,10 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CommonModel, { BodyInfo, CommonModelOptions } from '../../common/model/CommonModel.js';
+import CommonModel, { BodyInfo, CommonModelOptions } from '../../../../solar-system-common/js/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import LabMode from '../../common/model/LabMode.js';
+import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 
 type SuperTypeOptions = CommonModelOptions<NumericalEngine>;

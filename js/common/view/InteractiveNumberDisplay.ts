@@ -6,7 +6,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import MySolarSystemConstants from '../MySolarSystemConstants.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import TProperty from '../../../../axon/js/TProperty.js';
@@ -71,7 +71,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       },
       useExponential: false,
       textOptions: {
-        font: MySolarSystemConstants.PANEL_FONT
+        font: SolarSystemCommonConstants.PANEL_FONT
       },
       backgroundFill: new DerivedProperty( [
         userControlledProperty,

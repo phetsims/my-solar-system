@@ -12,13 +12,13 @@ import { AlignBox, AlignGroup, HBox, Node, RichText, Text, TextOptions, VBox } f
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import MySolarSystemConstants from '../MySolarSystemConstants.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
-import CommonModel from '../model/CommonModel.js';
+import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -31,7 +31,7 @@ export default class FullDataPanel extends Panel {
     const options = {
       xMargin: 12,
       stroke: null,
-      fill: MySolarSystemColors.controlPanelFillProperty
+      fill: SolarSystemCommonColors.controlPanelFillProperty
     };
 
     //----------------------------------------------------------------------------------------
@@ -60,13 +60,13 @@ export default class FullDataPanel extends Panel {
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
         combineOptions<TextOptions>( {
           maxWidth: 200
-        }, MySolarSystemConstants.TEXT_OPTIONS ) ) );
+        }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     };
 
     const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty,
       combineOptions<TextOptions>( {
         maxWidth: 200
-      }, MySolarSystemConstants.TEXT_OPTIONS ) ) );
+      }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
     const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.positionStringProperty, MySolarSystemStrings.units.AUStringProperty );

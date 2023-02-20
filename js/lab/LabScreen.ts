@@ -8,7 +8,7 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import MySolarSystemColors from '../common/MySolarSystemColors.js';
+import SolarSystemCommonColors from '../../../solar-system-common/js/SolarSystemCommonColors.js';
 import mySolarSystem from '../mySolarSystem.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
@@ -21,7 +21,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
 
     const options = {
       homeScreenIcon: new LabScreenIcon(),
-      backgroundColorProperty: MySolarSystemColors.backgroundProperty,
+      backgroundColorProperty: SolarSystemCommonColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.labStringProperty
     };

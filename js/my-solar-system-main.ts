@@ -11,7 +11,6 @@ import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IntroScreen from './intro/IntroScreen.js';
-import KeplersLawsScreen from './keplers-laws/KeplersLawsScreen.js';
 import LabScreen from './lab/LabScreen.js';
 import MySolarSystemStrings from './MySolarSystemStrings.js';
 
@@ -40,8 +39,7 @@ const simOptions: SimOptions = {
 simLauncher.launch( () => {
   const sim = new Sim( MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty, [
     new IntroScreen( Tandem.ROOT.createTandem( 'introScreen' ) ),
-    new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) ),
-    new KeplersLawsScreen( Tandem.ROOT.createTandem( 'keplersLawsScreen' ) )
+    new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) )
   ], simOptions );
   sim.start();
 } );

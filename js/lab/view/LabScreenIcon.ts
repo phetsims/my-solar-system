@@ -12,7 +12,7 @@ import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
 export default class LabScreenIcon extends ScreenIcon {
   public constructor() {
@@ -36,31 +36,31 @@ export default class LabScreenIcon extends ScreenIcon {
             new Path(
               new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
               {
-                stroke: MySolarSystemColors.secondBodyColorProperty,
+                stroke: SolarSystemCommonColors.secondBodyColorProperty,
                 lineWidth: 0.8,
                 x: smallEllipseCenterX
               } ),
             new Path(
               new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
               {
-                stroke: MySolarSystemColors.thirdBodyColorProperty,
+                stroke: SolarSystemCommonColors.thirdBodyColorProperty,
                 lineWidth: 1
               } ),
             new ShadedSphereNode( 8, {
-              mainColor: MySolarSystemColors.firstBodyColorProperty,
+              mainColor: SolarSystemCommonColors.firstBodyColorProperty,
               x: -bigEllipseFocalPoint
             } ),
             new ShadedSphereNode( 3, {
-              mainColor: MySolarSystemColors.secondBodyColorProperty,
+              mainColor: SolarSystemCommonColors.secondBodyColorProperty,
               x: smallEllipseSemiMajorAxis + smallEllipseCenterX
             } ),
             new ShadedSphereNode( 3, {
-              mainColor: MySolarSystemColors.thirdBodyColorProperty,
+              mainColor: SolarSystemCommonColors.thirdBodyColorProperty,
               x: bigEllipseSemiMajorAxis
             } )
           ]
         } ),
-        { fill: MySolarSystemColors.backgroundProperty }
+        { fill: SolarSystemCommonColors.backgroundProperty }
       );
   }
 }

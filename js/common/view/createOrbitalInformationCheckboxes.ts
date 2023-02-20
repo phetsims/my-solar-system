@@ -12,20 +12,20 @@ import pathIcon_png from '../../../images/pathIcon_png.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
-import MySolarSystemConstants from '../MySolarSystemConstants.js';
-import CommonModel from '../model/CommonModel.js';
-import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
+import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import pathIconProjector_png from '../../../images/pathIconProjector_png.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import MySolarSystemColors from '../MySolarSystemColors.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
 // constants
 const TEXT_OPTIONS = combineOptions<TextOptions>( {
   maxWidth: 200
-}, MySolarSystemConstants.TEXT_OPTIONS );
+}, SolarSystemCommonConstants.TEXT_OPTIONS );
 
-const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): MySolarSystemCheckbox[] => {
+const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): SolarSystemCommonCheckbox[] => {
 
   const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
   colorProfileProperty.lazyLink( ( profileName: string ) => {
@@ -34,26 +34,26 @@ const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem 
   } );
 
   return [
-    new MySolarSystemCheckbox( model.pathVisibleProperty, new HBox( {
+    new SolarSystemCommonCheckbox( model.pathVisibleProperty, new HBox( {
       spacing: 10,
       children: [
         new Text( MySolarSystemStrings.pathStringProperty, TEXT_OPTIONS ),
         pathIconImageNode
       ],
       tandem: tandem.createTandem( 'pathVisibleCheckbox' )
-    } ), MySolarSystemConstants.CHECKBOX_OPTIONS ),
-    new MySolarSystemCheckbox( model.centerOfMass.visibleProperty, new HBox( {
+    } ), SolarSystemCommonConstants.CHECKBOX_OPTIONS ),
+    new SolarSystemCommonCheckbox( model.centerOfMass.visibleProperty, new HBox( {
       spacing: 10,
       children: [
         new Text( MySolarSystemStrings.centerOfMassStringProperty, TEXT_OPTIONS ),
         new XNode( {
           fill: 'red',
-          stroke: MySolarSystemColors.foregroundProperty,
+          stroke: SolarSystemCommonColors.foregroundProperty,
           scale: 0.5
         } )
       ],
       tandem: tandem.createTandem( 'centerOfMassVisibleCheckbox' )
-    } ), MySolarSystemConstants.CHECKBOX_OPTIONS )
+    } ), SolarSystemCommonConstants.CHECKBOX_OPTIONS )
   ];
 };
 
