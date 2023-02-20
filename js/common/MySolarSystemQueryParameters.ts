@@ -3,18 +3,13 @@
 /**
  * Query parameters supported by this simulation.
  *
- * @author
+ * @author Agustín Vallejo
  */
 
 import mySolarSystem from '../mySolarSystem.js';
 
 const MySolarSystemQueryParameters = QueryStringMachine.getAll( {
-
-  pathRenderer: {
-    type: 'string',
-    validValues: [ 'canvas', 'webgl' ],
-    defaultValue: 'canvas'
-  }
+  // Likely will add query parameters in the future
 } );
 
 mySolarSystem.register( 'MySolarSystemQueryParameters', MySolarSystemQueryParameters );

@@ -7,13 +7,12 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, HBox, RichText, Text, TextOptions, Utils, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemConstants from '../MySolarSystemConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import CommonModel from '../model/CommonModel.js';
-import PathsWebGLNode from './PathsWebGLNode.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView from './CommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
@@ -33,7 +32,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
@@ -241,9 +239,7 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( topRightControlBox );
     this.interfaceLayer.addChild( topLeftZoomBox );
 
-    const pathsWebGLNode = MySolarSystemQueryParameters.pathRenderer === 'canvas'
-                           ? new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } )
-                           : Utils.isWebGLSupported ? new PathsWebGLNode( model, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } ) : null;
+    const pathsWebGLNode = new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
     if ( pathsWebGLNode ) {
       this.bottomLayer.addChild( pathsWebGLNode );
     }

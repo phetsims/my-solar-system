@@ -9,7 +9,6 @@
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import { MAX_PATH_LENGTH } from '../view/PathsWebGLNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -17,7 +16,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import Property from '../../../../axon/js/Property.js';
-import MySolarSystemQueryParameters from '../MySolarSystemQueryParameters.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { BodyInfo } from './CommonModel.js';
 
@@ -101,7 +99,7 @@ class Body {
       }
 
       // Remove points from the path as the path gets too long
-      while ( this.pathDistance > 2000 || this.pathPoints.length > MAX_PATH_LENGTH * ( MySolarSystemQueryParameters.pathRenderer === 'canvas' ? 10 : 1 ) ) {
+      while ( this.pathDistance > 2000 ) {
         this.pathDistance -= this.pathPoints[ 1 ].distance( this.pathPoints[ 0 ] );
         this.pathPoints.shift();
       }
