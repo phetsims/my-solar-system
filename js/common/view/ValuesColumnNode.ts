@@ -22,7 +22,8 @@ import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -32,16 +33,16 @@ type SelfOptions = {
   labelSpacing?: number;
 };
 
-export type ValuesColumnNodeOptions = SelfOptions & VBoxOptions;
+export type ValuesColumnNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
 
 
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: CommonModel, columnType: ValuesColumnTypes ) {
-    const options: ValuesColumnNodeOptions = {
+  public constructor( model: CommonModel, columnType: ValuesColumnTypes, providedOptions?: ValuesColumnNodeOptions ) {
+    const options = optionize<ValuesColumnNodeOptions, SelfOptions, VBoxOptions>()( {
       contentContainerSpacing: 3.5,
       labelSpacing: 3,
       stretch: true
-    };
+    }, providedOptions );
 
     const labelString = columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
                         columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
@@ -72,15 +73,15 @@ export default class ValuesColumnNode extends VBox {
 
       // Observe when Bodies are added or removed from the Model, meaning the contentNode's visibility could change
       // if the body is added or removed from the system. It should only be visible if the body is in the Model.
-      //REVIEW: This actually fails if we replace an element in the ObservableArray. elementAddedEmitter/elementRemovedEmitter
-      //REVIEW: would in general be safer to listen to.
-      model.bodies.lengthProperty.link( () => {
+      const onBodiesChanged = () => {
         contentNode.visible = model.bodies.includes( body );
-      } );
+      };
+      onBodiesChanged();
+      model.bodies.elementAddedEmitter.addListener( onBodiesChanged );
+      model.bodies.elementRemovedEmitter.addListener( onBodiesChanged );
     } );
 
     // Set the children of this Node to the correct rendering order.
-    //REVIEW: StrictOmit<VBoxOptions, 'children'>
     options.children = [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ];
 
     super( options );

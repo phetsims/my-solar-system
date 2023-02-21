@@ -76,9 +76,6 @@ export default class NumericalEngine extends Engine {
     const N = this.bodies.length;
     dt /= iterationCount;
 
-    //REVIEW: If performance is a problem or concern, we could avoid the array creation AND arrow functions
-    //REVIEW: (which can significantly slow down inner-loop code). If we're doing a LOT of iterations, and this is
-    //REVIEW: outside the inner-loop code, then it seems fine.
     const masses = this.bodies.map( body => body.massProperty.value );
     const positions = this.bodies.map( body => body.positionProperty.value.copy() );
     const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
@@ -180,8 +177,6 @@ export default class NumericalEngine extends Engine {
   }
 
   private updateForces(): void {
-    //REVIEW: Are arrows or things getting updated a lot? We might be able to improve performance if that's happening
-    //REVIEW: by computing these in temporary variables, and then setting them all at once at the end.
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
       body.accelerationProperty.value = Vector2.ZERO;
