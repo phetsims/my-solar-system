@@ -98,11 +98,9 @@ export default class IntroLabScreenView extends CommonScreenView {
     // Set up listeners for object creation and disposal
     model.bodies.elementAddedEmitter.addListener( body => {
       trackers.forEach( tracker => tracker.add( body ) );
-      this.update();
     } );
     model.bodies.elementRemovedEmitter.addListener( body => {
       trackers.forEach( tracker => tracker.remove( body ) );
-      this.update();
     } );
 
     // UI Elements ===================================================================================================
