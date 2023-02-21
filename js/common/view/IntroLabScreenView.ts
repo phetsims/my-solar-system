@@ -139,7 +139,7 @@ export default class IntroLabScreenView extends CommonScreenView {
               } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
             this.timeBox,
             new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-              enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
+              visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
               listener: () => {
                 model.systemCenteredProperty.value = true;
               },
