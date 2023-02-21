@@ -239,10 +239,9 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.interfaceLayer.addChild( topRightControlBox );
     this.interfaceLayer.addChild( topLeftZoomBox );
 
-    const pathsWebGLNode = new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, { visibleProperty: model.pathVisibleProperty } );
-    if ( pathsWebGLNode ) {
-      this.bottomLayer.addChild( pathsWebGLNode );
-    }
+    this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
+      visibleProperty: model.pathVisibleProperty
+    } ) );
   }
 }
 

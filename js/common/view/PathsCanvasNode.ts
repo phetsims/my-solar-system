@@ -18,8 +18,8 @@ import Body from '../../../../solar-system-common/js/model/Body.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -27,19 +27,20 @@ type SelfOptions = EmptySelfOptions;
 const STROKE_WIDTH = 3;
 
 class PathsCanvasNode extends CanvasNode {
-  private readonly transformProperty: ReadOnlyProperty<ModelViewTransform2>;
+  private readonly transformProperty: TReadOnlyProperty<ModelViewTransform2>;
   private readonly bodies: Body[];
 
-  public constructor( bodies: Body[], transformProperty: ReadOnlyProperty<ModelViewTransform2>, providedOptions?: CanvasNodeOptions ) {
+  public constructor( bodies: Body[], transformProperty: TReadOnlyProperty<ModelViewTransform2>, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, providedOptions?: CanvasNodeOptions ) {
 
     const options = optionize<CanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
-      //REVIEW: handle the TODO, this will need to be updated when the visible layout bounds changes.
-      // TODO: fix canvas bounds
-      canvasBounds: new Bounds2( 0, 0, 1024, 768 ),
       preventFit: true
     }, providedOptions );
 
     super( options );
+
+    visibleBoundsProperty.link( bounds => {
+      this.canvasBounds = bounds;
+    } );
 
     this.transformProperty = transformProperty;
     this.bodies = bodies;
