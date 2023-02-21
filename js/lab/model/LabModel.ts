@@ -61,11 +61,9 @@ class LabModel extends CommonModel<NumericalEngine> {
         this.isPlayingProperty.value = false;
         this.labModeProperty.value = LabMode.CUSTOM;
         if ( numberOfActiveBodies > this.bodies.length ) {
-          this.bodySoundManager.playBodyAddedSound( numberOfActiveBodies - 1 );
-          this.addBody();
+          this.addNextBody();
         }
         else {
-          this.bodySoundManager.playBodyRemovedSound( numberOfActiveBodies - 1 );
           this.removeLastBody();
         }
       }

@@ -15,6 +15,14 @@ export type LabScreenViewOptions = IntroLabScreenViewOptions;
 class LabScreenView extends IntroLabScreenView {
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
     super( model, providedOptions );
+
+    model.bodyAddedEmitter.addListener( () => {
+      this.bodySoundManager.playBodyAddedSound( model.bodies.length - 1 );
+    } );
+
+    model.bodyRemovedEmitter.addListener( () => {
+      this.bodySoundManager.playBodyRemovedSound( model.bodies.length - 1 );
+    } );
   }
 }
 

@@ -35,7 +35,6 @@ import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
-
 type SelfOptions = EmptySelfOptions;
 
 export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
@@ -58,6 +57,9 @@ const spinnerOptions: NumberSpinnerOptions = {
 };
 
 export default class IntroLabScreenView extends CommonScreenView {
+
+  private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
+
   public constructor( model: CommonModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, providedOptions );
 
@@ -71,11 +73,14 @@ export default class IntroLabScreenView extends CommonScreenView {
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
 
-    const bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
-      return new BodyNode( body, this.modelViewTransformProperty, {
+    this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
+      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
         valuesVisibleProperty: model.valuesVisibleProperty,
-        mapPosition: ( point, radius ) => modelDragBoundsProperty.value.eroded( radius ).closestPointTo( point )
+        mapPosition: ( point, radius ) => modelDragBoundsProperty.value.eroded( radius ).closestPointTo( point ),
+        soundViewNode: this
       } );
+
+      return bodyNode;
     } );
 
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
@@ -89,7 +94,7 @@ export default class IntroLabScreenView extends CommonScreenView {
 
     // The ViewSynchronizers handle the creation and disposal of Model-View pairs
     const trackers = [
-      bodyNodeSynchronizer, velocityVectorSynchronizer, forceVectorSynchronizer
+      this.bodyNodeSynchronizer, velocityVectorSynchronizer, forceVectorSynchronizer
     ];
 
     // Create bodyNodes and arrows for every body
@@ -240,6 +245,19 @@ export default class IntroLabScreenView extends CommonScreenView {
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
       visibleProperty: model.pathVisibleProperty
     } ) );
+  }
+
+  public override step( dt: number ): void {
+    super.step( dt );
+
+    this.bodyNodeSynchronizer.getViews().forEach( bodyNode => {
+      if ( this.model.isPlayingProperty.value ) {
+        bodyNode.playSound();
+      }
+      else {
+        bodyNode.stopSound();
+      }
+    } );
   }
 }
 
