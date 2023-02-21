@@ -165,7 +165,7 @@ export default class IntroLabScreenView extends CommonScreenView {
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
           maxWidth: 70
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
-        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, 4 ) ),
+        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ),
           combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
             arrowsPosition: 'bothRight',
             numberDisplayOptions: {
