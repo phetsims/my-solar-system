@@ -22,7 +22,7 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 
 // constants
 const TEXT_OPTIONS = combineOptions<TextOptions>( {
-  maxWidth: 200
+  maxWidth: SolarSystemCommonConstants.MAX_WIDTH
 }, SolarSystemCommonConstants.TEXT_OPTIONS );
 
 const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): SolarSystemCommonCheckbox[] => {

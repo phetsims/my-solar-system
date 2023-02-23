@@ -21,7 +21,7 @@ import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckb
 
 const COMBO_BOX_TEXT_OPTIONS = {
   font: SolarSystemCommonConstants.PANEL_FONT,
-  maxWidth: 200
+  maxWidth: SolarSystemCommonConstants.MAX_WIDTH
 };
 
 type SelfOptions = EmptySelfOptions;

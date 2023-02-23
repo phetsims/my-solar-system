@@ -59,13 +59,13 @@ export default class FullDataPanel extends Panel {
       // Wrap the text in an AlignGroup to match height.
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
         combineOptions<TextOptions>( {
-          maxWidth: 200
+          maxWidth: SolarSystemCommonConstants.MAX_WIDTH
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     };
 
     const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty,
       combineOptions<TextOptions>( {
-        maxWidth: 200
+        maxWidth: SolarSystemCommonConstants.MAX_WIDTH
       }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
