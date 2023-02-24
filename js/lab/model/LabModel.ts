@@ -8,17 +8,18 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CommonModel, { BodyInfo, CommonModelOptions } from '../../../../solar-system-common/js/model/CommonModel.js';
+import { BodyInfo } from '../../../../solar-system-common/js/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
+import MySolarSystemModel, { MySolarSystemModelOptions } from '../../common/model/MySolarSystemModel.js';
 
-type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
+type SuperTypeOptions = MySolarSystemModelOptions;
 
 type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
-class LabModel extends CommonModel<NumericalEngine> {
+class LabModel extends MySolarSystemModel {
   private readonly modeMap: Map<LabMode, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabMode ) => void;
 

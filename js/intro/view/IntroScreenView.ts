@@ -8,11 +8,11 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import IntroModel from '../model/IntroModel.js';
-import IntroLabScreenView, { IntroLabScreenViewOptions } from '../../common/view/IntroLabScreenView.js';
+import MySolarSystemScreenView, { IntroLabScreenViewOptions } from '../../common/view/MySolarSystemScreenView.js';
 
 export type IntroScreenViewOptions = IntroLabScreenViewOptions;
 
-class IntroScreenView extends IntroLabScreenView {
+class IntroScreenView extends MySolarSystemScreenView {
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
     super( model, providedOptions );
   }

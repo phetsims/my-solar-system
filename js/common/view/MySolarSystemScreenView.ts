@@ -12,7 +12,6 @@ import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CommonScreenView from '../../../../solar-system-common/js/view/CommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
@@ -34,6 +33,8 @@ import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import CenterOfMassNode from './CenterOfMassNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -56,11 +57,11 @@ const spinnerOptions: NumberSpinnerOptions = {
   }
 };
 
-export default class IntroLabScreenView extends CommonScreenView {
+export default class MySolarSystemScreenView extends CommonScreenView {
 
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
 
-  public constructor( model: CommonModel, providedOptions: IntroLabScreenViewOptions ) {
+  public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, providedOptions );
 
     const modelDragBoundsProperty = new DerivedProperty( [
@@ -107,6 +108,11 @@ export default class IntroLabScreenView extends CommonScreenView {
     model.bodies.elementRemovedEmitter.addListener( body => {
       trackers.forEach( tracker => tracker.remove( body ) );
     } );
+
+    // Center of Mass Node
+    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.modelViewTransformProperty );
+    this.componentsLayer.addChild( centerOfMassNode );
+
 
     // UI Elements ===================================================================================================
 
@@ -261,4 +267,4 @@ export default class IntroLabScreenView extends CommonScreenView {
   }
 }
 
-mySolarSystem.register( 'IntroLabScreenView', IntroLabScreenView );
+mySolarSystem.register( 'MySolarSystemScreenView', MySolarSystemScreenView );

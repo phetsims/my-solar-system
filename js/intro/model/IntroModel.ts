@@ -10,16 +10,16 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import CommonModel, { CommonModelOptions } from '../../../../solar-system-common/js/model/CommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import MySolarSystemModel, { MySolarSystemModelOptions } from '../../common/model/MySolarSystemModel.js';
 
-type SuperTypeOptions = CommonModelOptions<NumericalEngine>;
+type SuperTypeOptions = MySolarSystemModelOptions;
 
 export type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
-class IntroModel extends CommonModel<NumericalEngine> {
+class IntroModel extends MySolarSystemModel {
   public constructor( providedOptions: IntroModelOptions ) {
     const options = optionize<IntroModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
       engineFactory: bodies => new NumericalEngine( bodies ),
