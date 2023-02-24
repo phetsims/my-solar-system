@@ -13,19 +13,19 @@ import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import pathIconProjector_png from '../../../images/pathIconProjector_png.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 // constants
 const TEXT_OPTIONS = combineOptions<TextOptions>( {
   maxWidth: SolarSystemCommonConstants.MAX_WIDTH
 }, SolarSystemCommonConstants.TEXT_OPTIONS );
 
-const createOrbitalInformationCheckboxes = ( model: CommonModel, tandem: Tandem ): SolarSystemCommonCheckbox[] => {
+const createOrbitalInformationCheckboxes = ( model: MySolarSystemModel, tandem: Tandem ): SolarSystemCommonCheckbox[] => {
 
   const pathIconImageNode = new Image( pathIcon_png, { scale: 0.25 } );
   colorProfileProperty.lazyLink( ( profileName: string ) => {

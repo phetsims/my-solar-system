@@ -16,9 +16,9 @@ import SolarSystemCommonConstants from '../../../../solar-system-common/js/Solar
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
-import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -27,7 +27,7 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 
 export default class FullDataPanel extends Panel {
-  public constructor( model: CommonModel ) {
+  public constructor( model: MySolarSystemModel ) {
     const options = {
       xMargin: 12,
       stroke: null,

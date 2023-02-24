@@ -8,7 +8,6 @@
 
 import { AlignBox, AlignGroup, Color, Node, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import SolarSystemCommonSlider from '../../../../solar-system-common/js/view/SolarSystemCommonSlider.js';
@@ -24,6 +23,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -37,7 +37,7 @@ export type ValuesColumnNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'chi
 
 
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: CommonModel, columnType: ValuesColumnTypes, providedOptions?: ValuesColumnNodeOptions ) {
+  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, providedOptions?: ValuesColumnNodeOptions ) {
     const options = optionize<ValuesColumnNodeOptions, SelfOptions, VBoxOptions>()( {
       contentContainerSpacing: 3.5,
       labelSpacing: 3,
@@ -87,7 +87,7 @@ export default class ValuesColumnNode extends VBox {
     super( options );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: CommonModel, colorProperty: TReadOnlyProperty<Color> ): AlignBox {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel, colorProperty: TReadOnlyProperty<Color> ): AlignBox {
     // Flag that references the contentNode.
     let contentNode;
 

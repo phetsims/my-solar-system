@@ -13,11 +13,11 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import CommonModel from '../../../../solar-system-common/js/model/CommonModel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import createVisibilityInformationCheckboxes from '../../../../solar-system-common/js/view/createVisibilityInformationCheckboxes.js';
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 const COMBO_BOX_TEXT_OPTIONS = {
   font: SolarSystemCommonConstants.PANEL_FONT,
@@ -31,7 +31,7 @@ export type MySolarSystemControlsOptions = SelfOptions & WithRequired<VBoxOption
 export default class MySolarSystemControls extends VBox {
 
   public constructor(
-    model: CommonModel,
+    model: MySolarSystemModel,
     topLayer: Node,
     providedOptions: MySolarSystemControlsOptions
   ) {
