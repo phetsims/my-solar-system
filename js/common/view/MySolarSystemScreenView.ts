@@ -248,6 +248,11 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.interfaceLayer.addChild( topRightControlBox );
     this.interfaceLayer.addChild( topLeftZoomBox );
 
+    assert && assert( this.interfaceLayer.pdomOrder );
+    // ZoomBox should be first in the PDOM Order
+    this.interfaceLayer.pdomOrder = [ topLeftZoomBox, ...this.interfaceLayer.pdomOrder! ];
+
+
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
       visibleProperty: model.pathVisibleProperty
     } ) );

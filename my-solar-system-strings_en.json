@@ -259,5 +259,10 @@
   },
   "warning.escapeOrbit": {
     "value": "The body will escape the system"
+  },
+  "a11y": {
+    "restart": {
+      "value": "Restart"
+    }
   }
 }

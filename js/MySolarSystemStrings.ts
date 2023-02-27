@@ -206,6 +206,10 @@ type StringsType = {
     'crashOrbitStringProperty': LinkableProperty<string>;
     'escapeOrbit': string;
     'escapeOrbitStringProperty': LinkableProperty<string>;
+  };
+  'a11y': {
+    'restart': string;
+    'restartStringProperty': LinkableProperty<string>;
   }
 };
 

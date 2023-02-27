@@ -24,6 +24,7 @@
     ],
     "supportsOutputJS": true,
     "simFeatures": {
+      "supportsInteractiveDescription": true,
       "supportsSound": true,
       "colorProfiles": [
         "default",
