@@ -30,8 +30,9 @@ class LabModel extends MySolarSystemModel {
     }, providedOptions );
     super( options );
 
-    this.labModeProperty.link( mode => {
+    this.labModeProperty.lazyLink( mode => {
       if ( mode !== LabMode.CUSTOM ) {
+        this.userControlledProperty.value = true;
         this.clearPaths();
       }
     } );
@@ -78,6 +79,7 @@ class LabModel extends MySolarSystemModel {
     this.labModeProperty.value = LabMode.CUSTOM;
     this.labModeProperty.reset();
 
+    this.userControlledProperty.reset();
     super.restart();
   }
 
