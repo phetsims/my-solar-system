@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { BodyInfo } from '../../../../solar-system-common/js/model/CommonModel.js';
+import { BodyInfo } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabMode from '../../../../solar-system-common/js/model/LabMode.js';

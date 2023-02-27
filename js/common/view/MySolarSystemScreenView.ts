@@ -13,7 +13,7 @@ import SolarSystemCommonConstants from '../../../../solar-system-common/js/Solar
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import CommonScreenView from '../../../../solar-system-common/js/view/CommonScreenView.js';
+import SolarSystemCommonScreenView from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import FullDataPanel from './FullDataPanel.js';
@@ -57,7 +57,7 @@ const spinnerOptions: NumberSpinnerOptions = {
   }
 };
 
-export default class MySolarSystemScreenView extends CommonScreenView {
+export default class MySolarSystemScreenView extends SolarSystemCommonScreenView {
 
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
 

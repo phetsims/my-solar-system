@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import CommonModel, { BodyInfo, CommonModelOptions } from '../../../../solar-system-common/js/model/CommonModel.js';
+import SolarSystemCommonModel, { BodyInfo, CommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -15,7 +15,7 @@ import CenterOfMass from './CenterOfMass.js';
 
 export type MySolarSystemModelOptions = CommonModelOptions<NumericalEngine>;
 
-export default class MySolarSystemModel extends CommonModel<NumericalEngine> {
+export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
   public readonly systemCenteredProperty;
   public readonly centerOfMass: CenterOfMass;
 
