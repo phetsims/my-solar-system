@@ -19,6 +19,7 @@ import ValuesColumnNode from './ValuesColumnNode.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -69,8 +70,8 @@ export default class FullDataPanel extends Panel {
       }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
-    const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.positionStringProperty, MySolarSystemStrings.units.AUStringProperty );
-    const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.velocityStringProperty, MySolarSystemStrings.units.kmsStringProperty );
+    const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.positionStringProperty, SolarSystemCommonStrings.units.AUStringProperty );
+    const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.velocityStringProperty, SolarSystemCommonStrings.units.kmsStringProperty );
 
     //----------------------------------------------------------------------------------------
 

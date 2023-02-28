@@ -24,6 +24,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -122,7 +123,7 @@ export default class ValuesColumnNode extends VBox {
         body.colorProperty, model.isPlayingProperty, {
           useExponential: true,
           hideSmallValues: true
-      } );
+        } );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
       contentNode = new InteractiveNumberDisplay(
@@ -130,10 +131,10 @@ export default class ValuesColumnNode extends VBox {
           reentrant: true,
           bidirectional: true,
           map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-          inverseMap: ( x : number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
+          inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
         positionRangeX,
-        MySolarSystemStrings.units.AUStringProperty,
+        SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty, model.isPlayingProperty, {
           onEditCallback: clearPathsCallback
@@ -146,10 +147,10 @@ export default class ValuesColumnNode extends VBox {
           reentrant: true,
           bidirectional: true,
           map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-          inverseMap: ( y : number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
+          inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
         } ),
         positionRangeY,
-        MySolarSystemStrings.units.AUStringProperty,
+        SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty, model.isPlayingProperty, {
           onEditCallback: clearPathsCallback
@@ -162,10 +163,10 @@ export default class ValuesColumnNode extends VBox {
           reentrant: true,
           bidirectional: true,
           map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-          inverseMap: ( x : number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
+          inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
         } ),
         velocityRange,
-        MySolarSystemStrings.units.kmsStringProperty,
+        SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
         body.colorProperty, model.isPlayingProperty, {
           onEditCallback: clearPathsCallback
@@ -178,10 +179,10 @@ export default class ValuesColumnNode extends VBox {
           reentrant: true,
           bidirectional: true,
           map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-          inverseMap: ( y : number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
+          inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
         } ),
         velocityRange,
-        MySolarSystemStrings.units.kmsStringProperty,
+        SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
         body.colorProperty, model.isPlayingProperty, {
           onEditCallback: clearPathsCallback
