@@ -100,6 +100,7 @@ export default class ValuesColumnNode extends VBox {
       model.clearPaths();
     };
 
+    const sliderStep = 50;
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
       contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
@@ -110,7 +111,7 @@ export default class ValuesColumnNode extends VBox {
         thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
         startDrag: () => { body.userControlledMassProperty.value = true; },
         endDrag: () => { body.userControlledMassProperty.value = false; },
-        constrainValue: value => massRange.constrainValue( 5 * Utils.roundSymmetric( value / 5 ) )
+        constrainValue: value => massRange.constrainValue( sliderStep * Utils.roundSymmetric( value / sliderStep ) )
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
