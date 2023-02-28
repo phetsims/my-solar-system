@@ -16,71 +16,15 @@ type StringsType = {
   'screen': {
     'intro': string;
     'introStringProperty': LinkableProperty<string>;
-    'keplersLaws': string;
-    'keplersLawsStringProperty': LinkableProperty<string>;
     'lab': string;
     'labStringProperty': LinkableProperty<string>;
   };
-  'gravityForce': string;
-  'gravityForceStringProperty': LinkableProperty<string>;
-  'grid': string;
-  'gridStringProperty': LinkableProperty<string>;
   'centerOfMass': string;
   'centerOfMassStringProperty': LinkableProperty<string>;
   'followCenterOfMass': string;
   'followCenterOfMassStringProperty': LinkableProperty<string>;
-  'measuringTape': string;
-  'measuringTapeStringProperty': LinkableProperty<string>;
   'path': string;
   'pathStringProperty': LinkableProperty<string>;
-  'velocity': string;
-  'velocityStringProperty': LinkableProperty<string>;
-  'V': string;
-  'VStringProperty': LinkableProperty<string>;
-  'circularOrbit': string;
-  'circularOrbitStringProperty': LinkableProperty<string>;
-  'orbital': string;
-  'orbitalStringProperty': LinkableProperty<string>;
-  'axis': string;
-  'axisStringProperty': LinkableProperty<string>;
-  'foci': string;
-  'fociStringProperty': LinkableProperty<string>;
-  'strings': string;
-  'stringsStringProperty': LinkableProperty<string>;
-  'semiaxis': string;
-  'semiaxisStringProperty': LinkableProperty<string>;
-  'eccentricity': string;
-  'eccentricityStringProperty': LinkableProperty<string>;
-  'eccentricityEquation': string;
-  'eccentricityEquationStringProperty': LinkableProperty<string>;
-  'apoapsis': string;
-  'apoapsisStringProperty': LinkableProperty<string>;
-  'periapsis': string;
-  'periapsisStringProperty': LinkableProperty<string>;
-  'clear': string;
-  'clearStringProperty': LinkableProperty<string>;
-  'centerOrbit': string;
-  'centerOrbitStringProperty': LinkableProperty<string>;
-  'values': string;
-  'valuesStringProperty': LinkableProperty<string>;
-  'speed': string;
-  'speedStringProperty': LinkableProperty<string>;
-  'starMass': string;
-  'starMassStringProperty': LinkableProperty<string>;
-  'ourSun': string;
-  'ourSunStringProperty': LinkableProperty<string>;
-  'area': {
-    'title': string;
-    'titleStringProperty': LinkableProperty<string>;
-    'sweptArea': string;
-    'sweptAreaStringProperty': LinkableProperty<string>;
-    'areaGraph': string;
-    'areaGraphStringProperty': LinkableProperty<string>;
-    'periodDivision': string;
-    'periodDivisionStringProperty': LinkableProperty<string>;
-    'areaUnits': string;
-    'areaUnitsStringProperty': LinkableProperty<string>;
-  };
   'dataPanel': {
     'X': string;
     'XStringProperty': LinkableProperty<string>;
@@ -103,36 +47,6 @@ type StringsType = {
   };
   'mass': string;
   'massStringProperty': LinkableProperty<string>;
-  'areaGraph': {
-    'title': string;
-    'titleStringProperty': LinkableProperty<string>;
-  };
-  'graph': {
-    'title': string;
-    'titleStringProperty': LinkableProperty<string>;
-    'a': string;
-    'aStringProperty': LinkableProperty<string>;
-    't': string;
-    'tStringProperty': LinkableProperty<string>;
-  };
-  'semiMajorAxis': string;
-  'semiMajorAxisStringProperty': LinkableProperty<string>;
-  'period': string;
-  'periodStringProperty': LinkableProperty<string>;
-  'symbols': {
-    'semiMajorAxis': string;
-    'semiMajorAxisStringProperty': LinkableProperty<string>;
-    'semiMinorAxis': string;
-    'semiMinorAxisStringProperty': LinkableProperty<string>;
-    'focalDistance': string;
-    'focalDistanceStringProperty': LinkableProperty<string>;
-    'eccentricity': string;
-    'eccentricityStringProperty': LinkableProperty<string>;
-    'period': string;
-    'periodStringProperty': LinkableProperty<string>;
-    'division': string;
-    'divisionStringProperty': LinkableProperty<string>;
-  };
   'mode': {
     'sunAndPlanet': string;
     'sunAndPlanetStringProperty': LinkableProperty<string>;
@@ -162,16 +76,8 @@ type StringsType = {
   'units': {
     'units': string;
     'unitsStringProperty': LinkableProperty<string>;
-    'AU': string;
-    'AUStringProperty': LinkableProperty<string>;
-    'kms': string;
-    'kmsStringProperty': LinkableProperty<string>;
-    'Mjup': string;
-    'MjupStringProperty': LinkableProperty<string>;
     'kg': string;
     'kgStringProperty': LinkableProperty<string>;
-    'years': string;
-    'yearsStringProperty': LinkableProperty<string>;
   };
   'unitsInfo': {
     'title': string;
@@ -182,35 +88,11 @@ type StringsType = {
   'pattern': {
     'labelParenthesesUnits': string;
     'labelParenthesesUnitsStringProperty': LinkableProperty<string>;
-    'labelUnits': string;
-    'labelUnitsStringProperty': LinkableProperty<string>;
-    'velocityValueUnits': string;
-    'velocityValueUnitsStringProperty': LinkableProperty<string>;
-    'textValueUnits': string;
-    'textValueUnitsStringProperty': LinkableProperty<string>;
-    'textEqualsValueUnits': string;
-    'textEqualsValueUnitsStringProperty': LinkableProperty<string>;
-    'rangeWithUnits': string;
-    'rangeWithUnitsStringProperty': LinkableProperty<string>;
     'range': string;
     'rangeStringProperty': LinkableProperty<string>;
-    'rangeWithExponentialUnits': string;
-    'rangeWithExponentialUnitsStringProperty': LinkableProperty<string>;
-    'unitsPower': string;
-    'unitsPowerStringProperty': LinkableProperty<string>;
   };
-  'warning': {
-    'warning': string;
-    'warningStringProperty': LinkableProperty<string>;
-    'crashOrbit': string;
-    'crashOrbitStringProperty': LinkableProperty<string>;
-    'escapeOrbit': string;
-    'escapeOrbitStringProperty': LinkableProperty<string>;
-  };
-  'a11y': {
-    'restart': string;
-    'restartStringProperty': LinkableProperty<string>;
-  }
+  'fdsjkl': string;
+  'fdsjklStringProperty': LinkableProperty<string>;
 };
 
 const MySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;
