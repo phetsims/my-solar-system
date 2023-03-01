@@ -55,7 +55,11 @@ export default class MySolarSystemControls extends VBox {
                 { value: LabMode.DOUBLE_DOUBLE, createNode: () => new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
                 { value: LabMode.CUSTOM, createNode: () => new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
               ], topLayer, {
-                tandem: providedOptions.tandem.createTandem( 'labModeComboBox' )
+                tandem: providedOptions.tandem.createTandem( 'labModeComboBox' ),
+                widthSizable: false,
+                layoutOptions: {
+                  align: 'center'
+                }
               } )
             ]
           : [] ),

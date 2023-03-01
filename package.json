@@ -19,7 +19,6 @@
       "phet-io"
     ],
     "phetLibs": [
-      "bamboo",
       "solar-system-common"
     ],
     "supportsOutputJS": true,
