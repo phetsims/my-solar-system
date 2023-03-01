@@ -24,10 +24,10 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     const tandem = providedOptions.tandem;
 
-    this.centerOfMass = new CenterOfMass( this.bodies );
-    this.followCenterOfMass();
-
     this.systemCenteredProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'systemCenteredProperty' ) } );
+
+    this.centerOfMass = new CenterOfMass( this.bodies );
+
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {
@@ -51,6 +51,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   }
 
   public followCenterOfMass(): void {
+    this.centerOfMass.update();
+
     // Make the center of mass fixed, but not necessarily centered
     const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
     this.bodies.forEach( body => {
