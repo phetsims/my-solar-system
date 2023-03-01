@@ -7,9 +7,8 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonModel, { BodyInfo, CommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
+import SolarSystemCommonModel, { CommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
 
@@ -71,20 +70,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     if ( this.centerOfMass.positionProperty.value.magnitude > 0.01 || this.centerOfMass.velocityProperty.value.magnitude > 0.01 ) {
       this.systemCenteredProperty.value = false;
     }
-  }
-
-  public override loadBodyStates( bodiesInfo: BodyInfo[] ): void {
-    super.loadBodyStates( bodiesInfo );
-  }
-
-  public override reset(): void {
-    super.reset();
-    this.centerOfMass.visibleProperty.reset();
-
-    this.loadBodyStates( [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
-      { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
-    ] );
   }
 }
 
