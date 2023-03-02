@@ -111,10 +111,10 @@ class LabModel extends MySolarSystemModel {
       { active: true, mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) }
     ] );
     this.modeMap.set( LabMode.HYPERBOLIC, [
-      { active: true, mass: 250, position: new Vector2( -50, -25 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -300, 70 ), velocity: new Vector2( 120, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -300, 140 ), velocity: new Vector2( 120, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -300, 210 ), velocity: new Vector2( 120, 0 ) }
+      { active: true, mass: 250, position: new Vector2( 0, 25 ), velocity: new Vector2( 0, 0 ) },
+      { active: true, mass: 0.000001, position: new Vector2( -250, -70 ), velocity: new Vector2( 120, 0 ) },
+      { active: true, mass: 0.000001, position: new Vector2( -250, -140 ), velocity: new Vector2( 120, 0 ) },
+      { active: true, mass: 0.000001, position: new Vector2( -250, -210 ), velocity: new Vector2( 120, 0 ) }
     ] );
     this.modeMap.set( LabMode.SLINGSHOT, [
       { active: true, mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
