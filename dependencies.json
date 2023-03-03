@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.1.0-dev.2 Fri Mar 03 2023 12:02:59 GMT-0500 (Colombia Standard Time)",
+  "comment": "# my-solar-system 1.1.0-dev.3 Fri Mar 03 2023 13:49:16 GMT-0500 (Colombia Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "1ae1fdf44463097ea923fae09854e243996c57f5",
+    "sha": "1bafcda86d888cdce2cb59eb02265e5412f8f255",
     "branch": "master"
   },
   "dot": {
@@ -29,11 +29,11 @@
     "branch": "master"
   },
   "my-solar-system": {
-    "sha": "df46bee68db514316662594b76a96d3b50b25ba6",
+    "sha": "b60dc1c25b78b8b95cb021b5e18b516a0515013b",
     "branch": "master"
   },
   "perennial-alias": {
-    "sha": "d8c35e0a3b467dfe147dca8710f8f25204f926d3",
+    "sha": "09e38a1f801f8c7eba50a03c52f3bd6cee393b5b",
     "branch": "master"
   },
   "phet-core": {
@@ -65,7 +65,7 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "031703e0a5d058bcebc347d22cb916c80a0ade18",
+    "sha": "1e80179eb4e60bd1c5e71100b8b53f7e7bc012b2",
     "branch": "master"
   },
   "scenery-phet": {
@@ -77,7 +77,7 @@
     "branch": "master"
   },
   "solar-system-common": {
-    "sha": "c766de01841d3b13a6a101868f55703ebabc077c",
+    "sha": "6256d42d9f67db51db01e292e26f3c3015d2b3b2",
     "branch": "master"
   },
   "studio": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "d349da941d460eb0781b34b700313629d50858a1",
+    "sha": "36b1d06c280599e0520928d260a6815993545ed2",
     "branch": "master"
   },
   "tambo": {
