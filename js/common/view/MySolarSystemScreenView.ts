@@ -142,6 +142,17 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       maxWidth: SolarSystemCommonConstants.MAX_WIDTH
     };
 
+    const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
+      visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
+      listener: () => {
+        model.systemCenteredProperty.value = true;
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5,
+      font: SolarSystemCommonConstants.PANEL_FONT,
+      maxTextWidth: 200
+    } );
+
 
     // Control Panel --------------------------------------------------------------------------------------------
     const topRightControlBox = new AlignBox(
@@ -183,17 +194,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             new Panel(
               new MySolarSystemControls( model, this.topLayer, {
                 tandem: providedOptions.tandem.createTandem( 'controlPanel' )
-              } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
-            new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-              visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
-              listener: () => {
-                model.systemCenteredProperty.value = true;
-              },
-              touchAreaXDilation: 5,
-              touchAreaYDilation: 5,
-              font: SolarSystemCommonConstants.PANEL_FONT,
-              maxTextWidth: 200
-            } )
+              } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
           ]
         }
       ),
@@ -265,7 +266,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             fullDataPanel
           ]
         } ),
-        numberSpinnerBox
+        numberSpinnerBox,
+        followCenterOfMassButton
       ],
       layoutOptions: {
         column: 0

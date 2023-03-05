@@ -47,6 +47,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
         this.isPlayingProperty.value = true; // Resume the sim
       }
     } );
+
+    this.systemCenteredProperty.value = true; // Center the system at the beginning
   }
 
   public followCenterOfMass(): void {

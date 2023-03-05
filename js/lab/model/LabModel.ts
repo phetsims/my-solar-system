@@ -70,6 +70,9 @@ class LabModel extends MySolarSystemModel {
         }
       }
     } );
+
+    this.systemCenteredProperty.notifyListenersStatic(); // Center the system at the beginning
+
   }
 
   public override reset(): void {
