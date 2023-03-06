@@ -38,7 +38,11 @@ export default class MySolarSystemControls extends VBox {
       ],
       spacing: SolarSystemCommonConstants.CHECKBOX_SPACING,
       align: 'left',
-      stretch: true
+      stretch: true,
+
+      //pdom
+      containerTagName: 'h1',
+      accessibleName: 'Controls Checkboxes'
     } );
   }
 }

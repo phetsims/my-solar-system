@@ -39,9 +39,11 @@ const createOrbitalInformationCheckboxes = ( model: MySolarSystemModel, tandem: 
       children: [
         new Text( MySolarSystemStrings.pathStringProperty, TEXT_OPTIONS ),
         pathIconImageNode
-      ],
-      tandem: tandem.createTandem( 'pathVisibleCheckbox' )
-    } ), SolarSystemCommonConstants.CHECKBOX_OPTIONS ),
+      ]
+    } ), {
+      tandem: tandem.createTandem( 'pathVisibleCheckbox' ),
+      accessibleName: MySolarSystemStrings.pathStringProperty
+    } ),
     new SolarSystemCommonCheckbox( model.centerOfMass.visibleProperty, new HBox( {
       spacing: 10,
       children: [
@@ -51,9 +53,11 @@ const createOrbitalInformationCheckboxes = ( model: MySolarSystemModel, tandem: 
           stroke: SolarSystemCommonColors.foregroundProperty,
           scale: 0.5
         } )
-      ],
-      tandem: tandem.createTandem( 'centerOfMassVisibleCheckbox' )
-    } ), SolarSystemCommonConstants.CHECKBOX_OPTIONS )
+      ]
+    } ), {
+      tandem: tandem.createTandem( 'centerOfMassVisibleCheckbox' ),
+      accessibleName: MySolarSystemStrings.centerOfMassStringProperty
+    } )
   ];
 };
 
