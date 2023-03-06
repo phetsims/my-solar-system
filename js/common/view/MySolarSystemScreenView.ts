@@ -35,8 +35,7 @@ import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
-import ComboBox from '../../../../sun/js/ComboBox.js';
-import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
+import MySolarSystemComboBox from './MySolarSystemComboBox.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -130,11 +129,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    const COMBO_BOX_TEXT_OPTIONS = {
-      font: SolarSystemCommonConstants.PANEL_FONT,
-      maxWidth: SolarSystemCommonConstants.MAX_WIDTH
-    };
-
     const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
       listener: () => {
@@ -146,32 +140,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       maxTextWidth: 200
     } );
 
-
-    // Control Panel --------------------------------------------------------------------------------------------
-    const labModeComboBox = model.isLab
-                            ? [
-        new ComboBox( model.labModeProperty, [
-          { value: LabMode.SUN_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.SUN_PLANET_MOON, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.SUN_PLANET_COMET, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.TROJAN_ASTEROIDS, createNode: () => new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.ELLIPSES, createNode: () => new Text( MySolarSystemStrings.mode.ellipsesStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.HYPERBOLIC, createNode: () => new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.slingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.DOUBLE_SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.BINARY_STAR_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.FOUR_STAR_BALLET, createNode: () => new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.DOUBLE_DOUBLE, createNode: () => new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-          { value: LabMode.CUSTOM, createNode: () => new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
-        ], this.topLayer, {
-          tandem: providedOptions.tandem.createTandem( 'labModeComboBox' ),
-          widthSizable: false,
-          layoutOptions: {
-            align: 'center'
-          }
-        } )
-      ]
-                            : [];
+    const labModeComboBox = new MySolarSystemComboBox( model, this.topLayer );
 
     const checkboxesControlPanel = new MySolarSystemControls( model, this.topLayer, {
       tandem: providedOptions.tandem.createTandem( 'controlPanel' )
@@ -183,7 +152,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           spacing: 10,
           stretch: true,
           children: [
-            new Panel( new Node( { children: [ ...labModeComboBox ] } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
+            new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
             this.timeBox,
             new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
           ]
@@ -289,7 +258,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
       followCenterOfMassButton,
-      ...labModeComboBox,
+      labModeComboBox,
       this.timeBox,
       dataGridbox,
       checkboxesControlPanel,
