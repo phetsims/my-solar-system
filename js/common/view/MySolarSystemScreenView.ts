@@ -119,22 +119,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // UI Elements ===================================================================================================
 
     // Zoom Buttons ---------------------------------------------------------------------------
-    const topLeftZoomBox = new AlignBox(
-      new MagnifyingGlassZoomButtonGroup(
-        model.zoomLevelProperty,
-        {
-          spacing: 8,
-          magnifyingGlassNodeOptions: {
-            glassRadius: 8
-          },
-          touchAreaXDilation: 5,
-          touchAreaYDilation: 5
-        } ),
+    const zoomBox = new MagnifyingGlassZoomButtonGroup(
+      model.zoomLevelProperty,
       {
-        alignBoundsProperty: this.availableBoundsProperty,
-        margin: SolarSystemCommonConstants.MARGIN,
-        xAlign: 'left',
-        yAlign: 'top'
+        spacing: 8,
+        magnifyingGlassNodeOptions: {
+          glassRadius: 8
+        },
+        touchAreaXDilation: 5,
+        touchAreaYDilation: 5
       } );
 
     const COMBO_BOX_TEXT_OPTIONS = {
@@ -155,46 +148,44 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
 
     // Control Panel --------------------------------------------------------------------------------------------
+    const labModeComboBox = model.isLab
+                            ? [
+        new ComboBox( model.labModeProperty, [
+          { value: LabMode.SUN_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.SUN_PLANET_MOON, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.SUN_PLANET_COMET, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.TROJAN_ASTEROIDS, createNode: () => new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.ELLIPSES, createNode: () => new Text( MySolarSystemStrings.mode.ellipsesStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.HYPERBOLIC, createNode: () => new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.slingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.DOUBLE_SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.BINARY_STAR_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.FOUR_STAR_BALLET, createNode: () => new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.DOUBLE_DOUBLE, createNode: () => new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
+          { value: LabMode.CUSTOM, createNode: () => new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
+        ], this.topLayer, {
+          tandem: providedOptions.tandem.createTandem( 'labModeComboBox' ),
+          widthSizable: false,
+          layoutOptions: {
+            align: 'center'
+          }
+        } )
+      ]
+                            : [];
+
+    const checkboxesControlPanel = new MySolarSystemControls( model, this.topLayer, {
+      tandem: providedOptions.tandem.createTandem( 'controlPanel' )
+    } );
+
     const topRightControlBox = new AlignBox(
       new VBox(
         {
           spacing: 10,
           stretch: true,
           children: [
-            new Panel( new Node( {
-              children: [
-                ...(
-                  model.isLab
-                  ? [
-                      new ComboBox( model.labModeProperty, [
-                        { value: LabMode.SUN_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.sunAndPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.SUN_PLANET_MOON, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.SUN_PLANET_COMET, createNode: () => new Text( MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.TROJAN_ASTEROIDS, createNode: () => new Text( MySolarSystemStrings.mode.trojanAsteroidsStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.ELLIPSES, createNode: () => new Text( MySolarSystemStrings.mode.ellipsesStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.HYPERBOLIC, createNode: () => new Text( MySolarSystemStrings.mode.hyperbolicStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.slingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.DOUBLE_SLINGSHOT, createNode: () => new Text( MySolarSystemStrings.mode.doubleSlingshotStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.BINARY_STAR_PLANET, createNode: () => new Text( MySolarSystemStrings.mode.binaryStarPlanetStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.FOUR_STAR_BALLET, createNode: () => new Text( MySolarSystemStrings.mode.fourStarBalletStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.DOUBLE_DOUBLE, createNode: () => new Text( MySolarSystemStrings.mode.doubleDoubleStringProperty, COMBO_BOX_TEXT_OPTIONS ) },
-                        { value: LabMode.CUSTOM, createNode: () => new Text( MySolarSystemStrings.mode.customStringProperty, COMBO_BOX_TEXT_OPTIONS ) }
-                      ], this.topLayer, {
-                        tandem: providedOptions.tandem.createTandem( 'labModeComboBox' ),
-                        widthSizable: false,
-                        layoutOptions: {
-                          align: 'center'
-                        }
-                      } )
-                    ]
-                  : [] )
-              ]
-            } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
+            new Panel( new Node( { children: [ ...labModeComboBox ] } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
             this.timeBox,
-            new Panel(
-              new MySolarSystemControls( model, this.topLayer, {
-                tandem: providedOptions.tandem.createTandem( 'controlPanel' )
-              } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
+            new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
           ]
         }
       ),
@@ -283,13 +274,33 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         yAlign: 'bottom'
       } );
 
+    const resetAndZoomBox = new AlignBox( new HBox( {
+        spacing: 10,
+        children: [
+          zoomBox,
+          this.resetAllButton
+        ]
+      } ),
+      {
+        alignBoundsProperty: this.availableBoundsProperty,
+        margin: SolarSystemCommonConstants.MARGIN,
+        xAlign: 'right',
+        yAlign: 'bottom'
+      } );
+
     this.interfaceLayer.addChild( centerBox );
     this.interfaceLayer.addChild( topRightControlBox );
-    this.interfaceLayer.addChild( topLeftZoomBox );
+    this.interfaceLayer.addChild( resetAndZoomBox );
 
-    assert && assert( this.interfaceLayer.pdomOrder );
     // ZoomBox should be first in the PDOM Order
-    this.interfaceLayer.pdomOrder = [ topLeftZoomBox, ...this.interfaceLayer.pdomOrder! ];
+    this.interfaceLayer.pdomOrder = [
+      followCenterOfMassButton,
+      ...labModeComboBox,
+      this.timeBox,
+      checkboxesControlPanel,
+      dataGridbox,
+      resetAndZoomBox
+    ];
 
 
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {

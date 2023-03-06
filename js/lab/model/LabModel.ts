@@ -84,6 +84,8 @@ class LabModel extends MySolarSystemModel {
 
     this.userControlledProperty.reset();
     super.restart();
+
+    this.systemCenteredProperty.reset();
   }
 
   public setModesToMap(): void {

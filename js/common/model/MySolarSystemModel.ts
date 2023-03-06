@@ -23,7 +23,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     const tandem = providedOptions.tandem;
 
-    this.systemCenteredProperty = new BooleanProperty( false, { tandem: tandem.createTandem( 'systemCenteredProperty' ) } );
+    this.systemCenteredProperty = new BooleanProperty( true, { tandem: tandem.createTandem( 'systemCenteredProperty' ) } );
 
     this.centerOfMass = new CenterOfMass( this.bodies );
 
@@ -47,8 +47,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
         this.isPlayingProperty.value = true; // Resume the sim
       }
     } );
-
-    this.systemCenteredProperty.value = true; // Center the system at the beginning
   }
 
   public followCenterOfMass(): void {
