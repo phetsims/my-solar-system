@@ -119,7 +119,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // UI Elements ===================================================================================================
 
     // Zoom Buttons ---------------------------------------------------------------------------
-    const zoomBox = new MagnifyingGlassZoomButtonGroup(
+    const zoomButtons = new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
       {
         spacing: 8,
@@ -274,13 +274,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         yAlign: 'bottom'
       } );
 
-    const resetAndZoomBox = new AlignBox( new HBox( {
-        spacing: 10,
-        children: [
-          zoomBox,
-          this.resetAllButton
-        ]
-      } ),
+    const resetButtonBox = new AlignBox( this.resetAllButton,
       {
         alignBoundsProperty: this.availableBoundsProperty,
         margin: SolarSystemCommonConstants.MARGIN,
@@ -288,18 +282,27 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         yAlign: 'bottom'
       } );
 
+    const zoomButtonsBox = new AlignBox( zoomButtons, {
+      alignBoundsProperty: this.availableBoundsProperty,
+      margin: SolarSystemCommonConstants.MARGIN,
+      xAlign: 'left',
+      yAlign: 'top'
+    } );
+
     this.interfaceLayer.addChild( centerBox );
     this.interfaceLayer.addChild( topRightControlBox );
-    this.interfaceLayer.addChild( resetAndZoomBox );
+    this.interfaceLayer.addChild( resetButtonBox );
+    this.interfaceLayer.addChild( zoomButtonsBox );
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
       followCenterOfMassButton,
       ...labModeComboBox,
       this.timeBox,
-      checkboxesControlPanel,
       dataGridbox,
-      resetAndZoomBox
+      checkboxesControlPanel,
+      zoomButtons,
+      this.resetAllButton
     ];
 
 
