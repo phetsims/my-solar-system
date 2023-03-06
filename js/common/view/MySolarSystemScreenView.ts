@@ -257,30 +257,23 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             fullDataPanel
           ]
         } ),
-        numberSpinnerBox,
-        followCenterOfMassButton
-      ],
-      layoutOptions: {
-        column: 0
-      }
+        numberSpinnerBox
+      ]
     } );
 
-    const centerBox = new AlignBox(
-      dataGridbox,
-      {
-        alignBoundsProperty: this.availableBoundsProperty,
-        margin: SolarSystemCommonConstants.MARGIN,
-        xAlign: 'left',
-        yAlign: 'bottom'
-      } );
-
-    const resetButtonBox = new AlignBox( this.resetAllButton,
-      {
-        alignBoundsProperty: this.availableBoundsProperty,
-        margin: SolarSystemCommonConstants.MARGIN,
-        xAlign: 'right',
-        yAlign: 'bottom'
-      } );
+    const bottomBox = new HBox( {
+      children: [
+        dataGridbox,
+        followCenterOfMassButton,
+        this.resetAllButton
+      ],
+      align: 'bottom'
+    } );
+    this.availableBoundsProperty.link( bounds => {
+      bottomBox.preferredWidth = bounds.width - SolarSystemCommonConstants.MARGIN * 2;
+      bottomBox.bottom = bounds.bottom - SolarSystemCommonConstants.MARGIN;
+      bottomBox.left = bounds.left + SolarSystemCommonConstants.MARGIN;
+    } );
 
     const zoomButtonsBox = new AlignBox( zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
@@ -289,9 +282,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'top'
     } );
 
-    this.interfaceLayer.addChild( centerBox );
+    this.interfaceLayer.addChild( bottomBox );
     this.interfaceLayer.addChild( topRightControlBox );
-    this.interfaceLayer.addChild( resetButtonBox );
     this.interfaceLayer.addChild( zoomButtonsBox );
 
     // ZoomBox should be first in the PDOM Order
