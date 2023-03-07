@@ -74,8 +74,6 @@ type StringsType = {
     'customStringProperty': LinkableProperty<string>;
   };
   'units': {
-    'units': string;
-    'unitsStringProperty': LinkableProperty<string>;
     'kg': string;
     'kgStringProperty': LinkableProperty<string>;
   };
@@ -91,8 +89,12 @@ type StringsType = {
     'range': string;
     'rangeStringProperty': LinkableProperty<string>;
   };
-  'fdsjkl': string;
-  'fdsjklStringProperty': LinkableProperty<string>;
+  'a11y': {
+    'moreData': string;
+    'moreDataStringProperty': LinkableProperty<string>;
+    'info': string;
+    'infoStringProperty': LinkableProperty<string>;
+  }
 };
 
 const MySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;

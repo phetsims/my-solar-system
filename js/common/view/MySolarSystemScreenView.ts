@@ -26,7 +26,6 @@ import Body from '../../../../solar-system-common/js/model/Body.js';
 import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
@@ -129,17 +128,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-      visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
-      listener: () => {
-        model.systemCenteredProperty.value = true;
-      },
-      touchAreaXDilation: 5,
-      touchAreaYDilation: 5,
-      font: SolarSystemCommonConstants.PANEL_FONT,
-      maxTextWidth: 200
-    } );
-
     const labModeComboBox = new MySolarSystemComboBox( model, this.topLayer );
 
     const checkboxesControlPanel = new MySolarSystemControls( model, this.topLayer, {
@@ -210,11 +198,13 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
                     maxWidth: 300
                   }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
                   combineOptions<CheckboxOptions>( {
+                    accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
                     touchAreaXDilation: 10,
                     touchAreaYDilation: 10
                   }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
                 ),
                 new InfoButton( {
+                  accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
                   scale: 0.5,
                   iconFill: 'rgb( 41, 106, 163 )',
                   touchAreaDilation: 20,
@@ -230,18 +220,18 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       ]
     } );
 
-    const bottomBox = new HBox( {
-      children: [
-        dataGridbox,
-        followCenterOfMassButton,
-        this.resetAllButton
-      ],
-      align: 'bottom'
+    const controlsAlignBox = new AlignBox( dataGridbox, {
+      alignBoundsProperty: this.availableBoundsProperty,
+      margin: SolarSystemCommonConstants.MARGIN,
+      xAlign: 'left',
+      yAlign: 'bottom'
     } );
-    this.availableBoundsProperty.link( bounds => {
-      bottomBox.preferredWidth = bounds.width - SolarSystemCommonConstants.MARGIN * 2;
-      bottomBox.bottom = bounds.bottom - SolarSystemCommonConstants.MARGIN;
-      bottomBox.left = bounds.left + SolarSystemCommonConstants.MARGIN;
+
+    const resetAlignBox = new AlignBox( this.resetAllButton, {
+      alignBoundsProperty: this.availableBoundsProperty,
+      margin: SolarSystemCommonConstants.MARGIN,
+      xAlign: 'right',
+      yAlign: 'bottom'
     } );
 
     const zoomButtonsBox = new AlignBox( zoomButtons, {
@@ -251,13 +241,14 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'top'
     } );
 
-    this.interfaceLayer.addChild( bottomBox );
+    this.interfaceLayer.addChild( resetAlignBox );
+    this.interfaceLayer.addChild( controlsAlignBox );
     this.interfaceLayer.addChild( topRightControlBox );
     this.interfaceLayer.addChild( zoomButtonsBox );
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
-      followCenterOfMassButton,
+      checkboxesControlPanel.followCenterOfMassButton,
       labModeComboBox,
       this.timeBox,
       dataGridbox,

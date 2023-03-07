@@ -15,6 +15,9 @@ import createVisibilityInformationCheckboxes from '../../../../solar-system-comm
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -22,15 +25,29 @@ export type MySolarSystemControlsOptions = SelfOptions & WithRequired<VBoxOption
 
 export default class MySolarSystemControls extends VBox {
 
+  public readonly followCenterOfMassButton: TextPushButton;
+
   public constructor(
     model: MySolarSystemModel,
     topLayer: Node,
     providedOptions: MySolarSystemControlsOptions
   ) {
 
+    const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
+      enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
+      listener: () => {
+        model.systemCenteredProperty.value = true;
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5,
+      font: SolarSystemCommonConstants.PANEL_FONT,
+      maxTextWidth: 200
+    } );
+
     super( {
       children: [
         ...createOrbitalInformationCheckboxes( model, providedOptions.tandem ),
+        followCenterOfMassButton,
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
@@ -44,6 +61,8 @@ export default class MySolarSystemControls extends VBox {
       containerTagName: 'h1',
       accessibleName: 'Controls Checkboxes'
     } );
+
+    this.followCenterOfMassButton = followCenterOfMassButton;
   }
 }
 

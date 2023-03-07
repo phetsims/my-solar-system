@@ -97,5 +97,13 @@
   },
   "pattern.range": {
     "value": "{{min}} to {{max}}"
+  },
+  "a11y": {
+    "moreData": {
+      "value": "More Data"
+    },
+    "info": {
+      "value": "Info"
+    }
   }
 }

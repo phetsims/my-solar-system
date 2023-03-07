@@ -80,7 +80,14 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       ], ( isUserControlled, isKeypadActive, backgroundColor ) => {
         return isUserControlled || isKeypadActive ? backgroundColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
       } ),
-      backgroundStroke: Color.BLACK
+      backgroundStroke: Color.BLACK,
+
+      // a11y
+      accessibleName: new DerivedProperty( [ property, units ], ( value, units ) => {
+        return `${Utils.toFixed( value, 2 )} ${units}`;
+      } ),
+      focusable: true,
+      tagName: 'li'
     }, providedOptions );
 
     super( property, range, options );
