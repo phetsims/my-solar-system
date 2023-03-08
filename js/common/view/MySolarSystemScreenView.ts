@@ -272,10 +272,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.interfaceLayer.pdomOrder = [
       labModeComboBox,
       this.timeBox,
+      topCenterButtonBox,
       dataGridbox,
       checkboxesControlPanel,
       zoomButtons,
-      topCenterButtonBox,
       this.resetAllButton
     ];
 
