@@ -20,6 +20,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 type SelfOptions = {
   useExponential?: boolean;
@@ -95,6 +96,8 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     this.isKeypadActiveProperty = isKeypadActiveProperty;
 
+    let patternStringProperty: ReadOnlyProperty<string> | null = null;
+
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {
@@ -105,22 +108,34 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
           let changed = false;
 
+          const stringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
+            min: range.min,
+            max: range.max,
+
+            //REVIEW: units... isn't used? Why isn't it used? It isn't in the pattern.range string.
+            units: units
+
+            //REVIEW: Since the units don't change, actually... can we just create this PatternStringProperty once?
+            //REVIEW: Having to recreate it leads to the otherwise-added code needed to properly dispose of it.
+          } );
+
           keypadDialog.beginEdit( value => {
             changed = true;
             property.value = value;
             userControlledProperty.value = true;
             options.onEditCallback();
-          }, range, new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
-            min: range.min,
-            max: range.max,
-            units: units
-          } ), () => {
+          }, range, stringProperty, () => {
             isKeypadActiveProperty.value = false;
             userControlledProperty.value = false;
             if ( !changed ) {
               isPlayingProperty.value = wasPlaying;
             }
           } );
+
+          if ( patternStringProperty ) {
+            patternStringProperty.dispose();
+          }
+          patternStringProperty = stringProperty;
         }
       },
       fireOnDown: true
