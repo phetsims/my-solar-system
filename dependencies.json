@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.1.0-dev.5 Wed Mar 08 2023 15:04:03 GMT-0500 (Colombia Standard Time)",
+  "comment": "# my-solar-system 1.1.0-dev.6 Wed Mar 08 2023 15:56:29 GMT-0500 (Colombia Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
@@ -29,7 +29,7 @@
     "branch": "master"
   },
   "my-solar-system": {
-    "sha": "523e237ddb6fbf2ffc227218cd8094150fff6ee8",
+    "sha": "09c66b75f51accdad78c9f3adae1355b7a667dbb",
     "branch": "master"
   },
   "perennial-alias": {
@@ -65,7 +65,7 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "a3720c89231e7928ed6bafabe0640abef4f1b7a9",
+    "sha": "8a84557d0df29f1cff1cec54a50410d3819e33b6",
     "branch": "master"
   },
   "scenery-phet": {
@@ -77,7 +77,7 @@
     "branch": "master"
   },
   "solar-system-common": {
-    "sha": "de4908188a7c9d7086795315212b61919722f832",
+    "sha": "c9df03b2a39e7fefb551210a9cef9e045b82d661",
     "branch": "master"
   },
   "studio": {
