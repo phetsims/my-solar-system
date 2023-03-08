@@ -37,16 +37,6 @@ export default class NumericalEngine extends Engine {
     this.bodies = bodies;
     this.checkCollisions();
     this.updateForces();
-    this.checkEscaped();
-  }
-
-  public checkEscaped(): void {
-    for ( let i = 0; i < this.bodies.length; i++ ) {
-      const body = this.bodies[ i ];
-      if ( body.positionProperty.value.magnitude > body.escapeDistance ) {
-        body.escapedProperty.value = true;
-      }
-    }
   }
 
   public override checkCollisions(): void {

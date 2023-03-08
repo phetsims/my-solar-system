@@ -41,7 +41,8 @@ export default class MySolarSystemControls extends VBox {
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
       font: SolarSystemCommonConstants.PANEL_FONT,
-      maxTextWidth: 200
+      maxTextWidth: 200,
+      baseColor: 'orange'
     } );
 
     super( {
