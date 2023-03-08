@@ -86,8 +86,8 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       accessibleName: new DerivedProperty( [ property, units ], ( value, units ) => {
         return `${Utils.toFixed( value, 2 )} ${units}`;
       } ),
-      focusable: true,
-      tagName: 'li'
+      tagName: 'button',
+      containerTagName: 'div'
     }, providedOptions );
 
     super( property, range, options );

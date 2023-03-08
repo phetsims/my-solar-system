@@ -58,8 +58,9 @@ export default class MySolarSystemControls extends VBox {
       stretch: true,
 
       //pdom
-      containerTagName: 'h1',
-      accessibleName: 'Controls Checkboxes'
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: 'Control Panel'
     } );
 
     this.followCenterOfMassButton = followCenterOfMassButton;

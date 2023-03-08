@@ -104,6 +104,9 @@
     },
     "info": {
       "value": "Info"
+    },
+    "numberOfBodies": {
+      "value": "Number of Bodies"
     }
   }
 }

@@ -167,7 +167,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
               yMargin: 10,
               align: 'right',
               scale: 0.8
-            }
+            },
+            accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
           } ) )
       ],
       visible: model.isLab,
@@ -181,6 +182,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const dataGridbox = new HBox( {
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: 'Data Panel',
       align: 'bottom',
       spacing: 10,
       children: [
@@ -248,7 +252,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
-      checkboxesControlPanel.followCenterOfMassButton,
       labModeComboBox,
       this.timeBox,
       dataGridbox,

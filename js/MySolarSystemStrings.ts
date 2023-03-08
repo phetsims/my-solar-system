@@ -94,6 +94,8 @@ type StringsType = {
     'moreDataStringProperty': LinkableProperty<string>;
     'info': string;
     'infoStringProperty': LinkableProperty<string>;
+    'numberOfBodies': string;
+    'numberOfBodiesStringProperty': LinkableProperty<string>;
   }
 };
 
