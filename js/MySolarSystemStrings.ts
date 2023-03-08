@@ -23,6 +23,8 @@ type StringsType = {
   'centerOfMassStringProperty': LinkableProperty<string>;
   'followCenterOfMass': string;
   'followCenterOfMassStringProperty': LinkableProperty<string>;
+  'returnBodies': string;
+  'returnBodiesStringProperty': LinkableProperty<string>;
   'path': string;
   'pathStringProperty': LinkableProperty<string>;
   'dataPanel': {

@@ -53,6 +53,7 @@ class LabModel extends MySolarSystemModel {
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
         this.saveStartingBodyState();
         this.followCenterOfMass();
+        this.bodiesEscapedProperty.value = false;
       }
     };
 

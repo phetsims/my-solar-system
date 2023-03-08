@@ -35,6 +35,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
 import MySolarSystemComboBox from './MySolarSystemComboBox.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -245,6 +246,23 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'top'
     } );
 
+    const topCenterButtonBox = new AlignBox( new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
+      visibleProperty: model.bodiesEscapedProperty,
+      listener: () => {
+        model.returnEscapedBodies();
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5,
+      font: SolarSystemCommonConstants.PANEL_FONT,
+      maxTextWidth: 200
+    } ), {
+      alignBoundsProperty: this.availableBoundsProperty,
+      margin: SolarSystemCommonConstants.MARGIN,
+      xAlign: 'center',
+      yAlign: 'top'
+    } );
+
+    this.interfaceLayer.addChild( topCenterButtonBox );
     this.interfaceLayer.addChild( resetAlignBox );
     this.interfaceLayer.addChild( controlsAlignBox );
     this.interfaceLayer.addChild( topRightControlBox );
@@ -257,6 +275,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       dataGridbox,
       checkboxesControlPanel,
       zoomButtons,
+      topCenterButtonBox,
       this.resetAllButton
     ];
 
