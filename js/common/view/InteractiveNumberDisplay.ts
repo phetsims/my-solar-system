@@ -83,7 +83,8 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       backgroundStroke: Color.BLACK,
 
       // a11y
-      accessibleName: new DerivedProperty( [ property, units ], ( value, units ) => {
+      // innerContent to support dynamic changes
+      innerContent: new DerivedProperty( [ property, units ], ( value, units ) => {
         return `${Utils.toFixed( value, 2 )} ${units}`;
       } ),
       tagName: 'button',
