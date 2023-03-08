@@ -7,7 +7,7 @@
  * inside it uses a Forrest-Ruth algorithm to calculate the position of the bodies.
  *
  * There's also a function to use the Verlet algorithm, but it's deprecated.
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -128,7 +128,7 @@ export default class NumericalEngine extends Engine {
         // Step One
         //--------------
 
-         // net time: XI dt
+        // net time: XI dt
         positions[ i ].add( scratchVector.set( velocities[ i ] ).multiplyScalar( XI * dt ) );
 
         // net time: (1 - 2 * LAMBDA) * dt / 2
@@ -200,6 +200,7 @@ export default class NumericalEngine extends Engine {
       for ( let j = i + 1; j < this.bodies.length; j++ ) {
         const body2 = this.bodies[ j ];
         const mass2 = body2.massProperty.value;
+        assert && assert( mass2 > 0, 'mass2 should not be 0' );
         const force: Vector2 = this.getForce( body1, body2 );
         body1.forceProperty.value = body1.forceProperty.value.plus( scratchVector.set( force ) );
         body2.forceProperty.value = body2.forceProperty.value.minus( scratchVector.set( force ) );
