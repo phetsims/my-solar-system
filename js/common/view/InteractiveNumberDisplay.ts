@@ -94,6 +94,10 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     super( property, range, options );
 
+    this.localBoundsProperty.link( localBounds => {
+      this.touchArea = localBounds.dilatedXY( 5, 3.5 );
+    } );
+
     this.isKeypadActiveProperty = isKeypadActiveProperty;
 
     let patternStringProperty: ReadOnlyProperty<string> | null = null;

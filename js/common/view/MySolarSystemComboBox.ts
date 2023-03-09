@@ -108,6 +108,9 @@ export default class MySolarSystemComboBox extends ComboBox<LabMode> {
         align: 'center'
       },
 
+      buttonTouchAreaXDilation: 10,
+      buttonTouchAreaYDilation: 10,
+
       //pdom
       accessibleName: 'Mode Selector'
     } );

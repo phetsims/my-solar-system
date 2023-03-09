@@ -40,7 +40,7 @@ export default class MySolarSystemControls extends VBox {
         model.systemCenteredProperty.value = true;
       },
       touchAreaXDilation: 5,
-      touchAreaYDilation: 5,
+      touchAreaYDilation: SolarSystemCommonConstants.CHECKBOX_SPACING / 2,
       font: SolarSystemCommonConstants.PANEL_FONT,
       maxTextWidth: 200,
       baseColor: 'orange'
