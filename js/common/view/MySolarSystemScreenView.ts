@@ -41,6 +41,7 @@ type SelfOptions = EmptySelfOptions;
 
 export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
 
+//REVIEW: This is used once. Please inline it!
 const spinnerOptions: NumberSpinnerOptions = {
   deltaValue: 1,
   touchAreaXDilation: 20,
@@ -89,6 +90,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) => {
       return new VectorNode(
+        //REVIEW: Since this is spilling to a second line, it's easier to read if we put each option on its own separate line.
         body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty,
         0.05, { fill: PhetColorScheme.GRAVITATIONAL_FORCE }
       );
@@ -136,6 +138,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const topRightControlBox = new AlignBox(
+      //REVIEW: Braces are on separate lines unnecessarily, and it forces another indent level. Put ( { on same line as VBox.
       new VBox(
         {
           spacing: 10,
@@ -172,6 +175,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
           } ) )
       ],
+      //REVIEW: for phet-io, we'll not want to create this if it's not the lab screen. It would show up in the tandem
+      //REVIEW: structure.
       visible: model.isLab,
       spacing: 10
     } );
@@ -195,6 +200,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           children: [
             new HBox( {
               stretch: true,
+              //REVIEW: Issues with phet-io structure, see above (shouldn't even be created if it's not lab, no?)
               visible: model.isLab,
               children: [
                 new SolarSystemCommonCheckbox(
