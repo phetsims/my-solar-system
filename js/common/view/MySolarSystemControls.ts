@@ -25,6 +25,7 @@ export type MySolarSystemControlsOptions = SelfOptions & WithRequired<VBoxOption
 
 export default class MySolarSystemControls extends VBox {
 
+  //REVIEW: Why is this public? It's not used anywhere else. Remove it as a field, and inline it in the constructor.
   public readonly followCenterOfMassButton: TextPushButton;
 
   public constructor(

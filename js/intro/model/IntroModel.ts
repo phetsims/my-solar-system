@@ -34,6 +34,8 @@ class IntroModel extends MySolarSystemModel {
       { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
       { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ] );
+
+    //REVIEW: Why is this not included in the supertype reset?
     this.systemCenteredProperty.reset();
   }
 }
