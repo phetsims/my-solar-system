@@ -41,24 +41,6 @@ type SelfOptions = EmptySelfOptions;
 
 export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
 
-//REVIEW: This is used once. Please inline it!
-const spinnerOptions: NumberSpinnerOptions = {
-  deltaValue: 1,
-  touchAreaXDilation: 20,
-  touchAreaYDilation: 10,
-  mouseAreaXDilation: 10,
-  mouseAreaYDilation: 5,
-  numberDisplayOptions: {
-    decimalPlaces: 0,
-    align: 'center',
-    xMargin: 10,
-    yMargin: 3,
-    textOptions: {
-      font: new PhetFont( 28 )
-    }
-  }
-};
-
 export default class MySolarSystemScreenView extends SolarSystemCommonScreenView {
 
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
@@ -165,7 +147,22 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           maxWidth: 70
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ),
-          combineOptions<NumberSpinnerOptions>( {}, spinnerOptions, {
+          combineOptions<NumberSpinnerOptions>( {}, {
+            deltaValue: 1,
+            touchAreaXDilation: 20,
+            touchAreaYDilation: 10,
+            mouseAreaXDilation: 10,
+            mouseAreaYDilation: 5,
+            numberDisplayOptions: {
+              decimalPlaces: 0,
+              align: 'center',
+              xMargin: 10,
+              yMargin: 3,
+              textOptions: {
+                font: new PhetFont( 28 )
+              }
+            }
+          }, {
             arrowsPosition: 'bothRight',
             numberDisplayOptions: {
               yMargin: 10,
