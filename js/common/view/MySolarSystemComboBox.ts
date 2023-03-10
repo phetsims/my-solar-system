@@ -65,8 +65,7 @@ export default class MySolarSystemComboBox extends ComboBox<LabMode> {
     modeNameMap.set( LabMode.CUSTOM, MySolarSystemStrings.mode.customStringProperty );
 
     // This creates a ComboBoxItem with the proper a11y content convention
-    //REVIEW: Bad name, this is NOT returning a Node!!! createModeItem?
-    const createModeNode = ( mode: LabMode ): ComboBoxItem<LabMode> => {
+    const createModeComboBoxItem = ( mode: LabMode ): ComboBoxItem<LabMode> => {
       const nameProperty = modeNameMap.get( mode )!;
       return {
         value: mode,
@@ -93,7 +92,7 @@ export default class MySolarSystemComboBox extends ComboBox<LabMode> {
     //REVIEW: } );
     const comboBoxItems: ComboBoxItem<LabMode>[] = [];
     modeNameMap.forEach( ( value, key ) => {
-      comboBoxItems.push( createModeNode( key ) );
+      comboBoxItems.push( createModeComboBoxItem( key ) );
     } );
 
     super( model.labModeProperty, comboBoxItems, listParent, {
