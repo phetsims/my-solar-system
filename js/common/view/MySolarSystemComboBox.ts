@@ -18,12 +18,6 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import { Node, Text } from '../../../../scenery/js/imports.js';
 
-//REVIEW: This is only used once, why not inline it?
-const COMBO_BOX_TEXT_OPTIONS = {
-  font: SolarSystemCommonConstants.PANEL_FONT,
-  maxWidth: SolarSystemCommonConstants.MAX_WIDTH
-};
-
 export default class MySolarSystemComboBox extends ComboBox<LabMode> {
   public constructor( model: MySolarSystemModel, listParent: Node ) {
 
@@ -76,7 +70,10 @@ export default class MySolarSystemComboBox extends ComboBox<LabMode> {
       const nameProperty = modeNameMap.get( mode )!;
       return {
         value: mode,
-        createNode: () => new Text( nameProperty, COMBO_BOX_TEXT_OPTIONS ),
+        createNode: () => new Text( nameProperty, {
+          font: SolarSystemCommonConstants.PANEL_FONT,
+          maxWidth: SolarSystemCommonConstants.MAX_WIDTH
+        } ),
         a11yName: nameProperty
       };
     };
