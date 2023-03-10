@@ -34,7 +34,7 @@ import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
-import MySolarSystemComboBox from './MySolarSystemComboBox.js';
+import LabModeComboBox from './LabModeComboBox.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -111,7 +111,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    const labModeComboBox = new MySolarSystemComboBox( model, this.topLayer );
+    const labModeComboBox = new LabModeComboBox( model, this.topLayer );
 
     const checkboxesControlPanel = new MySolarSystemControls( model, this.topLayer, {
       tandem: providedOptions.tandem.createTandem( 'controlPanel' )

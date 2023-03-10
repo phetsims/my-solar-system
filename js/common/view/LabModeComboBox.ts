@@ -3,8 +3,6 @@
 /**
  * Combo Box that keeps track of the Lab Modes and their proper string mapping.
  * Creates the ComboBoxItems with tandems and a11y view.
- * REVIEW: Can this name note something more specific about lab modes? This doesn't seem like a general "supertype for
- * REVIEW: any ComboBox in the sim" that I would get from the name.
  *
  * @author Agustín Vallejo
  */
@@ -18,7 +16,7 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import { Node, Text } from '../../../../scenery/js/imports.js';
 
-export default class MySolarSystemComboBox extends ComboBox<LabMode> {
+export default class LabModeComboBox extends ComboBox<LabMode> {
   public constructor( model: MySolarSystemModel, listParent: Node ) {
 
     const createItem = ( mode: LabMode, nameProperty: TReadOnlyProperty<string> ) => {
@@ -63,4 +61,4 @@ export default class MySolarSystemComboBox extends ComboBox<LabMode> {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemComboBox', MySolarSystemComboBox );
+mySolarSystem.register( 'LabModeComboBox', LabModeComboBox );
