@@ -120,19 +120,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const topRightControlBox = new AlignBox(
-      //REVIEW: Braces are on separate lines unnecessarily, and it forces another indent level. Put ( { on same line as VBox.
-      new VBox(
-        {
-          spacing: 10,
-          stretch: true,
-          children: [
-            new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
-            this.timeBox,
-            new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
-          ]
-        }
-      ),
-      {
+      new VBox( {
+        spacing: 10,
+        stretch: true,
+        children: [
+          new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
+          this.timeBox,
+          new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
+        ]
+      } ), {
         alignBoundsProperty: this.availableBoundsProperty,
         margin: SolarSystemCommonConstants.MARGIN,
         xAlign: 'right',
