@@ -10,14 +10,23 @@
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import ComboBox from '../../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import { Node, Text } from '../../../../scenery/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 export default class LabModeComboBox extends ComboBox<LabMode> {
-  public constructor( model: MySolarSystemModel, listParent: Node ) {
+  public constructor( model: MySolarSystemModel, listParent: Node, providedOptions?: ComboBoxOptions ) {
+
+    const options = optionize<ComboBoxOptions, EmptySelfOptions, ComboBoxOptions>()( {
+      buttonTouchAreaXDilation: 10,
+      buttonTouchAreaYDilation: 10,
+
+      //pdom
+      accessibleName: 'Mode Selector'
+    }, providedOptions );
 
     const createItem = ( mode: LabMode, nameProperty: TReadOnlyProperty<string> ) => {
       return {
@@ -43,21 +52,7 @@ export default class LabModeComboBox extends ComboBox<LabMode> {
       createItem( LabMode.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty ),
       createItem( LabMode.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty ),
       createItem( LabMode.CUSTOM, MySolarSystemStrings.mode.customStringProperty )
-    ], listParent, {
-      //REVIEW: Please provide an options object in the constructor, so these can be provided in the client location
-      //REVIEW: These options aren't general "all ComboBoxes should have these options" options, they're specific to
-      //REVIEW: the specific usage, which is in the client (MySolarSystemScreenView)
-      widthSizable: false,
-      layoutOptions: {
-        align: 'center'
-      },
-
-      buttonTouchAreaXDilation: 10,
-      buttonTouchAreaYDilation: 10,
-
-      //pdom
-      accessibleName: 'Mode Selector'
-    } );
+    ], listParent, options );
   }
 }
 

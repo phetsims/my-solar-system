@@ -111,7 +111,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    const labModeComboBox = new LabModeComboBox( model, this.topLayer );
+    const labModeComboBox = new LabModeComboBox( model, this.topLayer, {
+      widthSizable: false,
+      layoutOptions: {
+        align: 'center'
+      }
+    } );
 
     const checkboxesControlPanel = new MySolarSystemControls( model, this.topLayer, {
       tandem: providedOptions.tandem.createTandem( 'controlPanel' )
