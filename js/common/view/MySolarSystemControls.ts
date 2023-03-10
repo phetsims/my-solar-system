@@ -25,9 +25,6 @@ export type MySolarSystemControlsOptions = SelfOptions & WithRequired<VBoxOption
 
 export default class MySolarSystemControls extends VBox {
 
-  //REVIEW: Why is this public? It's not used anywhere else. Remove it as a field, and inline it in the constructor.
-  public readonly followCenterOfMassButton: TextPushButton;
-
   public constructor(
     model: MySolarSystemModel,
     topLayer: Node,
@@ -64,8 +61,6 @@ export default class MySolarSystemControls extends VBox {
       labelTagName: 'h3',
       labelContent: 'Control Panel'
     } );
-
-    this.followCenterOfMassButton = followCenterOfMassButton;
   }
 }
 
