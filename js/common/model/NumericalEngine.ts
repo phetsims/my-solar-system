@@ -4,9 +4,8 @@
  * Logic that controls the gravitational interactions between bodies.
  *
  * The engine updates the position of the bodies on the run() function,
- * inside it uses a Forrest-Ruth algorithm to calculate the position of the bodies.
+ * inside it uses a Position Extended Forest-Ruth Like algorithm (PEFRL) (Omelyan, Myrglod & Folk, 2001)
  *
- * There's also a function to use the Verlet algorithm, but it's deprecated.
  *
  * @author Agustín Vallejo
  */
@@ -19,7 +18,7 @@ import Engine from '../../../../solar-system-common/js/model/Engine.js';
 
 const scratchVector = new Vector2( 0, 0 );
 
-// constants for Forrest Ruth Integration Scheme (FRIS)
+// constants for PEFRL algorithm
 const XI = 0.1786178958448091;
 const LAMBDA = -0.2123418310626054;
 const CHI = -0.06626458266981849;
@@ -110,7 +109,7 @@ export default class NumericalEngine extends Engine {
         accelerations[ i ].set( forces[ i ] ).multiplyScalar( 1 / masses[ i ] );
       }
 
-      // Forrest Ruth Integration Scheme (FRIS)
+      // Position Extended Forest-Ruth Like algorithm (PEFRL) (Omelyan, Myrglod & Folk, 2001)
 
       for ( let i = 0; i < N; i++ ) {
 
