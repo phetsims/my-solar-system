@@ -71,7 +71,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
-      new VectorNode( body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty, 1, {
+      new VectorNode( body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty, 0.05, {
         fill: PhetColorScheme.GRAVITATIONAL_FORCE,
         constrainSize: true
       } )
