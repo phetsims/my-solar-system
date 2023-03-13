@@ -14,13 +14,14 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { Color, FireListener } from '../../../../scenery/js/imports.js';
+import { Color, FireListener, PressListener } from '../../../../scenery/js/imports.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
   useExponential?: boolean;
@@ -58,6 +59,11 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       }
     } );
 
+    const hoverListener = new PressListener( {
+      tandem: Tandem.OPT_OUT,
+      attach: false // Don't be greedy with the pointer, it would prevent the fire listener from activating
+    } );
+
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
       cursor: 'pointer',
       hideSmallValues: false,
@@ -77,9 +83,10 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       backgroundFill: new DerivedProperty( [
         userControlledProperty,
         isKeypadActiveProperty,
+        hoverListener.looksOverProperty,
         bodyColorProperty
-      ], ( isUserControlled, isKeypadActive, backgroundColor ) => {
-        return isUserControlled || isKeypadActive ? backgroundColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
+      ], ( isUserControlled, isKeypadActive, looksOver, backgroundColor ) => {
+        return isUserControlled || isKeypadActive || looksOver ? backgroundColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
       } ),
       backgroundStroke: Color.BLACK,
 
@@ -102,6 +109,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
 
     let patternStringProperty: ReadOnlyProperty<string> | null = null;
 
+    this.addInputListener( hoverListener );
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {
