@@ -108,11 +108,13 @@ export default class ValuesColumnNode extends VBox {
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new SolarSystemCommonSlider( body.massProperty, massRange, {
-        thumbFill: colorProperty,
-        thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
-        startDrag: () => { body.userControlledMassProperty.value = true; },
-        endDrag: () => { body.userControlledMassProperty.value = false; },
-        constrainValue: value => massRange.constrainValue( sliderStep * Utils.roundSymmetric( value / sliderStep ) )
+        sliderOptions: {
+          thumbFill: colorProperty,
+          thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
+          constrainValue: value => massRange.constrainValue( sliderStep * Utils.roundSymmetric( value / sliderStep ) )
+        },
+        startCallback: () => { body.userControlledMassProperty.value = true; },
+        endCallback: () => { body.userControlledMassProperty.value = false; }
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
