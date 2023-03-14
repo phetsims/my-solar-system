@@ -101,7 +101,7 @@ export default class ValuesColumnNode extends VBox {
       model.clearPaths();
     };
 
-    const sliderStep = 50;
+    const sliderStep = 25;
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
       contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
