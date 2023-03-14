@@ -52,8 +52,9 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
       useRichTextRange: true,
       keypadOptions: {
         accumulatorOptions: {
-          maxDigits: 8,
 
+          // Max is 300, but we need 4 digits to support numbers like 123.4
+          maxDigits: 4,
           maxDigitsRightOfMantissa: 1
         }
       }
