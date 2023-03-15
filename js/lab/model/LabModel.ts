@@ -77,16 +77,13 @@ class LabModel extends MySolarSystemModel {
     super.reset();
 
     // Changing the Lab Mode briefly to custom so the reset actually triggers the listeners
-    //REVIEW: Why is this needed? Documentation about why would help
+    // If this is not done, the modeSetter wont be called.
     this.labModeProperty.value = LabMode.CUSTOM;
     this.labModeProperty.reset();
 
-    //REVIEW: Why is this not included in the supertype reset? Why... is this here? It seems like instead we should
-    //REVIEW: interrupt the view interaction, which would change userControlled to false, no?
     this.userControlledProperty.reset();
     super.restart();
 
-    //REVIEW: Why is this not included in the supertype reset?
     this.systemCenteredProperty.reset();
   }
 
