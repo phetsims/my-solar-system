@@ -36,7 +36,6 @@ type SelfOptions = {
 
 export type ValuesColumnNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
 
-
 export default class ValuesColumnNode extends VBox {
   public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, providedOptions?: ValuesColumnNodeOptions ) {
     const options = optionize<ValuesColumnNodeOptions, SelfOptions, VBoxOptions>()( {

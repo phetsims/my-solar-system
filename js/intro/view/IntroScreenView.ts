@@ -16,7 +16,7 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 type SelfOptions = EmptySelfOptions;
 export type IntroScreenViewOptions = IntroLabScreenViewOptions;
 
-class IntroScreenView extends MySolarSystemScreenView {
+export default class IntroScreenView extends MySolarSystemScreenView {
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
     const options = optionize<IntroScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
       // pdom
@@ -45,4 +45,3 @@ class IntroScreenViewSummaryContentNode extends Node {
 }
 
 mySolarSystem.register( 'IntroScreenView', IntroScreenView );
-export default IntroScreenView;

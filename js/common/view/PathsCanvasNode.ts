@@ -26,7 +26,7 @@ type SelfOptions = EmptySelfOptions;
 // constants
 const STROKE_WIDTH = 3;
 
-class PathsCanvasNode extends CanvasNode {
+export default class PathsCanvasNode extends CanvasNode {
   private readonly transformProperty: TReadOnlyProperty<ModelViewTransform2>;
   private readonly bodies: Body[];
 
@@ -137,5 +137,3 @@ class PathsCanvasNode extends CanvasNode {
 }
 
 mySolarSystem.register( 'PathsCanvasNode', PathsCanvasNode );
-
-export default PathsCanvasNode;

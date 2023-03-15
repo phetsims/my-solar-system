@@ -17,7 +17,7 @@ import { IntroScreenViewOptions } from '../../intro/view/IntroScreenView.js';
 type SelfOptions = EmptySelfOptions;
 export type LabScreenViewOptions = IntroLabScreenViewOptions;
 
-class LabScreenView extends MySolarSystemScreenView {
+export default class LabScreenView extends MySolarSystemScreenView {
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
     const options = optionize<IntroScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
@@ -55,4 +55,3 @@ class LabScreenViewSummaryContentNode extends Node {
 }
 
 mySolarSystem.register( 'LabScreenView', LabScreenView );
-export default LabScreenView;

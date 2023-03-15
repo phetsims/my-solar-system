@@ -19,7 +19,7 @@ type SuperTypeOptions = MySolarSystemModelOptions;
 
 type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
-class LabModel extends MySolarSystemModel {
+export default class LabModel extends MySolarSystemModel {
   private readonly modeMap: Map<LabMode, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabMode ) => void;
 
@@ -158,4 +158,3 @@ class LabModel extends MySolarSystemModel {
 }
 
 mySolarSystem.register( 'LabModel', LabModel );
-export default LabModel;

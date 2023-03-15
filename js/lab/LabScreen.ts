@@ -16,7 +16,7 @@ import LabScreenIcon from './view/LabScreenIcon.js';
 import MySolarSystemStrings from '../MySolarSystemStrings.js';
 import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 
-class LabScreen extends Screen<LabModel, LabScreenView> {
+export default class LabScreen extends Screen<LabModel, LabScreenView> {
 
   public constructor( tandem: Tandem ) {
 
@@ -43,4 +43,3 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
 }
 
 mySolarSystem.register( 'LabScreen', LabScreen );
-export default LabScreen;

@@ -16,7 +16,7 @@ import IntroScreenIcon from './view/IntroScreenIcon.js';
 import MySolarSystemStrings from '../MySolarSystemStrings.js';
 import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 
-class IntroScreen extends Screen<IntroModel, IntroScreenView> {
+export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
   public constructor( tandem: Tandem ) {
 
@@ -43,4 +43,3 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 }
 
 mySolarSystem.register( 'IntroScreen', IntroScreen );
-export default IntroScreen;

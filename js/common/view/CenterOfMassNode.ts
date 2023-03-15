@@ -16,7 +16,7 @@ import CenterOfMass from '../model/CenterOfMass.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
-class CenterOfMassNode extends Node {
+export default class CenterOfMassNode extends Node {
   public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2> ) {
     super( {
       children: [
@@ -36,4 +36,3 @@ class CenterOfMassNode extends Node {
 }
 
 mySolarSystem.register( 'CenterOfMassNode', CenterOfMassNode );
-export default CenterOfMassNode;

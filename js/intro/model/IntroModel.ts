@@ -19,7 +19,7 @@ type SuperTypeOptions = MySolarSystemModelOptions;
 
 export type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
-class IntroModel extends MySolarSystemModel {
+export default class IntroModel extends MySolarSystemModel {
   public constructor( providedOptions: IntroModelOptions ) {
     const options = optionize<IntroModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
       engineFactory: bodies => new NumericalEngine( bodies ),
@@ -38,4 +38,3 @@ class IntroModel extends MySolarSystemModel {
 }
 
 mySolarSystem.register( 'IntroModel', IntroModel );
-export default IntroModel;
