@@ -28,7 +28,8 @@ class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       createKeyboardHelpNode: () => {
         return new BasicActionsKeyboardHelpSection( {
           withCheckboxContent: true,
-          withDraggableContent: true
+          withDraggableContent: true,
+          withKeypadContent: true
         } );
       }
     };

@@ -28,7 +28,8 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
       createKeyboardHelpNode: () => {
         return new BasicActionsKeyboardHelpSection( {
           withCheckboxContent: true,
-          withDraggableContent: true
+          withDraggableContent: true,
+          withKeypadContent: true
         } );
       }
     };
