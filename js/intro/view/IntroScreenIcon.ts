@@ -77,6 +77,8 @@ export default class IntroScreenIcon extends ScreenIcon {
     Multilink.multilink( [ SolarSystemCommonColors.firstBodyColorProperty, SolarSystemCommonColors.secondBodyColorProperty ], () => {
       containerNode.children = [ platform.safari ? node.rasterized( {
         resolution: 16,
+
+        // REVIEW: Simplify or document
         sourceBounds: new Bounds2( -8, -10, 30 - 8, 20 - 10 )
       } ) : node ];
     } );
