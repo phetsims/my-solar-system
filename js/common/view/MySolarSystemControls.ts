@@ -36,9 +36,10 @@ export default class MySolarSystemControls extends VBox {
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HBox( {
           leftMargin: 20,
+          enabledProperty: model.gravityVisibleProperty,
           children: [
             new Text( 'Force Scale', SolarSystemCommonConstants.TEXT_OPTIONS ),
-            new PlusMinusZoomButtonGroup( model.zoomLevelProperty )
+            new PlusMinusZoomButtonGroup( model.forceScaleProperty )
           ]
         } ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
