@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { HSeparator, Node, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -15,9 +15,7 @@ import createVisibilityInformationCheckboxes from '../../../../solar-system-comm
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -31,24 +29,18 @@ export default class MySolarSystemControls extends VBox {
     providedOptions: MySolarSystemControlsOptions
   ) {
 
-    const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-      enabledProperty: DerivedProperty.not( model.systemCenteredProperty ),
-      listener: () => {
-        model.systemCenteredProperty.value = true;
-      },
-      touchAreaXDilation: 5,
-      touchAreaYDilation: SolarSystemCommonConstants.CHECKBOX_SPACING / 2,
-      font: SolarSystemCommonConstants.PANEL_FONT,
-      maxTextWidth: 200,
-      baseColor: 'orange'
-    } );
-
     super( {
       children: [
         ...createOrbitalInformationCheckboxes( model, providedOptions.tandem ),
-        followCenterOfMassButton,
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
+        new HBox( {
+          leftMargin: 20,
+          children: [
+            new Text( 'Force Scale', SolarSystemCommonConstants.TEXT_OPTIONS ),
+            new PlusMinusZoomButtonGroup( model.zoomLevelProperty )
+          ]
+        } ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
       ],

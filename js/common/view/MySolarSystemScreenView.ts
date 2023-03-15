@@ -141,6 +141,19 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Full Data Panel --------------------------------------------------------------------------------------------
     const fullDataPanel = new FullDataPanel( model );
+
+    const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
+      visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
+      listener: () => {
+        model.systemCenteredProperty.value = true;
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: SolarSystemCommonConstants.CHECKBOX_SPACING / 2,
+      font: SolarSystemCommonConstants.PANEL_FONT,
+      maxTextWidth: 200,
+      baseColor: 'orange'
+    } );
+
     const numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
@@ -173,9 +186,35 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           } ) )
       ],
       //REVIEW: for phet-io, we'll not want to create this if it's not the lab screen. It would show up in the tandem
-      //REVIEW: structure.
       visible: model.isLab,
-      spacing: 10
+      spacing: 5
+    } );
+
+    // REVIEW: for phet-io, we'll not want to create this if it's not the lab screen. It would show up in the tandem
+    const dataPanelTopRow = new HBox( {
+      stretch: true,
+      visible: model.isLab,
+      children: [
+        new SolarSystemCommonCheckbox(
+          model.moreDataProperty,
+          new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
+            maxWidth: 300
+          }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
+          combineOptions<CheckboxOptions>( {
+            accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
+            touchAreaXDilation: 10,
+            touchAreaYDilation: 10
+          }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
+        ),
+        new InfoButton( {
+          accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
+          scale: 0.5,
+          iconFill: 'rgb( 41, 106, 163 )',
+          touchAreaDilation: 20,
+          listener: () => unitsDialog.show(),
+          tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
+        } )
+      ]
     } );
 
     const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 600 } ), {
@@ -184,47 +223,31 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
     } );
 
+    // Masses Panel --------------------------------------------------------------------------------------------
     const dataGridbox = new HBox( {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: 'Data Panel',
       align: 'bottom',
+      // stretch: true,
       spacing: 10,
       children: [
         new VBox( {
           spacing: 3,
           stretch: true,
           children: [
-            new HBox( {
-              stretch: true,
-              //REVIEW: Issues with phet-io structure, see above (shouldn't even be created if it's not lab, no?)
-              visible: model.isLab,
-              children: [
-                new SolarSystemCommonCheckbox(
-                  model.moreDataProperty,
-                  new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
-                    maxWidth: 300
-                  }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
-                  combineOptions<CheckboxOptions>( {
-                    accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
-                    touchAreaXDilation: 10,
-                    touchAreaYDilation: 10
-                  }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
-                ),
-                new InfoButton( {
-                  accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
-                  scale: 0.5,
-                  iconFill: 'rgb( 41, 106, 163 )',
-                  touchAreaDilation: 20,
-                  listener: () => unitsDialog.show(),
-                  tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
-                } )
-              ]
-            } ),
+            dataPanelTopRow,
             fullDataPanel
           ]
         } ),
-        numberSpinnerBox
+        new HBox( {
+          align: 'bottom',
+          spacing: 10,
+          children: [
+            numberSpinnerBox,
+            followCenterOfMassButton
+          ]
+        } )
       ]
     } );
 
