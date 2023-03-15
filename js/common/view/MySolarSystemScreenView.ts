@@ -36,6 +36,7 @@ import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
 import LabModeComboBox from './LabModeComboBox.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -154,6 +155,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       baseColor: 'orange'
     } );
 
+    const numberSpinnerTandem = model.isLab ? providedOptions.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT;
+
     const numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
@@ -185,12 +188,14 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
           } ) )
       ],
-      //REVIEW: for phet-io, we'll not want to create this if it's not the lab screen. It would show up in the tandem
       visible: model.isLab,
-      spacing: 5
+      spacing: 5,
+      tandem: numberSpinnerTandem
     } );
 
-    // REVIEW: for phet-io, we'll not want to create this if it's not the lab screen. It would show up in the tandem
+    const infoButtonTandem = model.isLab ? providedOptions.tandem.createTandem( 'unitsInfoButton' ) : Tandem.OPT_OUT;
+    const moreDataCheckboxTandem = model.isLab ? providedOptions.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT;
+
     const dataPanelTopRow = new HBox( {
       stretch: true,
       visible: model.isLab,
@@ -203,7 +208,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           combineOptions<CheckboxOptions>( {
             accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
             touchAreaXDilation: 10,
-            touchAreaYDilation: 10
+            touchAreaYDilation: 10,
+            tandem: moreDataCheckboxTandem
           }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
         ),
         new InfoButton( {
@@ -212,7 +218,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           iconFill: 'rgb( 41, 106, 163 )',
           touchAreaDilation: 20,
           listener: () => unitsDialog.show(),
-          tandem: providedOptions.tandem.createTandem( 'unitsInfoButton' )
+          tandem: infoButtonTandem
         } )
       ]
     } );

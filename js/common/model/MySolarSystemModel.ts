@@ -30,23 +30,29 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {
-      const wasPlayingBefore = this.isPlayingProperty.value;
       if ( systemCentered ) {
-        this.isPlayingProperty.value = false; // Pause the sim
-        this.centerOfMass.update();
-        const centerOfMassPosition = this.centerOfMass.positionProperty.value;
-        const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
-        this.bodies.forEach( body => {
-          body.clearPath();
-          body.positionProperty.set( body.positionProperty.value.minus( centerOfMassPosition ) );
-          body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
-        } );
-        this.saveStartingBodyState();
-      }
-      if ( wasPlayingBefore ) {
-        this.isPlayingProperty.value = true; // Resume the sim
+        this.followAndCenterCenterOfMass();
       }
     } );
+  }
+
+  // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
+  // After this, the CoM will be standing still and in the center of the sim.
+  public followAndCenterCenterOfMass(): void {
+    const wasPlayingBefore = this.isPlayingProperty.value;
+    this.isPlayingProperty.value = false; // Pause the sim
+    this.centerOfMass.update();
+    const centerOfMassPosition = this.centerOfMass.positionProperty.value;
+    const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
+    this.bodies.forEach( body => {
+      body.clearPath();
+      body.positionProperty.set( body.positionProperty.value.minus( centerOfMassPosition ) );
+      body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
+    } );
+    this.saveStartingBodyState();
+    if ( wasPlayingBefore ) {
+      this.isPlayingProperty.value = true; // Resume the sim
+    }
   }
 
   public followCenterOfMass(): void {

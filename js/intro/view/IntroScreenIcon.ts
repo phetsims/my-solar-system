@@ -76,12 +76,12 @@ export default class IntroScreenIcon extends ScreenIcon {
 
     Multilink.multilink( [ SolarSystemCommonColors.firstBodyColorProperty, SolarSystemCommonColors.secondBodyColorProperty ], () => {
 
-      // REVIEW: Comment why safari requires rasterization but other platforms do not.  Is it more about whether it is at retina resolution?
+      // Rasterizing the icon because clip areas weren't working on Safari, see https://github.com/phetsims/my-solar-system/issues/46
+      // Because rasterization reduces quality, we only do it on Safari
       containerNode.children = [ platform.safari ? node.rasterized( {
         resolution: 16,
 
-        // REVIEW: Simplify or document
-        sourceBounds: new Bounds2( -8, -10, 30 - 8, 20 - 10 )
+        sourceBounds: new Bounds2( -8, -10, 22, 10 )
       } ) : node ];
     } );
 

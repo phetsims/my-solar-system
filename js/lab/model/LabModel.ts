@@ -51,8 +51,8 @@ class LabModel extends MySolarSystemModel {
         const modeInfo = this.modeMap.get( mode );
         this.loadBodyStates( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
+        this.followAndCenterCenterOfMass();
         this.saveStartingBodyState();
-        this.followCenterOfMass();
       }
     };
 
@@ -70,11 +70,6 @@ class LabModel extends MySolarSystemModel {
         }
       }
     } );
-
-    //REVIEW: Why are we notifying listeners? Maybe we can avoid this action (which is usually reserved for only when
-    //REVIEW: it is needed) by using a different approach.
-    this.systemCenteredProperty.notifyListenersStatic(); // Center the system at the beginning
-
   }
 
   public override reset(): void {
