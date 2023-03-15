@@ -98,6 +98,24 @@ type StringsType = {
     'infoStringProperty': LinkableProperty<string>;
     'numberOfBodies': string;
     'numberOfBodiesStringProperty': LinkableProperty<string>;
+    'simDescription': string;
+    'simDescriptionStringProperty': LinkableProperty<string>;
+    'introScreen': {
+      'screenSummary': {
+        'playAreaDescription': string;
+        'playAreaDescriptionStringProperty': LinkableProperty<string>;
+        'controlAreaDescription': string;
+        'controlAreaDescriptionStringProperty': LinkableProperty<string>;
+      }
+    };
+    'labScreen': {
+      'screenSummary': {
+        'playAreaDescription': string;
+        'playAreaDescriptionStringProperty': LinkableProperty<string>;
+        'controlAreaDescription': string;
+        'controlAreaDescriptionStringProperty': LinkableProperty<string>;
+      }
+    }
   }
 };
 
