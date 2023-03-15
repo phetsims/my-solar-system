@@ -250,7 +250,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const topCenterButtonBox = new AlignBox( new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
-      visibleProperty: model.bodiesEscapedProperty,
+      visibleProperty: model.isAnyBodyEscapedProperty,
       listener: () => {
         model.returnEscapedBodies();
       },
