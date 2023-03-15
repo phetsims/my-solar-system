@@ -20,7 +20,7 @@ import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 // constants
 const TEXT_OPTIONS = combineOptions<TextOptions>( {
-  maxWidth: SolarSystemCommonConstants.MAX_WIDTH
+  maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
 }, SolarSystemCommonConstants.TEXT_OPTIONS );
 
 const createOrbitalInformationCheckboxes = ( model: MySolarSystemModel, tandem: Tandem ): SolarSystemCommonCheckbox[] => {

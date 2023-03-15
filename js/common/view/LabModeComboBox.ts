@@ -33,7 +33,7 @@ export default class LabModeComboBox extends ComboBox<LabMode> {
         value: mode,
         createNode: () => new Text( nameProperty, {
           font: SolarSystemCommonConstants.PANEL_FONT,
-          maxWidth: SolarSystemCommonConstants.MAX_WIDTH
+          maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
         } ),
         a11yName: nameProperty
       };
