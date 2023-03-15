@@ -75,6 +75,8 @@ export default class IntroScreenIcon extends ScreenIcon {
     const containerNode = new Node();
 
     Multilink.multilink( [ SolarSystemCommonColors.firstBodyColorProperty, SolarSystemCommonColors.secondBodyColorProperty ], () => {
+
+      // REVIEW: Comment why safari requires rasterization but other platforms do not.  Is it more about whether it is at retina resolution?
       containerNode.children = [ platform.safari ? node.rasterized( {
         resolution: 16,
 
