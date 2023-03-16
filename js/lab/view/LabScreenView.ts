@@ -34,8 +34,6 @@ export default class LabScreenView extends MySolarSystemScreenView {
     model.bodyRemovedEmitter.addListener( () => {
       this.bodySoundManager.playBodyRemovedSound( model.bodies.length - 1 );
     } );
-
-    this.setScreenSummaryIntroAndTitle( MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty.value, MySolarSystemStrings.screen.lab, MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty.value, true );
   }
 }
 

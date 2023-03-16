@@ -24,8 +24,6 @@ export default class IntroScreenView extends MySolarSystemScreenView {
       screenSummaryContent: new IntroScreenViewSummaryContentNode()
     }, providedOptions );
     super( model, options );
-
-    this.setScreenSummaryIntroAndTitle( MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty.value, MySolarSystemStrings.screen.intro, MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty.value, true );
   }
 }
 
