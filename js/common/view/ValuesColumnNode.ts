@@ -88,6 +88,7 @@ export default class ValuesColumnNode extends VBox {
   }
 
   private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel, colorProperty: TReadOnlyProperty<Color> ): AlignBox {
+
     // Flag that references the contentNode.
     let contentNode;
 
@@ -101,6 +102,7 @@ export default class ValuesColumnNode extends VBox {
     };
 
     const sliderStep = 25;
+
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
       contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );

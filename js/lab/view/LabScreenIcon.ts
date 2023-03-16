@@ -16,10 +16,12 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 
 export default class LabScreenIcon extends ScreenIcon {
   public constructor() {
+
     // Ellipses parameters
     // Big ellipse
     const bigEllipseSemiMajorAxis = 20;
     const bigEllipseSemiMinorAxis = 15;
+
     // calculate focal point
     const bigEllipseFocalPoint = Math.sqrt( bigEllipseSemiMajorAxis * bigEllipseSemiMajorAxis - bigEllipseSemiMinorAxis * bigEllipseSemiMinorAxis );
 

@@ -27,7 +27,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     this.centerOfMass = new CenterOfMass( this.bodies );
 
-
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.link( systemCentered => {
       if ( systemCentered ) {

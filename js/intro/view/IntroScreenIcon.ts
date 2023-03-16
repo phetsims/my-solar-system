@@ -21,6 +21,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
   public constructor() {
+
     // Ellipses parameters
     // focal point function with a and b
     const focalPoint = ( a: number, b: number ) => Math.sqrt( a * a - b * b );

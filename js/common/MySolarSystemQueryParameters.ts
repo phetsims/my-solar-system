@@ -9,6 +9,7 @@
 import mySolarSystem from '../mySolarSystem.js';
 
 const MySolarSystemQueryParameters = QueryStringMachine.getAll( {
+
   // Likely will add query parameters in the future
 } );
 

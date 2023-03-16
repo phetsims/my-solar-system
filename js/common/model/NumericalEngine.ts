@@ -24,6 +24,7 @@ const LAMBDA = -0.2123418310626054;
 const CHI = -0.06626458266981849;
 
 export default class NumericalEngine extends Engine {
+
   // Gravitational constant
   private readonly G = 10000;
 
@@ -32,6 +33,7 @@ export default class NumericalEngine extends Engine {
   }
 
   public override update( bodies: ObservableArray<Body> ): void {
+
     // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
     this.checkCollisions();
@@ -39,6 +41,7 @@ export default class NumericalEngine extends Engine {
   }
 
   public override checkCollisions(): void {
+
     // We need to rerun collision checks if we get one collision
     let hadCollision = true;
     while ( hadCollision ) {
@@ -82,6 +85,7 @@ export default class NumericalEngine extends Engine {
     const forces = this.bodies.map( body => body.forceProperty.value.copy() );
 
     for ( let k = 0; k < iterationCount; k++ ) {
+
       // Zeroing out forces
       for ( let i = 0; i < N; i++ ) {
         forces[ i ].setXY( 0, 0 );

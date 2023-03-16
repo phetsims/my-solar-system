@@ -79,6 +79,7 @@ export default class PathsCanvasNode extends CanvasNode {
       while ( pathLength < maxPathLength - fadePathLength && j > 0 ) {
         context.lineTo( points[ j ].x, points[ j ].y );
         if ( j > 1 ) {
+
           // increment the path length by the length of the added segment
           const segDifX = points[ j ].x - points[ j - 1 ].x;
           const segDifY = points[ j ].y - points[ j - 1 ].y;

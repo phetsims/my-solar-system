@@ -21,6 +21,7 @@ export default class LabScreenView extends MySolarSystemScreenView {
   public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
 
     const options = optionize<IntroScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
+
       // pdom
       screenSummaryContent: new LabScreenViewSummaryContentNode()
     }, providedOptions );

@@ -19,6 +19,7 @@ export type IntroScreenViewOptions = IntroLabScreenViewOptions;
 export default class IntroScreenView extends MySolarSystemScreenView {
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
     const options = optionize<IntroScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
+
       // pdom
       screenSummaryContent: new IntroScreenViewSummaryContentNode()
     }, providedOptions );
