@@ -23,10 +23,10 @@ const XI = 0.1786178958448091;
 const LAMBDA = -0.2123418310626054;
 const CHI = -0.06626458266981849;
 
-export default class NumericalEngine extends Engine {
+// Gravitational constant
+const G = 10000;
 
-  // Gravitational constant
-  private readonly G = 10000;
+export default class NumericalEngine extends Engine {
 
   public constructor( bodies: ObservableArray<Body> ) {
     super( bodies );
@@ -100,7 +100,7 @@ export default class NumericalEngine extends Engine {
           const direction = scratchVector.set( positions[ j ] ).subtract( positions[ i ] );
           const distance = direction.magnitude;
           assert && assert( distance >= 0, 'Negative distances not allowed!!' );
-          const forceMagnitude = this.G * mass1 * mass2 * ( Math.pow( distance, -3 ) );
+          const forceMagnitude = G * mass1 * mass2 * ( Math.pow( distance, -3 ) );
           const force = direction.multiplyScalar( forceMagnitude );
 
           forces[ i ].add( force );
@@ -212,7 +212,7 @@ export default class NumericalEngine extends Engine {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance = direction.magnitude;
     assert && assert( distance > 0, 'Negative distances not allowed!!' );
-    const forceMagnitude = this.G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
+    const forceMagnitude = G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
     return direction.times( forceMagnitude );
   }
 }
