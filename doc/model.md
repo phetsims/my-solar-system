@@ -15,9 +15,10 @@ The simulation relies on the Position Extended Forest-Ruth Like algorithm (PEFRL
 
 ## Units
 Numbers in the model use the following units:
-Mass - 10^28 kg
-Distance - 1 AU, which is roughly 150 million km
-Time - 1 year
-Velocity - 1 km/s
+
+- Mass - 10^28 kg
+- Distance - 1 AU, which is roughly 150 million km
+- Time - 1 year
+- Velocity - 1 km/s
 
 We decided to not use SI units to better convey the scales of each dimension
