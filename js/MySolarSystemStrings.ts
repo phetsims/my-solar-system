@@ -114,7 +114,9 @@ type StringsType = {
         'playAreaDescriptionStringProperty': LinkableProperty<string>;
         'controlAreaDescription': string;
         'controlAreaDescriptionStringProperty': LinkableProperty<string>;
-      }
+      };
+      'modeSelector': string;
+      'modeSelectorStringProperty': LinkableProperty<string>;
     }
   }
 };

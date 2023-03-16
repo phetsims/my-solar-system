@@ -132,6 +132,9 @@
         "controlAreaDescription": {
           "value": "In the Control Area, there are options to view and change the area of the orbit and options to adjust and view orbital information. You can choose premade planetary alignments or choose your own, along with a Zoom in and out option. The Control Area has options for how fast the action happens in the observation window including buttons to pause and step forward."
         }
+      },
+      "modeSelector": {
+        "value": "Mode Selector"
       }
     }
   }

@@ -25,7 +25,7 @@ export default class LabModeComboBox extends ComboBox<LabMode> {
       buttonTouchAreaYDilation: 10,
 
       // pdom
-      accessibleName: 'Mode Selector' // TODO: factor out into a11y strings, https://github.com/phetsims/my-solar-system/issues/86
+      accessibleName: MySolarSystemStrings.a11y.labScreen.modeSelectorStringProperty
     }, providedOptions );
 
     const createItem = ( mode: LabMode, nameProperty: TReadOnlyProperty<string> ) => {
