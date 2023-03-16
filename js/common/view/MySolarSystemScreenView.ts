@@ -235,7 +235,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       labelTagName: 'h3',
       labelContent: 'Data Panel',
       align: 'bottom',
-      // stretch: true,
       spacing: 10,
       children: [
         new VBox( {
