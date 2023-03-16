@@ -10,7 +10,7 @@ import { AlignBox, AlignGroup, Color, Node, RichText, TextOptions, VBox, VBoxOpt
 import mySolarSystem from '../../mySolarSystem.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import SolarSystemCommonSlider from '../../../../solar-system-common/js/view/SolarSystemCommonSlider.js';
+import SolarSystemCommonNumberControl from '../../../../solar-system-common/js/view/SolarSystemCommonNumberControl.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -106,7 +106,7 @@ export default class ValuesColumnNode extends VBox {
       contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
-      contentNode = new SolarSystemCommonSlider( body.massProperty, massRange, {
+      contentNode = new SolarSystemCommonNumberControl( body.massProperty, massRange, {
         sliderOptions: {
           thumbFill: colorProperty,
           thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
