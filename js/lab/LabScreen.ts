@@ -14,7 +14,7 @@ import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
 import LabScreenIcon from './view/LabScreenIcon.js';
 import MySolarSystemStrings from '../MySolarSystemStrings.js';
-import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
+import MySolarSystemKeyboardHelpContent from '../common/view/MySolarSystemKeyboardHelpContent.js';
 
 export default class LabScreen extends Screen<LabModel, LabScreenView> {
 
@@ -25,12 +25,7 @@ export default class LabScreen extends Screen<LabModel, LabScreenView> {
       backgroundColorProperty: SolarSystemCommonColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.labStringProperty,
-      createKeyboardHelpNode: () => {
-        return new BasicActionsKeyboardHelpSection( {
-          withCheckboxContent: true,
-          withKeypadContent: true
-        } );
-      }
+      createKeyboardHelpNode: () => new MySolarSystemKeyboardHelpContent()
     };
 
     super(

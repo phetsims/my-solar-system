@@ -14,7 +14,7 @@ import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import IntroScreenIcon from './view/IntroScreenIcon.js';
 import MySolarSystemStrings from '../MySolarSystemStrings.js';
-import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
+import MySolarSystemKeyboardHelpContent from '../common/view/MySolarSystemKeyboardHelpContent.js';
 
 export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
@@ -25,12 +25,7 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       backgroundColorProperty: SolarSystemCommonColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.introStringProperty,
-      createKeyboardHelpNode: () => {
-        return new BasicActionsKeyboardHelpSection( {
-          withCheckboxContent: true,
-          withKeypadContent: true
-        } );
-      }
+      createKeyboardHelpNode: () => new MySolarSystemKeyboardHelpContent()
     };
 
     super(
