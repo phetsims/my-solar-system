@@ -37,6 +37,7 @@ import CenterOfMassNode from './CenterOfMassNode.js';
 import LabModeComboBox from './LabModeComboBox.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -263,15 +264,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
-    const resetAlignBox = new AlignBox( new HBox( {
-      spacing: 20,
-      children: [
-        new Text( 'Some force vectors might be off-scale',
-          combineOptions<TextOptions>( { visibleProperty: model.gravityVisibleProperty }, SolarSystemCommonConstants.TEXT_OPTIONS )
-        ),
-        this.resetAllButton
-      ]
-    } ), {
+    const resetAlignBox = new AlignBox( this.resetAllButton, {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
       xAlign: 'right',
@@ -285,7 +278,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'top'
     } );
 
-    const topCenterButtonBox = new AlignBox( new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
+    const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
+      combineOptions<TextOptions>( { visibleProperty: model.gravityVisibleProperty }, SolarSystemCommonConstants.TEXT_OPTIONS )
+    );
+    const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
       visibleProperty: model.isAnyBodyEscapedProperty,
       listener: () => {
         model.returnEscapedBodies();
@@ -295,6 +291,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       font: SolarSystemCommonConstants.PANEL_FONT,
       maxTextWidth: 200,
       containerTagName: 'div'
+    } );
+
+    const topCenterButtonBox = new AlignBox( new HBox( {
+      spacing: 20,
+      excludeInvisibleChildrenFromBounds: false,
+      children: [ returnBodiesButton, offScaleMessage ]
     } ), {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
