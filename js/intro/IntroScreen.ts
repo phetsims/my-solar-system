@@ -28,7 +28,6 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       createKeyboardHelpNode: () => {
         return new BasicActionsKeyboardHelpSection( {
           withCheckboxContent: true,
-          withDraggableContent: true,
           withKeypadContent: true
         } );
       }

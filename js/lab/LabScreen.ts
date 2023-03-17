@@ -28,7 +28,6 @@ export default class LabScreen extends Screen<LabModel, LabScreenView> {
       createKeyboardHelpNode: () => {
         return new BasicActionsKeyboardHelpSection( {
           withCheckboxContent: true,
-          withDraggableContent: true,
           withKeypadContent: true
         } );
       }
