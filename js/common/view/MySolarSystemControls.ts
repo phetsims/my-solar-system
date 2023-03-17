@@ -6,7 +6,7 @@
  * @author Agustín Vallejo
  */
 
-import { HBox, HSeparator, Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -15,7 +15,7 @@ import createVisibilityInformationCheckboxes from '../../../../solar-system-comm
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import PlusMinusZoomButtonGroup from '../../../../scenery-phet/js/PlusMinusZoomButtonGroup.js';
+import HSlider from '../../../../sun/js/HSlider.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -35,11 +35,14 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HBox( {
+          maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH,
           leftMargin: 20,
+          spacing: 0,
           enabledProperty: model.gravityVisibleProperty,
           children: [
-            new Text( 'Force Scale', SolarSystemCommonConstants.TEXT_OPTIONS ),
-            new PlusMinusZoomButtonGroup( model.forceScaleProperty )
+            new RichText( `Scale: x10<sup>${model.forceScaleProperty.range.min}</sup>`, SolarSystemCommonConstants.TEXT_OPTIONS ),
+            new HSlider( model.forceScaleProperty, model.forceScaleProperty.range ),
+            new RichText( `x10<sup>${model.forceScaleProperty.range.max}</sup>`, SolarSystemCommonConstants.TEXT_OPTIONS )
           ]
         } ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
