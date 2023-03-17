@@ -263,7 +263,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
-    const resetAlignBox = new AlignBox( this.resetAllButton, {
+    const resetAlignBox = new AlignBox( new HBox( {
+      spacing: 20,
+      children: [
+        new Text( 'Some force vectors might be off-scale',
+          combineOptions<TextOptions>( { visibleProperty: model.gravityVisibleProperty }, SolarSystemCommonConstants.TEXT_OPTIONS )
+        ),
+        this.resetAllButton
+      ]
+    } ), {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
       xAlign: 'right',
@@ -285,7 +293,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
       font: SolarSystemCommonConstants.PANEL_FONT,
-      maxTextWidth: 200
+      maxTextWidth: 200,
+      containerTagName: 'div'
     } ), {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
