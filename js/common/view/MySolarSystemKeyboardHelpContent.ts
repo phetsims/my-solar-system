@@ -11,9 +11,11 @@ import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/h
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TimeControlKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimeControlKeyboardHelpSection.js';
+import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 
 export default class MySolarSystemKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
+    const draggableHelpSection = new MoveDraggableItemsKeyboardHelpSection();
     const sliderHelpSection = new SliderControlsKeyboardHelpSection();
     const timeControlsHelpSection = new TimeControlKeyboardHelpSection();
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
@@ -21,7 +23,14 @@ export default class MySolarSystemKeyboardHelpContent extends TwoColumnKeyboardH
       withKeypadContent: true
     } );
 
-    super( [ timeControlsHelpSection, sliderHelpSection ], [ basicActionsHelpSection ] );
+    super( [ draggableHelpSection, sliderHelpSection ], [ timeControlsHelpSection, basicActionsHelpSection ] );
+
+    this.disposeEmitter.addListener( () => {
+      draggableHelpSection.dispose();
+      sliderHelpSection.dispose();
+      timeControlsHelpSection.dispose();
+      basicActionsHelpSection.dispose();
+    } );
   }
 }
 
