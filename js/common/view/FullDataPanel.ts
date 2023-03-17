@@ -3,7 +3,7 @@
 /**
  * The panel that shows the numeric values of Mass, Position and Velocity.
  * Depending on model.moreDataProperty it will show either NumberDisplays or mass sliders.
- * 
+ *
  * @author Agustín Vallejo
  */
 
@@ -26,6 +26,7 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 // AlignGroup for the title-labels that are placed above each group (like "Position (m)"). This is made to match the
 // vertical height of each title-label across screens, regardless of their scaling.
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
+const TEXT_MAX_WIDTH = 150;
 
 export default class FullDataPanel extends Panel {
   public constructor( model: MySolarSystemModel ) {
@@ -60,13 +61,13 @@ export default class FullDataPanel extends Panel {
       // Wrap the text in an AlignGroup to match height.
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
         combineOptions<TextOptions>( {
-          maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
+          maxWidth: TEXT_MAX_WIDTH
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     };
 
     const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty,
       combineOptions<TextOptions>( {
-        maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
+        maxWidth: TEXT_MAX_WIDTH
       }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
