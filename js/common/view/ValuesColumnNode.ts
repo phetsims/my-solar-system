@@ -110,6 +110,8 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new SolarSystemCommonNumberControl( body.massProperty, massRange, {
         sliderOptions: {
+          keyboardStep: sliderStep,
+          pageKeyboardStep: sliderStep * 2,
           thumbFill: colorProperty,
           thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
           constrainValue: value => massRange.constrainValue( sliderStep * Utils.roundSymmetric( value / sliderStep ) )
