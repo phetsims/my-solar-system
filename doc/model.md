@@ -26,4 +26,12 @@ The presets used in the simulation are the same ones from the original flash ver
 Some elements of the sim might be hidden before the user first interactions. Here we list three situations to keep an eye out for:
 - **Centering the system**: Gravitational systems have a tendency to drift off screen. By default, all the pre-sets are centered and followed, but any change could cause a system-drift, or more specifically, a Center of Mass net velocity. When that happens, the sim will display an orange button which says "Follow Center of Mass". When you press it, the reference frame of the simulation will shift to be the same as the center of mass.
 - **Scale of Forces**: Because astronomical objects have a wide range of masses, the gravitational force acted upon them also will vary in several orders of magnitude. To aid the visual representation these forces, we placed a force scale slider under the Gravity checkbox. In most pre-sets, the gravitational force may be hidden from view because it's relatively small compared to other forces shown in the sim. With the slider you can bring them to view.
-- **Bodies escaping**: Some bodies might fly off-screen. When that happens, a button will appear that let's the user bring escaped bodies back. 
+- **Bodies escaping**: Some bodies might fly off-screen. When that happens, a button will appear that let's the user bring escaped bodies back.
+
+## Integrator Algorithm
+
+The [numerical engine](https://github.com/phetsims/my-solar-system/blob/d55f4e68c494be3d6f31d64e7085e5ad2ca9c6f6/js/common/model/NumericalEngine.ts) on this sim relies on the Position Extended Forest-Ruth Like algorithm (PEFRL) to compute the motion of the bodies [(Omelyan, Myrglod & Folk, 2001)](https://arxiv.org/abs/cond-mat/0110585). PEFRL is a numerical integration scheme that provides high accuracy and stability for simulations involving many bodies, especially those with periodic or quasi-periodic behavior. It essentially integrates the position and velocity over time in multiple intermediate steps.
+
+## Radii of Bodies
+
+For the purposes of collisions and display, the radii of bodies are modeled somewhat non-proportionally, as spheres with an additional minimum radius.

@@ -31,7 +31,3 @@ Some important properties to keep track of during the sim:
 - `isAnyBodyEscapedProperty`: As name suggests, is false unless any body is offscreen. Toggles the visibility of the 'Return Bodies' button, and when that is pressed, the escaped bodies are returned to their original positions.
 - `isLab`: Even though Intro and Lab have independent model files, there are still some common components which are shown or hidden depending on the value of this variable.
 - There are also time scales and zoom level scales which control the size and speed of the sim.
-
-## Integrator Algorithm
-
-The [numerical engine](https://github.com/phetsims/my-solar-system/blob/d55f4e68c494be3d6f31d64e7085e5ad2ca9c6f6/js/common/model/NumericalEngine.ts) on this sim relies on the Position Extended Forest-Ruth Like algorithm (PEFRL) to compute the motion of the bodies [(Omelyan, Myrglod & Folk, 2001)](https://arxiv.org/abs/cond-mat/0110585). PEFRL is a numerical integration scheme that provides high accuracy and stability for simulations involving many bodies, especially those with periodic or quasi-periodic behavior. It essentially integrates the position and velocity over time in multiple intermediate steps.
