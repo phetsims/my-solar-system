@@ -11,7 +11,7 @@ Enumerations use EnumerationValue rather than string literal unions, by choice.
 
 ## Memory Management
 
-The majority of the elements in the sim are statically allocated at startup, and exist for the lifetime of the sim, hence All uses of `link`, `addListener`, etc. do NOT need a corresponding `unlink` or `removeListener`.
+The majority of the elements in the sim are statically allocated at startup, and exist for the lifetime of the sim, hence most uses of `link`, `addListener`, etc. do NOT need a corresponding `unlink` or `removeListener`. BodyViews and the vector Nodes are the main thing that are dynamically created and destroyed. They are created/destroyed with `ViewSynchronizer`s
 
 The sim statically allocates all Body instances, and the spinner that adds or removes Body instances in fact toggles `isActiveProperty` values for each. This simplifies the implementation and will simplify PhET-iO instrumentation.
 
