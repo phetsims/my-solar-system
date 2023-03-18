@@ -279,7 +279,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
-      combineOptions<TextOptions>( { visibleProperty: model.gravityVisibleProperty }, SolarSystemCommonConstants.TEXT_OPTIONS )
+      combineOptions<TextOptions>( { visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ) },
+        SolarSystemCommonConstants.TEXT_OPTIONS )
     );
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
       visibleProperty: model.isAnyBodyEscapedProperty,
