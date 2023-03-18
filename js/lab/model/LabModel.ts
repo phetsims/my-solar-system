@@ -51,7 +51,7 @@ export default class LabModel extends MySolarSystemModel {
         const modeInfo = this.modeMap.get( mode );
         this.loadBodyStates( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
-        this.followAndCenterCenterOfMass();
+        this.followCenterOfMass();
         this.saveStartingBodyState();
         this.forceScaleProperty.reset();
       }
@@ -71,6 +71,12 @@ export default class LabModel extends MySolarSystemModel {
         }
       }
     } );
+  }
+
+  public override returnEscapedBodies( stateToReturn?: BodyInfo[] ): void {
+    const mode = this.labModeProperty.value;
+    const modeInfo = mode !== LabMode.CUSTOM ? this.modeMap.get( mode ) : stateToReturn;
+    super.returnEscapedBodies( modeInfo );
   }
 
   public override reset(): void {
