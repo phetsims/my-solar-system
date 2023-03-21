@@ -19,6 +19,8 @@ The simulation used two different systems of units. The model and internal engin
 
 As you can see, we opted out of MKS (SI) units because of the large values handled in astronomical real world systems. Because of that we use AU for distances, years for time, and add another unit conversion to have speeds shown in km/s.
 
+The exact conversion rates can be found in [this file](https://github.com/phetsims/solar-system-common/blob/670cc9ea98513bf05573646623904c86e524f908/js/SolarSystemCommonConstants.ts#L13-L20). Where we also convert to SI for testing that the force is consistent with the real physics.
+
 ## Presets (Model units)
 The presets used in the simulation are the same ones from the original flash version, except for Sun-Planet which was changed for design purposes. You can take a peek at the values chosen for each of them (in arbitrary model units) in the [model file](https://github.com/phetsims/my-solar-system/blob/df3444bce5fb14dae7ce5ec882ce5ddd353531a0/js/lab/model/LabModel.ts#L91).
 
