@@ -37,11 +37,13 @@ export default class MySolarSystemControls extends VBox {
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HBox( {
-          maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH,
           spacing: 0,
           enabledProperty: model.gravityVisibleProperty,
           children: [
-            new Text( SolarSystemCommonStrings.scaleStringProperty, combineOptions<TextOptions>( { layoutOptions: { leftMargin: 20 } }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
+            new Text( SolarSystemCommonStrings.scaleStringProperty, combineOptions<TextOptions>( {
+              maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH / 2,
+              layoutOptions: { leftMargin: 20 }
+            }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
             new NumberControl( SolarSystemCommonStrings.scaleStringProperty, model.forceScaleProperty, model.forceScaleProperty.range, {
               arrowButtonOptions: { visible: false },
               sliderOptions: {
