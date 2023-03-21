@@ -17,6 +17,7 @@ import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckb
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -41,20 +42,23 @@ export default class MySolarSystemControls extends VBox {
           spacing: 0,
           enabledProperty: model.gravityVisibleProperty,
           children: [
-            new Text( 'Scale:', SolarSystemCommonConstants.TEXT_OPTIONS ),
-            // new HSlider( model.forceScaleProperty, model.forceScaleProperty.range ),
-            // new RichText( `x10<sup>${model.forceScaleProperty.range.max}</sup>`, SolarSystemCommonConstants.TEXT_OPTIONS )
-            new NumberControl( 'Scale', model.forceScaleProperty, model.forceScaleProperty.range, {
+            new Text( SolarSystemCommonStrings.scaleStringProperty, SolarSystemCommonConstants.TEXT_OPTIONS ),
+            new NumberControl( SolarSystemCommonStrings.scaleStringProperty, model.forceScaleProperty, model.forceScaleProperty.range, {
               arrowButtonOptions: { visible: false },
               sliderOptions: {
                 constrainValue: ( power: number ) => Math.abs( power ) < 0.5 ? 0 : power,
+                shiftKeyboardStep: 0.5,
+                keyboardStep: 1,
+                pageKeyboardStep: 2,
                 majorTickStroke: SolarSystemCommonColors.foregroundProperty,
                 majorTickLength: 8,
                 trackFillEnabled: SolarSystemCommonColors.foregroundProperty,
                 majorTicks: [
                   { value: -2, label: new RichText( 'x10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) },
                   { value: 8, label: new RichText( 'x10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) }
-                ]
+                ],
+
+              accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
               }
             } )
           ]
