@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { HBox, HSeparator, Node, RichText, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, RichText, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -15,7 +15,9 @@ import createVisibilityInformationCheckboxes from '../../../../solar-system-comm
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import HSlider from '../../../../sun/js/HSlider.js';
+import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -40,9 +42,25 @@ export default class MySolarSystemControls extends VBox {
           spacing: 0,
           enabledProperty: model.gravityVisibleProperty,
           children: [
-            new RichText( `Scale: x10<sup>${model.forceScaleProperty.range.min}</sup>`, SolarSystemCommonConstants.TEXT_OPTIONS ),
-            new HSlider( model.forceScaleProperty, model.forceScaleProperty.range ),
-            new RichText( `x10<sup>${model.forceScaleProperty.range.max}</sup>`, SolarSystemCommonConstants.TEXT_OPTIONS )
+            new Text( SolarSystemCommonStrings.scaleStringProperty, SolarSystemCommonConstants.TEXT_OPTIONS ),
+            new NumberControl( SolarSystemCommonStrings.scaleStringProperty, model.forceScaleProperty, model.forceScaleProperty.range, {
+              arrowButtonOptions: { visible: false },
+              sliderOptions: {
+                constrainValue: ( power: number ) => Math.abs( power ) < 0.5 ? 0 : power,
+                shiftKeyboardStep: 0.5,
+                keyboardStep: 1,
+                pageKeyboardStep: 2,
+                majorTickStroke: SolarSystemCommonColors.foregroundProperty,
+                majorTickLength: 8,
+                trackFillEnabled: SolarSystemCommonColors.foregroundProperty,
+                majorTicks: [
+                  { value: -2, label: new RichText( 'x10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) },
+                  { value: 8, label: new RichText( 'x10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) }
+                ],
+
+              accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
+              }
+            } )
           ]
         } ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
