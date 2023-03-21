@@ -6,9 +6,9 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { HBox, HSeparator, Node, RichText, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, RichText, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import createVisibilityInformationCheckboxes from '../../../../solar-system-common/js/view/createVisibilityInformationCheckboxes.js';
@@ -38,11 +38,10 @@ export default class MySolarSystemControls extends VBox {
         ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
         new HBox( {
           maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH,
-          leftMargin: 20,
           spacing: 0,
           enabledProperty: model.gravityVisibleProperty,
           children: [
-            new Text( SolarSystemCommonStrings.scaleStringProperty, SolarSystemCommonConstants.TEXT_OPTIONS ),
+            new Text( SolarSystemCommonStrings.scaleStringProperty, combineOptions<TextOptions>( { layoutOptions: { leftMargin: 20 } }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
             new NumberControl( SolarSystemCommonStrings.scaleStringProperty, model.forceScaleProperty, model.forceScaleProperty.range, {
               arrowButtonOptions: { visible: false },
               sliderOptions: {
@@ -50,15 +49,18 @@ export default class MySolarSystemControls extends VBox {
                 shiftKeyboardStep: 0.5,
                 keyboardStep: 1,
                 pageKeyboardStep: 2,
-                majorTickStroke: SolarSystemCommonColors.foregroundProperty,
-                majorTickLength: 8,
                 trackFillEnabled: SolarSystemCommonColors.foregroundProperty,
                 majorTicks: [
                   { value: -2, label: new RichText( 'x10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) },
                   { value: 8, label: new RichText( 'x10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) }
                 ],
+                majorTickStroke: SolarSystemCommonColors.foregroundProperty,
+                majorTickLength: 5,
+                minorTickLength: 5,
+                minorTickSpacing: 2,
+                minorTickStroke: SolarSystemCommonColors.foregroundProperty,
 
-              accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
+                accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
               }
             } )
           ]
