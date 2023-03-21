@@ -4,7 +4,7 @@
 /**
  * Visual representation of space object's property checkbox.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import { HBox, Text, TextOptions } from '../../../../scenery/js/imports.js';

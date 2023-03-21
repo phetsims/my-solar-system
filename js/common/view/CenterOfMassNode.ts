@@ -4,7 +4,7 @@
  *
  * Persistent for the life of the simulation.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

@@ -5,7 +5,7 @@
  * It keeps track of the position of the Center of Mass of the system by
  * calculating the average position of all the bodies, weighted by their mass.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

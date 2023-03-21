@@ -3,7 +3,8 @@
 /**
  * Main entry point for the sim.
  *
- * @author Jonathan Olson
+ * @author Agustín Vallejo (PhET Interactive Simulations)
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';

@@ -4,7 +4,7 @@
  *
  * Definition of the Lab Screen Icon: A sun with two elliptical orbits around it
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

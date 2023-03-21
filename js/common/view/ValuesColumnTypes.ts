@@ -3,7 +3,7 @@
 /**
  * Enumerates the types of Value Columns the panel will display.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

@@ -3,7 +3,7 @@
 /**
  * Main model for My Solar System sim.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

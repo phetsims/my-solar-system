@@ -7,7 +7,7 @@
  * inside it uses a Position Extended Forest-Ruth Like algorithm (PEFRL) (Omelyan, Myrglod & Folk, 2001)
  *
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

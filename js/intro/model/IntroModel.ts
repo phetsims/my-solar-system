@@ -5,7 +5,7 @@
  * In charge of keeping track of the position and states of the bodies,
  * their center of mass, and the time.
  * 
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

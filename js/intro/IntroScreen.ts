@@ -3,7 +3,7 @@
 /**
  * Intro Screen, where the user can learn about a two-body system
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import Screen from '../../../joist/js/Screen.js';

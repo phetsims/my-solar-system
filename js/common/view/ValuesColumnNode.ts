@@ -3,7 +3,7 @@
 /**
  * Generates the information column for values depending on the type of Value used.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import { AlignBox, AlignGroup, Color, Node, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';

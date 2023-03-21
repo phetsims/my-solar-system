@@ -3,7 +3,7 @@
 /**
  * Screen for Lab Screen, where the user can create their own system
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import Screen from '../../../joist/js/Screen.js';

@@ -4,7 +4,7 @@
  * The panel that shows the numeric values of Mass, Position and Velocity.
  * Depending on model.moreDataProperty it will show either NumberDisplays or mass sliders.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

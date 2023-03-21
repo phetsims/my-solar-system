@@ -4,7 +4,7 @@
  * Combo Box that keeps track of the Lab Modes and their proper string mapping.
  * Creates the ComboBoxItems with tandems and a11y view.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';

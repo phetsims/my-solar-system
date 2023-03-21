@@ -2,7 +2,7 @@
 /**
  * NumberDisplay used in the panel to control Masses, Position and Velocity
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

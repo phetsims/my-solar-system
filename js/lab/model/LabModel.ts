@@ -3,7 +3,7 @@
 /**
  * Model that controls the logic for the Lab Screen.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

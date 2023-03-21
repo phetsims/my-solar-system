@@ -3,7 +3,7 @@
 /**
  * Screen view for the Intro Screen
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';

@@ -3,7 +3,7 @@
 /**
  * Screen View for Lab Screen: Where you can play with all the presets and body configurations
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
