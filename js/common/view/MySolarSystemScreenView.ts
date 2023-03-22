@@ -300,7 +300,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const topCenterButtonBox = new AlignBox( new HBox( {
       spacing: 20,
-      // excludeInvisibleChildrenFromBounds: false,
       heightSizable: false,
       preferredHeight: returnBodiesButton.height,
       children: [ returnBodiesButton, offScaleMessage ]

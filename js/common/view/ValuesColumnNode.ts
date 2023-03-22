@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, AlignGroup, Color, Node, RichText, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Circle, Color, Node, RichText, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
@@ -14,7 +14,6 @@ import SolarSystemCommonNumberControl from '../../../../solar-system-common/js/v
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
@@ -25,6 +24,7 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -105,7 +105,22 @@ export default class ValuesColumnNode extends VBox {
 
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
-      contentNode = new ShadedSphereNode( 16, { mainColor: colorProperty, stroke: 'black' } );
+
+      // Circle representation of the Body.
+      const ballCircle = new Circle( 10.5, {
+        fill: colorProperty,
+        stroke: Color.BLACK
+      } );
+
+      // Labels the index of the Body
+      const labelNode = new Text( body.index + 1, {
+        font: new PhetFont( { size: 18, weight: 600 } ),
+        center: ballCircle.center,
+        stroke: Color.BLACK,
+        fill: Color.WHITE
+      } );
+
+      contentNode = new Node( { children: [ ballCircle, labelNode ] } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new SolarSystemCommonNumberControl( body.massProperty, massRange, {
