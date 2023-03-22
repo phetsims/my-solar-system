@@ -145,9 +145,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const fullDataPanel = new FullDataPanel( model );
 
     const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-      visibleProperty: DerivedProperty.not( model.systemCenteredProperty ),
+      visibleProperty: model.userControlledProperty,
       listener: () => {
         model.systemCenteredProperty.value = true;
+        model.userControlledProperty.value = false;
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: SolarSystemCommonConstants.CHECKBOX_SPACING / 2,
