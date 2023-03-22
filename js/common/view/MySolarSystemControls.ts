@@ -46,6 +46,8 @@ export default class MySolarSystemControls extends VBox {
             }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
             new NumberControl( SolarSystemCommonStrings.scaleStringProperty, model.forceScaleProperty, model.forceScaleProperty.range, {
               arrowButtonOptions: { visible: false },
+              numberDisplayOptions: { visible: false },
+              titleNodeOptions: { visible: false },
               sliderOptions: {
                 constrainValue: ( power: number ) => Math.abs( power ) < 0.5 ? 0 : power,
                 shiftKeyboardStep: 0.5,
