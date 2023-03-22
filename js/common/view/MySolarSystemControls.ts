@@ -36,29 +36,24 @@ export default class MySolarSystemControls extends VBox {
     const slider = new HSlider( model.forceScaleProperty, model.forceScaleProperty.range, {
       trackSize: new Dimension2( 100, 4 ),
       thumbSize: new Dimension2( 14, 28 ),
+      tickLabelSpacing: 3,
       constrainValue: ( power: number ) => Math.abs( power ) < 0.5 ? 0 : power,
       shiftKeyboardStep: 0.5,
       keyboardStep: 1,
       pageKeyboardStep: 2,
       trackFillEnabled: SolarSystemCommonColors.foregroundProperty,
       majorTickStroke: SolarSystemCommonColors.foregroundProperty,
-      majorTickLength: 5,
-      minorTickLength: 5,
+      majorTickLength: 8,
+      minorTickLength: 8,
       minorTickStroke: SolarSystemCommonColors.foregroundProperty,
 
       accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
     } );
 
-    const majorTicks = [
-      { value: -2, label: new RichText( MathSymbols.TIMES + '10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) },
-      { value: 8, label: new RichText( MathSymbols.TIMES + '10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) }
-    ];
+    slider.addMajorTick( -2, new RichText( MathSymbols.TIMES + '10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) );
+    slider.addMajorTick( 8, new RichText( MathSymbols.TIMES + '10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) );
 
-    majorTicks.forEach( ( majorTick, i ) => {
-      slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
-    } );
-
-    for ( let i = 0; i < 8; i += 2 ) {
+    for ( let i = 0; i <= 6; i += 2 ) {
       slider.addMinorTick( i );
     }
 
