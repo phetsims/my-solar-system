@@ -280,7 +280,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
-      combineOptions<TextOptions>( { visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ) },
+      combineOptions<TextOptions>( {
+          visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
+          maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH * 2
+        },
         SolarSystemCommonConstants.TEXT_OPTIONS )
     );
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
@@ -297,7 +300,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const topCenterButtonBox = new AlignBox( new HBox( {
       spacing: 20,
-      excludeInvisibleChildrenFromBounds: false,
+      // excludeInvisibleChildrenFromBounds: false,
+      heightSizable: false,
+      preferredHeight: returnBodiesButton.height,
       children: [ returnBodiesButton, offScaleMessage ]
     } ), {
       alignBoundsProperty: this.availableBoundsProperty,
