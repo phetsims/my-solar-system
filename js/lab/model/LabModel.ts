@@ -55,6 +55,10 @@ export default class LabModel extends MySolarSystemModel {
         this.followCenterOfMass();
         this.saveStartingBodyState();
         this.forceScaleProperty.reset();
+
+        if ( mode === LabMode.FOUR_STAR_BALLET ) {
+          this.forceScaleProperty.value = -1.1;
+        }
       }
     };
 
