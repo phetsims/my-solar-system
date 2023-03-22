@@ -15,9 +15,11 @@ import createVisibilityInformationCheckboxes from '../../../../solar-system-comm
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -30,6 +32,35 @@ export default class MySolarSystemControls extends VBox {
     topLayer: Node,
     providedOptions: MySolarSystemControlsOptions
   ) {
+
+    const slider = new HSlider( model.forceScaleProperty, model.forceScaleProperty.range, {
+      trackSize: new Dimension2( 100, 4 ),
+      thumbSize: new Dimension2( 14, 28 ),
+      constrainValue: ( power: number ) => Math.abs( power ) < 0.5 ? 0 : power,
+      shiftKeyboardStep: 0.5,
+      keyboardStep: 1,
+      pageKeyboardStep: 2,
+      trackFillEnabled: SolarSystemCommonColors.foregroundProperty,
+      majorTickStroke: SolarSystemCommonColors.foregroundProperty,
+      majorTickLength: 5,
+      minorTickLength: 5,
+      minorTickStroke: SolarSystemCommonColors.foregroundProperty,
+
+      accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
+    } );
+
+    const majorTicks = [
+      { value: -2, label: new RichText( MathSymbols.TIMES + '10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) },
+      { value: 8, label: new RichText( MathSymbols.TIMES + '10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) }
+    ];
+
+    majorTicks.forEach( ( majorTick, i ) => {
+      slider.addMajorTick( majorTicks[ i ].value, majorTicks[ i ].label );
+    } );
+
+    for ( let i = 0; i < 8; i += 2 ) {
+      slider.addMinorTick( i );
+    }
 
     super( {
       children: [
@@ -44,29 +75,7 @@ export default class MySolarSystemControls extends VBox {
               maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH / 2,
               layoutOptions: { leftMargin: 20 }
             }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
-            new NumberControl( SolarSystemCommonStrings.scaleStringProperty, model.forceScaleProperty, model.forceScaleProperty.range, {
-              arrowButtonOptions: { visible: false },
-              numberDisplayOptions: { visible: false },
-              titleNodeOptions: { visible: false },
-              sliderOptions: {
-                constrainValue: ( power: number ) => Math.abs( power ) < 0.5 ? 0 : power,
-                shiftKeyboardStep: 0.5,
-                keyboardStep: 1,
-                pageKeyboardStep: 2,
-                trackFillEnabled: SolarSystemCommonColors.foregroundProperty,
-                majorTicks: [
-                  { value: -2, label: new RichText( 'x10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) },
-                  { value: 8, label: new RichText( 'x10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) }
-                ],
-                majorTickStroke: SolarSystemCommonColors.foregroundProperty,
-                majorTickLength: 5,
-                minorTickLength: 5,
-                minorTickSpacing: 2,
-                minorTickStroke: SolarSystemCommonColors.foregroundProperty,
-
-                accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
-              }
-            } )
+            slider
           ]
         } ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
