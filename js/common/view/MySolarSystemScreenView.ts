@@ -303,7 +303,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
       font: SolarSystemCommonConstants.PANEL_FONT,
-      maxTextWidth: 200,
+      maxTextWidth: 190,
       containerTagName: 'div'
     } );
 
@@ -315,6 +315,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } ), {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
+      centerX: -checkboxesControlPanel.width / 2,
       xAlign: 'center',
       yAlign: 'top'
     } );
