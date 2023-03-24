@@ -225,7 +225,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       ]
     } );
 
-    const unitsDialog = new Dialog( new RichText( MySolarSystemStrings.unitsInfo.contentStringProperty, { lineWrap: 600 } ), {
+    const notesStringProperty = new DerivedProperty( [
+        MySolarSystemStrings.unitsInfo.contentStringProperty,
+        MySolarSystemStrings.unitsInfo.content2StringProperty,
+        MySolarSystemStrings.unitsInfo.content3StringProperty
+      ],
+      ( content, content2, content3 ) => {
+        return content + '<br><br>' + content2 + '<br><br>' + content3;
+      } );
+
+    const unitsDialog = new Dialog( new RichText( notesStringProperty, { lineWrap: 600 } ), {
       titleAlign: 'center',
       title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new PhetFont( 32 ) } ),
       tandem: providedOptions.tandem.createTandem( 'unitsDialog' )

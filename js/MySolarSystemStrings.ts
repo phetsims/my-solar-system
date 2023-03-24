@@ -84,6 +84,10 @@ type StringsType = {
     'titleStringProperty': LinkableProperty<string>;
     'content': string;
     'contentStringProperty': LinkableProperty<string>;
+    'content2': string;
+    'content2StringProperty': LinkableProperty<string>;
+    'content3': string;
+    'content3StringProperty': LinkableProperty<string>;
   };
   'pattern': {
     'labelParenthesesUnits': string;
