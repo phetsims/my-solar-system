@@ -93,8 +93,8 @@ export default class ValuesColumnNode extends VBox {
     let contentNode;
 
     const massRange = new RangeWithValue( 0.1, 300, 100 );
-    const positionRangeX = new RangeWithValue( -4, 4, 0 );
-    const positionRangeY = new RangeWithValue( -2, 2, 0 );
+    const positionRangeX = new RangeWithValue( -8, 8, 0 );
+    const positionRangeY = new RangeWithValue( -4, 4, 0 );
     const velocityRange = new RangeWithValue( -100, 100, 0 );
 
     const clearPathsCallback = () => {
