@@ -189,7 +189,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, 2, {
+        body.colorProperty, model.isPlayingProperty, 1, {
           onEditCallback: clearPathsCallback
         }
       );
@@ -205,7 +205,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, 2, {
+        body.colorProperty, model.isPlayingProperty, 1, {
           onEditCallback: clearPathsCallback
         }
       );
