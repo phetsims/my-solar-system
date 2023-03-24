@@ -41,6 +41,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
     userControlledProperty: TProperty<boolean>,
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
+    decimalPlaces: number,
     providedOptions?: InteractiveNumberDisplayOptions
   ) {
 
@@ -53,8 +54,8 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
         accumulatorOptions: {
 
           // Max is 300, but we need 4 digits to support numbers like 123.4
-          maxDigits: 4,
-          maxDigitsRightOfMantissa: 1
+          maxDigits: 5,
+          maxDigitsRightOfMantissa: 2
         }
       }
     } );
@@ -73,7 +74,7 @@ export default class InteractiveNumberDisplay extends NumberDisplay {
           return `${MathSymbols.LESS_THAN_OR_EQUAL} 0.1`;
         }
         else {
-          return Utils.toFixed( n, 1 );
+          return Utils.toFixed( n, decimalPlaces );
         }
       },
       useExponential: false,

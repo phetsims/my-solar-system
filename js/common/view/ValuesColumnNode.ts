@@ -141,7 +141,7 @@ export default class ValuesColumnNode extends VBox {
         massRange,
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
-        body.colorProperty, model.isPlayingProperty, {
+        body.colorProperty, model.isPlayingProperty, 1, {
           useExponential: true,
           hideSmallValues: true
         } );
@@ -157,7 +157,7 @@ export default class ValuesColumnNode extends VBox {
         positionRangeX,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, {
+        body.colorProperty, model.isPlayingProperty, 2, {
           onEditCallback: clearPathsCallback
         }
       );
@@ -173,7 +173,7 @@ export default class ValuesColumnNode extends VBox {
         positionRangeY,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, {
+        body.colorProperty, model.isPlayingProperty, 2, {
           onEditCallback: clearPathsCallback
         }
       );
@@ -189,7 +189,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, {
+        body.colorProperty, model.isPlayingProperty, 2, {
           onEditCallback: clearPathsCallback
         }
       );
@@ -205,7 +205,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, {
+        body.colorProperty, model.isPlayingProperty, 2, {
           onEditCallback: clearPathsCallback
         }
       );
