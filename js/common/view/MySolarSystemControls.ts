@@ -66,7 +66,7 @@ export default class MySolarSystemControls extends VBox {
           spacing: 0,
           enabledProperty: model.gravityVisibleProperty,
           children: [
-            new Text( SolarSystemCommonStrings.scaleStringProperty, combineOptions<TextOptions>( {
+            new Text( SolarSystemCommonStrings.zoomStringProperty, combineOptions<TextOptions>( {
               maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH / 2,
               layoutOptions: { leftMargin: 20 }
             }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
