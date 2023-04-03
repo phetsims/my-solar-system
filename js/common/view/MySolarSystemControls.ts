@@ -33,6 +33,11 @@ export default class MySolarSystemControls extends VBox {
     providedOptions: MySolarSystemControlsOptions
   ) {
 
+    const rangeMin = model.forceScaleProperty.range.min;
+    const rangeMax = model.forceScaleProperty.range.max;
+    const rangeStep = 2;
+
+    // This slider controles the zoom level of the vector arrows
     const slider = new HSlider( model.forceScaleProperty, model.forceScaleProperty.range, {
       trackSize: new Dimension2( 100, 4 ),
       thumbSize: new Dimension2( 14, 28 ),
@@ -47,11 +52,15 @@ export default class MySolarSystemControls extends VBox {
       minorTickLength: 8,
       minorTickStroke: SolarSystemCommonColors.foregroundProperty,
 
-      accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty
+      accessibleName: SolarSystemCommonStrings.a11y.scaleSliderStringProperty,
+
+      valueChangeSoundGeneratorOptions: {
+        numberOfMiddleThresholds: ( rangeMax - rangeMin ) / rangeStep - 1
+      }
     } );
 
-    slider.addMajorTick( -2, new RichText( MathSymbols.TIMES + '10<sup>-2</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) );
-    slider.addMajorTick( 8, new RichText( MathSymbols.TIMES + '10<sup>8</sup', SolarSystemCommonConstants.TEXT_OPTIONS ) );
+    slider.addMajorTick( rangeMin, new RichText( MathSymbols.TIMES + `10<sup>${rangeMin}</sup`, SolarSystemCommonConstants.TEXT_OPTIONS ) );
+    slider.addMajorTick( rangeMax, new RichText( MathSymbols.TIMES + `10<sup>${rangeMax}</sup`, SolarSystemCommonConstants.TEXT_OPTIONS ) );
 
     for ( let i = 0; i <= 6; i += 2 ) {
       slider.addMinorTick( i );

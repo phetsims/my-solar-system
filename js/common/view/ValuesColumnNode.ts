@@ -101,7 +101,7 @@ export default class ValuesColumnNode extends VBox {
       model.clearPaths();
     };
 
-    const sliderStep = 25;
+    const sliderStep = SolarSystemCommonConstants.SLIDER_STEP;
 
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
