@@ -76,6 +76,11 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       this.systemCenteredProperty.value = false;
     }
   }
+
+  public override reset(): void {
+    super.reset();
+    this.centerOfMass.visibleProperty.reset();
+  }
 }
 
 mySolarSystem.register( 'MySolarSystemModel', MySolarSystemModel );
