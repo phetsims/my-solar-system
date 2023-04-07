@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { AlignBox, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, Path, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
@@ -38,6 +38,9 @@ import LabModeComboBox from './LabModeComboBox.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -50,20 +53,25 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, providedOptions );
 
-    const modelDragBoundsProperty = new DerivedProperty( [
-      this.visibleBoundsProperty,
-      this.modelViewTransformProperty
-    ], ( visibleBounds, modelViewTransform ) => {
-      return modelViewTransform.viewToModelBounds( visibleBounds );
-    } );
-
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
+
+    const dragDebugPath = new Path( null, {
+      stroke: 'red',
+      fill: 'rgba(255,0,0,0.2)'
+    } );
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addChild( dragDebugPath );
+    }
+
+    let mapPosition = ( point: Vector2, radius: number ) => point;
 
     this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
         valuesVisibleProperty: model.valuesVisibleProperty,
-        mapPosition: ( point, radius ) => modelDragBoundsProperty.value.eroded( radius ).closestPointTo( point ),
+        mapPosition: ( point, radius ) => {
+          return mapPosition( point, radius );
+        },
         soundViewNode: this
       } );
 
@@ -125,21 +133,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: providedOptions.tandem.createTandem( 'controlPanel' )
     } );
 
-    const topRightControlBox = new AlignBox(
-      new VBox( {
-        spacing: 10,
-        stretch: true,
-        children: [
-          new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
-          this.timeBox,
-          new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
-        ]
-      } ), {
-        alignBoundsProperty: this.availableBoundsProperty,
-        margin: SolarSystemCommonConstants.MARGIN,
-        xAlign: 'right',
-        yAlign: 'top'
-      } );
+    const topRightControlBox = new VBox( {
+      spacing: 10,
+      stretch: true,
+      children: [
+        new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
+        this.timeBox,
+        new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
+      ]
+    } );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
     const fullDataPanel = new FullDataPanel( model );
@@ -323,7 +325,13 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.interfaceLayer.addChild( topCenterButtonBox );
     this.interfaceLayer.addChild( resetAlignBox );
     this.interfaceLayer.addChild( controlsAlignBox );
-    this.interfaceLayer.addChild( topRightControlBox );
+    this.interfaceLayer.addChild( new AlignBox(
+      topRightControlBox, {
+        alignBoundsProperty: this.availableBoundsProperty,
+        margin: SolarSystemCommonConstants.MARGIN,
+        xAlign: 'right',
+        yAlign: 'top'
+      } ) );
     this.interfaceLayer.addChild( zoomButtonsBox );
 
     // ZoomBox should be first in the PDOM Order
@@ -341,6 +349,47 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
       visibleProperty: model.pathVisibleProperty
     } ) );
+
+    mapPosition = ( point: Vector2, radius: number ) => {
+      const mvt = this.modelViewTransformProperty.value;
+
+      const expandToTop = ( bounds: Bounds2 ) => bounds.withMinY( this.layoutBounds.minY );
+      const expandToBottom = ( bounds: Bounds2 ) => bounds.withMaxY( this.layoutBounds.maxY );
+      const expandToLeft = ( bounds: Bounds2 ) => bounds.withMinX( this.visibleBoundsProperty.value.minX );
+      const expandToRight = ( bounds: Bounds2 ) => bounds.withMaxX( this.visibleBoundsProperty.value.maxX );
+
+      // Use visible bounds (horizontally) and layout bounds (vertically) to create the main shape
+      const shape = Shape.bounds( mvt.viewToModelBounds( expandToLeft( expandToRight( this.layoutBounds ) ) ).eroded( radius ) )
+        // Top-right controls
+        .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToRight( topRightControlBox.bounds ) ) ).dilated( radius ) ) )
+        // Zoom buttons
+        .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToLeft( zoomButtons.bounds ) ) ).dilated( radius ) ) )
+        // Reset all button
+        .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToBottom( expandToRight( this.resetAllButton.bounds ) ) ).dilated( radius ) ) )
+        // Bottom-left controls, all with individual scopes (all expanded bottom-left)
+        .shapeDifference( Shape.union( [
+            dataPanelTopRow,
+            fullDataPanel,
+            numberSpinnerBox,
+            followCenterOfMassButton
+          ].map( item => {
+            const viewBounds = expandToLeft( expandToBottom( this.boundsOf( item ) ) );
+            const modelBounds = mvt.viewToModelBounds( viewBounds ).dilated( radius );
+            return Shape.bounds( modelBounds );
+          } ) ) );
+
+      // Only show drag debug path if ?dev is specified, temporarily for https://github.com/phetsims/my-solar-system/issues/129
+      if ( phet.chipper.queryParameters.dev ) {
+        dragDebugPath.shape = mvt.modelToViewShape( shape );
+      }
+
+      if ( shape.containsPoint( point ) ) {
+        return point;
+      }
+      else {
+        return shape.getClosestPoint( point );
+      }
+    };
   }
 
   public override step( dt: number ): void {
