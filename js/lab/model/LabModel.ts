@@ -100,70 +100,70 @@ export default class LabModel extends MySolarSystemModel {
 
   public setModesToMap(): void {
     this.modeMap.set( LabMode.SUN_PLANET, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
-      { active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
+      { index: 0, active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5 ) },
+      { index: 1, active: true, mass: 10, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 100 ) }
     ] );
     this.modeMap.set( LabMode.SUN_PLANET_MOON, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 10, position: new Vector2( 160, 0 ), velocity: new Vector2( 0, 120 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 140, 0 ), velocity: new Vector2( 0, 53 ) }
+      { index: 0, active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { index: 1, active: true, mass: 10, position: new Vector2( 160, 0 ), velocity: new Vector2( 0, 120 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( 140, 0 ), velocity: new Vector2( 0, 53 ) }
     ] );
     this.modeMap.set( LabMode.SUN_PLANET_COMET, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -20, -35 ) }
+      { index: 0, active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { index: 1, active: true, mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -20, -35 ) }
     ] );
     this.modeMap.set( LabMode.TROJAN_ASTEROIDS, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 5, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 119 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 75, -130 ), velocity: new Vector2( 103, 60 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 75, 130 ), velocity: new Vector2( -103, 60 ) }
+      { index: 0, active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { index: 1, active: true, mass: 5, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 119 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( 75, -130 ), velocity: new Vector2( 103, 60 ) },
+      { index: 3, active: true, mass: 0.000001, position: new Vector2( 75, 130 ), velocity: new Vector2( -103, 60 ) }
     ] );
     this.modeMap.set( LabMode.ELLIPSES, [
-      { active: true, mass: 250, position: new Vector2( -200, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -115, 0 ), velocity: new Vector2( 0, 151 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 50, 0 ), velocity: new Vector2( 0, 60 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) }
+      { index: 0, active: true, mass: 250, position: new Vector2( -200, 0 ), velocity: new Vector2( 0, 0 ) },
+      { index: 1, active: true, mass: 0.000001, position: new Vector2( -115, 0 ), velocity: new Vector2( 0, 151 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( 50, 0 ), velocity: new Vector2( 0, 60 ) },
+      { index: 3, active: true, mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) }
     ] );
     this.modeMap.set( LabMode.HYPERBOLIC, [
-      { active: true, mass: 250, position: new Vector2( 0, 25 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -250, -70 ), velocity: new Vector2( 120, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -250, -140 ), velocity: new Vector2( 120, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -250, -210 ), velocity: new Vector2( 120, 0 ) }
+      { index: 0, active: true, mass: 250, position: new Vector2( 0, 25 ), velocity: new Vector2( 0, 0 ) },
+      { index: 1, active: true, mass: 0.000001, position: new Vector2( -250, -70 ), velocity: new Vector2( 120, 0 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( -250, -140 ), velocity: new Vector2( 120, 0 ) },
+      { index: 3, active: true, mass: 0.000001, position: new Vector2( -250, -210 ), velocity: new Vector2( 120, 0 ) }
     ] );
     this.modeMap.set( LabMode.SLINGSHOT, [
-      { active: true, mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
-      { active: true, mass: 10, position: new Vector2( 131, 55 ), velocity: new Vector2( -55, 115 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -6, -128 ), velocity: new Vector2( 83, 0 ) }
+      { index: 0, active: true, mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
+      { index: 1, active: true, mass: 10, position: new Vector2( 131, 55 ), velocity: new Vector2( -55, 115 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( -6, -128 ), velocity: new Vector2( 83, 0 ) }
     ] );
     this.modeMap.set( LabMode.DOUBLE_SLINGSHOT, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -1 ) },
-      { active: true, mass: 5, position: new Vector2( 0, -112 ), velocity: new Vector2( 134, 0 ) },
-      { active: true, mass: 5, position: new Vector2( 186, -5 ), velocity: new Vector2( 1, 111 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 70, 72 ), velocity: new Vector2( -47, 63 ) }
+      { index: 0, active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -1 ) },
+      { index: 1, active: true, mass: 5, position: new Vector2( 0, -112 ), velocity: new Vector2( 134, 0 ) },
+      { index: 2, active: true, mass: 5, position: new Vector2( 186, -5 ), velocity: new Vector2( 1, 111 ) },
+      { index: 3, active: true, mass: 0.000001, position: new Vector2( 70, 72 ), velocity: new Vector2( -47, 63 ) }
     ] );
     this.modeMap.set( LabMode.BINARY_STAR_PLANET, [
-      { active: true, mass: 150, position: new Vector2( -100, 0 ), velocity: new Vector2( 0, -60 ) },
-      { active: true, mass: 120, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 50 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -50, 0 ), velocity: new Vector2( 0, 120 ) }
+      { index: 0, active: true, mass: 150, position: new Vector2( -100, 0 ), velocity: new Vector2( 0, -60 ) },
+      { index: 1, active: true, mass: 120, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 50 ) },
+      { index: 2, active: true, mass: 0.000001, position: new Vector2( -50, 0 ), velocity: new Vector2( 0, 120 ) }
     ] );
     this.modeMap.set( LabMode.FOUR_STAR_BALLET, [
-      { active: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
+      { index: 0, active: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
+      { index: 1, active: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
+      { index: 2, active: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
+      { index: 3, active: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
     this.modeMap.set( LabMode.DOUBLE_DOUBLE, [
-      { active: true, mass: 60, position: new Vector2( -115, -3 ), velocity: new Vector2( 0, -154 ) },
-      { active: true, mass: 70, position: new Vector2( 102, 0 ), velocity: new Vector2( 1, 150 ) },
-      { active: true, mass: 55, position: new Vector2( -77, -2 ), velocity: new Vector2( -1, 42 ) },
-      { active: true, mass: 62, position: new Vector2( 135, 0 ), velocity: new Vector2( -1, -52 ) }
+      { index: 0, active: true, mass: 60, position: new Vector2( -115, -3 ), velocity: new Vector2( 0, -154 ) },
+      { index: 1, active: true, mass: 70, position: new Vector2( 102, 0 ), velocity: new Vector2( 1, 150 ) },
+      { index: 2, active: true, mass: 55, position: new Vector2( -77, -2 ), velocity: new Vector2( -1, 42 ) },
+      { index: 3, active: true, mass: 62, position: new Vector2( 135, 0 ), velocity: new Vector2( -1, -52 ) }
     ] );
     this.modeMap.set( LabMode.CUSTOM, [
-      { active: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
+      { index: 0, active: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
+      { index: 1, active: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
+      { index: 2, active: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
+      { index: 3, active: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
   }
 }
