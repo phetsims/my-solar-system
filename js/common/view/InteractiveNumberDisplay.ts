@@ -14,7 +14,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { Color, FireListener, PressListener } from '../../../../scenery/js/imports.js';
+import { Color, FireListener, InteractiveHighlighting, PressListener } from '../../../../scenery/js/imports.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -30,7 +30,7 @@ type SelfOptions = {
 
 export type InteractiveNumberDisplayOptions = SelfOptions & NumberDisplayOptions;
 
-export default class InteractiveNumberDisplay extends NumberDisplay {
+export default class InteractiveNumberDisplay extends InteractiveHighlighting( NumberDisplay ) {
 
   public readonly isKeypadActiveProperty: TProperty<boolean>;
 
