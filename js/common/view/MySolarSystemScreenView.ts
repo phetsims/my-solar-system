@@ -50,28 +50,32 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
 
+  private readonly topRightControlBox: Node;
+  private readonly zoomButtons: Node;
+  private readonly dataPanelTopRow: Node;
+  private readonly fullDataPanel: Node;
+  private readonly numberSpinnerBox: Node;
+  private readonly followCenterOfMassButton: Node;
+  private readonly dragDebugPath: Path;
+
   public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, providedOptions );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
 
-    const dragDebugPath = new Path( null, {
+    this.dragDebugPath = new Path( null, {
       stroke: 'red',
       fill: 'rgba(255,0,0,0.2)'
     } );
     if ( phet.chipper.queryParameters.dev ) {
-      this.addChild( dragDebugPath );
+      this.addChild( this.dragDebugPath );
     }
-
-    let mapPosition = ( point: Vector2, radius: number ) => point;
 
     this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
         valuesVisibleProperty: model.valuesVisibleProperty,
-        mapPosition: ( point, radius ) => {
-          return mapPosition( point, radius );
-        },
+        mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this
       } );
 
@@ -111,7 +115,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // UI Elements ===================================================================================================
 
     // Zoom Buttons ---------------------------------------------------------------------------
-    const zoomButtons = new MagnifyingGlassZoomButtonGroup(
+    this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
       {
         spacing: 8,
@@ -133,7 +137,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: providedOptions.tandem.createTandem( 'controlPanel' )
     } );
 
-    const topRightControlBox = new VBox( {
+    this.topRightControlBox = new VBox( {
       spacing: 10,
       stretch: true,
       children: [
@@ -144,9 +148,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
-    const fullDataPanel = new FullDataPanel( model );
+    this.fullDataPanel = new FullDataPanel( model );
 
-    const followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
+    this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,
       listener: () => {
         model.systemCenteredProperty.value = true;
@@ -161,7 +165,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const numberSpinnerTandem = model.isLab ? providedOptions.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT;
 
-    const numberSpinnerBox = new VBox( {
+    this.numberSpinnerBox = new VBox( {
       children: [
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
           maxWidth: 70
@@ -200,7 +204,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const infoButtonTandem = model.isLab ? providedOptions.tandem.createTandem( 'unitsInfoButton' ) : Tandem.OPT_OUT;
     const moreDataCheckboxTandem = model.isLab ? providedOptions.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT;
 
-    const dataPanelTopRow = new HBox( {
+    this.dataPanelTopRow = new HBox( {
       stretch: true,
       visible: model.isLab,
       children: [
@@ -254,16 +258,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           spacing: 3,
           stretch: true,
           children: [
-            dataPanelTopRow,
-            fullDataPanel
+            this.dataPanelTopRow,
+            this.fullDataPanel
           ]
         } ),
         new HBox( {
           align: 'bottom',
           spacing: 10,
           children: [
-            numberSpinnerBox,
-            followCenterOfMassButton
+            this.numberSpinnerBox,
+            this.followCenterOfMassButton
           ]
         } )
       ]
@@ -283,7 +287,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
-    const zoomButtonsBox = new AlignBox( zoomButtons, {
+    const zoomButtonsBox = new AlignBox( this.zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
       xAlign: 'left',
@@ -326,7 +330,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.interfaceLayer.addChild( resetAlignBox );
     this.interfaceLayer.addChild( controlsAlignBox );
     this.interfaceLayer.addChild( new AlignBox(
-      topRightControlBox, {
+      this.topRightControlBox, {
         alignBoundsProperty: this.availableBoundsProperty,
         margin: SolarSystemCommonConstants.MARGIN,
         xAlign: 'right',
@@ -341,7 +345,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       topCenterButtonBox,
       dataGridbox,
       checkboxesControlPanel,
-      zoomButtons,
+      this.zoomButtons,
       this.resetAllButton
     ];
 
@@ -349,47 +353,61 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
       visibleProperty: model.pathVisibleProperty
     } ) );
+  }
 
-    mapPosition = ( point: Vector2, radius: number ) => {
-      const mvt = this.modelViewTransformProperty.value;
+  public override constrainBoundaryViewPoint( point: Vector2, radius: number ): Vector2 {
 
-      const expandToTop = ( bounds: Bounds2 ) => bounds.withMinY( this.layoutBounds.minY );
-      const expandToBottom = ( bounds: Bounds2 ) => bounds.withMaxY( this.layoutBounds.maxY );
-      const expandToLeft = ( bounds: Bounds2 ) => bounds.withMinX( this.visibleBoundsProperty.value.minX );
-      const expandToRight = ( bounds: Bounds2 ) => bounds.withMaxX( this.visibleBoundsProperty.value.maxX );
+    if ( !_.every( [
+      this.topRightControlBox,
+      this.zoomButtons,
+      this.dataPanelTopRow,
+      this.fullDataPanel,
+      this.numberSpinnerBox,
+      this.followCenterOfMassButton,
+      this.dragDebugPath
+    ] ) ) {
+      return point;
+    }
 
-      // Use visible bounds (horizontally) and layout bounds (vertically) to create the main shape
-      const shape = Shape.bounds( mvt.viewToModelBounds( expandToLeft( expandToRight( this.layoutBounds ) ) ).eroded( radius ) )
-        // Top-right controls
-        .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToRight( topRightControlBox.bounds ) ) ).dilated( radius ) ) )
-        // Zoom buttons
-        .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToLeft( zoomButtons.bounds ) ) ).dilated( radius ) ) )
-        // Reset all button
-        .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToBottom( expandToRight( this.resetAllButton.bounds ) ) ).dilated( radius ) ) )
-        // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-        .shapeDifference( Shape.union( [
-            dataPanelTopRow,
-            fullDataPanel,
-            numberSpinnerBox,
-            followCenterOfMassButton
-          ].map( item => {
-            const viewBounds = expandToLeft( expandToBottom( this.boundsOf( item ) ) );
-            const modelBounds = mvt.viewToModelBounds( viewBounds ).dilated( radius );
-            return Shape.bounds( modelBounds );
-          } ) ) );
 
-      // Only show drag debug path if ?dev is specified, temporarily for https://github.com/phetsims/my-solar-system/issues/129
-      if ( phet.chipper.queryParameters.dev ) {
-        dragDebugPath.shape = mvt.modelToViewShape( shape );
-      }
+    const mvt = this.modelViewTransformProperty.value;
 
-      if ( shape.containsPoint( point ) ) {
-        return point;
-      }
-      else {
-        return shape.getClosestPoint( point );
-      }
-    };
+    const expandToTop = ( bounds: Bounds2 ) => bounds.withMinY( this.layoutBounds.minY );
+    const expandToBottom = ( bounds: Bounds2 ) => bounds.withMaxY( this.layoutBounds.maxY );
+    const expandToLeft = ( bounds: Bounds2 ) => bounds.withMinX( this.visibleBoundsProperty.value.minX );
+    const expandToRight = ( bounds: Bounds2 ) => bounds.withMaxX( this.visibleBoundsProperty.value.maxX );
+
+    // Use visible bounds (horizontally) and layout bounds (vertically) to create the main shape
+    const shape = Shape.bounds( mvt.viewToModelBounds( expandToLeft( expandToRight( this.layoutBounds ) ).eroded( radius ) ) )
+      // Top-right controls
+      .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToRight( this.topRightControlBox.bounds ) ).dilated( radius ) ) ) )
+      // Zoom buttons
+      .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToLeft( this.zoomButtons.bounds ) ).dilated( radius ) ) ) )
+      // Reset all button
+      .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToBottom( expandToRight( this.resetAllButton.bounds ) ).dilated( radius ) ) ) )
+      // Bottom-left controls, all with individual scopes (all expanded bottom-left)
+      .shapeDifference( Shape.union( [
+          this.dataPanelTopRow,
+          this.fullDataPanel,
+          this.numberSpinnerBox,
+          this.followCenterOfMassButton
+        ].map( item => {
+          const viewBounds = expandToLeft( expandToBottom( this.boundsOf( item ) ) );
+          const modelBounds = mvt.viewToModelBounds( viewBounds.dilated( radius ) );
+          return Shape.bounds( modelBounds );
+        } ) ) );
+
+    // Only show drag debug path if ?dev is specified, temporarily for https://github.com/phetsims/my-solar-system/issues/129
+    if ( phet.chipper.queryParameters.dev ) {
+      this.dragDebugPath.shape = mvt.modelToViewShape( shape );
+    }
+
+    if ( shape.containsPoint( point ) ) {
+      return point;
+    }
+    else {
+      return shape.getClosestPoint( point );
+    }
   }
 
   public override step( dt: number ): void {
