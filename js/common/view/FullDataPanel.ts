@@ -121,7 +121,8 @@ export default class FullDataPanel extends Panel {
       lessDataBox.visible = !moreDataVisible || !model.isLab;
     } );
 
-    const dataNode = new Node( {
+    const dataNode = new HBox( {
+      align: 'bottom',
       children: [
         moreDataBox,
         lessDataBox
