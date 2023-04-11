@@ -304,7 +304,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
       visibleProperty: model.isAnyBodyEscapedProperty,
       listener: () => {
-        model.returnEscapedBodies();
+        model.restart();
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
