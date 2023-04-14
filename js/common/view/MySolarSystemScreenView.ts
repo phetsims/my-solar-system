@@ -6,14 +6,13 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import { AlignBox, HBox, Node, Path, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import SolarSystemCommonScreenView from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import SolarSystemCommonScreenView, { SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import FullDataPanel from './FullDataPanel.js';
@@ -42,9 +41,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
-type SelfOptions = EmptySelfOptions;
-
-export type IntroLabScreenViewOptions = SelfOptions & ScreenViewOptions;
+export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
 
 export default class MySolarSystemScreenView extends SolarSystemCommonScreenView {
 
@@ -59,7 +56,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly dragDebugPath: Path;
 
   public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
-    super( model, providedOptions );
+    super( model, {
+      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING ),
+      ...providedOptions
+    } );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
