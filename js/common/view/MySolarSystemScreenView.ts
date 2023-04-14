@@ -40,6 +40,7 @@ import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSy
 import { Shape } from '../../../../kite/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 
 export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
 
@@ -178,6 +179,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             mouseAreaXDilation: 10,
             mouseAreaYDilation: 5,
             arrowsPosition: 'bothRight',
+            arrowsSoundPlayer: nullSoundPlayer,
             numberDisplayOptions: {
               decimalPlaces: 0,
               align: 'center',
