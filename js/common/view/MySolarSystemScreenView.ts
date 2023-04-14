@@ -18,7 +18,7 @@ import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/Magnifyi
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import FullDataPanel from './FullDataPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import NumberSpinner, { NumberSpinnerOptions } from '../../../../sun/js/NumberSpinner.js';
+import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
@@ -171,12 +171,13 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           maxWidth: 70
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ),
-          combineOptions<NumberSpinnerOptions>( {}, {
+          {
             deltaValue: 1,
             touchAreaXDilation: 20,
             touchAreaYDilation: 10,
             mouseAreaXDilation: 10,
             mouseAreaYDilation: 5,
+            arrowsPosition: 'bothRight',
             numberDisplayOptions: {
               decimalPlaces: 0,
               align: 'center',
@@ -185,16 +186,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
               textOptions: {
                 font: new PhetFont( 28 )
               }
-            }
-          }, {
-            arrowsPosition: 'bothRight',
-            numberDisplayOptions: {
-              yMargin: 10,
-              align: 'right',
-              scale: 0.8
             },
             accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
-          } ) )
+          } )
       ],
       visible: model.isLab,
       spacing: 5,
@@ -387,15 +381,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToBottom( expandToRight( this.resetAllButton.bounds ) ).dilated( radius ) ) ) )
       // Bottom-left controls, all with individual scopes (all expanded bottom-left)
       .shapeDifference( Shape.union( [
-          this.dataPanelTopRow,
-          this.fullDataPanel,
-          this.numberSpinnerBox,
-          this.followCenterOfMassButton
-        ].map( item => {
-          const viewBounds = expandToLeft( expandToBottom( this.boundsOf( item ) ) );
-          const modelBounds = mvt.viewToModelBounds( viewBounds.dilated( radius ) );
-          return Shape.bounds( modelBounds );
-        } ) ) );
+        this.dataPanelTopRow,
+        this.fullDataPanel,
+        this.numberSpinnerBox,
+        this.followCenterOfMassButton
+      ].map( item => {
+        const viewBounds = expandToLeft( expandToBottom( this.boundsOf( item ) ) );
+        const modelBounds = mvt.viewToModelBounds( viewBounds.dilated( radius ) );
+        return Shape.bounds( modelBounds );
+      } ) ) );
 
     // Only show drag debug path if ?dev is specified, temporarily for https://github.com/phetsims/my-solar-system/issues/129
     if ( phet.chipper.queryParameters.dev ) {
