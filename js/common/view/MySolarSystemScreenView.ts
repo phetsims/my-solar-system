@@ -138,7 +138,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     this.topRightControlBox = new VBox( {
-      spacing: 10,
+      spacing: 7.5,
       stretch: true,
       children: [
         new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
