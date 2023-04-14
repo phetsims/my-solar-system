@@ -21,7 +21,7 @@ const simOptions: SimOptions = {
     leadDesign: 'Diana L\u00f3pez Tavares',
     softwareDevelopment: 'Agust\u00edn Vallejo, Jonathan Olson',
     team: 'Emily B. Moore, Sola Olateju, Kathy Perkins, Ariel Paul, Amy Rouinfar',
-    qualityAssurance: 'Jaron Droder, Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
+    qualityAssurance: 'Jaron Droder, Clifford Hardin, Emily Miller, Nancy Salpepi, Martin Veillette, Kathryn Woessner',
     graphicArts: '',
     soundDesign: 'Ashton Morris',
     thanks: ''
