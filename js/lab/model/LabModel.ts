@@ -76,6 +76,8 @@ export default class LabModel extends MySolarSystemModel {
         }
       }
     } );
+
+    this.systemCenteredProperty.reset();
   }
 
   public override returnEscapedBodies( stateToReturn?: BodyInfo[] ): void {

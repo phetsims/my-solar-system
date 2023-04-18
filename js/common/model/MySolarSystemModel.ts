@@ -33,6 +33,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
         this.followAndCenterCenterOfMass();
       }
     } );
+
+    this.systemCenteredProperty.value = false;
   }
 
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
