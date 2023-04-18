@@ -26,7 +26,6 @@ const simOptions: SimOptions = {
     soundDesign: 'Ashton Morris',
     thanks: ''
   },
-  webgl: true,
 
   preferencesModel: new PreferencesModel( {
     visualOptions: {
