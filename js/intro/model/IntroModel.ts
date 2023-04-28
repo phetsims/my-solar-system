@@ -31,11 +31,9 @@ export default class IntroModel extends MySolarSystemModel {
   public override reset(): void {
     super.reset();
     this.loadBodyStates( [
-      { active: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -5.45 ) },
-      { active: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111.8 ) }
+      { active: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
+      { active: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) }
     ] );
-
-    this.systemCenteredProperty.reset();
   }
 }
 
