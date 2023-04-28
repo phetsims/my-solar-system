@@ -50,7 +50,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       body.positionProperty.set( body.positionProperty.value.minus( centerOfMassPosition ) );
       body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
     } );
-    this.saveStartingBodyState();
     if ( wasPlayingBefore ) {
       this.isPlayingProperty.value = true; // Resume the sim
     }
