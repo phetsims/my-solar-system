@@ -34,7 +34,9 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       }
     } );
 
-    this.systemCenteredProperty.value = false;
+    this.userInteractingEmitter.addListener( () => {
+      this.systemCenteredProperty.value = false;
+    } );
   }
 
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
@@ -71,11 +73,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   public override update(): void {
     super.update();
     this.centerOfMass.update();
-
-    // If position or velocity of Center of Mass is different from 0, then the system is not centered
-    if ( this.centerOfMass.positionProperty.value.magnitude > 0.01 || this.centerOfMass.velocityProperty.value.magnitude > 0.01 ) {
-      this.systemCenteredProperty.value = false;
-    }
   }
 
   public override reset(): void {
