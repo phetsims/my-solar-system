@@ -14,9 +14,7 @@
     "simulation": true,
     "runnable": true,
     "supportedBrands": [
-      "phet",
-      "adapted-from-phet",
-      "phet-io"
+      "phet"
     ],
     "phetLibs": [
       "solar-system-common"
