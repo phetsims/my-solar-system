@@ -48,6 +48,7 @@ export default class LabModel extends MySolarSystemModel {
       if ( mode !== LabMode.CUSTOM ) {
         this.isPlayingProperty.value = false;
         this.userControlledProperty.value = false;
+        this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
         const modeInfo = this.modeMap.get( mode );
         this.loadBodyStates( modeInfo! );
