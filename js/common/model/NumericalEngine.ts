@@ -73,7 +73,7 @@ export default class NumericalEngine extends Engine {
     this.updateForces();
   }
 
-  public override run( dt: number ): void {
+  public override run( dt: number, updateProperties = true ): void {
     const iterationCount = 400 / this.bodies.length;
     const N = this.bodies.length;
     dt /= iterationCount;
@@ -172,10 +172,19 @@ export default class NumericalEngine extends Engine {
 
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
-      body.positionProperty.value = positions[ i ];
-      body.velocityProperty.value = velocities[ i ];
-      body.accelerationProperty.value = accelerations[ i ];
-      body.forceProperty.value = forces[ i ];
+
+      if ( updateProperties ) {
+        body.positionProperty.value = positions[ i ];
+        body.velocityProperty.value = velocities[ i ];
+        body.accelerationProperty.value = accelerations[ i ];
+        body.forceProperty.value = forces[ i ];
+      }
+      else {
+        body.positionProperty.value.set( positions[ i ] );
+        body.velocityProperty.value.set( velocities[ i ] );
+        body.accelerationProperty.value.set( accelerations[ i ] );
+        body.forceProperty.value.set( forces[ i ] );
+      }
     }
   }
 
