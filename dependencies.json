@@ -1,107 +1,107 @@
 {
-  "comment": "# my-solar-system 1.2.0-rc.0 Tue May 02 2023 08:54:00 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# my-solar-system 1.2.0-rc.1 Tue May 02 2023 08:56:14 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "2b2495994e1a001ed46ba1e2147f70aacb5732d2",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "axon": {
     "sha": "95e6058546cc5e330da2b9ef136220ab00d5ab84",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "brand": {
     "sha": "d2b54ef4d29edc31e64adb2f9488803811cad03a",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "chipper": {
     "sha": "8a303cfd8b029454a039474d620d6d2a73174f2c",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "dot": {
     "sha": "bf884f163ad77fe3304c5cf88e912db47ce0f1a5",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "joist": {
     "sha": "2d4e5b6a8f1cbe57af43ea31388a4019aae2cf1e",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "162e75a0d26991ba8b121e68234b0b56b098e92b",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "22a751b6698700d0b559e5d71942cb497fab6b02",
+    "sha": "c59773e2768dd6b0f9d38f3c5dcff322590662d8",
     "branch": "1.2"
   },
   "perennial-alias": {
     "sha": "f7439ca2d81997afaca1aca42073fbdaaef3586b",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phet-core": {
     "sha": "449042e65311361766b8dbc3a06e0f72496c1ff4",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phet-io": {
     "sha": "f0b85fca7b9cdb66eb91f2d19aa5297750cd234d",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phet-io-sim-specific": {
     "sha": "dbfbe569598dfa367305c85a58bf2f442841d679",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phet-io-wrappers": {
     "sha": "65b61caae9fe3eda24cb0b5f0e7cdd1dbd6ebdcd",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phetcommon": {
     "sha": "2cab4633d443f3540b0f62585c633615383fd2c1",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "phetmarks": {
     "sha": "b9890ffa84e9e182b0501d6a1b6e36e7c1787aeb",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "query-string-machine": {
     "sha": "b6549bb6e56dcec96fd900179ea7c4f421e06335",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "scenery": {
     "sha": "4d95014c170fc94ba4d3355338de2231fe93d90c",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "8c7fc6b575360b4d62588d47db82d8df3582c74b",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "sherpa": {
     "sha": "9c625a605b50ac3e81f01a9c37a8f1b2bda0d297",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "solar-system-common": {
     "sha": "d0605770d40120a7d4c9af5f38287313fdbfdb67",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "studio": {
     "sha": "a4ad67b33ca13cd2496823c59c74fdfb4488ab76",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "sun": {
     "sha": "ac6a486b2189beea05629e762ed6f6bc07fd0679",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "tambo": {
     "sha": "c060823a06507d9643142e8710baa44a0c44aaf7",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "tandem": {
     "sha": "43bc8075d160791449762bacea9d59a2faf01348",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "twixt": {
     "sha": "8a22a11db4f279083ae3f2acdddad7c39df6ef39",
-    "branch": "master"
+    "branch": "HEAD"
   },
   "utterance-queue": {
     "sha": "412dd8468a0e86bd514af54258ae98fba51debce",
-    "branch": "master"
+    "branch": "HEAD"
   }
 }
