@@ -191,8 +191,8 @@ export default class NumericalEngine extends Engine {
   private updateForces(): void {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
-      body.accelerationProperty.value = Vector2.ZERO;
-      body.forceProperty.value = Vector2.ZERO;
+      body.accelerationProperty.value = new Vector2( 0, 0 );
+      body.forceProperty.value = new Vector2( 0, 0 );
     }
 
     // Iterate between all the bodies to add the accelerations
