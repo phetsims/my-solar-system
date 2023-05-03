@@ -132,7 +132,10 @@ export default class ValuesColumnNode extends VBox {
           constrainValue: value => massRange.constrainValue( sliderStep * Utils.roundSymmetric( value / sliderStep ) )
         },
         startCallback: () => { body.userControlledMassProperty.value = true; },
-        endCallback: () => { body.userControlledMassProperty.value = false; }
+        endCallback: () => { body.userControlledMassProperty.value = false; },
+        arrowButtonOptions: {
+          fireOnDown: true
+        }
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
