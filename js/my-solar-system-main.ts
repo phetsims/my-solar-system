@@ -18,7 +18,7 @@ import MySolarSystemStrings from './MySolarSystemStrings.js';
 const simOptions: SimOptions = {
 
   credits: {
-    leadDesign: 'Diana L\u00f3pez Tavares',
+    leadDesign: 'Diana L\u00f3pez Tavares, Michael Dubson',
     softwareDevelopment: 'Agust\u00edn Vallejo, Jonathan Olson',
     team: 'Emily B. Moore, Sola Olateju, Kathy Perkins, Ariel Paul, Amy Rouinfar',
     qualityAssurance: 'Jaron Droder, Clifford Hardin, Emily Miller, Nancy Salpepi, Martin Veillette, Kathryn Woessner',
