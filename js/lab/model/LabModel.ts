@@ -80,12 +80,6 @@ export default class LabModel extends MySolarSystemModel {
     } );
   }
 
-  public override returnEscapedBodies( stateToReturn?: BodyInfo[] ): void {
-    const mode = this.labModeProperty.value;
-    const modeInfo = mode !== LabMode.CUSTOM ? this.modeMap.get( mode ) : stateToReturn;
-    super.returnEscapedBodies( modeInfo );
-  }
-
   public override reset(): void {
     super.reset();
 
