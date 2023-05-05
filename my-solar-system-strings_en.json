@@ -117,9 +117,6 @@
     "numberOfBodies": {
       "value": "Number of Bodies"
     },
-    "simDescription": {
-      "value": "{{My Solar System}} is an interactive sim. It changes as you play with it. It has a Play Area and a Control Area."
-    },
     "introScreen": {
       "screenSummary": {
         "playAreaDescription": {
