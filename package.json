@@ -28,6 +28,7 @@
         "projector"
       ]
     },
+    "ignoreForAutomatedMaintenanceReleases": true,
     "phet-io": {
       "validation": false
     }
