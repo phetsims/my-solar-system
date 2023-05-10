@@ -25,8 +25,6 @@ type StringsType = {
   'followCenterOfMassStringProperty': LinkableProperty<string>;
   'returnBodies': string;
   'returnBodiesStringProperty': LinkableProperty<string>;
-  'path': string;
-  'pathStringProperty': LinkableProperty<string>;
   'dataPanel': {
     'X': string;
     'XStringProperty': LinkableProperty<string>;
@@ -102,8 +100,6 @@ type StringsType = {
     'infoStringProperty': LinkableProperty<string>;
     'numberOfBodies': string;
     'numberOfBodiesStringProperty': LinkableProperty<string>;
-    'simDescription': string;
-    'simDescriptionStringProperty': LinkableProperty<string>;
     'introScreen': {
       'screenSummary': {
         'playAreaDescription': string;
