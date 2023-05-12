@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "603d02e9cd53e25f45e80b3b1652e9f9c2f0213d",
+    "sha": "3af3018da2bdb4317e01c1c8073a1190440c46ca",
     "branch": "1.2"
   },
   "perennial-alias": {
@@ -77,7 +77,7 @@
     "branch": "HEAD"
   },
   "solar-system-common": {
-    "sha": "5476bfe6b2709c688d05fbcb40ec2e90c20e5b64",
+    "sha": "a9365fe6f3529f3fd086ce596317ac66e60be3c6",
     "branch": "HEAD"
   },
   "studio": {
