@@ -6,13 +6,13 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, HBox, Node, Path, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import SolarSystemCommonScreenView, { SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
+import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import FullDataPanel from './FullDataPanel.js';
@@ -37,9 +37,7 @@ import LabModeComboBox from './LabModeComboBox.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 
 export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
@@ -54,7 +52,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly fullDataPanel: Node;
   private readonly numberSpinnerBox: Node;
   private readonly followCenterOfMassButton: Node;
-  private readonly dragDebugPath: Path;
 
   public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
     super( model, {
@@ -64,14 +61,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
-
-    this.dragDebugPath = new Path( null, {
-      stroke: 'red',
-      fill: 'rgba(255,0,0,0.2)'
-    } );
-    if ( phet.chipper.queryParameters.dev ) {
-      this.addChild( this.dragDebugPath );
-    }
 
     this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
@@ -351,61 +340,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } ) );
   }
 
-  public override constrainBoundaryViewPoint( point: Vector2, radius: number ): Vector2 {
-
-    if ( !_.every( [
-      this.topRightControlBox,
-      this.zoomButtons,
-      this.dataPanelTopRow,
-      this.fullDataPanel,
-      this.numberSpinnerBox,
-      this.followCenterOfMassButton,
-      this.dragDebugPath
-    ] ) ) {
-      return point;
-    }
-
-
-    const mvt = this.modelViewTransformProperty.value;
-
-    const expandToTop = ( bounds: Bounds2 ) => bounds.withMinY( this.layoutBounds.minY );
-    const expandToBottom = ( bounds: Bounds2 ) => bounds.withMaxY( this.layoutBounds.maxY );
-    const expandToLeft = ( bounds: Bounds2 ) => bounds.withMinX( this.visibleBoundsProperty.value.minX );
-    const expandToRight = ( bounds: Bounds2 ) => bounds.withMaxX( this.visibleBoundsProperty.value.maxX );
-
-    // Use visible bounds (horizontally) and layout bounds (vertically) to create the main shape
-    const shape = Shape.bounds( mvt.viewToModelBounds( expandToLeft( expandToRight( this.layoutBounds ) ).eroded( radius ) ) )
-      // Top-right controls
-      .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToRight( this.topRightControlBox.bounds ) ).dilated( radius ) ) ) )
-      // Zoom buttons
-      .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToTop( expandToLeft( this.zoomButtons.bounds ) ).dilated( radius ) ) ) )
-      // Reset all button
-      .shapeDifference( Shape.bounds( mvt.viewToModelBounds( expandToBottom( expandToRight( this.resetAllButton.bounds ) ).dilated( radius ) ) ) )
-      // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-      .shapeDifference( Shape.union( [
-        this.dataPanelTopRow,
-        this.fullDataPanel,
-        this.numberSpinnerBox,
-        this.followCenterOfMassButton
-      ].map( item => {
-        const viewBounds = expandToLeft( expandToBottom( this.boundsOf( item ) ) );
-        const modelBounds = mvt.viewToModelBounds( viewBounds.dilated( radius ) );
-        return Shape.bounds( modelBounds );
-      } ) ) );
-
-    // Only show drag debug path if ?dev is specified, temporarily for https://github.com/phetsims/my-solar-system/issues/129
-    if ( phet.chipper.queryParameters.dev ) {
-      this.dragDebugPath.shape = mvt.modelToViewShape( shape );
-    }
-
-    if ( shape.containsPoint( point ) ) {
-      return point;
-    }
-    else {
-      return shape.getClosestPoint( point );
-    }
-  }
-
   public override step( dt: number ): void {
     super.step( dt );
 
@@ -417,6 +351,30 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         bodyNode.stopSound();
       }
     } );
+  }
+
+  public override getBodyBoundsItems(): BodyBoundsItem[] {
+    return [
+      ...super.getBodyBoundsItems(),
+      {
+        node: this.topRightControlBox,
+        expandX: 'right',
+        expandY: 'top'
+      },
+      {
+        node: this.zoomButtons,
+        expandX: 'left',
+        expandY: 'top'
+      },
+      // Bottom-left controls, all with individual scopes (all expanded bottom-left)
+      ...[ this.dataPanelTopRow, this.fullDataPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
+        return {
+          node: node,
+          expandX: 'left',
+          expandY: 'bottom'
+        };
+      } )
+    ];
   }
 }
 
