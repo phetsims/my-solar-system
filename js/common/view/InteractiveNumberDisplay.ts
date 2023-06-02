@@ -112,7 +112,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     const patternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
       min: range.min,
       max: range.max
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {

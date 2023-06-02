@@ -20,6 +20,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -56,7 +57,7 @@ export default class FullDataPanel extends Panel {
       const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
         label: label,
         units: units
-      } );
+      }, { tandem: Tandem.OPT_OUT } );
 
       // Wrap the text in an AlignGroup to match height.
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
