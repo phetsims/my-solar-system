@@ -24,13 +24,6 @@ export default class MySolarSystemKeyboardHelpContent extends TwoColumnKeyboardH
     } );
 
     super( [ draggableHelpSection, sliderHelpSection ], [ timeControlsHelpSection, basicActionsHelpSection ] );
-
-    this.disposeEmitter.addListener( () => {
-      draggableHelpSection.dispose();
-      sliderHelpSection.dispose();
-      timeControlsHelpSection.dispose();
-      basicActionsHelpSection.dispose();
-    } );
   }
 }
 
