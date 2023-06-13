@@ -11,7 +11,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControls from './MySolarSystemControls.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
@@ -54,10 +54,11 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly followCenterOfMassButton: Node;
 
   public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
-    super( model, {
-      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING ),
-      ...providedOptions
-    } );
+
+    const options = optionize<IntroLabScreenViewOptions, EmptySelfOptions, SolarSystemCommonScreenViewOptions>()( {
+      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
+    }, providedOptions );
+    super( model, options );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
