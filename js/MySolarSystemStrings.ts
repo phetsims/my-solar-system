@@ -5,118 +5,118 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import mySolarSystem from './mySolarSystem.js';
 
 type StringsType = {
   'my-solar-system': {
     'title': string;
-    'titleStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
     'intro': string;
-    'introStringProperty': LinkableProperty<string>;
+    'introStringProperty': LocalizedStringProperty;
     'lab': string;
-    'labStringProperty': LinkableProperty<string>;
+    'labStringProperty': LocalizedStringProperty;
   };
   'centerOfMass': string;
-  'centerOfMassStringProperty': LinkableProperty<string>;
+  'centerOfMassStringProperty': LocalizedStringProperty;
   'followCenterOfMass': string;
-  'followCenterOfMassStringProperty': LinkableProperty<string>;
+  'followCenterOfMassStringProperty': LocalizedStringProperty;
   'returnBodies': string;
-  'returnBodiesStringProperty': LinkableProperty<string>;
+  'returnBodiesStringProperty': LocalizedStringProperty;
   'dataPanel': {
     'X': string;
-    'XStringProperty': LinkableProperty<string>;
+    'XStringProperty': LocalizedStringProperty;
     'Y': string;
-    'YStringProperty': LinkableProperty<string>;
+    'YStringProperty': LocalizedStringProperty;
     'Vx': string;
-    'VxStringProperty': LinkableProperty<string>;
+    'VxStringProperty': LocalizedStringProperty;
     'Vy': string;
-    'VyStringProperty': LinkableProperty<string>;
+    'VyStringProperty': LocalizedStringProperty;
     'mass': string;
-    'massStringProperty': LinkableProperty<string>;
+    'massStringProperty': LocalizedStringProperty;
     'velocity': string;
-    'velocityStringProperty': LinkableProperty<string>;
+    'velocityStringProperty': LocalizedStringProperty;
     'position': string;
-    'positionStringProperty': LinkableProperty<string>;
+    'positionStringProperty': LocalizedStringProperty;
     'bodies': string;
-    'bodiesStringProperty': LinkableProperty<string>;
+    'bodiesStringProperty': LocalizedStringProperty;
     'moreData': string;
-    'moreDataStringProperty': LinkableProperty<string>;
+    'moreDataStringProperty': LocalizedStringProperty;
   };
   'mass': string;
-  'massStringProperty': LinkableProperty<string>;
+  'massStringProperty': LocalizedStringProperty;
   'mode': {
     'sunAndPlanet': string;
-    'sunAndPlanetStringProperty': LinkableProperty<string>;
+    'sunAndPlanetStringProperty': LocalizedStringProperty;
     'sunPlanetAndMoon': string;
-    'sunPlanetAndMoonStringProperty': LinkableProperty<string>;
+    'sunPlanetAndMoonStringProperty': LocalizedStringProperty;
     'sunPlanetAndComet': string;
-    'sunPlanetAndCometStringProperty': LinkableProperty<string>;
+    'sunPlanetAndCometStringProperty': LocalizedStringProperty;
     'trojanAsteroids': string;
-    'trojanAsteroidsStringProperty': LinkableProperty<string>;
+    'trojanAsteroidsStringProperty': LocalizedStringProperty;
     'ellipses': string;
-    'ellipsesStringProperty': LinkableProperty<string>;
+    'ellipsesStringProperty': LocalizedStringProperty;
     'hyperbolic': string;
-    'hyperbolicStringProperty': LinkableProperty<string>;
+    'hyperbolicStringProperty': LocalizedStringProperty;
     'slingshot': string;
-    'slingshotStringProperty': LinkableProperty<string>;
+    'slingshotStringProperty': LocalizedStringProperty;
     'doubleSlingshot': string;
-    'doubleSlingshotStringProperty': LinkableProperty<string>;
+    'doubleSlingshotStringProperty': LocalizedStringProperty;
     'binaryStarPlanet': string;
-    'binaryStarPlanetStringProperty': LinkableProperty<string>;
+    'binaryStarPlanetStringProperty': LocalizedStringProperty;
     'fourStarBallet': string;
-    'fourStarBalletStringProperty': LinkableProperty<string>;
+    'fourStarBalletStringProperty': LocalizedStringProperty;
     'doubleDouble': string;
-    'doubleDoubleStringProperty': LinkableProperty<string>;
+    'doubleDoubleStringProperty': LocalizedStringProperty;
     'custom': string;
-    'customStringProperty': LinkableProperty<string>;
+    'customStringProperty': LocalizedStringProperty;
   };
   'units': {
     'kg': string;
-    'kgStringProperty': LinkableProperty<string>;
+    'kgStringProperty': LocalizedStringProperty;
   };
   'unitsInfo': {
     'title': string;
-    'titleStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
     'content': string;
-    'contentStringProperty': LinkableProperty<string>;
+    'contentStringProperty': LocalizedStringProperty;
     'content2': string;
-    'content2StringProperty': LinkableProperty<string>;
+    'content2StringProperty': LocalizedStringProperty;
     'content3': string;
-    'content3StringProperty': LinkableProperty<string>;
+    'content3StringProperty': LocalizedStringProperty;
   };
   'pattern': {
     'labelParenthesesUnits': string;
-    'labelParenthesesUnitsStringProperty': LinkableProperty<string>;
+    'labelParenthesesUnitsStringProperty': LocalizedStringProperty;
     'range': string;
-    'rangeStringProperty': LinkableProperty<string>;
+    'rangeStringProperty': LocalizedStringProperty;
   };
   'a11y': {
     'moreData': string;
-    'moreDataStringProperty': LinkableProperty<string>;
+    'moreDataStringProperty': LocalizedStringProperty;
     'info': string;
-    'infoStringProperty': LinkableProperty<string>;
+    'infoStringProperty': LocalizedStringProperty;
     'numberOfBodies': string;
-    'numberOfBodiesStringProperty': LinkableProperty<string>;
+    'numberOfBodiesStringProperty': LocalizedStringProperty;
     'introScreen': {
       'screenSummary': {
         'playAreaDescription': string;
-        'playAreaDescriptionStringProperty': LinkableProperty<string>;
+        'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescription': string;
-        'controlAreaDescriptionStringProperty': LinkableProperty<string>;
+        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
       }
     };
     'labScreen': {
       'screenSummary': {
         'playAreaDescription': string;
-        'playAreaDescriptionStringProperty': LinkableProperty<string>;
+        'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescription': string;
-        'controlAreaDescriptionStringProperty': LinkableProperty<string>;
+        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
       };
       'modeSelector': string;
-      'modeSelectorStringProperty': LinkableProperty<string>;
+      'modeSelectorStringProperty': LocalizedStringProperty;
     }
   }
 };
