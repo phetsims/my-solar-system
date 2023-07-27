@@ -75,6 +75,14 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     this.centerOfMass.update();
   }
 
+  public override restart(): void {
+    super.restart();
+
+    this.centerOfMass.update();
+    this.userControlledProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0;
+    this.systemCenteredProperty.value = !this.userControlledProperty.value;
+  }
+
   public override reset(): void {
     super.reset();
     this.centerOfMass.visibleProperty.reset();
