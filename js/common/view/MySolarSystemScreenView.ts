@@ -261,14 +261,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const controlsAlignBox = new AlignBox( dataGridbox, {
       alignBoundsProperty: this.availableBoundsProperty,
-      margin: SolarSystemCommonConstants.MARGIN,
+      xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
+      yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       xAlign: 'left',
       yAlign: 'bottom'
     } );
 
     const zoomButtonsBox = new AlignBox( this.zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
-      margin: SolarSystemCommonConstants.MARGIN,
+      xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
+      yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       xAlign: 'left',
       yAlign: 'top'
     } );
@@ -299,22 +301,26 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       children: [ returnBodiesButton, offScaleMessage ]
     } ), {
       alignBoundsProperty: this.availableBoundsProperty,
-      margin: SolarSystemCommonConstants.MARGIN,
+      xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
+      yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       centerX: -checkboxesControlPanel.width / 2,
       xAlign: 'center',
       yAlign: 'top'
     } );
 
+    const topRightAlignBox = new AlignBox(
+      this.topRightControlBox, {
+        alignBoundsProperty: this.availableBoundsProperty,
+        xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
+        yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
+        xAlign: 'right',
+        yAlign: 'top'
+      } );
+
     this.interfaceLayer.addChild( topCenterButtonBox );
     this.interfaceLayer.addChild( this.resetAllButton );
     this.interfaceLayer.addChild( controlsAlignBox );
-    this.interfaceLayer.addChild( new AlignBox(
-      this.topRightControlBox, {
-        alignBoundsProperty: this.availableBoundsProperty,
-        margin: SolarSystemCommonConstants.MARGIN,
-        xAlign: 'right',
-        yAlign: 'top'
-      } ) );
+    this.interfaceLayer.addChild( topRightAlignBox );
     this.interfaceLayer.addChild( zoomButtonsBox );
 
     // ZoomBox should be first in the PDOM Order
