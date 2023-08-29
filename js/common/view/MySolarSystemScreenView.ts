@@ -266,13 +266,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
-    const resetAlignBox = new AlignBox( this.resetAllButton, {
-      alignBoundsProperty: this.availableBoundsProperty,
-      margin: SolarSystemCommonConstants.MARGIN,
-      xAlign: 'right',
-      yAlign: 'bottom'
-    } );
-
     const zoomButtonsBox = new AlignBox( this.zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
       margin: SolarSystemCommonConstants.MARGIN,
@@ -313,7 +306,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     this.interfaceLayer.addChild( topCenterButtonBox );
-    this.interfaceLayer.addChild( resetAlignBox );
+    this.interfaceLayer.addChild( this.resetAllButton );
     this.interfaceLayer.addChild( controlsAlignBox );
     this.interfaceLayer.addChild( new AlignBox(
       this.topRightControlBox, {
