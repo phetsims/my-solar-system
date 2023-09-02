@@ -124,7 +124,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       }
     } );
 
-    const checkboxesControlPanel = new MySolarSystemControls( model, this.topLayer, {
+    const controlPanel = new MySolarSystemControls( model, this.topLayer, {
       tandem: providedOptions.tandem.createTandem( 'controlPanel' )
     } );
 
@@ -134,7 +134,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       children: [
         new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
         this.timeBox,
-        new Panel( checkboxesControlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
+        new Panel( controlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
       ]
     } );
 
@@ -303,7 +303,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       alignBoundsProperty: this.availableBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
-      centerX: -checkboxesControlPanel.width / 2,
+      centerX: -controlPanel.width / 2,
       xAlign: 'center',
       yAlign: 'top'
     } );
@@ -329,7 +329,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       this.timeBox,
       topCenterButtonBox,
       dataGridbox,
-      checkboxesControlPanel,
+      controlPanel,
       this.zoomButtons,
       this.resetAllButton
     ];
