@@ -67,13 +67,11 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // Setting the Factory functions that will create the necessary Nodes
 
     this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
-      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
+      return new BodyNode( body, this.modelViewTransformProperty, {
         valuesVisibleProperty: model.valuesVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this
       } );
-
-      return bodyNode;
     } );
 
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
