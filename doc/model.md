@@ -28,14 +28,13 @@ As you can see, we opted out of MKS (SI) units because of the large values handl
 Because of that we use AU for distances, years for time, and add another unit conversion to have speeds shown in km/s.
 
 The exact conversion rates can be found
-in [this file](https://github.com/phetsims/solar-system-common/blob/670cc9ea98513bf05573646623904c86e524f908/js/SolarSystemCommonConstants.ts#L13-L20).
+in [SolarSystemCommonConstants](https://github.com/phetsims/solar-system-common/blob/670cc9ea98513bf05573646623904c86e524f908/js/SolarSystemCommonConstants.ts#L13-L20).
 Where we also convert to SI for testing that the force is consistent with the real physics.
 
 ## Presets (Model units)
 
-The presets used in the simulation are the same ones from the original flash version, except for Sun-Planet which was
-changed for design purposes. You can take a peek at the values chosen for each of them (in arbitrary model units) in
-the [model file](https://github.com/phetsims/my-solar-system/blob/df3444bce5fb14dae7ce5ec882ce5ddd353531a0/js/lab/model/LabModel.ts#L91).
+The presets used in the simulation are the same ones from the original Flash version, except for Sun-Planet which was
+changed for design purposes. You can take a peek at the values chosen for each of them (in arbitrary model units) in [LabModel](https://github.com/phetsims/my-solar-system/blob/df3444bce5fb14dae7ce5ec882ce5ddd353531a0/js/lab/model/LabModel.ts#L91).
 
 ## Functionalities
 
@@ -55,7 +54,7 @@ eye out for:
 
 ## Integrator Algorithm
 
-The [numerical engine](https://github.com/phetsims/my-solar-system/blob/d55f4e68c494be3d6f31d64e7085e5ad2ca9c6f6/js/common/model/NumericalEngine.ts)
+The [NumericalEngine](https://github.com/phetsims/my-solar-system/blob/d55f4e68c494be3d6f31d64e7085e5ad2ca9c6f6/js/common/model/NumericalEngine.ts)
 on this sim relies on the Position Extended Forest-Ruth Like algorithm (PEFRL) to compute the motion of the
 bodies [(Omelyan, Myrglod & Folk, 2001)](https://arxiv.org/abs/cond-mat/0110585). PEFRL is a numerical integration
 scheme that provides high accuracy and stability for simulations involving many bodies, especially those with periodic
