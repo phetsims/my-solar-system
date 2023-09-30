@@ -24,7 +24,6 @@ import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
@@ -42,6 +41,7 @@ import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSound
 import SolarSystemCommonTimeControlNode from '../../../../solar-system-common/js/view/SolarSystemCommonTimeControlNode.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
 export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
 
@@ -78,7 +78,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
       new VectorNode( body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty, model.forceScaleProperty, {
-        fill: PhetColorScheme.GRAVITATIONAL_FORCE,
+        fill: SolarSystemCommonColors.gravityColorProperty,
         constrainSize: true
       } )
     );
