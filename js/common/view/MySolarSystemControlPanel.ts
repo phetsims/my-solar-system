@@ -49,5 +49,5 @@ export default class MySolarSystemControlPanel extends Panel {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemControls', MySolarSystemControlPanel );
+mySolarSystem.register( 'MySolarSystemControlPanel', MySolarSystemControlPanel );
 
