@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControlPanel from './MySolarSystemControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -24,7 +24,6 @@ import Body from '../../../../solar-system-common/js/model/Body.js';
 import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Dialog from '../../../../sun/js/Dialog.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
@@ -39,6 +38,7 @@ import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSound
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import TimePanel from './TimePanel.js';
 import LabModePanel from './LabModePanel.js';
+import UnitsInformationDialog from './UnitsInformationDialog.js';
 
 export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
 
@@ -181,6 +181,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
     );
 
+    const unitsInformationDialog = new UnitsInformationDialog( options.tandem.createTandem( 'unitsInformationDialog' ) );
+
     const unitsInformationButton = new InfoButton( {
       accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
       scale: 0.5,
@@ -194,21 +196,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       stretch: true,
       visible: model.isLab,
       children: [ moreDataCheckbox, unitsInformationButton ]
-    } );
-
-    const unitsInformationStringProperty = new DerivedProperty( [
-        MySolarSystemStrings.unitsInfo.contentStringProperty,
-        MySolarSystemStrings.unitsInfo.content2StringProperty,
-        MySolarSystemStrings.unitsInfo.content3StringProperty
-      ],
-      ( content, content2, content3 ) => {
-        return content + '<br><br>' + content2 + '<br><br>' + content3;
-      } );
-
-    const unitsInformationDialog = new Dialog( new RichText( unitsInformationStringProperty, { lineWrap: 600 } ), {
-      titleAlign: 'center',
-      title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new PhetFont( 32 ) } ),
-      tandem: options.tandem.createTandem( 'unitsInformationDialog' )
     } );
 
     // Masses Panel --------------------------------------------------------------------------------------------
