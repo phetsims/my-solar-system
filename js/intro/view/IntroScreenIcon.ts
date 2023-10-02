@@ -41,22 +41,18 @@ export default class IntroScreenIcon extends ScreenIcon {
       children: [
 
         // yellow orbit
-        new Path(
-          new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
-          {
-            stroke: SolarSystemCommonColors.firstBodyColorProperty,
-            lineWidth: 0.5,
-            x: smallEllipseCenterX
-          } ),
+        new Path( new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ), {
+          stroke: SolarSystemCommonColors.firstBodyColorProperty,
+          lineWidth: 0.5,
+          x: smallEllipseCenterX
+        } ),
 
         // a segment of the magenta orbit
-        new Path(
-          new Shape().ellipticalArc( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0, -Math.PI / 6, Math.PI / 6 ),
-          {
-            stroke: SolarSystemCommonColors.secondBodyColorProperty,
-            lineWidth: 0.5,
-            x: bigEllipseCenterX
-          } ),
+        new Path( new Shape().ellipticalArc( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0, -Math.PI / 6, Math.PI / 6 ), {
+          stroke: SolarSystemCommonColors.secondBodyColorProperty,
+          lineWidth: 0.5,
+          x: bigEllipseCenterX
+        } ),
 
         // Sun (yellow body)
         new ShadedSphereNode( 6, {
