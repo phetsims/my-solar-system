@@ -50,7 +50,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly topRightVBox: Node;
 
   // HBox that contains controls that appear above the ValuesPanel.
-  private readonly hboxAboveValuePanel: Node;
+  private readonly hboxAboveValuesPanel: Node;
 
   private readonly zoomButtons: Node;
   private readonly valuesPanel: Node;
@@ -205,7 +205,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: model.isLab ? options.tandem.createTandem( 'unitsInformationButton' ) : Tandem.OPT_OUT
     } );
 
-    this.hboxAboveValuePanel = new HBox( {
+    this.hboxAboveValuesPanel = new HBox( {
       stretch: true,
       visible: model.isLab,
       children: [ moreDataCheckbox, unitsInformationButton ]
@@ -222,7 +222,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           spacing: 3,
           stretch: true,
           children: [
-            this.hboxAboveValuePanel,
+            this.hboxAboveValuesPanel,
             this.valuesPanel
           ]
         } ),
@@ -351,7 +351,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         expandY: 'top'
       },
       // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-      ...[ this.hboxAboveValuePanel, this.valuesPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
+      ...[ this.hboxAboveValuesPanel, this.valuesPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
         return {
           node: node,
           expandX: 'left',
