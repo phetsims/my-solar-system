@@ -28,15 +28,16 @@ export default class CenterOfMass {
    * Calculates the total mass and the position of the Center of Mass.
    */
   public update(): void {
+
+    // Calculate total mass first.
+    let totalMass = 0;
+    totalMass = _.sum( this.bodies.map( body => body.massProperty.value ) );
+    assert && assert( totalMass !== 0, 'Total mass should not go to 0' );
+
+    // Calculate the weighted mean position and velocity.
     const tempPosition = new Vector2( 0, 0 );
     const tempVelocity = new Vector2( 0, 0 );
-    let totalMass = 0;
-
-    // Total Mass must be calculated before calculating the weighted mean position and velocity
-    totalMass = _.sum( this.bodies.map( body => body.massProperty.value ) );
-
     this.bodies.forEach( body => {
-      assert && assert( totalMass !== 0, 'Total mass should not go to 0' );
       tempPosition.add( body.positionProperty.value.times( body.massProperty.value / totalMass ) );
       tempVelocity.add( body.velocityProperty.value.times( body.massProperty.value / totalMass ) );
     } );
