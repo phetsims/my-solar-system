@@ -101,7 +101,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.modelViewTransformProperty );
     this.componentsLayer.addChild( centerOfMassNode );
 
-
     // UI Elements ===================================================================================================
 
     const labModePanel = new LabModePanel( model.labModeProperty, this.topLayer, options.tandem.createTandem( 'labModePanel' ) );
@@ -121,17 +120,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       ]
     } );
 
-    this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
-      model.zoomLevelProperty,
-      {
-        spacing: 8,
-        magnifyingGlassNodeOptions: {
-          glassRadius: 8
-        },
-        touchAreaXDilation: 5,
-        touchAreaYDilation: 5
-      } );
-
     this.valuesPanel = new ValuesPanel( model, options.tandem.createTandem( 'valuesPanel' ) );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
@@ -146,8 +134,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       maxTextWidth: 200,
       baseColor: 'orange'
     } );
-
-    const numberSpinnerTandem = model.isLab ? options.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT;
 
     this.numberSpinnerBox = new VBox( {
       children: [
@@ -177,40 +163,38 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       ],
       visible: model.isLab,
       spacing: 5,
-      tandem: numberSpinnerTandem
+      tandem: model.isLab ? options.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT
     } );
 
-    const infoButtonTandem = model.isLab ? options.tandem.createTandem( 'unitsInfoButton' ) : Tandem.OPT_OUT;
-    const moreDataCheckboxTandem = model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT;
+    const moreDataCheckbox = new SolarSystemCommonCheckbox(
+      model.moreDataProperty,
+      new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
+        maxWidth: 300
+      }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
+      combineOptions<CheckboxOptions>( {
+        accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
+        touchAreaXDilation: 10,
+        touchAreaYDilation: 10,
+        tandem: model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT
+      }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
+    );
+
+    const unitsInformationButton = new InfoButton( {
+      accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
+      scale: 0.5,
+      iconFill: 'rgb( 41, 106, 163 )',
+      touchAreaDilation: 20,
+      listener: () => unitsInformationDialog.show(),
+      tandem: model.isLab ? options.tandem.createTandem( 'unitsInformationButton' ) : Tandem.OPT_OUT
+    } );
 
     this.dataPanelTopRow = new HBox( {
       stretch: true,
       visible: model.isLab,
-      children: [
-        new SolarSystemCommonCheckbox(
-          model.moreDataProperty,
-          new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
-            maxWidth: 300
-          }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
-          combineOptions<CheckboxOptions>( {
-            accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
-            touchAreaXDilation: 10,
-            touchAreaYDilation: 10,
-            tandem: moreDataCheckboxTandem
-          }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
-        ),
-        new InfoButton( {
-          accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
-          scale: 0.5,
-          iconFill: 'rgb( 41, 106, 163 )',
-          touchAreaDilation: 20,
-          listener: () => unitsDialog.show(),
-          tandem: infoButtonTandem
-        } )
-      ]
+      children: [ moreDataCheckbox, unitsInformationButton ]
     } );
 
-    const notesStringProperty = new DerivedProperty( [
+    const unitsInformationStringProperty = new DerivedProperty( [
         MySolarSystemStrings.unitsInfo.contentStringProperty,
         MySolarSystemStrings.unitsInfo.content2StringProperty,
         MySolarSystemStrings.unitsInfo.content3StringProperty
@@ -219,13 +203,14 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         return content + '<br><br>' + content2 + '<br><br>' + content3;
       } );
 
-    const unitsDialog = new Dialog( new RichText( notesStringProperty, { lineWrap: 600 } ), {
+    const unitsInformationDialog = new Dialog( new RichText( unitsInformationStringProperty, { lineWrap: 600 } ), {
       titleAlign: 'center',
       title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new PhetFont( 32 ) } ),
-      tandem: options.tandem.createTandem( 'unitsDialog' )
+      tandem: options.tandem.createTandem( 'unitsInformationDialog' )
     } );
 
     // Masses Panel --------------------------------------------------------------------------------------------
+
     const dataGridbox = new HBox( {
       tagName: 'div',
       labelTagName: 'h3',
@@ -260,6 +245,17 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
+    this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
+      model.zoomLevelProperty,
+      {
+        spacing: 8,
+        magnifyingGlassNodeOptions: {
+          glassRadius: 8
+        },
+        touchAreaXDilation: 5,
+        touchAreaYDilation: 5
+      } );
+
     const zoomButtonsBox = new AlignBox( this.zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
@@ -275,6 +271,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         },
         SolarSystemCommonConstants.TEXT_OPTIONS )
     );
+
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
       visibleProperty: model.isAnyBodyEscapedProperty,
       listener: () => {
