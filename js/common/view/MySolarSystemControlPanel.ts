@@ -18,7 +18,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
-export default class MySolarSystemControls extends Panel {
+export default class MySolarSystemControlPanel extends Panel {
 
   public constructor( model: MySolarSystemModel, tandem: Tandem ) {
 
@@ -49,5 +49,5 @@ export default class MySolarSystemControls extends Panel {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemControls', MySolarSystemControls );
+mySolarSystem.register( 'MySolarSystemControls', MySolarSystemControlPanel );
 

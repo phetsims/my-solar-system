@@ -9,7 +9,7 @@
 import { AlignBox, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import MySolarSystemControls from './MySolarSystemControls.js';
+import MySolarSystemControlPanel from './MySolarSystemControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
@@ -124,7 +124,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       }
     } );
 
-    const controlPanel = new MySolarSystemControls( model, providedOptions.tandem.createTandem( 'controlPanel' ) );
+    const controlPanel = new MySolarSystemControlPanel( model, providedOptions.tandem.createTandem( 'controlPanel' ) );
 
     this.topRightControlBox = new VBox( {
       spacing: 7.5,
