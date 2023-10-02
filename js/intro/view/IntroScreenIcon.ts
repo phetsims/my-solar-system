@@ -42,6 +42,8 @@ export default class IntroScreenIcon extends ScreenIcon {
     const node = new Node( {
       clipArea: new Shape().rect( -8, -10, 30, 20 ),
       children: [
+
+        // yellow orbit
         new Path(
           new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
           {
@@ -49,6 +51,8 @@ export default class IntroScreenIcon extends ScreenIcon {
             lineWidth: 0.5,
             x: smallEllipseCenterX
           } ),
+
+        // magenta orbit
         new Path(
           new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
           {
@@ -56,14 +60,20 @@ export default class IntroScreenIcon extends ScreenIcon {
             lineWidth: 0.5,
             x: bigEllipseCenterX
           } ),
+
+        // Sun (yellow body)
         new ShadedSphereNode( 6, {
           mainColor: SolarSystemCommonColors.firstBodyColorProperty,
           x: ( smallEllipseFocalPoint - smallEllipseSemiMajorAxis )
         } ),
+
+        // magenta body
         new ShadedSphereNode( 3, {
           mainColor: SolarSystemCommonColors.secondBodyColorProperty,
           x: bigEllipseSemiMajorAxis - bigEllipseFocalPoint
         } ),
+
+        // red 'X'
         new XNode( {
           scale: 0.1,
           fill: 'red',
