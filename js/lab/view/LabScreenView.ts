@@ -8,24 +8,18 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import LabModel from '../model/LabModel.js';
-import MySolarSystemScreenView, { IntroLabScreenViewOptions } from '../../common/view/MySolarSystemScreenView.js';
+import MySolarSystemScreenView from '../../common/view/MySolarSystemScreenView.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { IntroScreenViewOptions } from '../../intro/view/IntroScreenView.js';
-
-type SelfOptions = EmptySelfOptions;
-export type LabScreenViewOptions = IntroLabScreenViewOptions;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class LabScreenView extends MySolarSystemScreenView {
-  public constructor( model: LabModel, providedOptions: LabScreenViewOptions ) {
+  public constructor( model: LabModel, tandem: Tandem ) {
 
-    const options = optionize<IntroScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
-
-      // pdom
+    super( model, {
+      tandem: tandem,
       screenSummaryContent: new LabScreenViewSummaryContentNode()
-    }, providedOptions );
-    super( model, options );
+    } );
 
     model.bodyAddedEmitter.addListener( () => {
       this.bodySoundManager.playBodyAddedSound( model.bodies.length - 1 );

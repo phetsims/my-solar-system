@@ -9,26 +9,23 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { BodyInfo } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
-import MySolarSystemModel, { MySolarSystemModelOptions } from '../../common/model/MySolarSystemModel.js';
-
-type SuperTypeOptions = MySolarSystemModelOptions;
-
-type LabModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
+import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class LabModel extends MySolarSystemModel {
+
   private readonly modeMap: Map<LabMode, BodyInfo[]>;
   private readonly modeSetter: ( mode: LabMode ) => void;
 
-  public constructor( providedOptions: LabModelOptions ) {
-    const options = optionize<LabModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
+  public constructor( tandem: Tandem ) {
+
+    super( {
       engineFactory: bodies => new NumericalEngine( bodies ),
-      isLab: true
-    }, providedOptions );
-    super( options );
+      isLab: true,
+      tandem: tandem
+    } );
 
     this.labModeProperty.lazyLink( mode => {
       if ( mode !== LabMode.CUSTOM ) {

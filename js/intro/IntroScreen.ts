@@ -29,8 +29,8 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
     };
 
     super(
-      () => new IntroModel( { tandem: tandem.createTandem( 'model' ) } ),
-      model => new IntroScreenView( model, { tandem: tandem.createTandem( 'view' ) } ),
+      () => new IntroModel( tandem.createTandem( 'model' ) ),
+      model => new IntroScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

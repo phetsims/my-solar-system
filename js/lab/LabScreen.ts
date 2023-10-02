@@ -29,8 +29,8 @@ export default class LabScreen extends Screen<LabModel, LabScreenView> {
     };
 
     super(
-      () => new LabModel( { tandem: tandem.createTandem( 'model' ) } ),
-      model => new LabScreenView( model, { tandem: tandem.createTandem( 'view' ) } ),
+      () => new LabModel( tandem.createTandem( 'model' ) ),
+      model => new LabScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

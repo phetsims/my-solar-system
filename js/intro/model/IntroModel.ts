@@ -9,23 +9,20 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import MySolarSystemModel, { MySolarSystemModelOptions } from '../../common/model/MySolarSystemModel.js';
+import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
-type SuperTypeOptions = MySolarSystemModelOptions;
-
-export type IntroModelOptions = StrictOmit<SuperTypeOptions, 'engineFactory' | 'isLab'>;
 
 export default class IntroModel extends MySolarSystemModel {
-  public constructor( providedOptions: IntroModelOptions ) {
-    const options = optionize<IntroModelOptions, EmptySelfOptions, SuperTypeOptions>()( {
+
+  public constructor( tandem: Tandem ) {
+    super( {
       engineFactory: bodies => new NumericalEngine( bodies ),
-      isLab: false
-    }, providedOptions );
-    super( options );
+      isLab: false,
+      tandem: tandem
+    } );
   }
 
   public override reset(): void {

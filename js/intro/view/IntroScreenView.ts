@@ -8,22 +8,17 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import IntroModel from '../model/IntroModel.js';
-import MySolarSystemScreenView, { IntroLabScreenViewOptions } from '../../common/view/MySolarSystemScreenView.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import MySolarSystemScreenView from '../../common/view/MySolarSystemScreenView.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-
-type SelfOptions = EmptySelfOptions;
-export type IntroScreenViewOptions = IntroLabScreenViewOptions;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class IntroScreenView extends MySolarSystemScreenView {
-  public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
-    const options = optionize<IntroScreenViewOptions, SelfOptions, IntroLabScreenViewOptions>()( {
-
-      // pdom
+  public constructor( model: IntroModel, tandem: Tandem ) {
+    super( model, {
+      tandem: tandem,
       screenSummaryContent: new IntroScreenViewSummaryContentNode()
-    }, providedOptions );
-    super( model, options );
+    } );
   }
 }
 
