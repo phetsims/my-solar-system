@@ -58,6 +58,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const options = optionize<IntroLabScreenViewOptions, EmptySelfOptions, SolarSystemCommonScreenViewOptions>()( {
       centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
     }, providedOptions );
+
     super( model, options );
 
     // Body and Arrows Creation =================================================================================================
@@ -103,12 +104,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // UI Elements ===================================================================================================
 
-    const labModePanel = new LabModePanel( model.labModeProperty, this.topLayer, providedOptions.tandem.createTandem( 'labModePanel' ) );
+    const labModePanel = new LabModePanel( model.labModeProperty, this.topLayer, options.tandem.createTandem( 'labModePanel' ) );
     labModePanel.visible = model.isLab; //TODO https://github.com/phetsims/my-solar-system/issues/198
 
     const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
 
-    const controlPanel = new MySolarSystemControlPanel( model, providedOptions.tandem.createTandem( 'controlPanel' ) );
+    const controlPanel = new MySolarSystemControlPanel( model, options.tandem.createTandem( 'controlPanel' ) );
 
     this.topRightControlBox = new VBox( {
       spacing: 7.5,
@@ -147,7 +148,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       baseColor: 'orange'
     } );
 
-    const numberSpinnerTandem = model.isLab ? providedOptions.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT;
+    const numberSpinnerTandem = model.isLab ? options.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT;
 
     this.numberSpinnerBox = new VBox( {
       children: [
@@ -180,8 +181,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: numberSpinnerTandem
     } );
 
-    const infoButtonTandem = model.isLab ? providedOptions.tandem.createTandem( 'unitsInfoButton' ) : Tandem.OPT_OUT;
-    const moreDataCheckboxTandem = model.isLab ? providedOptions.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT;
+    const infoButtonTandem = model.isLab ? options.tandem.createTandem( 'unitsInfoButton' ) : Tandem.OPT_OUT;
+    const moreDataCheckboxTandem = model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT;
 
     this.dataPanelTopRow = new HBox( {
       stretch: true,
@@ -222,7 +223,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const unitsDialog = new Dialog( new RichText( notesStringProperty, { lineWrap: 600 } ), {
       titleAlign: 'center',
       title: new Text( MySolarSystemStrings.unitsInfo.titleStringProperty, { font: new PhetFont( 32 ) } ),
-      tandem: providedOptions.tandem.createTandem( 'unitsDialog' )
+      tandem: options.tandem.createTandem( 'unitsDialog' )
     } );
 
     // Masses Panel --------------------------------------------------------------------------------------------
