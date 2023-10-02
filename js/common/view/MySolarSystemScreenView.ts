@@ -1,7 +1,7 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * Screen view for the My Solar System Screen
+ * MySolarSystemScreenView is the base class for ScreenViews in the My Solar System sim.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
@@ -57,7 +57,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly numberSpinnerBox: Node;
   private readonly followCenterOfMassButton: Node;
 
-  public constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
+  protected constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
 
     const options = optionize<IntroLabScreenViewOptions, EmptySelfOptions, SolarSystemCommonScreenViewOptions>()( {
       centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
