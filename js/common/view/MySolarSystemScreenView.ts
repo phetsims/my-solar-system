@@ -246,17 +246,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     // Zoom buttons ====================================================================================================
-    
-    this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
-      model.zoomLevelProperty,
-      {
-        spacing: 8,
-        magnifyingGlassNodeOptions: {
-          glassRadius: 8
-        },
-        touchAreaXDilation: 5,
-        touchAreaYDilation: 5
-      } );
+
+    this.zoomButtons = new MagnifyingGlassZoomButtonGroup( model.zoomLevelProperty, {
+      spacing: 8,
+      magnifyingGlassNodeOptions: {
+        glassRadius: 8
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5
+    } );
 
     const zoomButtonsAlignBox = new AlignBox( this.zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
@@ -270,10 +268,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
       combineOptions<TextOptions>( {
-          visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
-          maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH * 1.6
-        },
-        SolarSystemCommonConstants.TEXT_OPTIONS )
+        visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
+        maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH * 1.6
+      }, SolarSystemCommonConstants.TEXT_OPTIONS )
     );
 
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
