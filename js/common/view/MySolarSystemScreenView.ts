@@ -7,7 +7,6 @@
  */
 
 import { AlignBox, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemControlPanel from './MySolarSystemControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -32,7 +31,6 @@ import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
-import LabModeComboBox from './LabModeComboBox.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
@@ -40,6 +38,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import TimePanel from './TimePanel.js';
+import LabModePanel from './LabModePanel.js';
 
 export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
 
@@ -104,7 +103,22 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // UI Elements ===================================================================================================
 
+    const labModePanel = new LabModePanel( model.labModeProperty, this.topLayer, providedOptions.tandem.createTandem( 'labModePanel' ) );
+    labModePanel.visible = model.isLab; //TODO https://github.com/phetsims/my-solar-system/issues/198
+
     const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
+
+    const controlPanel = new MySolarSystemControlPanel( model, providedOptions.tandem.createTandem( 'controlPanel' ) );
+
+    this.topRightControlBox = new VBox( {
+      spacing: 7.5,
+      stretch: true,
+      children: [
+        labModePanel,
+        timePanel,
+        controlPanel
+      ]
+    } );
 
     this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
@@ -116,25 +130,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaXDilation: 5,
         touchAreaYDilation: 5
       } );
-
-    const labModeComboBox = new LabModeComboBox( model, this.topLayer, {
-      widthSizable: false,
-      layoutOptions: {
-        align: 'center'
-      }
-    } );
-
-    const controlPanel = new MySolarSystemControlPanel( model, providedOptions.tandem.createTandem( 'controlPanel' ) );
-
-    this.topRightControlBox = new VBox( {
-      spacing: 7.5,
-      stretch: true,
-      children: [
-        new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
-        timePanel,
-        controlPanel
-      ]
-    } );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
     this.fullDataPanel = new FullDataPanel( model );
@@ -323,7 +318,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
-      labModeComboBox,
+      labModePanel,
       timePanel,
       topCenterButtonBox,
       dataGridbox,
@@ -331,7 +326,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       this.zoomButtons,
       this.resetAllButton
     ];
-
 
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
       visibleProperty: model.pathVisibleProperty
