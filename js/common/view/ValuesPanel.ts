@@ -138,4 +138,4 @@ export default class ValuesPanel extends Panel {
   }
 }
 
-mySolarSystem.register( 'FullDataPanel', ValuesPanel );
+mySolarSystem.register( 'ValuesPanel', ValuesPanel );

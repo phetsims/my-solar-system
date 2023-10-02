@@ -49,7 +49,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly topRightControlBox: Node;
   private readonly zoomButtons: Node;
   private readonly dataPanelTopRow: Node;
-  private readonly fullDataPanel: Node;
+  private readonly valuesPanel: Node;
   private readonly numberSpinnerBox: Node;
   private readonly followCenterOfMassButton: Node;
 
@@ -132,8 +132,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    // Full Data Panel --------------------------------------------------------------------------------------------
-    this.fullDataPanel = new ValuesPanel( model );
+    this.valuesPanel = new ValuesPanel( model );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,
@@ -239,7 +238,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           stretch: true,
           children: [
             this.dataPanelTopRow,
-            this.fullDataPanel
+            this.valuesPanel
           ]
         } ),
         new HBox( {
@@ -360,7 +359,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         expandY: 'top'
       },
       // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-      ...[ this.dataPanelTopRow, this.fullDataPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
+      ...[ this.dataPanelTopRow, this.valuesPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
         return {
           node: node,
           expandX: 'left',
