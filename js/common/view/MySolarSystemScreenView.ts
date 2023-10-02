@@ -171,9 +171,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       }
     } );
 
-    const controlPanel = new MySolarSystemControls( model, this.topLayer, {
-      tandem: providedOptions.tandem.createTandem( 'controlPanel' )
-    } );
+    const controlPanel = new MySolarSystemControls( model, this.topLayer, providedOptions.tandem.createTandem( 'controlPanel' ) );
 
     this.topRightControlBox = new VBox( {
       spacing: 7.5,

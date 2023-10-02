@@ -6,9 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { HSeparator, Node, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { HSeparator, Node, VBox } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import createVisibilityInformationCheckboxes from '../../../../solar-system-common/js/view/createVisibilityInformationCheckboxes.js';
@@ -16,26 +14,19 @@ import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js
 import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import GravityScaleSlider from '../../../../solar-system-common/js/view/GravityScaleSlider.js';
-
-type SelfOptions = EmptySelfOptions;
-
-export type MySolarSystemControlsOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class MySolarSystemControls extends VBox {
 
-  public constructor(
-    model: MySolarSystemModel,
-    topLayer: Node,
-    providedOptions: MySolarSystemControlsOptions
-  ) {
+  public constructor( model: MySolarSystemModel, topLayer: Node, tandem: Tandem ) {
     super( {
       children: [
-        ...createOrbitalInformationCheckboxes( model, providedOptions.tandem ),
+        ...createOrbitalInformationCheckboxes( model, tandem ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
-        ...createArrowsVisibilityCheckboxes( model, providedOptions.tandem ),
+        ...createArrowsVisibilityCheckboxes( model, tandem ),
         new GravityScaleSlider( model.forceScaleProperty, model.gravityVisibleProperty ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, providedOptions.tandem )
+        ...createVisibilityInformationCheckboxes( model, tandem )
       ],
       spacing: SolarSystemCommonConstants.CHECKBOX_SPACING,
       align: 'left',
@@ -44,7 +35,9 @@ export default class MySolarSystemControls extends VBox {
       //pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: 'Control Panel'
+      labelContent: 'Control Panel',
+
+      tandem: tandem
     } );
   }
 }
