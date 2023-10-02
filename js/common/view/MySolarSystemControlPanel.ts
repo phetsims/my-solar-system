@@ -6,25 +6,47 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import createVisibilityInformationCheckboxes from '../../../../solar-system-common/js/view/createVisibilityInformationCheckboxes.js';
 import createArrowsVisibilityCheckboxes from '../../../../solar-system-common/js/view/createArrowsVisibilityCheckboxes.js';
-import createOrbitalInformationCheckboxes from './createOrbitalInformationCheckboxes.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import GravityScaleSlider from '../../../../solar-system-common/js/view/GravityScaleSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import XNode from '../../../../scenery-phet/js/XNode.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+
+const TEXT_OPTIONS = combineOptions<TextOptions>( {
+  maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
+}, SolarSystemCommonConstants.TEXT_OPTIONS );
 
 export default class MySolarSystemControlPanel extends Panel {
 
   public constructor( model: MySolarSystemModel, tandem: Tandem ) {
 
+    const centerOfMassCheckbox = new SolarSystemCommonCheckbox( model.centerOfMass.visibleProperty, new HBox( {
+      spacing: 10,
+      children: [
+        new Text( MySolarSystemStrings.centerOfMassStringProperty, TEXT_OPTIONS ),
+        new XNode( {
+          fill: 'red',
+          stroke: SolarSystemCommonColors.foregroundProperty,
+          scale: 0.5
+        } )
+      ]
+    } ), {
+      tandem: tandem.createTandem( 'centerOfMassCheckbox' ),
+      accessibleName: MySolarSystemStrings.centerOfMassStringProperty
+    } );
+
     const content = new VBox( {
       children: [
-        ...createOrbitalInformationCheckboxes( model, tandem ),
+        centerOfMassCheckbox,
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
         ...createArrowsVisibilityCheckboxes( model, tandem ),
         new GravityScaleSlider( model.forceScaleProperty, model.gravityVisibleProperty ),
