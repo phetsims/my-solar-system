@@ -15,11 +15,9 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import platform from '../../../../phet-core/js/platform.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
+
   public constructor() {
 
     // Ellipses parameters
@@ -39,8 +37,7 @@ export default class IntroScreenIcon extends ScreenIcon {
     const smallEllipseFocalPoint = focalPoint( smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis );
     const smallEllipseCenterX = smallEllipseFocalPoint;
 
-    const node = new Node( {
-      clipArea: new Shape().rect( -8, -10, 30, 20 ),
+    const iconNode = new Node( {
       children: [
 
         // yellow orbit
@@ -52,9 +49,9 @@ export default class IntroScreenIcon extends ScreenIcon {
             x: smallEllipseCenterX
           } ),
 
-        // magenta orbit
+        // a segment of the magenta orbit
         new Path(
-          new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
+          new Shape().ellipticalArc( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0, -Math.PI / 6, Math.PI / 6 ),
           {
             stroke: SolarSystemCommonColors.secondBodyColorProperty,
             lineWidth: 0.5,
@@ -83,23 +80,9 @@ export default class IntroScreenIcon extends ScreenIcon {
       ]
     } );
 
-    const containerNode = new Node();
-
-    Multilink.multilink( [ SolarSystemCommonColors.firstBodyColorProperty, SolarSystemCommonColors.secondBodyColorProperty ], () => {
-
-      // Rasterizing the icon because clip areas weren't working on Safari, see https://github.com/phetsims/my-solar-system/issues/46
-      // Because rasterization reduces quality, we only do it on Safari
-      containerNode.children = [ platform.safari ? node.rasterized( {
-        resolution: 16,
-
-        sourceBounds: new Bounds2( -8, -10, 22, 10 )
-      } ) : node ];
+    super( iconNode, {
+      fill: SolarSystemCommonColors.backgroundProperty
     } );
-
-    super(
-      containerNode,
-      { fill: SolarSystemCommonColors.backgroundProperty }
-    );
   }
 }
 
