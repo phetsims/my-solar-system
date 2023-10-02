@@ -32,48 +32,49 @@ export default class LabScreenIcon extends ScreenIcon {
     // Calculate center if periapsis is the same as the one of the big ellipse
     const smallEllipseCenterX = smallEllipseSemiMajorAxis - bigEllipseSemiMajorAxis;
 
-    super(
-      new Node( {
-        children: [
+    const iconNode = new Node( {
+      children: [
 
-          // magenta orbit
-          new Path(
-            new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
-            {
-              stroke: SolarSystemCommonColors.secondBodyColorProperty,
-              lineWidth: 0.8,
-              x: smallEllipseCenterX
-            } ),
-
-          // cyan orbit
-          new Path(
-            new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
-            {
-              stroke: SolarSystemCommonColors.thirdBodyColorProperty,
-              lineWidth: 1
-            } ),
-
-          // Sun (yellow body)
-          new ShadedSphereNode( 8, {
-            mainColor: SolarSystemCommonColors.firstBodyColorProperty,
-            x: -bigEllipseFocalPoint
+        // magenta orbit
+        new Path(
+          new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ),
+          {
+            stroke: SolarSystemCommonColors.secondBodyColorProperty,
+            lineWidth: 0.8,
+            x: smallEllipseCenterX
           } ),
 
-          // magenta body
-          new ShadedSphereNode( 3, {
-            mainColor: SolarSystemCommonColors.secondBodyColorProperty,
-            x: smallEllipseSemiMajorAxis + smallEllipseCenterX
+        // cyan orbit
+        new Path(
+          new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ),
+          {
+            stroke: SolarSystemCommonColors.thirdBodyColorProperty,
+            lineWidth: 1
           } ),
 
-          // cyan body
-          new ShadedSphereNode( 3, {
-            mainColor: SolarSystemCommonColors.thirdBodyColorProperty,
-            x: bigEllipseSemiMajorAxis
-          } )
-        ]
-      } ),
-      { fill: SolarSystemCommonColors.backgroundProperty }
-    );
+        // Sun (yellow body)
+        new ShadedSphereNode( 8, {
+          mainColor: SolarSystemCommonColors.firstBodyColorProperty,
+          x: -bigEllipseFocalPoint
+        } ),
+
+        // magenta body
+        new ShadedSphereNode( 3, {
+          mainColor: SolarSystemCommonColors.secondBodyColorProperty,
+          x: smallEllipseSemiMajorAxis + smallEllipseCenterX
+        } ),
+
+        // cyan body
+        new ShadedSphereNode( 3, {
+          mainColor: SolarSystemCommonColors.thirdBodyColorProperty,
+          x: bigEllipseSemiMajorAxis
+        } )
+      ]
+    } );
+
+    super( iconNode, {
+      fill: SolarSystemCommonColors.backgroundProperty
+    } );
   }
 }
 
