@@ -140,6 +140,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
           maxWidth: 70
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
+
+        //TODO https://github.com/phetsims/my-solar-system/issues/194 range should be available from numberOfActiveBodiesProperty
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ),
           {
             deltaValue: 1,
