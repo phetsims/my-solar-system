@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { HSeparator, Node, VBox } from '../../../../scenery/js/imports.js';
+import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import createVisibilityInformationCheckboxes from '../../../../solar-system-common/js/view/createVisibilityInformationCheckboxes.js';
@@ -18,7 +18,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class MySolarSystemControls extends VBox {
 
-  public constructor( model: MySolarSystemModel, topLayer: Node, tandem: Tandem ) {
+  public constructor( model: MySolarSystemModel, tandem: Tandem ) {
     super( {
       children: [
         ...createOrbitalInformationCheckboxes( model, tandem ),
