@@ -46,9 +46,13 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
 
-  private readonly topRightControlBox: Node;
+  // VBox that contains the control panels in the top-right corner of the screen.
+  private readonly topRightVBox: Node;
+
+  // HBox that contains controls that appear above the ValuesPanel.
+  private readonly hboxAboveValuePanel: Node;
+
   private readonly zoomButtons: Node;
-  private readonly dataPanelTopRow: Node;
   private readonly valuesPanel: Node;
   private readonly numberSpinnerBox: Node;
   private readonly followCenterOfMassButton: Node;
@@ -101,7 +105,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.modelViewTransformProperty );
     this.componentsLayer.addChild( centerOfMassNode );
 
-    // UI Elements ===================================================================================================
+    // Panels in the top-right of the screen ===========================================================================
 
     const labModePanel = new LabModePanel( model.labModeProperty, this.topLayer, options.tandem.createTandem( 'labModePanel' ) );
     labModePanel.visible = model.isLab; //TODO https://github.com/phetsims/my-solar-system/issues/198
@@ -110,7 +114,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const controlPanel = new MySolarSystemControlPanel( model, options.tandem.createTandem( 'controlPanel' ) );
 
-    this.topRightControlBox = new VBox( {
+    this.topRightVBox = new VBox( {
       spacing: 7.5,
       stretch: true,
       children: [
@@ -119,6 +123,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         controlPanel
       ]
     } );
+
+    const topRightAlignBox = new AlignBox( this.topRightVBox, {
+      alignBoundsProperty: this.availableBoundsProperty,
+      xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
+      yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
+      xAlign: 'right',
+      yAlign: 'top'
+    } );
+
+    // Panel and associated controls at the bottom-left of the screen ==================================================
 
     this.valuesPanel = new ValuesPanel( model, options.tandem.createTandem( 'valuesPanel' ) );
 
@@ -142,26 +156,25 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
 
         //TODO https://github.com/phetsims/my-solar-system/issues/194 range should be available from numberOfActiveBodiesProperty
-        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ),
-          {
-            deltaValue: 1,
-            touchAreaXDilation: 20,
-            touchAreaYDilation: 10,
-            mouseAreaXDilation: 10,
-            mouseAreaYDilation: 5,
-            arrowsPosition: 'bothRight',
-            arrowsSoundPlayer: nullSoundPlayer,
-            numberDisplayOptions: {
-              decimalPlaces: 0,
-              align: 'center',
-              xMargin: 10,
-              yMargin: 3,
-              textOptions: {
-                font: new PhetFont( 28 )
-              }
-            },
-            accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
-          } )
+        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ), {
+          deltaValue: 1,
+          touchAreaXDilation: 20,
+          touchAreaYDilation: 10,
+          mouseAreaXDilation: 10,
+          mouseAreaYDilation: 5,
+          arrowsPosition: 'bothRight',
+          arrowsSoundPlayer: nullSoundPlayer,
+          numberDisplayOptions: {
+            decimalPlaces: 0,
+            align: 'center',
+            xMargin: 10,
+            yMargin: 3,
+            textOptions: {
+              font: new PhetFont( 28 )
+            }
+          },
+          accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
+        } )
       ],
       visible: model.isLab,
       spacing: 5,
@@ -192,15 +205,13 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: model.isLab ? options.tandem.createTandem( 'unitsInformationButton' ) : Tandem.OPT_OUT
     } );
 
-    this.dataPanelTopRow = new HBox( {
+    this.hboxAboveValuePanel = new HBox( {
       stretch: true,
       visible: model.isLab,
       children: [ moreDataCheckbox, unitsInformationButton ]
     } );
 
-    // Masses Panel --------------------------------------------------------------------------------------------
-
-    const dataGridbox = new HBox( {
+    const bottomLeftHBox = new HBox( {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: 'Data Panel',
@@ -211,7 +222,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           spacing: 3,
           stretch: true,
           children: [
-            this.dataPanelTopRow,
+            this.hboxAboveValuePanel,
             this.valuesPanel
           ]
         } ),
@@ -226,7 +237,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       ]
     } );
 
-    const controlsAlignBox = new AlignBox( dataGridbox, {
+    const bottomLeftAlignBox = new AlignBox( bottomLeftHBox, {
       alignBoundsProperty: this.availableBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
@@ -234,6 +245,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
+    // Zoom buttons ====================================================================================================
+    
     this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
       {
@@ -245,13 +258,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    const zoomButtonsBox = new AlignBox( this.zoomButtons, {
+    const zoomButtonsAlignBox = new AlignBox( this.zoomButtons, {
       alignBoundsProperty: this.availableBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       xAlign: 'left',
       yAlign: 'top'
     } );
+
+    // Button and message that appear at top-center ====================================================================
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
       combineOptions<TextOptions>( {
@@ -273,7 +288,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       containerTagName: 'div'
     } );
 
-    const topCenterButtonBox = new AlignBox( new HBox( {
+    const topCenterAlignBox = new AlignBox( new HBox( {
       spacing: 20,
       heightSizable: false,
       preferredHeight: returnBodiesButton.height,
@@ -287,27 +302,18 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'top'
     } );
 
-    const topRightAlignBox = new AlignBox(
-      this.topRightControlBox, {
-        alignBoundsProperty: this.availableBoundsProperty,
-        xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
-        yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
-        xAlign: 'right',
-        yAlign: 'top'
-      } );
-
-    this.interfaceLayer.addChild( topCenterButtonBox );
+    this.interfaceLayer.addChild( topCenterAlignBox );
     this.interfaceLayer.addChild( this.resetAllButton );
-    this.interfaceLayer.addChild( controlsAlignBox );
+    this.interfaceLayer.addChild( bottomLeftAlignBox );
     this.interfaceLayer.addChild( topRightAlignBox );
-    this.interfaceLayer.addChild( zoomButtonsBox );
+    this.interfaceLayer.addChild( zoomButtonsAlignBox );
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
       labModePanel,
       timePanel,
-      topCenterButtonBox,
-      dataGridbox,
+      topCenterAlignBox,
+      bottomLeftHBox,
       controlPanel,
       this.zoomButtons,
       this.resetAllButton
@@ -335,7 +341,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     return [
       ...super.getBodyBoundsItems(),
       {
-        node: this.topRightControlBox,
+        node: this.topRightVBox,
         expandX: 'right',
         expandY: 'top'
       },
@@ -345,7 +351,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         expandY: 'top'
       },
       // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-      ...[ this.dataPanelTopRow, this.valuesPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
+      ...[ this.hboxAboveValuePanel, this.valuesPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
         return {
           node: node,
           expandX: 'left',
