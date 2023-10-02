@@ -14,7 +14,7 @@ import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-co
 import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
-import FullDataPanel from './FullDataPanel.js';
+import ValuesPanel from './ValuesPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
@@ -133,7 +133,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       } );
 
     // Full Data Panel --------------------------------------------------------------------------------------------
-    this.fullDataPanel = new FullDataPanel( model );
+    this.fullDataPanel = new ValuesPanel( model );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,

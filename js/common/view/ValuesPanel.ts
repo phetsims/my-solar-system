@@ -29,7 +29,7 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const TEXT_MAX_WIDTH = 150;
 
-export default class FullDataPanel extends Panel {
+export default class ValuesPanel extends Panel {
   public constructor( model: MySolarSystemModel ) {
     const options = {
       xMargin: 12,
@@ -138,4 +138,4 @@ export default class FullDataPanel extends Panel {
   }
 }
 
-mySolarSystem.register( 'FullDataPanel', FullDataPanel );
+mySolarSystem.register( 'FullDataPanel', ValuesPanel );
