@@ -132,7 +132,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       children: [
         new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
         timePanel,
-        new Panel( controlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
+        controlPanel
       ]
     } );
 
