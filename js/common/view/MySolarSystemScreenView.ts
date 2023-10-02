@@ -132,7 +132,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         touchAreaYDilation: 5
       } );
 
-    this.valuesPanel = new ValuesPanel( model );
+    this.valuesPanel = new ValuesPanel( model, options.tandem.createTandem( 'valuesPanel' ) );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,

@@ -30,11 +30,14 @@ const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertica
 const TEXT_MAX_WIDTH = 150;
 
 export default class ValuesPanel extends Panel {
-  public constructor( model: MySolarSystemModel ) {
+
+  public constructor( model: MySolarSystemModel, tandem: Tandem ) {
+
     const options = {
       xMargin: 12,
       stroke: null,
-      fill: SolarSystemCommonColors.controlPanelFillProperty
+      fill: SolarSystemCommonColors.controlPanelFillProperty,
+      tandem: tandem
     };
 
     //----------------------------------------------------------------------------------------
