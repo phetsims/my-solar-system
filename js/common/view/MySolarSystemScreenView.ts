@@ -38,10 +38,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
-import SolarSystemCommonTimeControlNode from '../../../../solar-system-common/js/view/SolarSystemCommonTimeControlNode.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import TimePanel from './TimePanel.js';
 
 export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
 
@@ -106,53 +104,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // UI Elements ===================================================================================================
 
-    // Time controls -----------------------------------------------------------------------------------------------
+    const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
 
-    const timeControlNode = new SolarSystemCommonTimeControlNode( model,
-      {
-        enabledProperty: options.playingAllowedProperty || null,
-        restartListener: () => model.restart(),
-        stepForwardListener: () => model.stepOnce( 1 / 8 ),
-        tandem: options.tandem.createTandem( 'timeControlNode' ),
-        speedRadioButtonGroupOnRight: false
-      } );
-
-    const timeStringPatternProperty = new PatternStringProperty( SolarSystemCommonStrings.pattern.labelUnitsStringProperty, {
-      units: SolarSystemCommonStrings.units.yearsStringProperty
-    }, { tandem: Tandem.OPT_OUT } );
-
-    const clockNode = new HBox( {
-      children: [
-        new NumberDisplay( model.timeProperty, new Range( 0, 1000 ), {
-          backgroundFill: null,
-          backgroundStroke: null,
-          textOptions: combineOptions<TextOptions>( {
-            maxWidth: 80
-          }, SolarSystemCommonConstants.TEXT_OPTIONS ),
-          xMargin: 0,
-          yMargin: 0,
-          valuePattern: timeStringPatternProperty,
-          decimalPlaces: 2
-        } ),
-        new TextPushButton( SolarSystemCommonStrings.clearStringProperty, {
-          font: new PhetFont( 16 ),
-          enabledProperty: new DerivedProperty( [ model.timeProperty ], time => time > 0 ),
-          listener: () => model.timeProperty.reset(),
-          maxTextWidth: 65,
-          tandem: providedOptions.tandem.createTandem( 'clearButton' ),
-          touchAreaXDilation: 10,
-          touchAreaYDilation: 5
-        } )
-      ],
-      spacing: 8
-    } );
-
-    const timeBox = new Panel( new VBox( {
-      children: [ timeControlNode, clockNode ],
-      spacing: 10
-    } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS );
-
-    // Zoom Buttons ---------------------------------------------------------------------------
     this.zoomButtons = new MagnifyingGlassZoomButtonGroup(
       model.zoomLevelProperty,
       {
@@ -178,7 +131,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       stretch: true,
       children: [
         new Panel( new Node( { children: [ labModeComboBox ], visible: model.isLab } ), SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ),
-        timeBox,
+        timePanel,
         new Panel( controlPanel, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS )
       ]
     } );
@@ -371,7 +324,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
       labModeComboBox,
-      timeBox,
+      timePanel,
       topCenterButtonBox,
       dataGridbox,
       controlPanel,
