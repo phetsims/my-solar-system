@@ -346,7 +346,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
   }
 
-  public override getBodyBoundsItems(): BodyBoundsItem[] {
+  protected override getBodyBoundsItems(): BodyBoundsItem[] {
     return [
       ...super.getBodyBoundsItems(),
       {
