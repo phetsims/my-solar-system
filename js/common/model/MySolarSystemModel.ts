@@ -11,19 +11,22 @@ import SolarSystemCommonModel, { CommonModelOptions } from '../../../../solar-sy
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
-export type MySolarSystemModelOptions = CommonModelOptions<NumericalEngine>;
+type SelfOptions = EmptySelfOptions;
+export type MySolarSystemModelOptions = SelfOptions & CommonModelOptions<NumericalEngine>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
+
   public readonly systemCenteredProperty;
   public readonly centerOfMass: CenterOfMass;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
     super( providedOptions );
 
-    const tandem = providedOptions.tandem;
-
-    this.systemCenteredProperty = new BooleanProperty( true, { tandem: tandem.createTandem( 'systemCenteredProperty' ) } );
+    this.systemCenteredProperty = new BooleanProperty( true, {
+      tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' )
+    } );
 
     this.centerOfMass = new CenterOfMass( this.bodies );
 
