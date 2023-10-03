@@ -28,7 +28,7 @@ type SelfOptions = {
   onEditCallback?: () => void;
 };
 
-export type InteractiveNumberDisplayOptions = SelfOptions & NumberDisplayOptions;
+type InteractiveNumberDisplayOptions = SelfOptions; // no NumberDisplayOptions are currently needed
 
 export default class InteractiveNumberDisplay extends InteractiveHighlighting( NumberDisplay ) {
 
