@@ -39,8 +39,12 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 import TimePanel from './TimePanel.js';
 import LabModePanel from './LabModePanel.js';
 import UnitsInformationDialog from './UnitsInformationDialog.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-export type IntroLabScreenViewOptions = SolarSystemCommonScreenViewOptions;
+type SelfOptions = EmptySelfOptions;
+
+export type MySolarSystemScreenViewOptions = SelfOptions &
+  PickRequired<SolarSystemCommonScreenViewOptions, 'tandem' | 'screenSummaryContent'>;
 
 export default class MySolarSystemScreenView extends SolarSystemCommonScreenView {
 
@@ -57,9 +61,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly numberSpinnerBox: Node;
   private readonly followCenterOfMassButton: Node;
 
-  protected constructor( model: MySolarSystemModel, providedOptions: IntroLabScreenViewOptions ) {
+  protected constructor( model: MySolarSystemModel, providedOptions: MySolarSystemScreenViewOptions ) {
 
-    const options = optionize<IntroLabScreenViewOptions, EmptySelfOptions, SolarSystemCommonScreenViewOptions>()( {
+    const options = optionize<MySolarSystemScreenViewOptions, SelfOptions, SolarSystemCommonScreenViewOptions>()( {
       centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
     }, providedOptions );
 
