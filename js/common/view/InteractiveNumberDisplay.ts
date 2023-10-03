@@ -115,6 +115,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     this.isKeypadActiveProperty = isKeypadActiveProperty;
 
     this.addInputListener( hoverListener );
+
     const patternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
       min: range.min,
       max: range.max
@@ -128,20 +129,21 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
           isPlayingProperty.value = false;
 
           let changed = false;
+          const editValue = ( value: number ) => {
+            changed = true;
+            property.value = value;
+            userControlledProperty.value = true;
+            options.onEditCallback();
+          };
+          const endEdit = () => {
+            isKeypadActiveProperty.value = false;
+            userControlledProperty.value = false;
+            if ( !changed ) {
+              isPlayingProperty.value = wasPlaying;
+            }
+          };
 
-          keypadDialog.beginEdit( value => {
-              changed = true;
-              property.value = value;
-              userControlledProperty.value = true;
-              options.onEditCallback();
-            }, range,
-            patternStringProperty, () => {
-              isKeypadActiveProperty.value = false;
-              userControlledProperty.value = false;
-              if ( !changed ) {
-                isPlayingProperty.value = wasPlaying;
-              }
-            } );
+          keypadDialog.beginEdit( editValue, range, patternStringProperty, endEdit );
         }
       },
       fireOnDown: true
