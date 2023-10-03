@@ -12,23 +12,25 @@ import NumericalEngine from '../../common/model/NumericalEngine.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
 export type MySolarSystemModelOptions = SelfOptions & CommonModelOptions<NumericalEngine>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
-  public readonly systemCenteredProperty;
+  public readonly systemCenteredProperty: Property<boolean>;
   public readonly centerOfMass: CenterOfMass;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
     super( providedOptions );
 
     this.systemCenteredProperty = new BooleanProperty( true, {
-      tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' )
+      tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ),
+      phetioReadOnly: true
     } );
 
-    this.centerOfMass = new CenterOfMass( this.bodies );
+    this.centerOfMass = new CenterOfMass( this.bodies, providedOptions.tandem.createTandem( 'centerOfMass' ) );
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.lazyLink( systemCentered => {
