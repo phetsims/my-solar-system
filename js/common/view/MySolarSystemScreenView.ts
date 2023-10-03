@@ -162,7 +162,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
             maxWidth: 70
           } ) ),
 
-        //TODO https://github.com/phetsims/my-solar-system/issues/194 range should be available from numberOfActiveBodiesProperty
+        //TODO https://github.com/phetsims/my-solar-system/issues/208 range should be available from numberOfActiveBodiesProperty
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ), {
           deltaValue: 1,
           touchAreaXDilation: 20,
