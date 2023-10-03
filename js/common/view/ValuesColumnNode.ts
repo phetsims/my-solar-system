@@ -21,7 +21,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -34,13 +33,18 @@ type SelfOptions = {
   labelSpacing?: number;
 };
 
-export type ValuesColumnNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
+export type ValuesColumnNodeOptions = SelfOptions; // no VBoxOptions are currently needed
 
 export default class ValuesColumnNode extends VBox {
   public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, providedOptions?: ValuesColumnNodeOptions ) {
+
     const options = optionize<ValuesColumnNodeOptions, SelfOptions, VBoxOptions>()( {
+
+      // SelfOptions
       contentContainerSpacing: 3.5,
       labelSpacing: 3,
+
+      // VBoxOptions
       stretch: true
     }, providedOptions );
 
