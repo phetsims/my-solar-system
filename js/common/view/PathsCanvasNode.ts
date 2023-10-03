@@ -20,8 +20,10 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 type SelfOptions = EmptySelfOptions;
+type PathsCanvasNodeOptions = SelfOptions & PickOptional<CanvasNodeOptions, 'visibleProperty'>;
 
 // constants
 const STROKE_WIDTH = 3;
@@ -30,9 +32,12 @@ export default class PathsCanvasNode extends CanvasNode {
   private readonly transformProperty: TReadOnlyProperty<ModelViewTransform2>;
   private readonly bodies: Body[];
 
-  public constructor( bodies: Body[], transformProperty: TReadOnlyProperty<ModelViewTransform2>, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, providedOptions?: CanvasNodeOptions ) {
+  public constructor( bodies: Body[],
+                      transformProperty: TReadOnlyProperty<ModelViewTransform2>,
+                      visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
+                      providedOptions?: PathsCanvasNodeOptions ) {
 
-    const options = optionize<CanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
+    const options = optionize<PathsCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
       preventFit: true
     }, providedOptions );
 
