@@ -19,19 +19,19 @@ export type MySolarSystemModelOptions = SelfOptions & CommonModelOptions<Numeric
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
-  public readonly systemCenteredProperty: Property<boolean>;
   public readonly centerOfMass: CenterOfMass;
+  public readonly systemCenteredProperty: Property<boolean>;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
     super( providedOptions );
+
+    this.centerOfMass = new CenterOfMass( this.bodies, providedOptions.tandem.createTandem( 'centerOfMass' ) );
 
     //TODO https://github.com/phetsims/my-solar-system/issues/194 What are the semantics? Should this be an Emitter?
     this.systemCenteredProperty = new BooleanProperty( true, {
       tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ),
       phetioReadOnly: true
     } );
-
-    this.centerOfMass = new CenterOfMass( this.bodies, providedOptions.tandem.createTandem( 'centerOfMass' ) );
 
     // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
     this.systemCenteredProperty.lazyLink( systemCentered => {
