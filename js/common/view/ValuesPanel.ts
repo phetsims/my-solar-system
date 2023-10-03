@@ -66,15 +66,15 @@ export default class ValuesPanel extends Panel {
 
       // Wrap the text in an AlignGroup to match height.
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
-        combineOptions<TextOptions>( {
+        combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
           maxWidth: TEXT_MAX_WIDTH
-        }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
+        } ) ) );
     };
 
     const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty,
-      combineOptions<TextOptions>( {
+      combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
         maxWidth: TEXT_MAX_WIDTH
-      }, SolarSystemCommonConstants.TEXT_OPTIONS ) ) );
+      } ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
     const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.positionStringProperty, SolarSystemCommonStrings.units.AUStringProperty );

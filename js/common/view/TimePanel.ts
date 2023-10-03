@@ -45,9 +45,9 @@ export default class TimePanel extends Panel {
     const timeDisplay = new NumberDisplay( model.timeProperty, new Range( 0, 1000 ), {
       backgroundFill: null,
       backgroundStroke: null,
-      textOptions: combineOptions<TextOptions>( {
+      textOptions: combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
         maxWidth: 80
-      }, SolarSystemCommonConstants.TEXT_OPTIONS ),
+      } ),
       xMargin: 0,
       yMargin: 0,
       valuePattern: timeStringPatternProperty,
@@ -74,9 +74,9 @@ export default class TimePanel extends Panel {
       spacing: 10
     } );
 
-    super( content, combineOptions<PanelOptions>( {
+    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
       tandem: tandem
-    }, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ) );
+    } ) );
   }
 }
 

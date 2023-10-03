@@ -21,9 +21,9 @@ import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
-const TEXT_OPTIONS = combineOptions<TextOptions>( {
+const TEXT_OPTIONS = combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
   maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
-}, SolarSystemCommonConstants.TEXT_OPTIONS );
+} );
 
 export default class MySolarSystemControlPanel extends Panel {
 
@@ -58,7 +58,7 @@ export default class MySolarSystemControlPanel extends Panel {
       stretch: true
     } );
 
-    super( content, combineOptions<PanelOptions>( {
+    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
 
       // pdom
       tagName: 'div',
@@ -67,7 +67,7 @@ export default class MySolarSystemControlPanel extends Panel {
 
       // phet-io
       tandem: tandem
-    }, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS ) );
+    } ) );
   }
 }
 

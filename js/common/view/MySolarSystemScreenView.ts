@@ -157,9 +157,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.numberSpinnerBox = new VBox( {
       children: [
-        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, combineOptions<TextOptions>( {
-          maxWidth: 70
-        }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
+        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty,
+          combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
+            maxWidth: 70
+          } ) ),
 
         //TODO https://github.com/phetsims/my-solar-system/issues/194 range should be available from numberOfActiveBodiesProperty
         new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, SolarSystemCommonConstants.NUM_BODIES ) ), {
@@ -189,15 +190,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const moreDataCheckbox = new SolarSystemCommonCheckbox(
       model.moreDataProperty,
-      new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty, combineOptions<TextOptions>( {
-        maxWidth: 300
-      }, SolarSystemCommonConstants.TEXT_OPTIONS ) ),
-      combineOptions<CheckboxOptions>( {
+      new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty,
+        combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
+          maxWidth: 300
+        } ) ),
+      combineOptions<CheckboxOptions>( {}, SolarSystemCommonConstants.CHECKBOX_OPTIONS, {
         accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
         touchAreaXDilation: 10,
         touchAreaYDilation: 10,
         tandem: model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT
-      }, SolarSystemCommonConstants.CHECKBOX_OPTIONS )
+      } )
     );
 
     const unitsInformationDialog = new UnitsInformationDialog( options.tandem.createTandem( 'unitsInformationDialog' ) );
@@ -273,10 +275,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // Button and message that appear at top-center ====================================================================
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
-      combineOptions<TextOptions>( {
+      combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
         visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
         maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH * 1.6
-      }, SolarSystemCommonConstants.TEXT_OPTIONS )
+      } )
     );
 
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
