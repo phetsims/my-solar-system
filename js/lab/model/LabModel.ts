@@ -21,6 +21,8 @@ export default class LabModel extends MySolarSystemModel {
   public constructor( tandem: Tandem ) {
 
     super( {
+
+      // MySolarSystemModelOptions
       engineFactory: bodies => new NumericalEngine( bodies ),
       isLab: true,
       tandem: tandem

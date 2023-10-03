@@ -64,6 +64,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   protected constructor( model: MySolarSystemModel, providedOptions: MySolarSystemScreenViewOptions ) {
 
     const options = optionize<MySolarSystemScreenViewOptions, SelfOptions, SolarSystemCommonScreenViewOptions>()( {
+
+      // SolarSystemCommonScreenViewOptions
       centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
     }, providedOptions );
 

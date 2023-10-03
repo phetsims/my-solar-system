@@ -34,6 +34,8 @@ export default class ValuesPanel extends Panel {
   public constructor( model: MySolarSystemModel, tandem: Tandem ) {
 
     const options = {
+
+      // PanelOptions
       xMargin: 12,
       stroke: null,
       fill: SolarSystemCommonColors.controlPanelFillProperty,

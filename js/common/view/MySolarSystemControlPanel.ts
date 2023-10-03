@@ -60,7 +60,7 @@ export default class MySolarSystemControlPanel extends Panel {
 
     super( content, combineOptions<PanelOptions>( {
 
-      //pdom
+      // pdom
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: 'Control Panel',

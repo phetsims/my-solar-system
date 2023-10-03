@@ -37,6 +37,8 @@ export default class UnitsInformationDialog extends Dialog {
     } );
 
     super( content, {
+
+      // DialogOptions
       title: titleText,
       titleAlign: 'center',
       tandem: tandem

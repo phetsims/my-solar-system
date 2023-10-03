@@ -29,6 +29,8 @@ export default class LabModeComboBox extends ComboBox<LabMode> {
   public constructor( labModeProperty: Property<LabMode>, listboxParent: Node, providedOptions: LabModeComboBoxOptions ) {
 
     const options = optionize<LabModeComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
+
+      // ComboBoxOptions
       buttonTouchAreaXDilation: 10,
       buttonTouchAreaYDilation: 10,
 

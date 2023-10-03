@@ -38,6 +38,8 @@ export default class PathsCanvasNode extends CanvasNode {
                       providedOptions?: PathsCanvasNodeOptions ) {
 
     const options = optionize<PathsCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
+
+      // CanvasNodeOptions
       preventFit: true
     }, providedOptions );
 

@@ -66,9 +66,14 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     } );
 
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
-      cursor: 'pointer',
+
+      // SelfOptions
+      useExponential: false,
       hideSmallValues: false,
       onEditCallback: _.noop,
+
+      // NumberDisplayOptions
+      cursor: 'pointer',
       numberFormatter: ( n: number ) => {
         if ( providedOptions?.hideSmallValues && Math.abs( n ) <= 0.1 ) {
           return `${MathSymbols.LESS_THAN_OR_EQUAL} 0.1`;
@@ -77,7 +82,6 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
           return Utils.toFixed( n, decimalPlaces );
         }
       },
-      useExponential: false,
       textOptions: {
         font: SolarSystemCommonConstants.PANEL_FONT
       },
