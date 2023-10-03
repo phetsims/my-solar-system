@@ -261,7 +261,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         glassRadius: 8
       },
       touchAreaXDilation: 5,
-      touchAreaYDilation: 5
+      touchAreaYDilation: 5,
+      tandem: options.tandem.createTandem( 'zoomButtons' )
     } );
 
     const zoomButtonsAlignBox = new AlignBox( this.zoomButtons, {
