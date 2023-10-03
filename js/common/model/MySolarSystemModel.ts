@@ -55,8 +55,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
     this.bodies.forEach( body => {
       body.clearPath();
-      body.positionProperty.set( body.positionProperty.value.minus( centerOfMassPosition ) );
-      body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
+      body.positionProperty.value = body.positionProperty.value.minus( centerOfMassPosition );
+      body.velocityProperty.value = body.velocityProperty.value.minus( centerOfMassVelocity );
     } );
     if ( wasPlayingBefore ) {
       this.isPlayingProperty.value = true; // Resume the sim
@@ -69,7 +69,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     // Make the center of mass fixed, but not necessarily centered
     const centerOfMassVelocity = this.centerOfMass.velocityProperty.value;
     this.bodies.forEach( body => {
-      body.velocityProperty.set( body.velocityProperty.value.minus( centerOfMassVelocity ) );
+      body.velocityProperty.value = body.velocityProperty.value.minus( centerOfMassVelocity );
     } );
 
     // Update Center of Mass to avoid system's initial movement

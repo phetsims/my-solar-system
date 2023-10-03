@@ -58,7 +58,7 @@ export default class PathsCanvasNode extends CanvasNode {
       const points = body.pathPoints.map( point => this.transformProperty.value.modelToViewPosition( point ) );
 
       // max path length in view coordinates
-      const maxPathLength = this.transformProperty.get().modelToViewDeltaX( 1200 );
+      const maxPathLength = this.transformProperty.value.modelToViewDeltaX( 1200 );
       const fadePathLength = maxPathLength * 0.15; // fade length is ~15% of the path
 
       context.strokeStyle = body.colorProperty.value.toCSS();
