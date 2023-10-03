@@ -291,7 +291,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       touchAreaYDilation: 5,
       font: SolarSystemCommonConstants.PANEL_FONT,
       maxTextWidth: 190,
-      containerTagName: 'div'
+      containerTagName: 'div',
+      tandem: options.tandem.createTandem( 'returnBodiesButton' )
     } );
 
     const topCenterAlignBox = new AlignBox( new HBox( {
