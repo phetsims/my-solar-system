@@ -17,7 +17,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 export default class LabModel extends MySolarSystemModel {
 
   private readonly modeMap: Map<LabMode, BodyInfo[]>;
-  private readonly modeSetter: ( mode: LabMode ) => void;
 
   public constructor( tandem: Tandem ) {
 
@@ -39,9 +38,9 @@ export default class LabModel extends MySolarSystemModel {
     } );
 
     this.modeMap = new Map<LabMode, BodyInfo[]>();
-    this.setModesToMap();
+    this.initializeModeMap();
 
-    this.modeSetter = ( mode: LabMode ) => {
+    this.labModeProperty.link( mode => {
       if ( mode !== LabMode.CUSTOM ) {
         this.isPlayingProperty.value = false;
         this.hasPlayedProperty.value = false;
@@ -59,9 +58,7 @@ export default class LabModel extends MySolarSystemModel {
           this.forceScaleProperty.value = -1.1;
         }
       }
-    };
-
-    this.labModeProperty.link( this.modeSetter );
+    } );
 
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodies => {
       if ( numberOfActiveBodies !== this.bodies.length ) {
@@ -80,8 +77,8 @@ export default class LabModel extends MySolarSystemModel {
   public override reset(): void {
     super.reset();
 
-    // Changing the Lab Mode briefly to custom so the reset actually triggers the listeners
-    // If this is not done, the modeSetter wont be called.
+    // Change the Lab Mode briefly to custom so the reset actually triggers the listeners.
+    // If this is not done, labModeProperty listeners (including the one added in the constructor above) won't be called.
     this.labModeProperty.value = LabMode.CUSTOM;
     this.labModeProperty.reset();
 
@@ -89,7 +86,10 @@ export default class LabModel extends MySolarSystemModel {
     super.restart();
   }
 
-  public setModesToMap(): void {
+  /**
+   * Initializes the keys and values for this.modeMap.
+   */
+  private initializeModeMap(): void {
     this.modeMap.set( LabMode.SUN_PLANET, [
       { active: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
       { active: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) }
