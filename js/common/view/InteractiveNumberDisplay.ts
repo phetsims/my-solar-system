@@ -17,7 +17,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 import { Color, FireListener, InteractiveHighlighting, PressListener } from '../../../../scenery/js/imports.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -116,10 +115,6 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
 
     this.addInputListener( hoverListener );
 
-    const patternStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.rangeStringProperty, {
-      min: range.min,
-      max: range.max
-    }, { tandem: Tandem.OPT_OUT } );
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {
@@ -143,7 +138,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
             }
           };
 
-          keypadDialog.beginEdit( editValue, range, patternStringProperty, endEdit );
+          keypadDialog.beginEdit( editValue, range, MySolarSystemStrings.pattern.rangeStringProperty, endEdit );
         }
       },
       fireOnDown: true
