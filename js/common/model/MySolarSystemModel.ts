@@ -25,6 +25,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   public constructor( providedOptions: MySolarSystemModelOptions ) {
     super( providedOptions );
 
+    //TODO https://github.com/phetsims/my-solar-system/issues/194 What are the semantics? Should this be an Emitter?
     this.systemCenteredProperty = new BooleanProperty( true, {
       tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ),
       phetioReadOnly: true
