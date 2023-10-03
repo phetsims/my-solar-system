@@ -1,6 +1,8 @@
 // Copyright 2022-2023, University of Colorado Boulder
+
 /**
- * NumberDisplay used in the panel to control Masses, Position and Velocity
+ * InteractiveNumberDisplay is a NumberDisplay that allows the user to enter a value using a kepad. Clicking
+ * on the NumberDisplay pops up the keypad. It is used in this sim to set Mass, Position and Velocity.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
