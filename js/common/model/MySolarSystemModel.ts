@@ -11,25 +11,38 @@ import SolarSystemCommonModel, { SolarSystemCommonModelOptions } from '../../../
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-type SelfOptions = EmptySelfOptions;
-export type MySolarSystemModelOptions = SelfOptions & SolarSystemCommonModelOptions<NumericalEngine>;
+type SelfOptions = {
+  isLab?: boolean; // whether the model is for the 'Lab' screen
+};
+type ParentOptions = SolarSystemCommonModelOptions<NumericalEngine>;
+export type MySolarSystemModelOptions = SelfOptions & ParentOptions;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
+  public readonly isLab: boolean;
   public readonly centerOfMass: CenterOfMass;
   public readonly systemCenteredProperty: Property<boolean>;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
+
+    const options = optionize<MySolarSystemModelOptions, SelfOptions, ParentOptions>()( {
+
+      // SelfOptions
+      isLab: false
+    }, providedOptions );
+
     super( providedOptions );
 
-    this.centerOfMass = new CenterOfMass( this.bodies, providedOptions.tandem.createTandem( 'centerOfMass' ) );
+    this.isLab = options.isLab;
+
+    this.centerOfMass = new CenterOfMass( this.bodies, options.tandem.createTandem( 'centerOfMass' ) );
 
     //TODO https://github.com/phetsims/my-solar-system/issues/194 What are the semantics? Should this be an Emitter?
     this.systemCenteredProperty = new BooleanProperty( true, {
-      tandem: providedOptions.tandem.createTandem( 'systemCenteredProperty' ),
+      tandem: options.tandem.createTandem( 'systemCenteredProperty' ),
       phetioReadOnly: true
     } );
 

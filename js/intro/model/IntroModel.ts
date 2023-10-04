@@ -22,7 +22,6 @@ export default class IntroModel extends MySolarSystemModel {
 
       // MySolarSystemModelOptions
       engineFactory: bodies => new NumericalEngine( bodies ),
-      isLab: false,
       tandem: tandem
     } );
   }
