@@ -24,6 +24,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
   public readonly isLab: boolean;
   public readonly centerOfMass: CenterOfMass;
+
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   public readonly systemCenteredProperty: Property<boolean>;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
