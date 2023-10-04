@@ -91,11 +91,13 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     this.centerOfMass.update();
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   public override update(): void {
     super.update();
     this.centerOfMass.update();
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   public override restart(): void {
     super.restart();
 

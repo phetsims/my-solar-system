@@ -32,6 +32,7 @@ export default class NumericalEngine extends Engine {
     super( bodies );
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   public override update( bodies: ObservableArray<Body> ): void {
 
     // Reset the bodies array and recalculate total mass
@@ -40,6 +41,7 @@ export default class NumericalEngine extends Engine {
     this.updateForces();
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   public override checkCollisions(): void {
 
     // We need to rerun collision checks if we get one collision
@@ -73,6 +75,7 @@ export default class NumericalEngine extends Engine {
     this.updateForces();
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   public override run( dt: number, updateProperties = true ): void {
     const iterationCount = 400 / this.bodies.length;
     const N = this.bodies.length;
@@ -188,6 +191,7 @@ export default class NumericalEngine extends Engine {
     }
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   private updateForces(): void {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
