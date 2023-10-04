@@ -47,6 +47,7 @@ export type MySolarSystemScreenViewOptions = SelfOptions &
 
 export default class MySolarSystemScreenView extends SolarSystemCommonScreenView {
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
 
   // VBox that contains the control panels in the top-right corner of the screen.

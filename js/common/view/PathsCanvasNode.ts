@@ -29,6 +29,8 @@ type PathsCanvasNodeOptions = SelfOptions & PickOptional<CanvasNodeOptions, 'vis
 const STROKE_WIDTH = 3;
 
 export default class PathsCanvasNode extends CanvasNode {
+
+  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   private readonly transformProperty: TReadOnlyProperty<ModelViewTransform2>;
   private readonly bodies: Body[];
 
