@@ -37,32 +37,32 @@ export default class LabScreenIcon extends ScreenIcon {
 
         // magenta orbit
         new Path( new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ), {
-          stroke: SolarSystemCommonColors.secondBodyColorProperty,
+          stroke: SolarSystemCommonColors.body2ColorProperty,
           lineWidth: 0.8,
           x: smallEllipseCenterX
         } ),
 
         // cyan orbit
         new Path( new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ), {
-          stroke: SolarSystemCommonColors.thirdBodyColorProperty,
+          stroke: SolarSystemCommonColors.body3ColorProperty,
           lineWidth: 1
         } ),
 
         // Sun (yellow body)
         new ShadedSphereNode( 8, {
-          mainColor: SolarSystemCommonColors.firstBodyColorProperty,
+          mainColor: SolarSystemCommonColors.body1ColorProperty,
           x: -bigEllipseFocalPoint
         } ),
 
         // magenta body
         new ShadedSphereNode( 3, {
-          mainColor: SolarSystemCommonColors.secondBodyColorProperty,
+          mainColor: SolarSystemCommonColors.body2ColorProperty,
           x: smallEllipseSemiMajorAxis + smallEllipseCenterX
         } ),
 
         // cyan body
         new ShadedSphereNode( 3, {
-          mainColor: SolarSystemCommonColors.thirdBodyColorProperty,
+          mainColor: SolarSystemCommonColors.body3ColorProperty,
           x: bigEllipseSemiMajorAxis
         } )
       ]
