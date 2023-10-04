@@ -209,7 +209,7 @@ export default class NumericalEngine extends Engine {
         assert && assert( mass2 > 0, 'mass2 should not be 0' );
         const force: Vector2 = this.getForce( body1, body2 );
 
-        // REVIEW: Can this scratchVector be removed?
+        //TODO https://github.com/phetsims/my-solar-system/issues/217 Can this scratchVector be removed?
         body1.forceProperty.value = body1.forceProperty.value.plus( scratchVector.set( force ) );
         body2.forceProperty.value = body2.forceProperty.value.minus( scratchVector.set( force ) );
         body1.accelerationProperty.value = body1.forceProperty.value.times( 1 / mass1 );
