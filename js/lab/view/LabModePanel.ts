@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import LabModeComboBox from './LabModeComboBox.js';
+import LabModeComboBox from '../../common/view/LabModeComboBox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import LabMode from '../../../../solar-system-common/js/model/LabMode.js';

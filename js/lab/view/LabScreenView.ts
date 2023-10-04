@@ -12,7 +12,7 @@ import MySolarSystemScreenView from '../../common/view/MySolarSystemScreenView.j
 import { Node } from '../../../../scenery/js/imports.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import LabModePanel from '../../common/view/LabModePanel.js';
+import LabModePanel from './LabModePanel.js';
 
 export default class LabScreenView extends MySolarSystemScreenView {
   public constructor( model: LabModel, tandem: Tandem ) {
