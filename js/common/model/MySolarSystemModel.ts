@@ -7,7 +7,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonModel, { CommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
+import SolarSystemCommonModel, { SolarSystemCommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
@@ -15,7 +15,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
-export type MySolarSystemModelOptions = SelfOptions & CommonModelOptions<NumericalEngine>;
+export type MySolarSystemModelOptions = SelfOptions & SolarSystemCommonModelOptions<NumericalEngine>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
