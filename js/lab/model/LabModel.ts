@@ -13,9 +13,11 @@ import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
 import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 export default class LabModel extends MySolarSystemModel {
 
+  public readonly labModeProperty: EnumerationProperty<LabMode>;
   private readonly modeMap: Map<LabMode, BodyInfo[]>;
 
   public constructor( tandem: Tandem ) {
@@ -26,6 +28,10 @@ export default class LabModel extends MySolarSystemModel {
       engineFactory: bodies => new NumericalEngine( bodies ),
       isLab: true,
       tandem: tandem
+    } );
+
+    this.labModeProperty = new EnumerationProperty( LabMode.SUN_PLANET, {
+      tandem: tandem.createTandem( 'labModeProperty' )
     } );
 
     this.labModeProperty.lazyLink( mode => {

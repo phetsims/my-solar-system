@@ -37,7 +37,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import TimePanel from './TimePanel.js';
-import LabModePanel from './LabModePanel.js';
 import UnitsInformationDialog from './UnitsInformationDialog.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
@@ -51,7 +50,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
 
   // VBox that contains the control panels in the top-right corner of the screen.
-  private readonly topRightVBox: Node;
+  protected readonly topRightVBox: Node;
 
   // HBox that contains controls that appear above the ValuesPanel.
   private readonly hboxAboveValuesPanel: Node;
@@ -113,9 +112,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Panels in the top-right of the screen ===========================================================================
 
-    const labModePanel = new LabModePanel( model.labModeProperty, this.topLayer, options.tandem.createTandem( 'labModePanel' ) );
-    labModePanel.visible = model.isLab; //TODO https://github.com/phetsims/my-solar-system/issues/198
-
     const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
 
     const controlPanel = new MySolarSystemControlPanel( model, options.tandem.createTandem( 'controlPanel' ) );
@@ -124,7 +120,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       spacing: 7.5,
       stretch: true,
       children: [
-        labModePanel,
         timePanel,
         controlPanel
       ]
@@ -317,7 +312,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
-      labModePanel,
       timePanel,
       topCenterAlignBox,
       bottomLeftHBox,
