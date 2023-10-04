@@ -8,7 +8,7 @@
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import LabMode from '../../../../solar-system-common/js/model/LabMode.js';
+import LabMode from '../model/LabMode.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
 import mySolarSystem from '../../mySolarSystem.js';
