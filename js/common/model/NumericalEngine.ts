@@ -16,6 +16,8 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import Engine from '../../../../solar-system-common/js/model/Engine.js';
 
+// Used when we want to avoid modifying a Vector (position, velocity, acceleration),
+// and want to avoid allocating a new Vector copy.
 const scratchVector = new Vector2( 0, 0 );
 
 // constants for PEFRL algorithm
