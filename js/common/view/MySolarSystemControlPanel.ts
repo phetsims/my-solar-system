@@ -20,6 +20,7 @@ import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/S
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import VisibleProperties from '../../../../solar-system-common/js/view/VisibleProperties.js';
 
 const TEXT_OPTIONS = combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
   maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
@@ -27,7 +28,7 @@ const TEXT_OPTIONS = combineOptions<TextOptions>( {}, SolarSystemCommonConstants
 
 export default class MySolarSystemControlPanel extends Panel {
 
-  public constructor( model: MySolarSystemModel, tandem: Tandem ) {
+  public constructor( model: MySolarSystemModel, visibleProperties: VisibleProperties, tandem: Tandem ) {
 
     const centerOfMassCheckbox = new SolarSystemCommonCheckbox( model.centerOfMass.visibleProperty, new HBox( {
       spacing: 10,
@@ -48,10 +49,10 @@ export default class MySolarSystemControlPanel extends Panel {
       children: [
         centerOfMassCheckbox,
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
-        ...createArrowsVisibilityCheckboxes( model, tandem ),
-        new GravityScaleSlider( model.forceScaleProperty, model.gravityVisibleProperty ),
+        ...createArrowsVisibilityCheckboxes( visibleProperties, tandem ),
+        new GravityScaleSlider( model.forceScaleProperty, visibleProperties.gravityVisibleProperty ),
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
-        ...createVisibilityInformationCheckboxes( model, tandem )
+        ...createVisibilityInformationCheckboxes( visibleProperties, model.pathVisibleProperty, tandem )
       ],
       spacing: SolarSystemCommonConstants.CHECKBOX_SPACING,
       align: 'left',

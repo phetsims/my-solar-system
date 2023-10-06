@@ -76,7 +76,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       return new BodyNode( body, this.modelViewTransformProperty, {
-        valuesVisibleProperty: model.valuesVisibleProperty,
+        valuesVisibleProperty: this.visibleProperties.valuesVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this
       } );
@@ -85,7 +85,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
-      new VectorNode( body, this.modelViewTransformProperty, model.gravityVisibleProperty, body.forceProperty, model.forceScaleProperty, {
+      new VectorNode( body, this.modelViewTransformProperty, this.visibleProperties.gravityVisibleProperty, body.forceProperty, model.forceScaleProperty, {
         fill: SolarSystemCommonColors.gravityColorProperty,
         constrainSize: true
       } )
@@ -115,7 +115,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
 
-    const controlPanel = new MySolarSystemControlPanel( model, options.tandem.createTandem( 'controlPanel' ) );
+    const controlPanel = new MySolarSystemControlPanel( model, this.visibleProperties, options.tandem.createTandem( 'controlPanel' ) );
 
     this.topRightVBox = new VBox( {
       spacing: 7.5,
@@ -273,7 +273,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
       combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
-        visibleProperty: DerivedProperty.and( [ model.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
+        visibleProperty: DerivedProperty.and( [ this.visibleProperties.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
         maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH * 1.6
       } )
     );
