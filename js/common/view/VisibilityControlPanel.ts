@@ -72,5 +72,5 @@ export default class VisibilityControlPanel extends Panel {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemControlPanel', VisibilityControlPanel );
+mySolarSystem.register( 'VisibilityControlPanel', VisibilityControlPanel );
 
