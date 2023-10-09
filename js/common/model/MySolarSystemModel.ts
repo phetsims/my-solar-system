@@ -36,7 +36,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       isLab: false
     }, providedOptions );
 
-    super( providedOptions );
+    super( options );
 
     this.isLab = options.isLab;
 
