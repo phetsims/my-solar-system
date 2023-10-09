@@ -118,7 +118,7 @@ export default class ValuesColumnNode extends VBox {
       } );
 
       // Labels the index of the Body
-      const labelNode = new Text( body.index + 1, {
+      const labelNode = new Text( body.index, {
         font: new PhetFont( { size: 18, weight: 600 } ),
         center: ballCircle.center,
         stroke: Color.BLACK,
