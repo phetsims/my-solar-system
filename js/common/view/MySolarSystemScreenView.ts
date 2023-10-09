@@ -115,14 +115,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
 
-    const controlPanel = new MySolarSystemControlPanel( model, this.visibleProperties, options.tandem.createTandem( 'controlPanel' ) );
+    const visibilityControlPanel = new MySolarSystemControlPanel( model, this.visibleProperties,
+      options.tandem.createTandem( 'visibilityControlPanel' ) );
 
     this.topRightVBox = new VBox( {
       spacing: 7.5,
       stretch: true,
       children: [
         timePanel,
-        controlPanel
+        visibilityControlPanel
       ]
     } );
 
@@ -300,7 +301,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       alignBoundsProperty: this.availableBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
-      centerX: -controlPanel.width / 2,
+      centerX: -visibilityControlPanel.width / 2,
       xAlign: 'center',
       yAlign: 'top'
     } );
@@ -316,7 +317,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       timePanel,
       topCenterAlignBox,
       bottomLeftHBox,
-      controlPanel,
+      visibilityControlPanel,
       this.zoomButtons,
       this.resetAllButton
     ];
