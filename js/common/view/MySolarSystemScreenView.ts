@@ -76,7 +76,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
       return new BodyNode( body, this.modelViewTransformProperty, {
-        valuesVisibleProperty: this.visibleProperties.valuesVisibleProperty,
+        speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this
       } );
