@@ -14,12 +14,13 @@ import CenterOfMass from './CenterOfMass.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
 };
 type ParentOptions = SolarSystemCommonModelOptions<NumericalEngine>;
-export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory'>;
+export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory' | 'zoomLevelRange'>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
@@ -37,7 +38,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       isLab: false,
 
       // SolarSystemCommonModelOptions
-      engineFactory: bodies => new NumericalEngine( bodies )
+      engineFactory: bodies => new NumericalEngine( bodies ),
+      zoomLevelRange: new RangeWithValue( 1, 6, 4 )
     }, providedOptions );
 
     super( options );
