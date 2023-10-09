@@ -26,7 +26,7 @@ const TEXT_OPTIONS = combineOptions<TextOptions>( {}, SolarSystemCommonConstants
   maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
 } );
 
-export default class MySolarSystemControlPanel extends Panel {
+export default class VisibilityControlPanel extends Panel {
 
   public constructor( model: MySolarSystemModel, visibleProperties: VisibleProperties, tandem: Tandem ) {
 
@@ -72,5 +72,5 @@ export default class MySolarSystemControlPanel extends Panel {
   }
 }
 
-mySolarSystem.register( 'MySolarSystemControlPanel', MySolarSystemControlPanel );
+mySolarSystem.register( 'MySolarSystemControlPanel', VisibilityControlPanel );
 

@@ -8,7 +8,7 @@
 
 import { AlignBox, HBox, Node, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import MySolarSystemControlPanel from './MySolarSystemControlPanel.js';
+import VisibilityControlPanel from './VisibilityControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
@@ -115,7 +115,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
 
-    const visibilityControlPanel = new MySolarSystemControlPanel( model, this.visibleProperties,
+    const visibilityControlPanel = new VisibilityControlPanel( model, this.visibleProperties,
       options.tandem.createTandem( 'visibilityControlPanel' ) );
 
     this.topRightVBox = new VBox( {
