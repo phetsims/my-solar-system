@@ -15,6 +15,9 @@ import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
@@ -23,6 +26,9 @@ type ParentOptions = SolarSystemCommonModelOptions<NumericalEngine>;
 export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory' | 'zoomLevelRange'>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
+
+  // abstract in SolarSystemCommonModel
+  public readonly zoomScaleProperty: TReadOnlyProperty<number>;
 
   public readonly isLab: boolean;
   public readonly centerOfMass: CenterOfMass;
@@ -43,6 +49,10 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     }, providedOptions );
 
     super( options );
+
+    this.zoomScaleProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
+      return Utils.linear( options.zoomLevelRange.min, options.zoomLevelRange.max, 0.25, 1.25, zoomLevel );
+    } );
 
     this.isLab = options.isLab;
 
