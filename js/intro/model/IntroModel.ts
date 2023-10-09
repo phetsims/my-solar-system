@@ -9,7 +9,6 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import NumericalEngine from '../../common/model/NumericalEngine.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -21,7 +20,6 @@ export default class IntroModel extends MySolarSystemModel {
     super( {
 
       // MySolarSystemModelOptions
-      engineFactory: bodies => new NumericalEngine( bodies ),
       tandem: tandem
     } );
   }

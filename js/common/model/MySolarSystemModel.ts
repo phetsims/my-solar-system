@@ -13,12 +13,13 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
 };
 type ParentOptions = SolarSystemCommonModelOptions<NumericalEngine>;
-export type MySolarSystemModelOptions = SelfOptions & ParentOptions;
+export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory'>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
@@ -33,7 +34,10 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     const options = optionize<MySolarSystemModelOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
-      isLab: false
+      isLab: false,
+
+      // SolarSystemCommonModelOptions
+      engineFactory: bodies => new NumericalEngine( bodies )
     }, providedOptions );
 
     super( options );
