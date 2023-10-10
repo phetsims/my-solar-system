@@ -62,7 +62,7 @@ export default class ValuesPanel extends Panel {
       const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
         label: label,
         units: units
-      }, { tandem: Tandem.OPT_OUT } );
+      } );
 
       // Wrap the text in an AlignGroup to match height.
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
