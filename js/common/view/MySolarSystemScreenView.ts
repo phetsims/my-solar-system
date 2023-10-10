@@ -13,7 +13,6 @@ import mySolarSystem from '../../mySolarSystem.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
-import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import ValuesPanel from './ValuesPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
@@ -25,7 +24,6 @@ import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
-import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import PathsCanvasNode from './PathsCanvasNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
@@ -39,6 +37,7 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 import TimePanel from './TimePanel.js';
 import UnitsInformationDialog from './UnitsInformationDialog.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -185,19 +184,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: model.isLab ? options.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT
     } );
 
-    const moreDataCheckbox = new SolarSystemCommonCheckbox(
-      model.moreDataProperty,
-      new Text( MySolarSystemStrings.dataPanel.moreDataStringProperty,
-        combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
-          maxWidth: 300
-        } ) ),
-      combineOptions<CheckboxOptions>( {}, SolarSystemCommonConstants.CHECKBOX_OPTIONS, {
-        accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
-        touchAreaXDilation: 10,
-        touchAreaYDilation: 10,
-        tandem: model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT
-      } )
-    );
+    const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( model.moreDataProperty,
+      model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
 
     const unitsInformationDialog = new UnitsInformationDialog( options.tandem.createTandem( 'unitsInformationDialog' ) );
 

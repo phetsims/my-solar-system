@@ -1,14 +1,15 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * MySolarSystemCheckbox creates checkboxes that are specific to the My Solar System sim.
+ * MySolarSystemCheckbox adds static methods to SolarSystemCommonCheckbox for creating checkboxes that are specific to
+ * the My Solar System sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import SolarSystemCommonCheckbox, { SolarSystemCommonCheckboxOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import Property from '../../../../axon/js/Property.js';
-import { colorProfileProperty, HBox, Image, Node, SceneryConstants, Text } from '../../../../scenery/js/imports.js';
+import { colorProfileProperty, Image, SceneryConstants } from '../../../../scenery/js/imports.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -18,35 +19,27 @@ import pathIconProjector_png from '../../../../solar-system-common/images/pathIc
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type MySolarSystemCheckboxOptions = SelfOptions & SolarSystemCommonCheckboxOptions;
 
 export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
 
-  protected constructor( property: Property<boolean>, content: Node, providedOptions?: MySolarSystemCheckboxOptions ) {
-    super( property, content, providedOptions );
+  protected constructor( property: Property<boolean>, stringProperty: TReadOnlyProperty<string>, providedOptions?: MySolarSystemCheckboxOptions ) {
+    super( property, stringProperty, providedOptions );
   }
 
   /**
-   * Creates the 'Center of Mass' checkox
+   * Creates the 'Center of Mass' checkbox
    */
   public static createCenterOfMassCheckbox( centerOfMassVisibleProperty: Property<boolean>, tandem: Tandem ): SolarSystemCommonCheckbox {
-
-    const text = new Text( MySolarSystemStrings.centerOfMassStringProperty, SolarSystemCommonCheckbox.TEXT_OPTIONS );
-    const icon = new XNode( {
-      fill: 'red',
-      stroke: SolarSystemCommonColors.foregroundProperty,
-      scale: 0.5
-    } );
-
-    const content = new HBox( {
-      children: [ text, icon ],
-      spacing: 10
-    } );
-
-    return new SolarSystemCommonCheckbox( centerOfMassVisibleProperty, content, {
-      accessibleName: MySolarSystemStrings.centerOfMassStringProperty,
+    return new SolarSystemCommonCheckbox( centerOfMassVisibleProperty, MySolarSystemStrings.centerOfMassStringProperty, {
+      icon: new XNode( {
+        fill: 'red',
+        stroke: SolarSystemCommonColors.foregroundProperty,
+        scale: 0.5
+      } ),
       tandem: tandem.createTandem( 'centerOfMassCheckbox' )
     } );
   }
@@ -56,21 +49,29 @@ export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
    */
   public static createPathCheckbox( pathVisibleProperty: Property<boolean>, tandem: Tandem ): SolarSystemCommonCheckbox {
 
-    const text = new Text( SolarSystemCommonStrings.pathStringProperty, SolarSystemCommonCheckbox.TEXT_OPTIONS );
     const icon = new Image( pathIcon_png, { scale: 0.25 } );
-
     colorProfileProperty.lazyLink( profileName => {
       assert && assert( profileName === SceneryConstants.DEFAULT_COLOR_PROFILE || profileName === SceneryConstants.PROJECTOR_COLOR_PROFILE );
       icon.setImage( profileName === SceneryConstants.PROJECTOR_COLOR_PROFILE ? pathIconProjector_png : pathIcon_png );
     } );
 
-    const content = new HBox( {
-      children: [ text, icon ],
-      spacing: 10
+    return new SolarSystemCommonCheckbox( pathVisibleProperty, SolarSystemCommonStrings.pathStringProperty, {
+      icon: new Image( pathIcon_png, { scale: 0.25 } ),
+      tandem: tandem
     } );
+  }
 
-    return new SolarSystemCommonCheckbox( pathVisibleProperty, content, {
-      accessibleName: SolarSystemCommonStrings.pathStringProperty,
+  /**
+   * Creates the 'More Data' checkbox
+   */
+  public static createMoreDataCheckbox( moreDataVisibleProperty: Property<boolean>, tandem: Tandem ): SolarSystemCommonCheckbox {
+    return new SolarSystemCommonCheckbox( moreDataVisibleProperty, MySolarSystemStrings.dataPanel.moreDataStringProperty, {
+      textOptions: {
+        maxWidth: 300
+      },
+      touchAreaXDilation: 10,
+      touchAreaYDilation: 10,
+      accessibleName: MySolarSystemStrings.a11y.moreDataStringProperty,
       tandem: tandem
     } );
   }
