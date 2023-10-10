@@ -311,7 +311,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     ];
 
     this.bottomLayer.addChild( new PathsCanvasNode( model.bodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
-      visibleProperty: model.pathVisibleProperty
+      visibleProperty: this.visibleProperties.pathVisibleProperty
     } ) );
   }
 

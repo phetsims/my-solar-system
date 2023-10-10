@@ -41,7 +41,7 @@ export default class VisibilityControlPanel extends Panel {
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
 
         // 'Path', 'Grid', and 'Measuring Tape' sliders
-        MySolarSystemCheckbox.createPathCheckbox( model.pathVisibleProperty, tandem.createTandem( 'pathCheckbox' ) ),
+        MySolarSystemCheckbox.createPathCheckbox( visibleProperties.pathVisibleProperty, tandem.createTandem( 'pathCheckbox' ) ),
         SolarSystemCommonCheckbox.createGridCheckbox( visibleProperties.gridVisibleProperty, tandem.createTandem( 'gridCheckbox' ) ),
         SolarSystemCommonCheckbox.createMeasuringTapeCheckbox( visibleProperties.measuringTapeVisibleProperty, tandem.createTandem( 'measuringTapeCheckbox' ) )
       ],
