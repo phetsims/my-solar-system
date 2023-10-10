@@ -9,7 +9,6 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
@@ -18,18 +17,9 @@ export default class IntroModel extends MySolarSystemModel {
 
   public constructor( tandem: Tandem ) {
     super( {
-
       // MySolarSystemModelOptions
       tandem: tandem
     } );
-  }
-
-  public override reset(): void {
-    super.reset();
-    this.loadBodyStates( [
-      { active: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
-      { active: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) }
-    ] );
   }
 }
 
