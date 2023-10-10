@@ -12,7 +12,7 @@ gain insight into the complex interactions that govern the behavior of these obj
 
 ## Units
 
-The simulation used two different systems of units. The model and internal engine uses a canonical system of arbitrary
+The simulation uses two different systems of units. The model and internal engine uses a canonical system of arbitrary
 units for better handling the numerical values, which are then translated to real-world units for display purposes. The
 following table shows the conversion between the two systems of units:
 
