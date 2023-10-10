@@ -34,6 +34,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   public readonly centerOfMass: CenterOfMass;
 
   //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  //TODO https://github.com/phetsims/my-solar-system/issues/228 is systemCenteredProperty necessary? Should it be an Emitter?
   public readonly systemCenteredProperty: Property<boolean>;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
@@ -58,7 +59,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     this.centerOfMass = new CenterOfMass( this.bodies, options.tandem.createTandem( 'centerOfMass' ) );
 
-    //TODO https://github.com/phetsims/my-solar-system/issues/194 What are the semantics? Should this be an Emitter?
     this.systemCenteredProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'systemCenteredProperty' ),
       phetioReadOnly: true
