@@ -38,6 +38,7 @@ import TimePanel from './TimePanel.js';
 import UnitsInformationDialog from './UnitsInformationDialog.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
+import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -65,7 +66,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const options = optionize<MySolarSystemScreenViewOptions, SelfOptions, SolarSystemCommonScreenViewOptions>()( {
 
       // SolarSystemCommonScreenViewOptions
-      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
+      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING ),
+      visibleProperties: new MySolarSystemVisibleProperties( providedOptions.tandem.createTandem( 'visibleProperties' ) )
     }, providedOptions );
 
     super( model, options );

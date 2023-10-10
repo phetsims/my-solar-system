@@ -15,12 +15,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
-import VisibleProperties from '../../../../solar-system-common/js/view/VisibleProperties.js';
+import SolarSystemCommonVisibleProperties from '../../../../solar-system-common/js/view/SolarSystemCommonVisibleProperties.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 
 export default class VisibilityControlPanel extends Panel {
 
-  public constructor( model: MySolarSystemModel, visibleProperties: VisibleProperties, tandem: Tandem ) {
+  public constructor( model: MySolarSystemModel, visibleProperties: SolarSystemCommonVisibleProperties, tandem: Tandem ) {
 
     const content = new VBox( {
       children: [
