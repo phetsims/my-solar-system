@@ -20,10 +20,14 @@ export default class LabModel extends MySolarSystemModel {
   private readonly modeMap: Map<LabMode, BodyInfo[]>;
 
   public constructor( tandem: Tandem ) {
-
     super( {
-
       // MySolarSystemModelOptions
+      defaultBodyState: [
+        { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
+        { isActive: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) },
+        { isActive: false, mass: 0.1, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 150 ) },
+        { isActive: false, mass: 0.1, position: new Vector2( -100, -100 ), velocity: new Vector2( 120, 0 ) }
+      ],
       isLab: true,
       tandem: tandem
     } );
@@ -97,70 +101,70 @@ export default class LabModel extends MySolarSystemModel {
    */
   private initializeModeMap(): void {
     this.modeMap.set( LabMode.SUN_PLANET, [
-      { active: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
-      { active: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) }
+      { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
+      { isActive: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) }
     ] );
     this.modeMap.set( LabMode.SUN_PLANET_MOON, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 10, position: new Vector2( 160, 0 ), velocity: new Vector2( 0, 120 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 140, 0 ), velocity: new Vector2( 0, 53 ) }
+      { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { isActive: true, mass: 10, position: new Vector2( 160, 0 ), velocity: new Vector2( 0, 120 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( 140, 0 ), velocity: new Vector2( 0, 53 ) }
     ] );
     this.modeMap.set( LabMode.SUN_PLANET_COMET, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -20, -35 ) }
+      { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { isActive: true, mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -20, -35 ) }
     ] );
     this.modeMap.set( LabMode.TROJAN_ASTEROIDS, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 5, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 119 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 75, -130 ), velocity: new Vector2( 103, 60 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 75, 130 ), velocity: new Vector2( -103, 60 ) }
+      { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) },
+      { isActive: true, mass: 5, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 119 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( 75, -130 ), velocity: new Vector2( 103, 60 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( 75, 130 ), velocity: new Vector2( -103, 60 ) }
     ] );
     this.modeMap.set( LabMode.ELLIPSES, [
-      { active: true, mass: 250, position: new Vector2( -200, 0 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -115, 0 ), velocity: new Vector2( 0, 151 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 50, 0 ), velocity: new Vector2( 0, 60 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) }
+      { isActive: true, mass: 250, position: new Vector2( -200, 0 ), velocity: new Vector2( 0, 0 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -115, 0 ), velocity: new Vector2( 0, 151 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( 50, 0 ), velocity: new Vector2( 0, 60 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) }
     ] );
     this.modeMap.set( LabMode.HYPERBOLIC, [
-      { active: true, mass: 250, position: new Vector2( 0, 25 ), velocity: new Vector2( 0, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -250, -70 ), velocity: new Vector2( 120, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -250, -140 ), velocity: new Vector2( 120, 0 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -250, -210 ), velocity: new Vector2( 120, 0 ) }
+      { isActive: true, mass: 250, position: new Vector2( 0, 25 ), velocity: new Vector2( 0, 0 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -250, -70 ), velocity: new Vector2( 120, 0 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -250, -140 ), velocity: new Vector2( 120, 0 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -250, -210 ), velocity: new Vector2( 120, 0 ) }
     ] );
     this.modeMap.set( LabMode.SLINGSHOT, [
-      { active: true, mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
-      { active: true, mass: 10, position: new Vector2( 131, 55 ), velocity: new Vector2( -55, 115 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -6, -128 ), velocity: new Vector2( 83, 0 ) }
+      { isActive: true, mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) },
+      { isActive: true, mass: 10, position: new Vector2( 131, 55 ), velocity: new Vector2( -55, 115 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -6, -128 ), velocity: new Vector2( 83, 0 ) }
     ] );
     this.modeMap.set( LabMode.DOUBLE_SLINGSHOT, [
-      { active: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -1 ) },
-      { active: true, mass: 5, position: new Vector2( 0, -112 ), velocity: new Vector2( 134, 0 ) },
-      { active: true, mass: 5, position: new Vector2( 186, -5 ), velocity: new Vector2( 1, 111 ) },
-      { active: true, mass: 0.000001, position: new Vector2( 70, 72 ), velocity: new Vector2( -47, 63 ) }
+      { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -1 ) },
+      { isActive: true, mass: 5, position: new Vector2( 0, -112 ), velocity: new Vector2( 134, 0 ) },
+      { isActive: true, mass: 5, position: new Vector2( 186, -5 ), velocity: new Vector2( 1, 111 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( 70, 72 ), velocity: new Vector2( -47, 63 ) }
     ] );
     this.modeMap.set( LabMode.BINARY_STAR_PLANET, [
-      { active: true, mass: 150, position: new Vector2( -100, 0 ), velocity: new Vector2( 0, -60 ) },
-      { active: true, mass: 120, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 50 ) },
-      { active: true, mass: 0.000001, position: new Vector2( -50, 0 ), velocity: new Vector2( 0, 120 ) }
+      { isActive: true, mass: 150, position: new Vector2( -100, 0 ), velocity: new Vector2( 0, -60 ) },
+      { isActive: true, mass: 120, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 50 ) },
+      { isActive: true, mass: 0.000001, position: new Vector2( -50, 0 ), velocity: new Vector2( 0, 120 ) }
     ] );
     this.modeMap.set( LabMode.FOUR_STAR_BALLET, [
-      { active: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
+      { isActive: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
+      { isActive: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
+      { isActive: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
+      { isActive: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
     this.modeMap.set( LabMode.DOUBLE_DOUBLE, [
-      { active: true, mass: 60, position: new Vector2( -115, -3 ), velocity: new Vector2( 0, -154 ) },
-      { active: true, mass: 70, position: new Vector2( 102, 0 ), velocity: new Vector2( 1, 150 ) },
-      { active: true, mass: 55, position: new Vector2( -77, -2 ), velocity: new Vector2( -1, 42 ) },
-      { active: true, mass: 62, position: new Vector2( 135, 0 ), velocity: new Vector2( -1, -52 ) }
+      { isActive: true, mass: 60, position: new Vector2( -115, -3 ), velocity: new Vector2( 0, -154 ) },
+      { isActive: true, mass: 70, position: new Vector2( 102, 0 ), velocity: new Vector2( 1, 150 ) },
+      { isActive: true, mass: 55, position: new Vector2( -77, -2 ), velocity: new Vector2( -1, 42 ) },
+      { isActive: true, mass: 62, position: new Vector2( 135, 0 ), velocity: new Vector2( -1, -52 ) }
     ] );
     this.modeMap.set( LabMode.CUSTOM, [
-      { active: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
-      { active: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
+      { isActive: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) },
+      { isActive: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) },
+      { isActive: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) },
+      { isActive: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) }
     ] );
   }
 }
