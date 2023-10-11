@@ -8,7 +8,7 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { BodyInfo } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
+import { BodyInfo } from '../../../../solar-system-common/js/model/Body.js';
 import LabMode from './LabMode.js';
 import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
