@@ -19,7 +19,7 @@ export default class IntroModel extends MySolarSystemModel {
   public constructor( tandem: Tandem ) {
     super( {
       // MySolarSystemModelOptions
-      defaultBodyState: [
+      defaultBodyInfo: [
         { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
         { isActive: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) }
       ],

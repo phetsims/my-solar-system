@@ -22,7 +22,7 @@ export default class LabModel extends MySolarSystemModel {
   public constructor( tandem: Tandem ) {
     super( {
       // MySolarSystemModelOptions
-      defaultBodyState: [
+      defaultBodyInfo: [
         { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) },
         { isActive: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) },
         { isActive: false, mass: 0.1, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 150 ) },
@@ -58,10 +58,10 @@ export default class LabModel extends MySolarSystemModel {
         this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
         const modeInfo = this.modeMap.get( mode );
-        this.loadBodyStates( modeInfo! );
+        this.loadBodyInfo( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.bodies.length;
         this.followCenterOfMass();
-        this.saveStartingBodyState();
+        this.saveStartingBodyInfo();
         this.forceScaleProperty.reset();
 
         if ( mode === LabMode.FOUR_STAR_BALLET ) {

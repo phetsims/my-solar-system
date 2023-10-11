@@ -45,7 +45,7 @@ There are multiple arrays which keep track of the bodies:
 - `startingBodyState`: Stores multiple BodyInfo elements, which are basically the necessary information for a body to be
   recreated. It is rewritten every time the user interacts with the sim, thus saving a new starting state, and it's used
   when the Restart button (left of the play/pause button) is pressed.
-- `defaultBodyState`: Stores the default values for the bodies, which are used when the user presses the Reset All
+- `defaultBodyInfo`: Stores the default values for the bodies, which are used when the user presses the Reset All
   button.
 
 Some important properties to keep track of during the sim:
