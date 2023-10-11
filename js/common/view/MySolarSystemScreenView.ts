@@ -45,7 +45,7 @@ type SelfOptions = EmptySelfOptions;
 export type MySolarSystemScreenViewOptions = SelfOptions &
   PickRequired<SolarSystemCommonScreenViewOptions, 'tandem' | 'screenSummaryContent'>;
 
-export default class MySolarSystemScreenView extends SolarSystemCommonScreenView {
+export default class MySolarSystemScreenView extends SolarSystemCommonScreenView<MySolarSystemVisibleProperties> {
 
   //TODO https://github.com/phetsims/my-solar-system/issues/213 document
   private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
@@ -66,11 +66,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const options = optionize<MySolarSystemScreenViewOptions, SelfOptions, SolarSystemCommonScreenViewOptions>()( {
 
       // SolarSystemCommonScreenViewOptions
-      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING ),
-      visibleProperties: new MySolarSystemVisibleProperties( providedOptions.tandem.createTandem( 'visibleProperties' ) )
+      centerOrbitOffset: new Vector2( SolarSystemCommonConstants.GRID_SPACING, SolarSystemCommonConstants.GRID_SPACING )
     }, providedOptions );
 
-    super( model, options );
+    super( model, new MySolarSystemVisibleProperties( options.tandem.createTandem( 'visibleProperties' ) ), options );
+
+    // Create visibleProperty instances for Nodes in the view.
+    this.visibleProperties.pathVisibleProperty.link( visible => {
+      this.model.clearPaths();
+      this.model.addingPathPoints = visible;
+    } );
 
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
