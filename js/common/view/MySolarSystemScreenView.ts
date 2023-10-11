@@ -16,8 +16,6 @@ import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/Magnifyi
 import ValuesPanel from './ValuesPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
-import TinyProperty from '../../../../axon/js/TinyProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
@@ -166,7 +164,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           } ) ),
 
         //TODO https://github.com/phetsims/my-solar-system/issues/208 range should be available from numberOfActiveBodiesProperty
-        new NumberSpinner( model.numberOfActiveBodiesProperty, new TinyProperty( new Range( 1, model.availableBodies.length ) ), {
+        new NumberSpinner( model.numberOfActiveBodiesProperty, model.numberOfActiveBodiesProperty.rangeProperty, {
           deltaValue: 1,
           touchAreaXDilation: 20,
           touchAreaYDilation: 10,
