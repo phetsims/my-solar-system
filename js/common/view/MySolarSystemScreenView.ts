@@ -151,7 +151,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
       font: SolarSystemCommonConstants.BUTTON_FONT,
       maxTextWidth: 200,
-      baseColor: 'orange'
+      baseColor: 'orange',
+      tandem: options.tandem.createTandem( 'followCenterOfMassButton' )
     } );
 
     this.numberOfBodiesControl = new NumberOfBodiesControl( model.numberOfActiveBodiesProperty, {
