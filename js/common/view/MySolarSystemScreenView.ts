@@ -93,17 +93,17 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       this.bodyNodes.push( bodyNode );
 
       const velocityVectorNode = new DraggableVelocityVectorNode( body, this.modelViewTransformProperty, {
-        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.velocityVisibleProperty ] ),
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
+        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.velocityVisibleProperty ] ),
         tandem: velocityVectorsTandem.createTandem( `velocityVector${body.index}Node` )
       } );
       this.componentsLayer.addChild( velocityVectorNode );
 
       const forceVectorNode = new VectorNode( body, this.modelViewTransformProperty, body.forceProperty, model.forceScaleProperty, {
-        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] ),
         fill: SolarSystemCommonColors.gravityColorProperty,
         constrainSize: true,
+        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] ),
         tandem: forceVectorsTandem.createTandem( `forceVector${body.index}Node` )
       } );
       this.componentsLayer.addChild( forceVectorNode );
