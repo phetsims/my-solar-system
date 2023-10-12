@@ -86,7 +86,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       } );
     } );
 
-    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVectorNode );
+    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVelocityVectorNode );
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
       new VectorNode( body, this.modelViewTransformProperty, this.visibleProperties.gravityVisibleProperty, body.forceProperty, model.forceScaleProperty, {
