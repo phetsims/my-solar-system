@@ -60,7 +60,8 @@ export default class TimePanel extends Panel {
       listener: () => model.timeProperty.reset(),
       maxTextWidth: 65,
       touchAreaXDilation: 10,
-      touchAreaYDilation: 5
+      touchAreaYDilation: 5,
+      tandem: clockNodeTandem.createTandem( 'clearButton' )
     } );
 
     const clockNode = new HBox( {
