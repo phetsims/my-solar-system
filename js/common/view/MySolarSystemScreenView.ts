@@ -75,9 +75,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // Creation of Nodes associates with each Body =====================================================================
 
     this.bodyNodes = [];
-    const bodyNodesTandem = options.tandem.createTandem( 'bodyNodes' );
-    const velocityVectorsTandem = options.tandem.createTandem( 'velocityVectorNodes' );
-    const forceVectorsTandem = options.tandem.createTandem( 'forceVectorNodes' );
+    const planetarySystemNodesTandem = options.tandem.createTandem( 'planetarySystemNodes' );
 
     model.availableBodies.forEach( body => {
 
@@ -86,7 +84,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
         visibleProperty: body.isActiveProperty, // visible when the associated Body is active
-        tandem: bodyNodesTandem.createTandem( `body${body.index}Node` )
+        tandem: planetarySystemNodesTandem.createTandem( `body${body.index}Node` )
       } );
       this.bodiesLayer.addChild( bodyNode );
       this.bodyNodes.push( bodyNode );
@@ -95,7 +93,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
         visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.velocityVisibleProperty ] ),
-        tandem: velocityVectorsTandem.createTandem( `velocityVector${body.index}Node` )
+        tandem: planetarySystemNodesTandem.createTandem( `velocityVector${body.index}Node` )
       } );
       this.componentsLayer.addChild( velocityVectorNode );
 
@@ -103,14 +101,14 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         fill: SolarSystemCommonColors.gravityColorProperty,
         constrainSize: true,
         visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] ),
-        tandem: forceVectorsTandem.createTandem( `forceVector${body.index}Node` )
+        tandem: planetarySystemNodesTandem.createTandem( `forceVector${body.index}Node` )
       } );
       this.componentsLayer.addChild( forceVectorNode );
     } );
 
     // Center of Mass Node
     const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.visibleProperties.centerOfMassVisibleProperty,
-      this.modelViewTransformProperty, options.tandem.createTandem( 'centerOfMassNode' ) );
+      this.modelViewTransformProperty, planetarySystemNodesTandem.createTandem( 'centerOfMassNode' ) );
     this.componentsLayer.addChild( centerOfMassNode );
 
     // Panels in the top-right of the screen ===========================================================================
