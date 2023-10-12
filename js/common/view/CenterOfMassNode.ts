@@ -17,7 +17,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
 export default class CenterOfMassNode extends Node {
-  public constructor( centerOfMass: CenterOfMass, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2> ) {
+  public constructor( centerOfMass: CenterOfMass, visibleProperty: TReadOnlyProperty<boolean>, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2> ) {
     super( {
       children: [
         new XNode( {
@@ -26,7 +26,7 @@ export default class CenterOfMassNode extends Node {
           center: Vector2.ZERO
         } )
       ],
-      visibleProperty: centerOfMass.visibleProperty
+      visibleProperty: visibleProperty
     } );
 
     centerOfMass.positionProperty.link( position => {

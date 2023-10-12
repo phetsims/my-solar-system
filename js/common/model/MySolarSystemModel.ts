@@ -124,7 +124,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
   public override reset(): void {
     super.reset();
-    this.centerOfMass.visibleProperty.reset();
     this.userControlledProperty.reset();
   }
 }

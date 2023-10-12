@@ -8,7 +8,6 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -21,7 +20,6 @@ export default class CenterOfMass {
 
   public readonly positionProperty: Property<Vector2>;
   public readonly velocityProperty: Property<Vector2>;
-  public readonly visibleProperty: Property<boolean>;
 
   public constructor( public readonly bodies: ObservableArray<Body>, tandem: Tandem ) {
 
@@ -33,10 +31,6 @@ export default class CenterOfMass {
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
       tandem: tandem.createTandem( 'velocityProperty' ),
       phetioReadOnly: true
-    } );
-
-    this.visibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'visibleProperty' )
     } );
 
     this.update();

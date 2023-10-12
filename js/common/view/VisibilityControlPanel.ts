@@ -15,18 +15,18 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
-import SolarSystemCommonVisibleProperties from '../../../../solar-system-common/js/view/SolarSystemCommonVisibleProperties.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
+import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
 
 export default class VisibilityControlPanel extends Panel {
 
-  public constructor( model: MySolarSystemModel, visibleProperties: SolarSystemCommonVisibleProperties, tandem: Tandem ) {
+  public constructor( model: MySolarSystemModel, visibleProperties: MySolarSystemVisibleProperties, tandem: Tandem ) {
 
     const content = new VBox( {
       children: [
 
         // 'Center of Mass' checkbox
-        MySolarSystemCheckbox.createCenterOfMassCheckbox( model.centerOfMass.visibleProperty, tandem.createTandem( 'centerOfMassCheckbox' ) ),
+        MySolarSystemCheckbox.createCenterOfMassCheckbox( visibleProperties.centerOfMassVisibleProperty, tandem.createTandem( 'centerOfMassCheckbox' ) ),
 
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),
 
