@@ -192,7 +192,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( model.moreDataProperty,
       model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
 
-    const unitsInformationDialog = new UnitsInformationDialog( options.tandem.createTandem( 'unitsInformationDialog' ) );
+    const unitsInformationDialog = new UnitsInformationDialog(
+      model.isLab ? options.tandem.createTandem( 'unitsInformationDialog' ) : Tandem.OPT_OUT );
 
     const unitsInformationButton = new InfoButton( {
       accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
