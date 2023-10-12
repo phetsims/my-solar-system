@@ -65,7 +65,7 @@ function createItem( mode: LabMode, nameProperty: TReadOnlyProperty<string> ): C
     value: mode,
     createNode: () => new Text( nameProperty, {
       font: SolarSystemCommonConstants.PANEL_FONT,
-      maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH
+      maxWidth: 200
     } ),
     a11yName: nameProperty
   };

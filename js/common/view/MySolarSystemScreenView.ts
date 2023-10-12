@@ -269,7 +269,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
       combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
         visibleProperty: DerivedProperty.and( [ this.visibleProperties.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
-        maxWidth: SolarSystemCommonConstants.TEXT_MAX_WIDTH * 1.6
+        maxWidth: 320
       } )
     );
 
