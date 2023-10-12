@@ -26,7 +26,7 @@ type MySolarSystemCheckboxOptions = SelfOptions & SolarSystemCommonCheckboxOptio
 
 export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
 
-  protected constructor( property: Property<boolean>, stringProperty: TReadOnlyProperty<string>, providedOptions?: MySolarSystemCheckboxOptions ) {
+  protected constructor( property: Property<boolean>, stringProperty: TReadOnlyProperty<string>, providedOptions: MySolarSystemCheckboxOptions ) {
     super( property, stringProperty, providedOptions );
   }
 
