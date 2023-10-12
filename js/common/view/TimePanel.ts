@@ -44,7 +44,7 @@ export default class TimePanel extends Panel {
       spacing: 10
     } );
 
-    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
+    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
       tandem: tandem
     } ) );
   }

@@ -29,7 +29,7 @@ export default class LabModePanel extends Panel {
       phetioVisiblePropertyInstrumented: false // because this is the only control in the panel
     } );
 
-    super( labModeComboBox, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
+    super( labModeComboBox, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
       tandem: tandem
     } ) );
   }

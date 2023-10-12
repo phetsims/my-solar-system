@@ -51,7 +51,7 @@ export default class VisibilityControlPanel extends Panel {
       stretch: true
     } );
 
-    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
+    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
 
       // pdom
       tagName: 'div',
