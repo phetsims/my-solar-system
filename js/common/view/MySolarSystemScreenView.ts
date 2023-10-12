@@ -186,7 +186,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       ],
       visible: model.isLab,
       spacing: 5,
-      tandem: model.isLab ? options.tandem.createTandem( 'numberSpinner' ) : Tandem.OPT_OUT
+      tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesSpinner' ) : Tandem.OPT_OUT
     } );
 
     const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( model.moreDataProperty,
