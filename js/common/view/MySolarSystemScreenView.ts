@@ -37,6 +37,7 @@ import UnitsInformationDialog from './UnitsInformationDialog.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
+import DraggableVelocityVectorNode from '../../../../solar-system-common/js/view/DraggableVelocityVectorNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -86,7 +87,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       } )
     );
 
-    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVelocityVectorNode );
+    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
+      new DraggableVelocityVectorNode( body, this.modelViewTransformProperty, this.visibleProperties.velocityVisibleProperty, {
+        mapPosition: this.constrainBoundaryViewPoint.bind( this ),
+        soundViewNode: this
+      } )
+    );
 
     const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
       new VectorNode( body, this.modelViewTransformProperty, this.visibleProperties.gravityVisibleProperty, body.forceProperty, model.forceScaleProperty, {
