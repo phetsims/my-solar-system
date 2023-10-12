@@ -46,7 +46,7 @@ export default class VisibilityControlPanel extends Panel {
         SolarSystemCommonCheckbox.createGridCheckbox( visibleProperties.gridVisibleProperty, tandem.createTandem( 'gridCheckbox' ) ),
         SolarSystemCommonCheckbox.createMeasuringTapeCheckbox( visibleProperties.measuringTapeVisibleProperty, tandem.createTandem( 'measuringTapeCheckbox' ) )
       ],
-      spacing: SolarSystemCommonConstants.CHECKBOX_SPACING,
+      spacing: SolarSystemCommonConstants.VBOX_SPACING,
       align: 'left',
       stretch: true
     } );

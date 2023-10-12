@@ -151,7 +151,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         model.userControlledProperty.value = false;
       },
       touchAreaXDilation: 5,
-      touchAreaYDilation: SolarSystemCommonConstants.CHECKBOX_SPACING / 2,
+      touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
       font: SolarSystemCommonConstants.PANEL_FONT,
       maxTextWidth: 200,
       baseColor: 'orange'
