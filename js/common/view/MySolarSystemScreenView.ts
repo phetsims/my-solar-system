@@ -100,15 +100,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       const forceVectorNode = new VectorNode( body, this.modelViewTransformProperty, body.forceProperty, model.forceScaleProperty, {
         fill: SolarSystemCommonColors.gravityColorProperty,
         constrainSize: true,
-        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] ),
-        tandem: planetarySystemNodesTandem.createTandem( `forceVector${body.index}Node` )
+        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] )
+        // tandem: Do not instrument, nothing interesting here.
       } );
       this.componentsLayer.addChild( forceVectorNode );
     } );
 
     // Center of Mass Node
     const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.visibleProperties.centerOfMassVisibleProperty,
-      this.modelViewTransformProperty, planetarySystemNodesTandem.createTandem( 'centerOfMassNode' ) );
+      this.modelViewTransformProperty );
     this.componentsLayer.addChild( centerOfMassNode );
 
     // Panels in the top-right of the screen ===========================================================================
