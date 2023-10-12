@@ -147,7 +147,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,
       listener: () => {
-        model.systemCenteredProperty.value = true;
+        model.followAndCenterCenterOfMass();
         model.userControlledProperty.value = false;
       },
       touchAreaXDilation: 5,

@@ -64,13 +64,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       phetioReadOnly: true
     } );
 
-    // Re-center the bodies and set Center of Mass speed to 0 when the systemCentered option is selected
-    this.systemCenteredProperty.lazyLink( systemCentered => {
-      if ( systemCentered ) {
-        this.followAndCenterCenterOfMass();
-      }
-    } );
-
     this.userInteractingEmitter.addListener( () => {
       this.systemCenteredProperty.value = false;
     } );
