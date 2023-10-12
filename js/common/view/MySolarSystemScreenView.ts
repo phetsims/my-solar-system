@@ -49,7 +49,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   // HBox that contains controls that appear above the ValuesPanel.
   private readonly hboxAboveValuesPanel: Node;
 
-  private readonly zoomButtons: Node;
+  private readonly zoomButtonGroup: Node;
   private readonly valuesPanel: Node;
   private readonly numberOfBodiesControl: Node;
   private readonly followCenterOfMassButton: Node;
@@ -215,19 +215,19 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       yAlign: 'bottom'
     } );
 
-    // Zoom buttons ====================================================================================================
+    // Zoom button group ====================================================================================================
 
-    this.zoomButtons = new MagnifyingGlassZoomButtonGroup( model.zoomLevelProperty, {
+    this.zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( model.zoomLevelProperty, {
       spacing: 8,
       magnifyingGlassNodeOptions: {
         glassRadius: 8
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
-      tandem: options.tandem.createTandem( 'zoomButtons' )
+      tandem: options.tandem.createTandem( 'zoomButtonGroup' )
     } );
 
-    const zoomButtonsAlignBox = new AlignBox( this.zoomButtons, {
+    const zoomButtonGroupAlignBox = new AlignBox( this.zoomButtonGroup, {
       alignBoundsProperty: this.availableBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
@@ -275,7 +275,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.interfaceLayer.addChild( this.resetAllButton );
     this.interfaceLayer.addChild( bottomLeftAlignBox );
     this.interfaceLayer.addChild( topRightAlignBox );
-    this.interfaceLayer.addChild( zoomButtonsAlignBox );
+    this.interfaceLayer.addChild( zoomButtonGroupAlignBox );
 
     // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
@@ -283,7 +283,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       topCenterAlignBox,
       bottomLeftHBox,
       visibilityControlPanel,
-      this.zoomButtons,
+      this.zoomButtonGroup,
       this.resetAllButton
     ];
 
@@ -317,7 +317,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         expandY: 'top'
       },
       {
-        node: this.zoomButtons,
+        node: this.zoomButtonGroup,
         expandX: 'left',
         expandY: 'top'
       },
