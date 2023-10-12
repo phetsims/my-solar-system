@@ -152,7 +152,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
-      font: SolarSystemCommonConstants.PANEL_FONT,
+      font: SolarSystemCommonConstants.BUTTON_FONT,
       maxTextWidth: 200,
       baseColor: 'orange'
     } );
@@ -280,7 +280,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
-      font: SolarSystemCommonConstants.PANEL_FONT,
+      font: SolarSystemCommonConstants.BUTTON_FONT,
       maxTextWidth: 190,
       containerTagName: 'div',
       tandem: options.tandem.createTandem( 'returnBodiesButton' )
