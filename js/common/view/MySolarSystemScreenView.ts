@@ -15,7 +15,6 @@ import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenVie
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import ValuesPanel from './ValuesPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -28,7 +27,6 @@ import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import TimePanel from './TimePanel.js';
 import UnitsInformationDialog from './UnitsInformationDialog.js';
@@ -36,6 +34,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
 import DraggableVelocityVectorNode from '../../../../solar-system-common/js/view/DraggableVelocityVectorNode.js';
+import NumberOfBodiesControl from './NumberOfBodiesControl.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -52,7 +51,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
   private readonly zoomButtons: Node;
   private readonly valuesPanel: Node;
-  private readonly numberSpinnerBox: Node;
+  private readonly numberOfBodiesControl: Node;
   private readonly followCenterOfMassButton: Node;
 
   private readonly bodyNodes: BodyNode[];
@@ -155,40 +154,11 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       baseColor: 'orange'
     } );
 
-    this.numberSpinnerBox = new VBox( {
-      children: [
-        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, {
-          font: new PhetFont( 16 ),
-          fill: SolarSystemCommonColors.foregroundProperty,
-          maxWidth: 70
-        } ),
-
-        //TODO https://github.com/phetsims/my-solar-system/issues/208 range should be available from numberOfActiveBodiesProperty
-        new NumberSpinner( model.numberOfActiveBodiesProperty, model.numberOfActiveBodiesProperty.rangeProperty, {
-          deltaValue: 1,
-          touchAreaXDilation: 20,
-          touchAreaYDilation: 10,
-          mouseAreaXDilation: 10,
-          mouseAreaYDilation: 5,
-          arrowsPosition: 'bothRight',
-          arrowsSoundPlayer: nullSoundPlayer,
-          numberDisplayOptions: {
-            decimalPlaces: 0,
-            align: 'center',
-            xMargin: 10,
-            yMargin: 3,
-            textOptions: {
-              font: new PhetFont( 28 )
-            }
-          },
-          accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
-        } )
-      ],
+    this.numberOfBodiesControl = new NumberOfBodiesControl( model.numberOfActiveBodiesProperty, {
       visible: model.isLab,
-      spacing: 5,
-      tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesSpinner' ) : Tandem.OPT_OUT
+      tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesControl' ) : Tandem.OPT_OUT
     } );
-
+    
     const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( model.moreDataProperty,
       model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
 
@@ -229,7 +199,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
           align: 'bottom',
           spacing: 10,
           children: [
-            this.numberSpinnerBox,
+            this.numberOfBodiesControl,
             this.followCenterOfMassButton
           ]
         } )
@@ -351,7 +321,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         expandY: 'top'
       },
       // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-      ...[ this.hboxAboveValuesPanel, this.valuesPanel, this.numberSpinnerBox, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
+      ...[ this.hboxAboveValuesPanel, this.valuesPanel, this.numberOfBodiesControl, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
         return {
           node: node,
           expandX: 'left',
