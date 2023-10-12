@@ -78,13 +78,13 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // Body and Arrows Creation =================================================================================================
     // Setting the Factory functions that will create the necessary Nodes
 
-    this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) => {
-      return new BodyNode( body, this.modelViewTransformProperty, {
+    this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) =>
+      new BodyNode( body, this.modelViewTransformProperty, {
         speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this
-      } );
-    } );
+      } )
+    );
 
     const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, this.createDraggableVelocityVectorNode );
 
