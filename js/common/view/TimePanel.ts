@@ -14,7 +14,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
-import { HBox, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, VBox } from '../../../../scenery/js/imports.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Range from '../../../../dot/js/Range.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -24,6 +24,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Property from '../../../../axon/js/Property.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 
 export default class TimePanel extends Panel {
 
@@ -64,9 +65,11 @@ class ClockNode extends HBox {
     const timeDisplay = new NumberDisplay( timeProperty, new Range( 0, 1000 ), {
       backgroundFill: null,
       backgroundStroke: null,
-      textOptions: combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
+      textOptions: {
+        font: new PhetFont( 16 ),
+        fill: SolarSystemCommonColors.foregroundProperty,
         maxWidth: 80
-      } ),
+      },
       xMargin: 0,
       yMargin: 0,
       valuePattern: timeStringPatternProperty,

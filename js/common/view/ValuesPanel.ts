@@ -8,7 +8,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, AlignGroup, HBox, Node, RichText, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -27,7 +27,7 @@ const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: tr
 // AlignGroup for the title-labels that are placed above each group (like "Position (m)"). This is made to match the
 // vertical height of each title-label across screens, regardless of their scaling.
 const TITLE_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
-const TEXT_MAX_WIDTH = 150;
+const TITLE_MAX_WIDTH = 150;
 
 export default class ValuesPanel extends Panel {
 
@@ -66,14 +66,14 @@ export default class ValuesPanel extends Panel {
 
       // Wrap the text in an AlignGroup to match height.
       return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
-        combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
-          maxWidth: TEXT_MAX_WIDTH
+        combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
+          maxWidth: TITLE_MAX_WIDTH
         } ) ) );
     };
 
-    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new Text( MySolarSystemStrings.massStringProperty,
-      combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
-        maxWidth: TEXT_MAX_WIDTH
+    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new RichText( MySolarSystemStrings.massStringProperty,
+      combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
+        maxWidth: TITLE_MAX_WIDTH
       } ) ) );
     const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
     const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;

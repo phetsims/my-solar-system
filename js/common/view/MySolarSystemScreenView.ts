@@ -6,11 +6,11 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, HBox, Node, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import VisibilityControlPanel from './VisibilityControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import ValuesPanel from './ValuesPanel.js';
@@ -159,10 +159,11 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.numberSpinnerBox = new VBox( {
       children: [
-        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty,
-          combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
-            maxWidth: 70
-          } ) ),
+        new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, {
+          font: new PhetFont( 16 ),
+          fill: SolarSystemCommonColors.foregroundProperty,
+          maxWidth: 70
+        } ),
 
         //TODO https://github.com/phetsims/my-solar-system/issues/208 range should be available from numberOfActiveBodiesProperty
         new NumberSpinner( model.numberOfActiveBodiesProperty, model.numberOfActiveBodiesProperty.rangeProperty, {
@@ -266,12 +267,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Button and message that appear at top-center ====================================================================
 
-    const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty,
-      combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
-        visibleProperty: DerivedProperty.and( [ this.visibleProperties.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
-        maxWidth: 320
-      } )
-    );
+    const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty, {
+      visibleProperty: DerivedProperty.and( [ this.visibleProperties.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
+      font: new PhetFont( 16 ),
+      fill: SolarSystemCommonColors.foregroundProperty,
+      maxWidth: 320
+    } );
 
     const returnBodiesButton = new TextPushButton( MySolarSystemStrings.returnBodiesStringProperty, {
       visibleProperty: model.isAnyBodyEscapedProperty,

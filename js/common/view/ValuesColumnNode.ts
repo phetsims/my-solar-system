@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, AlignGroup, Circle, Color, Node, RichText, Text, TextOptions, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Circle, Color, Node, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
@@ -55,7 +55,7 @@ export default class ValuesColumnNode extends VBox {
                         '';
 
     const labelNode = new RichText( labelString,
-      combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
+      combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
         maxWidth: 60
       } ) );
 
