@@ -77,8 +77,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.bodyNodes = [];
     const bodyNodesTandem = options.tandem.createTandem( 'bodyNodes' );
-    const velocityVectorsTandem = options.tandem.createTandem( 'velocityVectors' );
-    const forceVectorsTandem = options.tandem.createTandem( 'forceVectors' );
+    const velocityVectorsTandem = options.tandem.createTandem( 'velocityVectorNodes' );
+    const forceVectorsTandem = options.tandem.createTandem( 'forceVectorNodes' );
 
     model.availableBodies.forEach( body => {
 
