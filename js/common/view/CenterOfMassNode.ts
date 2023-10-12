@@ -15,9 +15,13 @@ import { Node } from '../../../../scenery/js/imports.js';
 import CenterOfMass from '../model/CenterOfMass.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class CenterOfMassNode extends Node {
-  public constructor( centerOfMass: CenterOfMass, visibleProperty: TReadOnlyProperty<boolean>, modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2> ) {
+  public constructor( centerOfMass: CenterOfMass,
+                      visibleProperty: TReadOnlyProperty<boolean>,
+                      modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>,
+                      tandem: Tandem ) {
     super( {
       children: [
         new XNode( {
@@ -26,7 +30,8 @@ export default class CenterOfMassNode extends Node {
           center: Vector2.ZERO
         } )
       ],
-      visibleProperty: visibleProperty
+      visibleProperty: visibleProperty,
+      tandem: tandem
     } );
 
     centerOfMass.positionProperty.link( position => {

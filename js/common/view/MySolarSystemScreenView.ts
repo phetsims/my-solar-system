@@ -112,7 +112,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     // Center of Mass Node
-    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.visibleProperties.centerOfMassVisibleProperty, this.modelViewTransformProperty );
+    const centerOfMassNode = new CenterOfMassNode( model.centerOfMass, this.visibleProperties.centerOfMassVisibleProperty,
+      this.modelViewTransformProperty, options.tandem.createTandem( 'centerOfMassNode' ) );
     this.componentsLayer.addChild( centerOfMassNode );
 
     // Panels in the top-right of the screen ===========================================================================
