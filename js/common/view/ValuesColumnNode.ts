@@ -27,6 +27,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
+const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
 type SelfOptions = {
   contentContainerSpacing?: number;
@@ -106,8 +107,6 @@ export default class ValuesColumnNode extends VBox {
       model.clearPaths();
     };
 
-    const sliderStep = SolarSystemCommonConstants.SLIDER_STEP;
-
     // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
 
@@ -130,11 +129,11 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new SolarSystemCommonNumberControl( body.massProperty, massRange, {
         sliderOptions: {
-          keyboardStep: sliderStep,
-          pageKeyboardStep: sliderStep * 2,
+          keyboardStep: MASS_SLIDER_STEP,
+          pageKeyboardStep: 2 * MASS_SLIDER_STEP,
           thumbFill: colorProperty,
           thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
-          constrainValue: value => massRange.constrainValue( sliderStep * Utils.roundSymmetric( value / sliderStep ) )
+          constrainValue: value => massRange.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) )
         },
         startCallback: () => { body.userControlledMassProperty.value = true; },
         endCallback: () => { body.userControlledMassProperty.value = false; },
