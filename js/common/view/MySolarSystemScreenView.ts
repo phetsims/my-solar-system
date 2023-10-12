@@ -16,8 +16,6 @@ import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/Magnifyi
 import ValuesPanel from './ValuesPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
-import ViewSynchronizer from '../../../../scenery-phet/js/ViewSynchronizer.js';
-import Body from '../../../../solar-system-common/js/model/Body.js';
 import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -46,9 +44,6 @@ export type MySolarSystemScreenViewOptions = SelfOptions &
 
 export default class MySolarSystemScreenView extends SolarSystemCommonScreenView<MySolarSystemVisibleProperties> {
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
-  private readonly bodyNodeSynchronizer: ViewSynchronizer<Body, BodyNode>;
-
   // VBox that contains the control panels in the top-right corner of the screen.
   protected readonly topRightVBox: Node;
 
@@ -59,6 +54,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   private readonly valuesPanel: Node;
   private readonly numberSpinnerBox: Node;
   private readonly followCenterOfMassButton: Node;
+
+  private readonly bodyNodes: BodyNode[];
 
   protected constructor( model: MySolarSystemModel, providedOptions: MySolarSystemScreenViewOptions ) {
 
@@ -76,45 +73,40 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       this.model.addingPathPoints = visible;
     } );
 
-    // Body and Arrows Creation =================================================================================================
-    // Setting the Factory functions that will create the necessary Nodes
+    // Creation of Nodes associates with each Body =====================================================================
 
-    this.bodyNodeSynchronizer = new ViewSynchronizer( this.bodiesLayer, ( body: Body ) =>
-      new BodyNode( body, this.modelViewTransformProperty, {
+    this.bodyNodes = [];
+    const bodyNodesTandem = options.tandem.createTandem( 'bodyNodes' );
+    const velocityVectorsTandem = options.tandem.createTandem( 'velocityVectors' );
+    const forceVectorsTandem = options.tandem.createTandem( 'forceVectors' );
+
+    model.availableBodies.forEach( body => {
+
+      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
         speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
-        soundViewNode: this
-      } )
-    );
+        soundViewNode: this,
+        visibleProperty: body.isActiveProperty, // visible when the associated Body is active
+        tandem: bodyNodesTandem.createTandem( `body${body.index}Node` )
+      } );
+      this.bodiesLayer.addChild( bodyNode );
+      this.bodyNodes.push( bodyNode );
 
-    const velocityVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
-      new DraggableVelocityVectorNode( body, this.modelViewTransformProperty, this.visibleProperties.velocityVisibleProperty, {
+      const velocityVectorNode = new DraggableVelocityVectorNode( body, this.modelViewTransformProperty, {
+        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.velocityVisibleProperty ] ),
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
-        soundViewNode: this
-      } )
-    );
+        soundViewNode: this,
+        tandem: velocityVectorsTandem.createTandem( `velocityVector${body.index}Node` )
+      } );
+      this.componentsLayer.addChild( velocityVectorNode );
 
-    const forceVectorSynchronizer = new ViewSynchronizer( this.componentsLayer, ( body: Body ) =>
-      new VectorNode( body, this.modelViewTransformProperty, this.visibleProperties.gravityVisibleProperty, body.forceProperty, model.forceScaleProperty, {
+      const forceVectorNode = new VectorNode( body, this.modelViewTransformProperty, body.forceProperty, model.forceScaleProperty, {
+        visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] ),
         fill: SolarSystemCommonColors.gravityColorProperty,
-        constrainSize: true
-      } )
-    );
-
-    // The ViewSynchronizers handle the creation and disposal of Model-View pairs
-    const trackers = [
-      this.bodyNodeSynchronizer, velocityVectorSynchronizer, forceVectorSynchronizer
-    ];
-
-    // Create bodyNodes and arrows for every body
-    model.bodies.forEach( body => trackers.forEach( tracker => tracker.add( body ) ) );
-
-    // Set up listeners for object creation and disposal
-    model.bodies.elementAddedEmitter.addListener( body => {
-      trackers.forEach( tracker => tracker.add( body ) );
-    } );
-    model.bodies.elementRemovedEmitter.addListener( body => {
-      trackers.forEach( tracker => tracker.remove( body ) );
+        constrainSize: true,
+        tandem: forceVectorsTandem.createTandem( `forceVector${body.index}Node` )
+      } );
+      this.componentsLayer.addChild( forceVectorNode );
     } );
 
     // Center of Mass Node
@@ -331,12 +323,15 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   public override step( dt: number ): void {
     super.step( dt );
 
-    this.bodyNodeSynchronizer.getViews().forEach( bodyNode => {
-      if ( this.model.isPlayingProperty.value ) {
-        bodyNode.playSound();
-      }
-      else {
-        bodyNode.stopSound();
+    //TODO https://github.com/phetsims/my-solar-system/issues/237 does this really belong in step?
+    this.bodyNodes.forEach( bodyNode => {
+      if ( bodyNode.body.isActiveProperty.value ) {
+        if ( this.model.isPlayingProperty.value ) {
+          bodyNode.playSound();
+        }
+        else {
+          bodyNode.stopSound();
+        }
       }
     } );
   }
