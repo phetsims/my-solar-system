@@ -23,6 +23,7 @@ import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import mySolarSystem from '../../mySolarSystem.js';
+import Property from '../../../../axon/js/Property.js';
 
 export default class TimePanel extends Panel {
 
@@ -36,13 +37,31 @@ export default class TimePanel extends Panel {
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
 
+    const clockNode = new ClockNode( model.timeProperty, tandem.createTandem( 'clockNode' ) );
+
+    const content = new VBox( {
+      children: [ timeControlNode, clockNode ],
+      spacing: 10
+    } );
+
+    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
+      tandem: tandem
+    } ) );
+  }
+}
+
+/**
+ * ClockNode includes the time display, and a 'Clear' button that resets timeProperty.
+ */
+class ClockNode extends HBox {
+
+  public constructor( timeProperty: Property<number>, tandem: Tandem ) {
+
     const timeStringPatternProperty = new PatternStringProperty( SolarSystemCommonStrings.pattern.labelUnitsStringProperty, {
       units: SolarSystemCommonStrings.units.yearsStringProperty
     } );
 
-    const clockNodeTandem = tandem.createTandem( 'clockNode' );
-
-    const timeDisplay = new NumberDisplay( model.timeProperty, new Range( 0, 1000 ), {
+    const timeDisplay = new NumberDisplay( timeProperty, new Range( 0, 1000 ), {
       backgroundFill: null,
       backgroundStroke: null,
       textOptions: combineOptions<TextOptions>( {}, SolarSystemCommonConstants.TEXT_OPTIONS, {
@@ -56,28 +75,19 @@ export default class TimePanel extends Panel {
 
     const clearButton = new TextPushButton( SolarSystemCommonStrings.clearStringProperty, {
       font: new PhetFont( 16 ),
-      enabledProperty: new DerivedProperty( [ model.timeProperty ], time => time > 0 ),
-      listener: () => model.timeProperty.reset(),
+      enabledProperty: new DerivedProperty( [ timeProperty ], time => ( time > 0 ) ),
+      listener: () => timeProperty.reset(),
       maxTextWidth: 65,
       touchAreaXDilation: 10,
       touchAreaYDilation: 5,
-      tandem: clockNodeTandem.createTandem( 'clearButton' )
+      tandem: tandem.createTandem( 'clearButton' )
     } );
 
-    const clockNode = new HBox( {
+    super( {
       children: [ timeDisplay, clearButton ],
-      spacing: 8,
-      tandem: clockNodeTandem
-    } );
-
-    const content = new VBox( {
-      children: [ timeControlNode, clockNode ],
-      spacing: 10
-    } );
-
-    super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.CONTROL_PANEL_OPTIONS, {
+      spacing: 10,
       tandem: tandem
-    } ) );
+    } );
   }
 }
 
