@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import LabModeComboBox from './LabModeComboBox.js';
+import OrbitalSystemComboBox from './OrbitalSystemComboBox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import OrbitalSystem from '../model/OrbitalSystem.js';
@@ -20,7 +20,7 @@ export default class LabModePanel extends Panel {
 
   public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, tandem: Tandem ) {
 
-    const labModeComboBox = new LabModeComboBox( labModeProperty, listboxParent, {
+    const labModeComboBox = new OrbitalSystemComboBox( labModeProperty, listboxParent, {
       widthSizable: false,
       layoutOptions: {
         align: 'center'

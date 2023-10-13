@@ -24,7 +24,7 @@ type LabModeComboBoxOptions = SelfOptions &
   PickOptional<ComboBoxOptions, 'widthSizable' | 'layoutOptions' | 'phetioVisiblePropertyInstrumented'> &
   PickRequired<ComboBoxOptions, 'tandem'>;
 
-export default class LabModeComboBox extends ComboBox<OrbitalSystem> {
+export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
 
   public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, providedOptions: LabModeComboBoxOptions ) {
 
@@ -71,4 +71,4 @@ function createItem( mode: OrbitalSystem, nameProperty: TReadOnlyProperty<string
   };
 }
 
-mySolarSystem.register( 'LabModeComboBox', LabModeComboBox );
+mySolarSystem.register( 'OrbitalSystemComboBox', OrbitalSystemComboBox );
