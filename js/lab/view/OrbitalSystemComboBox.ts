@@ -60,9 +60,9 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
 /**
  * Creates an item for the combo box.
  */
-function createItem( mode: OrbitalSystem, nameProperty: TReadOnlyProperty<string> ): ComboBoxItem<OrbitalSystem> {
+function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProperty<string> ): ComboBoxItem<OrbitalSystem> {
   return {
-    value: mode,
+    value: orbitalSystem,
     createNode: () => new Text( nameProperty, {
       font: SolarSystemCommonConstants.COMBO_BOX_ITEM_FONT,
       maxWidth: 200
