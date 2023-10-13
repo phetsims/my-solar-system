@@ -75,7 +75,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // Creation of Nodes associates with each Body =====================================================================
 
     this.bodyNodes = [];
-    const planetarySystemNodesTandem = options.tandem.createTandem( 'planetarySystemNodes' );
+    const orbitalSystemNodesTandem = options.tandem.createTandem( 'orbitalSystemNodes' );
 
     model.availableBodies.forEach( body => {
 
@@ -84,7 +84,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
         visibleProperty: body.isActiveProperty, // visible when the associated Body is active
-        tandem: planetarySystemNodesTandem.createTandem( `body${body.index}Node` )
+        tandem: orbitalSystemNodesTandem.createTandem( `body${body.index}Node` )
       } );
       this.bodiesLayer.addChild( bodyNode );
       this.bodyNodes.push( bodyNode );
@@ -93,7 +93,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
         visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.velocityVisibleProperty ] ),
-        tandem: planetarySystemNodesTandem.createTandem( `velocityVector${body.index}Node` )
+        tandem: orbitalSystemNodesTandem.createTandem( `velocityVector${body.index}Node` )
       } );
       this.componentsLayer.addChild( velocityVectorNode );
 

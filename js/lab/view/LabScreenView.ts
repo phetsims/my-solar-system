@@ -24,7 +24,7 @@ export default class LabScreenView extends MySolarSystemScreenView {
 
     // Add a panel at the top left for selecting a system of bodies.
     // Put that panel at the beginning of the PDOM order for interfaceLayer.
-    const labModePanel = new OrbitalSystemPanel( model.labModeProperty, this.topLayer, tandem.createTandem( 'labModePanel' ) );
+    const labModePanel = new OrbitalSystemPanel( model.orbitalSystemProperty, this.topLayer, tandem.createTandem( 'labModePanel' ) );
     this.topRightVBox.insertChild( 0, labModePanel );
     this.interfaceLayer.pdomOrder = [ labModePanel, ...this.interfaceLayer.pdomOrder! ];
 

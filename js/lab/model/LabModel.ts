@@ -16,7 +16,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 export default class LabModel extends MySolarSystemModel {
 
-  public readonly labModeProperty: EnumerationProperty<OrbitalSystem>;
+  public readonly orbitalSystemProperty: EnumerationProperty<OrbitalSystem>;
   private readonly modeMap: Map<OrbitalSystem, BodyInfo[]>;
 
   public constructor( tandem: Tandem ) {
@@ -32,11 +32,11 @@ export default class LabModel extends MySolarSystemModel {
       tandem: tandem
     } );
 
-    this.labModeProperty = new EnumerationProperty( OrbitalSystem.SUN_PLANET, {
-      tandem: tandem.createTandem( 'labModeProperty' )
+    this.orbitalSystemProperty = new EnumerationProperty( OrbitalSystem.SUN_PLANET, {
+      tandem: tandem.createTandem( 'orbitalSystemProperty' )
     } );
 
-    this.labModeProperty.lazyLink( mode => {
+    this.orbitalSystemProperty.lazyLink( mode => {
       if ( mode !== OrbitalSystem.CUSTOM ) {
         this.userControlledProperty.value = true;
         this.clearPaths();
@@ -44,13 +44,13 @@ export default class LabModel extends MySolarSystemModel {
     } );
 
     this.userInteractingEmitter.addListener( () => {
-      this.labModeProperty.value = OrbitalSystem.CUSTOM;
+      this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     } );
 
     this.modeMap = new Map<OrbitalSystem, BodyInfo[]>();
     this.initializeModeMap();
 
-    this.labModeProperty.link( mode => {
+    this.orbitalSystemProperty.link( mode => {
       if ( mode !== OrbitalSystem.CUSTOM ) {
         this.isPlayingProperty.value = false;
         this.hasPlayedProperty.value = false;
@@ -73,7 +73,7 @@ export default class LabModel extends MySolarSystemModel {
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodies => {
       if ( numberOfActiveBodies !== this.bodies.length ) {
         this.isPlayingProperty.value = false;
-        this.labModeProperty.value = OrbitalSystem.CUSTOM;
+        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
         if ( numberOfActiveBodies > this.bodies.length ) {
           this.addNextBody();
         }
@@ -88,9 +88,9 @@ export default class LabModel extends MySolarSystemModel {
     super.reset();
 
     // Change the Lab Mode briefly to custom so the reset actually triggers the listeners.
-    // If this is not done, labModeProperty listeners (including the one added in the constructor above) won't be called.
-    this.labModeProperty.value = OrbitalSystem.CUSTOM;
-    this.labModeProperty.reset();
+    // If this is not done, orbitalSystemProperty listeners (including the one added in the constructor above) won't be called.
+    this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
+    this.orbitalSystemProperty.reset();
 
     this.userControlledProperty.reset();
     super.restart();

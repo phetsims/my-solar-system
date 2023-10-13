@@ -18,18 +18,18 @@ import { Node } from '../../../../scenery/js/imports.js';
 
 export default class OrbitalSystemPanel extends Panel {
 
-  public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, tandem: Tandem ) {
+  public constructor( orbitalSystemProperty: Property<OrbitalSystem>, listboxParent: Node, tandem: Tandem ) {
 
-    const labModeComboBox = new OrbitalSystemComboBox( labModeProperty, listboxParent, {
+    const orbitalSystemComboBox = new OrbitalSystemComboBox( orbitalSystemProperty, listboxParent, {
       widthSizable: false,
       layoutOptions: {
         align: 'center'
       },
-      tandem: tandem.createTandem( 'labModeComboBox' ),
+      tandem: tandem.createTandem( 'orbitalSystemComboBox' ),
       phetioVisiblePropertyInstrumented: false // because this is the only control in the panel
     } );
 
-    super( labModeComboBox, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
+    super( orbitalSystemComboBox, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
       tandem: tandem
     } ) );
   }

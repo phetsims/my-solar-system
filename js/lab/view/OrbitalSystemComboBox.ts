@@ -26,7 +26,7 @@ type LabModeComboBoxOptions = SelfOptions &
 
 export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
 
-  public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, providedOptions: LabModeComboBoxOptions ) {
+  public constructor( orbitalSystemProperty: Property<OrbitalSystem>, listboxParent: Node, providedOptions: LabModeComboBoxOptions ) {
 
     const options = optionize<LabModeComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -53,7 +53,7 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
       createItem( OrbitalSystem.CUSTOM, MySolarSystemStrings.mode.customStringProperty )
     ];
 
-    super( labModeProperty, items, listboxParent, options );
+    super( orbitalSystemProperty, items, listboxParent, options );
   }
 }
 

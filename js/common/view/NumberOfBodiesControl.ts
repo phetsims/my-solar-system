@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * NumberOfBodiesControl is a labeled NumberSpinner, for changing the number of bodies in the planetary system.
+ * NumberOfBodiesControl is a labeled NumberSpinner, for changing the number of bodies in the orbital system.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
