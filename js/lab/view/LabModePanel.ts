@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * LabModePanel is the panel that contains the combo box for selecting the LabMode - the desired configuration of bodies.
+ * LabModePanel is the panel that contains the combo box for selecting the OrbitalSystem - the desired configuration of bodies.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
@@ -9,7 +9,7 @@
 import LabModeComboBox from './LabModeComboBox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import LabMode from '../model/LabMode.js';
+import OrbitalSystem from '../model/OrbitalSystem.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,7 +18,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 
 export default class LabModePanel extends Panel {
 
-  public constructor( labModeProperty: Property<LabMode>, listboxParent: Node, tandem: Tandem ) {
+  public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, tandem: Tandem ) {
 
     const labModeComboBox = new LabModeComboBox( labModeProperty, listboxParent, {
       widthSizable: false,

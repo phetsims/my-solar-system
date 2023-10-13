@@ -8,7 +8,7 @@
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import LabMode from '../model/LabMode.js';
+import OrbitalSystem from '../model/OrbitalSystem.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
 import mySolarSystem from '../../mySolarSystem.js';
@@ -24,9 +24,9 @@ type LabModeComboBoxOptions = SelfOptions &
   PickOptional<ComboBoxOptions, 'widthSizable' | 'layoutOptions' | 'phetioVisiblePropertyInstrumented'> &
   PickRequired<ComboBoxOptions, 'tandem'>;
 
-export default class LabModeComboBox extends ComboBox<LabMode> {
+export default class LabModeComboBox extends ComboBox<OrbitalSystem> {
 
-  public constructor( labModeProperty: Property<LabMode>, listboxParent: Node, providedOptions: LabModeComboBoxOptions ) {
+  public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, providedOptions: LabModeComboBoxOptions ) {
 
     const options = optionize<LabModeComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -38,19 +38,19 @@ export default class LabModeComboBox extends ComboBox<LabMode> {
       accessibleName: MySolarSystemStrings.a11y.labScreen.modeSelectorStringProperty
     }, providedOptions );
 
-    const items: ComboBoxItem<LabMode>[] = [
-      createItem( LabMode.SUN_PLANET, MySolarSystemStrings.mode.sunAndPlanetStringProperty ),
-      createItem( LabMode.SUN_PLANET_MOON, MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty ),
-      createItem( LabMode.SUN_PLANET_COMET, MySolarSystemStrings.mode.sunPlanetAndCometStringProperty ),
-      createItem( LabMode.TROJAN_ASTEROIDS, MySolarSystemStrings.mode.trojanAsteroidsStringProperty ),
-      createItem( LabMode.ELLIPSES, MySolarSystemStrings.mode.ellipsesStringProperty ),
-      createItem( LabMode.HYPERBOLIC, MySolarSystemStrings.mode.hyperbolicStringProperty ),
-      createItem( LabMode.SLINGSHOT, MySolarSystemStrings.mode.slingshotStringProperty ),
-      createItem( LabMode.DOUBLE_SLINGSHOT, MySolarSystemStrings.mode.doubleSlingshotStringProperty ),
-      createItem( LabMode.BINARY_STAR_PLANET, MySolarSystemStrings.mode.binaryStarPlanetStringProperty ),
-      createItem( LabMode.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty ),
-      createItem( LabMode.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty ),
-      createItem( LabMode.CUSTOM, MySolarSystemStrings.mode.customStringProperty )
+    const items: ComboBoxItem<OrbitalSystem>[] = [
+      createItem( OrbitalSystem.SUN_PLANET, MySolarSystemStrings.mode.sunAndPlanetStringProperty ),
+      createItem( OrbitalSystem.SUN_PLANET_MOON, MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty ),
+      createItem( OrbitalSystem.SUN_PLANET_COMET, MySolarSystemStrings.mode.sunPlanetAndCometStringProperty ),
+      createItem( OrbitalSystem.TROJAN_ASTEROIDS, MySolarSystemStrings.mode.trojanAsteroidsStringProperty ),
+      createItem( OrbitalSystem.ELLIPSES, MySolarSystemStrings.mode.ellipsesStringProperty ),
+      createItem( OrbitalSystem.HYPERBOLIC, MySolarSystemStrings.mode.hyperbolicStringProperty ),
+      createItem( OrbitalSystem.SLINGSHOT, MySolarSystemStrings.mode.slingshotStringProperty ),
+      createItem( OrbitalSystem.DOUBLE_SLINGSHOT, MySolarSystemStrings.mode.doubleSlingshotStringProperty ),
+      createItem( OrbitalSystem.BINARY_STAR_PLANET, MySolarSystemStrings.mode.binaryStarPlanetStringProperty ),
+      createItem( OrbitalSystem.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty ),
+      createItem( OrbitalSystem.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty ),
+      createItem( OrbitalSystem.CUSTOM, MySolarSystemStrings.mode.customStringProperty )
     ];
 
     super( labModeProperty, items, listboxParent, options );
@@ -60,7 +60,7 @@ export default class LabModeComboBox extends ComboBox<LabMode> {
 /**
  * Creates an item for the combo box.
  */
-function createItem( mode: LabMode, nameProperty: TReadOnlyProperty<string> ): ComboBoxItem<LabMode> {
+function createItem( mode: OrbitalSystem, nameProperty: TReadOnlyProperty<string> ): ComboBoxItem<OrbitalSystem> {
   return {
     value: mode,
     createNode: () => new Text( nameProperty, {
