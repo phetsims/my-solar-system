@@ -37,12 +37,12 @@ which handles the logic of pre-set selection.
 
 There are multiple arrays which keep track of the bodies:
 
-- `availableBodies`: It stores the 4 possible bodies in memory for the entire lifetime of the sim, to avoid memory
+- `bodies`: It stores the 4 possible bodies in memory for the entire lifetime of the sim, to avoid memory
   allocation issues. The bodies are created in the constructor of the model and are never disposed.
-- `bodies`: Essentialy acting as Active Bodies. It stores the bodies that are currently being used in the sim. The
+- `activeBodies`: Essentially acting as Active Bodies. It stores the bodies that are currently being used in the sim. The
   bodies are added to this array when the user changes the body number in the control panel or selects a Lab preset.
   There are BodyNodes listening for this array, and when bodies leave the Bodies array, their BodyNode is disposed.
-- `startingBodyState`: Stores multiple BodyInfo elements, which are basically the necessary information for a body to be
+- `startingBodyInfo`: Stores multiple BodyInfo elements, which are basically the necessary information for a body to be
   recreated. It is rewritten every time the user interacts with the sim, thus saving a new starting state, and it's used
   when the Restart button (left of the play/pause button) is pressed.
 - `defaultBodyInfo`: Stores the default values for the bodies, which are used when the user presses the Reset All

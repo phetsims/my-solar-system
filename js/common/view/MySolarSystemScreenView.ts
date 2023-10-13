@@ -77,7 +77,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.bodyNodes = [];
     const orbitalSystemNodesTandem = options.tandem.createTandem( 'orbitalSystemNodes' );
 
-    model.availableBodies.forEach( body => {
+    model.bodies.forEach( body => {
 
       const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
         speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
