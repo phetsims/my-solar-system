@@ -115,8 +115,8 @@ type StringsType = {
         'controlAreaDescription': string;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;
       };
-      'modeSelector': string;
-      'modeSelectorStringProperty': LocalizedStringProperty;
+      'orbitalSystemSelector': string;
+      'orbitalSystemSelectorStringProperty': LocalizedStringProperty;
     }
   }
 };

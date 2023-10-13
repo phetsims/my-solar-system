@@ -35,7 +35,7 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
       buttonTouchAreaYDilation: 10,
 
       // pdom
-      accessibleName: MySolarSystemStrings.a11y.labScreen.modeSelectorStringProperty
+      accessibleName: MySolarSystemStrings.a11y.labScreen.orbitalSystemSelectorStringProperty
     }, providedOptions );
 
     const items: ComboBoxItem<OrbitalSystem>[] = [
