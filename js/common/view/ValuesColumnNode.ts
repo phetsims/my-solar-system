@@ -80,11 +80,11 @@ export default class ValuesColumnNode extends VBox {
       // Observe when Bodies are added or removed from the Model, meaning the contentNode's visibility could change
       // if the body is added or removed from the system. It should only be visible if the body is in the Model.
       const onBodiesChanged = () => {
-        contentNode.visible = model.bodies.includes( body );
+        contentNode.visible = model.activeBodies.includes( body );
       };
       onBodiesChanged();
-      model.bodies.elementAddedEmitter.addListener( onBodiesChanged );
-      model.bodies.elementRemovedEmitter.addListener( onBodiesChanged );
+      model.activeBodies.elementAddedEmitter.addListener( onBodiesChanged );
+      model.activeBodies.elementRemovedEmitter.addListener( onBodiesChanged );
     } );
 
     // Set the children of this Node to the correct rendering order.

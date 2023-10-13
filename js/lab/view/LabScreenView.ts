@@ -29,11 +29,11 @@ export default class LabScreenView extends MySolarSystemScreenView {
     this.interfaceLayer.pdomOrder = [ labModePanel, ...this.interfaceLayer.pdomOrder! ];
 
     model.bodyAddedEmitter.addListener( () => {
-      this.bodySoundManager.playBodyAddedSound( model.bodies.length - 1 );
+      this.bodySoundManager.playBodyAddedSound( model.activeBodies.length - 1 );
     } );
 
     model.bodyRemovedEmitter.addListener( () => {
-      this.bodySoundManager.playBodyRemovedSound( model.bodies.length - 1 );
+      this.bodySoundManager.playBodyRemovedSound( model.activeBodies.length - 1 );
     } );
   }
 }

@@ -62,7 +62,7 @@ export default class LabModel extends MySolarSystemModel {
         this.timeProperty.reset();
         const modeInfo = this.orbitalSystemMap.get( mode );
         this.loadBodyInfo( modeInfo! );
-        this.numberOfActiveBodiesProperty.value = this.bodies.length;
+        this.numberOfActiveBodiesProperty.value = this.activeBodies.length;
         this.followCenterOfMass();
         this.saveStartingBodyInfo();
         this.forceScaleProperty.reset();
@@ -74,10 +74,10 @@ export default class LabModel extends MySolarSystemModel {
     } );
 
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodies => {
-      if ( numberOfActiveBodies !== this.bodies.length ) {
+      if ( numberOfActiveBodies !== this.activeBodies.length ) {
         this.isPlayingProperty.value = false;
         this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        if ( numberOfActiveBodies > this.bodies.length ) {
+        if ( numberOfActiveBodies > this.activeBodies.length ) {
           this.addNextBody();
         }
         else {
