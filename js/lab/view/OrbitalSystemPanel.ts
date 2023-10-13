@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * LabModePanel is the panel that contains the combo box for selecting the OrbitalSystem - the desired configuration of bodies.
+ * OrbitalSystemPanel is the panel that contains the combo box for selecting the OrbitalSystem - the desired configuration of bodies.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
@@ -16,7 +16,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import { Node } from '../../../../scenery/js/imports.js';
 
-export default class LabModePanel extends Panel {
+export default class OrbitalSystemPanel extends Panel {
 
   public constructor( labModeProperty: Property<OrbitalSystem>, listboxParent: Node, tandem: Tandem ) {
 
@@ -35,4 +35,4 @@ export default class LabModePanel extends Panel {
   }
 }
 
-mySolarSystem.register( 'LabModePanel', LabModePanel );
+mySolarSystem.register( 'OrbitalSystemPanel', OrbitalSystemPanel );
