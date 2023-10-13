@@ -1,8 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Combo Box that keeps track of the Lab Modes and their proper string mapping.
- * Creates the ComboBoxItems with tandems and a11y view.
+ * OrbitalSystemComboBox is the control for selecting an OrbitalSystem (configuration of bodies).
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */

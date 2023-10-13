@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * OrbitalSystemPanel is the panel that contains the combo box for selecting the OrbitalSystem - the desired configuration of bodies.
+ * OrbitalSystemPanel is the panel that contains the combo box for selecting an OrbitalSystem (configuration of bodies).
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */

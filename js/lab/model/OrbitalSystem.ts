@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Enumerates the presets and custom settings for the bodies in the Lab Screen.
+ * OrbitalSystem enumerates the preset and custom configurations of bodies in the Lab Screen.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
