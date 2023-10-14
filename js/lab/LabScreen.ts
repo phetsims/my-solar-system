@@ -25,7 +25,7 @@ export default class LabScreen extends Screen<LabModel, LabScreenView> {
       backgroundColorProperty: SolarSystemCommonColors.backgroundProperty,
       tandem: tandem,
       name: MySolarSystemStrings.screen.labStringProperty,
-      createKeyboardHelpNode: () => new MySolarSystemKeyboardHelpContent()
+      createKeyboardHelpNode: () => new MySolarSystemKeyboardHelpContent( true /* hasComboBoxHelp */ )
     };
 
     super(

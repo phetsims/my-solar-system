@@ -93,6 +93,14 @@ type StringsType = {
     'range': string;
     'rangeStringProperty': LocalizedStringProperty;
   };
+  'keyboardHelpDialog': {
+    'chooseAnOrbitalSystem': string;
+    'chooseAnOrbitalSystemStringProperty': LocalizedStringProperty;
+    'orbitalSystems': string;
+    'orbitalSystemsStringProperty': LocalizedStringProperty;
+    'orbitalSystem': string;
+    'orbitalSystemStringProperty': LocalizedStringProperty;
+  };
   'a11y': {
     'moreData': string;
     'moreDataStringProperty': LocalizedStringProperty;

@@ -12,9 +12,13 @@ import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboar
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TimeControlKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimeControlKeyboardHelpSection.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import ComboBoxKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/ComboBoxKeyboardHelpSection.js';
 
 export default class MySolarSystemKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
-  public constructor() {
+
+  public constructor( hasComboBoxHelp = false ) {
+
     const draggableHelpSection = new MoveDraggableItemsKeyboardHelpSection();
     const sliderHelpSection = new SliderControlsKeyboardHelpSection();
     const timeControlsHelpSection = new TimeControlKeyboardHelpSection();
@@ -23,7 +27,19 @@ export default class MySolarSystemKeyboardHelpContent extends TwoColumnKeyboardH
       withKeypadContent: true
     } );
 
-    super( [ draggableHelpSection, sliderHelpSection ], [ timeControlsHelpSection, basicActionsHelpSection ] );
+    // optional 'Choose a Target Orbit' for combo box
+    const comboBoxHelpSection = hasComboBoxHelp ? new ComboBoxKeyboardHelpSection( {
+      headingString: MySolarSystemStrings.keyboardHelpDialog.chooseAnOrbitalSystemStringProperty,
+      thingAsLowerCaseSingular: MySolarSystemStrings.keyboardHelpDialog.orbitalSystemStringProperty,
+      thingAsLowerCasePlural: MySolarSystemStrings.keyboardHelpDialog.orbitalSystemsStringProperty
+    } ) : null;
+
+    const leftSection = comboBoxHelpSection ?
+      [ draggableHelpSection, sliderHelpSection, comboBoxHelpSection ] :
+      [ draggableHelpSection, sliderHelpSection ];
+    const rightSection = [ timeControlsHelpSection, basicActionsHelpSection ];
+
+    super( leftSection, rightSection );
   }
 }
 
