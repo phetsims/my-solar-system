@@ -30,12 +30,11 @@ const STROKE_WIDTH = 3;
 
 export default class PathsCanvasNode extends CanvasNode {
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
-  private readonly transformProperty: TReadOnlyProperty<ModelViewTransform2>;
+  private readonly modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>;
   private readonly bodies: Body[];
 
   public constructor( bodies: Body[],
-                      transformProperty: TReadOnlyProperty<ModelViewTransform2>,
+                      modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions?: PathsCanvasNodeOptions ) {
 
@@ -51,7 +50,7 @@ export default class PathsCanvasNode extends CanvasNode {
       this.canvasBounds = bounds;
     } );
 
-    this.transformProperty = transformProperty;
+    this.modelViewTransformProperty = modelViewTransformProperty;
     this.bodies = bodies;
 
     stepTimer.addListener( () => this.invalidatePaint() );
@@ -64,10 +63,10 @@ export default class PathsCanvasNode extends CanvasNode {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
 
-      const points = body.pathPoints.map( point => this.transformProperty.value.modelToViewPosition( point ) );
+      const points = body.pathPoints.map( point => this.modelViewTransformProperty.value.modelToViewPosition( point ) );
 
       // max path length in view coordinates
-      const maxPathLength = this.transformProperty.value.modelToViewDeltaX( 1200 );
+      const maxPathLength = this.modelViewTransformProperty.value.modelToViewDeltaX( 1200 );
       const fadePathLength = maxPathLength * 0.15; // fade length is ~15% of the path
 
       context.strokeStyle = body.colorProperty.value.toCSS();

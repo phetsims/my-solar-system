@@ -99,7 +99,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
       const forceVectorNode = new VectorNode( body, this.modelViewTransformProperty, body.forceProperty, model.forceScaleProperty, {
         fill: SolarSystemCommonColors.gravityColorProperty,
-        constrainSize: true,
         visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] )
         // tandem: Do not instrument, nothing interesting here.
       } );
