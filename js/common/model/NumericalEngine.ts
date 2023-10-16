@@ -34,16 +34,19 @@ export default class NumericalEngine extends Engine {
     super( bodies );
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  /**
+   * In this update function, the local bodies array is updated, the system then checks for collisions and updates the forces.
+   */
   public override update( bodies: ObservableArray<Body> ): void {
-
-    // Reset the bodies array and recalculate total mass
     this.bodies = bodies;
     this.checkCollisions();
     this.updateForces();
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  /**
+   * Compares the position of all the bodies to check if they are overlapping.
+   * Then disable the smaller one.
+   */
   public override checkCollisions(): void {
 
     // We need to rerun collision checks if we get one collision
@@ -77,9 +80,11 @@ export default class NumericalEngine extends Engine {
     this.updateForces();
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  /**
+   * Updates the position of the bodies using the PEFRL algorithm.
+   */
   public override run( dt: number, updateProperties = true ): void {
-    const iterationCount = 400 / this.bodies.length;
+    const iterationCount = 400 / this.bodies.length; // 400 is an arbitrary number of iterations that worked well
     const N = this.bodies.length;
     dt /= iterationCount;
 
@@ -96,7 +101,7 @@ export default class NumericalEngine extends Engine {
         forces[ i ].setXY( 0, 0 );
       }
 
-      // Iterate between all the bodies to add the forces and check collisions
+      // Iterate between all the bodies to add the forces
       for ( let i = 0; i < N; i++ ) {
         const mass1 = masses[ i ];
         for ( let j = i + 1; j < N; j++ ) {
@@ -178,6 +183,10 @@ export default class NumericalEngine extends Engine {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
 
+      // Here, depending on updateProperties, we either update (and notify) the Properties or just set their values.
+      // This is done to avoid notifying the Property change on every iteration, which is expensive.
+      // Currently, on SolarSystemCommonModel, it is set to false except on the last iteration of the model.run() method.
+
       if ( updateProperties ) {
         body.positionProperty.value = positions[ i ];
         body.velocityProperty.value = velocities[ i ];
@@ -193,7 +202,11 @@ export default class NumericalEngine extends Engine {
     }
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  /**
+   * Resets the forces and accelerations of all the bodies to zero.
+   * Then, it calculates the gravitational forces between the bodies based on the Newtonian Law of Universal Gravitation.
+   * The forces and accelerations are then set on the bodies.
+   */
   private updateForces(): void {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];

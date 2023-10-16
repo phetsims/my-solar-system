@@ -24,8 +24,11 @@ import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
-  useExponential?: boolean; //TODO https://github.com/phetsims/my-solar-system/issues/213 document
-  hideSmallValues?: boolean; //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  // Use exponential notation e.g. 1x10^4 instead of 10000
+  useExponential?: boolean;
+
+  // Small numeric values show as <0.1
+  hideSmallValues?: boolean;
   onEditCallback?: () => void;
 };
 
@@ -33,7 +36,7 @@ type InteractiveNumberDisplayOptions = SelfOptions; // no NumberDisplayOptions a
 
 export default class InteractiveNumberDisplay extends InteractiveHighlighting( NumberDisplay ) {
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  // Keeps track of whether the keypad is open or not
   public readonly isKeypadActiveProperty: TProperty<boolean>;
 
   public constructor(

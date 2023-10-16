@@ -85,13 +85,17 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     this.centerOfMass.update();
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  // Calls the update method on the parent class and updates the position and velocity of the CoM
   public override update(): void {
     super.update();
     this.centerOfMass.update();
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
+  /**
+   * Calls the restart method (revert system back to t=0) on the parent class, and based on the new position and velocity
+   * of the CoM, updates the userControlledProperty and systemCenteredProperty.
+   * (If CoM is moving, it is implied the user has interacted with the sim)
+   */
   public override restart(): void {
     super.restart();
 
