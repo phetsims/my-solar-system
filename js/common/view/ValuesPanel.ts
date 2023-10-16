@@ -44,13 +44,13 @@ export default class ValuesPanel extends Panel {
 
     //----------------------------------------------------------------------------------------
     // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel
-    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS );
-    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER );
-    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X );
-    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y );
-    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X );
-    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y );
-    const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS );
+    const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, tandem.createTandem( 'iconsColumn' ) );
+    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, tandem.createTandem( 'massColumn' ) );
+    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, tandem.createTandem( 'massSliderColumn' ) );
+    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, tandem.createTandem( 'xColumn' ) );
+    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, tandem.createTandem( 'yColumn' ) );
+    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, tandem.createTandem( 'vxColumn' ) );
+    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, tandem.createTandem( 'vyColumn' ) );
 
     const componentColumnsSpacing = 12;
     const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: componentColumnsSpacing } );

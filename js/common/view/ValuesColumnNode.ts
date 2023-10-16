@@ -23,13 +23,14 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes ) {
+  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, tandem: Tandem ) {
 
     const labelStringProperty =
       columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
@@ -55,7 +56,8 @@ export default class ValuesColumnNode extends VBox {
 
     super( {
       children: [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ],
-      stretch: true
+      stretch: true,
+      tandem: tandem
     } );
   }
 
