@@ -122,9 +122,13 @@ export default class ValuesColumnNode extends VBox {
       contentNode = new InteractiveNumberDisplay(
         body.massProperty,
         MASS_RANGE,
+        MASS_DECIMAL_PLACES,
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
-        body.colorProperty, model.isPlayingProperty, MASS_DECIMAL_PLACES, keypadDialog, {
+        body.colorProperty,
+        model.isPlayingProperty,
+        keypadDialog,
+        {
           useExponential: true,
           hideSmallValues: true,
           tandem: parentTandem.createTandem( `mass${body.index}Display` )
@@ -139,9 +143,13 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
         POSITION_X_RANGE,
+        POSITION_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, POSITION_DECIMAL_PLACES, keypadDialog, {
+        body.colorProperty,
+        model.isPlayingProperty,
+        keypadDialog,
+        {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `x${body.index}Display` )
         }
@@ -156,9 +164,13 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
         } ),
         POSITION_Y_RANGE,
+        POSITION_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, POSITION_DECIMAL_PLACES, keypadDialog, {
+        body.colorProperty,
+        model.isPlayingProperty,
+        keypadDialog,
+        {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `y${body.index}Display` )
         }
@@ -173,9 +185,13 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
         } ),
         VELOCITY_RANGE,
+        VELOCITY_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, VELOCITY_DECIMAL_PLACES, keypadDialog, {
+        body.colorProperty,
+        model.isPlayingProperty,
+        keypadDialog,
+        {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `vx${body.index}Display` )
         }
@@ -190,9 +206,13 @@ export default class ValuesColumnNode extends VBox {
           inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
         } ),
         VELOCITY_RANGE,
+        VELOCITY_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, VELOCITY_DECIMAL_PLACES, keypadDialog, {
+        body.colorProperty,
+        model.isPlayingProperty,
+        keypadDialog,
+        {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `vy${body.index}Display` )
         }

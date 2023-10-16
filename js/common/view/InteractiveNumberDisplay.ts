@@ -40,11 +40,11 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
   public constructor(
     property: TProperty<number>,
     range: RangeWithValue,
+    decimalPlaces: number,
     unitsProperty: TReadOnlyProperty<string>,
     userControlledProperty: TProperty<boolean>,
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
-    decimalPlaces: number,
     keypadDialog: KeypadDialog,
     providedOptions: InteractiveNumberDisplayOptions
   ) {
