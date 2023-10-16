@@ -193,7 +193,7 @@ export default class ValuesColumnNode extends VBox {
         keypadDialog,
         {
           onEditCallback: clearPathsCallback,
-          tandem: parentTandem.createTandem( `vx${body.index}Display` )
+          tandem: parentTandem.createTandem( `Vx${body.index}Display` )
         }
       );
     }
@@ -214,7 +214,7 @@ export default class ValuesColumnNode extends VBox {
         keypadDialog,
         {
           onEditCallback: clearPathsCallback,
-          tandem: parentTandem.createTandem( `vy${body.index}Display` )
+          tandem: parentTandem.createTandem( `Vy${body.index}Display` )
         }
       );
     }
