@@ -42,30 +42,14 @@ export default class ValuesColumnNode extends VBox {
         maxWidth: 60
       } ) );
 
-    // Create the VBox container for the contentNodes of the column.
+    // Create content for each Body.
+    const contentChildren = model.bodies.map( body => ValuesColumnNode.createContentNode( body, columnType, model ) );
+
+    // Arrange the content for each Body in a vertical column.
     const contentContainer = new VBox( {
+      children: contentChildren,
       spacing: 3.5,
       stretch: true
-    } );
-
-    // Loop through each possible Body and create the corresponding contentNode. These Bodies are NOT necessarily the
-    // active bodies, so we are responsible for updating visibility based on whether it is the system.
-    model.bodies.forEach( body => {
-
-      // Create the corresponding contentNode for each available body.
-      const contentNode = ValuesColumnNode.createContentNode( body, columnType, model );
-
-      // Add the content to the container.
-      contentContainer.addChild( contentNode );
-
-      // Observe when Bodies are added or removed from the Model, meaning the contentNode's visibility could change
-      // if the body is added or removed from the system. It should only be visible if the body is in the Model.
-      const onBodiesChanged = () => {
-        contentNode.visible = model.activeBodies.includes( body );
-      };
-      onBodiesChanged();
-      model.activeBodies.elementAddedEmitter.addListener( onBodiesChanged );
-      model.activeBodies.elementRemovedEmitter.addListener( onBodiesChanged );
     } );
 
     super( {
@@ -203,7 +187,9 @@ export default class ValuesColumnNode extends VBox {
     }
 
     // Wrap the contentNode in a AlignBox to match the height of all ContentNodes.
-    return CONTENT_ALIGN_GROUP.createBox( contentNode );
+    return CONTENT_ALIGN_GROUP.createBox( contentNode, {
+      visibleProperty: body.isActiveProperty // visible when the Body is active
+    } );
   }
 }
 
