@@ -21,6 +21,7 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 
@@ -42,15 +43,29 @@ export default class ValuesPanel extends Panel {
       tandem: tandem
     };
 
+    // Keypad dialog that is shared by UI components that make up this panel
+    const keypadDialog = new KeypadDialog( {
+      useRichTextRange: true,
+      keypadOptions: {
+        accumulatorOptions: {
+
+          // Max is 300, but we need 4 digits to support numbers like 123.4
+          maxDigits: 5,
+          maxDigitsRightOfMantissa: 2
+        }
+      },
+      tandem: tandem.createTandem( 'keypadDialog' )
+    } );
+
     //----------------------------------------------------------------------------------------
     // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel
-    const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, tandem.createTandem( 'iconsColumn' ) );
-    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, tandem.createTandem( 'massColumn' ) );
-    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, tandem.createTandem( 'massSliderColumn' ) );
-    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, tandem.createTandem( 'xColumn' ) );
-    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, tandem.createTandem( 'yColumn' ) );
-    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, tandem.createTandem( 'vxColumn' ) );
-    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, tandem.createTandem( 'vyColumn' ) );
+    const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, tandem.createTandem( 'iconsColumn' ) );
+    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, tandem.createTandem( 'massColumn' ) );
+    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, tandem.createTandem( 'massSliderColumn' ) );
+    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, tandem.createTandem( 'xColumn' ) );
+    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, tandem.createTandem( 'yColumn' ) );
+    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, tandem.createTandem( 'vxColumn' ) );
+    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, tandem.createTandem( 'vyColumn' ) );
 
     const componentColumnsSpacing = 12;
     const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: componentColumnsSpacing } );

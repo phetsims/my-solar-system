@@ -45,6 +45,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
     decimalPlaces: number,
+    keypadDialog: KeypadDialog,
     providedOptions: InteractiveNumberDisplayOptions
   ) {
 
@@ -53,21 +54,6 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     const isKeypadActiveProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'isKeypadActiveProperty' ),
       phetioReadOnly: true
-    } );
-
-    // Keypad dialog
-    //TODO https://github.com/phetsims/my-solar-system/issues/237 can we reuse 1 KeypadDialog?
-    const keypadDialog = new KeypadDialog( {
-      useRichTextRange: true,
-      keypadOptions: {
-        accumulatorOptions: {
-
-          // Max is 300, but we need 4 digits to support numbers like 123.4
-          maxDigits: 5,
-          maxDigitsRightOfMantissa: 2
-        }
-      },
-      tandem: providedOptions.tandem.createTandem( 'keypadDialog' )
     } );
 
     const hoverListener = new PressListener( {

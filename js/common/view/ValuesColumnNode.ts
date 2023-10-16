@@ -24,20 +24,21 @@ import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, tandem: Tandem ) {
+  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, keypadDialog: KeypadDialog, tandem: Tandem ) {
 
     const labelStringProperty =
       columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
       columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
       columnType === ValuesColumnTypes.VELOCITY_X ? MySolarSystemStrings.dataPanel.VxStringProperty :
       columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
-      ''; //TODO https://github.com/phetsims/my-solar-system/issues/237 this should thrown an Error
+      ''; // ValuesColumnTypes.BODY_ICONS
 
     const labelNode = new RichText( labelStringProperty,
       combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
@@ -45,7 +46,7 @@ export default class ValuesColumnNode extends VBox {
       } ) );
 
     // Create content for each Body.
-    const contentChildren = model.bodies.map( body => ValuesColumnNode.createContentNode( body, columnType, model, tandem ) );
+    const contentChildren = model.bodies.map( body => ValuesColumnNode.createContentNode( body, columnType, model, keypadDialog, tandem ) );
 
     // Arrange the content for each Body in a vertical column.
     const contentContainer = new VBox( {
@@ -61,7 +62,8 @@ export default class ValuesColumnNode extends VBox {
     } );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel, parentTandem: Tandem ): AlignBox {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel,
+                                    keypadDialog: KeypadDialog, parentTandem: Tandem ): AlignBox {
 
     // Flag that references the contentNode.
     let contentNode;
@@ -118,7 +120,7 @@ export default class ValuesColumnNode extends VBox {
         massRange,
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
-        body.colorProperty, model.isPlayingProperty, 1, {
+        body.colorProperty, model.isPlayingProperty, 1, keypadDialog, {
           useExponential: true,
           hideSmallValues: true,
           tandem: parentTandem.createTandem( `mass${body.index}Display` )
@@ -135,7 +137,7 @@ export default class ValuesColumnNode extends VBox {
         positionRangeX,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, 2, {
+        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `x${body.index}Display` )
         }
@@ -152,7 +154,7 @@ export default class ValuesColumnNode extends VBox {
         positionRangeY,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, 2, {
+        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `y${body.index}Display` )
         }
@@ -169,7 +171,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, 2, {
+        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `vx${body.index}Display` )
         }
@@ -186,7 +188,7 @@ export default class ValuesColumnNode extends VBox {
         velocityRange,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, 2, {
+        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `vy${body.index}Display` )
         }
