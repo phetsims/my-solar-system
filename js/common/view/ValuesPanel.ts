@@ -8,7 +8,7 @@
  */
 
 import mySolarSystem from '../../mySolarSystem.js';
-import { AlignBox, AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Panel from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -83,52 +83,23 @@ export default class ValuesPanel extends Panel {
     } );
 
     //----------------------------------------------------------------------------------------
+    // Create titles for each section
 
-    // Convenience function to create the title-label that appears above each column group.
-    const createTitleLabel = ( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string>, useUnits: TReadOnlyProperty<boolean> | boolean = true ) => {
-      const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
-        label: label,
-        units: units
-      } );
-
-      // Wrap the text in an AlignGroup to match height.
-      return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
-        combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
-          maxWidth: TITLE_MAX_WIDTH
-        } ) ) );
-    };
-
-    const massTitleWithoutUnits = TITLE_ALIGN_GROUP.createBox( new RichText( MySolarSystemStrings.massStringProperty,
-      combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
-        maxWidth: TITLE_MAX_WIDTH
-      } ) ) );
-    const massTitleWithUnits = createTitleLabel( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
-    const massTitleNode = model.isLab ? massTitleWithUnits : massTitleWithoutUnits;
-    const positionTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.positionStringProperty, SolarSystemCommonStrings.units.AUStringProperty );
-    const velocityTitleNode = createTitleLabel( MySolarSystemStrings.dataPanel.velocityStringProperty, SolarSystemCommonStrings.units.kmsStringProperty );
+    const massTitleNode = model.isLab ?
+                          TITLE_ALIGN_GROUP.createBox( new RichText( MySolarSystemStrings.massStringProperty,
+                            combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
+                              maxWidth: TITLE_MAX_WIDTH
+                            } ) ) ) :
+                          createTitleText( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
+    const positionTitleNode = createTitleText( MySolarSystemStrings.dataPanel.positionStringProperty, SolarSystemCommonStrings.units.AUStringProperty );
+    const velocityTitleNode = createTitleText( MySolarSystemStrings.dataPanel.velocityStringProperty, SolarSystemCommonStrings.units.kmsStringProperty );
 
     //----------------------------------------------------------------------------------------
+    // Create the sections
 
-    // Convenience function to create each section of the Panel, which includes the column group and a title above it.
-    const createSectionNode = ( titleNode: AlignBox, columnGroup: Node, tandem: Tandem, isComponentColumnGroup = true ) => {
-      return new VBox( {
-        children: [
-          titleNode,
-
-          // If the group is a grouping of component columns, wrap the column group in an align group to match width.
-          isComponentColumnGroup ? COMPONENT_COLUMN_GROUP_ALIGN_GROUP.createBox( columnGroup ) : columnGroup
-        ],
-        spacing: 0.5,
-        tandem: tandem
-      } );
-    };
-
-    // Horizontally group the column groups with their respective title-labels.
     const massSectionNode = createSectionNode( massTitleNode, massColumnNode, massSectionTandem, false );
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
-
-    const columnGroupSpacing = 21;
 
     // The content of the entire Panel when "More Data" is checked.
     const moreDataBox = new HBox( {
@@ -137,7 +108,7 @@ export default class ValuesPanel extends Panel {
         velocitySectionNode
       ],
       bottom: 0,
-      spacing: columnGroupSpacing
+      spacing: 12
     } );
 
     // The content of the entire Panel when "More Data" is not checked.
@@ -169,6 +140,38 @@ export default class ValuesPanel extends Panel {
       align: 'bottom'
     } ), options );
   }
+}
+
+/**
+ * Creates the title that appears above a section.
+ */
+function createTitleText( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string>, useUnits: TReadOnlyProperty<boolean> | boolean = true ): Node {
+  const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
+    label: label,
+    units: units
+  } );
+
+  // Wrap the text in an AlignGroup to match height.
+  return TITLE_ALIGN_GROUP.createBox( new RichText( titleStringProperty,
+    combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
+      maxWidth: TITLE_MAX_WIDTH
+    } ) ) );
+}
+
+/**
+ * Creates a "section" of the Panel, which is one or more columns with a title above it.
+ */
+function createSectionNode( titleNode: Node, columnGroup: Node, tandem: Tandem, isComponentColumnGroup = true ): Node {
+  return new VBox( {
+    children: [
+      titleNode,
+
+      // If the group is a grouping of component columns, wrap the column group in an align group to match width.
+      isComponentColumnGroup ? COMPONENT_COLUMN_GROUP_ALIGN_GROUP.createBox( columnGroup ) : columnGroup
+    ],
+    spacing: 0.5,
+    tandem: tandem
+  } );
 }
 
 mySolarSystem.register( 'ValuesPanel', ValuesPanel );
