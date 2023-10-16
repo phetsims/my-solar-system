@@ -31,13 +31,14 @@ const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 export default class ValuesColumnNode extends VBox {
   public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes ) {
 
-    const labelString = columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
-                        columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
-                        columnType === ValuesColumnTypes.VELOCITY_X ? MySolarSystemStrings.dataPanel.VxStringProperty :
-                        columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
-                        '';
+    const labelStringProperty =
+      columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
+      columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
+      columnType === ValuesColumnTypes.VELOCITY_X ? MySolarSystemStrings.dataPanel.VxStringProperty :
+      columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
+      '';
 
-    const labelNode = new RichText( labelString,
+    const labelNode = new RichText( labelStringProperty,
       combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
         maxWidth: 60
       } ) );
