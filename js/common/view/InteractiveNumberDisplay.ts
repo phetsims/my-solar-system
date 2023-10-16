@@ -49,11 +49,11 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     providedOptions: InteractiveNumberDisplayOptions
   ) {
 
-    // Keeps track of whether the keypad is open or not
-    //TODO https://github.com/phetsims/my-solar-system/issues/237 why not use keypadDialog.isShowingProperty?
-    const isKeypadActiveProperty = new BooleanProperty( false, {
-      tandem: providedOptions.tandem.createTandem( 'isKeypadActiveProperty' ),
-      phetioReadOnly: true
+    // Keeps track of whether we're in the middle of a beginEdit/endEdit sequence with keypadDialog.
+    const isEditingProperty = new BooleanProperty( false, {
+      tandem: providedOptions.tandem.createTandem( 'isEditingProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'True while editing the value using the keypad'
     } );
 
     const hoverListener = new PressListener( {
@@ -82,7 +82,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
         font: SolarSystemCommonConstants.NUMBER_DISPLAY_FONT
       },
       backgroundFill: new DerivedProperty(
-        [ userControlledProperty, isKeypadActiveProperty, hoverListener.looksOverProperty, bodyColorProperty ],
+        [ userControlledProperty, isEditingProperty, hoverListener.looksOverProperty, bodyColorProperty ],
         ( isUserControlled, isKeypadActive, looksOver, bodyColor ) => {
           return isUserControlled || isKeypadActive || looksOver ? bodyColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
         } ),
@@ -111,7 +111,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     this.addInputListener( new FireListener( {
       fire: () => {
         if ( !userControlledProperty.value ) {
-          isKeypadActiveProperty.value = true;
+          isEditingProperty.value = true;
 
           const wasPlaying = isPlayingProperty.value;
           isPlayingProperty.value = false;
@@ -124,7 +124,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
             options.onEditCallback();
           };
           const endEdit = () => {
-            isKeypadActiveProperty.value = false;
+            isEditingProperty.value = false;
             userControlledProperty.value = false;
             if ( !changed ) {
               isPlayingProperty.value = wasPlaying;
