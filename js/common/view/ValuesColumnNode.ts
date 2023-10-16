@@ -142,7 +142,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
+        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y ),
+        tandem: parentTandem.createTandem( `positionX${body.index}MappedProperty` )
       } );
 
       contentNode = new InteractiveNumberDisplay(
@@ -166,7 +167,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
+        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER ),
+        tandem: parentTandem.createTandem( `positionY${body.index}MappedProperty` )
       } );
 
       contentNode = new InteractiveNumberDisplay(
@@ -190,7 +192,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
+        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y ),
+        tandem: parentTandem.createTandem( `velocityX${body.index}MappedProperty` )
       } );
 
       contentNode = new InteractiveNumberDisplay(
@@ -214,7 +217,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
+        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER ),
+        tandem: parentTandem.createTandem( `velocityY${body.index}MappedProperty` )
       } );
 
       contentNode = new InteractiveNumberDisplay(
