@@ -91,14 +91,14 @@ export default class ValuesColumnNode extends VBox {
       } );
 
       // Labels the index of the Body
-      const labelNode = new Text( body.index, {
+      const indexText = new Text( body.index, {
         font: new PhetFont( { size: 18, weight: 600 } ),
         center: ballCircle.center,
         stroke: Color.BLACK,
         fill: Color.WHITE
       } );
 
-      contentNode = new Node( { children: [ ballCircle, labelNode ] } );
+      contentNode = new Node( { children: [ ballCircle, indexText ] } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
       contentNode = new SolarSystemCommonNumberControl( body.massProperty, MASS_RANGE, {
