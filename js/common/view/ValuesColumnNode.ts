@@ -35,6 +35,10 @@ const POSITION_X_RANGE = new RangeWithValue( -8, 8, 0 );
 const POSITION_Y_RANGE = new RangeWithValue( -4, 4, 0 );
 const VELOCITY_RANGE = new RangeWithValue( -100, 100, 0 );
 
+const MASS_DECIMAL_PLACES = 1;
+const POSITION_DECIMAL_PLACES = 2;
+const VELOCITY_DECIMAL_PLACES = 2;
+
 export default class ValuesColumnNode extends VBox {
   public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, keypadDialog: KeypadDialog, tandem: Tandem ) {
 
@@ -120,7 +124,7 @@ export default class ValuesColumnNode extends VBox {
         MASS_RANGE,
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
-        body.colorProperty, model.isPlayingProperty, 1, keypadDialog, {
+        body.colorProperty, model.isPlayingProperty, MASS_DECIMAL_PLACES, keypadDialog, {
           useExponential: true,
           hideSmallValues: true,
           tandem: parentTandem.createTandem( `mass${body.index}Display` )
@@ -137,7 +141,7 @@ export default class ValuesColumnNode extends VBox {
         POSITION_X_RANGE,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
+        body.colorProperty, model.isPlayingProperty, POSITION_DECIMAL_PLACES, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `x${body.index}Display` )
         }
@@ -154,7 +158,7 @@ export default class ValuesColumnNode extends VBox {
         POSITION_Y_RANGE,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
-        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
+        body.colorProperty, model.isPlayingProperty, POSITION_DECIMAL_PLACES, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `y${body.index}Display` )
         }
@@ -171,7 +175,7 @@ export default class ValuesColumnNode extends VBox {
         VELOCITY_RANGE,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
+        body.colorProperty, model.isPlayingProperty, VELOCITY_DECIMAL_PLACES, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `vx${body.index}Display` )
         }
@@ -188,7 +192,7 @@ export default class ValuesColumnNode extends VBox {
         VELOCITY_RANGE,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
-        body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
+        body.colorProperty, model.isPlayingProperty, VELOCITY_DECIMAL_PLACES, keypadDialog, {
           onEditCallback: clearPathsCallback,
           tandem: parentTandem.createTandem( `vy${body.index}Display` )
         }
