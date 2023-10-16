@@ -61,7 +61,10 @@ export default class ValuesColumnNode extends VBox {
       } ) );
 
     // Create the VBox container for the contentNodes of the column.
-    const contentContainer = new VBox( { spacing: options.contentContainerSpacing, stretch: true } );
+    const contentContainer = new VBox( {
+      spacing: options.contentContainerSpacing,
+      stretch: true
+    } );
 
     // Loop through each possible Body and create the corresponding contentNode. These Bodies are NOT necessarily the
     // active bodies, so we are responsible for updating visibility based on whether it is
