@@ -57,15 +57,20 @@ export default class ValuesPanel extends Panel {
       tandem: tandem.createTandem( 'keypadDialog' )
     } );
 
+    // Parent tandems for each section
+    const massSectionTandem = tandem.createTandem( 'massSection' );
+    const positionSectionTandem = tandem.createTandem( 'positionSection' );
+    const velocitySectionTandem = tandem.createTandem( 'velocitySection' );
+
     //----------------------------------------------------------------------------------------
     // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel
     const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, tandem.createTandem( 'iconsColumn' ) );
-    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, tandem.createTandem( 'massColumn' ) );
-    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, tandem.createTandem( 'massSliderColumn' ) );
-    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, tandem.createTandem( 'xColumn' ) );
-    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, tandem.createTandem( 'yColumn' ) );
-    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, tandem.createTandem( 'VxColumn' ) );
-    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, tandem.createTandem( 'VyColumn' ) );
+    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
+    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, massSectionTandem.createTandem( 'massSliderColumn' ) );
+    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
+    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, positionSectionTandem.createTandem( 'yColumn' ) );
+    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, velocitySectionTandem.createTandem( 'VxColumn' ) );
+    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, velocitySectionTandem.createTandem( 'VyColumn' ) );
 
     const componentColumnsSpacing = 12;
     const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: componentColumnsSpacing } );
@@ -98,7 +103,7 @@ export default class ValuesPanel extends Panel {
     //----------------------------------------------------------------------------------------
 
     // Convenience function to create each section of the Panel, which includes the column group and a title above it.
-    const createSectionNode = ( titleNode: AlignBox, columnGroup: Node, isComponentColumnGroup = true ) => {
+    const createSectionNode = ( titleNode: AlignBox, columnGroup: Node, tandem: Tandem, isComponentColumnGroup = true ) => {
       return new VBox( {
         children: [
           titleNode,
@@ -106,14 +111,15 @@ export default class ValuesPanel extends Panel {
           // If the group is a grouping of component columns, wrap the column group in an align group to match width.
           isComponentColumnGroup ? COMPONENT_COLUMN_GROUP_ALIGN_GROUP.createBox( columnGroup ) : columnGroup
         ],
-        spacing: 0.5
+        spacing: 0.5,
+        tandem: tandem
       } );
     };
 
     // Horizontally group the column groups with their respective title-labels.
-    const massSectionNode = createSectionNode( massTitleNode, massColumnNode, false );
-    const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup );
-    const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup );
+    const massSectionNode = createSectionNode( massTitleNode, massColumnNode, massSectionTandem, false );
+    const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
+    const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
 
     const columnGroupSpacing = 21;
 
