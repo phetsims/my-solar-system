@@ -24,11 +24,13 @@ export default class CenterOfMass {
   public constructor( public readonly bodies: ObservableArray<Body>, tandem: Tandem ) {
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
+      //TODO https://github.com/phetsims/my-solar-system/issues/244 units
       tandem: tandem.createTandem( 'positionProperty' ),
       phetioReadOnly: true
     } );
 
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
+      //TODO https://github.com/phetsims/my-solar-system/issues/244 units
       tandem: tandem.createTandem( 'velocityProperty' ),
       phetioReadOnly: true
     } );
