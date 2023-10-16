@@ -22,6 +22,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   // Use exponential notation e.g. 1x10^4 instead of 10000
@@ -32,7 +33,7 @@ type SelfOptions = {
   onEditCallback?: () => void;
 };
 
-type InteractiveNumberDisplayOptions = SelfOptions; // no NumberDisplayOptions are currently needed
+type InteractiveNumberDisplayOptions = SelfOptions & PickRequired<NumberDisplayOptions, 'tandem'>;
 
 export default class InteractiveNumberDisplay extends InteractiveHighlighting( NumberDisplay ) {
 
@@ -106,7 +107,10 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
         return `${Utils.toFixed( value, 2 )} ${units}`;
       } ),
       tagName: 'button',
-      containerTagName: 'div'
+      containerTagName: 'div',
+
+      // phet-io
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( property, range, options );

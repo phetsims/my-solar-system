@@ -37,7 +37,7 @@ export default class ValuesColumnNode extends VBox {
       columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
       columnType === ValuesColumnTypes.VELOCITY_X ? MySolarSystemStrings.dataPanel.VxStringProperty :
       columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
-      '';
+      ''; //TODO https://github.com/phetsims/my-solar-system/issues/237 this should thrown an Error
 
     const labelNode = new RichText( labelStringProperty,
       combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
@@ -45,7 +45,7 @@ export default class ValuesColumnNode extends VBox {
       } ) );
 
     // Create content for each Body.
-    const contentChildren = model.bodies.map( body => ValuesColumnNode.createContentNode( body, columnType, model ) );
+    const contentChildren = model.bodies.map( body => ValuesColumnNode.createContentNode( body, columnType, model, tandem ) );
 
     // Arrange the content for each Body in a vertical column.
     const contentContainer = new VBox( {
@@ -61,7 +61,7 @@ export default class ValuesColumnNode extends VBox {
     } );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel ): AlignBox {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel, parentTandem: Tandem ): AlignBox {
 
     // Flag that references the contentNode.
     let contentNode;
@@ -107,7 +107,9 @@ export default class ValuesColumnNode extends VBox {
         endCallback: () => { body.userControlledMassProperty.value = false; },
         arrowButtonOptions: {
           fireOnDown: true
-        }
+        },
+        tandem: parentTandem.createTandem( `mass${body.index}NumberControl` ),
+        phetioVisiblePropertyInstrumented: false
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
@@ -118,7 +120,8 @@ export default class ValuesColumnNode extends VBox {
         body.userControlledMassProperty,
         body.colorProperty, model.isPlayingProperty, 1, {
           useExponential: true,
-          hideSmallValues: true
+          hideSmallValues: true,
+          tandem: parentTandem.createTandem( `mass${body.index}Display` )
         } );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
@@ -133,7 +136,8 @@ export default class ValuesColumnNode extends VBox {
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty, model.isPlayingProperty, 2, {
-          onEditCallback: clearPathsCallback
+          onEditCallback: clearPathsCallback,
+          tandem: parentTandem.createTandem( `x${body.index}Display` )
         }
       );
     }
@@ -149,7 +153,8 @@ export default class ValuesColumnNode extends VBox {
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty, model.isPlayingProperty, 2, {
-          onEditCallback: clearPathsCallback
+          onEditCallback: clearPathsCallback,
+          tandem: parentTandem.createTandem( `y${body.index}Display` )
         }
       );
     }
@@ -165,7 +170,8 @@ export default class ValuesColumnNode extends VBox {
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
         body.colorProperty, model.isPlayingProperty, 2, {
-          onEditCallback: clearPathsCallback
+          onEditCallback: clearPathsCallback,
+          tandem: parentTandem.createTandem( `vx${body.index}Display` )
         }
       );
     }
@@ -181,11 +187,13 @@ export default class ValuesColumnNode extends VBox {
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
         body.colorProperty, model.isPlayingProperty, 2, {
-          onEditCallback: clearPathsCallback
+          onEditCallback: clearPathsCallback,
+          tandem: parentTandem.createTandem( `vy${body.index}Display` )
         }
       );
     }
     else {
+      //TODO https://github.com/phetsims/my-solar-system/issues/237 this should throw an Error
       contentNode = new Node();
     }
 
