@@ -86,11 +86,11 @@ export default class ValuesPanel extends Panel {
     // Create titles for each section
 
     const massTitleNode = model.isLab ?
+                          createTitleText( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty ) :
                           TITLE_ALIGN_GROUP.createBox( new RichText( MySolarSystemStrings.massStringProperty,
                             combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
                               maxWidth: TITLE_MAX_WIDTH
-                            } ) ) ) :
-                          createTitleText( MySolarSystemStrings.dataPanel.massStringProperty, MySolarSystemStrings.units.kgStringProperty );
+                            } ) ) );
     const positionTitleNode = createTitleText( MySolarSystemStrings.dataPanel.positionStringProperty, SolarSystemCommonStrings.units.AUStringProperty );
     const velocityTitleNode = createTitleText( MySolarSystemStrings.dataPanel.velocityStringProperty, SolarSystemCommonStrings.units.kmsStringProperty );
 
@@ -101,42 +101,23 @@ export default class ValuesPanel extends Panel {
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
 
-    // The content of the entire Panel when "More Data" is checked.
-    const moreDataBox = new HBox( {
-      children: [
-        positionSectionNode,
-        velocitySectionNode
-      ],
-      bottom: 0,
-      spacing: 12
-    } );
-
-    // The content of the entire Panel when "More Data" is not checked.
-    const lessDataBox = massSliderColumnNode;
-    lessDataBox.bottom = 0;
-
-    moreDataBox.boundsProperty.link( bounds => {
-      lessDataBox.preferredWidth = bounds.width;
-    } );
-
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
     // Link is not removed since BallValuesPanels are never disposed.
     model.moreDataProperty.link( moreDataVisible => {
-      moreDataBox.visible = moreDataVisible && model.isLab;
-      lessDataBox.visible = !moreDataVisible || !model.isLab;
-    } );
-
-    const dataNode = new HBox( {
-      align: 'bottom',
-      children: [
-        moreDataBox,
-        lessDataBox
-      ]
+      massSliderColumnNode.visible = !( moreDataVisible && model.isLab );
+      positionSectionNode.visible = moreDataVisible && model.isLab;
+      velocitySectionNode.visible = moreDataVisible && model.isLab;
     } );
 
     super( new HBox( {
       spacing: 12,
-      children: [ ballIconsColumnNode, massSectionNode, dataNode ],
+      children: [
+        ballIconsColumnNode,
+        massSectionNode,
+        massSliderColumnNode,
+        positionSectionNode,
+        velocitySectionNode
+      ],
       align: 'bottom'
     } ), options );
   }
