@@ -56,6 +56,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     } );
 
     // Keypad dialog
+    //TODO https://github.com/phetsims/my-solar-system/issues/237 can we reuse 1 KeypadDialog?
     const keypadDialog = new KeypadDialog( {
       useRichTextRange: true,
       keypadOptions: {
