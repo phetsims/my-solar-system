@@ -30,6 +30,11 @@ const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertica
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
+const MASS_RANGE = new RangeWithValue( 0.1, 300, 100 );
+const POSITION_X_RANGE = new RangeWithValue( -8, 8, 0 );
+const POSITION_Y_RANGE = new RangeWithValue( -4, 4, 0 );
+const VELOCITY_RANGE = new RangeWithValue( -100, 100, 0 );
+
 export default class ValuesColumnNode extends VBox {
   public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, keypadDialog: KeypadDialog, tandem: Tandem ) {
 
@@ -68,11 +73,6 @@ export default class ValuesColumnNode extends VBox {
     // Flag that references the contentNode.
     let contentNode;
 
-    const massRange = new RangeWithValue( 0.1, 300, 100 );
-    const positionRangeX = new RangeWithValue( -8, 8, 0 );
-    const positionRangeY = new RangeWithValue( -4, 4, 0 );
-    const velocityRange = new RangeWithValue( -100, 100, 0 );
-
     const clearPathsCallback = () => {
       model.clearPaths();
     };
@@ -97,13 +97,13 @@ export default class ValuesColumnNode extends VBox {
       contentNode = new Node( { children: [ ballCircle, labelNode ] } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
-      contentNode = new SolarSystemCommonNumberControl( body.massProperty, massRange, {
+      contentNode = new SolarSystemCommonNumberControl( body.massProperty, MASS_RANGE, {
         sliderOptions: {
           keyboardStep: MASS_SLIDER_STEP,
           pageKeyboardStep: 2 * MASS_SLIDER_STEP,
           thumbFill: body.colorProperty,
           thumbFillHighlighted: new DerivedProperty( [ body.colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
-          constrainValue: value => massRange.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) )
+          constrainValue: value => MASS_RANGE.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) )
         },
         startCallback: () => { body.userControlledMassProperty.value = true; },
         endCallback: () => { body.userControlledMassProperty.value = false; },
@@ -117,7 +117,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.MASS ) {
       contentNode = new InteractiveNumberDisplay(
         body.massProperty,
-        massRange,
+        MASS_RANGE,
         MySolarSystemStrings.units.kgStringProperty,
         body.userControlledMassProperty,
         body.colorProperty, model.isPlayingProperty, 1, keypadDialog, {
@@ -134,7 +134,7 @@ export default class ValuesColumnNode extends VBox {
           map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
           inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
         } ),
-        positionRangeX,
+        POSITION_X_RANGE,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
@@ -151,7 +151,7 @@ export default class ValuesColumnNode extends VBox {
           map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
           inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
         } ),
-        positionRangeY,
+        POSITION_Y_RANGE,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userControlledPositionProperty,
         body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
@@ -168,7 +168,7 @@ export default class ValuesColumnNode extends VBox {
           map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
           inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
         } ),
-        velocityRange,
+        VELOCITY_RANGE,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
         body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
@@ -185,7 +185,7 @@ export default class ValuesColumnNode extends VBox {
           map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
           inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
         } ),
-        velocityRange,
+        VELOCITY_RANGE,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userControlledVelocityProperty,
         body.colorProperty, model.isPlayingProperty, 2, keypadDialog, {
