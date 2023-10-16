@@ -37,9 +37,6 @@ type InteractiveNumberDisplayOptions = SelfOptions & PickRequired<NumberDisplayO
 
 export default class InteractiveNumberDisplay extends InteractiveHighlighting( NumberDisplay ) {
 
-  // Keeps track of whether the keypad is open or not
-  public readonly isKeypadActiveProperty: TProperty<boolean>;
-
   public constructor(
     property: TProperty<number>,
     range: RangeWithValue,
@@ -51,6 +48,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     providedOptions: InteractiveNumberDisplayOptions
   ) {
 
+    // Keeps track of whether the keypad is open or not
     //TODO https://github.com/phetsims/my-solar-system/issues/237 why not use keypadDialog.isShowingProperty?
     const isKeypadActiveProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'isKeypadActiveProperty' ),
@@ -123,8 +121,6 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     this.localBoundsProperty.link( localBounds => {
       this.touchArea = localBounds.dilatedXY( 5, 3.5 );
     } );
-
-    this.isKeypadActiveProperty = isKeypadActiveProperty;
 
     this.addInputListener( hoverListener );
 
