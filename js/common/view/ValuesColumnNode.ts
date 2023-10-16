@@ -18,7 +18,6 @@ import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
 import Utils from '../../../../dot/js/Utils.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
@@ -54,11 +53,8 @@ export default class ValuesColumnNode extends VBox {
     // the system.
     model.bodies.forEach( body => {
 
-      // Retrieve the color from the colors palette
-      const colorProperty = body.colorProperty;
-
       // Create the corresponding contentNode for each available body.
-      const contentNode = ValuesColumnNode.createContentNode( body, columnType, model, colorProperty );
+      const contentNode = ValuesColumnNode.createContentNode( body, columnType, model );
 
       // Add the content to the container.
       contentContainer.addChild( contentNode );
@@ -79,7 +75,7 @@ export default class ValuesColumnNode extends VBox {
     } );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel, colorProperty: TReadOnlyProperty<Color> ): AlignBox {
+  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel ): AlignBox {
 
     // Flag that references the contentNode.
     let contentNode;
@@ -98,7 +94,7 @@ export default class ValuesColumnNode extends VBox {
 
       // Circle representation of the Body.
       const ballCircle = new Circle( 10.5, {
-        fill: colorProperty,
+        fill: body.colorProperty,
         stroke: Color.BLACK
       } );
 
@@ -117,8 +113,8 @@ export default class ValuesColumnNode extends VBox {
         sliderOptions: {
           keyboardStep: MASS_SLIDER_STEP,
           pageKeyboardStep: 2 * MASS_SLIDER_STEP,
-          thumbFill: colorProperty,
-          thumbFillHighlighted: new DerivedProperty( [ colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
+          thumbFill: body.colorProperty,
+          thumbFillHighlighted: new DerivedProperty( [ body.colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
           constrainValue: value => massRange.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) )
         },
         startCallback: () => { body.userControlledMassProperty.value = true; },
