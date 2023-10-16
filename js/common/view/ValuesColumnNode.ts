@@ -31,7 +31,6 @@ const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
 type SelfOptions = {
   contentContainerSpacing?: number;
-  labelSpacing?: number;
 };
 
 export type ValuesColumnNodeOptions = SelfOptions; // no VBoxOptions are currently needed
@@ -43,7 +42,6 @@ export default class ValuesColumnNode extends VBox {
 
       // SelfOptions
       contentContainerSpacing: 3.5,
-      labelSpacing: 3,
 
       // VBoxOptions
       stretch: true
