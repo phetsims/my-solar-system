@@ -17,17 +17,24 @@ export default class MySolarSystemVisibleProperties extends SolarSystemCommonVis
   // Indicates if the center of mass is visible.
   public readonly centerOfMassVisibleProperty: BooleanProperty;
 
+  // Controls if the data panel shows all the numeric properties of the body
+  public readonly moreDataVisibleProperty: BooleanProperty;
+
   public constructor( tandem: Tandem ) {
     super( tandem );
 
     this.centerOfMassVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'centerOfMassVisibleProperty' )
     } );
+    this.moreDataVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'moreDataVisibleProperty' )
+    } );
   }
 
   public override reset(): void {
     super.reset();
     this.centerOfMassVisibleProperty.reset();
+    this.moreDataVisibleProperty.reset();
   }
 }
 

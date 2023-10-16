@@ -22,6 +22,7 @@ import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 const HBOX_SPACING = 12;
@@ -33,7 +34,7 @@ const TITLE_MAX_WIDTH = 150;
 
 export default class ValuesPanel extends Panel {
 
-  public constructor( model: MySolarSystemModel, tandem: Tandem ) {
+  public constructor( model: MySolarSystemModel, moreDataVisibleProperty: BooleanProperty, tandem: Tandem ) {
 
     const options = {
 
@@ -120,7 +121,7 @@ export default class ValuesPanel extends Panel {
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
 
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
-    model.moreDataProperty.link( moreDataVisible => {
+    moreDataVisibleProperty.link( moreDataVisible => {
       massSliderColumnWrapper.visible = !( moreDataVisible && model.isLab );
       positionSectionNode.visible = moreDataVisible && model.isLab;
       velocitySectionNode.visible = moreDataVisible && model.isLab;

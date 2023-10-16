@@ -14,7 +14,7 @@ import MySolarSystemVisibleProperties from '../../common/view/MySolarSystemVisib
 export default class LabVisibleProperties extends MySolarSystemVisibleProperties {
 
   // Indicates if the data panel is going to show all the numerical values of mass, position and velocity
-  public readonly moreDataVisibleProperty: BooleanProperty;
+  public override readonly moreDataVisibleProperty: BooleanProperty;
 
   public constructor( tandem: Tandem ) {
     super( tandem );

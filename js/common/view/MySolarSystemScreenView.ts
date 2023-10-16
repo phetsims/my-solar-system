@@ -136,7 +136,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Panel and associated controls at the bottom-left of the screen ==================================================
 
-    this.valuesPanel = new ValuesPanel( model, options.tandem.createTandem( 'valuesPanel' ) );
+    this.valuesPanel = new ValuesPanel( model, this.visibleProperties.moreDataVisibleProperty, options.tandem.createTandem( 'valuesPanel' ) );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,
@@ -157,7 +157,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesControl' ) : Tandem.OPT_OUT
     } );
     
-    const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( model.moreDataProperty,
+    const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( this.visibleProperties.moreDataVisibleProperty,
       model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
 
     const unitsInformationDialog = new UnitsInformationDialog(
