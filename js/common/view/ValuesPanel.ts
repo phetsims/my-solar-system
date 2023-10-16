@@ -75,6 +75,12 @@ export default class ValuesPanel extends Panel {
     const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, velocitySectionTandem.createTandem( 'VxColumn' ) );
     const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, velocitySectionTandem.createTandem( 'VyColumn' ) );
 
+    // Put a wrapper around massSliderColumnNode, so that PhET-iO clients have independent control over the visibility
+    // of sliders. Use a VBox so that we have dynamic layout.
+    const massSliderColumnWrapper = new VBox( {
+      children: [ massSliderColumnNode ]
+    } );
+    
     const componentColumnsSpacing = 12;
     const positionColumnGroup = new HBox( {
       children: [ positionXColumnNode, positionYColumnNode ],
@@ -105,7 +111,7 @@ export default class ValuesPanel extends Panel {
       align: 'bottom',
       children: [
         createSectionNode( massTitleNode, massColumnNode, Tandem.OPT_OUT, false ),
-        massSliderColumnNode
+        massSliderColumnWrapper
       ],
       tandem: massSectionTandem,
       phetioVisiblePropertyInstrumented: true
@@ -115,7 +121,7 @@ export default class ValuesPanel extends Panel {
 
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
     model.moreDataProperty.link( moreDataVisible => {
-      massSliderColumnNode.visible = !( moreDataVisible && model.isLab );
+      massSliderColumnWrapper.visible = !( moreDataVisible && model.isLab );
       positionSectionNode.visible = moreDataVisible && model.isLab;
       velocitySectionNode.visible = moreDataVisible && model.isLab;
     } );
