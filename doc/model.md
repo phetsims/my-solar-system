@@ -19,9 +19,9 @@ following table shows the conversion between the two systems of units:
 | Value | Model                                      | Conversion Rate       | View                                                       |
 |-------|--------------------------------------------|-----------------------|------------------------------------------------------------|
 | Mass  | uM                                         | 10<sup>28</sup> kg/uM | 10<sup>28</sup>kg                                          |
-| Dist. | uD                                         | 0.01 AU/uD            | AU                                                         |
+| Distance | uD                                         | 0.01 AU/uD            | AU                                                         |
 | Time  | uT                                         | 0.2244 yr/uT          | yr                                                         |
-| Vel.  | uD/uT                                      | 0.2112 km/s / uD/uT   | km/s                                                       |
+| Velocity  | uD/uT                                      | 0.2112 km/s / uD/uT   | km/s                                                       |
 | G     | 10000 uD<sup>3</sup> / uM / uT<sup>2</sup> | ...                   | 1.98x10<sup>-29</sup> AU<sup>3</sup> / kg / yr<sup>2</sup> |
 
 As you can see, we opted out of MKS (SI) units because of the large values handled in astronomical real world systems.
