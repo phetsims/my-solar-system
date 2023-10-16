@@ -48,10 +48,14 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
     decimalPlaces: number,
-    providedOptions?: InteractiveNumberDisplayOptions
+    providedOptions: InteractiveNumberDisplayOptions
   ) {
 
-    const isKeypadActiveProperty = new BooleanProperty( false );
+    //TODO https://github.com/phetsims/my-solar-system/issues/237 why not use keypadDialog.isShowingProperty?
+    const isKeypadActiveProperty = new BooleanProperty( false, {
+      tandem: providedOptions.tandem.createTandem( 'isKeypadActiveProperty' ),
+      phetioReadOnly: true
+    } );
 
     // Keypad dialog
     const keypadDialog = new KeypadDialog( {
@@ -63,7 +67,8 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
           maxDigits: 5,
           maxDigitsRightOfMantissa: 2
         }
-      }
+      },
+      tandem: providedOptions.tandem.createTandem( 'keypadDialog' )
     } );
 
     const hoverListener = new PressListener( {
