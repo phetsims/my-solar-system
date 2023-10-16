@@ -73,8 +73,15 @@ export default class ValuesPanel extends Panel {
     const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, velocitySectionTandem.createTandem( 'VyColumn' ) );
 
     const componentColumnsSpacing = 12;
-    const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: componentColumnsSpacing } );
-    const velocityColumnGroup = new HBox( { children: [ velocityXColumnNode, velocityYColumnNode ], spacing: componentColumnsSpacing } );
+    const positionColumnGroup = new HBox( {
+      children: [ positionXColumnNode, positionYColumnNode ],
+      spacing: componentColumnsSpacing
+    } );
+    const velocityColumnGroup = new HBox( {
+      children: [ velocityXColumnNode, velocityYColumnNode ],
+      spacing: componentColumnsSpacing
+    } );
+
     //----------------------------------------------------------------------------------------
 
     // Convenience function to create the title-label that appears above each column group.
