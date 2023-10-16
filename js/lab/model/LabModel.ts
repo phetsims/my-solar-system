@@ -56,7 +56,6 @@ export default class LabModel extends MySolarSystemModel {
     this.orbitalSystemProperty.link( mode => {
       if ( mode !== OrbitalSystem.CUSTOM ) {
         this.isPlayingProperty.value = false;
-        this.hasPlayedProperty.value = false;
         this.userControlledProperty.value = false;
         this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
