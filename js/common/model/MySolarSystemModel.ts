@@ -9,9 +9,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import SolarSystemCommonModel, { SolarSystemCommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import CenterOfMass from './CenterOfMass.js';
-import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
@@ -32,10 +30,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
   public readonly isLab: boolean;
   public readonly centerOfMass: CenterOfMass;
-
-  //TODO https://github.com/phetsims/my-solar-system/issues/213 document
-  //TODO https://github.com/phetsims/my-solar-system/issues/228 is systemCenteredProperty necessary? Should it be an Emitter?
-  public readonly systemCenteredProperty: Property<boolean>;
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
 
@@ -58,15 +52,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     this.isLab = options.isLab;
 
     this.centerOfMass = new CenterOfMass( this.activeBodies, options.tandem.createTandem( 'centerOfMass' ) );
-
-    this.systemCenteredProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'systemCenteredProperty' ),
-      phetioReadOnly: true
-    } );
-
-    this.userInteractingEmitter.addListener( () => {
-      this.systemCenteredProperty.value = false;
-    } );
   }
 
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
@@ -112,7 +97,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     this.centerOfMass.update();
     this.userControlledProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0;
-    this.systemCenteredProperty.value = this.userControlledProperty.value;
   }
 
   public override reset(): void {
