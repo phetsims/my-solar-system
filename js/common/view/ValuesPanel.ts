@@ -24,6 +24,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
+const HBOX_SPACING = 12;
 
 // AlignGroup for the title-labels that are placed above each group (like "Position (m)"). This is made to match the
 // vertical height of each title-label across screens, regardless of their scaling.
@@ -37,6 +38,7 @@ export default class ValuesPanel extends Panel {
     const options = {
 
       // PanelOptions
+      isDisposable: false,
       xMargin: 12,
       stroke: null,
       fill: SolarSystemCommonColors.controlPanelFillProperty,
@@ -59,11 +61,12 @@ export default class ValuesPanel extends Panel {
 
     // Parent tandems for each section
     const massSectionTandem = tandem.createTandem( 'massSection' );
-    const positionSectionTandem = tandem.createTandem( 'positionSection' );
-    const velocitySectionTandem = tandem.createTandem( 'velocitySection' );
+    const positionSectionTandem = model.isLab ? tandem.createTandem( 'positionSection' ) : Tandem.OPT_OUT;
+    const velocitySectionTandem = model.isLab ? tandem.createTandem( 'velocitySection' ) : Tandem.OPT_OUT;
 
     //----------------------------------------------------------------------------------------
-    // Create Values Columns for each ValuesColumnType available, for them to be later added to the panel
+    // Create columns of interactive UI components.
+
     const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, tandem.createTandem( 'iconsColumn' ) );
     const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
     const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, massSectionTandem.createTandem( 'massSliderColumn' ) );
@@ -97,12 +100,20 @@ export default class ValuesPanel extends Panel {
     //----------------------------------------------------------------------------------------
     // Create the sections
 
-    const massSectionNode = createSectionNode( massTitleNode, massColumnNode, massSectionTandem, false );
+    const massSectionNode = new HBox( {
+      spacing: HBOX_SPACING,
+      align: 'bottom',
+      children: [
+        createSectionNode( massTitleNode, massColumnNode, Tandem.OPT_OUT, false ),
+        massSliderColumnNode
+      ],
+      tandem: massSectionTandem,
+      phetioVisiblePropertyInstrumented: true
+    } );
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
 
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
-    // Link is not removed since BallValuesPanels are never disposed.
     model.moreDataProperty.link( moreDataVisible => {
       massSliderColumnNode.visible = !( moreDataVisible && model.isLab );
       positionSectionNode.visible = moreDataVisible && model.isLab;
@@ -110,15 +121,14 @@ export default class ValuesPanel extends Panel {
     } );
 
     super( new HBox( {
-      spacing: 12,
+      spacing: HBOX_SPACING,
+      align: 'bottom',
       children: [
         ballIconsColumnNode,
         massSectionNode,
-        massSliderColumnNode,
         positionSectionNode,
         velocitySectionNode
-      ],
-      align: 'bottom'
+      ]
     } ), options );
   }
 }
@@ -126,7 +136,7 @@ export default class ValuesPanel extends Panel {
 /**
  * Creates the title that appears above a section.
  */
-function createTitleText( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string>, useUnits: TReadOnlyProperty<boolean> | boolean = true ): Node {
+function createTitleText( label: TReadOnlyProperty<string>, units: TReadOnlyProperty<string> ): Node {
   const titleStringProperty = new PatternStringProperty( MySolarSystemStrings.pattern.labelParenthesesUnitsStringProperty, {
     label: label,
     units: units

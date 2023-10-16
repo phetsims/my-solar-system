@@ -65,6 +65,7 @@ export default class ValuesColumnNode extends VBox {
     } );
 
     super( {
+      isDisposable: false,
       children: [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ],
       stretch: true,
       tandem: tandem,
