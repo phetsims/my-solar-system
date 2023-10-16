@@ -40,7 +40,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
   public constructor(
     property: TProperty<number>,
     range: RangeWithValue,
-    units: TReadOnlyProperty<string>,
+    unitsProperty: TReadOnlyProperty<string>,
     userControlledProperty: TProperty<boolean>,
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
@@ -103,7 +103,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
 
       // a11y
       // innerContent to support dynamic changes
-      innerContent: new DerivedProperty( [ property, units ], ( value, units ) => {
+      innerContent: new DerivedProperty( [ property, unitsProperty ], ( value, units ) => {
         return `${Utils.toFixed( value, 2 )} ${units}`;
       } ),
       tagName: 'button',
