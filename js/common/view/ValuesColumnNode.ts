@@ -110,7 +110,8 @@ export default class ValuesColumnNode extends VBox {
           pageKeyboardStep: 2 * MASS_SLIDER_STEP,
           thumbFill: body.colorProperty,
           thumbFillHighlighted: new DerivedProperty( [ body.colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
-          constrainValue: value => MASS_RANGE.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) )
+          constrainValue: value => MASS_RANGE.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) ),
+          phetioVisiblePropertyInstrumented: false
         },
         startCallback: () => { body.userControlledMassProperty.value = true; },
         endCallback: () => { body.userControlledMassProperty.value = false; },
