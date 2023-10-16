@@ -94,14 +94,11 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
       textOptions: {
         font: SolarSystemCommonConstants.NUMBER_DISPLAY_FONT
       },
-      backgroundFill: new DerivedProperty( [
-        userControlledProperty,
-        isKeypadActiveProperty,
-        hoverListener.looksOverProperty,
-        bodyColorProperty
-      ], ( isUserControlled, isKeypadActive, looksOver, backgroundColor ) => {
-        return isUserControlled || isKeypadActive || looksOver ? backgroundColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
-      } ),
+      backgroundFill: new DerivedProperty(
+        [ userControlledProperty, isKeypadActiveProperty, hoverListener.looksOverProperty, bodyColorProperty ],
+        ( isUserControlled, isKeypadActive, looksOver, backgroundColor ) => {
+          return isUserControlled || isKeypadActive || looksOver ? backgroundColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
+        } ),
       backgroundStroke: Color.BLACK,
 
       // a11y
