@@ -137,13 +137,16 @@ export default class ValuesColumnNode extends VBox {
         } );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
+
+      const positionXMappedProperty = new MappedProperty( body.positionProperty, {
+        reentrant: true,
+        bidirectional: true,
+        map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
+        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
+      } );
+
       contentNode = new InteractiveNumberDisplay(
-        new MappedProperty( body.positionProperty, {
-          reentrant: true,
-          bidirectional: true,
-          map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-          inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y )
-        } ),
+        positionXMappedProperty,
         POSITION_X_RANGE,
         POSITION_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.AUStringProperty,
@@ -158,13 +161,16 @@ export default class ValuesColumnNode extends VBox {
       );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
+
+      const positionYMappedProperty = new MappedProperty( body.positionProperty, {
+        reentrant: true,
+        bidirectional: true,
+        map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
+        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
+      } );
+
       contentNode = new InteractiveNumberDisplay(
-        new MappedProperty( body.positionProperty, {
-          reentrant: true,
-          bidirectional: true,
-          map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-          inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER )
-        } ),
+        positionYMappedProperty,
         POSITION_Y_RANGE,
         POSITION_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.AUStringProperty,
@@ -179,13 +185,16 @@ export default class ValuesColumnNode extends VBox {
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
+
+      const velocityXMappedProperty = new MappedProperty( body.velocityProperty, {
+        reentrant: true,
+        bidirectional: true,
+        map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
+        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
+      } );
+
       contentNode = new InteractiveNumberDisplay(
-        new MappedProperty( body.velocityProperty, {
-          reentrant: true,
-          bidirectional: true,
-          map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-          inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y )
-        } ),
+        velocityXMappedProperty,
         VELOCITY_RANGE,
         VELOCITY_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.kmsStringProperty,
@@ -200,13 +209,16 @@ export default class ValuesColumnNode extends VBox {
       );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
+
+      const velocityYMappedProperty = new MappedProperty( body.velocityProperty, {
+        reentrant: true,
+        bidirectional: true,
+        map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
+        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
+      } );
+
       contentNode = new InteractiveNumberDisplay(
-        new MappedProperty( body.velocityProperty, {
-          reentrant: true,
-          bidirectional: true,
-          map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-          inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER )
-        } ),
+        velocityYMappedProperty,
         VELOCITY_RANGE,
         VELOCITY_DECIMAL_PLACES,
         SolarSystemCommonStrings.units.kmsStringProperty,
