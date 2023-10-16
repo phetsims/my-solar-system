@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, AlignGroup, Circle, Color, Node, RichText, RichTextOptions, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { AlignBox, AlignGroup, Circle, Color, Node, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
@@ -20,7 +20,7 @@ import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -29,23 +29,8 @@ const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertica
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
-type SelfOptions = {
-  contentContainerSpacing?: number;
-};
-
-export type ValuesColumnNodeOptions = SelfOptions; // no VBoxOptions are currently needed
-
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, providedOptions?: ValuesColumnNodeOptions ) {
-
-    const options = optionize<ValuesColumnNodeOptions, SelfOptions, VBoxOptions>()( {
-
-      // SelfOptions
-      contentContainerSpacing: 3.5,
-
-      // VBoxOptions
-      stretch: true
-    }, providedOptions );
+  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes ) {
 
     const labelString = columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
                         columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
@@ -60,7 +45,7 @@ export default class ValuesColumnNode extends VBox {
 
     // Create the VBox container for the contentNodes of the column.
     const contentContainer = new VBox( {
-      spacing: options.contentContainerSpacing,
+      spacing: 3.5,
       stretch: true
     } );
 
@@ -88,10 +73,10 @@ export default class ValuesColumnNode extends VBox {
       model.activeBodies.elementRemovedEmitter.addListener( onBodiesChanged );
     } );
 
-    // Set the children of this Node to the correct rendering order.
-    options.children = [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ];
-
-    super( options );
+    super( {
+      children: [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ],
+      stretch: true
+    } );
   }
 
   private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel, colorProperty: TReadOnlyProperty<Color> ): AlignBox {
