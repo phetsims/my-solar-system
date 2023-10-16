@@ -25,6 +25,7 @@ import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSy
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
@@ -139,6 +140,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
 
       const positionXMappedProperty = new MappedProperty( body.positionProperty, {
+        phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
         map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
@@ -164,6 +166,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
 
       const positionYMappedProperty = new MappedProperty( body.positionProperty, {
+        phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
         map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
@@ -189,6 +192,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
 
       const velocityXMappedProperty = new MappedProperty( body.velocityProperty, {
+        phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
         map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
@@ -214,6 +218,7 @@ export default class ValuesColumnNode extends VBox {
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
 
       const velocityYMappedProperty = new MappedProperty( body.velocityProperty, {
+        phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
         map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
