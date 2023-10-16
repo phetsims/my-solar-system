@@ -64,8 +64,8 @@ export default class ValuesPanel extends Panel {
     const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, tandem.createTandem( 'massSliderColumn' ) );
     const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, tandem.createTandem( 'xColumn' ) );
     const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, tandem.createTandem( 'yColumn' ) );
-    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, tandem.createTandem( 'vxColumn' ) );
-    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, tandem.createTandem( 'vyColumn' ) );
+    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, tandem.createTandem( 'VxColumn' ) );
+    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, tandem.createTandem( 'VyColumn' ) );
 
     const componentColumnsSpacing = 12;
     const positionColumnGroup = new HBox( { children: [ positionXColumnNode, positionYColumnNode ], spacing: componentColumnsSpacing } );
