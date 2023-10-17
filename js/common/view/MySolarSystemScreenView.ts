@@ -140,25 +140,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.valuesPanel = new ValuesPanel( model, this.visibleProperties.moreDataVisibleProperty, valuesPanelTandem );
 
-    this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-      visibleProperty: model.userControlledProperty,
-      listener: () => {
-        model.followAndCenterCenterOfMass();
-        model.userControlledProperty.value = false;
-      },
-      touchAreaXDilation: 5,
-      touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
-      font: SolarSystemCommonConstants.BUTTON_FONT,
-      maxTextWidth: 200,
-      baseColor: 'orange',
-      tandem: options.tandem.createTandem( 'followCenterOfMassButton' )
-    } );
-
-    this.numberOfBodiesControl = new NumberOfBodiesControl( model.numberOfActiveBodiesProperty, {
-      visible: model.isLab,
-      tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesControl' ) : Tandem.OPT_OUT
-    } );
-    
     const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( this.visibleProperties.moreDataVisibleProperty,
       model.isLab ? valuesPanelTandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
 
@@ -178,6 +159,25 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       stretch: true,
       visible: model.isLab,
       children: [ moreDataCheckbox, unitsInformationButton ]
+    } );
+
+    this.numberOfBodiesControl = new NumberOfBodiesControl( model.numberOfActiveBodiesProperty, {
+      visible: model.isLab,
+      tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesControl' ) : Tandem.OPT_OUT
+    } );
+
+    this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
+      visibleProperty: model.userControlledProperty,
+      listener: () => {
+        model.followAndCenterCenterOfMass();
+        model.userControlledProperty.value = false;
+      },
+      touchAreaXDilation: 5,
+      touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
+      font: SolarSystemCommonConstants.BUTTON_FONT,
+      maxTextWidth: 200,
+      baseColor: 'orange',
+      tandem: options.tandem.createTandem( 'followCenterOfMassButton' )
     } );
 
     const bottomLeftHBox = new HBox( {
