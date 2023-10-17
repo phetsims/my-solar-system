@@ -111,12 +111,13 @@ export default class ValuesColumnNode extends VBox {
           thumbFill: body.colorProperty,
           thumbFillHighlighted: new DerivedProperty( [ body.colorProperty ], color => color.colorUtilsBrighter( 0.7 ) ),
           constrainValue: value => MASS_RANGE.constrainValue( MASS_SLIDER_STEP * Utils.roundSymmetric( value / MASS_SLIDER_STEP ) ),
-          phetioVisiblePropertyInstrumented: false
+          tandem: Tandem.OPT_OUT
         },
         startCallback: () => { body.userControlledMassProperty.value = true; },
         endCallback: () => { body.userControlledMassProperty.value = false; },
         arrowButtonOptions: {
-          fireOnDown: true
+          fireOnDown: true,
+          tandem: Tandem.OPT_OUT
         },
         tandem: parentTandem.createTandem( `mass${body.index}NumberControl` ),
         phetioVisiblePropertyInstrumented: false
