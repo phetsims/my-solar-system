@@ -70,7 +70,7 @@ export default class ValuesColumnNode extends VBox {
       children: [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ],
       stretch: true,
       tandem: tandem,
-      phetioVisiblePropertyInstrumented: ( columnType === ValuesColumnTypes.MASS_SLIDER )
+      phetioVisiblePropertyInstrumented: ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL )
     } );
   }
 
@@ -103,7 +103,7 @@ export default class ValuesColumnNode extends VBox {
 
       contentNode = new Node( { children: [ ballCircle, indexText ] } );
     }
-    else if ( columnType === ValuesColumnTypes.MASS_SLIDER ) {
+    else if ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL ) {
       contentNode = new SolarSystemCommonNumberControl( body.massProperty, MASS_RANGE, {
         sliderOptions: {
           keyboardStep: MASS_SLIDER_STEP,

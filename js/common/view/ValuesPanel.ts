@@ -70,7 +70,7 @@ export default class ValuesPanel extends Panel {
 
     const iconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, Tandem.OPT_OUT );
     const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
-    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, massSectionTandem.createTandem( 'massSliderColumn' ) );
+    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_NUMBER_CONTROL, keypadDialog, massSectionTandem.createTandem( 'massNumberControlColumn' ) );
     const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
     const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, positionSectionTandem.createTandem( 'yColumn' ) );
     const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, velocitySectionTandem.createTandem( 'VxColumn' ) );

@@ -13,7 +13,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 export default class ValuesColumnTypes extends EnumerationValue {
   public static readonly BODY_ICONS = new ValuesColumnTypes();
   public static readonly MASS = new ValuesColumnTypes();
-  public static readonly MASS_SLIDER = new ValuesColumnTypes();
+  public static readonly MASS_NUMBER_CONTROL = new ValuesColumnTypes();
   public static readonly POSITION_X = new ValuesColumnTypes();
   public static readonly POSITION_Y = new ValuesColumnTypes();
   public static readonly VELOCITY_X = new ValuesColumnTypes();
