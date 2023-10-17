@@ -53,7 +53,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     const isEditingProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'isEditingProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'True while editing the value using the keypad'
+      phetioDocumentation: 'True while the value is being editing using the keypad'
     } );
 
     const hoverListener = new PressListener( {
