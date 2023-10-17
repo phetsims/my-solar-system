@@ -79,7 +79,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     model.bodies.forEach( body => {
 
-      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, {
+      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, model.userControlledProperty, {
         speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
