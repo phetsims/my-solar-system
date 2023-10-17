@@ -97,8 +97,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       } );
       this.componentsLayer.addChild( velocityVectorNode );
 
-      const forceVectorNode = new VectorNode( body, this.modelViewTransformProperty, body.forceProperty, model.forceScaleProperty, {
+      const forceVectorNode = new VectorNode( body, this.modelViewTransformProperty, body.forceProperty, model.forceScalePowerProperty, {
         fill: SolarSystemCommonColors.gravityColorProperty,
+        scalingOffset: SolarSystemCommonConstants.INITIAL_VECTOR_OFFSCALE, // This option ensures the gravity vectors are initially scaled properly
         visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.gravityVisibleProperty ] )
         // tandem: Do not instrument, nothing interesting here.
       } );

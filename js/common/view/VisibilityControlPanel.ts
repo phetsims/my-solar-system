@@ -10,7 +10,7 @@ import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import GravityZoomControl from '../../../../solar-system-common/js/view/GravityZoomControl.js';
+import GravityScaleControl from '../../../../solar-system-common/js/view/GravityScaleControl.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -36,7 +36,7 @@ export default class VisibilityControlPanel extends Panel {
         SolarSystemCommonCheckbox.createGravityForceCheckbox( visibleProperties.gravityVisibleProperty, tandem.createTandem( 'gravityForceCheckbox' ) ),
 
         // Gravity 'Zoom' control (labeled slider)
-        new GravityZoomControl( model.forceScaleProperty, visibleProperties.gravityVisibleProperty,
+        new GravityScaleControl( model.forceScalePowerProperty, visibleProperties.gravityVisibleProperty,
           tandem.createTandem( 'gravityZoomControl' ) ),
 
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),

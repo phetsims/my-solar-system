@@ -64,10 +64,10 @@ export default class LabModel extends MySolarSystemModel {
         this.numberOfActiveBodiesProperty.value = this.activeBodies.length;
         this.followCenterOfMass();
         this.saveStartingBodyInfo();
-        this.forceScaleProperty.reset();
+        this.forceScalePowerProperty.reset();
 
         if ( mode === OrbitalSystem.FOUR_STAR_BALLET ) {
-          this.forceScaleProperty.value = -1.1;
+          this.forceScalePowerProperty.value = -1.1;
         }
       }
     } );
