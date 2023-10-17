@@ -157,11 +157,14 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.hboxAboveValuesPanel = new HBox( {
       stretch: true,
-      visible: model.isLab,
 
       // to keep unitsInformationButton right justified with valuesPanel when moreDataCheckbox is made invisible
       excludeInvisibleChildrenFromBounds: false,
-      children: [ moreDataCheckbox, unitsInformationButton ]
+      children: [ moreDataCheckbox, unitsInformationButton ],
+
+      // Controls above valuesPanel are visible only when valuesPanel is visible, in Lab screen.
+      visibleProperty: new DerivedProperty( [ this.valuesPanel.visibleProperty ],
+        valuesPanelVisible => valuesPanelVisible && model.isLab )
     } );
 
     this.numberOfBodiesControl = new NumberOfBodiesControl( model.numberOfActiveBodiesProperty, {
