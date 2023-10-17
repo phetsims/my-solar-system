@@ -42,7 +42,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     range: RangeWithValue,
     decimalPlaces: number,
     unitsProperty: TReadOnlyProperty<string>,
-    userControlledProperty: TProperty<boolean>,
+    userIsControllingProperty: TProperty<boolean>, // true if the user is controlling property
     bodyColorProperty: TReadOnlyProperty<Color>,
     isPlayingProperty: TProperty<boolean>,
     keypadDialog: KeypadDialog,
@@ -83,7 +83,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
         tandem: Tandem.OPT_OUT
       },
       backgroundFill: new DerivedProperty(
-        [ userControlledProperty, isEditingProperty, hoverListener.looksOverProperty, bodyColorProperty ],
+        [ userIsControllingProperty, isEditingProperty, hoverListener.looksOverProperty, bodyColorProperty ],
         ( userControlled, isEditing, looksOver, bodyColor ) => {
           return userControlled || isEditing || looksOver ? bodyColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
         } ),
@@ -111,7 +111,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
 
     this.addInputListener( new FireListener( {
       fire: () => {
-        if ( !userControlledProperty.value ) {
+        if ( !userIsControllingProperty.value ) {
           isEditingProperty.value = true;
 
           const wasPlaying = isPlayingProperty.value;
@@ -121,12 +121,12 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
           const editValue = ( value: number ) => {
             changed = true;
             property.value = value;
-            userControlledProperty.value = true;
+            userIsControllingProperty.value = true;
             options.onEditCallback();
           };
           const endEdit = () => {
             isEditingProperty.value = false;
-            userControlledProperty.value = false;
+            userIsControllingProperty.value = false;
             if ( !changed ) {
               isPlayingProperty.value = wasPlaying;
             }
