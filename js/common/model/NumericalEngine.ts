@@ -14,6 +14,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import Engine from '../../../../solar-system-common/js/model/Engine.js';
+import { G } from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 
 // Used when we want to avoid modifying a Vector (position, velocity, acceleration),
 // and want to avoid allocating a new Vector copy.
@@ -23,9 +24,6 @@ const scratchVector = new Vector2( 0, 0 );
 const XI = 0.1786178958448091;
 const LAMBDA = -0.2123418310626054;
 const CHI = -0.06626458266981849;
-
-// Gravitational constant
-const G = 10000;
 
 export default class NumericalEngine extends Engine {
 
