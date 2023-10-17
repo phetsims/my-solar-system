@@ -83,8 +83,8 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
       },
       backgroundFill: new DerivedProperty(
         [ userControlledProperty, isEditingProperty, hoverListener.looksOverProperty, bodyColorProperty ],
-        ( isUserControlled, isKeypadActive, looksOver, bodyColor ) => {
-          return isUserControlled || isKeypadActive || looksOver ? bodyColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
+        ( userControlled, isEditing, looksOver, bodyColor ) => {
+          return userControlled || isEditing || looksOver ? bodyColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
         } ),
       backgroundStroke: Color.BLACK,
 
