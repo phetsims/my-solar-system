@@ -43,48 +43,45 @@ const VELOCITY_DECIMAL_PLACES = 2;
 export default class ValuesColumnNode extends VBox {
   public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, keypadDialog: KeypadDialog, tandem: Tandem ) {
 
-    const labelStringProperty =
+    const titleStringProperty =
       columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
       columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
       columnType === ValuesColumnTypes.VELOCITY_X ? MySolarSystemStrings.dataPanel.VxStringProperty :
       columnType === ValuesColumnTypes.VELOCITY_Y ? MySolarSystemStrings.dataPanel.VyStringProperty :
-      ''; // ValuesColumnTypes.BODY_ICONS
+      ''; // ValuesColumnTypes.BODY_ICONS has no title
 
-    const labelNode = new RichText( labelStringProperty,
+    // Title for the column
+    const titleText = new RichText( titleStringProperty,
       combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
         maxWidth: 60
       } ) );
 
-    // Create content for each Body.
-    const contentChildren = model.bodies.map( body => ValuesColumnNode.createContentNode( body, columnType, model, keypadDialog, tandem ) );
-
-    // Arrange the content for each Body in a vertical column.
-    const contentContainer = new VBox( {
-      children: contentChildren,
+    // UI components for each Body, arranged in a column
+    const uiComponents = new VBox( {
+      children: model.bodies.map( body => ValuesColumnNode.createUIComponent( body, model, columnType, keypadDialog, tandem ) ),
       spacing: 3.5,
       stretch: true
     } );
 
     super( {
       isDisposable: false,
-      children: [ LABEL_ALIGN_GROUP.createBox( labelNode ), contentContainer ],
+      children: [ LABEL_ALIGN_GROUP.createBox( titleText ), uiComponents ],
       stretch: true,
       tandem: tandem,
       phetioVisiblePropertyInstrumented: ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL )
     } );
   }
 
-  private static createContentNode( body: Body, columnType: ValuesColumnTypes, model: MySolarSystemModel,
+  /**
+   * Creates a UI component for editing some Property of Body.
+   */
+  private static createUIComponent( body: Body, model: MySolarSystemModel, columnType: ValuesColumnTypes,
                                     keypadDialog: KeypadDialog, parentTandem: Tandem ): AlignBox {
 
-    // Flag that references the contentNode.
-    let contentNode;
+    let uiComponent: Node;
 
-    const clearPathsCallback = () => {
-      model.clearPaths();
-    };
+    const clearPathsCallback = () => model.clearPaths();
 
-    // Create the contentNode based on the columnType.
     if ( columnType === ValuesColumnTypes.BODY_ICONS ) {
 
       // Circle representation of the Body.
@@ -101,10 +98,10 @@ export default class ValuesColumnNode extends VBox {
         fill: Color.WHITE
       } );
 
-      contentNode = new Node( { children: [ ballCircle, indexText ] } );
+      uiComponent = new Node( { children: [ ballCircle, indexText ] } );
     }
     else if ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL ) {
-      contentNode = new SolarSystemCommonNumberControl( body.massProperty, MASS_RANGE, {
+      uiComponent = new SolarSystemCommonNumberControl( body.massProperty, MASS_RANGE, {
         sliderOptions: {
           keyboardStep: MASS_SLIDER_STEP,
           pageKeyboardStep: 2 * MASS_SLIDER_STEP,
@@ -124,7 +121,7 @@ export default class ValuesColumnNode extends VBox {
       } );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
-      contentNode = new InteractiveNumberDisplay(
+      uiComponent = new InteractiveNumberDisplay(
         body.massProperty,
         MASS_RANGE,
         MASS_DECIMAL_PLACES,
@@ -150,7 +147,7 @@ export default class ValuesColumnNode extends VBox {
         tandem: parentTandem.createTandem( `positionX${body.index}MappedProperty` )
       } );
 
-      contentNode = new InteractiveNumberDisplay(
+      uiComponent = new InteractiveNumberDisplay(
         positionXMappedProperty,
         POSITION_X_RANGE,
         POSITION_DECIMAL_PLACES,
@@ -176,7 +173,7 @@ export default class ValuesColumnNode extends VBox {
         tandem: parentTandem.createTandem( `positionY${body.index}MappedProperty` )
       } );
 
-      contentNode = new InteractiveNumberDisplay(
+      uiComponent = new InteractiveNumberDisplay(
         positionYMappedProperty,
         POSITION_Y_RANGE,
         POSITION_DECIMAL_PLACES,
@@ -202,7 +199,7 @@ export default class ValuesColumnNode extends VBox {
         tandem: parentTandem.createTandem( `velocityX${body.index}MappedProperty` )
       } );
 
-      contentNode = new InteractiveNumberDisplay(
+      uiComponent = new InteractiveNumberDisplay(
         velocityXMappedProperty,
         VELOCITY_RANGE,
         VELOCITY_DECIMAL_PLACES,
@@ -228,7 +225,7 @@ export default class ValuesColumnNode extends VBox {
         tandem: parentTandem.createTandem( `velocityY${body.index}MappedProperty` )
       } );
 
-      contentNode = new InteractiveNumberDisplay(
+      uiComponent = new InteractiveNumberDisplay(
         velocityYMappedProperty,
         VELOCITY_RANGE,
         VELOCITY_DECIMAL_PLACES,
@@ -245,11 +242,11 @@ export default class ValuesColumnNode extends VBox {
     }
     else {
       //TODO https://github.com/phetsims/my-solar-system/issues/237 this should throw an Error
-      contentNode = new Node();
+      uiComponent = new Node();
     }
 
-    // Wrap the contentNode in a AlignBox to match the height of all ContentNodes.
-    return CONTENT_ALIGN_GROUP.createBox( contentNode, {
+    // Wrap the uiComponent in a AlignBox to match the height of all ContentNodes.
+    return CONTENT_ALIGN_GROUP.createBox( uiComponent, {
       visibleProperty: body.isActiveProperty // visible when the Body is active
     } );
   }
