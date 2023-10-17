@@ -12,7 +12,6 @@
 
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import Engine from '../../../../solar-system-common/js/model/Engine.js';
 
@@ -30,14 +29,14 @@ const G = 10000;
 
 export default class NumericalEngine extends Engine {
 
-  public constructor( bodies: ObservableArray<Body> ) {
+  public constructor( bodies: Body[] ) {
     super( bodies );
   }
 
   /**
    * In this update function, the local bodies array is updated, the system then checks for collisions and updates the forces.
    */
-  public override update( bodies: ObservableArray<Body> ): void {
+  public override update( bodies: Body[] ): void {
     this.bodies = bodies;
     this.checkCollisions();
     this.updateForces();
