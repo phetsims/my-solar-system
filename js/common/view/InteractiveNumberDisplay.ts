@@ -79,7 +79,8 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
         }
       },
       textOptions: {
-        font: SolarSystemCommonConstants.NUMBER_DISPLAY_FONT
+        font: SolarSystemCommonConstants.NUMBER_DISPLAY_FONT,
+        tandem: Tandem.OPT_OUT
       },
       backgroundFill: new DerivedProperty(
         [ userControlledProperty, isEditingProperty, hoverListener.looksOverProperty, bodyColorProperty ],
