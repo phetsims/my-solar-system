@@ -136,7 +136,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Panel and associated controls at the bottom-left of the screen ==================================================
 
-    this.valuesPanel = new ValuesPanel( model, this.visibleProperties.moreDataVisibleProperty, options.tandem.createTandem( 'valuesPanel' ) );
+    const valuesPanelTandem = options.tandem.createTandem( 'valuesPanel' );
+
+    this.valuesPanel = new ValuesPanel( model, this.visibleProperties.moreDataVisibleProperty, valuesPanelTandem );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: model.userControlledProperty,
@@ -158,10 +160,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
     
     const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( this.visibleProperties.moreDataVisibleProperty,
-      model.isLab ? options.tandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
+      model.isLab ? valuesPanelTandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
 
     const unitsInformationDialog = new UnitsInformationDialog(
-      model.isLab ? options.tandem.createTandem( 'unitsInformationDialog' ) : Tandem.OPT_OUT );
+      model.isLab ? valuesPanelTandem.createTandem( 'unitsInformationDialog' ) : Tandem.OPT_OUT );
 
     const unitsInformationButton = new InfoButton( {
       accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
@@ -169,7 +171,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       iconFill: 'rgb( 41, 106, 163 )',
       touchAreaDilation: 20,
       listener: () => unitsInformationDialog.show(),
-      tandem: model.isLab ? options.tandem.createTandem( 'unitsInformationButton' ) : Tandem.OPT_OUT
+      tandem: model.isLab ? valuesPanelTandem.createTandem( 'unitsInformationButton' ) : Tandem.OPT_OUT
     } );
 
     this.hboxAboveValuesPanel = new HBox( {
