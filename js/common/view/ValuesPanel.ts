@@ -68,7 +68,7 @@ export default class ValuesPanel extends Panel {
     //----------------------------------------------------------------------------------------
     // Create columns of interactive UI components.
 
-    const ballIconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, tandem.createTandem( 'iconsColumn' ) );
+    const iconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, Tandem.OPT_OUT );
     const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
     const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_SLIDER, keypadDialog, massSectionTandem.createTandem( 'massSliderColumn' ) );
     const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
@@ -115,7 +115,7 @@ export default class ValuesPanel extends Panel {
         massSliderColumnWrapper
       ],
       tandem: massSectionTandem,
-      phetioVisiblePropertyInstrumented: true
+      phetioVisiblePropertyInstrumented: model.isLab // only for the Lab screen
     } );
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
@@ -131,7 +131,7 @@ export default class ValuesPanel extends Panel {
       spacing: HBOX_SPACING,
       align: 'bottom',
       children: [
-        ballIconsColumnNode,
+        iconsColumnNode,
         massSectionNode,
         positionSectionNode,
         velocitySectionNode
