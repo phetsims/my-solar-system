@@ -194,8 +194,8 @@ export default class ValuesColumnNode extends VBox {
         phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
-        map: velocity => velocity.x * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.VELOCITY_MULTIPLIER, body.velocityProperty.value.y ),
+        map: velocity => velocity.x,
+        inverseMap: ( x: number ) => new Vector2( x, body.velocityProperty.value.y ),
         tandem: parentTandem.createTandem( `velocityX${body.index}MappedProperty` )
       } );
 
@@ -220,8 +220,8 @@ export default class ValuesColumnNode extends VBox {
         phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
-        map: velocity => velocity.y * SolarSystemCommonConstants.VELOCITY_MULTIPLIER,
-        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y / SolarSystemCommonConstants.VELOCITY_MULTIPLIER ),
+        map: velocity => velocity.y,
+        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y ),
         tandem: parentTandem.createTandem( `velocityY${body.index}MappedProperty` )
       } );
 

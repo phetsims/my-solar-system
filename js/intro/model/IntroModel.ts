@@ -21,8 +21,8 @@ export default class IntroModel extends MySolarSystemModel {
     super( {
       // MySolarSystemModelOptions
       defaultBodyInfo: [
-        new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) } ),
-        new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 111 ) } )
+        new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -2.3446 ) } ),
+        new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 23.4457 ) } )
       ],
       tandem: tandem
     } );

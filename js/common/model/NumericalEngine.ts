@@ -87,7 +87,7 @@ export default class NumericalEngine extends Engine {
 
     const masses = this.bodies.map( body => body.massProperty.value );
     const positions = this.bodies.map( body => body.positionProperty.value.copy().dividedScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
-    const velocities = this.bodies.map( body => body.velocityProperty.value.copy().dividedScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
+    const velocities = this.bodies.map( body => body.velocityProperty.value.copy().dividedScalar( SolarSystemCommonConstants.VELOCITY_MULTIPLIER ) );
     const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
     const forces = this.bodies.map( body => body.forceProperty.value.copy() );
 
@@ -186,13 +186,13 @@ export default class NumericalEngine extends Engine {
 
       if ( updateProperties ) {
         body.positionProperty.value = positions[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER );
-        body.velocityProperty.value = velocities[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER );
+        body.velocityProperty.value = velocities[ i ].multiplyScalar( SolarSystemCommonConstants.VELOCITY_MULTIPLIER );
         body.accelerationProperty.value = accelerations[ i ];
         body.forceProperty.value = forces[ i ];
       }
       else {
         body.positionProperty.value.set( positions[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
-        body.velocityProperty.value.set( velocities[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
+        body.velocityProperty.value.set( velocities[ i ].multiplyScalar( SolarSystemCommonConstants.VELOCITY_MULTIPLIER ) );
         body.accelerationProperty.value.set( accelerations[ i ] );
         body.forceProperty.value.set( forces[ i ] );
       }
