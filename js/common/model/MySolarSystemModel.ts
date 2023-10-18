@@ -46,7 +46,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     super( options );
 
     this.zoomScaleProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
-      return Utils.linear( options.zoomLevelRange.min, options.zoomLevelRange.max, 0.25, 1.25, zoomLevel );
+      return Utils.linear( options.zoomLevelRange.min, options.zoomLevelRange.max, 25, 125, zoomLevel );
     } );
 
     this.isLab = options.isLab;

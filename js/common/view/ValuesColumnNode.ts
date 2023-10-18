@@ -142,8 +142,8 @@ export default class ValuesColumnNode extends VBox {
         phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
-        map: position => position.x * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-        inverseMap: ( x: number ) => new Vector2( x / SolarSystemCommonConstants.POSITION_MULTIPLIER, body.positionProperty.value.y ),
+        map: position => position.x,
+        inverseMap: ( x: number ) => new Vector2( x, body.positionProperty.value.y ),
         tandem: parentTandem.createTandem( `positionX${body.index}MappedProperty` )
       } );
 
@@ -168,8 +168,8 @@ export default class ValuesColumnNode extends VBox {
         phetioValueType: NumberIO,
         reentrant: true,
         bidirectional: true,
-        map: position => position.y * SolarSystemCommonConstants.POSITION_MULTIPLIER,
-        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y / SolarSystemCommonConstants.POSITION_MULTIPLIER ),
+        map: position => position.y,
+        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y ),
         tandem: parentTandem.createTandem( `positionY${body.index}MappedProperty` )
       } );
 

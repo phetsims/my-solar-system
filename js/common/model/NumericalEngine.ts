@@ -14,7 +14,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import Engine from '../../../../solar-system-common/js/model/Engine.js';
-import { G } from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import SolarSystemCommonConstants, { G } from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 
 // Used when we want to avoid modifying a Vector (position, velocity, acceleration),
 // and want to avoid allocating a new Vector copy.
@@ -86,8 +86,8 @@ export default class NumericalEngine extends Engine {
     dt /= iterationCount;
 
     const masses = this.bodies.map( body => body.massProperty.value );
-    const positions = this.bodies.map( body => body.positionProperty.value.copy() );
-    const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
+    const positions = this.bodies.map( body => body.positionProperty.value.copy().dividedScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
+    const velocities = this.bodies.map( body => body.velocityProperty.value.copy().dividedScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
     const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
     const forces = this.bodies.map( body => body.forceProperty.value.copy() );
 
@@ -185,14 +185,14 @@ export default class NumericalEngine extends Engine {
       // Currently, on SolarSystemCommonModel, it is set to false except on the last iteration of the model.run() method.
 
       if ( updateProperties ) {
-        body.positionProperty.value = positions[ i ];
-        body.velocityProperty.value = velocities[ i ];
+        body.positionProperty.value = positions[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER );
+        body.velocityProperty.value = velocities[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER );
         body.accelerationProperty.value = accelerations[ i ];
         body.forceProperty.value = forces[ i ];
       }
       else {
-        body.positionProperty.value.set( positions[ i ] );
-        body.velocityProperty.value.set( velocities[ i ] );
+        body.positionProperty.value.set( positions[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
+        body.velocityProperty.value.set( velocities[ i ].multiplyScalar( SolarSystemCommonConstants.POSITION_MULTIPLIER ) );
         body.accelerationProperty.value.set( accelerations[ i ] );
         body.forceProperty.value.set( forces[ i ] );
       }

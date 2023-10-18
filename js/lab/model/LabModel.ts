@@ -27,9 +27,9 @@ export default class LabModel extends MySolarSystemModel {
       // MySolarSystemModelOptions
       defaultBodyInfo: [
         new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) } ),
-        new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) } ),
-        new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 150 ) } ),
-        new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( -100, -100 ), velocity: new Vector2( 120, 0 ) } )
+        new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 111 ) } ),
+        new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( 1.00, 0 ), velocity: new Vector2( 0, 150 ) } ),
+        new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 120, 0 ) } )
       ],
       isLab: true,
       tandem: tandem
@@ -104,69 +104,69 @@ export default class LabModel extends MySolarSystemModel {
   private initializeModeMap(): void {
     this.orbitalSystemMap.set( OrbitalSystem.SUN_PLANET, [
       new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -11.1 ) } ),
-      new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 200, 0 ), velocity: new Vector2( 0, 111 ) } )
+      new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 111 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.SUN_PLANET_MOON, [
       new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 10, position: new Vector2( 160, 0 ), velocity: new Vector2( 0, 120 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 140, 0 ), velocity: new Vector2( 0, 53 ) } )
+      new BodyInfo( { isActive: true, mass: 10, position: new Vector2( 1.60, 0 ), velocity: new Vector2( 0, 120 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 1.40, 0 ), velocity: new Vector2( 0, 53 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.SUN_PLANET_COMET, [
       new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 1, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 120 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -220, 130 ), velocity: new Vector2( -20, -35 ) } )
+      new BodyInfo( { isActive: true, mass: 1, position: new Vector2( 1.50, 0 ), velocity: new Vector2( 0, 120 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -2.20, 1.30 ), velocity: new Vector2( -20, -35 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.TROJAN_ASTEROIDS, [
       new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 5, position: new Vector2( 150, 0 ), velocity: new Vector2( 0, 119 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 75, -130 ), velocity: new Vector2( 103, 60 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 75, 130 ), velocity: new Vector2( -103, 60 ) } )
+      new BodyInfo( { isActive: true, mass: 5, position: new Vector2( 1.50, 0 ), velocity: new Vector2( 0, 119 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 0.75, -1.30 ), velocity: new Vector2( 103, 60 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 0.75, 1.30 ), velocity: new Vector2( -103, 60 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.ELLIPSES, [
-      new BodyInfo( { isActive: true, mass: 250, position: new Vector2( -200, 0 ), velocity: new Vector2( 0, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -115, 0 ), velocity: new Vector2( 0, 151 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 50, 0 ), velocity: new Vector2( 0, 60 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 220, 0 ), velocity: new Vector2( 0, 37 ) } )
+      new BodyInfo( { isActive: true, mass: 250, position: new Vector2( -2.00, 0 ), velocity: new Vector2( 0, 0 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -1.15, 0 ), velocity: new Vector2( 0, 151 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 0.50, 0 ), velocity: new Vector2( 0, 60 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 2.20, 0 ), velocity: new Vector2( 0, 37 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.HYPERBOLIC, [
-      new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 25 ), velocity: new Vector2( 0, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -250, -70 ), velocity: new Vector2( 120, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -250, -140 ), velocity: new Vector2( 120, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -250, -210 ), velocity: new Vector2( 120, 0 ) } )
+      new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0.25 ), velocity: new Vector2( 0, 0 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -2.50, -0.70 ), velocity: new Vector2( 120, 0 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -2.50, -1.40 ), velocity: new Vector2( 120, 0 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -2.50, -2.10 ), velocity: new Vector2( 120, 0 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.SLINGSHOT, [
-      new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, -1 ) } ),
-      new BodyInfo( { isActive: true, mass: 10, position: new Vector2( 131, 55 ), velocity: new Vector2( -55, 115 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -6, -128 ), velocity: new Vector2( 83, 0 ) } )
+      new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 1.00, 0 ), velocity: new Vector2( 0, -1 ) } ),
+      new BodyInfo( { isActive: true, mass: 10, position: new Vector2( 1.31, 0.55 ), velocity: new Vector2( -55, 115 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -0.06, -1.28 ), velocity: new Vector2( 83, 0 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.DOUBLE_SLINGSHOT, [
       new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -1 ) } ),
-      new BodyInfo( { isActive: true, mass: 5, position: new Vector2( 0, -112 ), velocity: new Vector2( 134, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 5, position: new Vector2( 186, -5 ), velocity: new Vector2( 1, 111 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 70, 72 ), velocity: new Vector2( -47, 63 ) } )
+      new BodyInfo( { isActive: true, mass: 5, position: new Vector2( 0, -1.12 ), velocity: new Vector2( 134, 0 ) } ),
+      new BodyInfo( { isActive: true, mass: 5, position: new Vector2( 1.86, -0.05 ), velocity: new Vector2( 1, 111 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 0.70, 0.72 ), velocity: new Vector2( -47, 63 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.BINARY_STAR_PLANET, [
-      new BodyInfo( { isActive: true, mass: 150, position: new Vector2( -100, 0 ), velocity: new Vector2( 0, -60 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 100, 0 ), velocity: new Vector2( 0, 50 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -50, 0 ), velocity: new Vector2( 0, 120 ) } )
+      new BodyInfo( { isActive: true, mass: 150, position: new Vector2( -1.00, 0 ), velocity: new Vector2( 0, -60 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, 0 ), velocity: new Vector2( 0, 50 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -0.50, 0 ), velocity: new Vector2( 0, 120 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.FOUR_STAR_BALLET, [
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) } )
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, 1.00 ), velocity: new Vector2( -50, -50 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, 1.00 ), velocity: new Vector2( -50, 50 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, -1.00 ), velocity: new Vector2( 50, 50 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 50, -50 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.DOUBLE_DOUBLE, [
-      new BodyInfo( { isActive: true, mass: 60, position: new Vector2( -115, -3 ), velocity: new Vector2( 0, -154 ) } ),
-      new BodyInfo( { isActive: true, mass: 70, position: new Vector2( 102, 0 ), velocity: new Vector2( 1, 150 ) } ),
-      new BodyInfo( { isActive: true, mass: 55, position: new Vector2( -77, -2 ), velocity: new Vector2( -1, 42 ) } ),
-      new BodyInfo( { isActive: true, mass: 62, position: new Vector2( 135, 0 ), velocity: new Vector2( -1, -52 ) } )
+      new BodyInfo( { isActive: true, mass: 60, position: new Vector2( -1.15, -0.03 ), velocity: new Vector2( 0, -154 ) } ),
+      new BodyInfo( { isActive: true, mass: 70, position: new Vector2( 1.02, 0 ), velocity: new Vector2( 1, 150 ) } ),
+      new BodyInfo( { isActive: true, mass: 55, position: new Vector2( -0.77, -0.02 ), velocity: new Vector2( -1, 42 ) } ),
+      new BodyInfo( { isActive: true, mass: 62, position: new Vector2( 1.35, 0 ), velocity: new Vector2( -1, -52 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.CUSTOM, [
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -100, 100 ), velocity: new Vector2( -50, -50 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 100, 100 ), velocity: new Vector2( -50, 50 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 100, -100 ), velocity: new Vector2( 50, 50 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -100, -100 ), velocity: new Vector2( 50, -50 ) } )
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, 1.00 ), velocity: new Vector2( -50, -50 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, 1.00 ), velocity: new Vector2( -50, 50 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, -1.00 ), velocity: new Vector2( 50, 50 ) } ),
+      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 50, -50 ) } )
     ] );
   }
 }
