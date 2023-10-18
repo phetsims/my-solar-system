@@ -115,7 +115,8 @@ export default class ValuesPanel extends Panel {
         massSliderColumnWrapper
       ],
       tandem: massSectionTandem,
-      phetioVisiblePropertyInstrumented: model.isLab // only for the Lab screen
+      phetioVisiblePropertyInstrumented: model.isLab, // only for the Lab screen
+      phetioInputEnabledPropertyInstrumented: true // to support disabling input for the entire section
     } );
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
@@ -168,7 +169,8 @@ function createSectionNode( titleNode: Node, columnGroup: Node, tandem: Tandem, 
       isComponentColumnGroup ? COMPONENT_COLUMN_GROUP_ALIGN_GROUP.createBox( columnGroup ) : columnGroup
     ],
     spacing: 0.5,
-    tandem: tandem
+    tandem: tandem,
+    phetioInputEnabledPropertyInstrumented: true // to support disabling input for the entire section
   } );
 }
 
