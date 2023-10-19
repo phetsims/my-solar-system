@@ -1,7 +1,7 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * Shows the "trail" left behind by a Body as it moves over time, which disappears after about 2 orbits
+ * Shows the "trail" left behind by a Body as it moves over time, which disappears after some distance
  * This is named "Path" instead of "trail" since that is how it is supposed to appear to the students.
  *
  * Note: In the Java sim this was PathNode and there was one Node for each body. For performance reasons, it
@@ -21,6 +21,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 
 type SelfOptions = EmptySelfOptions;
 type PathsCanvasNodeOptions = SelfOptions & PickOptional<CanvasNodeOptions, 'visibleProperty'>;
@@ -66,7 +67,7 @@ export default class PathsCanvasNode extends CanvasNode {
       const points = body.pathPoints.map( point => this.modelViewTransformProperty.value.modelToViewPosition( point ) );
 
       // max path length in view coordinates
-      const maxPathLength = this.modelViewTransformProperty.value.modelToViewDeltaX( 1200 );
+      const maxPathLength = this.modelViewTransformProperty.value.modelToViewDeltaX( SolarSystemCommonConstants.MAX_PATH_DISTANCE * 3 / 5 );
       const fadePathLength = maxPathLength * 0.15; // fade length is ~15% of the path
 
       context.strokeStyle = body.colorProperty.value.toCSS();
