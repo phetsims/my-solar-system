@@ -157,6 +157,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     this.hboxAboveValuesPanel = new HBox( {
       stretch: true,
+      spacing: 20,
 
       // to keep unitsInformationButton right justified with valuesPanel when moreDataCheckbox is made invisible
       excludeInvisibleChildrenFromBounds: false,
