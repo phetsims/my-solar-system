@@ -43,7 +43,8 @@ export default class ValuesPanel extends Panel {
       xMargin: 12,
       stroke: null,
       fill: SolarSystemCommonColors.controlPanelFillProperty,
-      tandem: tandem
+      tandem: tandem,
+      phetioInputEnabledPropertyInstrumented: true
     };
 
     // Keypad dialog that is shared by UI components that make up this panel
