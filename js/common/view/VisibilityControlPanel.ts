@@ -36,7 +36,7 @@ export default class VisibilityControlPanel extends Panel {
         SolarSystemCommonCheckbox.createGravityForceCheckbox( visibleProperties.gravityVisibleProperty, tandem.createTandem( 'gravityForceCheckbox' ) ),
 
         // Gravity 'Zoom' control (labeled slider)
-        new GravityZoomControl( model.forceScalePowerProperty, visibleProperties.gravityVisibleProperty,
+        new GravityZoomControl( model.gravityForceScalePowerProperty, visibleProperties.gravityVisibleProperty,
           tandem.createTandem( 'gravityZoomControl' ) ),
 
         new HSeparator( SolarSystemCommonConstants.HSEPARATOR_OPTIONS ),

@@ -32,7 +32,7 @@ export default class NumericalEngine extends Engine {
   }
 
   /**
-   * In this update function, the local bodies array is updated, the system then checks for collisions and updates the forces.
+   * In this update function, the local bodies array is updated, the system then checks for collisions and updates the gravityForces.
    */
   public override update( bodies: Body[] ): void {
     this.bodies = bodies;
@@ -89,16 +89,16 @@ export default class NumericalEngine extends Engine {
     const positions = this.bodies.map( body => body.positionProperty.value.copy() );
     const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
     const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
-    const forces = this.bodies.map( body => body.gravityForceProperty.value.copy() );
+    const gravityForces = this.bodies.map( body => body.gravityForceProperty.value.copy() );
 
     for ( let k = 0; k < iterationCount; k++ ) {
 
-      // Zeroing out forces
+      // Zeroing out gravityForces
       for ( let i = 0; i < N; i++ ) {
-        forces[ i ].setXY( 0, 0 );
+        gravityForces[ i ].setXY( 0, 0 );
       }
 
-      // Iterate between all the bodies to add the forces
+      // Iterate between all the bodies to add the gravityForces
       for ( let i = 0; i < N; i++ ) {
         const mass1 = masses[ i ];
         for ( let j = i + 1; j < N; j++ ) {
@@ -107,17 +107,17 @@ export default class NumericalEngine extends Engine {
           const direction = scratchVector.set( positions[ j ] ).subtract( positions[ i ] );
           const distance = direction.magnitude;
           assert && assert( distance >= 0, 'Negative distances not allowed!!' );
-          const forceMagnitude = G * mass1 * mass2 * ( Math.pow( distance, -3 ) );
-          const force = direction.multiplyScalar( forceMagnitude );
+          const gravityForceMagnitude = G * mass1 * mass2 * ( Math.pow( distance, -3 ) );
+          const gravityForce = direction.multiplyScalar( gravityForceMagnitude );
 
-          forces[ i ].add( force );
-          forces[ j ].subtract( force );
+          gravityForces[ i ].add( gravityForce );
+          gravityForces[ j ].subtract( gravityForce );
         }
       }
 
       // Compute accelerations
       for ( let i = 0; i < N; i++ ) {
-        accelerations[ i ].set( forces[ i ] ).multiplyScalar( 1 / masses[ i ] );
+        accelerations[ i ].set( gravityForces[ i ] ).multiplyScalar( 1 / masses[ i ] );
       }
 
       // Position Extended Forest-Ruth Like algorithm (PEFRL) (Omelyan, Myrglod & Folk, 2001)
@@ -188,21 +188,21 @@ export default class NumericalEngine extends Engine {
         body.positionProperty.value = positions[ i ];
         body.velocityProperty.value = velocities[ i ];
         body.accelerationProperty.value = accelerations[ i ];
-        body.gravityForceProperty.value = forces[ i ];
+        body.gravityForceProperty.value = gravityForces[ i ];
       }
       else {
         body.positionProperty.value.set( positions[ i ] );
         body.velocityProperty.value.set( velocities[ i ] );
         body.accelerationProperty.value.set( accelerations[ i ] );
-        body.gravityForceProperty.value.set( forces[ i ] );
+        body.gravityForceProperty.value.set( gravityForces[ i ] );
       }
     }
   }
 
   /**
-   * Resets the forces and accelerations of all the bodies to zero.
-   * Then, it calculates the gravitational forces between the bodies based on the Newtonian Law of Universal Gravitation.
-   * The forces and accelerations are then set on the bodies.
+   * Resets the gravityForces and accelerations of all the bodies to zero.
+   * Then, it calculates the gravitational gravityForces between the bodies based on the Newtonian Law of Universal Gravitation.
+   * The gravityForces and accelerations are then set on the bodies.
    */
   private updateForces(): void {
     for ( let i = 0; i < this.bodies.length; i++ ) {
@@ -220,9 +220,9 @@ export default class NumericalEngine extends Engine {
         const mass2 = body2.massProperty.value;
         assert && assert( mass2 > 0, 'mass2 should not be 0' );
 
-        const force: Vector2 = this.getForce( body1, body2 );
-        body1.gravityForceProperty.value = body1.gravityForceProperty.value.plus( force );
-        body2.gravityForceProperty.value = body2.gravityForceProperty.value.minus( force );
+        const gravityForce: Vector2 = this.getGravityForce( body1, body2 );
+        body1.gravityForceProperty.value = body1.gravityForceProperty.value.plus( gravityForce );
+        body2.gravityForceProperty.value = body2.gravityForceProperty.value.minus( gravityForce );
         body1.accelerationProperty.value = body1.gravityForceProperty.value.times( 1 / mass1 );
         body2.accelerationProperty.value = body2.gravityForceProperty.value.times( 1 / mass2 );
       }
@@ -232,12 +232,12 @@ export default class NumericalEngine extends Engine {
   /**
    * Calculate the force on body1 because of body2
    */
-  private getForce( body1: Body, body2: Body ): Vector2 {
+  private getGravityForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance = direction.magnitude;
     assert && assert( distance > 0, 'Negative distances not allowed!!' );
-    const forceMagnitude = G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
-    return direction.times( forceMagnitude );
+    const gravityForceMagnitude = G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
+    return direction.times( gravityForceMagnitude );
   }
 }
 
