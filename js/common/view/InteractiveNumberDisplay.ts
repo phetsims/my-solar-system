@@ -12,7 +12,7 @@ import SolarSystemCommonConstants from '../../../../solar-system-common/js/Solar
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import TProperty from '../../../../axon/js/TProperty.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Range from '../../../../dot/js/Range.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
@@ -39,7 +39,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
 
   public constructor(
     property: TProperty<number>,
-    range: RangeWithValue,
+    range: Range,
     decimalPlaces: number,
     unitsProperty: TReadOnlyProperty<string>,
     userIsControllingProperty: TProperty<boolean>, // true if the user is controlling property

@@ -12,7 +12,7 @@ import ValuesColumnTypes from './ValuesColumnTypes.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import SolarSystemCommonNumberControl from '../../../../solar-system-common/js/view/SolarSystemCommonNumberControl.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Range from '../../../../dot/js/Range.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -31,10 +31,9 @@ const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertica
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
-const MASS_RANGE = new RangeWithValue( 0.1, 300, 100 );
-const POSITION_X_RANGE = new RangeWithValue( -8, 8, 0 );
-const POSITION_Y_RANGE = new RangeWithValue( -4, 4, 0 );
-const VELOCITY_RANGE = new RangeWithValue( -100, 100, 0 );
+const POSITION_X_RANGE = new Range( -8, 8 );
+const POSITION_Y_RANGE = new Range( -4, 4 );
+const VELOCITY_RANGE = new Range( -100, 100 );
 
 const MASS_DECIMAL_PLACES = 1;
 const POSITION_DECIMAL_PLACES = 2;
@@ -79,6 +78,9 @@ export default class ValuesColumnNode extends VBox {
                                     keypadDialog: KeypadDialog, parentTandem: Tandem ): AlignBox {
 
     let uiComponent: Node;
+
+    // Our minimum for the mass is larger than the body's minimum massProperty value
+    const MASS_RANGE = new Range( 0.1, body.massProperty.range.max );
 
     const clearPathsCallback = () => model.clearPaths();
 
