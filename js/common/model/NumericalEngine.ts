@@ -89,7 +89,7 @@ export default class NumericalEngine extends Engine {
     const positions = this.bodies.map( body => body.positionProperty.value.copy() );
     const velocities = this.bodies.map( body => body.velocityProperty.value.copy() );
     const accelerations = this.bodies.map( body => body.accelerationProperty.value.copy() );
-    const forces = this.bodies.map( body => body.forceProperty.value.copy() );
+    const forces = this.bodies.map( body => body.gravityForceProperty.value.copy() );
 
     for ( let k = 0; k < iterationCount; k++ ) {
 
@@ -188,13 +188,13 @@ export default class NumericalEngine extends Engine {
         body.positionProperty.value = positions[ i ];
         body.velocityProperty.value = velocities[ i ];
         body.accelerationProperty.value = accelerations[ i ];
-        body.forceProperty.value = forces[ i ];
+        body.gravityForceProperty.value = forces[ i ];
       }
       else {
         body.positionProperty.value.set( positions[ i ] );
         body.velocityProperty.value.set( velocities[ i ] );
         body.accelerationProperty.value.set( accelerations[ i ] );
-        body.forceProperty.value.set( forces[ i ] );
+        body.gravityForceProperty.value.set( forces[ i ] );
       }
     }
   }
@@ -208,7 +208,7 @@ export default class NumericalEngine extends Engine {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
       body.accelerationProperty.value = new Vector2( 0, 0 );
-      body.forceProperty.value = new Vector2( 0, 0 );
+      body.gravityForceProperty.value = new Vector2( 0, 0 );
     }
 
     // Iterate between all the bodies to add the accelerations
@@ -221,10 +221,10 @@ export default class NumericalEngine extends Engine {
         assert && assert( mass2 > 0, 'mass2 should not be 0' );
 
         const force: Vector2 = this.getForce( body1, body2 );
-        body1.forceProperty.value = body1.forceProperty.value.plus( force );
-        body2.forceProperty.value = body2.forceProperty.value.minus( force );
-        body1.accelerationProperty.value = body1.forceProperty.value.times( 1 / mass1 );
-        body2.accelerationProperty.value = body2.forceProperty.value.times( 1 / mass2 );
+        body1.gravityForceProperty.value = body1.gravityForceProperty.value.plus( force );
+        body2.gravityForceProperty.value = body2.gravityForceProperty.value.minus( force );
+        body1.accelerationProperty.value = body1.gravityForceProperty.value.times( 1 / mass1 );
+        body2.accelerationProperty.value = body2.gravityForceProperty.value.times( 1 / mass2 );
       }
     }
   }
