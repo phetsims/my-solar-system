@@ -20,14 +20,14 @@ export default class MySolarSystemVisibleProperties extends SolarSystemCommonVis
   // Controls if the data panel shows all the numeric properties of the body
   public readonly moreDataVisibleProperty: BooleanProperty;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( isLab: boolean, tandem: Tandem ) {
     super( tandem );
 
     this.centerOfMassVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'centerOfMassVisibleProperty' )
     } );
     this.moreDataVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'moreDataVisibleProperty' )
+      tandem: isLab ? tandem.createTandem( 'moreDataVisibleProperty' ) : Tandem.OPT_OUT
     } );
   }
 

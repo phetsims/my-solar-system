@@ -63,7 +63,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       centerOrbitOffset: new Vector2( 100, 100 )
     }, providedOptions );
 
-    super( model, new MySolarSystemVisibleProperties( options.tandem.createTandem( 'visibleProperties' ) ), options );
+    super( model, new MySolarSystemVisibleProperties( model.isLab, options.tandem.createTandem( 'visibleProperties' ) ), options );
 
     // Create visibleProperty instances for Nodes in the view.
     this.visibleProperties.pathVisibleProperty.link( visible => {
