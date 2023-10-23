@@ -93,13 +93,13 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
   /**
    * Calls the restart method (revert system back to t=0) on the parent class, and based on the new position and velocity
-   * of the CoM, updates the userControlledProperty (If CoM is moving, it is implied the user has interacted with the sim)
+   * of the CoM, updates the userHasInteractedProperty (If CoM is moving, it is implied the user has interacted with the sim)
    */
   public override restart(): void {
     super.restart();
 
     this.centerOfMass.update();
-    this.userControlledProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0;
+    this.userHasInteractedProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0;
   }
 }
 

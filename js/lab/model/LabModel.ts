@@ -41,7 +41,7 @@ export default class LabModel extends MySolarSystemModel {
 
     this.orbitalSystemProperty.lazyLink( mode => {
       if ( mode !== OrbitalSystem.CUSTOM ) {
-        this.userControlledProperty.value = true;
+        this.userHasInteractedProperty.value = true;
         this.clearPaths();
       }
     } );
@@ -56,7 +56,7 @@ export default class LabModel extends MySolarSystemModel {
     this.orbitalSystemProperty.link( mode => {
       if ( mode !== OrbitalSystem.CUSTOM ) {
         this.isPlayingProperty.value = false;
-        this.userControlledProperty.value = false;
+        this.userHasInteractedProperty.value = false;
         this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
         const modeInfo = this.orbitalSystemMap.get( mode );
@@ -94,7 +94,7 @@ export default class LabModel extends MySolarSystemModel {
     this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     this.orbitalSystemProperty.reset();
 
-    this.userControlledProperty.reset();
+    this.userHasInteractedProperty.reset();
     super.restart();
   }
 

@@ -78,7 +78,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     model.bodies.forEach( body => {
 
-      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, model.userControlledProperty, {
+      const bodyNode = new BodyNode( body, this.modelViewTransformProperty, model.userHasInteractedProperty, {
         speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
         mapPosition: this.constrainBoundaryViewPoint.bind( this ),
         soundViewNode: this,
@@ -174,10 +174,10 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
-      visibleProperty: model.userControlledProperty,
+      visibleProperty: model.userHasInteractedProperty,
       listener: () => {
         model.followAndCenterCenterOfMass();
-        model.userControlledProperty.value = false;
+        model.userHasInteractedProperty.value = false;
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
