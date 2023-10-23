@@ -44,7 +44,10 @@ export default class ValuesPanel extends Panel {
       stroke: null,
       fill: SolarSystemCommonColors.controlPanelFillProperty,
       tandem: tandem,
-      phetioInputEnabledPropertyInstrumented: true
+      phetioInputEnabledPropertyInstrumented: true,
+      inputEnabledPropertyOptions: {
+        phetioFeatured: true
+      }
     };
 
     // Keypad dialog that is shared by UI components that make up this panel
@@ -117,7 +120,10 @@ export default class ValuesPanel extends Panel {
       ],
       tandem: massSectionTandem,
       phetioVisiblePropertyInstrumented: model.isLab, // only for the Lab screen
-      phetioInputEnabledPropertyInstrumented: true // to support disabling input for the entire section
+      phetioInputEnabledPropertyInstrumented: true, // to support disabling input for the entire section
+      inputEnabledPropertyOptions: {
+        phetioFeatured: true
+      }
     } );
     const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
     const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
@@ -171,7 +177,10 @@ function createSectionNode( titleNode: Node, columnGroup: Node, tandem: Tandem, 
     ],
     spacing: 0.5,
     tandem: tandem,
-    phetioInputEnabledPropertyInstrumented: true // to support disabling input for the entire section
+    phetioInputEnabledPropertyInstrumented: true, // to support disabling input for the entire section
+    inputEnabledPropertyOptions: {
+      phetioFeatured: true
+    }
   } );
 }
 

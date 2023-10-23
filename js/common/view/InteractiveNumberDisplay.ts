@@ -99,7 +99,10 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
 
       // phet-io
       phetioVisiblePropertyInstrumented: false,
-      phetioInputEnabledPropertyInstrumented: true
+      phetioInputEnabledPropertyInstrumented: true,
+      inputEnabledPropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions );
 
     super( property, range, options );
