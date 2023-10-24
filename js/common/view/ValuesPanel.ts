@@ -10,14 +10,13 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import { AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Panel from '../../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ValuesColumnTypes from './ValuesColumnTypes.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -36,19 +35,17 @@ export default class ValuesPanel extends Panel {
 
   public constructor( model: MySolarSystemModel, moreDataVisibleProperty: BooleanProperty, tandem: Tandem ) {
 
-    const options = {
+    const options = combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
 
       // PanelOptions
       isDisposable: false,
       xMargin: 12,
-      stroke: null,
-      fill: SolarSystemCommonColors.controlPanelFillProperty,
       tandem: tandem,
       phetioInputEnabledPropertyInstrumented: true,
       inputEnabledPropertyOptions: {
         phetioFeatured: true
       }
-    };
+    } );
 
     // Keypad dialog that is shared by UI components that make up this panel
     const keypadDialog = new KeypadDialog( {
