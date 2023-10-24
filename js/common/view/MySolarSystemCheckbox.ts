@@ -56,7 +56,7 @@ export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
     } );
 
     return new SolarSystemCommonCheckbox( pathVisibleProperty, SolarSystemCommonStrings.pathStringProperty, {
-      icon: new Image( pathIcon_png, { scale: 0.25 } ),
+      icon: icon,
       tandem: tandem
     } );
   }
