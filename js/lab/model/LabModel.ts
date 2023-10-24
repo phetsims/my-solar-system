@@ -76,11 +76,15 @@ export default class LabModel extends MySolarSystemModel {
       if ( numberOfActiveBodies !== this.activeBodies.length ) {
         this.isPlayingProperty.value = false;
         this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        if ( numberOfActiveBodies > this.activeBodies.length ) {
-          this.addNextBody();
-        }
-        else {
-          this.removeLastBody();
+        let count = 0;
+        while ( numberOfActiveBodies !== this.activeBodies.length ) {
+          assert && assert( count++ < this.bodies.length, 'Infinite loop detected' );
+          if ( numberOfActiveBodies > this.activeBodies.length ) {
+            this.addNextBody();
+          }
+          else {
+            this.removeLastBody();
+          }
         }
       }
     } );
