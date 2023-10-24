@@ -78,6 +78,7 @@ export default class LabModel extends MySolarSystemModel {
         this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
         let count = 0;
         while ( numberOfActiveBodies !== this.activeBodies.length ) {
+          // addNextBody and removeLastBody should trigger updates in this.activeBodies, otherwise this loop wouldn't close.
           assert && assert( count++ < this.bodies.length, 'Infinite loop detected' );
           if ( numberOfActiveBodies > this.activeBodies.length ) {
             this.addNextBody();
