@@ -38,18 +38,18 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
     }, providedOptions );
 
     const items: ComboBoxItem<OrbitalSystem>[] = [
-      createItem( OrbitalSystem.SUN_PLANET, MySolarSystemStrings.mode.sunAndPlanetStringProperty ),
-      createItem( OrbitalSystem.SUN_PLANET_MOON, MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty ),
-      createItem( OrbitalSystem.SUN_PLANET_COMET, MySolarSystemStrings.mode.sunPlanetAndCometStringProperty ),
-      createItem( OrbitalSystem.TROJAN_ASTEROIDS, MySolarSystemStrings.mode.trojanAsteroidsStringProperty ),
-      createItem( OrbitalSystem.ELLIPSES, MySolarSystemStrings.mode.ellipsesStringProperty ),
-      createItem( OrbitalSystem.HYPERBOLIC, MySolarSystemStrings.mode.hyperbolicStringProperty ),
-      createItem( OrbitalSystem.SLINGSHOT, MySolarSystemStrings.mode.slingshotStringProperty ),
-      createItem( OrbitalSystem.DOUBLE_SLINGSHOT, MySolarSystemStrings.mode.doubleSlingshotStringProperty ),
-      createItem( OrbitalSystem.BINARY_STAR_PLANET, MySolarSystemStrings.mode.binaryStarPlanetStringProperty ),
-      createItem( OrbitalSystem.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty ),
-      createItem( OrbitalSystem.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty ),
-      createItem( OrbitalSystem.CUSTOM, MySolarSystemStrings.mode.customStringProperty )
+      createItem( OrbitalSystem.SUN_PLANET, MySolarSystemStrings.mode.sunAndPlanetStringProperty, 'sunPlanetItem' ),
+      createItem( OrbitalSystem.SUN_PLANET_MOON, MySolarSystemStrings.mode.sunPlanetAndMoonStringProperty, 'sunPlanetMoonItem' ),
+      createItem( OrbitalSystem.SUN_PLANET_COMET, MySolarSystemStrings.mode.sunPlanetAndCometStringProperty, 'sunPlanetCometItem' ),
+      createItem( OrbitalSystem.TROJAN_ASTEROIDS, MySolarSystemStrings.mode.trojanAsteroidsStringProperty, 'trojanAsteroidsItem' ),
+      createItem( OrbitalSystem.ELLIPSES, MySolarSystemStrings.mode.ellipsesStringProperty, 'ellipsesItem' ),
+      createItem( OrbitalSystem.HYPERBOLIC, MySolarSystemStrings.mode.hyperbolicStringProperty, 'hyperbolicItem' ),
+      createItem( OrbitalSystem.SLINGSHOT, MySolarSystemStrings.mode.slingshotStringProperty, 'slingshotItem' ),
+      createItem( OrbitalSystem.DOUBLE_SLINGSHOT, MySolarSystemStrings.mode.doubleSlingshotStringProperty, 'doubleSlingshotItem' ),
+      createItem( OrbitalSystem.BINARY_STAR_PLANET, MySolarSystemStrings.mode.binaryStarPlanetStringProperty, 'binaryStarPlanetItem' ),
+      createItem( OrbitalSystem.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty, 'fourStarBalletItem' ),
+      createItem( OrbitalSystem.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty, 'doubleDoubleItem' ),
+      createItem( OrbitalSystem.CUSTOM, MySolarSystemStrings.mode.customStringProperty, 'customItem' )
     ];
 
     super( orbitalSystemProperty, items, listboxParent, options );
@@ -59,14 +59,15 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
 /**
  * Creates an item for the combo box.
  */
-function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProperty<string> ): ComboBoxItem<OrbitalSystem> {
+function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProperty<string>, tandemName: string ): ComboBoxItem<OrbitalSystem> {
   return {
     value: orbitalSystem,
     createNode: () => new Text( nameProperty, {
       font: SolarSystemCommonConstants.COMBO_BOX_ITEM_FONT,
       maxWidth: 200
     } ),
-    a11yName: nameProperty
+    a11yName: nameProperty,
+    tandemName: tandemName
   };
 }
 
