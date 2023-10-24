@@ -56,6 +56,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
   private readonly bodyNodes: BodyNode[];
 
+  // Group all panels under a parent tandem
+  protected readonly panelsTandem: Tandem;
+
   protected constructor( model: MySolarSystemModel, providedOptions: MySolarSystemScreenViewOptions ) {
 
     const options = optionize<MySolarSystemScreenViewOptions, SelfOptions, SolarSystemCommonScreenViewOptions>()( {
@@ -112,10 +115,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Panels in the top-right of the screen ===========================================================================
 
-    const timePanel = new TimePanel( model, options.playingAllowedProperty, options.tandem.createTandem( 'timePanel' ) );
+    this.panelsTandem = options.tandem.createTandem( 'panels' );
+
+    const timePanel = new TimePanel( model, options.playingAllowedProperty, this.panelsTandem.createTandem( 'timePanel' ) );
 
     const visibilityControlPanel = new VisibilityControlPanel( model, this.visibleProperties,
-      options.tandem.createTandem( 'visibilityControlPanel' ) );
+      this.panelsTandem.createTandem( 'visibilityControlPanel' ) );
 
     this.topRightVBox = new VBox( {
       spacing: 7.5,
@@ -136,7 +141,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     // Panel and associated controls at the bottom-left of the screen ==================================================
 
-    const valuesPanelTandem = options.tandem.createTandem( 'valuesPanel' );
+    const valuesPanelTandem = this.panelsTandem.createTandem( 'valuesPanel' );
 
     this.valuesPanel = new ValuesPanel( model, this.visibleProperties.moreDataVisibleProperty, valuesPanelTandem );
 

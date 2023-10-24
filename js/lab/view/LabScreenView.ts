@@ -22,11 +22,11 @@ export default class LabScreenView extends MySolarSystemScreenView {
       screenSummaryContent: new LabScreenViewSummaryContentNode()
     } );
 
-    // Add a panel at the top left for selecting a system of bodies.
+    // Add a panel at the top left for selecting the orbital system.
     // Put that panel at the beginning of the PDOM order for interfaceLayer.
-    const labModePanel = new OrbitalSystemPanel( model.orbitalSystemProperty, this.topLayer, tandem.createTandem( 'labModePanel' ) );
-    this.topRightVBox.insertChild( 0, labModePanel );
-    this.interfaceLayer.pdomOrder = [ labModePanel, ...this.interfaceLayer.pdomOrder! ];
+    const orbitalSystemPanel = new OrbitalSystemPanel( model.orbitalSystemProperty, this.topLayer, this.panelsTandem.createTandem( 'orbitalSystemPanel' ) );
+    this.topRightVBox.insertChild( 0, orbitalSystemPanel );
+    this.interfaceLayer.pdomOrder = [ orbitalSystemPanel, ...this.interfaceLayer.pdomOrder! ];
 
     model.activeBodies.addItemAddedListener( () => {
       if ( !model.isAnyBodyCollidedProperty.value ) {
