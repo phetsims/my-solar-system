@@ -244,7 +244,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     // Button and message that appear at top-center ====================================================================
 
     const offScaleMessage = new Text( SolarSystemCommonStrings.offscaleMessageStringProperty, {
-      visibleProperty: DerivedProperty.and( [ this.visibleProperties.gravityVisibleProperty, model.isAnyForceOffscaleProperty ] ),
+      visibleProperty: DerivedProperty.and( [ this.visibleProperties.gravityVisibleProperty, model.isAnyGravityForceOffscaleProperty ] ),
       font: new PhetFont( 16 ),
       fill: SolarSystemCommonColors.foregroundProperty,
       maxWidth: 320
