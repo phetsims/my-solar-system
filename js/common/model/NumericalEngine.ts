@@ -180,10 +180,9 @@ export default class NumericalEngine extends Engine {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
 
-      // Here, depending on updateProperties, we either update (and notify) the Properties or just set their values.
+      // Here, depending on updateProperties, we either update (and notify) the Properties or mutate their Vector2 values.
       // This is done to avoid notifying the Property change on every iteration, which is expensive.
       // Currently, on SolarSystemCommonModel, it is set to false except on the last iteration of the model.run() method.
-
       if ( updateProperties ) {
         body.positionProperty.value = positions[ i ];
         body.velocityProperty.value = velocities[ i ];
@@ -191,6 +190,7 @@ export default class NumericalEngine extends Engine {
         body.gravityForceProperty.value = gravityForces[ i ];
       }
       else {
+        // mutate Vector2 values!
         body.positionProperty.value.set( positions[ i ] );
         body.velocityProperty.value.set( velocities[ i ] );
         body.accelerationProperty.value.set( accelerations[ i ] );
