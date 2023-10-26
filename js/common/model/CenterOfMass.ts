@@ -26,13 +26,15 @@ export default class CenterOfMass {
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       units: 'AU',
       tandem: tandem.createTandem( 'positionProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.velocityProperty = new Vector2Property( Vector2.ZERO, {
       units: 'km/s',
       tandem: tandem.createTandem( 'velocityProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.update();
