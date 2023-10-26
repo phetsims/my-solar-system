@@ -190,7 +190,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       font: SolarSystemCommonConstants.BUTTON_FONT,
       maxTextWidth: 200,
       baseColor: 'orange',
-      tandem: options.tandem.createTandem( 'followCenterOfMassButton' )
+      tandem: options.tandem.createTandem( 'followCenterOfMassButton' ),
+      phetioFeatured: false
     } );
 
     const bottomLeftHBox = new HBox( {
@@ -266,7 +267,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       font: SolarSystemCommonConstants.BUTTON_FONT,
       maxTextWidth: 190,
       containerTagName: 'div',
-      tandem: options.tandem.createTandem( 'returnBodiesButton' )
+      tandem: options.tandem.createTandem( 'returnBodiesButton' ),
+      phetioFeatured: false
     } );
 
     const topCenterAlignBox = new AlignBox( new HBox( {
