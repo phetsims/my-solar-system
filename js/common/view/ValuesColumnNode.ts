@@ -134,7 +134,7 @@ export default class ValuesColumnNode extends VBox {
         keypadDialog,
         {
           useExponential: true,
-          hideSmallValues: true,
+          minDisplayedValue: 0.1,
           tandem: parentTandem.createTandem( `mass${body.index}Display` )
         } );
     }

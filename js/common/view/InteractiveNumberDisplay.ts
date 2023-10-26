@@ -28,8 +28,8 @@ type SelfOptions = {
   // Use exponential notation e.g. 1x10^4 instead of 10000
   useExponential?: boolean;
 
-  // Small numeric values show as <0.1
-  hideSmallValues?: boolean;
+  // Values <= this will be displayed as "<= ${minDisplayedValue}". Defaults to range.min.
+  minDisplayedValue?: number;
   onEditCallback?: () => void;
 };
 
@@ -65,19 +65,11 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
 
       // SelfOptions
       useExponential: false,
-      hideSmallValues: false,
+      minDisplayedValue: range.min,
       onEditCallback: _.noop,
 
       // NumberDisplayOptions
       cursor: 'pointer',
-      numberFormatter: ( n: number ) => {
-        if ( providedOptions?.hideSmallValues && Math.abs( n ) <= 0.1 ) {
-          return `${MathSymbols.LESS_THAN_OR_EQUAL} 0.1`;
-        }
-        else {
-          return Utils.toFixed( n, decimalPlaces );
-        }
-      },
       textOptions: {
         font: SolarSystemCommonConstants.NUMBER_DISPLAY_FONT,
         tandem: Tandem.OPT_OUT
@@ -104,6 +96,15 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
         phetioFeatured: true
       }
     }, providedOptions );
+
+    options.numberFormatter = value => {
+      if ( value <= options.minDisplayedValue ) {
+        return `${MathSymbols.LESS_THAN_OR_EQUAL} ${Utils.toFixed( options.minDisplayedValue, decimalPlaces )}`;
+      }
+      else {
+        return Utils.toFixed( value, decimalPlaces );
+      }
+    };
 
     super( property, range, options );
 
