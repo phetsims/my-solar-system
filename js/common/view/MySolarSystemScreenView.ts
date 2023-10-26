@@ -237,7 +237,11 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       },
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
-      tandem: options.tandem.createTandem( 'zoomButtonGroup' )
+      tandem: options.tandem.createTandem( 'zoomButtonGroup' ),
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
 
     const zoomButtonGroupAlignBox = new AlignBox( this.zoomButtonGroup, {
