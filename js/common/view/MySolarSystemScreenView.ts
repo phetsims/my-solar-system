@@ -289,7 +289,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.interfaceLayer.addChild( topRightAlignBox );
     this.interfaceLayer.addChild( zoomButtonGroupAlignBox );
 
-    // ZoomBox should be first in the PDOM Order
     this.interfaceLayer.pdomOrder = [
       timePanel,
       topCenterAlignBox,
