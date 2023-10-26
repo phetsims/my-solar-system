@@ -24,10 +24,13 @@ export default class MySolarSystemVisibleProperties extends SolarSystemCommonVis
     super( tandem );
 
     this.centerOfMassVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'centerOfMassVisibleProperty' )
+      tandem: tandem.createTandem( 'centerOfMassVisibleProperty' ),
+      phetioFeatured: true
     } );
+
     this.moreDataVisibleProperty = new BooleanProperty( false, {
-      tandem: isLab ? tandem.createTandem( 'moreDataVisibleProperty' ) : Tandem.OPT_OUT
+      tandem: isLab ? tandem.createTandem( 'moreDataVisibleProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
     } );
   }
 
