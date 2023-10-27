@@ -29,7 +29,11 @@ export default class NumberOfBodiesControl extends VBox {
     const options = optionize<NumberOfBodiesControlOptions, SelfOptions, VBoxOptions>()( {
 
       // VBoxOptions
-      spacing: 5
+      spacing: 5,
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions );
 
     const bodiesText = new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, {
@@ -55,9 +59,8 @@ export default class NumberOfBodiesControl extends VBox {
           font: new PhetFont( 28 )
         }
       },
-      accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty,
-      tandem: options.tandem.createTandem( 'spinner' ),
-      phetioVisiblePropertyInstrumented: false
+      accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
+      // Do not instrument for PhET-iO.
     } );
 
     options.children = [ bodiesText, spinner ];
