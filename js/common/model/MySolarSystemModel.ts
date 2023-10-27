@@ -99,7 +99,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     super.restart();
 
     this.centerOfMass.update();
-    this.userHasInteractedProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0;
+    this.userHasInteractedProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0.01;
   }
 }
 

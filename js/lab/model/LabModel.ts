@@ -40,13 +40,6 @@ export default class LabModel extends MySolarSystemModel {
       tandem: tandem.createTandem( 'orbitalSystemProperty' )
     } );
 
-    this.orbitalSystemProperty.lazyLink( mode => {
-      if ( mode !== OrbitalSystem.CUSTOM ) {
-        this.userHasInteractedProperty.value = true;
-        this.clearPaths();
-      }
-    } );
-
     this.userInteractingEmitter.addListener( () => {
       this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     } );
@@ -55,6 +48,7 @@ export default class LabModel extends MySolarSystemModel {
     this.initializeModeMap();
 
     this.orbitalSystemProperty.link( mode => {
+      this.clearPaths();
       if ( mode !== OrbitalSystem.CUSTOM ) {
         this.isPlayingProperty.value = false;
         this.userHasInteractedProperty.value = false;
