@@ -40,7 +40,7 @@ export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
         stroke: SolarSystemCommonColors.foregroundProperty,
         scale: 0.5
       } ),
-      tandem: tandem.createTandem( 'centerOfMassCheckbox' )
+      tandem: tandem
     } );
   }
 
