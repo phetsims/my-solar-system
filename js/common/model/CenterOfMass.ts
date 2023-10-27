@@ -15,13 +15,20 @@ import Body from '../../../../solar-system-common/js/model/Body.js';
 import solarSystemCommon from '../../../../solar-system-common/js/solarSystemCommon.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Property from '../../../../axon/js/Property.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 
-export default class CenterOfMass {
+export default class CenterOfMass extends PhetioObject {
 
   public readonly positionProperty: Property<Vector2>;
   public readonly velocityProperty: Property<Vector2>;
 
   public constructor( public readonly bodies: ObservableArray<Body>, tandem: Tandem ) {
+
+    super( {
+      tandem: tandem,
+      phetioState: false,
+      phetioFeatured: true
+    } );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       units: 'AU',
