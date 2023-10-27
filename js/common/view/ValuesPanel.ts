@@ -71,16 +71,16 @@ export default class ValuesPanel extends Panel {
 
     const iconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, Tandem.OPT_OUT );
     const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
-    const massSliderColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_NUMBER_CONTROL, keypadDialog, massSectionTandem.createTandem( 'massNumberControlColumn' ) );
+    const massNumberControlColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_NUMBER_CONTROL, keypadDialog, massSectionTandem.createTandem( 'massNumberControlColumn' ) );
     const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
     const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, positionSectionTandem.createTandem( 'yColumn' ) );
     const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, velocitySectionTandem.createTandem( 'VxColumn' ) );
     const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, velocitySectionTandem.createTandem( 'VyColumn' ) );
 
-    // Put a wrapper around massSliderColumnNode, so that PhET-iO clients have independent control over the visibility
+    // Put a wrapper around massNumberControlColumnNode, so that PhET-iO clients have independent control over the visibility
     // of sliders. Use a VBox so that we have dynamic layout.
-    const massSliderColumnWrapper = new VBox( {
-      children: [ massSliderColumnNode ]
+    const massNumberControlColumnWrapper = new VBox( {
+      children: [ massNumberControlColumnNode ]
     } );
     
     const componentColumnsSpacing = 12;
@@ -113,7 +113,7 @@ export default class ValuesPanel extends Panel {
       align: 'bottom',
       children: [
         createSectionNode( massTitleNode, massColumnNode, Tandem.OPT_OUT, false ),
-        massSliderColumnWrapper
+        massNumberControlColumnWrapper
       ],
       tandem: massSectionTandem,
       phetioVisiblePropertyInstrumented: model.isLab, // only for the Lab screen
@@ -127,7 +127,7 @@ export default class ValuesPanel extends Panel {
 
     // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
     moreDataVisibleProperty.link( moreDataVisible => {
-      massSliderColumnWrapper.visible = !( moreDataVisible && model.isLab );
+      massNumberControlColumnWrapper.visible = !( moreDataVisible && model.isLab );
       positionSectionNode.visible = moreDataVisible && model.isLab;
       velocitySectionNode.visible = moreDataVisible && model.isLab;
     } );
@@ -176,6 +176,10 @@ function createSectionNode( titleNode: Node, columnGroup: Node, tandem: Tandem, 
     tandem: tandem,
     phetioInputEnabledPropertyInstrumented: true, // to support disabling input for the entire section
     inputEnabledPropertyOptions: {
+      phetioFeatured: true
+    },
+    phetioVisiblePropertyInstrumented: true,
+    visiblePropertyOptions: {
       phetioFeatured: true
     }
   } );

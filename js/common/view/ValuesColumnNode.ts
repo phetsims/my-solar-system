@@ -67,7 +67,10 @@ export default class ValuesColumnNode extends VBox {
       children: [ LABEL_ALIGN_GROUP.createBox( titleText ), uiComponents ],
       stretch: true,
       tandem: tandem,
-      phetioVisiblePropertyInstrumented: ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL )
+      phetioVisiblePropertyInstrumented: ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL ),
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
   }
 
@@ -119,8 +122,10 @@ export default class ValuesColumnNode extends VBox {
           tandem: Tandem.OPT_OUT
         },
         tandem: parentTandem.createTandem( `mass${body.index}NumberControl` ),
+        phetioFeatured: true,
         phetioVisiblePropertyInstrumented: false
       } );
+      uiComponent.addLinkedElement( body.massProperty );
     }
     else if ( columnType === ValuesColumnTypes.MASS ) {
       uiComponent = new InteractiveNumberDisplay(
@@ -137,6 +142,7 @@ export default class ValuesColumnNode extends VBox {
           minDisplayedValue: 0.1,
           tandem: parentTandem.createTandem( `mass${body.index}Display` )
         } );
+      uiComponent.addLinkedElement( body.massProperty );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_X ) {
 
@@ -163,6 +169,7 @@ export default class ValuesColumnNode extends VBox {
           tandem: parentTandem.createTandem( `x${body.index}Display` )
         }
       );
+      uiComponent.addLinkedElement( body.positionProperty );
     }
     else if ( columnType === ValuesColumnTypes.POSITION_Y ) {
 
@@ -189,6 +196,7 @@ export default class ValuesColumnNode extends VBox {
           tandem: parentTandem.createTandem( `y${body.index}Display` )
         }
       );
+      uiComponent.addLinkedElement( body.positionProperty );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_X ) {
 
@@ -215,6 +223,7 @@ export default class ValuesColumnNode extends VBox {
           tandem: parentTandem.createTandem( `Vx${body.index}Display` )
         }
       );
+      uiComponent.addLinkedElement( body.velocityProperty );
     }
     else if ( columnType === ValuesColumnTypes.VELOCITY_Y ) {
 
@@ -241,6 +250,7 @@ export default class ValuesColumnNode extends VBox {
           tandem: parentTandem.createTandem( `Vy${body.index}Display` )
         }
       );
+      uiComponent.addLinkedElement( body.velocityProperty );
     }
     else {
       //TODO https://github.com/phetsims/my-solar-system/issues/237 this should throw an Error

@@ -90,6 +90,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
       containerTagName: 'div',
 
       // phet-io
+      phetioFeatured: true,
       phetioVisiblePropertyInstrumented: false,
       phetioInputEnabledPropertyInstrumented: true,
       inputEnabledPropertyOptions: {
