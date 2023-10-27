@@ -31,7 +31,7 @@ export default class LabModel extends MySolarSystemModel {
         new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( 1.00, 0 ), velocity: new Vector2( 0, 31.6834 ) } ),
         new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 25.3467, 0 ) } )
       ],
-      numberOfActiveBodiesIsVariable: true,
+      numberOfBodiesIsVariable: true,
       isLab: true,
       tandem: tandem
     } );
