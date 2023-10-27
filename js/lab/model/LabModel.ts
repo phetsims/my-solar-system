@@ -141,7 +141,7 @@ export default class LabModel extends MySolarSystemModel {
       new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -2.50, -2.10 ), velocity: new Vector2( 25.3467, 0 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.SLINGSHOT, [
-      new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 1.00, 0 ), velocity: new Vector2( 0, -0.2112 ) } ),
+      new BodyInfo( { isActive: true, mass: 200, position: new Vector2( 0.01, 0 ), velocity: new Vector2( 0, -0.2112 ) } ),
       new BodyInfo( { isActive: true, mass: 10, position: new Vector2( 1.31, 0.55 ), velocity: new Vector2( -11.6172, 24.2906 ) } ),
       new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -0.06, -1.28 ), velocity: new Vector2( 17.5315, 0 ) } )
     ] );
