@@ -89,7 +89,11 @@ class ClockNode extends HBox {
     super( {
       children: [ timeDisplay, clearButton ],
       spacing: 10,
-      tandem: tandem
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
   }
 }
