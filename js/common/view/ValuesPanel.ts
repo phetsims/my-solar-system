@@ -117,6 +117,9 @@ export default class ValuesPanel extends Panel {
       ],
       tandem: massSectionTandem,
       phetioVisiblePropertyInstrumented: model.isLab, // only for the Lab screen
+      visiblePropertyOptions: {
+        phetioFeatured: model.isLab
+      },
       phetioInputEnabledPropertyInstrumented: true, // to support disabling input for the entire section
       inputEnabledPropertyOptions: {
         phetioFeatured: true
