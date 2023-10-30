@@ -80,7 +80,7 @@ export default class NumericalEngine extends Engine {
   /**
    * Updates the position of the bodies using the PEFRL algorithm.
    */
-  public override run( dt: number, updateProperties = true ): void {
+  public override run( dt: number, notifyPropertyListeners = true ): void {
     const iterationCount = 4000 / this.bodies.length; // 4000 is an arbitrary number of iterations that worked well
     const N = this.bodies.length;
     dt /= iterationCount;
@@ -180,10 +180,10 @@ export default class NumericalEngine extends Engine {
     for ( let i = 0; i < this.bodies.length; i++ ) {
       const body = this.bodies[ i ];
 
-      // Here, depending on updateProperties, we either update (and notify) the Properties or mutate their Vector2 values.
+      // Here, depending on notifyPropertyListeners, we either set Property values, or mutate their values.
       // This is done to avoid notifying the Property change on every iteration, which is expensive.
-      // Currently, on SolarSystemCommonModel, it is set to false except on the last iteration of the model.run() method.
-      if ( updateProperties ) {
+      // In SolarSystemCommonModel stepOnce, notifyPropertyListeners is true only on the last call to engine.run().
+      if ( notifyPropertyListeners ) {
         body.positionProperty.value = positions[ i ];
         body.velocityProperty.value = velocities[ i ];
         body.accelerationProperty.value = accelerations[ i ];
