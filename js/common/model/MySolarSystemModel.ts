@@ -21,7 +21,7 @@ type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
 };
 type ParentOptions = SolarSystemCommonModelOptions<NumericalEngine>;
-export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory' | 'zoomLevelRange'>;
+export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory' | 'zoomLevelRange' | 'engineTimeScale'>;
 
 export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
 
@@ -40,6 +40,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
       // SolarSystemCommonModelOptions
       engineFactory: bodies => new NumericalEngine( bodies ),
+      engineTimeScale: 0.05, // This value works well for NumericalEngine
       zoomLevelRange: new RangeWithValue( 1, 6, 4 )
     }, providedOptions );
 
@@ -104,14 +105,15 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
   public override stepOnce( dt: number ): void {
     // Scaling dt according to the speeds of the sim
-    dt *= this.timeSpeedMap.get( this.timeSpeedProperty.value )! * this.timeScale;
+    dt *= this.timeSpeedMap.get( this.timeSpeedProperty.value )!;
 
-    // Number of steps is an arbitrary function of adjustedDT, where bigger adjustedDT results in more steps.
-    const desiredFrameDuration = 1 / 5000; // 5000 fps
-
-    // If dt is too big, we need to split it into smaller steps
-    const numberOfSteps = Math.ceil( dt / desiredFrameDuration );
+    // Dividing dt into smaller values per step to avoid large jumps in the sim
+    const desiredStepsPerSecond = 300;
+    const numberOfSteps = Math.ceil( dt * desiredStepsPerSecond );
     dt /= numberOfSteps;
+
+    // Scaling dt to the engine time
+    dt *= this.engineTimeScale;
 
     for ( let i = 0; i < numberOfSteps; i++ ) {
       // Only notify Body Property listeners on the last step, as a performance optimization.
