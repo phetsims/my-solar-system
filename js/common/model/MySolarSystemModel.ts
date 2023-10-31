@@ -101,6 +101,27 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     this.centerOfMass.update();
     this.userHasInteractedProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0.01;
   }
+
+  public override stepOnce( dt: number ): void {
+    // Scaling dt according to the speeds of the sim
+    dt *= this.timeSpeedMap.get( this.timeSpeedProperty.value )! * this.timeScale;
+
+    // Number of steps is an arbitrary function of adjustedDT, where bigger adjustedDT results in more steps.
+    const numberOfSteps = Math.ceil( dt / 0.0002 );
+    dt /= numberOfSteps;
+
+    for ( let i = 0; i < numberOfSteps; i++ ) {
+
+      // Only notify Body Property listeners on the last step, as a performance optimization.
+      const notifyPropertyListeners = ( i === numberOfSteps - 1 );
+      this.engine.run( dt, notifyPropertyListeners );
+      this.engine.checkCollisions();
+      this.timeProperty.value += dt * this.modelToViewTime;
+      if ( this.addingPathPoints ) {
+        this.activeBodies.forEach( body => body.addPathPoint() );
+      }
+    }
+  }
 }
 
 mySolarSystem.register( 'MySolarSystemModel', MySolarSystemModel );
