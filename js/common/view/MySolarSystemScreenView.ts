@@ -132,7 +132,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const topRightAlignBox = new AlignBox( this.topRightVBox, {
-      alignBoundsProperty: this.availableBoundsProperty,
+      alignBoundsProperty: this.interfaceBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       xAlign: 'right',
@@ -221,7 +221,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const bottomLeftAlignBox = new AlignBox( bottomLeftHBox, {
-      alignBoundsProperty: this.availableBoundsProperty,
+      alignBoundsProperty: this.interfaceBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       xAlign: 'left',
@@ -245,7 +245,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const zoomButtonGroupAlignBox = new AlignBox( this.zoomButtonGroup, {
-      alignBoundsProperty: this.availableBoundsProperty,
+      alignBoundsProperty: this.interfaceBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       xAlign: 'left',
@@ -281,7 +281,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       preferredHeight: returnBodiesButton.height,
       children: [ returnBodiesButton, offScaleMessage ]
     } ), {
-      alignBoundsProperty: this.availableBoundsProperty,
+      alignBoundsProperty: this.interfaceBoundsProperty,
       xMargin: SolarSystemCommonConstants.SCREEN_VIEW_X_MARGIN,
       yMargin: SolarSystemCommonConstants.SCREEN_VIEW_Y_MARGIN,
       centerX: -visibilityControlPanel.width / 2,
