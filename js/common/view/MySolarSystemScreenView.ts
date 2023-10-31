@@ -11,7 +11,7 @@ import SolarSystemCommonConstants from '../../../../solar-system-common/js/Solar
 import VisibilityControlPanel from './VisibilityControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import SolarSystemCommonScreenView, { BodyBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
+import SolarSystemCommonScreenView, { DragBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import ValuesPanel from './ValuesPanel.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
@@ -83,7 +83,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
       const bodyNode = new BodyNode( body, this.modelViewTransformProperty, model.userHasInteractedProperty, {
         speedVisibleProperty: this.visibleProperties.speedVisibleProperty,
-        mapPosition: this.constrainBoundaryViewPoint.bind( this ),
+        mapPosition: this.constrainDragPoint.bind( this ),
         soundViewNode: this,
         visibleProperty: body.isActiveProperty, // visible when the associated Body is active
         tandem: orbitalSystemNodesTandem.createTandem( `body${body.index}Node` )
@@ -92,7 +92,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       this.bodyNodes.push( bodyNode );
 
       const velocityVectorNode = new DraggableVelocityVectorNode( body, this.modelViewTransformProperty, {
-        mapPosition: this.constrainBoundaryViewPoint.bind( this ),
+        mapPosition: this.constrainDragPoint.bind( this ),
         soundViewNode: this,
         visibleProperty: DerivedProperty.and( [ body.isActiveProperty, this.visibleProperties.velocityVisibleProperty ] ),
         tandem: orbitalSystemNodesTandem.createTandem( `velocityVector${body.index}Node` )
@@ -325,9 +325,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
   }
 
-  protected override getBodyBoundsItems(): BodyBoundsItem[] {
+  protected override getDragBoundsItems(): DragBoundsItem[] {
     return [
-      ...super.getBodyBoundsItems(),
+      ...super.getDragBoundsItems(),
       {
         node: this.topRightVBox,
         expandX: 'right',
@@ -338,8 +338,9 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         expandX: 'left',
         expandY: 'top'
       },
-      // Bottom-left controls, all with individual scopes (all expanded bottom-left)
-      ...[ this.hboxAboveValuesPanel, this.valuesPanel, this.numberOfBodiesControl, this.followCenterOfMassButton ].map( ( node: Node ): BodyBoundsItem => {
+
+      // All of these Nodes are aligned at left-bottom
+      ...[ this.hboxAboveValuesPanel, this.valuesPanel, this.numberOfBodiesControl, this.followCenterOfMassButton ].map( ( node: Node ): DragBoundsItem => {
         return {
           node: node,
           expandX: 'left',
