@@ -107,11 +107,13 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     dt *= this.timeSpeedMap.get( this.timeSpeedProperty.value )! * this.timeScale;
 
     // Number of steps is an arbitrary function of adjustedDT, where bigger adjustedDT results in more steps.
-    const numberOfSteps = Math.ceil( dt / 0.0002 );
+    const desiredFrameDuration = 1 / 50; // 50 fps
+
+    // If dt is too big, we need to split it into smaller steps
+    const numberOfSteps = Math.ceil( dt / desiredFrameDuration );
     dt /= numberOfSteps;
 
     for ( let i = 0; i < numberOfSteps; i++ ) {
-
       // Only notify Body Property listeners on the last step, as a performance optimization.
       const notifyPropertyListeners = ( i === numberOfSteps - 1 );
       this.engine.run( dt, notifyPropertyListeners );
