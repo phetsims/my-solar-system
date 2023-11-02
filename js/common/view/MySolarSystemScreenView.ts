@@ -190,7 +190,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       maxTextWidth: 200,
       baseColor: 'orange',
       tandem: options.tandem.createTandem( 'followCenterOfMassButton' ),
-      phetioEnabledPropertyInstrumented: false
+      phetioEnabledPropertyInstrumented: false // there's no reason to disable this button
     } );
 
     const bottomLeftHBox = new HBox( {
@@ -271,7 +271,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       maxTextWidth: 190,
       containerTagName: 'div',
       tandem: options.tandem.createTandem( 'returnBodiesButton' ),
-      phetioEnabledPropertyInstrumented: false
+      phetioEnabledPropertyInstrumented: false // there's no reason to disable this button
     } );
 
     const topCenterAlignBox = new AlignBox( new HBox( {
