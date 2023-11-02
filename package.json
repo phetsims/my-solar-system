@@ -30,9 +30,6 @@
         "projector"
       ]
     },
-    "phet-io": {
-      "validation": false
-    },
     "screenNameKeys": [
       "MY_SOLAR_SYSTEM/screen.intro",
       "MY_SOLAR_SYSTEM/screen.lab"
