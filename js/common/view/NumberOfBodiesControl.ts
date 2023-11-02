@@ -17,6 +17,7 @@ import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSound
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -59,8 +60,8 @@ export default class NumberOfBodiesControl extends VBox {
           font: new PhetFont( 28 )
         }
       },
-      accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty
-      // Do not instrument for PhET-iO.
+      accessibleName: MySolarSystemStrings.a11y.numberOfBodiesStringProperty,
+      tandem: Tandem.OPT_OUT
     } );
 
     options.children = [ bodiesText, spinner ];
