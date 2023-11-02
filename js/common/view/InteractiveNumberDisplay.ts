@@ -57,8 +57,8 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     } );
 
     const hoverListener = new PressListener( {
-      tandem: Tandem.OPT_OUT,
-      attach: false // Don't be greedy with the pointer, it would prevent the fire listener from activating
+      attach: false, // Don't be greedy with the pointer, it would prevent the fire listener from activating
+      tandem: Tandem.OPT_OUT
     } );
 
     const options = optionize<InteractiveNumberDisplayOptions, SelfOptions, NumberDisplayOptions>()( {
@@ -141,7 +141,8 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
           keypadDialog.beginEdit( editValue, range, MySolarSystemStrings.pattern.rangeStringProperty, endEdit );
         }
       },
-      fireOnDown: true
+      fireOnDown: true,
+      tandem: Tandem.OPT_OUT
     } ) );
   }
 }
