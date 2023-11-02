@@ -51,7 +51,6 @@ export default class LabModel extends MySolarSystemModel {
       this.clearPaths();
       if ( mode !== OrbitalSystem.CUSTOM ) {
         this.isPlayingProperty.value = false;
-        this.userHasInteractedProperty.value = false;
         this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
         const modeInfo = this.orbitalSystemMap.get( mode );
@@ -88,13 +87,11 @@ export default class LabModel extends MySolarSystemModel {
 
   public override reset(): void {
     super.reset();
-
     // Change the Lab Mode briefly to custom so the reset actually triggers the listeners.
     // If this is not done, orbitalSystemProperty listeners (including the one added in the constructor above) won't be called.
     this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     this.orbitalSystemProperty.reset();
 
-    this.userHasInteractedProperty.reset();
     super.restart();
   }
 

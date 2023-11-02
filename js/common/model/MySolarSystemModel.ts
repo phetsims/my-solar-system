@@ -28,6 +28,9 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   // abstract in SolarSystemCommonModel
   public readonly zoomScaleProperty: TReadOnlyProperty<number>;
 
+  // is CoM moving?
+  public readonly followingCenterOfMassProperty: TReadOnlyProperty<boolean>;
+
   public readonly isLab: boolean;
   public readonly centerOfMass: CenterOfMass;
 
@@ -53,6 +56,12 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     this.isLab = options.isLab;
 
     this.centerOfMass = new CenterOfMass( this.activeBodies, options.tandem.createTandem( 'centerOfMass' ) );
+
+    this.followingCenterOfMassProperty = new DerivedProperty(
+      [ this.centerOfMass.positionProperty, this.centerOfMass.velocityProperty ],
+      // we consider the 
+      ( position, velocity ) => position.magnitude < 1 && velocity.magnitude < 0.01
+    );
   }
 
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
@@ -100,7 +109,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
     super.restart();
 
     this.centerOfMass.update();
-    this.userHasInteractedProperty.value = this.centerOfMass.velocityProperty.value.magnitude > 0.01;
   }
 
   public override stepOnce( dt: number ): void {
