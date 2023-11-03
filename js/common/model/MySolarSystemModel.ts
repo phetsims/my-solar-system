@@ -59,7 +59,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
     this.followingCenterOfMassProperty = new DerivedProperty(
       [ this.centerOfMass.positionProperty, this.centerOfMass.velocityProperty ],
-      // we consider the 
+      // we consider the center of mass is not being followed if it's outside the 1AU bounds or moving faster than 0.01 km/s
       ( position, velocity ) => position.magnitude < 1 && velocity.magnitude < 0.01
     );
   }

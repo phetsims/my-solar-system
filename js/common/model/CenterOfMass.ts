@@ -64,8 +64,14 @@ export default class CenterOfMass extends PhetioObject {
       tempPosition.add( body.positionProperty.value.times( body.massProperty.value / totalMass ) );
       tempVelocity.add( body.velocityProperty.value.times( body.massProperty.value / totalMass ) );
     } );
-    this.positionProperty.value = tempPosition;
-    this.velocityProperty.value = tempVelocity;
+
+    // Only update the properties if the values have changed.
+    if ( !this.positionProperty.value.equals( tempPosition ) ) {
+      this.positionProperty.value = tempPosition;
+    }
+    if ( !this.velocityProperty.value.equals( tempVelocity ) ) {
+      this.velocityProperty.value = tempVelocity;
+    }
   }
 }
 
