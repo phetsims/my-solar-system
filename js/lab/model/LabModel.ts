@@ -120,10 +120,10 @@ export default class LabModel extends MySolarSystemModel {
       new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 0.75, 1.30 ), velocity: new Vector2( -21.7559, 12.6733 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.ELLIPSES, [
-      new BodyInfo( { isActive: true, mass: 250, position: new Vector2( -2.00, 0 ), velocity: new Vector2( 0, 0 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -1.15, 0 ), velocity: new Vector2( 0, 31.8946 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 0.50, 0 ), velocity: new Vector2( 0, 12.6733 ) } ),
-      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 2.20, 0 ), velocity: new Vector2( 0, 7.8152 ) } )
+      new BodyInfo( { isActive: true, mass: 250, position: new Vector2( -1.00, 0 ), velocity: new Vector2( 0, 0 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( -0.15, 0 ), velocity: new Vector2( 0, 31.8946 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 1.50, 0 ), velocity: new Vector2( 0, 12.6733 ) } ),
+      new BodyInfo( { isActive: true, mass: 0.000001, position: new Vector2( 3.20, 0 ), velocity: new Vector2( 0, 7.8152 ) } )
     ] );
     this.orbitalSystemMap.set( OrbitalSystem.HYPERBOLIC, [
       new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0.25 ), velocity: new Vector2( 0, 0 ) } ),
