@@ -95,6 +95,7 @@ export default class LabModel extends MySolarSystemModel {
 
     const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
 
+    //TODO https://github.com/phetsims/my-solar-system/issues/233 eliminate duplication for phetioOrbitalSystem1Property, etc.
     this.phetioOrbitalSystem1Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1 )!, {
       tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ),
       phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )

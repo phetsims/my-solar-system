@@ -49,10 +49,10 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
       createItem( OrbitalSystem.BINARY_STAR_PLANET, MySolarSystemStrings.mode.binaryStarPlanetStringProperty, 'binaryStarPlanetItem' ),
       createItem( OrbitalSystem.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty, 'fourStarBalletItem' ),
       createItem( OrbitalSystem.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty, 'doubleDoubleItem' ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, MySolarSystemStrings.mode.phetioOrbitalSystem1StringProperty, 'phetioOrbitalSystem1Item' ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, MySolarSystemStrings.mode.phetioOrbitalSystem2StringProperty, 'phetioOrbitalSystem2Item' ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, MySolarSystemStrings.mode.phetioOrbitalSystem3StringProperty, 'phetioOrbitalSystem3Item' ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, MySolarSystemStrings.mode.phetioOrbitalSystem4StringProperty, 'phetioOrbitalSystem4Item' ),
+      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, MySolarSystemStrings.mode.phetioOrbitalSystem1StringProperty, 'phetioOrbitalSystem1Item', false ),
+      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, MySolarSystemStrings.mode.phetioOrbitalSystem2StringProperty, 'phetioOrbitalSystem2Item', false ),
+      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, MySolarSystemStrings.mode.phetioOrbitalSystem3StringProperty, 'phetioOrbitalSystem3Item', false ),
+      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, MySolarSystemStrings.mode.phetioOrbitalSystem4StringProperty, 'phetioOrbitalSystem4Item', false ),
       createItem( OrbitalSystem.CUSTOM, MySolarSystemStrings.mode.customStringProperty, 'customItem' )
     ];
 
@@ -63,13 +63,16 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
 /**
  * Creates an item for the combo box.
  */
-function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProperty<string>, tandemName: string ): ComboBoxItem<OrbitalSystem> {
+function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProperty<string>, tandemName: string, visible = true ): ComboBoxItem<OrbitalSystem> {
   return {
     value: orbitalSystem,
     createNode: () => new Text( nameProperty, {
       font: SolarSystemCommonConstants.COMBO_BOX_ITEM_FONT,
       maxWidth: 200
     } ),
+    comboBoxListItemNodeOptions: {
+      visible: visible
+    },
     a11yName: nameProperty,
     tandemName: tandemName
   };
