@@ -118,7 +118,8 @@ export default class LabModel extends MySolarSystemModel {
 
   public override reset(): void {
     super.reset();
-    // Change the Lab Mode briefly to custom so the reset actually triggers the listeners.
+
+    // Change orbitalSystemProperty briefly to custom so the reset actually triggers the listeners.
     // If this is not done, orbitalSystemProperty listeners (including the one added in the constructor above) won't be called.
     this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     this.orbitalSystemProperty.reset();
