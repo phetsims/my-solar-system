@@ -46,6 +46,16 @@ export default class LabModel extends MySolarSystemModel {
       tandem: tandem.createTandem( 'orbitalSystemProperty' )
     } );
 
+    const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
+    this.phetioOrbitalSystem1Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ) );
+    this.phetioOrbitalSystem2Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem2Property' ) );
+    this.phetioOrbitalSystem3Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem3Property' ) );
+    this.phetioOrbitalSystem4Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem4Property' ) );
+
     this.userInteractingEmitter.addListener( () => {
       this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     } );
@@ -85,20 +95,6 @@ export default class LabModel extends MySolarSystemModel {
         }
       }
     } );
-
-    const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
-
-    this.phetioOrbitalSystem1Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ) );
-
-    this.phetioOrbitalSystem2Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem2Property' ) );
-
-    this.phetioOrbitalSystem3Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem3Property' ) );
-
-    this.phetioOrbitalSystem4Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem4Property' ) );
   }
 
   public override reset(): void {
@@ -108,6 +104,8 @@ export default class LabModel extends MySolarSystemModel {
     // If this is not done, orbitalSystemProperty listeners (including the one added in the constructor above) won't be called.
     this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
     this.orbitalSystemProperty.reset();
+
+    // Do not reset phetioOrbitalSystem*Property, since they are for PhET-iO only.
 
     super.restart();
   }
