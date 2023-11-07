@@ -91,7 +91,7 @@ export default class OrbitalSystem extends EnumerationValue {
   public static readonly PHET_IO_ORBITAL_SYSTEM_3 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
   public static readonly PHET_IO_ORBITAL_SYSTEM_4 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
 
-  // Custom gets set to whatever other orbital system is currently selected, so it has empty BodyInfo[].
+  // CUSTOM gets set to whatever other orbital system is currently selected, so it has empty BodyInfo[].
   public static readonly CUSTOM = new OrbitalSystem( [] );
 
   public static readonly enumeration = new Enumeration( OrbitalSystem );
