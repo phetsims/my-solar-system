@@ -236,7 +236,7 @@ class PhetioOrbitalSystemProperty extends Property<BodyInfo[]> {
       // For a refresh if the system that we're changing is the selected system.
       if ( orbitalSystemProperty.value === orbitalSystem ) {
         orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4;
+        orbitalSystemProperty.value = orbitalSystem;
       }
     } );
   }
