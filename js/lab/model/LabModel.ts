@@ -13,6 +13,8 @@ import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
+import Property from '../../../../axon/js/Property.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
 export default class LabModel extends MySolarSystemModel {
 
@@ -21,6 +23,13 @@ export default class LabModel extends MySolarSystemModel {
 
   // Maps an OrbitalSystem to the BodyInfo[] that describes the configuration of Bodies in that system
   private readonly orbitalSystemMap: Map<OrbitalSystem, BodyInfo[]>;
+
+  // Orbital systems that can be viewed and customized only via PhET-iO
+  // See https://github.com/phetsims/my-solar-system/issues/233
+  private readonly phetioOrbitalSystem1Property: Property<BodyInfo[]>;
+  private readonly phetioOrbitalSystem2Property: Property<BodyInfo[]>;
+  private readonly phetioOrbitalSystem3Property: Property<BodyInfo[]>;
+  private readonly phetioOrbitalSystem4Property: Property<BodyInfo[]>;
 
   public constructor( tandem: Tandem ) {
     super( {
@@ -83,6 +92,56 @@ export default class LabModel extends MySolarSystemModel {
         }
       }
     } );
+
+    const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
+
+    this.phetioOrbitalSystem1Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1 )!, {
+      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ),
+      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
+    } );
+    this.phetioOrbitalSystem1Property.lazyLink( bodyInfo => {
+      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, bodyInfo );
+      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1 ) {
+        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
+        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1;
+      }
+    } );
+
+    this.phetioOrbitalSystem2Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2 )!, {
+      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem2Property' ),
+      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
+    } );
+    this.phetioOrbitalSystem2Property.lazyLink( bodyInfo => {
+      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, bodyInfo );
+      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2 ) {
+        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
+        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2;
+      }
+    } );
+
+    this.phetioOrbitalSystem3Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3 )!, {
+      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem3Property' ),
+      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
+    } );
+    this.phetioOrbitalSystem3Property.lazyLink( bodyInfo => {
+      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, bodyInfo );
+      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3 ) {
+        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
+        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3;
+      }
+    } );
+
+    this.phetioOrbitalSystem4Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4 )!, {
+      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem4Property' ),
+      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
+    } );
+    this.phetioOrbitalSystem4Property.lazyLink( bodyInfo => {
+      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, bodyInfo );
+      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4 ) {
+        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
+        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4;
+      }
+    } );
   }
 
   public override reset(): void {
@@ -95,6 +154,7 @@ export default class LabModel extends MySolarSystemModel {
     super.restart();
   }
 
+  //TODO https://github.com/phetsims/my-solar-system/issues/233 eliminate orbitalSystemMap, move BodyInfo[] to OrbitalSystem enum
   /**
    * Initializes the keys and values for this.orbitalSystemMap.
    */
@@ -164,6 +224,33 @@ export default class LabModel extends MySolarSystemModel {
       new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, 1.00 ), velocity: new Vector2( -10.5611, 10.5611 ) } ),
       new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, -1.00 ), velocity: new Vector2( 10.5611, 10.5611 ) } ),
       new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 10.5611, -10.5611 ) } )
+    ] );
+
+    // Orbital systems that can be viewed and customized only via PhET-iO
+    // See https://github.com/phetsims/my-solar-system/issues/233
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, [
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
+    ] );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, [
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
+    ] );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, [
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
+    ] );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, [
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
     ] );
   }
 }

@@ -72,6 +72,14 @@ type StringsType = {
     'doubleDoubleStringProperty': LocalizedStringProperty;
     'custom': string;
     'customStringProperty': LocalizedStringProperty;
+    'phetioOrbitalSystem1': string;
+    'phetioOrbitalSystem1StringProperty': LocalizedStringProperty;
+    'phetioOrbitalSystem2': string;
+    'phetioOrbitalSystem2StringProperty': LocalizedStringProperty;
+    'phetioOrbitalSystem3': string;
+    'phetioOrbitalSystem3StringProperty': LocalizedStringProperty;
+    'phetioOrbitalSystem4': string;
+    'phetioOrbitalSystem4StringProperty': LocalizedStringProperty;
   };
   'units': {
     'kg': string;

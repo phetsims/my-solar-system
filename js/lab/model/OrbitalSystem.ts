@@ -25,6 +25,13 @@ export default class OrbitalSystem extends EnumerationValue {
   public static readonly DOUBLE_DOUBLE = new OrbitalSystem();
   public static readonly CUSTOM = new OrbitalSystem();
 
+  // Orbital systems that can be viewed and customized only via PhET-iO
+  // See https://github.com/phetsims/my-solar-system/issues/233
+  public static readonly PHET_IO_ORBITAL_SYSTEM_1 = new OrbitalSystem();
+  public static readonly PHET_IO_ORBITAL_SYSTEM_2 = new OrbitalSystem();
+  public static readonly PHET_IO_ORBITAL_SYSTEM_3 = new OrbitalSystem();
+  public static readonly PHET_IO_ORBITAL_SYSTEM_4 = new OrbitalSystem();
+
   public static readonly enumeration = new Enumeration( OrbitalSystem );
 }
 
