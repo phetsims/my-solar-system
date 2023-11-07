@@ -16,6 +16,14 @@ import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
 import Property from '../../../../axon/js/Property.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
+// BodyInfo[] shared by all systems that can be configured via PhET-iO
+const PHET_IO_ORBITAL_SYSTEM_BODY_INFO = [
+  new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
+  new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+  new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
+  new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
+];
+
 export default class LabModel extends MySolarSystemModel {
 
   // The OrbitalSystem that is currently selected
@@ -122,6 +130,8 @@ export default class LabModel extends MySolarSystemModel {
    * Initializes the keys and values for this.orbitalSystemMap.
    */
   private initializeModeMap(): void {
+
+    // Preset systems that cannot be changed.
     this.orbitalSystemMap.set( OrbitalSystem.SUN_PLANET, [
       new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -2.3446 ) } ),
       new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 23.4457 ) } )
@@ -183,35 +193,15 @@ export default class LabModel extends MySolarSystemModel {
       new BodyInfo( { isActive: true, mass: 62, position: new Vector2( 1.35, 0 ), velocity: new Vector2( -0.2112, -10.9836 ) } )
     ] );
 
-    // Custom gets set to whatever other orbital system is currently selected, so it has an empty BodyInfo[].
-    this.orbitalSystemMap.set( OrbitalSystem.CUSTOM, [] );
-
-    // Orbital systems that can be viewed and customized only via PhET-iO
+    // Orbital systems that can be viewed and configured only via PhET-iO. They all have the same default configuration.
     // See https://github.com/phetsims/my-solar-system/issues/233
-    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, [
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
-    ] );
-    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, [
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
-    ] );
-    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, [
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
-    ] );
-    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, [
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
-      new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
-    ] );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+    this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+
+    // Custom gets set to whatever other orbital system is currently selected, so it has empty BodyInfo[].
+    this.orbitalSystemMap.set( OrbitalSystem.CUSTOM, [] );
   }
 }
 
