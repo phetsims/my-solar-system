@@ -220,12 +220,9 @@ export default class LabModel extends MySolarSystemModel {
       new BodyInfo( { isActive: true, mass: 55, position: new Vector2( -0.77, -0.02 ), velocity: new Vector2( -0.2112, 8.8713 ) } ),
       new BodyInfo( { isActive: true, mass: 62, position: new Vector2( 1.35, 0 ), velocity: new Vector2( -0.2112, -10.9836 ) } )
     ] );
-    this.orbitalSystemMap.set( OrbitalSystem.CUSTOM, [
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, 1.00 ), velocity: new Vector2( -10.5611, -10.5611 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, 1.00 ), velocity: new Vector2( -10.5611, 10.5611 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( 1.00, -1.00 ), velocity: new Vector2( 10.5611, 10.5611 ) } ),
-      new BodyInfo( { isActive: true, mass: 120, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 10.5611, -10.5611 ) } )
-    ] );
+
+    // Custom gets set to whatever other orbital system is currently selected, so it has an empty BodyInfo[].
+    this.orbitalSystemMap.set( OrbitalSystem.CUSTOM, [] );
 
     // Orbital systems that can be viewed and customized only via PhET-iO
     // See https://github.com/phetsims/my-solar-system/issues/233
