@@ -56,20 +56,20 @@ export default class LabModel extends MySolarSystemModel {
     this.orbitalSystemMap = new Map<OrbitalSystem, BodyInfo[]>();
     this.initializeModeMap();
 
-    this.orbitalSystemProperty.link( mode => {
+    this.orbitalSystemProperty.link( orbitalSystem => {
       this.clearPaths();
-      if ( mode !== OrbitalSystem.CUSTOM ) {
+      if ( orbitalSystem !== OrbitalSystem.CUSTOM ) {
         this.isPlayingProperty.value = false;
         this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
-        const modeInfo = this.orbitalSystemMap.get( mode );
+        const modeInfo = this.orbitalSystemMap.get( orbitalSystem );
         this.loadBodyInfo( modeInfo! );
         this.numberOfActiveBodiesProperty.value = this.activeBodies.length;
         this.followCenterOfMass();
         this.saveStartingBodyInfo();
         this.gravityForceScalePowerProperty.reset();
 
-        if ( mode === OrbitalSystem.FOUR_STAR_BALLET ) {
+        if ( orbitalSystem === OrbitalSystem.FOUR_STAR_BALLET ) {
           this.gravityForceScalePowerProperty.value = -1.1;
         }
       }
