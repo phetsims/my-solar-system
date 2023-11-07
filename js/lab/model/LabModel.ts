@@ -24,8 +24,8 @@ export default class LabModel extends MySolarSystemModel {
   // Maps an OrbitalSystem to the BodyInfo[] that describes the configuration of Bodies in that system
   private readonly orbitalSystemMap: Map<OrbitalSystem, BodyInfo[]>;
 
-  // Orbital systems that can be viewed and customized only via PhET-iO
-  // See https://github.com/phetsims/my-solar-system/issues/233
+  // Orbital systems that can be viewed and customized only via PhET-iO. Private because they can be accessed
+  // only via PhET-iO API or Studio. See https://github.com/phetsims/my-solar-system/issues/233
   private readonly phetioOrbitalSystem1Property: Property<BodyInfo[]>;
   private readonly phetioOrbitalSystem2Property: Property<BodyInfo[]>;
   private readonly phetioOrbitalSystem3Property: Property<BodyInfo[]>;
@@ -95,54 +95,17 @@ export default class LabModel extends MySolarSystemModel {
 
     const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
 
-    //TODO https://github.com/phetsims/my-solar-system/issues/233 eliminate duplication for phetioOrbitalSystem1Property, etc.
-    this.phetioOrbitalSystem1Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1 )!, {
-      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ),
-      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
-    } );
-    this.phetioOrbitalSystem1Property.lazyLink( bodyInfo => {
-      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, bodyInfo );
-      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1 ) {
-        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1;
-      }
-    } );
+    this.phetioOrbitalSystem1Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1,
+      this.orbitalSystemMap, this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ) );
 
-    this.phetioOrbitalSystem2Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2 )!, {
-      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem2Property' ),
-      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
-    } );
-    this.phetioOrbitalSystem2Property.lazyLink( bodyInfo => {
-      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, bodyInfo );
-      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2 ) {
-        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2;
-      }
-    } );
+    this.phetioOrbitalSystem2Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2,
+      this.orbitalSystemMap, this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem2Property' ) );
 
-    this.phetioOrbitalSystem3Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3 )!, {
-      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem3Property' ),
-      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
-    } );
-    this.phetioOrbitalSystem3Property.lazyLink( bodyInfo => {
-      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, bodyInfo );
-      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3 ) {
-        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3;
-      }
-    } );
+    this.phetioOrbitalSystem3Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3,
+      this.orbitalSystemMap, this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem3Property' ) );
 
-    this.phetioOrbitalSystem4Property = new Property( this.orbitalSystemMap.get( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4 )!, {
-      tandem: phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem4Property' ),
-      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
-    } );
-    this.phetioOrbitalSystem4Property.lazyLink( bodyInfo => {
-      this.orbitalSystemMap.set( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, bodyInfo );
-      if ( this.orbitalSystemProperty.value === OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4 ) {
-        this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        this.orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4;
-      }
-    } );
+    this.phetioOrbitalSystem4Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4,
+      this.orbitalSystemMap, this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem4Property' ) );
   }
 
   public override reset(): void {
@@ -155,7 +118,6 @@ export default class LabModel extends MySolarSystemModel {
     super.restart();
   }
 
-  //TODO https://github.com/phetsims/my-solar-system/issues/233 eliminate orbitalSystemMap, move BodyInfo[] to OrbitalSystem enum
   /**
    * Initializes the keys and values for this.orbitalSystemMap.
    */
@@ -250,6 +212,33 @@ export default class LabModel extends MySolarSystemModel {
       new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 1, 0 ), velocity: new Vector2( 0, 10 ) } ),
       new BodyInfo( { isActive: true, mass: 100, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } )
     ] );
+  }
+}
+
+/**
+ * PhetioOrbitalSystemProperty is the Property used by a PhET-iO client to customize an orbital system.
+ */
+class PhetioOrbitalSystemProperty extends Property<BodyInfo[]> {
+
+  public constructor( orbitalSystem: OrbitalSystem,
+                      orbitalSystemMap: Map<OrbitalSystem, BodyInfo[]>,
+                      orbitalSystemProperty: Property<OrbitalSystem>,
+                      tandem: Tandem ) {
+
+    super( orbitalSystemMap.get( orbitalSystem )!, {
+      tandem: tandem,
+      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
+    } );
+
+    this.lazyLink( bodyInfo => {
+      orbitalSystemMap.set( orbitalSystem, bodyInfo );
+
+      // For a refresh if the system that we're changing is the selected system.
+      if ( orbitalSystemProperty.value === orbitalSystem ) {
+        orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
+        orbitalSystemProperty.value = OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4;
+      }
+    } );
   }
 }
 
