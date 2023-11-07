@@ -21,7 +21,7 @@ export default class LabModel extends MySolarSystemModel {
   // The OrbitalSystem that is currently selected
   public readonly orbitalSystemProperty: EnumerationProperty<OrbitalSystem>;
 
-  // Orbital systems that can be viewed and customized only via PhET-iO. Private because they can be accessed
+  // Orbital systems that can be viewed and customized only via PhET-iO. They are private because they can be accessed
   // only via PhET-iO API or Studio. See https://github.com/phetsims/my-solar-system/issues/233
   private readonly phetioOrbitalSystem1Property: Property<BodyInfo[]>;
   private readonly phetioOrbitalSystem2Property: Property<BodyInfo[]>;
