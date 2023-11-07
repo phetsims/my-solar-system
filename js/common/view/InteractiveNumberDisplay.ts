@@ -99,7 +99,7 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     }, providedOptions );
 
     options.numberFormatter = value => {
-      if ( value <= options.minDisplayedValue ) {
+      if ( Math.abs( value ) <= options.minDisplayedValue ) {
         return `${MathSymbols.LESS_THAN_OR_EQUAL} ${Utils.toFixed( options.minDisplayedValue, decimalPlaces )}`;
       }
       else {
