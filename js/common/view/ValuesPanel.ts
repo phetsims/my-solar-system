@@ -42,6 +42,7 @@ export default class ValuesPanel extends Panel {
       xMargin: 12,
       tandem: tandem,
       phetioInputEnabledPropertyInstrumented: true,
+      phetioDocumentation: 'Panel that contains controls for setting the values of body Properties',
       inputEnabledPropertyOptions: {
         phetioFeatured: true
       }
