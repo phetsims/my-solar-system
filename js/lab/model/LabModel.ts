@@ -23,10 +23,10 @@ export default class LabModel extends MySolarSystemModel {
 
   // Orbital systems that can be viewed and customized only via PhET-iO. They are private because they can be accessed
   // only via PhET-iO API or Studio. See https://github.com/phetsims/my-solar-system/issues/233
-  private readonly phetioOrbitalSystem1Property: Property<BodyInfo[]>;
-  private readonly phetioOrbitalSystem2Property: Property<BodyInfo[]>;
-  private readonly phetioOrbitalSystem3Property: Property<BodyInfo[]>;
-  private readonly phetioOrbitalSystem4Property: Property<BodyInfo[]>;
+  private readonly orbitalSystem1Property: Property<BodyInfo[]>;
+  private readonly orbitalSystem2Property: Property<BodyInfo[]>;
+  private readonly orbitalSystem3Property: Property<BodyInfo[]>;
+  private readonly orbitalSystem4Property: Property<BodyInfo[]>;
 
   public constructor( tandem: Tandem ) {
     super( {
@@ -47,14 +47,14 @@ export default class LabModel extends MySolarSystemModel {
     } );
 
     const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
-    this.phetioOrbitalSystem1Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem1Property' ) );
-    this.phetioOrbitalSystem2Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem2Property' ) );
-    this.phetioOrbitalSystem3Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem3Property' ) );
-    this.phetioOrbitalSystem4Property = new PhetioOrbitalSystemProperty( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'phetioOrbitalSystem4Property' ) );
+    this.orbitalSystem1Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_1,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem1Property' ) );
+    this.orbitalSystem2Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_2,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem2Property' ) );
+    this.orbitalSystem3Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_3,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem3Property' ) );
+    this.orbitalSystem4Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_4,
+      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem4Property' ) );
 
     this.userInteractingEmitter.addListener( () => {
       this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;

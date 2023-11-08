@@ -86,10 +86,10 @@ export default class OrbitalSystem extends EnumerationValue {
 
   // Orbital systems that can be viewed and customized only via PhET-iO
   // See https://github.com/phetsims/my-solar-system/issues/233
-  public static readonly PHET_IO_ORBITAL_SYSTEM_1 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
-  public static readonly PHET_IO_ORBITAL_SYSTEM_2 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
-  public static readonly PHET_IO_ORBITAL_SYSTEM_3 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
-  public static readonly PHET_IO_ORBITAL_SYSTEM_4 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+  public static readonly ORBITAL_SYSTEM_1 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+  public static readonly ORBITAL_SYSTEM_2 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+  public static readonly ORBITAL_SYSTEM_3 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+  public static readonly ORBITAL_SYSTEM_4 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
 
   // CUSTOM gets set to whatever other orbital system is currently selected, so it has empty BodyInfo[].
   public static readonly CUSTOM = new OrbitalSystem( [] );

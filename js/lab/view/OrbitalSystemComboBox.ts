@@ -49,10 +49,10 @@ export default class OrbitalSystemComboBox extends ComboBox<OrbitalSystem> {
       createItem( OrbitalSystem.BINARY_STAR_PLANET, MySolarSystemStrings.mode.binaryStarPlanetStringProperty, 'binaryStarPlanetItem' ),
       createItem( OrbitalSystem.FOUR_STAR_BALLET, MySolarSystemStrings.mode.fourStarBalletStringProperty, 'fourStarBalletItem' ),
       createItem( OrbitalSystem.DOUBLE_DOUBLE, MySolarSystemStrings.mode.doubleDoubleStringProperty, 'doubleDoubleItem' ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_1, MySolarSystemStrings.mode.phetioOrbitalSystem1StringProperty, 'phetioOrbitalSystem1Item', false ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_2, MySolarSystemStrings.mode.phetioOrbitalSystem2StringProperty, 'phetioOrbitalSystem2Item', false ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_3, MySolarSystemStrings.mode.phetioOrbitalSystem3StringProperty, 'phetioOrbitalSystem3Item', false ),
-      createItem( OrbitalSystem.PHET_IO_ORBITAL_SYSTEM_4, MySolarSystemStrings.mode.phetioOrbitalSystem4StringProperty, 'phetioOrbitalSystem4Item', false ),
+      createItem( OrbitalSystem.ORBITAL_SYSTEM_1, MySolarSystemStrings.mode.orbitalSystem1StringProperty, 'orbitalSystem1Item', false ),
+      createItem( OrbitalSystem.ORBITAL_SYSTEM_2, MySolarSystemStrings.mode.orbitalSystem2StringProperty, 'orbitalSystem2Item', false ),
+      createItem( OrbitalSystem.ORBITAL_SYSTEM_3, MySolarSystemStrings.mode.orbitalSystem3StringProperty, 'orbitalSystem3Item', false ),
+      createItem( OrbitalSystem.ORBITAL_SYSTEM_4, MySolarSystemStrings.mode.orbitalSystem4StringProperty, 'orbitalSystem4Item', false ),
       createItem( OrbitalSystem.CUSTOM, MySolarSystemStrings.mode.customStringProperty, 'customItem' )
     ];
 

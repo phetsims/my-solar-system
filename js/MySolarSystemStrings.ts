@@ -72,14 +72,14 @@ type StringsType = {
     'doubleDoubleStringProperty': LocalizedStringProperty;
     'custom': string;
     'customStringProperty': LocalizedStringProperty;
-    'phetioOrbitalSystem1': string;
-    'phetioOrbitalSystem1StringProperty': LocalizedStringProperty;
-    'phetioOrbitalSystem2': string;
-    'phetioOrbitalSystem2StringProperty': LocalizedStringProperty;
-    'phetioOrbitalSystem3': string;
-    'phetioOrbitalSystem3StringProperty': LocalizedStringProperty;
-    'phetioOrbitalSystem4': string;
-    'phetioOrbitalSystem4StringProperty': LocalizedStringProperty;
+    'orbitalSystem1': string;
+    'orbitalSystem1StringProperty': LocalizedStringProperty;
+    'orbitalSystem2': string;
+    'orbitalSystem2StringProperty': LocalizedStringProperty;
+    'orbitalSystem3': string;
+    'orbitalSystem3StringProperty': LocalizedStringProperty;
+    'orbitalSystem4': string;
+    'orbitalSystem4StringProperty': LocalizedStringProperty;
   };
   'units': {
     'kg': string;
