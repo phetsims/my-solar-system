@@ -46,15 +46,16 @@ export default class LabModel extends MySolarSystemModel {
       tandem: tandem.createTandem( 'orbitalSystemProperty' )
     } );
 
+    const maxNumberOfBodies = this.bodies.length;
     const phetioOrbitalSystemsTandem = tandem.createTandem( 'phetioOrbitalSystems' );
     this.orbitalSystem1Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_1,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem1Property' ) );
+      this.orbitalSystemProperty, maxNumberOfBodies, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem1Property' ) );
     this.orbitalSystem2Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_2,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem2Property' ) );
+      this.orbitalSystemProperty, maxNumberOfBodies, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem2Property' ) );
     this.orbitalSystem3Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_3,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem3Property' ) );
+      this.orbitalSystemProperty, maxNumberOfBodies, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem3Property' ) );
     this.orbitalSystem4Property = new PhetioOrbitalSystemProperty( OrbitalSystem.ORBITAL_SYSTEM_4,
-      this.orbitalSystemProperty, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem4Property' ) );
+      this.orbitalSystemProperty, maxNumberOfBodies, phetioOrbitalSystemsTandem.createTandem( 'orbitalSystem4Property' ) );
 
     this.userInteractingEmitter.addListener( () => {
       this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
@@ -118,9 +119,11 @@ class PhetioOrbitalSystemProperty extends Property<BodyInfo[]> {
 
   public constructor( orbitalSystem: OrbitalSystem,
                       orbitalSystemProperty: Property<OrbitalSystem>,
+                      maxNumberOfBodies: number,
                       tandem: Tandem ) {
 
     super( orbitalSystem.bodyInfo, {
+      isValidValue: bodyInfo => bodyInfo.length >= 1 && bodyInfo.length <= maxNumberOfBodies,
       tandem: tandem,
       phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
     } );
