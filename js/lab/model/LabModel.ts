@@ -69,7 +69,9 @@ export default class LabModel extends MySolarSystemModel {
         this.timeProperty.reset();
         this.loadBodyInfo( orbitalSystem.bodyInfo );
         this.numberOfActiveBodiesProperty.value = this.activeBodies.length;
-        this.followCenterOfMass();
+        if ( !orbitalSystem.isPhetioConfigurable ) {
+          this.followCenterOfMass();
+        }
         this.saveStartingBodyInfo();
         this.gravityForceScalePowerProperty.reset();
 

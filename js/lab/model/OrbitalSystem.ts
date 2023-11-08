@@ -86,10 +86,10 @@ export default class OrbitalSystem extends EnumerationValue {
 
   // Orbital systems that can be viewed and customized only via PhET-iO
   // See https://github.com/phetsims/my-solar-system/issues/233
-  public static readonly ORBITAL_SYSTEM_1 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
-  public static readonly ORBITAL_SYSTEM_2 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
-  public static readonly ORBITAL_SYSTEM_3 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
-  public static readonly ORBITAL_SYSTEM_4 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO );
+  public static readonly ORBITAL_SYSTEM_1 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO, true );
+  public static readonly ORBITAL_SYSTEM_2 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO, true );
+  public static readonly ORBITAL_SYSTEM_3 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO, true );
+  public static readonly ORBITAL_SYSTEM_4 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO, true );
 
   // CUSTOM gets set to whatever other orbital system is currently selected, so it has empty BodyInfo[].
   public static readonly CUSTOM = new OrbitalSystem( [] );
@@ -99,9 +99,12 @@ export default class OrbitalSystem extends EnumerationValue {
   // Must be writeable to support customization of PHET_IO_ORBITAL_SYSTEM_*
   public bodyInfo: BodyInfo[];
 
-  public constructor( bodyInfo: BodyInfo[] ) {
+  public readonly isPhetioConfigurable: boolean;
+
+  public constructor( bodyInfo: BodyInfo[], isPhetioConfigurable = false ) {
     super();
     this.bodyInfo = bodyInfo;
+    this.isPhetioConfigurable = isPhetioConfigurable;
   }
 }
 
