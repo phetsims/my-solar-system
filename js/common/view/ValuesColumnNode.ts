@@ -251,8 +251,8 @@ export default class ValuesColumnNode extends VBox {
       uiComponent.addLinkedElement( body.velocityProperty );
     }
     else {
-      //TODO https://github.com/phetsims/my-solar-system/issues/237 this should throw an Error
-      uiComponent = new Node();
+      assert && assert( false, `unsupported ValuesColumnTypes: ${columnType}` );
+      uiComponent = new Node(); // allow the sim to continue running if assertions are disabled
     }
 
     // Wrap the uiComponent in a AlignBox to match the height of all ContentNodes.
