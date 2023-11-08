@@ -106,6 +106,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
         // tandem: Do not instrument, nothing interesting here.
       } );
       this.componentsLayer.addChild( gravityForceVectorNode );
+
+      this.model.isPlayingProperty.link( isPlaying => {
+        if ( isPlaying ) {
+          bodyNode.playSound();
+        }
+        else {
+          bodyNode.stopSound();
+        }
+      } );
+
     } );
 
     // Center of Mass Node
@@ -310,17 +320,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
   public override step( dt: number ): void {
     super.step( dt );
-
-    this.bodyNodes.forEach( bodyNode => {
-      if ( bodyNode.body.isActiveProperty.value ) {
-        if ( this.model.isPlayingProperty.value ) {
-          bodyNode.playSound();
-        }
-        else {
-          bodyNode.stopSound();
-        }
-      }
-    } );
   }
 
   protected override getDragBoundsItems(): DragBoundsItem[] {
