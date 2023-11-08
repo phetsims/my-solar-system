@@ -311,7 +311,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
   public override step( dt: number ): void {
     super.step( dt );
 
-    //TODO https://github.com/phetsims/my-solar-system/issues/237 does this really belong in step?
     this.bodyNodes.forEach( bodyNode => {
       if ( bodyNode.body.isActiveProperty.value ) {
         if ( this.model.isPlayingProperty.value ) {
