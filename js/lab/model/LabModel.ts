@@ -9,12 +9,11 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import OrbitalSystem from './OrbitalSystem.js';
+import PhetioOrbitalSystemProperty from './PhetioOrbitalSystemProperty.js';
 import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
-import Property from '../../../../axon/js/Property.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
 export default class LabModel extends MySolarSystemModel {
 
@@ -23,10 +22,10 @@ export default class LabModel extends MySolarSystemModel {
 
   // Orbital systems that can be viewed and customized only via PhET-iO. They are private because they can be accessed
   // only via PhET-iO API or Studio. See https://github.com/phetsims/my-solar-system/issues/233
-  private readonly orbitalSystem1Property: Property<BodyInfo[]>;
-  private readonly orbitalSystem2Property: Property<BodyInfo[]>;
-  private readonly orbitalSystem3Property: Property<BodyInfo[]>;
-  private readonly orbitalSystem4Property: Property<BodyInfo[]>;
+  private readonly orbitalSystem1Property: PhetioOrbitalSystemProperty;
+  private readonly orbitalSystem2Property: PhetioOrbitalSystemProperty;
+  private readonly orbitalSystem3Property: PhetioOrbitalSystemProperty;
+  private readonly orbitalSystem4Property: PhetioOrbitalSystemProperty;
 
   public constructor( tandem: Tandem ) {
     super( {
@@ -111,34 +110,6 @@ export default class LabModel extends MySolarSystemModel {
     // Do not reset phetioOrbitalSystem*Property, since they are for PhET-iO only.
 
     super.restart();
-  }
-}
-
-/**
- * PhetioOrbitalSystemProperty is the Property used by a PhET-iO client to customize an orbital system.
- */
-class PhetioOrbitalSystemProperty extends Property<BodyInfo[]> {
-
-  public constructor( orbitalSystem: OrbitalSystem,
-                      orbitalSystemProperty: Property<OrbitalSystem>,
-                      maxNumberOfBodies: number,
-                      tandem: Tandem ) {
-
-    super( orbitalSystem.bodyInfo, {
-      isValidValue: bodyInfo => bodyInfo.length >= 1 && bodyInfo.length <= maxNumberOfBodies,
-      tandem: tandem,
-      phetioValueType: ArrayIO( BodyInfo.BodyInfoIO )
-    } );
-
-    this.lazyLink( bodyInfo => {
-      orbitalSystem.bodyInfo = bodyInfo;
-
-      // For a refresh if the system that we're changing is the selected system.
-      if ( orbitalSystemProperty.value === orbitalSystem ) {
-        orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
-        orbitalSystemProperty.value = orbitalSystem;
-      }
-    } );
   }
 }
 

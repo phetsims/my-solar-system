@@ -12,7 +12,7 @@ import solarSystemCommon from '../../../../solar-system-common/js/solarSystemCom
 import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
-// BodyInfo[] shared by all systems that can be configured via PhET-iO
+// BodyInfo[] shared by all PhET-iO client-configurable presets
 const PHET_IO_ORBITAL_SYSTEM_BODY_INFO = [
   new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, 10 ) } ),
   new BodyInfo( { isActive: true, mass: 100, position: new Vector2( -1, 0 ), velocity: new Vector2( 0, 10 ) } ),
@@ -22,7 +22,7 @@ const PHET_IO_ORBITAL_SYSTEM_BODY_INFO = [
 
 export default class OrbitalSystem extends EnumerationValue {
 
-  // Preset systems that cannot be changed.
+  // Presets that cannot be changed.
   public static readonly SUN_PLANET = new OrbitalSystem( [
     new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -2.3446 ) } ),
     new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 23.4457 ) } )
@@ -84,7 +84,7 @@ export default class OrbitalSystem extends EnumerationValue {
     new BodyInfo( { isActive: true, mass: 62, position: new Vector2( 1.35, 0 ), velocity: new Vector2( -0.2112, -10.9836 ) } )
   ] );
 
-  // Orbital systems that can be viewed and customized only via PhET-iO
+  // PhET-iO client-configurable presets, which can be viewed and customized only via PhET-iO
   // See https://github.com/phetsims/my-solar-system/issues/233
   public static readonly ORBITAL_SYSTEM_1 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO, true );
   public static readonly ORBITAL_SYSTEM_2 = new OrbitalSystem( PHET_IO_ORBITAL_SYSTEM_BODY_INFO, true );
