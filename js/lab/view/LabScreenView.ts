@@ -30,13 +30,13 @@ export default class LabScreenView extends MySolarSystemScreenView {
 
     model.activeBodies.addItemAddedListener( () => {
       if ( !model.isAnyBodyCollidedProperty.value ) {
-        this.bodySoundManager.playBodyAddedSound( model.activeBodies.length - 1 );
+        this.bodySoundManager.playBodyAddedSound( model.activeBodies.length );
       }
     } );
 
     model.activeBodies.addItemRemovedListener( () => {
       if ( !model.isAnyBodyCollidedProperty.value ) {
-        this.bodySoundManager.playBodyRemovedSound( model.activeBodies.length - 1 );
+        this.bodySoundManager.playBodyRemovedSound( model.activeBodies.length );
       }
     } );
   }
