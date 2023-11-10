@@ -13,6 +13,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import OrbitalSystemPanel from './OrbitalSystemPanel.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 export default class LabScreenView extends MySolarSystemScreenView {
   public constructor( model: LabModel, tandem: Tandem ) {
@@ -29,14 +30,24 @@ export default class LabScreenView extends MySolarSystemScreenView {
     this.interfaceLayer.pdomOrder = [ orbitalSystemPanel, ...this.interfaceLayer.pdomOrder! ];
 
     model.activeBodies.addItemAddedListener( () => {
-      if ( !model.isAnyBodyCollidedProperty.value ) {
-        this.bodySoundManager.playBodyAddedSound( model.activeBodies.length );
+
+      // Skip this when restoring PhET-iO state, because the contents of activeBodies may be restored before its
+      // lengthProperty. See https://github.com/phetsims/my-solar-system/issues/290.
+      if ( !isSettingPhetioStateProperty.value ) {
+        if ( !model.isAnyBodyCollidedProperty.value ) {
+          this.bodySoundManager.playBodyAddedSound( model.activeBodies.length );
+        }
       }
     } );
 
     model.activeBodies.addItemRemovedListener( () => {
-      if ( !model.isAnyBodyCollidedProperty.value ) {
-        this.bodySoundManager.playBodyRemovedSound( model.activeBodies.length );
+
+      // Skip this when restoring PhET-iO state, because the contents of activeBodies may be restored before its
+      // lengthProperty. See https://github.com/phetsims/my-solar-system/issues/290.
+      if ( !isSettingPhetioStateProperty.value ) {
+        if ( !model.isAnyBodyCollidedProperty.value ) {
+          this.bodySoundManager.playBodyRemovedSound( model.activeBodies.length );
+        }
       }
     } );
   }
