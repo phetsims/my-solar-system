@@ -31,8 +31,8 @@ const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertica
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const MASS_SLIDER_STEP = SolarSystemCommonConstants.MASS_SLIDER_STEP;
 
-const POSITION_X_RANGE = new Range( -8, 8 );
-const POSITION_Y_RANGE = new Range( -4, 4 );
+const POSITION_X_RANGE = new Range( -14, 14 );
+const POSITION_Y_RANGE = new Range( -8, 8 );
 const VELOCITY_RANGE = new Range( -100, 100 );
 
 const MASS_DECIMAL_PLACES = 1;
