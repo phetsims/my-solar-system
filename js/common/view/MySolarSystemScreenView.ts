@@ -69,8 +69,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     super( model, new MySolarSystemVisibleProperties( model.isLab, options.tandem.createTandem( 'visibleProperties' ) ), options );
 
     this.visibleProperties.pathVisibleProperty.link( visible => {
-      this.model.clearPaths();
-      this.model.addingPathPoints = visible;
+      model.clearPaths();
+      model.addingPathPoints = visible;
     } );
 
     // Creation of Nodes associates with each Body =====================================================================
