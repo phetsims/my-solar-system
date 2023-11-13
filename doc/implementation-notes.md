@@ -36,3 +36,15 @@ Some important properties to keep track of during the sim:
 - `bodiesAreReturnableProperty`: As name suggests, is true if any body is offscreen. Toggles the visibility of the 'Return Bodies' button, and when that is pressed, the escaped bodies are returned to their original positions.
 - `isLab`: Even though Intro and Lab have independent model files, there are still some common components which are shown or hidden depending on the value of this variable.
 - There are also time scales and zoom level scales which control the size and speed of the sim.
+
+# PhET-iO
+
+All PhET-iO elements in this sim are static (created a startup). There are no elements created dynamically.
+
+There are 2 custom IOTypes. See [BodyInfo.BodyInfoIO](https://github.com/phetsims/solar-system-common/blob/main/js/model/BodyInfo.ts)
+and [BodyInfoSubsetIO](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/PhetioOrbitalSystemProperty.ts).
+
+Client-configurable presets is a feature that is available only in the PhET-iO brand. It allows PhET-iO
+clients to create their own orbital system presets for the Lab screen.
+See [PhetioOrbitalSystemProperty](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/PhetioOrbitalSystemProperty.ts)
+for details.
