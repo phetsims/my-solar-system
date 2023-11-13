@@ -29,10 +29,10 @@ which doesn't do much else, and [LabModel](https://github.com/phetsims/my-solar-
 
 There are multiple arrays which keep track of the bodies:
 
-- `bodies`: It stores the 4 possible bodies in memory for the entire lifetime of the sim, to avoid memory
+- `bodies`: It stores the Body instances (2 for the _Intro_ screen, 4 for the _Lab_ screen) for the entire lifetime of the sim, to avoid memory
   allocation issues. The bodies are created in the constructor of the model and are never disposed.
-- `activeBodies`: It stores the bodies that are currently being used in the sim. The bodies are added to this array when the user changes the body number in the control panel or selects a Lab preset.
-- `startingBodyInfoProperty`: Stores multiple BodyInfo elements, which are basically the necessary information for a body to be recreated. It is rewritten every time the user interacts with the sim or selects a Lab preset, thus saving a new starting state, and it's used
+- `activeBodies`: It stores the bodies that are currently visible in the orbital system shown on screen. The bodies are added to this array when the user changes the body number in the control panel or selects a Lab preset.
+- `startingBodyInfoProperty`: Stores multiple BodyInfo elements, which are basically the necessary information for a body to be recreated. It is rewritten every time the user interacts with the sim or selects a preset on the _Lab_ screen, thus saving a new starting state, and it's used
   when the Restart button (left of the play/pause button) is pressed.
 
 Some important properties to keep track of during the sim:
