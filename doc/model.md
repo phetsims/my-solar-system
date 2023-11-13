@@ -11,30 +11,19 @@ celestial bodies in our solar system. By manipulating various parameters such as
 gain insight into the complex interactions that govern the behavior of these objects.
 
 ## Units
+We opted not to use SI units within the sim, as the numbers differ by several orders of magnitude, which could cause computation issues. Instead, we use the following units for each of the quantities:
+- **Mass:** 10<sup>28</sup> kg. i.e. the Sun's mass is set to 200.
+- **Distance:** 1 AU, the average distance from Earth to the Sun.
+- **Time:** 1 year
+- **Velocity:** 1 km/s. Earth's orbital velocity is around 29 km/s.
+- **G:** 4.4567 x 10<sup>-3</sup> AU<sup>3</sup>/year<sup>2</sup>/10<sup>27</sup> kg
 
-The simulation uses two different systems of units. The model and internal engine uses a canonical system of arbitrary
-units for better handling the numerical values, which are then translated to real-world units for display purposes. The
-following table shows the conversion between the two systems of units:
-
-| Value | Model                                      | Conversion Rate       | View                                                       |
-|-------|--------------------------------------------|-----------------------|------------------------------------------------------------|
-| Mass  | uM                                         | 10<sup>28</sup> kg/uM | 10<sup>28</sup>kg                                          |
-| Distance | uD                                         | 0.01 AU/uD            | AU                                                         |
-| Time  | uT                                         | 0.2244 yr/uT          | yr                                                         |
-| Velocity  | uD/uT                                      | 0.2112 km/s / uD/uT   | km/s                                                       |
-| G     | 10000 uD<sup>3</sup> / uM / uT<sup>2</sup> | ...                   | 1.98x10<sup>-29</sup> AU<sup>3</sup> / kg / yr<sup>2</sup> |
-
-As you can see, we opted out of MKS (SI) units because of the large values handled in astronomical real world systems.
-Because of that we use AU for distances, years for time, and add another unit conversion to have speeds shown in km/s.
-
-The exact conversion rates can be found
-in [SolarSystemCommonConstants](https://github.com/phetsims/solar-system-common/blob/670cc9ea98513bf05573646623904c86e524f908/js/SolarSystemCommonConstants.ts#L13-L20).
-Where we also convert to SI for testing that the force is consistent with the real physics.
+This decision allows for smoother calculations, and also makes the numbers more manageable for the user, closer to the ranges one would find in such physical systems.
 
 ## Presets (Model units)
 
 The presets used in the simulation are the same ones from the original Flash version, except for Sun-Planet which was
-changed for design purposes. You can take a peek at the values chosen for each of them (in arbitrary model units) in [LabModel](https://github.com/phetsims/my-solar-system/blob/df3444bce5fb14dae7ce5ec882ce5ddd353531a0/js/lab/model/LabModel.ts#L91).
+changed for design purposes. You can take a peek at the values chosen for each of them (in arbitrary model units) in [OrbitalSystem](https://github.com/phetsims/my-solar-system/blob/2b0034a9f61f21ad866d43fa3ae1bb7be043d399/js/lab/model/OrbitalSystem.ts).
 
 ## Functionalities
 
@@ -42,9 +31,9 @@ Some elements of the sim might be hidden before the user first interactions. Her
 eye out for:
 
 - **Centering the system**: Gravitational systems have a tendency to drift off screen. By default, all the pre-sets are
-  centered and followed, but any change could cause a system-drift, or more specifically, a Center of Mass net velocity.
+  centered and followed. Any user change will likely give the Center of Mass a net velocity, and the system will start to move.
   When that happens, the sim will display an orange button which says "Follow Center of Mass". When you press it, the
-  reference frame of the simulation will shift to be the same as the center of mass.
+  reference frame of the simulation will shift to be the same as the Center of Mass.
 - **Scale of Forces**: Because astronomical objects have a wide range of masses, the gravitational force acted upon them
   also will vary in several orders of magnitude. To aid the visual representation these forces, we placed a force scale
   slider under the Gravity checkbox. In most pre-sets, the gravitational force may be hidden from view because it's
@@ -89,14 +78,11 @@ an additional minimum radius.
 Based on the above innacuracies, the following are the additional comments for each of the pre-sets, to keep in mind
 what's precise and what's innacurate. For all, as was stated above, body sizes are greatly exaggerated:
 
-- Sun-Planet: Distances, velocities and times are accurate. The planet would be about 100 times as massive as Jupiter,
-  almost a brown dwarf.
+- Sun-Planet: Distances, velocities and times are accurate. The displayed "planet" would be about 100 times as massive as Jupiter,
+  basically a brown dwarf.
 - Sun-Planet-Moon: The moon would be about 100 times closer to the planet. Velocities and times are accurate for the
-  given orbit.
-- Sun-Planet-Comet: Mostly accurate. But keep in mind that comet's orbits have a wide range of possible orbits.
-- Trojan Asteroids: Apart from the 50 times Jupiter's mass, the rest is accurate.
-- Ellipses, Hyperbolic, Slingshot and Double Slingshot: Because what's most important is the shape of the trajectory,
-  these are accurate.
+  given orbit. But due to the bodies displayed size, an accurate moon sistem wouldn't fit.
+- Sun-Planet-Comet: Mostly accurate. But keep in mind that comets and asteroid orbits have a wide range of possible orbits and eccentricities. (To learn more about these concepts, check out the [Kepler's Laws](https://phet.colorado.edu/en/simulation/keplers-laws) sim).
 - Four Star Ballet: This system would be unlikely to exist in real life, but it's a good example of what a possible
   semi-stable system would look like.
 - Double-Double: These kinds of systems do exist in real life, with binary star systems orbiting each other, for example
