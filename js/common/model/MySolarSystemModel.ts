@@ -28,11 +28,13 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   // abstract in SolarSystemCommonModel
   public readonly zoomScaleProperty: TReadOnlyProperty<number>;
 
-  // is CoM moving?
+  public readonly centerOfMass: CenterOfMass;
+
+  // is centerOfMass moving?
   public readonly followingCenterOfMassProperty: TReadOnlyProperty<boolean>;
 
+  // whether the model is for the 'Lab' screen
   public readonly isLab: boolean;
-  public readonly centerOfMass: CenterOfMass;
 
   // Determines if we are showing paths and will therefore need to add points to each body's path.
   // This does not need to be stateful because it will be set correctly when pathVisibleProperty is set.
