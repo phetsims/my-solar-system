@@ -34,7 +34,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
   public readonly isLab: boolean;
   public readonly centerOfMass: CenterOfMass;
 
-  // Boolean that determines if more path points are going to be stored for subsequent display in the paths.
+  // Determines if we are showing paths and will therefore need to add points to each body's path.
   // This does not need to be stateful because it will be set correctly when pathVisibleProperty is set.
   public addingPathPoints = false;
 
