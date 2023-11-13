@@ -62,6 +62,15 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
       [ this.centerOfMass.positionProperty, this.centerOfMass.velocityProperty ],
       ( position, velocity ) => position.magnitude < 1 && velocity.magnitude < 0.01
     );
+
+    // Since followingCenterOfMassProperty was a bit of a chronic problem, this debugging output was added
+    // for https://github.com/phetsims/my-solar-system/issues/274.  It prints the values of the dependencies
+    // listed above.
+    phet.log && this.followingCenterOfMassProperty.link( followingCenterOfMass => {
+      phet.log && phet.log( `followingCenterOfMass=${followingCenterOfMass} ` +
+                            `position.magnitude=${this.centerOfMass.positionProperty.value.magnitude} ` +
+                            `velocity.magnitude=${this.centerOfMass.velocityProperty.value.magnitude}` );
+    } );
   }
 
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
