@@ -116,9 +116,6 @@ export default class ValuesColumnNode extends VBox {
         },
         startCallback: () => { body.userIsControllingMassProperty.value = true; },
         endCallback: () => { body.userIsControllingMassProperty.value = false; },
-        arrowButtonOptions: {
-          fireOnDown: true
-        },
         tandem: parentTandem.createTandem( `mass${body.index}NumberControl` ),
         phetioFeatured: true,
         phetioVisiblePropertyInstrumented: false
