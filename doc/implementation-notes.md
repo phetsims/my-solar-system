@@ -1,31 +1,40 @@
 # My Solar System - Implementation Notes
 
-My Solar System is built on the sim-specific common code library solar-system-common, which is also used by the Keplers
-Laws sim.
-
-`SolarSystemCommonModel` is the foundational model class that runs the model simulation, using
-`NumericalEngine` for the numerical algorithm.
-
-Canvas is used to render the path traces in PathsCanvasNode.ts.
-
-Enumerations use EnumerationValue rather than string literal unions, by choice.
+_My Solar System_ is built on the sim-specific common-code repository solar-system-common, which is also used by the
+_Kepler's Laws_ sim.
 
 ## Memory Management
 
-The majority of the elements in the sim are statically allocated at startup, and exist for the lifetime of the sim, hence most uses of `link`, `addListener`, etc. do NOT need a corresponding `unlink` or `removeListener`.
+All observable elements in the sim are statically allocated at startup, and exist for the lifetime of the sim
+Hence all uses of `link`, `addListener`, etc. do NOT need a corresponding `unlink` or `removeListener`.
+Classes also use `isDisposable: false` to indicate that they are not intended to be disposed.
 
-The sim statically allocates all Body instances, and the spinner that adds or removes Body instances in fact toggles `isActiveProperty` values for each. This simplifies the implementation and will simplify PhET-iO instrumentation.
+The sim statically allocates all Body and BodyNode instances. The spinner that adds or removes bodies from the orbital 
+system in fact toggles a Body's `isActiveProperty`, which in turn controls the visibility of the BodyNode associated
+with a Body.
 
 ## Models
 
-Multiple files are used to create the model: 
-[SolarSystemCommonModel](https://github.com/phetsims/solar-system-common/blob/main/js/model/SolarSystemCommonModel.ts),
-which has the main logic for a scene creation, and handles all the logic for body creation and destruction. It is used
-in both _My Solar System_ and _Kepler's Laws_ sims. Inheriting from that model, there's
-[MySolarSystemModel](https://github.com/phetsims/my-solar-system/blob/main/js/common/model/MySolarSystemModel.ts),
-which has some additional functionalities, mainly defining the Center of Mass object, which will allow for re-centering
-of the system. Finally, there's [IntroModel](https://github.com/phetsims/my-solar-system/blob/main/js/intro/model/IntroModel.ts)
-which doesn't do much else, and [LabModel](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/LabModel.ts) which handles the logic of pre-set selection.
+The top-level model consists of a class hierarchy: 
+* [SolarSystemCommonModel](https://github.com/phetsims/solar-system-common/blob/main/js/model/SolarSystemCommonModel.ts)
+contains the model that is common to _My Solar System_ and _Kepler's Laws_ sims, and handles all the logic for creation
+of an orbital system of bodies.
+* [MySolarSystemModel](https://github.com/phetsims/my-solar-system/blob/main/js/common/model/MySolarSystemModel.ts),
+adds functionality specific to _My Solar System_, mainly defining [CenterOfMass](https://github.com/phetsims/my-solar-system/blob/main/js/common/model/CenterOfMass.ts), which will allow for re-centering
+of the orbital system. 
+* [IntroModel](https://github.com/phetsims/my-solar-system/blob/main/js/intro/model/IntroModel.ts)
+extends `MySolarSystemModel` for the _Intro_ screen, and defines the 2 bodies that appear in that screen.
+* [LabModel](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/LabModel.ts) also extends
+`MySolarSystemModel` for the _Lab_ screen, defines the 4 bodies that can appear in that screen, and handles the 
+logic of orbital system presets.
+
+[NumericalEngine](https://github.com/phetsims/my-solar-system/blob/main/js/common/model/NumericalEngine.ts) controls
+the gravitational interaction between bodies.
+
+[Body](https://github.com/phetsims/solar-system-common/blob/main/js/model/Body.ts) is the model of a body in an orbital system.
+
+[OrbitalSystem](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/OrbitalSystem.ts) is a 
+a rich enumeration of the orbit system presets found in the _Lab_ screen.
 
 There are multiple arrays which keep track of the bodies:
 
@@ -43,6 +52,17 @@ Some important properties to keep track of during the sim:
 - `bodiesAreReturnableProperty`: As name suggests, is true if any body is offscreen. Toggles the visibility of the 'Return Bodies' button, and when that is pressed, the escaped bodies are returned to their original positions.
 - `isLab`: Even though Intro and Lab have independent model files, there are still some common components which are shown or hidden depending on the value of this variable.
 - There are also time scales and zoom level scales which control the size and speed of the sim.
+
+# View
+
+[BodyNode](https://github.com/phetsims/solar-system-common/blob/main/js/view/BodyNode.ts) is the view of 
+a `Body` model element. The body's position can be directly manipulated by dragging.
+
+[DraggableVelocityVectorNode](https://github.com/phetsims/solar-system-common/blob/main/js/view/DraggableVelocityVectorNode.ts) is the view
+of a body's velocity vector. The body's velocity can be directly manipulated by dragging.
+
+[PathsCanvasNode](https://github.com/phetsims/my-solar-system/blob/main/js/common/view/PathsCanvasNode.ts)
+renders the path traces of bodies using the Canvas API.
 
 # PhET-iO
 
