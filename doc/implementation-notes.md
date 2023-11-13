@@ -18,7 +18,14 @@ The sim statically allocates all Body instances, and the spinner that adds or re
 
 ## Models
 
-Multiple files are used to create the model: [`SolarSystemCommonModel`](https://github.com/phetsims/solar-system-common/blob/af2b6fda39649f58114ba562bcf06d663c64554a/js/model/SolarSystemCommonModel.ts), which has the main logic for a scene creation, and handles all the logic for body creation and destruction. It is used in the MySolarSystem sim as well as the KeplersLaws one. Inheriting from that model, there's [`MySolarSystemModel`](https://github.com/phetsims/my-solar-system/blob/7fd875a7b45b4c17059b4e9c6dbc02b137adc8ee/js/common/model/MySolarSystemModel.ts), which has some additional functionalities, mainly defining the Center of Mass object, which will allow for re-centering of the system. Finally there's [`IntroModel`](https://github.com/phetsims/my-solar-system/blob/df3444bce5fb14dae7ce5ec882ce5ddd353531a0/js/intro/model/IntroModel.ts) which doesn't do much else, and [`LabModel`](https://github.com/phetsims/my-solar-system/blob/df3444bce5fb14dae7ce5ec882ce5ddd353531a0/js/lab/model/LabModel.ts) which handles the logic of pre-set selection.
+Multiple files are used to create the model: 
+[SolarSystemCommonModel](https://github.com/phetsims/solar-system-common/blob/main/js/model/SolarSystemCommonModel.ts),
+which has the main logic for a scene creation, and handles all the logic for body creation and destruction. It is used
+in both _My Solar System_ and _Kepler's Laws_ sims. Inheriting from that model, there's
+[MySolarSystemModel](https://github.com/phetsims/my-solar-system/blob/main/js/common/model/MySolarSystemModel.ts),
+which has some additional functionalities, mainly defining the Center of Mass object, which will allow for re-centering
+of the system. Finally, there's [IntroModel](https://github.com/phetsims/my-solar-system/blob/main/js/intro/model/IntroModel.ts)
+which doesn't do much else, and [LabModel](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/LabModel.ts) which handles the logic of pre-set selection.
 
 There are multiple arrays which keep track of the bodies:
 
@@ -30,7 +37,7 @@ There are multiple arrays which keep track of the bodies:
 
 Some important properties to keep track of during the sim:
 
-- `followingCenterOfMassProperty`: Set to true if the Center of Mass (CoM) is within 1AU from the center and has a velocity close to 0 (<0.01km/s), this is to have some tolerance of what systems are drifting off. When toggled to true (via the orange 'Follow Center of Mass') the whole system will shift so
+- `followingCenterOfMassProperty`: Set to true if the Center of Mass (CoM) is within 1AU from the center and has a velocity close to 0 (< 0.01km/s), this is to have some tolerance of what systems are drifting off. When toggled to true (via the orange 'Follow Center of Mass') the whole system will shift so
   that the CoM is in the middle and standing still.
 - `gravityForceScalePowerProperty`: Stores the current exponential scale value of the force vector. The default value is 0, 10<sup>0</sup> = 1, so no scaling. It goes from -2 to 8 so that the user can see the force vectors in all the presets.
 - `bodiesAreReturnableProperty`: As name suggests, is true if any body is offscreen. Toggles the visibility of the 'Return Bodies' button, and when that is pressed, the escaped bodies are returned to their original positions.
