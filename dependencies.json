@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.3.0-dev.4 Thu Nov 09 2023 15:21:37 GMT-0700 (Mountain Standard Time)",
+  "comment": "# my-solar-system 1.3.0-dev.5 Mon Nov 13 2023 17:09:30 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "94831413cd4dd4dc27c2a1aebbcafd3987934a99",
     "branch": "main"
@@ -21,7 +21,7 @@
     "branch": "main"
   },
   "joist": {
-    "sha": "4aa1e4d28fe0c173c2f8c0865a6b6d405829223d",
+    "sha": "b64f5128a00ac480768cc172ecff586e80927b69",
     "branch": "main"
   },
   "kite": {
@@ -29,7 +29,7 @@
     "branch": "main"
   },
   "my-solar-system": {
-    "sha": "c353133669c456bf9867330703973ae96afc73d0",
+    "sha": "2506b17273503b4cdcd8f5120fb1c819aca8e3a5",
     "branch": "main"
   },
   "perennial-alias": {
@@ -37,19 +37,19 @@
     "branch": "main"
   },
   "phet-core": {
-    "sha": "71ce03fe2b0b69e446ffadfdbabbe50ef2a1ae51",
+    "sha": "3bb242c8268533e51c1404ef623d99f341fcb169",
     "branch": "main"
   },
   "phet-io": {
-    "sha": "8e5666f32419add0e6ef0f23d445b3dd1a64b031",
+    "sha": "4381ef242626753aae30953c0e2c834fe0696373",
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "fedfc755d2f68e1baae5d8419ad45c138c13c85b",
+    "sha": "6214883b6635dcaaf3d4e841fac1b090d020a273",
     "branch": "main"
   },
   "phet-io-wrappers": {
-    "sha": "102ecf3bfe6d73625e27eecef216d442f2eb78e4",
+    "sha": "a83269950960c857ead15db4df43ebbf568307f0",
     "branch": "main"
   },
   "phetcommon": {
@@ -69,7 +69,7 @@
     "branch": "main"
   },
   "scenery-phet": {
-    "sha": "1d488c4e5a76152ba1010470396a08d14d8a39ae",
+    "sha": "5a90ec6ef1dde30b5b4437fe5388851c023bde21",
     "branch": "main"
   },
   "sherpa": {
@@ -77,7 +77,7 @@
     "branch": "main"
   },
   "solar-system-common": {
-    "sha": "4fd39013fdd3a4fda421388a335ade31d0aaf39b",
+    "sha": "10bf20c951101b250a7204ed8b61fc6ddca2bf4f",
     "branch": "main"
   },
   "studio": {
@@ -85,7 +85,7 @@
     "branch": "main"
   },
   "sun": {
-    "sha": "26851caba268b49f4abbd8a50e4ce4372cc625b6",
+    "sha": "89be99f0fa9857090e1b1abd7e4dbe420cd65fd2",
     "branch": "main"
   },
   "tambo": {
