@@ -21,6 +21,9 @@
     "phetLibs": [
       "solar-system-common"
     ],
+    "phet-io": {
+      "compareDesignedAPIChanges": true
+    },
     "supportsOutputJS": true,
     "simFeatures": {
       "supportsInteractiveDescription": true,
