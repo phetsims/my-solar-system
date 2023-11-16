@@ -66,7 +66,7 @@ renders the path traces of bodies using the Canvas API.
 
 # PhET-iO
 
-All PhET-iO elements in this sim are static (created a startup). There are no elements created dynamically.
+All PhET-iO Elements in this sim are static (created a startup). There are no elements created dynamically.
 
 There are 2 custom IOTypes. See [BodyInfo.BodyInfoIO](https://github.com/phetsims/solar-system-common/blob/main/js/model/BodyInfo.ts)
 and [BodyInfoSubsetIO](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/PhetioOrbitalSystemProperty.ts).
