@@ -73,5 +73,5 @@ and [BodyInfoSubsetIO](https://github.com/phetsims/my-solar-system/blob/main/js/
 
 Client-configurable presets is a feature that is available only in the PhET-iO brand. It allows PhET-iO
 clients to create their own orbital system presets for the Lab screen.
-See [PhetioOrbitalSystemProperty](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/PhetioOrbitalSystemProperty.ts)
+See [OrbitalSystemInfoProperty](https://github.com/phetsims/my-solar-system/blob/main/js/lab/model/OrbitalSystemInfoProperty.ts)
 for details.

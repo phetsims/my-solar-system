@@ -101,15 +101,15 @@ class BodyInfoSubset {
 }
 
 /**
- * PhetioOrbitalSystemProperty is the Property used by a PhET-iO client to customize an orbital system preset.
+ * OrbitalSystemInfoProperty is the Property used by a PhET-iO client to customize an orbital system preset.
  * Instances of this Property are created in LabModel. The PHET-iO client typically configures a preset by
- * locating an instance of PhetioOrbitalSystemProperty in Studio, pressing the "Get Value" button to get the
+ * locating an instance of OrbitalSystemInfoProperty in Studio, pressing the "Get Value" button to get the
  * JSON representation of the value, editing that JSON in Studio, then pressing the "Set Value" button.
  * When the value is set, this class is also responsible for converting the information provided by the PHET-iO
  * client to a full description of a preset, then writing that description to the proper preset in the
  * OrbitalSystems enumeration.
  */
-export default class PhetioOrbitalSystemProperty extends Property<BodyInfoSubset[]> {
+export default class OrbitalSystemInfoProperty extends Property<BodyInfoSubset[]> {
 
   public constructor( orbitalSystem: OrbitalSystem,
                       orbitalSystemProperty: Property<OrbitalSystem>,
@@ -139,4 +139,4 @@ export default class PhetioOrbitalSystemProperty extends Property<BodyInfoSubset
   }
 }
 
-mySolarSystem.register( 'PhetioOrbitalSystemProperty', PhetioOrbitalSystemProperty );
+mySolarSystem.register( 'OrbitalSystemInfoProperty', OrbitalSystemInfoProperty );
