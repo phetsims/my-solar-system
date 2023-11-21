@@ -13,6 +13,7 @@ import { Node, Path } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 export default class LabScreenIcon extends ScreenIcon {
   public constructor() {
@@ -37,32 +38,32 @@ export default class LabScreenIcon extends ScreenIcon {
 
         // magenta orbit
         new Path( new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ), {
-          stroke: SolarSystemCommonColors.body2ColorProperty,
+          stroke: MySolarSystemColors.body2ColorProperty,
           lineWidth: 0.8,
           x: smallEllipseCenterX
         } ),
 
         // cyan orbit
         new Path( new Shape().ellipse( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0 ), {
-          stroke: SolarSystemCommonColors.body3ColorProperty,
+          stroke: MySolarSystemColors.body3ColorProperty,
           lineWidth: 1
         } ),
 
         // Sun (yellow body)
         new ShadedSphereNode( 8, {
-          mainColor: SolarSystemCommonColors.body1ColorProperty,
+          mainColor: MySolarSystemColors.body1ColorProperty,
           x: -bigEllipseFocalPoint
         } ),
 
         // magenta body
         new ShadedSphereNode( 3, {
-          mainColor: SolarSystemCommonColors.body2ColorProperty,
+          mainColor: MySolarSystemColors.body2ColorProperty,
           x: smallEllipseSemiMajorAxis + smallEllipseCenterX
         } ),
 
         // cyan body
         new ShadedSphereNode( 3, {
-          mainColor: SolarSystemCommonColors.body3ColorProperty,
+          mainColor: MySolarSystemColors.body3ColorProperty,
           x: bigEllipseSemiMajorAxis
         } )
       ]

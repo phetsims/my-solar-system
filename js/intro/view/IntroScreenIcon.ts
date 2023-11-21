@@ -15,6 +15,7 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
 
@@ -42,27 +43,27 @@ export default class IntroScreenIcon extends ScreenIcon {
 
         // yellow orbit
         new Path( new Shape().ellipse( 0, 0, smallEllipseSemiMajorAxis, smallEllipseSemiMinorAxis, 0 ), {
-          stroke: SolarSystemCommonColors.body1ColorProperty,
+          stroke: MySolarSystemColors.body1ColorProperty,
           lineWidth: 0.5,
           x: smallEllipseCenterX
         } ),
 
         // a segment of the magenta orbit
         new Path( new Shape().ellipticalArc( 0, 0, bigEllipseSemiMajorAxis, bigEllipseSemiMinorAxis, 0, -Math.PI / 6, Math.PI / 6 ), {
-          stroke: SolarSystemCommonColors.body2ColorProperty,
+          stroke: MySolarSystemColors.body2ColorProperty,
           lineWidth: 0.5,
           x: bigEllipseCenterX
         } ),
 
         // Sun (yellow body)
         new ShadedSphereNode( 6, {
-          mainColor: SolarSystemCommonColors.body1ColorProperty,
+          mainColor: MySolarSystemColors.body1ColorProperty,
           x: ( smallEllipseFocalPoint - smallEllipseSemiMajorAxis )
         } ),
 
         // magenta body
         new ShadedSphereNode( 3, {
-          mainColor: SolarSystemCommonColors.body2ColorProperty,
+          mainColor: MySolarSystemColors.body2ColorProperty,
           x: bigEllipseSemiMajorAxis - bigEllipseFocalPoint
         } ),
 
