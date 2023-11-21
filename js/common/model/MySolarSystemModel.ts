@@ -16,14 +16,29 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Body from '../../../../solar-system-common/js/model/Body.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import Range from '../../../../dot/js/Range.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
+  numberOfActiveBodiesPropertyPhetioReadOnly?: boolean; // phetioReadOnly value for numberOfActiveBodiesProperty
 };
-type ParentOptions = SolarSystemCommonModelOptions<NumericalEngine>;
-export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'engineFactory' | 'zoomLevelRange' | 'engineTimeScale'>;
+type ParentOptions = SolarSystemCommonModelOptions;
+export type MySolarSystemModelOptions = SelfOptions & StrictOmit<ParentOptions, 'zoomLevelRange' | 'engineTimeScale'>;
 
-export default class MySolarSystemModel extends SolarSystemCommonModel<NumericalEngine> {
+export default class MySolarSystemModel extends SolarSystemCommonModel {
+
+  // The set of Body instances in this.bodies that are active (body.isActive === true)
+  public readonly activeBodies: ObservableArray<Body>;
+
+  // The number of Bodies that are 'active', and thus visible on the screen.
+  public readonly numberOfActiveBodiesProperty: NumberProperty;
+
+  // This is abstract in the base class, so make it concrete here.
+  public readonly engine: NumericalEngine;
 
   // abstract in SolarSystemCommonModel
   public readonly zoomScaleProperty: TReadOnlyProperty<number>;
@@ -46,14 +61,52 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
       // SelfOptions
       isLab: false,
+      numberOfActiveBodiesPropertyPhetioReadOnly: true,
 
       // SolarSystemCommonModelOptions
-      engineFactory: bodies => new NumericalEngine( bodies ),
       engineTimeScale: 0.05, // This value works well for NumericalEngine
       zoomLevelRange: new RangeWithValue( 1, 6, 4 )
     }, providedOptions );
 
     super( options );
+
+    this.activeBodies = createObservableArray( {
+      tandem: options.tandem.createTandem( 'activeBodies' ),
+      phetioType: createObservableArray.ObservableArrayIO( Body.BodyIO ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'The set of bodies that part of the selected orbital system, and are thus visible on the screen.'
+    } );
+
+    // We want to synchronize bodies and activeBodies, so that activeBodies is effectively bodies.filter( isActive )
+    // Order matters, AND we don't want to remove items unnecessarily, so some additional logic is required.
+    Multilink.multilinkAny( this.bodies.map( body => body.isActiveProperty ), () => {
+      const idealBodies = this.bodies.filter( body => body.isActiveProperty.value );
+
+      // Remove all inactive bodies
+      this.activeBodies.filter( body => !body.isActiveProperty.value ).forEach( body => {
+        this.activeBodies.remove( body );
+        body.reset();
+      } );
+
+      // Add in active bodies (in order)
+      for ( let i = 0; i < idealBodies.length; i++ ) {
+        if ( this.activeBodies[ i ] !== idealBodies[ i ] ) {
+          this.activeBodies.splice( i, 0, idealBodies[ i ] );
+        }
+      }
+    } );
+
+    this.numberOfActiveBodiesProperty = new NumberProperty( this.activeBodies.length, {
+      numberType: 'Integer',
+      range: new Range( 1, this.bodies.length ),
+      tandem: options.tandem.createTandem( 'numberOfActiveBodiesProperty' ),
+      phetioReadOnly: options.numberOfActiveBodiesPropertyPhetioReadOnly,
+      phetioFeatured: !options.numberOfActiveBodiesPropertyPhetioReadOnly, // featured if it's not readonly
+      phetioDocumentation: 'The number of bodies that are present in the orbital system shown on the screen'
+    } );
+
+    this.engine = new NumericalEngine( this.activeBodies );
+    this.engine.reset();
 
     this.zoomScaleProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
       return Utils.linear( options.zoomLevelRange.min, options.zoomLevelRange.max, 25, 125, zoomLevel );
@@ -77,6 +130,27 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
                             `position.magnitude=${this.centerOfMass.positionProperty.value.magnitude} ` +
                             `velocity.magnitude=${this.centerOfMass.velocityProperty.value.magnitude}` );
     } );
+  }
+
+  /**
+   * Adds the next available body to the system and checks that is doesn't collide with any other bodies.
+   */
+  public addNextBody(): void {
+    const newBody = this.bodies.find( body => !body.isActiveProperty.value );
+    if ( newBody ) {
+      newBody.reset();
+      newBody.preventCollision( this.activeBodies );
+      newBody.isActiveProperty.value = true;
+    }
+    this.saveStartingBodyInfo();
+    this.isAnyBodyCollidedProperty.reset();
+  }
+
+  public removeLastBody(): void {
+    const lastBody = this.activeBodies[ this.activeBodies.length - 1 ];
+    lastBody.isActiveProperty.value = false;
+    this.saveStartingBodyInfo();
+    this.isAnyBodyCollidedProperty.reset();
   }
 
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
@@ -112,7 +186,8 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
 
   // Calls the update method on the parent class and updates the position and velocity of the CoM
   public override update(): void {
-    super.update();
+    this.engine.update( this.activeBodies );
+    this.numberOfActiveBodiesProperty.value = this.activeBodies.length;
     this.centerOfMass.update();
   }
 
@@ -148,6 +223,10 @@ export default class MySolarSystemModel extends SolarSystemCommonModel<Numerical
         this.activeBodies.forEach( body => body.addPathPoint() );
       }
     }
+  }
+
+  public clearPaths(): void {
+    this.activeBodies.forEach( body => body.clearPath() );
   }
 }
 
