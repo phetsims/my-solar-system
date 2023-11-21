@@ -21,6 +21,8 @@ import Body from '../../../../solar-system-common/js/model/Body.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Range from '../../../../dot/js/Range.js';
+import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
@@ -54,6 +56,14 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
   // Determines if we are showing paths and will therefore need to add points to each body's path.
   // This does not need to be stateful because it will be set correctly when pathVisibleProperty is set.
   public addingPathPoints = false;
+
+  // Indicates whether any Body has gone off-screen or has collided an exploded.
+  // This controls the visibility of the 'Return Bodies' button in the view.
+  public readonly bodiesAreReturnableProperty: TReadOnlyProperty<boolean>;
+
+  // Indicates whether any Body has collided with another Body.
+  public readonly isAnyBodyCollidedProperty: Property<boolean>;
+
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
 
@@ -107,6 +117,39 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
 
     this.engine = new NumericalEngine( this.activeBodies );
     this.engine.reset();
+
+    this.isAnyBodyCollidedProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'isAnyBodyCollidedProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'True if any of the bodies have collided.'
+    } );
+
+    this.bodiesAreReturnableProperty = DerivedProperty.or( [ ...this.bodies.map( body => body.isOffscreenProperty ), this.isAnyBodyCollidedProperty ] );
+
+    this.bodies.forEach( body => {
+      body.collidedEmitter.addListener( () => {
+        this.isAnyBodyCollidedProperty.value = true;
+      } );
+
+      Multilink.lazyMultilink(
+        [ body.userIsControllingPositionProperty, body.userIsControllingVelocityProperty, body.userIsControllingMassProperty ],
+        ( userIsControllingPosition: boolean, userIsControllingVelocity: boolean, userIsControllingMass: boolean ) => {
+          // It's OK to keep playing when the user is changing mass.
+          if ( userIsControllingPosition || userIsControllingVelocity ) {
+            this.isPlayingProperty.value = false;
+          }
+
+          if ( userIsControllingPosition || userIsControllingVelocity || userIsControllingMass ) {
+            // The user has started changing one or more of the body Properties.
+            this.userInteractingEmitter.emit();
+          }
+          else if ( !this.bodiesAreReturnableProperty.value ) {
+            // The user has finished changing one or more of the body Properties, and the 'Return Bodies' button
+            // is not visible.
+            this.saveStartingBodyInfo();
+          }
+        } );
+    } );
 
     this.zoomScaleProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
       return Utils.linear( options.zoomLevelRange.min, options.zoomLevelRange.max, 25, 125, zoomLevel );
@@ -197,7 +240,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
    */
   public override restart(): void {
     super.restart();
-
+    this.isAnyBodyCollidedProperty.reset();
     this.centerOfMass.update();
   }
 
