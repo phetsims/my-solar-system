@@ -122,7 +122,8 @@ export default class OrbitalSystemInfoProperty extends Property<BodyInfoSubset[]
     super( initialValue, {
       isValidValue: bodyInfo => bodyInfo.length >= 1 && bodyInfo.length <= maxNumberOfBodies,
       tandem: tandem,
-      phetioValueType: ArrayIO( BodyInfoSubset.BodyInfoSubsetIO )
+      phetioValueType: ArrayIO( BodyInfoSubset.BodyInfoSubsetIO ),
+      phetioDocumentation: 'Client-configurable preset for Orbital System, available only via PhET-iO'
     } );
 
     this.lazyLink( bodyInfoSubset => {
