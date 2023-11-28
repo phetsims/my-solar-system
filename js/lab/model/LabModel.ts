@@ -49,7 +49,8 @@ export default class LabModel extends MySolarSystemModel {
     } );
 
     this.orbitalSystemProperty = new EnumerationProperty( OrbitalSystem.SUN_PLANET, {
-      tandem: tandem.createTandem( 'orbitalSystemProperty' )
+      tandem: tandem.createTandem( 'orbitalSystemProperty' ),
+      phetioFeatured: true
     } );
 
     const maxNumberOfBodies = this.bodies.length;
