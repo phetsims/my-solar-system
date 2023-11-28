@@ -146,8 +146,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: position => position.x,
-        inverseMap: ( x: number ) => new Vector2( x, body.positionProperty.value.y ),
-        tandem: parentTandem.createTandem( `positionX${body.index}MappedProperty` )
+        inverseMap: ( x: number ) => new Vector2( x, body.positionProperty.value.y )
+        // Do not instrument, see https://github.com/phetsims/my-solar-system/issues/302
       } );
 
       uiComponent = new InteractiveNumberDisplay(
@@ -173,8 +173,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: position => position.y,
-        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y ),
-        tandem: parentTandem.createTandem( `positionY${body.index}MappedProperty` )
+        inverseMap: ( y: number ) => new Vector2( body.positionProperty.value.x, y )
+        // Do not instrument, see https://github.com/phetsims/my-solar-system/issues/302
       } );
 
       uiComponent = new InteractiveNumberDisplay(
@@ -200,8 +200,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: velocity => velocity.x,
-        inverseMap: ( x: number ) => new Vector2( x, body.velocityProperty.value.y ),
-        tandem: parentTandem.createTandem( `velocityX${body.index}MappedProperty` )
+        inverseMap: ( x: number ) => new Vector2( x, body.velocityProperty.value.y )
+        // Do not instrument, see https://github.com/phetsims/my-solar-system/issues/302
       } );
 
       uiComponent = new InteractiveNumberDisplay(
@@ -227,8 +227,8 @@ export default class ValuesColumnNode extends VBox {
         reentrant: true,
         bidirectional: true,
         map: velocity => velocity.y,
-        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y ),
-        tandem: parentTandem.createTandem( `velocityY${body.index}MappedProperty` )
+        inverseMap: ( y: number ) => new Vector2( body.velocityProperty.value.x, y )
+        // Do not instrument, see https://github.com/phetsims/my-solar-system/issues/302
       } );
 
       uiComponent = new InteractiveNumberDisplay(
