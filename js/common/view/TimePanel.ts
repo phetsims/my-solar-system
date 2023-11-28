@@ -39,9 +39,6 @@ export default class TimePanel extends Panel {
     } );
 
     const clockNode = new ClockNode( model.timeProperty, tandem.createTandem( 'clockNode' ) );
-    clockNode.addLinkedElement( model.timeProperty, {
-      tandemName: 'timeProperty'
-    } );
 
     const content = new VBox( {
       children: [ timeControlNode, clockNode ],
@@ -98,6 +95,8 @@ class ClockNode extends HBox {
         phetioFeatured: true
       }
     } );
+
+    this.addLinkedElement( timeProperty );
   }
 }
 

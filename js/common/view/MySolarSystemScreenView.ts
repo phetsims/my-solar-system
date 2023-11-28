@@ -187,9 +187,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       visible: model.isLab,
       tandem: model.isLab ? options.tandem.createTandem( 'numberOfBodiesControl' ) : Tandem.OPT_OUT
     } );
-    this.numberOfBodiesControl.addLinkedElement( model.numberOfActiveBodiesProperty, {
-      tandemName: 'numberOfActiveBodiesProperty'
-    } );
 
     this.followCenterOfMassButton = new TextPushButton( MySolarSystemStrings.followCenterOfMassStringProperty, {
       visibleProperty: DerivedProperty.not( model.followingCenterOfMassProperty ),

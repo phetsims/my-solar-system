@@ -67,6 +67,8 @@ export default class NumberOfBodiesControl extends VBox {
     options.children = [ bodiesText, spinner ];
 
     super( options );
+
+    this.addLinkedElement( numberOfActiveBodiesProperty );
   }
 }
 
