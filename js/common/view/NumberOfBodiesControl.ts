@@ -34,7 +34,8 @@ export default class NumberOfBodiesControl extends VBox {
       phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: {
         phetioFeatured: true
-      }
+      },
+      phetioFeatured: true // see https://github.com/phetsims/my-solar-system/issues/304
     }, providedOptions );
 
     const bodiesText = new Text( MySolarSystemStrings.dataPanel.bodiesStringProperty, {

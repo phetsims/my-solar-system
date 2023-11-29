@@ -90,6 +90,7 @@ class ClockNode extends HBox {
       children: [ timeDisplay, clearButton ],
       spacing: 10,
       tandem: tandem,
+      phetioFeatured: true, // see https://github.com/phetsims/my-solar-system/issues/304
       phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: {
         phetioFeatured: true
