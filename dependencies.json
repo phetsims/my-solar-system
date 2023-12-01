@@ -1,11 +1,11 @@
 {
-  "comment": "# my-solar-system 1.3.0-dev.6 Thu Nov 30 2023 13:21:32 GMT-0500 (Colombia Standard Time)",
+  "comment": "# my-solar-system 1.3.0-dev.7 Fri Dec 01 2023 11:11:24 GMT-0500 (Colombia Standard Time)",
   "assert": {
     "sha": "94831413cd4dd4dc27c2a1aebbcafd3987934a99",
     "branch": "main"
   },
   "axon": {
-    "sha": "799a2a1caebe47ca63f9e753174ecb9b6bd6ca35",
+    "sha": "d2efda8c3018ba8a7ffd1a344d5d4b37873f7136",
     "branch": "main"
   },
   "brand": {
@@ -13,7 +13,7 @@
     "branch": "main"
   },
   "chipper": {
-    "sha": "4e3753e60a50279ee7c8810266d0b6be7a1c3972",
+    "sha": "d18a0408a388ac3216b036f393ef5d3d23f60089",
     "branch": "main"
   },
   "dot": {
@@ -29,7 +29,7 @@
     "branch": "main"
   },
   "my-solar-system": {
-    "sha": "54a277e75ec3e7a459a9260d082dbc67d5460ea7",
+    "sha": "65567597abfd4a5f0dc084aa9a8e9d91ce7bab1c",
     "branch": "main"
   },
   "perennial-alias": {
@@ -45,7 +45,7 @@
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "6ad4b37315aaacc90b2bd68d59399185d9647e98",
+    "sha": "b32cffb2f2748504fb52424ac3872432a9edb4c0",
     "branch": "main"
   },
   "phet-io-wrappers": {
@@ -85,7 +85,7 @@
     "branch": "main"
   },
   "sun": {
-    "sha": "37293d53d297bca3e08d1357a5b924a78f8d9c24",
+    "sha": "df7a760932e43590866fc49f9a475d71a35c85f2",
     "branch": "main"
   },
   "tambo": {
