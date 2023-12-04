@@ -28,6 +28,9 @@ export default class LabModel extends MySolarSystemModel {
   private readonly orbitalSystem3Property: OrbitalSystemInfoProperty;
   private readonly orbitalSystem4Property: OrbitalSystemInfoProperty;
 
+  // Flag to inform that the model is changing the bodies instead of a collision or reset
+  public changingNumberOfBodies = false;
+
   public constructor( tandem: Tandem ) {
     super( {
       // MySolarSystemModelOptions
@@ -93,6 +96,7 @@ export default class LabModel extends MySolarSystemModel {
         this.isPlayingProperty.value = false;
         this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
         let count = 0;
+        this.changingNumberOfBodies = true;
         while ( numberOfActiveBodies !== this.activeBodies.length ) {
           // addNextBody and removeLastBody should trigger updates in this.activeBodies, otherwise this loop wouldn't close.
           assert && assert( count++ < this.bodies.length, 'Infinite loop detected' );
@@ -103,6 +107,7 @@ export default class LabModel extends MySolarSystemModel {
             this.removeLastBody();
           }
         }
+        this.changingNumberOfBodies = false;
       }
     } );
   }

@@ -33,10 +33,8 @@ export default class LabScreenView extends MySolarSystemScreenView {
 
       // Skip this when restoring PhET-iO state, because the contents of activeBodies may be restored before its
       // lengthProperty. See https://github.com/phetsims/my-solar-system/issues/290.
-      if ( !isSettingPhetioStateProperty.value ) {
-        if ( !model.isAnyBodyCollidedProperty.value ) {
+      if ( !isSettingPhetioStateProperty.value && model.changingNumberOfBodies ) {
           this.bodySoundManager.playBodyAddedSound( model.activeBodies.length );
-        }
       }
     } );
 
@@ -44,10 +42,8 @@ export default class LabScreenView extends MySolarSystemScreenView {
 
       // Skip this when restoring PhET-iO state, because the contents of activeBodies may be restored before its
       // lengthProperty. See https://github.com/phetsims/my-solar-system/issues/290.
-      if ( !isSettingPhetioStateProperty.value ) {
-        if ( !model.isAnyBodyCollidedProperty.value ) {
+      if ( !isSettingPhetioStateProperty.value && model.changingNumberOfBodies ) {
           this.bodySoundManager.playBodyRemovedSound( model.activeBodies.length );
-        }
       }
     } );
   }
