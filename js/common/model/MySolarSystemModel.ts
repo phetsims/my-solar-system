@@ -23,6 +23,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
@@ -63,6 +64,9 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
 
   // Indicates whether any Body has collided with another Body.
   public readonly isAnyBodyCollidedProperty: Property<boolean>;
+
+  // Emitted when the user sets the time back to 0
+  public readonly resetTimeEmitter = new TinyEmitter();
 
 
   public constructor( providedOptions: MySolarSystemModelOptions ) {
@@ -149,6 +153,11 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
             this.saveStartingBodyInfo();
           }
         } );
+    } );
+
+    this.resetTimeEmitter.addListener( () => {
+      this.timeProperty.reset();
+      this.clearPaths();
     } );
 
     this.zoomScaleProperty = new DerivedProperty( [ this.zoomLevelProperty ], zoomLevel => {
