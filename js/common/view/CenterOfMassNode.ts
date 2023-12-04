@@ -1,8 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
+
 /**
- * Control the Center of Mass mark.
- *
- * Persistent for the life of the simulation.
+ * CenterOfMassNode draws the center of mass as a red 'X'.
  *
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
@@ -16,6 +15,7 @@ import CenterOfMass from '../model/CenterOfMass.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class CenterOfMassNode extends Node {
   public constructor( centerOfMass: CenterOfMass,
@@ -23,6 +23,7 @@ export default class CenterOfMassNode extends Node {
                       modelViewTransformProperty: TReadOnlyProperty<ModelViewTransform2>,
                       tandem: Tandem ) {
     super( {
+      isDisposable: false,
       children: [
         new XNode( {
           fill: 'red',
@@ -35,9 +36,10 @@ export default class CenterOfMassNode extends Node {
       phetioFeatured: true
     } );
 
-    centerOfMass.positionProperty.link( position => {
-      this.translation = modelViewTransformProperty.value.modelToViewPosition( position );
-    } );
+    Multilink.multilink( [ centerOfMass.positionProperty, modelViewTransformProperty ],
+      ( position, modelViewTransform ) => {
+        this.translation = modelViewTransform.modelToViewPosition( position );
+      } );
 
     this.addLinkedElement( centerOfMass );
   }
