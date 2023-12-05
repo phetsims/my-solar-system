@@ -22,6 +22,7 @@ import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSy
 import Tandem from '../../../../tandem/js/Tandem.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 const HBOX_SPACING = 12;
@@ -81,9 +82,12 @@ export default class ValuesPanel extends Panel {
     // Put a wrapper around massNumberControlColumnNode, so that PhET-iO clients have independent control over the visibility
     // of sliders. Use a VBox so that we have dynamic layout.
     const massNumberControlColumnWrapper = new VBox( {
-      children: [ massNumberControlColumnNode ]
+      children: [ massNumberControlColumnNode ],
+
+      // In the Lab screen, the mass NumberControls are not visible when 'More Data' is selected.
+      visibleProperty: new DerivedProperty( [ moreDataVisibleProperty ], moreDataVisible => !( moreDataVisible && model.isLab ) )
     } );
-    
+
     const componentColumnsSpacing = 12;
     const positionColumnGroup = new HBox( {
       children: [ positionXColumnNode, positionYColumnNode ],
@@ -126,14 +130,17 @@ export default class ValuesPanel extends Panel {
         phetioFeatured: true
       }
     } );
-    const positionSectionNode = createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem );
-    const velocitySectionNode = createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem );
 
-    // Observe when the moreDataVisibleProperty changes and update the visibility of the content of the Panel.
-    moreDataVisibleProperty.link( moreDataVisible => {
-      massNumberControlColumnWrapper.visible = !( moreDataVisible && model.isLab );
-      positionSectionNode.visible = moreDataVisible && model.isLab;
-      velocitySectionNode.visible = moreDataVisible && model.isLab;
+    const positionAndVelocitySectionsNode = new HBox( {
+      spacing: HBOX_SPACING,
+      align: 'bottom',
+      children: [
+        createSectionNode( positionTitleNode, positionColumnGroup, positionSectionTandem ),
+        createSectionNode( velocityTitleNode, velocityColumnGroup, velocitySectionTandem )
+      ],
+
+      // Position and velocity sections are only visible when 'More Data' is selected.
+      visibleProperty: moreDataVisibleProperty
     } );
 
     super( new HBox( {
@@ -142,8 +149,7 @@ export default class ValuesPanel extends Panel {
       children: [
         iconsColumnNode,
         massSectionNode,
-        positionSectionNode,
-        velocitySectionNode
+        positionAndVelocitySectionsNode
       ]
     } ), options );
   }
