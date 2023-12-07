@@ -94,6 +94,7 @@ export default class LabModel extends MySolarSystemModel {
 
     this.numberOfActiveBodiesProperty.link( numberOfActiveBodies => {
       if ( numberOfActiveBodies !== this.activeBodies.length ) {
+        this.interruptSubtreeEmitter.emit();
         this.isPlayingProperty.value = false;
         this.orbitalSystemProperty.value = OrbitalSystem.CUSTOM;
         let count = 0;
