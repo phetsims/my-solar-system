@@ -35,6 +35,7 @@ import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
 import DraggableVelocityVectorNode from '../../../../solar-system-common/js/view/DraggableVelocityVectorNode.js';
 import NumberOfBodiesControl from './NumberOfBodiesControl.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -106,15 +107,16 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       } );
       this.componentsLayer.addChild( gravityForceVectorNode );
 
-      this.model.isPlayingProperty.link( isPlaying => {
-        if ( isPlaying ) {
-          bodyNode.playSound();
-        }
-        else {
-          bodyNode.stopSound();
-        }
-      } );
-
+      Multilink.multilink(
+        [ this.model.isPlayingProperty, body.isActiveProperty ],
+        ( isPlaying, isActive ) => {
+          if ( isPlaying && isActive ) {
+            bodyNode.playSound();
+          }
+          else {
+            bodyNode.stopSound();
+          }
+        } );
     } );
 
     // Center of Mass Node
