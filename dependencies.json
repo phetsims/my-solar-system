@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.2.3 Mon Sep 25 2023 21:31:34 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# my-solar-system 1.2.4-rc.1 Thu Dec 07 2023 14:57:02 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "2b2495994e1a001ed46ba1e2147f70aacb5732d2",
     "branch": "HEAD"
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "896d918b1bb87dcd340279200a9582d001b5c806",
+    "sha": "1af9b854c7ee722a284673fbf12ff44204700a9c",
     "branch": "1.2"
   },
   "perennial-alias": {
