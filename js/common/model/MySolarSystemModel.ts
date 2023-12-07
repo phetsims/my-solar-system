@@ -204,6 +204,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
   // Calculates the position and velocity of the CoM and corrects the bodies position and velocities accordingly
   // After this, the CoM will be standing still and in the center of the sim.
   public followAndCenterCenterOfMass(): void {
+    this.interruptSubtreeEmitter.emit();
     const wasPlayingBefore = this.isPlayingProperty.value;
     this.isPlayingProperty.value = false; // Pause the sim
     this.centerOfMass.update();
@@ -220,6 +221,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
   }
 
   public followCenterOfMass(): void {
+    this.interruptSubtreeEmitter.emit();
     this.centerOfMass.update();
 
     // Make the center of mass fixed, but not necessarily centered
