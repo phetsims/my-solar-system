@@ -74,6 +74,7 @@ export default class LabModel extends MySolarSystemModel {
     this.orbitalSystemProperty.link( orbitalSystem => {
       this.clearPaths();
       if ( orbitalSystem !== OrbitalSystem.CUSTOM ) {
+        this.interruptSubtreeEmitter.emit();
         this.isPlayingProperty.value = false;
         this.isAnyBodyCollidedProperty.reset();
         this.timeProperty.reset();
