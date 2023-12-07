@@ -25,7 +25,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import Property from '../../../../axon/js/Property.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
-import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 
 export default class TimePanel extends Panel {
 
@@ -39,7 +38,7 @@ export default class TimePanel extends Panel {
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
 
-    const clockNode = new ClockNode( model.timeProperty, model.resetTimeEmitter, tandem.createTandem( 'clockNode' ) );
+    const clockNode = new ClockNode( model.timeProperty, tandem.createTandem( 'clockNode' ) );
 
     const content = new VBox( {
       children: [ timeControlNode, clockNode ],
@@ -57,7 +56,7 @@ export default class TimePanel extends Panel {
  */
 class ClockNode extends HBox {
 
-  public constructor( timeProperty: Property<number>, resetTimeEmitter: TinyEmitter, tandem: Tandem ) {
+  public constructor( timeProperty: Property<number>, tandem: Tandem ) {
 
     const timeStringPatternProperty = new PatternStringProperty( SolarSystemCommonStrings.pattern.labelUnitsStringProperty, {
       units: SolarSystemCommonStrings.units.yearsStringProperty
@@ -80,9 +79,7 @@ class ClockNode extends HBox {
     const clearButton = new TextPushButton( SolarSystemCommonStrings.clearStringProperty, {
       font: new PhetFont( 16 ),
       enabledProperty: new DerivedProperty( [ timeProperty ], time => ( time > 0 ) ),
-      listener: () => {
-        resetTimeEmitter.emit();
-      },
+      listener: () => timeProperty.reset(),
       maxTextWidth: 65,
       touchAreaXDilation: 10,
       touchAreaYDilation: 5,
