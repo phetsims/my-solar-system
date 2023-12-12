@@ -86,6 +86,7 @@ export default class LabModel extends MySolarSystemModel {
         this.saveStartingBodyInfo();
         this.gravityForceScalePowerProperty.reset();
 
+        // Adjusting the gravity force scale in this system to prevent it from looking like an offensive symbol
         if ( orbitalSystem === OrbitalSystem.FOUR_STAR_BALLET ) {
           this.gravityForceScalePowerProperty.value = -1.1;
         }
