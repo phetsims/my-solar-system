@@ -15,7 +15,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 export default class LabModel extends MySolarSystemModel {
 
@@ -88,7 +87,7 @@ export default class LabModel extends MySolarSystemModel {
         this.gravityForceScalePowerProperty.reset();
 
         // Adjusting the gravity force scale in this system to prevent it from looking like an offensive symbol
-        if ( orbitalSystem === OrbitalSystem.FOUR_STAR_BALLET && !isSettingPhetioStateProperty.value ) {
+        if ( orbitalSystem === OrbitalSystem.FOUR_STAR_BALLET ) {
           this.gravityForceScalePowerProperty.value = -1.1;
         }
       }
