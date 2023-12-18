@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "0f241ad33c76d6709086bb52d8693bac6d6a54b7",
+    "sha": "c7b30bc4d36e6c9a58141b4357a270d511a10c30",
     "branch": "1.3"
   },
   "perennial-alias": {
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "sun": {
-    "sha": "cd7f97d50fc7298c6f82f0f473b6f7bb1b535f87",
+    "sha": "74a98d99d9b24ff4334d0907cce71b35e7c73f7f",
     "branch": "HEAD"
   },
   "tambo": {
