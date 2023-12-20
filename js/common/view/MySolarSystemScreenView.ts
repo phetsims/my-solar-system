@@ -317,6 +317,12 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     this.bottomLayer.addChild( new PathsCanvasNode( model.activeBodies, this.modelViewTransformProperty, this.visibleBoundsProperty, {
       visibleProperty: this.visibleProperties.pathVisibleProperty
     } ) );
+
+    model.interruptBodiesSubtreeEmitter.addListener( () => {
+      this.bodyNodes.forEach( bodyNode => {
+        bodyNode.interruptSubtreeInput();
+      } );
+    } );
   }
 
   public override step( dt: number ): void {
