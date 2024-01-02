@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "2a1395a01d3bd59f151bac93ba94c50bfe720151",
+    "sha": "f068c54fdb34f1424df1ad4385179fe4a41943df",
     "branch": "1.3"
   },
   "perennial-alias": {
@@ -45,7 +45,7 @@
     "branch": "HEAD"
   },
   "phet-io-sim-specific": {
-    "sha": "1852d472c2600c91b4da7688411ff3315aa3bb3b",
+    "sha": "515fbe3f3b3f3991d4ea79152dc7ecfb01976382",
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
