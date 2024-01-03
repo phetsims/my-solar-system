@@ -195,8 +195,8 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
       listener: () => {
         model.followAndCenterCenterOfMass();
       },
-      touchAreaXDilation: 5,
-      touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING / 2,
+      touchAreaXDilation: 2,
+      touchAreaYDilation: SolarSystemCommonConstants.VBOX_SPACING,
       font: SolarSystemCommonConstants.BUTTON_FONT,
       maxTextWidth: 200,
       baseColor: 'orange',
