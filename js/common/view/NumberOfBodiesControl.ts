@@ -47,7 +47,7 @@ export default class NumberOfBodiesControl extends VBox {
     const spinner = new NumberSpinner( numberOfActiveBodiesProperty, numberOfActiveBodiesProperty.rangeProperty, {
       deltaValue: 1,
       touchAreaXDilation: 10,
-      touchAreaYDilation: 10,
+      touchAreaYDilation: 8,
       mouseAreaXDilation: 10,
       mouseAreaYDilation: 5,
       arrowsPosition: 'bothRight',
