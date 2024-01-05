@@ -23,6 +23,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen
@@ -178,6 +179,16 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
                             `position.magnitude=${this.centerOfMass.positionProperty.value.magnitude} ` +
                             `velocity.magnitude=${this.centerOfMass.velocityProperty.value.magnitude}` );
     } );
+
+    // Saving starting body info when phetioState is finished being set (turned false after being true)
+    let wasSettingPhetioState = false;
+    isSettingPhetioStateProperty.lazyLink( isSettingPhetioState => {
+      if ( !isSettingPhetioState && wasSettingPhetioState ) {
+        this.saveStartingBodyInfo();
+      }
+      wasSettingPhetioState = isSettingPhetioState;
+    } );
+
   }
 
   /**
