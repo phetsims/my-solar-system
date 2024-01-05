@@ -181,12 +181,10 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
     } );
 
     // Saving starting body info when phetioState is finished being set (turned false after being true)
-    let wasSettingPhetioState = false;
-    isSettingPhetioStateProperty.lazyLink( isSettingPhetioState => {
+    isSettingPhetioStateProperty.lazyLink( ( isSettingPhetioState, wasSettingPhetioState ) => {
       if ( !isSettingPhetioState && wasSettingPhetioState ) {
         this.saveStartingBodyInfo();
       }
-      wasSettingPhetioState = isSettingPhetioState;
     } );
 
   }
