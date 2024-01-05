@@ -38,8 +38,8 @@ export default class LabModel extends MySolarSystemModel {
       defaultBodyInfo: [
         new BodyInfo( { isActive: true, mass: 250, position: new Vector2( 0, 0 ), velocity: new Vector2( 0, -2.3446 ) } ),
         new BodyInfo( { isActive: true, mass: 25, position: new Vector2( 2.00, 0 ), velocity: new Vector2( 0, 23.4457 ) } ),
-        new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( 1.00, 0 ), velocity: new Vector2( 0, 31.6834 ) } ),
-        new BodyInfo( { isActive: false, mass: 0.1, position: new Vector2( -1.00, -1.00 ), velocity: new Vector2( 25.3467, 0 ) } )
+        new BodyInfo( { isActive: true, mass: 0.1, position: new Vector2( 3, 0 ), velocity: new Vector2( 0, 10 ) } ),
+        new BodyInfo( { isActive: true, mass: 0.1, position: new Vector2( -3, 0 ), velocity: new Vector2( 0, -10 ) } )
       ],
       bodyColors: [
         MySolarSystemColors.body1ColorProperty,
