@@ -235,6 +235,10 @@ export default class NumericalEngine extends Engine {
   private getGravityForce( body1: Body, body2: Body ): Vector2 {
     const direction: Vector2 = body2.positionProperty.value.minus( body1.positionProperty.value );
     const distance = direction.magnitude;
+    if ( distance === 0 ) {
+      // Avoid breaking the sim when d=0. There are other safeguards that prevent this from happening, but this is a last resort.
+      return new Vector2( 0, 0 );
+    }
     assert && assert( distance > 0, 'Negative distances not allowed!!' );
     const gravityForceMagnitude = G * body1.massProperty.value * body2.massProperty.value * ( Math.pow( distance, -3 ) );
     return direction.times( gravityForceMagnitude );
