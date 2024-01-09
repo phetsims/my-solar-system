@@ -266,7 +266,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
     dt *= this.timeSpeedMap.get( this.timeSpeedProperty.value )!;
 
     // Dividing dt into smaller values per step to avoid large jumps in the sim
-    const desiredStepsPerSecond = 300;
+    const desiredStepsPerSecond = 30;
     const numberOfSteps = Math.ceil( dt * desiredStepsPerSecond );
     dt /= numberOfSteps;
 
