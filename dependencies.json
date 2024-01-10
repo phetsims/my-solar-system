@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.3.0-rc.2 Wed Dec 20 2023 10:42:49 GMT-0700 (Mountain Standard Time)",
+  "comment": "# my-solar-system 1.3.0-rc.2 Wed Jan 10 2024 13:52:49 GMT-0500 (Colombia Standard Time)",
   "assert": {
     "sha": "94831413cd4dd4dc27c2a1aebbcafd3987934a99",
     "branch": "HEAD"
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "f826bf3eb9d9e92213c5aaf36ffec2aec3dfc208",
+    "sha": "cf1e8a9d1f65f504614467209a726767a63730f5",
     "branch": "1.3"
   },
   "perennial-alias": {
@@ -45,8 +45,8 @@
     "branch": "HEAD"
   },
   "phet-io-sim-specific": {
-    "sha": "515fbe3f3b3f3991d4ea79152dc7ecfb01976382",
-    "branch": "HEAD"
+    "sha": "9dbeb40ade20c4e22e6e36a1a2f85dbd5cdfba54",
+    "branch": "my-solar-system-1.3"
   },
   "phet-io-wrappers": {
     "sha": "5a0078280c713e4624bd2bf3ee4aaeb7c97af413",
@@ -77,8 +77,8 @@
     "branch": "HEAD"
   },
   "solar-system-common": {
-    "sha": "15fdcae5c2b84aa2a4c0d9a658b23557654a1c96",
-    "branch": "HEAD"
+    "sha": "e765149f5b092ad478deb5d140b7d71844c2fbac",
+    "branch": "my-solar-system-1.3"
   },
   "studio": {
     "sha": "ca33485bc942c1dd720d181271318ebefb93bf00",
