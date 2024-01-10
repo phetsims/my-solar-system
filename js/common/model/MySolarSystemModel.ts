@@ -149,6 +149,14 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
             this.saveStartingBodyInfo();
           }
         } );
+
+      body.massProperty.link( mass => {
+        // This workaround is because NumberControl endCallback fires before changing the property, at least on single presses
+        // TODO: Remove this workaround when https://github.com/phetsims/scenery-phet/issues/825 is fixed
+        if ( !body.userIsControllingMassProperty.value ) {
+          this.saveStartingBodyInfo();
+        }
+      } );
     } );
 
     this.timeProperty.lazyLink( time => {
