@@ -120,7 +120,10 @@ export default class OrbitalSystemInfoProperty extends Property<BodyInfoSubset[]
     const initialValue = orbitalSystem.bodyInfo.map( bodyInfo => BodyInfoSubset.fromBodyInfo( bodyInfo ) );
 
     super( initialValue, {
-      isValidValue: bodyInfo => bodyInfo.length >= 1 && bodyInfo.length <= maxNumberOfBodies,
+      validators: [ {
+        isValidValue: bodyInfo => bodyInfo.length >= 1 && bodyInfo.length <= maxNumberOfBodies,
+        validationMessage: `Must be between 1 and ${maxNumberOfBodies} bodies`
+      } ],
       tandem: tandem,
       phetioValueType: ArrayIO( BodyInfoSubset.BodyInfoSubsetIO ),
       phetioDocumentation: 'Client-configurable preset for Orbital System, available only via PhET-iO',
