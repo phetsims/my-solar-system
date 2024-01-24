@@ -22,7 +22,10 @@
       "solar-system-common"
     ],
     "phet-io": {
-      "compareDesignedAPIChanges": true
+      "compareDesignedAPIChanges": true,
+      "wrappers": [
+        "phet-io-sim-specific/repos/my-solar-system/wrappers/my-solar-system-tests"
+      ]
     },
     "supportsOutputJS": true,
     "simFeatures": {
