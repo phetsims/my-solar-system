@@ -266,7 +266,6 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
     super.restart();
     this.isAnyBodyCollidedProperty.reset();
     this.centerOfMass.update();
-    this.hasPlayedProperty.value = false;
   }
 
   public override stepOnce( dt: number ): void {
