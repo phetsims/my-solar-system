@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.3.1-rc.1 Wed Jan 31 2024 16:56:30 GMT-0700 (Mountain Standard Time)",
+  "comment": "# my-solar-system 1.3.1 Wed Jan 31 2024 17:16:05 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "94831413cd4dd4dc27c2a1aebbcafd3987934a99",
     "branch": "HEAD"
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "a766696b72bc6c0acdd4213088920d2ac1c777c3",
+    "sha": "6a87ca43c95a6af31c43f1692ba42fc132dddc6b",
     "branch": "1.3"
   },
   "perennial-alias": {
