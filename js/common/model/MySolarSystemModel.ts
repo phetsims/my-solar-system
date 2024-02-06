@@ -141,6 +141,7 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
           if ( userIsControllingPosition || userIsControllingVelocity || userIsControllingMass ) {
             // The user has started changing one or more of the body Properties.
             this.userInteractingEmitter.emit();
+            this.hasPlayedProperty.reset(); // This will disable rewind (restart) button because a new state will be saved shortly after
           }
           else if ( !this.bodiesAreReturnableProperty.value ) {
             // The user has finished changing one or more of the body Properties, and the 'Return Bodies' button
