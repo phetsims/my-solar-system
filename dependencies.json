@@ -5,7 +5,7 @@
     "branch": "HEAD"
   },
   "axon": {
-    "sha": "fbb5477ac5984f5186696f9d31866df3cc00144d",
+    "sha": "64f410f8e9d5dea1aa01f54de402650a23a5aeb3",
     "branch": "HEAD"
   },
   "brand": {
@@ -21,7 +21,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "da6eec2efd5cb8b5567635bc50269898a65674f9",
+    "sha": "1827f2b007c0399ff03b08a2a0aa36d2e515a57e",
     "branch": "HEAD"
   },
   "kite": {
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "a85374d869fd600c104e46a39962f51a7a3cf13c",
+    "sha": "23001533c49900b75ff0905bbabc92ddc3b9a58a",
     "branch": "1.3"
   },
   "perennial-alias": {
