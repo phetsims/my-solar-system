@@ -13,7 +13,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "9091a3185b9bf4140e474c6734879ba6bcfdc566",
+    "sha": "fa00999e00c01d814f8d23a50b36976b923a03aa",
     "branch": "HEAD"
   },
   "dot": {
@@ -21,7 +21,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "1827f2b007c0399ff03b08a2a0aa36d2e515a57e",
+    "sha": "dedbfc73554549f445cd1f823eecaae6db33467e",
     "branch": "HEAD"
   },
   "kite": {
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "23001533c49900b75ff0905bbabc92ddc3b9a58a",
+    "sha": "fb31803fdf17cd4c1b119f4b65a6cd918380cce2",
     "branch": "1.3"
   },
   "perennial-alias": {
