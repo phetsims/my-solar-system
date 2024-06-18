@@ -10,7 +10,7 @@ import mySolarSystem from '../../mySolarSystem.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
-import TimeControlKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimeControlKeyboardHelpSection.js';
+import TimingControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimingControlsKeyboardHelpSection.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import ComboBoxKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/ComboBoxKeyboardHelpSection.js';
@@ -21,7 +21,7 @@ export default class MySolarSystemKeyboardHelpContent extends TwoColumnKeyboardH
 
     const draggableHelpSection = new MoveDraggableItemsKeyboardHelpSection();
     const sliderHelpSection = new SliderControlsKeyboardHelpSection();
-    const timeControlsHelpSection = new TimeControlKeyboardHelpSection();
+    const timeControlsHelpSection = new TimingControlsKeyboardHelpSection();
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
       withCheckboxContent: true,
       withKeypadContent: true
