@@ -51,7 +51,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../my-solar-system/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
