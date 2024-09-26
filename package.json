@@ -41,8 +41,5 @@
       "MY_SOLAR_SYSTEM/screen.lab"
     ],
     "published": true
-  },
-  "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js"
   }
 }
