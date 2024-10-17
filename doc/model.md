@@ -10,6 +10,14 @@ The My Solar System simulation is a tool that enables users to visualize the mot
 celestial bodies in our solar system. By manipulating various parameters such as mass, velocity, and distance, users can
 gain insight into the complex interactions that govern the behavior of these objects.
 
+## Note to Legacy Flash Version Users
+
+This simulation is a re-implementation of the original Flash version of the My Solar System simulation. While the core functionality remains the same, there are some differences in the user interface and underlying code. The simulation is now built using HTML5 and JavaScript, which allows for greater flexibility and interactivity.
+
+That said, the basis units of the orbital systems are somewhat different in the HTML5 version, specifically: The distance is scaled down by a factor of x0.01, the speeds are scaled down by a factor of x0.2112, and the masses numerical value remains the same. This was decided to use physical units closer to the real world. 
+
+If you had a specific system in mind that you wanted to replicate, you might need to adjust the values accordingly. And in some cases, it might not be possible to replicate exactly the same systems due to user precision constraints.
+
 ## Units
 
 We opted not to use SI units within the sim, as the numbers differ by several orders of magnitude, which could cause
@@ -26,9 +34,8 @@ ranges one would find in such physical systems.
 
 ## Presets (Model units)
 
-The presets used in the simulation are the same ones from the original Flash version, except for Sun-Planet which was
-changed for design purposes. You can take a peek at the values chosen for each of them (in arbitrary model units)
-in [OrbitalSystem](https://github.com/phetsims/my-solar-system/blob/2b0034a9f61f21ad866d43fa3ae1bb7be043d399/js/lab/model/OrbitalSystem.ts).
+You can take a peek at the values chosen for each preset
+in [OrbitalSystem](https://github.com/phetsims/my-solar-system/blob/2b0034a9f61f21ad866d43fa3ae1bb7be043d399/js/lab/model/OrbitalSystem.ts). As mentioned above, they changed slightly from the original Flash version.
 
 ## Functionalities
 
