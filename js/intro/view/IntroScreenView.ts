@@ -12,30 +12,16 @@ import MySolarSystemScreenView from '../../common/view/MySolarSystemScreenView.j
 import { Node } from '../../../../scenery/js/imports.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 
 export default class IntroScreenView extends MySolarSystemScreenView {
   public constructor( model: IntroModel, tandem: Tandem ) {
     super( model, {
       tandem: tandem,
-      screenSummaryContent: new IntroScreenViewSummaryContentNode()
-    } );
-  }
-}
-
-class IntroScreenViewSummaryContentNode extends Node {
-  public constructor() {
-
-    const playAreaDescriptionNode = new Node( {
-      tagName: 'p',
-      innerContent: MySolarSystemStrings.a11y.introScreen.screenSummary.playAreaDescriptionStringProperty
-    } );
-    const controlAreaDescriptionNode = new Node( {
-      tagName: 'p',
-      innerContent: MySolarSystemStrings.a11y.introScreen.screenSummary.controlAreaDescriptionStringProperty
-    } );
-
-    super( {
-      children: [ playAreaDescriptionNode, controlAreaDescriptionNode ]
+      screenSummaryContent: new ScreenSummaryContent( [
+        MySolarSystemStrings.a11y.introScreen.screenSummary.playAreaDescriptionStringProperty,
+        MySolarSystemStrings.a11y.introScreen.screenSummary.controlAreaDescriptionStringProperty
+      ] )
     } );
   }
 }
