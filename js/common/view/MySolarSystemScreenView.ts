@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import VisibilityControlPanel from './VisibilityControlPanel.js';
 import mySolarSystem from '../../mySolarSystem.js';

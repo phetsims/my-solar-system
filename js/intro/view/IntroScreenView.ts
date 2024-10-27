@@ -9,6 +9,7 @@
 import mySolarSystem from '../../mySolarSystem.js';
 import IntroModel from '../model/IntroModel.js';
 import MySolarSystemScreenView from '../../common/view/MySolarSystemScreenView.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
