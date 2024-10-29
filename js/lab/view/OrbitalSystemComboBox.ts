@@ -73,7 +73,7 @@ function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProper
     comboBoxListItemNodeOptions: {
       visible: visible
     },
-    a11yName: nameProperty,
+    accessibleName: nameProperty,
     tandemName: tandemName
   };
 }
