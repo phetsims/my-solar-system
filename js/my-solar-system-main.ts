@@ -10,6 +10,8 @@
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
+import SolarSystemCommonConstants from '../../solar-system-common/js/SolarSystemCommonConstants.js';
+import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IntroScreen from './intro/IntroScreen.js';
 import LabScreen from './lab/LabScreen.js';
@@ -39,6 +41,11 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
+
+  // Attach sim specific sound players.
+  soundManager.addSoundGenerator( SolarSystemCommonConstants.GRAB_SOUND_PLAYER );
+  soundManager.addSoundGenerator( SolarSystemCommonConstants.RELEASE_SOUND_PLAYER );
+
   const sim = new Sim( MySolarSystemStrings[ 'my-solar-system' ].titleStringProperty, [
     new IntroScreen( Tandem.ROOT.createTandem( 'introScreen' ) ),
     new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) )
