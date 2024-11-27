@@ -7,24 +7,24 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import SolarSystemCommonTimeControlNode from '../../../../solar-system-common/js/view/SolarSystemCommonTimeControlNode.js';
-import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
-import { HBox, VBox } from '../../../../scenery/js/imports.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import Property from '../../../../axon/js/Property.js';
+import { HBox, VBox } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import SolarSystemCommonTimeControlNode from '../../../../solar-system-common/js/view/SolarSystemCommonTimeControlNode.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 export default class TimePanel extends Panel {
 

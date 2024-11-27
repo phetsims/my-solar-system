@@ -7,15 +7,15 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import { Node, Path } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import XNode from '../../../../scenery-phet/js/XNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import mySolarSystem from '../../mySolarSystem.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
 

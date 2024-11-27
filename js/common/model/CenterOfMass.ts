@@ -9,13 +9,13 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import solarSystemCommon from '../../../../solar-system-common/js/solarSystemCommon.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Property from '../../../../axon/js/Property.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class CenterOfMass extends PhetioObject {
 

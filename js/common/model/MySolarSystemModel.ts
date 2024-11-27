@@ -6,23 +6,23 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonModel, { SolarSystemCommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
-import NumericalEngine from '../../common/model/NumericalEngine.js';
-import CenterOfMass from './CenterOfMass.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import Range from '../../../../dot/js/Range.js';
-import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import SolarSystemCommonModel, { SolarSystemCommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
+import NumericalEngine from '../../common/model/NumericalEngine.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import CenterOfMass from './CenterOfMass.js';
 
 type SelfOptions = {
   isLab?: boolean; // whether the model is for the 'Lab' screen

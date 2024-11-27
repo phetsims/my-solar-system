@@ -6,26 +6,26 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, AlignGroup, Circle, Color, Node, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import ValuesColumnTypes from './ValuesColumnTypes.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import SolarSystemCommonNumberControl from '../../../../solar-system-common/js/view/SolarSystemCommonNumberControl.js';
-import Body from '../../../../solar-system-common/js/model/Body.js';
-import Range from '../../../../dot/js/Range.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import MappedProperty from '../../../../axon/js/MappedProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
-import Utils from '../../../../dot/js/Utils.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { AlignBox, AlignGroup, Circle, Color, Node, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import Body from '../../../../solar-system-common/js/model/Body.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import SolarSystemCommonNumberControl from '../../../../solar-system-common/js/view/SolarSystemCommonNumberControl.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
+import ValuesColumnTypes from './ValuesColumnTypes.js';
 
 const LABEL_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );
 const CONTENT_ALIGN_GROUP = new AlignGroup( { matchHorizontal: false, matchVertical: true } );

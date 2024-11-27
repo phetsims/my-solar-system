@@ -6,16 +6,16 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
+import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import mySolarSystem from '../../mySolarSystem.js';
 import OrbitalSystem from './OrbitalSystem.js';
 import OrbitalSystemInfoProperty from './OrbitalSystemInfoProperty.js';
-import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
-import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 export default class LabModel extends MySolarSystemModel {
 

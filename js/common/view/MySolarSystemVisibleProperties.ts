@@ -7,10 +7,10 @@
  * @author Agustín Vallejo
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SolarSystemCommonVisibleProperties from '../../../../solar-system-common/js/view/SolarSystemCommonVisibleProperties.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
 
 export default class MySolarSystemVisibleProperties extends SolarSystemCommonVisibleProperties {
 

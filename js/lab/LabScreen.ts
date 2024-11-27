@@ -7,14 +7,14 @@
  */
 
 import Screen from '../../../joist/js/Screen.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import SolarSystemCommonColors from '../../../solar-system-common/js/SolarSystemCommonColors.js';
-import mySolarSystem from '../mySolarSystem.js';
-import LabModel from './model/LabModel.js';
-import LabScreenView from './view/LabScreenView.js';
-import LabScreenIcon from './view/LabScreenIcon.js';
-import MySolarSystemStrings from '../MySolarSystemStrings.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemKeyboardHelpContent from '../common/view/MySolarSystemKeyboardHelpContent.js';
+import mySolarSystem from '../mySolarSystem.js';
+import MySolarSystemStrings from '../MySolarSystemStrings.js';
+import LabModel from './model/LabModel.js';
+import LabScreenIcon from './view/LabScreenIcon.js';
+import LabScreenView from './view/LabScreenView.js';
 
 export default class LabScreen extends Screen<LabModel, LabScreenView> {
 

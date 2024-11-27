@@ -11,17 +11,17 @@
  * @author Aaron Davis (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
-import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import Body from '../../../../solar-system-common/js/model/Body.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Utils from '../../../../dot/js/Utils.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
+import Body from '../../../../solar-system-common/js/model/Body.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import mySolarSystem from '../../mySolarSystem.js';
 
 type SelfOptions = EmptySelfOptions;
 type PathsCanvasNodeOptions = SelfOptions & PickOptional<CanvasNodeOptions, 'visibleProperty'>;

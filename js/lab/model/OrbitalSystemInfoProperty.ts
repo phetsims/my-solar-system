@@ -11,17 +11,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import BodyInfo, { BodyInfoOptions, BodyInfoStateObject } from '../../../../solar-system-common/js/model/BodyInfo.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import Property from '../../../../axon/js/Property.js';
-import OrbitalSystem from './OrbitalSystem.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import OrbitalSystem from './OrbitalSystem.js';
 
 // The subset of BodyInfo that we want clients to configure
 type BodyInfoSubsetOptions = PickRequired<BodyInfoOptions, 'mass' | 'position' | 'velocity'>;

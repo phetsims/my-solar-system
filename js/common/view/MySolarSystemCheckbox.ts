@@ -7,19 +7,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import SolarSystemCommonCheckbox, { SolarSystemCommonCheckboxOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import Property from '../../../../axon/js/Property.js';
-import { colorProfileProperty, Image, SceneryConstants } from '../../../../scenery/js/imports.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import XNode from '../../../../scenery-phet/js/XNode.js';
+import { colorProfileProperty, Image, SceneryConstants } from '../../../../scenery/js/imports.js';
 import pathIcon_png from '../../../../solar-system-common/images/pathIcon_png.js';
 import pathIconProjector_png from '../../../../solar-system-common/images/pathIconProjector_png.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import XNode from '../../../../scenery-phet/js/XNode.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import SolarSystemCommonCheckbox, { SolarSystemCommonCheckboxOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 type MySolarSystemCheckboxOptions = SelfOptions & SolarSystemCommonCheckboxOptions;

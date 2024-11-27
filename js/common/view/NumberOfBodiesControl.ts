@@ -7,17 +7,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
-import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
-import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
-import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
+import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 

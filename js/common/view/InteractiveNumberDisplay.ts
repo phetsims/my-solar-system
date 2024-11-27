@@ -7,22 +7,22 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { Color, FireListener, InteractiveHighlighting, PressListener } from '../../../../scenery/js/imports.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
+import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
+import { Color, FireListener, InteractiveHighlighting, PressListener } from '../../../../scenery/js/imports.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = {
   // Use exponential notation e.g. 1x10^4 instead of 10000

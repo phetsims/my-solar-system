@@ -6,36 +6,36 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import VisibilityControlPanel from './VisibilityControlPanel.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import SolarSystemCommonScreenView, { DragBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
-import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
-import ValuesPanel from './ValuesPanel.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
-import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
-import PathsCanvasNode from './PathsCanvasNode.js';
+import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import CenterOfMassNode from './CenterOfMassNode.js';
+import { AlignBox, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import BodyNode from '../../../../solar-system-common/js/view/BodyNode.js';
+import DraggableVelocityVectorNode from '../../../../solar-system-common/js/view/DraggableVelocityVectorNode.js';
+import SolarSystemCommonScreenView, { DragBoundsItem, SolarSystemCommonScreenViewOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonScreenView.js';
+import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
-import TimePanel from './TimePanel.js';
-import UnitsInformationDialog from './UnitsInformationDialog.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import CenterOfMassNode from './CenterOfMassNode.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
-import DraggableVelocityVectorNode from '../../../../solar-system-common/js/view/DraggableVelocityVectorNode.js';
 import NumberOfBodiesControl from './NumberOfBodiesControl.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import PathsCanvasNode from './PathsCanvasNode.js';
+import TimePanel from './TimePanel.js';
+import UnitsInformationDialog from './UnitsInformationDialog.js';
+import ValuesPanel from './ValuesPanel.js';
+import VisibilityControlPanel from './VisibilityControlPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 

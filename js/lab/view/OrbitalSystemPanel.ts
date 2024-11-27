@@ -6,15 +6,15 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import OrbitalSystemComboBox from './OrbitalSystemComboBox.js';
+import Property from '../../../../axon/js/Property.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import mySolarSystem from '../../mySolarSystem.js';
 import OrbitalSystem from '../model/OrbitalSystem.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import OrbitalSystemComboBox from './OrbitalSystemComboBox.js';
 
 export default class OrbitalSystemPanel extends Panel {
 

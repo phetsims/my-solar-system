@@ -8,12 +8,12 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
-import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import mySolarSystem from '../../mySolarSystem.js';
 
 
 export default class IntroModel extends MySolarSystemModel {

@@ -7,22 +7,22 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
-import { AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import MySolarSystemStrings from '../../MySolarSystemStrings.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import ValuesColumnTypes from './ValuesColumnTypes.js';
-import ValuesColumnNode from './ValuesColumnNode.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
+import { AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemStrings from '../../MySolarSystemStrings.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
+import ValuesColumnNode from './ValuesColumnNode.js';
+import ValuesColumnTypes from './ValuesColumnTypes.js';
 
 const COMPONENT_COLUMN_GROUP_ALIGN_GROUP = new AlignGroup( { matchHorizontal: true, matchVertical: false } );
 const HBOX_SPACING = 12;

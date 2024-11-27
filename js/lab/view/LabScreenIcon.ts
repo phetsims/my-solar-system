@@ -7,13 +7,13 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import mySolarSystem from '../../mySolarSystem.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import { Node, Path } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
+import mySolarSystem from '../../mySolarSystem.js';
 
 export default class LabScreenIcon extends ScreenIcon {
   public constructor() {

@@ -6,15 +6,15 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
-import mySolarSystem from '../../mySolarSystem.js';
-import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import MySolarSystemModel from '../model/MySolarSystemModel.js';
-import GravityForceZoomControl from '../../../../solar-system-common/js/view/GravityForceZoomControl.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
+import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
+import GravityForceZoomControl from '../../../../solar-system-common/js/view/GravityForceZoomControl.js';
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import mySolarSystem from '../../mySolarSystem.js';
+import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
 
