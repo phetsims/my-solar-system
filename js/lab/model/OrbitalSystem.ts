@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * OrbitalSystem enumerates the preset and custom configurations of bodies in the Lab Screen.

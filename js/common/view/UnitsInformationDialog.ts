@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * UnitsInformationDialog is the dialog titled 'Units Information' that displays notes about the units used in the sim.

@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * MySolarSystemVisibleProperties contains visibleProperty instances for things in the view. These Properties are controlled
