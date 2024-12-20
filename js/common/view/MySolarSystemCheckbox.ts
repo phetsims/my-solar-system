@@ -40,6 +40,7 @@ export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
         stroke: SolarSystemCommonColors.foregroundProperty,
         scale: 0.5
       } ),
+      phetioDisplayOnlyPropertyInstrumented: true,
       tandem: tandem
     } );
   }
