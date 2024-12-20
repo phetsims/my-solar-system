@@ -165,7 +165,6 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     const infoButton = new InfoButton( {
       accessibleName: MySolarSystemStrings.a11y.infoStringProperty,
       scale: 0.5,
-      iconFill: 'rgb( 41, 106, 163 )',
       touchAreaDilation: 20,
       listener: () => infoDialog.show(),
       tandem: model.isLab ? valuesPanelTandem.createTandem( 'infoButton' ) : Tandem.OPT_OUT
