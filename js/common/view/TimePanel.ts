@@ -36,7 +36,7 @@ export default class TimePanel extends Panel {
       stepForwardListener: () => model.stepOnce( 1 / 8 ),
       tandem: tandem.createTandem( 'timeControlNode' ),
 
-      flowBoxOrientation: 'vertical',
+      speedRadioButtonGroupPlacement: 'left',
       buttonGroupXSpacing: 10,
       flowBoxAlign: 'left'
     } );
