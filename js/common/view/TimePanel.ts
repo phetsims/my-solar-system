@@ -34,8 +34,10 @@ export default class TimePanel extends Panel {
       enabledProperty: playingAllowedProperty,
       restartListener: () => model.restart(),
       stepForwardListener: () => model.stepOnce( 1 / 8 ),
-      speedRadioButtonGroupOnRight: false,
-      tandem: tandem.createTandem( 'timeControlNode' )
+      tandem: tandem.createTandem( 'timeControlNode' ),
+      orientation: 'vertical',
+      spacing: 10,
+      align: 'left'
     } );
 
     const clockNode = new ClockNode( model.timeProperty, tandem.createTandem( 'clockNode' ) );
