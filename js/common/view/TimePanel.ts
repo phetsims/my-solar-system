@@ -37,7 +37,7 @@ export default class TimePanel extends Panel {
       tandem: tandem.createTandem( 'timeControlNode' ),
 
       speedRadioButtonGroupPlacement: 'bottom',
-      buttonGroupXSpacing: 10,
+      flowBoxSpacing: 10,
       flowBoxAlign: 'left'
     } );
 
