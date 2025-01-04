@@ -17,10 +17,12 @@ export default class IntroScreenView extends MySolarSystemScreenView {
   public constructor( model: IntroModel, tandem: Tandem ) {
     super( model, {
       tandem: tandem,
-      screenSummaryContent: new ScreenSummaryContent( [
-        MySolarSystemStrings.a11y.introScreen.screenSummary.playAreaDescriptionStringProperty,
-        MySolarSystemStrings.a11y.introScreen.screenSummary.controlAreaDescriptionStringProperty
-      ] )
+      screenSummaryContent: new ScreenSummaryContent( {
+        additionalContent: [
+          MySolarSystemStrings.a11y.introScreen.screenSummary.playAreaDescriptionStringProperty,
+          MySolarSystemStrings.a11y.introScreen.screenSummary.controlAreaDescriptionStringProperty
+        ]
+      } )
     } );
   }
 }

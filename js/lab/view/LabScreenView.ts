@@ -20,10 +20,12 @@ export default class LabScreenView extends MySolarSystemScreenView {
 
     super( model, {
       tandem: tandem,
-      screenSummaryContent: new ScreenSummaryContent( [
-        MySolarSystemStrings.a11y.labScreen.screenSummary.playAreaDescriptionStringProperty,
-        MySolarSystemStrings.a11y.labScreen.screenSummary.controlAreaDescriptionStringProperty
-      ] )
+      screenSummaryContent: new ScreenSummaryContent( {
+        additionalContent: [
+          MySolarSystemStrings.a11y.labScreen.screenSummary.playAreaDescriptionStringProperty,
+          MySolarSystemStrings.a11y.labScreen.screenSummary.controlAreaDescriptionStringProperty
+        ]
+      } )
     } );
 
     // Add a panel at the top left for selecting the orbital system.
