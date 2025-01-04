@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * TimePanel is the panel that contains UI elements related to time control and display.
