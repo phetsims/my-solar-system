@@ -13,7 +13,11 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
-import { AlignGroup, HBox, Node, RichText, RichTextOptions, VBox } from '../../../../scenery/js/imports.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import RichText, { RichTextOptions } from '../../../../scenery/js/nodes/RichText.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';

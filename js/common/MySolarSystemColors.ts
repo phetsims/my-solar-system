@@ -6,7 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
-import { ProfileColorProperty } from '../../../scenery/js/imports.js';
+import ProfileColorProperty from '../../../scenery/js/util/ProfileColorProperty.js';
 import solarSystemCommon from '../../../solar-system-common/js/solarSystemCommon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import mySolarSystem from '../mySolarSystem.js';

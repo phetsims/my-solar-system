@@ -8,9 +8,10 @@
  */
 
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import { Node, Path } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
 import mySolarSystem from '../../mySolarSystem.js';
