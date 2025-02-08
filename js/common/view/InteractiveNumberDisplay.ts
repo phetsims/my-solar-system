@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * InteractiveNumberDisplay is a NumberDisplay that allows the user to enter a value using a kepad. Clicking

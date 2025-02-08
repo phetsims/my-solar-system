@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * OrbitalSystemComboBox is the control for selecting an OrbitalSystem (configuration of bodies).
