@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.3.8-rc.3 Tue Feb 11 2025 11:38:27 GMT-0500 (Colombia Standard Time)",
+  "comment": "# my-solar-system 1.3.8 Tue Feb 11 2025 11:47:47 GMT-0500 (Colombia Standard Time)",
   "assert": {
     "sha": "94831413cd4dd4dc27c2a1aebbcafd3987934a99",
     "branch": "HEAD"
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "5abf4db0047b5e69899d9c1cdd936e5156a88895",
+    "sha": "989744e7a851785cffffe96ee271c33182c92671",
     "branch": "1.3"
   },
   "perennial-alias": {
