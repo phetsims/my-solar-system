@@ -6,6 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
+import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
 import mySolarSystem from '../mySolarSystem.js';
 
 const MySolarSystemQueryParameters = QueryStringMachine.getAll( {
