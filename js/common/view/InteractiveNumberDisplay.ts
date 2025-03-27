@@ -78,9 +78,9 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
         tandem: Tandem.OPT_OUT
       },
       backgroundFill: new DerivedProperty(
-        [ userIsControllingProperty, isEditingProperty, hoverListener.looksOverProperty, bodyColorProperty ],
-        ( userControlled, isEditing, looksOver, bodyColor ) => {
-          return userControlled || isEditing || looksOver ? bodyColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
+        [ userIsControllingProperty, isEditingProperty, hoverListener.isOverOrFocusedProperty, bodyColorProperty ],
+        ( userControlled, isEditing, overOrFocused, bodyColor ) => {
+          return userControlled || isEditing || overOrFocused ? bodyColor.colorUtilsBrighter( 0.7 ) : Color.WHITE;
         } ),
       backgroundStroke: Color.BLACK,
 
