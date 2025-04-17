@@ -208,9 +208,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     } );
 
     const bottomLeftHBox = new HBox( {
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: 'Data Panel',
+      accessibleHeading: 'Data Panel',
       align: 'bottom',
       spacing: 10,
       children: [

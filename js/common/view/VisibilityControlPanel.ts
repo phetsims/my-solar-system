@@ -55,9 +55,7 @@ export default class VisibilityControlPanel extends Panel {
     super( content, combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: 'Control Panel',
+      accessibleHeading: 'Control Panel',
 
       // phet-io
       tandem: tandem
