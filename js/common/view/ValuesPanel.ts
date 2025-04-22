@@ -56,6 +56,7 @@ export default class ValuesPanel extends Panel {
     // Keypad dialog that is shared by UI components that make up this panel
     const keypadDialog = new KeypadDialog( {
       useRichTextRange: true,
+      accessibleName: 'Mass entry keypad',
       keypadOptions: {
         accumulatorOptions: {
 
