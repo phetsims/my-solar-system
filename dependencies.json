@@ -1,107 +1,107 @@
 {
-  "comment": "# my-solar-system 1.4.0-keypadTier1.0 Tue Apr 22 2025 14:09:14 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# my-solar-system 1.4.0-keypadTier1.2 Tue Apr 22 2025 14:15:03 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "axon": {
     "sha": "a842fbaf13499b826574f9fe75bebf4b5a764c34",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "brand": {
     "sha": "d25022090316640bbb47b8265b8de7b1b4e1e6c2",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "chipper": {
     "sha": "5b02aa25fc50f00b235b7e83636eb47b79a5d01c",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "dot": {
     "sha": "63a0e978744e9c4c52e1e47942f78091053b8ae8",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "joist": {
     "sha": "9facb5cc9689f92fc9ca764eb40660c44d46e175",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "e80437357c1393c5f58d6d1fd7b417c54072773c",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "ce0a2af51fa5f267ef19b85b121b2df92e83e75e",
+    "sha": "06f00e06e88b06b21d62ede867001eb0db87f29c",
     "branch": "keypadTier1"
   },
   "perennial-alias": {
     "sha": "2557015c9dcbd1437cc4a3eecb7a8648eedad94b",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "phet-core": {
     "sha": "a509474c8405366e098cf283b44cf2e32c70993e",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "phet-io": {
     "sha": "7ab4214f1d68b1ee7e973a92a9031e4762a01383",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "phet-io-sim-specific": {
     "sha": "efe841eb3229aa3674138add78d61de7c444d963",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "phet-io-wrappers": {
     "sha": "e9df572a4c49a8ab04d0b235eecb83e0ed326e76",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "phetcommon": {
     "sha": "6ecaea9fa8ddaa2e0017cb96cf610bc29d082f8b",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "phetmarks": {
     "sha": "ac4c2816e5e998cb0e4eebfdd2e9d624e3255f05",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "query-string-machine": {
     "sha": "145690b54d129fa8343b746ed8fdc0b78e706711",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "scenery": {
     "sha": "a8818b4eacfe3c2de2f8248a28d500b3209b54fe",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "4b96d2327abeba4aa34222d22e41d9d69e5cce40",
-    "branch": "keypadTier1"
+    "branch": "HEAD"
   },
   "sherpa": {
     "sha": "2c352426479cfa454cc08546d08edae8c93ffd13",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "solar-system-common": {
     "sha": "28ff7a69c65d869fd1ef5e3b4b5043ca0127f3bc",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "studio": {
     "sha": "0254103f342b17890c5fe862aae6df3b400620a8",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "sun": {
     "sha": "5a6e08d1da46e829018352ae50939291b38a4588",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "tambo": {
     "sha": "c7681a0e108685890d06cef3ca6a6fece4ac43f8",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "tandem": {
     "sha": "db5ec379bbdcce0e08c4f27c6c6e750900ee2537",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "twixt": {
     "sha": "8e7b76db00f358dffc7fa90e05c753f7a5a8f09c",
-    "branch": "main"
+    "branch": "HEAD"
   },
   "utterance-queue": {
     "sha": "fa9a57fa4a8f440d676b800c47a66b7dd74e632b",
-    "branch": "main"
+    "branch": "HEAD"
   }
 }
