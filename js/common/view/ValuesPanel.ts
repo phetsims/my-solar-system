@@ -12,6 +12,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Keypad from '../../../../scenery-phet/js/keypad/Keypad.js';
 import KeypadDialog from '../../../../scenery-phet/js/keypad/KeypadDialog.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
@@ -67,6 +68,20 @@ export default class ValuesPanel extends Panel {
       tandem: tandem.createTandem( 'keypadDialog' )
     } );
 
+    const massesKeypadDialog = new KeypadDialog( {
+      useRichTextRange: true,
+      keypadLayout: Keypad.PositiveFloatingPointLayout,
+      keypadOptions: {
+        accumulatorOptions: {
+
+          // Max is 300, but we need 4 digits to support numbers like 123.4
+          maxDigits: 5,
+          maxDigitsRightOfMantissa: 2
+        }
+      },
+      tandem: tandem.createTandem( 'massesKeypadDialog' )
+    } );
+
     // Parent tandems for each section
     const massSectionTandem = tandem.createTandem( 'massSection' );
     const positionSectionTandem = model.isLab ? tandem.createTandem( 'positionSection' ) : Tandem.OPT_OUT;
@@ -76,7 +91,7 @@ export default class ValuesPanel extends Panel {
     // Create columns of interactive UI components.
 
     const iconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, Tandem.OPT_OUT );
-    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, keypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
+    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, massesKeypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
     const massNumberControlColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_NUMBER_CONTROL, keypadDialog, massSectionTandem.createTandem( 'massNumberControlColumn' ) );
     const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
     const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, positionSectionTandem.createTandem( 'yColumn' ) );
