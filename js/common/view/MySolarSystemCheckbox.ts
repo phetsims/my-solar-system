@@ -78,6 +78,27 @@ export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
       tandem: tandem
     } );
   }
+
+  /**
+   * Creates the 'Show More Digits' checkbox
+   * This checkbox displays more digits for the position and velocity sections.
+   */
+  public static createMoreDigitsCheckbox(
+    moreDecimalDigitsProperty: Property<boolean>,
+    moreDataVisibleProperty: Property<boolean>,
+    tandem: Tandem
+  ): SolarSystemCommonCheckbox {
+    return new SolarSystemCommonCheckbox( moreDecimalDigitsProperty, MySolarSystemStrings.dataPanel.moreDecimalDigitsStringProperty, {
+      textOptions: {
+        maxWidth: 300
+      },
+      touchAreaXDilation: 10,
+      touchAreaYDilation: 10,
+      accessibleName: MySolarSystemStrings.a11y.moreDecimalDigitsStringProperty,
+      tandem: tandem,
+      visibleProperty: moreDataVisibleProperty
+    } );
+  }
 }
 
 mySolarSystem.register( 'MySolarSystemCheckbox', MySolarSystemCheckbox );
