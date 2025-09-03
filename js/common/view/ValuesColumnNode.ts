@@ -6,6 +6,7 @@
  * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import MappedProperty from '../../../../axon/js/MappedProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -47,8 +48,7 @@ const POSITION_DECIMAL_PLACES = 2;
 const VELOCITY_DECIMAL_PLACES = 2;
 
 export default class ValuesColumnNode extends VBox {
-  public constructor( model: MySolarSystemModel, columnType: ValuesColumnTypes, keypadDialog: KeypadDialog, tandem: Tandem ) {
-
+  public constructor( model: MySolarSystemModel, moreDigitsProperty: BooleanProperty, columnType: ValuesColumnTypes, keypadDialog: KeypadDialog, tandem: Tandem ) {
     const titleStringProperty =
       columnType === ValuesColumnTypes.POSITION_X ? MySolarSystemStrings.dataPanel.XStringProperty :
       columnType === ValuesColumnTypes.POSITION_Y ? MySolarSystemStrings.dataPanel.YStringProperty :
@@ -61,17 +61,17 @@ export default class ValuesColumnNode extends VBox {
       combineOptions<RichTextOptions>( {}, SolarSystemCommonConstants.COLUMN_TITLE_OPTIONS, {
         maxWidth: 60
       } ) );
+    const titleTextBox = LABEL_ALIGN_GROUP.createBox( titleText );
 
-    // UI components for each Body, arranged in a column
-    const uiComponents = new VBox( {
-      children: model.bodies.map( body => ValuesColumnNode.createUIComponent( body, model, columnType, keypadDialog, tandem ) ),
+    const getUiComponents = ( moreDigits: boolean ) => new VBox( {
+      children: model.bodies.map( body => ValuesColumnNode.createUIComponent( body, model, columnType, moreDigits, keypadDialog, tandem ) ),
       spacing: 3.5,
       stretch: true
     } );
 
     super( {
       isDisposable: false,
-      children: [ LABEL_ALIGN_GROUP.createBox( titleText ), uiComponents ],
+      children: [ titleTextBox, getUiComponents( moreDigitsProperty.value ) ],
       stretch: true,
       tandem: tandem,
       phetioVisiblePropertyInstrumented: ( columnType === ValuesColumnTypes.MASS_NUMBER_CONTROL ),
@@ -79,18 +79,24 @@ export default class ValuesColumnNode extends VBox {
         phetioFeatured: true
       }
     } );
+
+    moreDigitsProperty.link( moreDigits => this.setChildren( [ titleTextBox, getUiComponents( moreDigits ) ] ) );
   }
 
   /**
    * Creates a UI component for editing some Property of Body.
    */
   private static createUIComponent( body: Body, model: MySolarSystemModel, columnType: ValuesColumnTypes,
+                                    moreDigits: boolean,
                                     keypadDialog: KeypadDialog, parentTandem: Tandem ): AlignBox {
 
     let uiComponent: Node;
 
     // Our minimum for the mass is larger than the body's minimum massProperty value
     const MASS_RANGE = new Range( 0.1, body.massProperty.range.max );
+
+    // extra digits to add because more digits is checked
+    const extraDigits = moreDigits ? 2 : 0;
 
     const clearPathsCallback = () => model.clearPaths();
 
@@ -160,7 +166,7 @@ export default class ValuesColumnNode extends VBox {
       uiComponent = new InteractiveNumberDisplay(
         positionXMappedProperty,
         POSITION_X_RANGE,
-        POSITION_DECIMAL_PLACES,
+        POSITION_DECIMAL_PLACES + extraDigits,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userIsControllingPositionProperty,
         body.colorProperty,
@@ -187,7 +193,7 @@ export default class ValuesColumnNode extends VBox {
       uiComponent = new InteractiveNumberDisplay(
         positionYMappedProperty,
         POSITION_Y_RANGE,
-        POSITION_DECIMAL_PLACES,
+        POSITION_DECIMAL_PLACES + extraDigits,
         SolarSystemCommonStrings.units.AUStringProperty,
         body.userIsControllingPositionProperty,
         body.colorProperty,
@@ -214,7 +220,7 @@ export default class ValuesColumnNode extends VBox {
       uiComponent = new InteractiveNumberDisplay(
         velocityXMappedProperty,
         VELOCITY_RANGE,
-        VELOCITY_DECIMAL_PLACES,
+        VELOCITY_DECIMAL_PLACES + extraDigits,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userIsControllingVelocityProperty,
         body.colorProperty,
@@ -241,7 +247,7 @@ export default class ValuesColumnNode extends VBox {
       uiComponent = new InteractiveNumberDisplay(
         velocityYMappedProperty,
         VELOCITY_RANGE,
-        VELOCITY_DECIMAL_PLACES,
+        VELOCITY_DECIMAL_PLACES + extraDigits,
         SolarSystemCommonStrings.units.kmsStringProperty,
         body.userIsControllingVelocityProperty,
         body.colorProperty,
