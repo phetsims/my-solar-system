@@ -39,7 +39,12 @@ const TITLE_MAX_WIDTH = 150;
 
 export default class ValuesPanel extends Panel {
 
-  public constructor( model: MySolarSystemModel, moreDataVisibleProperty: BooleanProperty, tandem: Tandem ) {
+  public constructor(
+    model: MySolarSystemModel,
+    moreDataVisibleProperty: BooleanProperty,
+    moreDigitsProperty: BooleanProperty,
+    tandem: Tandem
+  ) {
 
     const options = combineOptions<PanelOptions>( {}, SolarSystemCommonConstants.PANEL_OPTIONS, {
 
@@ -90,13 +95,13 @@ export default class ValuesPanel extends Panel {
     //----------------------------------------------------------------------------------------
     // Create columns of interactive UI components.
 
-    const iconsColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.BODY_ICONS, keypadDialog, Tandem.OPT_OUT );
-    const massColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS, massesKeypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
-    const massNumberControlColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.MASS_NUMBER_CONTROL, keypadDialog, massSectionTandem.createTandem( 'massNumberControlColumn' ) );
-    const positionXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
-    const positionYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.POSITION_Y, keypadDialog, positionSectionTandem.createTandem( 'yColumn' ) );
-    const velocityXColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_X, keypadDialog, velocitySectionTandem.createTandem( 'VxColumn' ) );
-    const velocityYColumnNode = new ValuesColumnNode( model, ValuesColumnTypes.VELOCITY_Y, keypadDialog, velocitySectionTandem.createTandem( 'VyColumn' ) );
+    const iconsColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.BODY_ICONS, keypadDialog, Tandem.OPT_OUT );
+    const massColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.MASS, massesKeypadDialog, massSectionTandem.createTandem( 'massColumn' ) );
+    const massNumberControlColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.MASS_NUMBER_CONTROL, keypadDialog, massSectionTandem.createTandem( 'massNumberControlColumn' ) );
+    const positionXColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.POSITION_X, keypadDialog, positionSectionTandem.createTandem( 'xColumn' ) );
+    const positionYColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.POSITION_Y, keypadDialog, positionSectionTandem.createTandem( 'yColumn' ) );
+    const velocityXColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.VELOCITY_X, keypadDialog, velocitySectionTandem.createTandem( 'VxColumn' ) );
+    const velocityYColumnNode = new ValuesColumnNode( model, moreDigitsProperty, ValuesColumnTypes.VELOCITY_Y, keypadDialog, velocitySectionTandem.createTandem( 'VyColumn' ) );
 
     // Put a wrapper around massNumberControlColumnNode, so that PhET-iO clients have independent control over the visibility
     // of sliders. Use a VBox so that we have dynamic layout.

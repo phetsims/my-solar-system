@@ -20,6 +20,9 @@ export default class MySolarSystemVisibleProperties extends SolarSystemCommonVis
   // Controls if the data panel shows all the numeric properties of the body
   public readonly moreDataVisibleProperty: BooleanProperty;
 
+  // Whether to include more digits in the numeric properties section
+  public readonly moreDigitsProperty: BooleanProperty;
+
   public constructor( isLab: boolean, tandem: Tandem ) {
     super( tandem );
 
@@ -30,6 +33,11 @@ export default class MySolarSystemVisibleProperties extends SolarSystemCommonVis
 
     this.moreDataVisibleProperty = new BooleanProperty( false, {
       tandem: isLab ? tandem.createTandem( 'moreDataVisibleProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
+    } );
+
+    this.moreDigitsProperty = new BooleanProperty( false, {
+      tandem: isLab ? tandem.createTandem( 'moreDigitsProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
   }

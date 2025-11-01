@@ -47,6 +47,9 @@
   "dataPanel.moreData": {
     "value": "More Data"
   },
+  "dataPanel.moreDecimalDigits": {
+    "value": "Show More Digits"
+  },
   "mode.sunAndPlanet": {
     "value": "Sun, Planet"
   },
@@ -128,6 +131,9 @@
   "a11y": {
     "moreData": {
       "value": "More Data"
+    },
+    "moreDecimalDigits": {
+      "value": "More Decimal Digits"
     },
     "info": {
       "value": "Info"

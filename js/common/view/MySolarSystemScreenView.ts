@@ -158,10 +158,19 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
     const valuesPanelTandem = this.panelsTandem.createTandem( 'valuesPanel' );
 
-    this.valuesPanel = new ValuesPanel( model, this.visibleProperties.moreDataVisibleProperty, valuesPanelTandem );
+    this.valuesPanel = new ValuesPanel(
+      model, this.visibleProperties.moreDataVisibleProperty,
+      this.visibleProperties.moreDigitsProperty, valuesPanelTandem
+    );
 
     const moreDataCheckbox = MySolarSystemCheckbox.createMoreDataCheckbox( this.visibleProperties.moreDataVisibleProperty,
       model.isLab ? valuesPanelTandem.createTandem( 'moreDataCheckbox' ) : Tandem.OPT_OUT );
+
+    const moreDigitsCheckbox = MySolarSystemCheckbox.createMoreDigitsCheckbox(
+      this.visibleProperties.moreDigitsProperty,
+      this.visibleProperties.moreDataVisibleProperty,
+      valuesPanelTandem.createTandem( 'moreDigitsCheckbox' )
+    );
 
     const infoDialog = new UnitsInformationDialog(
       model.isLab ? valuesPanelTandem.createTandem( 'infoDialog' ) : Tandem.OPT_OUT );
@@ -181,7 +190,7 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
 
       // to keep infoButton right justified with valuesPanel when moreDataCheckbox is made invisible
       excludeInvisibleChildrenFromBounds: false,
-      children: [ moreDataCheckbox, infoButton ],
+      children: [ moreDataCheckbox, moreDigitsCheckbox, infoButton ],
 
       // Controls above valuesPanel are visible only when valuesPanel is visible, in Lab screen.
       visibleProperty: new DerivedProperty( [ this.valuesPanel.visibleProperty ],
