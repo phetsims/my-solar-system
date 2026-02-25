@@ -4,7 +4,7 @@
  * MySolarSystemVisibleProperties contains visibleProperty instances for things in the view. These Properties are controlled
  * by checkboxes and toggle buttons.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
