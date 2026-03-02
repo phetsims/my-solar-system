@@ -42,7 +42,7 @@ const POSITION_X_RANGE = new Range( -14, 14 );
 const POSITION_Y_RANGE = new Range( -8, 8 );
 const VELOCITY_RANGE = new Range( -100, 100 );
 
-const MASS_DECIMAL_PLACES = 1;
+const MASS_DECIMAL_PLACES = 2;
 const POSITION_DECIMAL_PLACES = 2;
 const VELOCITY_DECIMAL_PLACES = 2;
 
