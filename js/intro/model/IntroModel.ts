@@ -1,4 +1,4 @@
-// Copyright 2020-2024, University of Colorado Boulder
+// Copyright 2020-2026, University of Colorado Boulder
 
 /**
  * Main model for Intro Screen in My Solar System.
