@@ -92,4 +92,6 @@ type StringsType = {
 
 const MySolarSystemStrings = getStringModule( 'MY_SOLAR_SYSTEM' ) as StringsType;
 
+mySolarSystem.register( 'MySolarSystemStrings', MySolarSystemStrings );
+
 export default MySolarSystemStrings;
