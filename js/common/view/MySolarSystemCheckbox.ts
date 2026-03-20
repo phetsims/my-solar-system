@@ -20,7 +20,6 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import SolarSystemCommonCheckbox, { SolarSystemCommonCheckboxOptions } from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -79,5 +78,3 @@ export default class MySolarSystemCheckbox extends SolarSystemCommonCheckbox {
     } );
   }
 }
-
-mySolarSystem.register( 'MySolarSystemCheckbox', MySolarSystemCheckbox );

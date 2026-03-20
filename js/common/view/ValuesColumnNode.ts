@@ -28,7 +28,6 @@ import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSy
 import SolarSystemCommonNumberControl from '../../../../solar-system-common/js/view/SolarSystemCommonNumberControl.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import InteractiveNumberDisplay from './InteractiveNumberDisplay.js';
@@ -265,5 +264,3 @@ export default class ValuesColumnNode extends VBox {
     } );
   }
 }
-
-mySolarSystem.register( 'ValuesColumnNode', ValuesColumnNode );

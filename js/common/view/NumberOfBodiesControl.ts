@@ -17,7 +17,6 @@ import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSys
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -73,5 +72,3 @@ export default class NumberOfBodiesControl extends VBox {
     this.addLinkedElement( numberOfActiveBodiesProperty );
   }
 }
-
-mySolarSystem.register( 'NumberOfBodiesControl', NumberOfBodiesControl );

@@ -21,7 +21,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import mySolarSystem from '../../mySolarSystem.js';
 
 type SelfOptions = EmptySelfOptions;
 type PathsCanvasNodeOptions = SelfOptions & PickOptional<CanvasNodeOptions, 'visibleProperty'>;
@@ -145,5 +144,3 @@ export default class PathsCanvasNode extends CanvasNode {
     }
   }
 }
-
-mySolarSystem.register( 'PathsCanvasNode', PathsCanvasNode );

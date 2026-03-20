@@ -10,7 +10,6 @@ import Screen from '../../../joist/js/Screen.js';
 import SolarSystemCommonColors from '../../../solar-system-common/js/SolarSystemCommonColors.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import MySolarSystemKeyboardHelpContent from '../common/view/MySolarSystemKeyboardHelpContent.js';
-import mySolarSystem from '../mySolarSystem.js';
 import MySolarSystemStrings from '../MySolarSystemStrings.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenIcon from './view/IntroScreenIcon.js';
@@ -35,5 +34,3 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
     );
   }
 }
-
-mySolarSystem.register( 'IntroScreen', IntroScreen );

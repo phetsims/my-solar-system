@@ -14,7 +14,6 @@ import GravityForceZoomControl from '../../../../solar-system-common/js/view/Gra
 import SolarSystemCommonCheckbox from '../../../../solar-system-common/js/view/SolarSystemCommonCheckbox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import MySolarSystemCheckbox from './MySolarSystemCheckbox.js';
 import MySolarSystemVisibleProperties from './MySolarSystemVisibleProperties.js';
@@ -62,5 +61,3 @@ export default class VisibilityControlPanel extends Panel {
     } ) );
   }
 }
-
-mySolarSystem.register( 'VisibilityControlPanel', VisibilityControlPanel );

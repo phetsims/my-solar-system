@@ -14,7 +14,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import Engine from '../../../../solar-system-common/js/model/Engine.js';
 import { G } from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
-import mySolarSystem from '../../mySolarSystem.js';
 
 // Used when we want to avoid modifying a Vector (position, velocity, acceleration),
 // and want to avoid allocating a new Vector copy.
@@ -244,5 +243,3 @@ export default class NumericalEngine extends Engine {
     return direction.times( gravityForceMagnitude );
   }
 }
-
-mySolarSystem.register( 'NumericalEngine', NumericalEngine );

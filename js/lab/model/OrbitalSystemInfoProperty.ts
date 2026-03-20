@@ -20,7 +20,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import OrbitalSystem from './OrbitalSystem.js';
 
 // The subset of BodyInfo that we want clients to configure
@@ -143,5 +142,3 @@ export default class OrbitalSystemInfoProperty extends Property<BodyInfoSubset[]
     } );
   }
 }
-
-mySolarSystem.register( 'OrbitalSystemInfoProperty', OrbitalSystemInfoProperty );

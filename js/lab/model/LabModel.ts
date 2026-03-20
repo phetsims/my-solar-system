@@ -13,7 +13,6 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import Tandem from '../../../../tandem/js/Tandem.js';
 import MySolarSystemModel from '../../common/model/MySolarSystemModel.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import OrbitalSystem from './OrbitalSystem.js';
 import OrbitalSystemInfoProperty from './OrbitalSystemInfoProperty.js';
 
@@ -130,5 +129,3 @@ export default class LabModel extends MySolarSystemModel {
     super.restart();
   }
 }
-
-mySolarSystem.register( 'LabModel', LabModel );

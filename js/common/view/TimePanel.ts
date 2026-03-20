@@ -24,7 +24,6 @@ import SolarSystemCommonTimeControlNode from '../../../../solar-system-common/js
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 
 export default class TimePanel extends Panel {
@@ -104,5 +103,3 @@ class ClockNode extends HBox {
     this.addLinkedElement( timeProperty );
   }
 }
-
-mySolarSystem.register( 'TimePanel', TimePanel );

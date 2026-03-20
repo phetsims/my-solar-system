@@ -14,7 +14,6 @@ import XNode from '../../../../scenery-phet/js/XNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import CenterOfMass from '../model/CenterOfMass.js';
 
 export default class CenterOfMassNode extends Node {
@@ -44,5 +43,3 @@ export default class CenterOfMassNode extends Node {
     this.addLinkedElement( centerOfMass );
   }
 }
-
-mySolarSystem.register( 'CenterOfMassNode', CenterOfMassNode );

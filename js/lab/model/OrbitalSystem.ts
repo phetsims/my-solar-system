@@ -10,7 +10,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import BodyInfo from '../../../../solar-system-common/js/model/BodyInfo.js';
-import solarSystemCommon from '../../../../solar-system-common/js/solarSystemCommon.js';
 
 // BodyInfo[] shared by all PhET-iO client-configurable presets
 const PHET_IO_ORBITAL_SYSTEM_BODY_INFO = [
@@ -107,5 +106,3 @@ export default class OrbitalSystem extends EnumerationValue {
     this.isPhetioConfigurable = isPhetioConfigurable;
   }
 }
-
-solarSystemCommon.register( 'OrbitalSystem', OrbitalSystem );

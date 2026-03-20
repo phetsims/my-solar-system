@@ -10,7 +10,6 @@ import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import MySolarSystemScreenView from '../../common/view/MySolarSystemScreenView.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import LabModel from '../model/LabModel.js';
 import OrbitalSystemPanel from './OrbitalSystemPanel.js';
@@ -53,5 +52,3 @@ export default class LabScreenView extends MySolarSystemScreenView {
     } );
   }
 }
-
-mySolarSystem.register( 'LabScreenView', LabScreenView );

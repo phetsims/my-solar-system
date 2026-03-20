@@ -15,7 +15,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../../sun/js/ComboBox.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import OrbitalSystem from '../model/OrbitalSystem.js';
 
@@ -78,5 +77,3 @@ function createItem( orbitalSystem: OrbitalSystem, nameProperty: TReadOnlyProper
     tandemName: tandemName
   };
 }
-
-mySolarSystem.register( 'OrbitalSystemComboBox', OrbitalSystemComboBox );

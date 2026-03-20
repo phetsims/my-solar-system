@@ -28,7 +28,6 @@ import SolarSystemCommonScreenView, { DragBoundsItem, SolarSystemCommonScreenVie
 import VectorNode from '../../../../solar-system-common/js/view/VectorNode.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import CenterOfMassNode from './CenterOfMassNode.js';
@@ -355,5 +354,3 @@ export default class MySolarSystemScreenView extends SolarSystemCommonScreenView
     ];
   }
 }
-
-mySolarSystem.register( 'MySolarSystemScreenView', MySolarSystemScreenView );

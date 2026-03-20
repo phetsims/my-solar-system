@@ -12,7 +12,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import OrbitalSystem from '../model/OrbitalSystem.js';
 import OrbitalSystemComboBox from './OrbitalSystemComboBox.js';
 
@@ -34,5 +33,3 @@ export default class OrbitalSystemPanel extends Panel {
     } ) );
   }
 }
-
-mySolarSystem.register( 'OrbitalSystemPanel', OrbitalSystemPanel );

@@ -23,7 +23,6 @@ import SolarSystemCommonConstants from '../../../../solar-system-common/js/Solar
 import SolarSystemCommonStrings from '../../../../solar-system-common/js/SolarSystemCommonStrings.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 import MySolarSystemModel from '../model/MySolarSystemModel.js';
 import ValuesColumnNode from './ValuesColumnNode.js';
@@ -213,5 +212,3 @@ function createSectionNode( titleNode: Node, columnGroup: Node, tandem: Tandem, 
     }
   } );
 }
-
-mySolarSystem.register( 'ValuesPanel', ValuesPanel );

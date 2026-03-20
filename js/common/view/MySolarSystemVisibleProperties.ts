@@ -10,7 +10,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SolarSystemCommonVisibleProperties from '../../../../solar-system-common/js/view/SolarSystemCommonVisibleProperties.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 
 export default class MySolarSystemVisibleProperties extends SolarSystemCommonVisibleProperties {
 
@@ -40,5 +39,3 @@ export default class MySolarSystemVisibleProperties extends SolarSystemCommonVis
     this.moreDataVisibleProperty.reset();
   }
 }
-
-mySolarSystem.register( 'MySolarSystemVisibleProperties', MySolarSystemVisibleProperties );

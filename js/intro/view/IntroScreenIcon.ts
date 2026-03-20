@@ -16,7 +16,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import SolarSystemCommonColors from '../../../../solar-system-common/js/SolarSystemCommonColors.js';
 import MySolarSystemColors from '../../common/MySolarSystemColors.js';
-import mySolarSystem from '../../mySolarSystem.js';
 
 export default class IntroScreenIcon extends ScreenIcon {
 
@@ -83,5 +82,3 @@ export default class IntroScreenIcon extends ScreenIcon {
     } );
   }
 }
-
-mySolarSystem.register( 'IntroScreenIcon', IntroScreenIcon );

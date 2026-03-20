@@ -24,7 +24,6 @@ import PressListener from '../../../../scenery/js/listeners/PressListener.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import SolarSystemCommonConstants from '../../../../solar-system-common/js/SolarSystemCommonConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 type SelfOptions = {
@@ -149,5 +148,3 @@ export default class InteractiveNumberDisplay extends InteractiveHighlighting( N
     } ) );
   }
 }
-
-mySolarSystem.register( 'InteractiveNumberDisplay', InteractiveNumberDisplay );

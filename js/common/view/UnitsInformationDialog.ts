@@ -13,7 +13,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import MySolarSystemStrings from '../../MySolarSystemStrings.js';
 
 export default class UnitsInformationDialog extends Dialog {
@@ -46,5 +45,3 @@ export default class UnitsInformationDialog extends Dialog {
     } );
   }
 }
-
-mySolarSystem.register( 'UnitsInformationDialog', UnitsInformationDialog );

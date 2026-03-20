@@ -21,7 +21,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Body from '../../../../solar-system-common/js/model/Body.js';
 import SolarSystemCommonModel, { SolarSystemCommonModelOptions } from '../../../../solar-system-common/js/model/SolarSystemCommonModel.js';
 import NumericalEngine from '../../common/model/NumericalEngine.js';
-import mySolarSystem from '../../mySolarSystem.js';
 import CenterOfMass from './CenterOfMass.js';
 
 type SelfOptions = {
@@ -288,5 +287,3 @@ export default class MySolarSystemModel extends SolarSystemCommonModel {
     this.activeBodies.forEach( body => body.clearPath() );
   }
 }
-
-mySolarSystem.register( 'MySolarSystemModel', MySolarSystemModel );

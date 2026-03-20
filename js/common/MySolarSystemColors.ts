@@ -9,7 +9,6 @@
 import ProfileColorProperty from '../../../scenery/js/util/ProfileColorProperty.js';
 import solarSystemCommon from '../../../solar-system-common/js/solarSystemCommon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import mySolarSystem from '../mySolarSystem.js';
 
 const MySolarSystemColors = {
   body1ColorProperty: new ProfileColorProperty( solarSystemCommon, 'body1Color', {
@@ -43,5 +42,4 @@ const MySolarSystemColors = {
   } )
 };
 
-mySolarSystem.register( 'MySolarSystemColors', MySolarSystemColors );
 export default MySolarSystemColors;
