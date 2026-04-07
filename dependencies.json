@@ -1,5 +1,5 @@
 {
-  "comment": "# my-solar-system 1.3.13 Fri Mar 27 2026 16:37:26 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# my-solar-system 1.3.14-rc.1 Tue Apr 07 2026 13:52:53 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "94831413cd4dd4dc27c2a1aebbcafd3987934a99",
     "branch": "HEAD"
@@ -29,7 +29,7 @@
     "branch": "HEAD"
   },
   "my-solar-system": {
-    "sha": "f8813566b1cdba3580d4af45d402247828a2210b",
+    "sha": "08140e92bcb42e05e8982ee28ef278df2b18e5fd",
     "branch": "1.3"
   },
   "perennial-alias": {
