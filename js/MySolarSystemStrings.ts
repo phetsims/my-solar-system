@@ -32,6 +32,7 @@ type StringsType = {
     'positionStringProperty': LocalizedStringProperty;
     'bodiesStringProperty': LocalizedStringProperty;
     'moreDataStringProperty': LocalizedStringProperty;
+    'moreDecimalDigitsStringProperty': LocalizedStringProperty;
   };
   'massStringProperty': LocalizedStringProperty;
   'mode': {
@@ -72,6 +73,7 @@ type StringsType = {
   };
   'a11y': {
     'moreDataStringProperty': LocalizedStringProperty;
+    'moreDecimalDigitsStringProperty': LocalizedStringProperty;
     'infoStringProperty': LocalizedStringProperty;
     'numberOfBodiesStringProperty': LocalizedStringProperty;
     'introScreen': {
